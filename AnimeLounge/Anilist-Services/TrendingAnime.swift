@@ -14,7 +14,7 @@ class AnilistServiceTrendingAnime {
         let query = """
         query {
           Page(page: 1, perPage: 15) {
-            media(sort: TRENDING_DESC, type: ANIME) {
+            media(sort: TRENDING_DESC, type: ANIME, isAdult: false) {
               id
               title {
                 romaji

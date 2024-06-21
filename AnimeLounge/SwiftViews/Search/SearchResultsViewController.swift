@@ -18,7 +18,7 @@ class SearchResultsViewController: UIViewController {
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
-        // Register the SearchResultCell class for the reuse identifier
+
         tableView.register(SearchResultCell.self, forCellReuseIdentifier: "resultCell")
     }
 }
@@ -90,7 +90,6 @@ class SearchResultCell: UITableViewCell {
             disclosureIndicatorImageView.heightAnchor.constraint(equalToConstant: 15)
         ])
         
-        // Set explicit height for the cell
         NSLayoutConstraint.activate([
             contentView.heightAnchor.constraint(equalToConstant: 140)
         ])

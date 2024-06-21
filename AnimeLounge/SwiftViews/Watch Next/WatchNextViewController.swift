@@ -100,7 +100,6 @@ extension WatchNextViewController: UICollectionViewDataSource {
     }
 }
 
-// Models for decoding JSON response
 struct Anime: Codable {
     let id: Int
     let title: Title
