@@ -33,8 +33,8 @@
             <objects>
                 <navigationController id="URY-4Z-Kae" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Watch Next" image="play.tv.fill" catalog="system" id="wSa-ve-edd"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="UnL-A0-MB5">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="96"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="UnL-A0-MB5">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -53,47 +53,55 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="oyS-lI-yji">
-                                <rect key="frame" x="16" y="96" width="359" height="210"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="KNk-r7-Uwr">
-                                    <size key="itemSize" width="128" height="128"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Trending" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="blq-ur-rhw">
+                                <rect key="frame" x="16" y="44" width="99" height="29"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" keyboardDismissMode="onDrag" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="In9-z5-KPe">
+                                <rect key="frame" x="0.0" y="73" width="375" height="230"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="scrollIndicatorInsets" minX="18" minY="0.0" maxX="18" maxY="0.0"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="25" minimumInteritemSpacing="10" sectionInsetReference="layoutMargins" id="gkH-wl-N6V">
+                                    <size key="itemSize" width="101" height="200"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isThemable" value="YES"/>
+                                </userDefinedRuntimeAttributes>
                             </collectionView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="kgm-uT-9yd">
-                                <rect key="frame" x="177" y="488" width="20" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Ot3-FC-acH"/>
                         <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Ot3-FC-acH" firstAttribute="top" secondItem="oyS-lI-yji" secondAttribute="bottom" constant="-210" id="5Iy-7m-sJi"/>
-                            <constraint firstItem="oyS-lI-yji" firstAttribute="top" secondItem="Ot3-FC-acH" secondAttribute="top" id="6x4-hL-uYo"/>
-                            <constraint firstItem="oyS-lI-yji" firstAttribute="trailing" secondItem="Ot3-FC-acH" secondAttribute="trailing" id="QJY-2U-cpz"/>
-                            <constraint firstItem="oyS-lI-yji" firstAttribute="leading" secondItem="k42-Tn-5gM" secondAttribute="leadingMargin" id="aNv-lq-VzX"/>
+                            <constraint firstItem="blq-ur-rhw" firstAttribute="top" secondItem="Ot3-FC-acH" secondAttribute="top" id="Drp-8z-88x"/>
+                            <constraint firstItem="In9-z5-KPe" firstAttribute="leading" secondItem="Ot3-FC-acH" secondAttribute="leading" id="VH9-Ew-fUd"/>
+                            <constraint firstItem="blq-ur-rhw" firstAttribute="leading" secondItem="Ot3-FC-acH" secondAttribute="leading" constant="16" id="dff-E3-s2m"/>
+                            <constraint firstItem="In9-z5-KPe" firstAttribute="centerX" secondItem="k42-Tn-5gM" secondAttribute="centerX" id="n2Z-7e-Cb2"/>
+                            <constraint firstItem="blq-ur-rhw" firstAttribute="bottom" secondItem="In9-z5-KPe" secondAttribute="bottom" constant="-230" id="pbi-WS-vBM"/>
+                            <constraint firstItem="In9-z5-KPe" firstAttribute="top" secondItem="blq-ur-rhw" secondAttribute="bottom" id="yiF-8R-9Gd"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Watch Next" id="vbK-98-dnj">
-                        <barButtonItem key="leftBarButtonItem" title="Select Source" id="GwW-ta-PoU">
+                    <navigationItem key="navigationItem" title="Watch Next" id="3dP-xS-iCg" userLabel="Watch Next">
+                        <barButtonItem key="leftBarButtonItem" title="Select Source" id="rFx-4P-Rlv">
                             <color key="tintColor" name="AccentColor"/>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" id="xOQ-YF-a7L">
+                        <barButtonItem key="rightBarButtonItem" id="eTG-Lg-xjk">
                             <imageReference key="image" image="gearshape" catalog="system" symbolScale="large"/>
                             <color key="tintColor" name="AccentColor"/>
                             <connections>
-                                <segue destination="tkJ-qb-Pci" kind="show" id="VEM-8r-Lg6"/>
+                                <segue destination="tkJ-qb-Pci" kind="show" id="8qu-cW-CNM"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="activityIndicator" destination="kgm-uT-9yd" id="VmI-sg-4OB"/>
-                        <outlet property="collectionView" destination="oyS-lI-yji" id="uVS-0g-1c8"/>
+                        <outlet property="collectionView" destination="In9-z5-KPe" id="svt-As-DgE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n7N-Bk-p08" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -455,7 +463,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="VEM-8r-Lg6"/>
+        <segue reference="8qu-cW-CNM"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.down.circle.fill" catalog="system" width="128" height="121"/>

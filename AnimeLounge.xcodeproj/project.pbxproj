@@ -23,6 +23,9 @@
 		13AA29A62C245EDF00C8CA8E /* AnimeLoungeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AA29A52C245EDF00C8CA8E /* AnimeLoungeTests.swift */; };
 		13AA29B02C245EDF00C8CA8E /* AnimeLoungeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AA29AF2C245EDF00C8CA8E /* AnimeLoungeUITests.swift */; };
 		13AA29B22C245EDF00C8CA8E /* AnimeLoungeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AA29B12C245EDF00C8CA8E /* AnimeLoungeUITestsLaunchTests.swift */; };
+		13E4464E2C25C38A002B14E8 /* WatchNextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E4464D2C25C38A002B14E8 /* WatchNextViewController.swift */; };
+		13E446522C25CBA3002B14E8 /* TrendingAnimeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13E446512C25CBA3002B14E8 /* TrendingAnimeCell.xib */; };
+		13E446542C25CBCA002B14E8 /* TrendingAnimeCell-Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E446532C25CBCA002B14E8 /* TrendingAnimeCell-Swift.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +63,9 @@
 		13AA29AB2C245EDF00C8CA8E /* AnimeLoungeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AnimeLoungeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		13AA29AF2C245EDF00C8CA8E /* AnimeLoungeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeLoungeUITests.swift; sourceTree = "<group>"; };
 		13AA29B12C245EDF00C8CA8E /* AnimeLoungeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeLoungeUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		13E4464D2C25C38A002B14E8 /* WatchNextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchNextViewController.swift; sourceTree = "<group>"; };
+		13E446512C25CBA3002B14E8 /* TrendingAnimeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TrendingAnimeCell.xib; sourceTree = "<group>"; };
+		13E446532C25CBCA002B14E8 /* TrendingAnimeCell-Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrendingAnimeCell-Swift.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,13 +174,32 @@
 			path = Library;
 			sourceTree = "<group>";
 		};
+		13CD3A642C25D39000B046F9 /* TrendingAnimeCell */ = {
+			isa = PBXGroup;
+			children = (
+				13E446532C25CBCA002B14E8 /* TrendingAnimeCell-Swift.swift */,
+				13E446512C25CBA3002B14E8 /* TrendingAnimeCell.xib */,
+			);
+			path = TrendingAnimeCell;
+			sourceTree = "<group>";
+		};
 		13E446412C25AC25002B14E8 /* SwiftViews */ = {
 			isa = PBXGroup;
 			children = (
+				13E4464A2C25C33F002B14E8 /* Watch Next */,
 				137F4A2B2C255D1C00B787CB /* Search */,
 				13AA29BE2C24708A00C8CA8E /* Library */,
 			);
 			path = SwiftViews;
+			sourceTree = "<group>";
+		};
+		13E4464A2C25C33F002B14E8 /* Watch Next */ = {
+			isa = PBXGroup;
+			children = (
+				13CD3A642C25D39000B046F9 /* TrendingAnimeCell */,
+				13E4464D2C25C38A002B14E8 /* WatchNextViewController.swift */,
+			);
+			path = "Watch Next";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -294,6 +319,7 @@
 				13AA299B2C245EDF00C8CA8E /* LaunchScreen.storyboard in Resources */,
 				13AA29982C245EDF00C8CA8E /* Assets.xcassets in Resources */,
 				13AA29962C245EDD00C8CA8E /* Main.storyboard in Resources */,
+				13E446522C25CBA3002B14E8 /* TrendingAnimeCell.xib in Resources */,
 				137F4A442C258D9000B787CB /* Settings.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -323,8 +349,10 @@
 				13AA29932C245EDD00C8CA8E /* ViewController.swift in Sources */,
 				13AA298F2C245EDD00C8CA8E /* AppDelegate.swift in Sources */,
 				137F4A352C255E9700B787CB /* SearchResultsViewController.swift in Sources */,
+				13E4464E2C25C38A002B14E8 /* WatchNextViewController.swift in Sources */,
 				137F4A422C25820600B787CB /* LibraryView.swift in Sources */,
 				13AA29912C245EDD00C8CA8E /* SceneDelegate.swift in Sources */,
+				13E446542C25CBCA002B14E8 /* TrendingAnimeCell-Swift.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
