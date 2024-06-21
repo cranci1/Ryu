@@ -8,9 +8,11 @@
 import UIKit
 import Alamofire
 
-class WatchNextViewController: UIViewController {
+class WatchNextViewController: UITableViewController {
     
     @IBOutlet private weak var collectionView: UICollectionView!
+    
+    @IBOutlet weak var dateLabel: UILabel!
     
     private var trendingAnime: [Anime] = []
     
@@ -22,6 +24,13 @@ class WatchNextViewController: UIViewController {
         
         // Register the cell class
         collectionView.register(UINib(nibName: "TrendingAnimeCell", bundle: nil), forCellWithReuseIdentifier: "TrendingAnimeCell")
+        
+        let currentDate = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE, dd MMMM yyyy"
+        
+        let dateString = dateFormatter.string(from: currentDate)
+        dateLabel.text = "on \(dateString)"
         
         // Fetch trending anime
         fetchTrendingAnime()
@@ -125,6 +134,6 @@ struct CoverImage: Codable {
     let large: String
 }
 
-extension WatchNextViewController: UICollectionViewDelegate { // Conform to UICollectionViewDelegate
+extension WatchNextViewController: UICollectionViewDelegate {
     // Implement delegate methods as needed
 }

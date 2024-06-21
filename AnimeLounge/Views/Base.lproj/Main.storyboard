@@ -33,12 +33,12 @@
             <objects>
                 <navigationController id="URY-4Z-Kae" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Watch Next" image="play.tv.fill" catalog="system" id="wSa-ve-edd"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="UnL-A0-MB5">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="UnL-A0-MB5">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="Zhp-d5-CVS" kind="relationship" relationship="rootViewController" id="XyC-rF-6sD"/>
+                        <segue destination="dLN-Tv-QB7" kind="relationship" relationship="rootViewController" id="FON-zz-leF"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xb8-QP-bMR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -46,67 +46,92 @@
             <point key="canvasLocation" x="-2695" y="-16"/>
         </scene>
         <!--Watch Next-->
-        <scene sceneID="eYB-Wq-Mqx">
+        <scene sceneID="iMO-Pz-TH9">
             <objects>
-                <viewController id="Zhp-d5-CVS" customClass="WatchNextViewController" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="k42-Tn-5gM">
+                <tableViewController id="dLN-Tv-QB7" customClass="WatchNextViewController" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="gBK-ol-ukK">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Trending" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="blq-ur-rhw">
-                                <rect key="frame" x="16" y="44" width="99" height="29"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" keyboardDismissMode="onDrag" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="In9-z5-KPe">
-                                <rect key="frame" x="0.0" y="73" width="375" height="230"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <inset key="scrollIndicatorInsets" minX="18" minY="0.0" maxX="18" maxY="0.0"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="25" minimumInteritemSpacing="10" sectionInsetReference="layoutMargins" id="gkH-wl-N6V">
-                                    <size key="itemSize" width="101" height="200"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isThemable" value="YES"/>
-                                </userDefinedRuntimeAttributes>
-                            </collectionView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="Ot3-FC-acH"/>
                         <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="blq-ur-rhw" firstAttribute="top" secondItem="Ot3-FC-acH" secondAttribute="top" id="Drp-8z-88x"/>
-                            <constraint firstItem="In9-z5-KPe" firstAttribute="leading" secondItem="Ot3-FC-acH" secondAttribute="leading" id="VH9-Ew-fUd"/>
-                            <constraint firstItem="blq-ur-rhw" firstAttribute="leading" secondItem="Ot3-FC-acH" secondAttribute="leading" constant="16" id="dff-E3-s2m"/>
-                            <constraint firstItem="In9-z5-KPe" firstAttribute="centerX" secondItem="k42-Tn-5gM" secondAttribute="centerX" id="n2Z-7e-Cb2"/>
-                            <constraint firstItem="blq-ur-rhw" firstAttribute="bottom" secondItem="In9-z5-KPe" secondAttribute="bottom" constant="-230" id="pbi-WS-vBM"/>
-                            <constraint firstItem="In9-z5-KPe" firstAttribute="top" secondItem="blq-ur-rhw" secondAttribute="bottom" id="yiF-8R-9Gd"/>
-                        </constraints>
-                    </view>
-                    <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Watch Next" id="3dP-xS-iCg" userLabel="Watch Next">
-                        <barButtonItem key="leftBarButtonItem" title="Select Source" id="rFx-4P-Rlv">
+                        <sections>
+                            <tableViewSection id="vMF-rS-f1z">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="280" id="jbO-VO-cQy">
+                                        <rect key="frame" x="0.0" y="44.5" width="375" height="280"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jbO-VO-cQy" id="3Jd-fc-0OH">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="280"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Trending" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oq0-Oj-l4Q">
+                                                    <rect key="frame" x="16" y="11" width="91" height="26.5"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="on Friday, 21 June 2024" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="deM-cW-dYv">
+                                                    <rect key="frame" x="112" y="20.5" width="164.5" height="17"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" keyboardDismissMode="onDrag" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="b3r-Iy-ZNQ">
+                                                    <rect key="frame" x="0.0" y="42.5" width="375" height="227.5"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <inset key="scrollIndicatorInsets" minX="18" minY="0.0" maxX="18" maxY="0.0"/>
+                                                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="25" minimumInteritemSpacing="10" sectionInsetReference="layoutMargins" id="pMr-L4-zwt">
+                                                        <size key="itemSize" width="101" height="200"/>
+                                                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                    </collectionViewFlowLayout>
+                                                    <cells/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="isThemable" value="YES"/>
+                                                    </userDefinedRuntimeAttributes>
+                                                </collectionView>
+                                            </subviews>
+                                            <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                            <constraints>
+                                                <constraint firstAttribute="bottomMargin" secondItem="b3r-Iy-ZNQ" secondAttribute="bottom" constant="-1" id="0ta-HP-Yz3"/>
+                                                <constraint firstItem="Oq0-Oj-l4Q" firstAttribute="leading" secondItem="3Jd-fc-0OH" secondAttribute="leadingMargin" id="1m1-yP-yNq"/>
+                                                <constraint firstItem="Oq0-Oj-l4Q" firstAttribute="bottom" secondItem="deM-cW-dYv" secondAttribute="bottom" id="G1m-I1-Wul"/>
+                                                <constraint firstItem="Oq0-Oj-l4Q" firstAttribute="top" secondItem="3Jd-fc-0OH" secondAttribute="topMargin" id="HdF-Dm-s5E"/>
+                                                <constraint firstItem="deM-cW-dYv" firstAttribute="leading" secondItem="Oq0-Oj-l4Q" secondAttribute="trailing" constant="5" id="Xja-pu-Mih"/>
+                                                <constraint firstItem="b3r-Iy-ZNQ" firstAttribute="leading" secondItem="3Jd-fc-0OH" secondAttribute="leading" id="dFp-UE-epI"/>
+                                                <constraint firstItem="b3r-Iy-ZNQ" firstAttribute="centerX" secondItem="3Jd-fc-0OH" secondAttribute="centerX" id="gk1-bR-KLB"/>
+                                                <constraint firstItem="b3r-Iy-ZNQ" firstAttribute="top" secondItem="Oq0-Oj-l4Q" secondAttribute="bottom" constant="5" id="z8Z-q5-EC6"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="dLN-Tv-QB7" id="msG-Ql-FtW"/>
+                            <outlet property="delegate" destination="dLN-Tv-QB7" id="FAD-Aq-92f"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Watch Next" largeTitleDisplayMode="always" id="pXW-Nq-ts9" userLabel="Watch Next">
+                        <barButtonItem key="leftBarButtonItem" title="Select Source" id="7cY-8G-yfG">
                             <color key="tintColor" name="AccentColor"/>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" id="eTG-Lg-xjk">
+                        <barButtonItem key="rightBarButtonItem" id="OOf-G5-ZCB">
                             <imageReference key="image" image="gearshape" catalog="system" symbolScale="large"/>
                             <color key="tintColor" name="AccentColor"/>
                             <connections>
-                                <segue destination="tkJ-qb-Pci" kind="show" id="8qu-cW-CNM"/>
+                                <segue destination="tkJ-qb-Pci" kind="show" id="z7O-Et-tvB"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="collectionView" destination="In9-z5-KPe" id="svt-As-DgE"/>
+                        <outlet property="collectionView" destination="b3r-Iy-ZNQ" id="e4y-Es-VOn"/>
+                        <outlet property="dateLabel" destination="deM-cW-dYv" id="Ggk-Br-0RL"/>
                     </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="n7N-Bk-p08" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WJQ-iv-ryE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1804" y="-17.541229385307346"/>
+            <point key="canvasLocation" x="-1804" y="-17"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="0IK-Aq-lbD">
@@ -463,7 +488,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="8qu-cW-CNM"/>
+        <segue reference="z7O-Et-tvB"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.down.circle.fill" catalog="system" width="128" height="121"/>
@@ -477,6 +502,9 @@
         </namedColor>
         <systemColor name="quaternarySystemFillColor">
             <color red="0.45490196078431372" green="0.45490196078431372" blue="0.50196078431372548" alpha="0.080000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="secondarySystemBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
