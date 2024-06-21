@@ -11,19 +11,26 @@ import Alamofire
 class WatchNextViewController: UITableViewController {
     
     @IBOutlet private weak var collectionView: UICollectionView!
-    
+    @IBOutlet private weak var seasonalCollectionView: UICollectionView!
+
     @IBOutlet weak var dateLabel: UILabel!
     
     private var trendingAnime: [Anime] = []
+    private var seasonalAnime: [Anime] = []
+    
+    private let aniListServiceTrending = AnilistServiceTrendingAnime()
+    private let aniListServiceSeasonal = AnilistServiceSeasonalAnime()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         collectionView.delegate = self
         collectionView.dataSource = self
-        
-        // Register the cell class
         collectionView.register(UINib(nibName: "TrendingAnimeCell", bundle: nil), forCellWithReuseIdentifier: "TrendingAnimeCell")
+        
+        seasonalCollectionView.delegate = self
+        seasonalCollectionView.dataSource = self
+        seasonalCollectionView.register(UINib(nibName: "SeasonalAnimeCell", bundle: nil), forCellWithReuseIdentifier: "SeasonalAnimeCell")
         
         let currentDate = Date()
         let dateFormatter = DateFormatter()
@@ -32,84 +39,64 @@ class WatchNextViewController: UITableViewController {
         let dateString = dateFormatter.string(from: currentDate)
         dateLabel.text = "on \(dateString)"
         
-        // Fetch trending anime
         fetchTrendingAnime()
+        fetchSeasonalAnime()
     }
     
     func fetchTrendingAnime() {
-        let query = """
-        query {
-          Page(page: 1, perPage: 10) {
-            media(sort: TRENDING_DESC, type: ANIME) {
-              id
-              title {
-                romaji
-              }
-              coverImage {
-                large
-              }
-            }
-          }
-        }
-        """
-        
-        let parameters: [String: Any] = ["query": query]
-        
-        AF.request("https://graphql.anilist.co", method: .post, parameters: parameters, encoding: JSONEncoding.default)
-            .validate()
-            .responseJSON { [weak self] response in
-                guard let self = self else { return }
-                
-                switch response.result {
-                case .success(let value):
-                    print("Response JSON: \(value)")
-                    
-                    // Parse the JSON response
-                    if let json = value as? [String: Any],
-                       let data = json["data"] as? [String: Any],
-                       let page = data["Page"] as? [String: Any],
-                       let media = page["media"] as? [[String: Any]] {
-                        
-                        // Map each media item to Anime model
-                        self.trendingAnime = media.compactMap { item in
-                            guard let id = item["id"] as? Int,
-                                  let titleData = item["title"] as? [String: Any],
-                                  let romaji = titleData["romaji"] as? String,
-                                  let coverImageData = item["coverImage"] as? [String: Any],
-                                  let largeImageUrl = coverImageData["large"] as? String,
-                                  let imageUrl = URL(string: largeImageUrl) else {
-                                return nil
-                            }
-                            
-                            let anime = Anime(id: id, title: Title(romaji: romaji), coverImage: CoverImage(large: imageUrl.absoluteString))
-                            return anime
-                        }
-                        
-                        DispatchQueue.main.async {
-                            self.collectionView.reloadData()
-                        }
-                    } else {
-                        print("Error parsing JSON or missing expected fields")
-                    }
-                    
-                case .failure(let error):
-                    print("Error fetching trending anime: \(error.localizedDescription)")
+        aniListServiceTrending.fetchTrendingAnime { [weak self] animeList in
+            guard let self = self else { return }
+            if let animeList = animeList {
+                self.trendingAnime = animeList
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
                 }
+            } else {
+                print("Failed to fetch trending anime")
             }
+        }
+    }
+    
+    func fetchSeasonalAnime() {
+        aniListServiceSeasonal.fetchSeasonalAnime { [weak self] animeList in
+            guard let self = self else { return }
+            if let animeList = animeList {
+                self.seasonalAnime = animeList
+                DispatchQueue.main.async {
+                    self.seasonalCollectionView.reloadData()
+                }
+            } else {
+                print("Failed to fetch trending anime")
+            }
+        }
     }
 }
 
 extension WatchNextViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return trendingAnime.count
+        if collectionView == self.collectionView {
+            return trendingAnime.count
+        } else if collectionView == self.seasonalCollectionView {
+            return seasonalAnime.count
+        }
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TrendingAnimeCell", for: indexPath) as! TrendingAnimeCell
-        let anime = trendingAnime[indexPath.item]
-        let imageUrl = URL(string: anime.coverImage.large)
-        cell.configure(with: anime.title.romaji, imageUrl: imageUrl)
-        return cell
+        if collectionView == self.collectionView {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TrendingAnimeCell", for: indexPath) as! TrendingAnimeCell
+            let anime = trendingAnime[indexPath.item]
+            let imageUrl = URL(string: anime.coverImage.large)
+            cell.configure(with: anime.title.romaji, imageUrl: imageUrl)
+            return cell
+        } else if collectionView == self.seasonalCollectionView {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SeasonalAnimeCell", for: indexPath) as! SeasonalAnimeCell
+            let anime = seasonalAnime[indexPath.item]
+            let imageUrl = URL(string: anime.coverImage.large)
+            cell.configure(with: anime.title.romaji, imageUrl: imageUrl)
+            return cell
+        }
+        fatalError("Unexpected collection view")
     }
 }
 
@@ -135,5 +122,5 @@ struct CoverImage: Codable {
 }
 
 extension WatchNextViewController: UICollectionViewDelegate {
-    // Implement delegate methods as needed
 }
+

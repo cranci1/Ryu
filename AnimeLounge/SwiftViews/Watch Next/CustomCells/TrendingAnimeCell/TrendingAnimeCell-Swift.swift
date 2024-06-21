@@ -15,7 +15,6 @@ class TrendingAnimeCell: UICollectionViewCell {
     func configure(with title: String, imageUrl: URL?) {
         titleLabel.text = title
         
-        // Using Kingfisher for image loading and caching
         animeImageView.kf.indicatorType = .activity
         animeImageView.kf.setImage(with: imageUrl, placeholder: UIImage(named: "no_image"), options: [.transition(.fade(0.2))])
     }

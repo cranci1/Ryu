@@ -286,7 +286,11 @@
                             <outlet property="delegate" destination="pc2-lO-9Ci" id="BgH-0U-RJt"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Settings" largeTitleDisplayMode="always" id="d1C-hR-lxl"/>
+                    <navigationItem key="navigationItem" title="Settings" id="SAe-EI-ZI4">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="C1o-kr-hL8">
+                            <color key="tintColor" name="AccentColor"/>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QIX-WY-Iit" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
