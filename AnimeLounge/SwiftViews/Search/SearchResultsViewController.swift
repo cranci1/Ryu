@@ -77,7 +77,7 @@ class SearchResultCell: UITableViewCell {
             animeImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             animeImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             animeImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-            animeImageView.widthAnchor.constraint(equalToConstant: 95),
+            animeImageView.widthAnchor.constraint(equalToConstant: 80),
             animeImageView.heightAnchor.constraint(equalToConstant: 115),
             
             titleLabel.leadingAnchor.constraint(equalTo: animeImageView.trailingAnchor, constant: 10),
@@ -95,7 +95,6 @@ class SearchResultCell: UITableViewCell {
             contentView.heightAnchor.constraint(equalToConstant: 140)
         ])
         
-        animeImageView.layer.cornerRadius = 6
         animeImageView.clipsToBounds = true
         animeImageView.contentMode = .scaleAspectFill
         
@@ -103,7 +102,7 @@ class SearchResultCell: UITableViewCell {
         titleLabel.numberOfLines = 0
         titleLabel.lineBreakMode = .byWordWrapping
         
-        disclosureIndicatorImageView.image = UIImage(systemName: "chevron.right")
+        disclosureIndicatorImageView.image = UIImage(systemName: "chevron.compact.right")
         disclosureIndicatorImageView.tintColor = .gray
     }
     

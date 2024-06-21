@@ -28,11 +28,11 @@
             </objects>
             <point key="canvasLocation" x="-4591" y="1499"/>
         </scene>
-        <!--Featured-->
+        <!--Watch Next-->
         <scene sceneID="T9Z-Ks-MCz">
             <objects>
                 <navigationController id="URY-4Z-Kae" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Featured" image="play.tv.fill" catalog="system" id="wSa-ve-edd"/>
+                    <tabBarItem key="tabBarItem" title="Watch Next" image="play.tv.fill" catalog="system" id="wSa-ve-edd"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="UnL-A0-MB5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -45,23 +45,42 @@
             </objects>
             <point key="canvasLocation" x="-2695" y="-16"/>
         </scene>
-        <!--Featured-->
+        <!--Watch Next-->
         <scene sceneID="eYB-Wq-Mqx">
             <objects>
-                <viewController id="Zhp-d5-CVS" sceneMemberID="viewController">
+                <viewController id="Zhp-d5-CVS" customClass="WatchNextViewController" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="k42-Tn-5gM">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="oyS-lI-yji">
+                                <rect key="frame" x="16" y="96" width="359" height="210"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="KNk-r7-Uwr">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="kgm-uT-9yd">
+                                <rect key="frame" x="177" y="488" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="Ot3-FC-acH"/>
                         <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Ot3-FC-acH" firstAttribute="top" secondItem="oyS-lI-yji" secondAttribute="bottom" constant="-210" id="5Iy-7m-sJi"/>
+                            <constraint firstItem="oyS-lI-yji" firstAttribute="top" secondItem="Ot3-FC-acH" secondAttribute="top" id="6x4-hL-uYo"/>
+                            <constraint firstItem="oyS-lI-yji" firstAttribute="trailing" secondItem="Ot3-FC-acH" secondAttribute="trailing" id="QJY-2U-cpz"/>
+                            <constraint firstItem="oyS-lI-yji" firstAttribute="leading" secondItem="k42-Tn-5gM" secondAttribute="leadingMargin" id="aNv-lq-VzX"/>
+                        </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Featured" id="vbK-98-dnj">
+                    <navigationItem key="navigationItem" title="Watch Next" id="vbK-98-dnj">
                         <barButtonItem key="leftBarButtonItem" title="Select Source" id="GwW-ta-PoU">
                             <color key="tintColor" name="AccentColor"/>
-                            <connections>
-                                <segue destination="Au5-bD-c9n" kind="show" id="vq3-SR-XWm"/>
-                            </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" id="xOQ-YF-a7L">
                             <imageReference key="image" image="gearshape" catalog="system" symbolScale="large"/>
@@ -72,10 +91,14 @@
                         </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="activityIndicator" destination="kgm-uT-9yd" id="VmI-sg-4OB"/>
+                        <outlet property="collectionView" destination="oyS-lI-yji" id="uVS-0g-1c8"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n7N-Bk-p08" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1804" y="-17"/>
+            <point key="canvasLocation" x="-1804" y="-17.541229385307346"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="0IK-Aq-lbD">
@@ -295,16 +318,6 @@
             </objects>
             <point key="canvasLocation" x="-5588" y="1497.3013493253375"/>
         </scene>
-        <!--SourceSitePicker-->
-        <scene sceneID="l4H-7J-LFG">
-            <objects>
-                <viewControllerPlaceholder storyboardName="SourceSitePicker" id="Au5-bD-c9n" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="h8Y-aS-mGo"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="odi-J3-NyD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1428" y="747"/>
-        </scene>
         <!--Search-->
         <scene sceneID="3jU-2O-voz">
             <objects>
@@ -319,14 +332,20 @@
                             <textInputTraits key="textInputTraits"/>
                         </searchBar>
                     </tableView>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" title="Search" id="U8J-Ws-qJL">
-                        <barButtonItem key="rightBarButtonItem" title="Select Source" id="xDq-TS-qlu">
+                        <barButtonItem key="leftBarButtonItem" title="Select Source" id="xDq-TS-qlu">
+                            <color key="tintColor" name="AccentColor"/>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" id="teZ-LN-6Pb">
+                            <imageReference key="image" image="gearshape" catalog="system" symbolScale="large"/>
                             <color key="tintColor" name="AccentColor"/>
                             <connections>
-                                <segue destination="Au5-bD-c9n" kind="show" id="5OX-ul-VvL"/>
+                                <segue destination="tkJ-qb-Pci" kind="show" id="YJD-uS-njn"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="searchBar" destination="K3f-Dc-Cgq" id="QM0-dJ-O3m"/>
                     </connections>
@@ -432,12 +451,11 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tnA-S7-ohS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-5098" y="716"/>
+            <point key="canvasLocation" x="-3490" y="1439"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="VEM-8r-Lg6"/>
-        <segue reference="5OX-ul-VvL"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.down.circle.fill" catalog="system" width="128" height="121"/>
