@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="o1z-ag-tWt">
+    <device id="retina6_1" orientation="portrait" appearance="dark"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Sources-->
+        <scene sceneID="Gua-FS-0cU">
+            <objects>
+                <tableViewController id="idm-1A-vd0" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="Bef-X9-aw3">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <sections>
+                            <tableViewSection id="xeN-7O-hRQ">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="150" id="Shx-u1-fnh">
+                                        <rect key="frame" x="20" y="18" width="374" height="150"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Shx-u1-fnh" id="cS3-Gz-tFT">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="150"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AnimeWorld" translatesAutoresizingMaskIntoConstraints="NO" id="FAo-Ya-qw1" userLabel="AnimeWorld - Image">
+                                                    <rect key="frame" x="10" y="10" width="130" height="130"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="130" id="MUF-85-uC6"/>
+                                                        <constraint firstAttribute="height" constant="130" id="ooD-rc-hk3"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AnimeWorld.tv" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rFf-O2-kQi" userLabel="AnimeWorld - label">
+                                                    <rect key="frame" x="145" y="40" width="139" height="24"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AnimeWorld offre streaming di anime in italiano. AnimeWorld is an italian streaming platform." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="udU-28-pw1">
+                                                    <rect key="frame" x="145" y="69" width="199" height="55"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="55" id="x3d-DG-jmn"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="udU-28-pw1" firstAttribute="bottom" secondItem="cS3-Gz-tFT" secondAttribute="bottomMargin" constant="-15" id="G98-Li-66z"/>
+                                                <constraint firstItem="FAo-Ya-qw1" firstAttribute="leading" secondItem="cS3-Gz-tFT" secondAttribute="leading" constant="10" id="HdA-aH-Qcs"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="udU-28-pw1" secondAttribute="trailing" constant="10" id="Hq6-eS-1M7"/>
+                                                <constraint firstItem="rFf-O2-kQi" firstAttribute="top" secondItem="cS3-Gz-tFT" secondAttribute="top" constant="40" id="MCc-Ab-Vff"/>
+                                                <constraint firstItem="rFf-O2-kQi" firstAttribute="leading" secondItem="FAo-Ya-qw1" secondAttribute="trailing" constant="5" id="OkS-gH-hOu"/>
+                                                <constraint firstItem="udU-28-pw1" firstAttribute="leading" secondItem="rFf-O2-kQi" secondAttribute="leading" id="in3-CM-BgD"/>
+                                                <constraint firstItem="FAo-Ya-qw1" firstAttribute="centerY" secondItem="cS3-Gz-tFT" secondAttribute="centerY" id="jsU-b1-df6"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="idm-1A-vd0" id="feG-Hi-NbJ"/>
+                            <outlet property="delegate" destination="idm-1A-vd0" id="SQ3-XV-w5z"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Sources" leftItemsSupplementBackButton="YES" id="EnG-bZ-rpu"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bsI-Q4-T4P" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="550.72463768115949" y="156.69642857142856"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="WgV-iF-PFF">
+            <objects>
+                <navigationController id="o1z-ag-tWt" sceneMemberID="viewController">
+                    <splitViewMasterSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="1rb-3A-pWe">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="idm-1A-vd0" kind="relationship" relationship="rootViewController" id="sBd-yr-0Ae"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uAT-9j-QSj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-337" y="157"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="AnimeWorld" width="813" height="800"/>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

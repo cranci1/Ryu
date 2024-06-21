@@ -12,6 +12,9 @@
 		137F49EC2C254DCA00B787CB /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 137F49EB2C254DCA00B787CB /* Alamofire */; };
 		137F4A332C255DA500B787CB /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137F4A322C255DA500B787CB /* SearchViewController.swift */; };
 		137F4A352C255E9700B787CB /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137F4A342C255E9700B787CB /* SearchResultsViewController.swift */; };
+		137F4A422C25820600B787CB /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137F4A412C25820600B787CB /* LibraryView.swift */; };
+		137F4A442C258D9000B787CB /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 137F4A432C258D9000B787CB /* Settings.storyboard */; };
+		137F4A4E2C25977A00B787CB /* SourceSitePicker.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 137F4A4D2C25977A00B787CB /* SourceSitePicker.storyboard */; };
 		13AA298F2C245EDD00C8CA8E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AA298E2C245EDD00C8CA8E /* AppDelegate.swift */; };
 		13AA29912C245EDD00C8CA8E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AA29902C245EDD00C8CA8E /* SceneDelegate.swift */; };
 		13AA29932C245EDD00C8CA8E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AA29922C245EDD00C8CA8E /* ViewController.swift */; };
@@ -43,6 +46,9 @@
 /* Begin PBXFileReference section */
 		137F4A322C255DA500B787CB /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		137F4A342C255E9700B787CB /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
+		137F4A412C25820600B787CB /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
+		137F4A432C258D9000B787CB /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
+		137F4A4D2C25977A00B787CB /* SourceSitePicker.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SourceSitePicker.storyboard; sourceTree = "<group>"; };
 		13AA298B2C245EDD00C8CA8E /* AnimeLounge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnimeLounge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13AA298E2C245EDD00C8CA8E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		13AA29902C245EDD00C8CA8E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -102,6 +108,17 @@
 			path = Search;
 			sourceTree = "<group>";
 		};
+		137F4A452C258DE200B787CB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				137F4A4D2C25977A00B787CB /* SourceSitePicker.storyboard */,
+				13AA29942C245EDD00C8CA8E /* Main.storyboard */,
+				137F4A432C258D9000B787CB /* Settings.storyboard */,
+				13AA29992C245EDF00C8CA8E /* LaunchScreen.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		13AA29822C245EDD00C8CA8E = {
 			isa = PBXGroup;
 			children = (
@@ -125,15 +142,14 @@
 		13AA298D2C245EDD00C8CA8E /* AnimeLounge */ = {
 			isa = PBXGroup;
 			children = (
+				137F4A452C258DE200B787CB /* Views */,
 				137F4A2B2C255D1C00B787CB /* Search */,
 				137F49B22C2484BC00B787CB /* Watch Now */,
 				13AA29BE2C24708A00C8CA8E /* Library */,
 				13AA298E2C245EDD00C8CA8E /* AppDelegate.swift */,
 				13AA29902C245EDD00C8CA8E /* SceneDelegate.swift */,
 				13AA29922C245EDD00C8CA8E /* ViewController.swift */,
-				13AA29942C245EDD00C8CA8E /* Main.storyboard */,
 				13AA29972C245EDF00C8CA8E /* Assets.xcassets */,
-				13AA29992C245EDF00C8CA8E /* LaunchScreen.storyboard */,
 				13AA299C2C245EDF00C8CA8E /* Info.plist */,
 			);
 			path = AnimeLounge;
@@ -159,6 +175,7 @@
 		13AA29BE2C24708A00C8CA8E /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				137F4A412C25820600B787CB /* LibraryView.swift */,
 			);
 			path = Library;
 			sourceTree = "<group>";
@@ -278,8 +295,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				13AA299B2C245EDF00C8CA8E /* LaunchScreen.storyboard in Resources */,
+				137F4A4E2C25977A00B787CB /* SourceSitePicker.storyboard in Resources */,
 				13AA29982C245EDF00C8CA8E /* Assets.xcassets in Resources */,
 				13AA29962C245EDD00C8CA8E /* Main.storyboard in Resources */,
+				137F4A442C258D9000B787CB /* Settings.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,6 +327,7 @@
 				13AA29932C245EDD00C8CA8E /* ViewController.swift in Sources */,
 				13AA298F2C245EDD00C8CA8E /* AppDelegate.swift in Sources */,
 				137F4A352C255E9700B787CB /* SearchResultsViewController.swift in Sources */,
+				137F4A422C25820600B787CB /* LibraryView.swift in Sources */,
 				13AA29912C245EDD00C8CA8E /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
