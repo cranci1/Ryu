@@ -31,7 +31,11 @@ class SearchViewController: UIViewController {
                 self.navigateToResults(with: results)
             case .failure(let error):
                 print("Error: \(error)")
-                // Handle error gracefully, e.g., show alert to user
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "Error", message: "Failed to fetch data. Please try again later.", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                }
             }
         }
     }
