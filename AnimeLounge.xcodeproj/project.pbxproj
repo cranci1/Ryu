@@ -14,6 +14,8 @@
 		137F4A352C255E9700B787CB /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137F4A342C255E9700B787CB /* SearchResultsViewController.swift */; };
 		137F4A422C25820600B787CB /* LibraryViewControlller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137F4A412C25820600B787CB /* LibraryViewControlller.swift */; };
 		137F4A442C258D9000B787CB /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 137F4A432C258D9000B787CB /* Settings.storyboard */; };
+		139B16282C26F4A3007E3477 /* AnimeInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139B16272C26F4A3007E3477 /* AnimeInformation.swift */; };
+		139B162A2C26F4FC007E3477 /* AnilistAnimeInformation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 139B16292C26F4FC007E3477 /* AnilistAnimeInformation.storyboard */; };
 		13AA298F2C245EDD00C8CA8E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AA298E2C245EDD00C8CA8E /* AppDelegate.swift */; };
 		13AA29912C245EDD00C8CA8E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AA29902C245EDD00C8CA8E /* SceneDelegate.swift */; };
 		13AA29932C245EDD00C8CA8E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AA29922C245EDD00C8CA8E /* ViewController.swift */; };
@@ -56,6 +58,8 @@
 		137F4A342C255E9700B787CB /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
 		137F4A412C25820600B787CB /* LibraryViewControlller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewControlller.swift; sourceTree = "<group>"; };
 		137F4A432C258D9000B787CB /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
+		139B16272C26F4A3007E3477 /* AnimeInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeInformation.swift; sourceTree = "<group>"; };
+		139B16292C26F4FC007E3477 /* AnilistAnimeInformation.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AnilistAnimeInformation.storyboard; sourceTree = "<group>"; };
 		13AA298B2C245EDD00C8CA8E /* AnimeLounge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnimeLounge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13AA298E2C245EDD00C8CA8E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		13AA29902C245EDD00C8CA8E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -123,6 +127,7 @@
 				13AA29942C245EDD00C8CA8E /* Main.storyboard */,
 				137F4A432C258D9000B787CB /* Settings.storyboard */,
 				13AA29992C245EDF00C8CA8E /* LaunchScreen.storyboard */,
+				139B16292C26F4FC007E3477 /* AnilistAnimeInformation.storyboard */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -201,6 +206,7 @@
 			children = (
 				13CD3A6A2C2601E800B046F9 /* TrendingAnime.swift */,
 				13CD3A6C2C26028500B046F9 /* SeasonalAnime.swift */,
+				139B16272C26F4A3007E3477 /* AnimeInformation.swift */,
 			);
 			path = "Anilist-Services";
 			sourceTree = "<group>";
@@ -380,6 +386,7 @@
 				13E446522C25CBA3002B14E8 /* TrendingAnimeCell.xib in Resources */,
 				13CD3A7C2C26040C00B046F9 /* SeasonalAnimeCell.xib in Resources */,
 				137F4A442C258D9000B787CB /* Settings.storyboard in Resources */,
+				139B162A2C26F4FC007E3477 /* AnilistAnimeInformation.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -409,6 +416,7 @@
 				13AA29932C245EDD00C8CA8E /* ViewController.swift in Sources */,
 				13AA298F2C245EDD00C8CA8E /* AppDelegate.swift in Sources */,
 				137F4A352C255E9700B787CB /* SearchResultsViewController.swift in Sources */,
+				139B16282C26F4A3007E3477 /* AnimeInformation.swift in Sources */,
 				13CD3A6D2C26028500B046F9 /* SeasonalAnime.swift in Sources */,
 				13CD3A6B2C2601E800B046F9 /* TrendingAnime.swift in Sources */,
 				13CD3A7B2C26040C00B046F9 /* SeasonalAnimeCell-Swift.swift in Sources */,

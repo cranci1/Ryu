@@ -6,13 +6,11 @@
 //
 
 import UIKit
-import Alamofire
 
 class WatchNextViewController: UITableViewController {
     
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var seasonalCollectionView: UICollectionView!
-
     @IBOutlet weak var dateLabel: UILabel!
     
     private var trendingAnime: [Anime] = []
@@ -24,6 +22,12 @@ class WatchNextViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupCollectionView()
+        setupDateLabel()
+        fetchAnimeData()
+    }
+    
+    func setupCollectionView() {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(UINib(nibName: "TrendingAnimeCell", bundle: nil), forCellWithReuseIdentifier: "TrendingAnimeCell")
@@ -31,14 +35,17 @@ class WatchNextViewController: UITableViewController {
         seasonalCollectionView.delegate = self
         seasonalCollectionView.dataSource = self
         seasonalCollectionView.register(UINib(nibName: "SeasonalAnimeCell", bundle: nil), forCellWithReuseIdentifier: "SeasonalAnimeCell")
-        
+    }
+    
+    func setupDateLabel() {
         let currentDate = Date()
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE, dd MMMM yyyy"
-        
         let dateString = dateFormatter.string(from: currentDate)
         dateLabel.text = "on \(dateString)"
-        
+    }
+    
+    func fetchAnimeData() {
         fetchTrendingAnime()
         fetchSeasonalAnime()
     }
@@ -66,10 +73,11 @@ class WatchNextViewController: UITableViewController {
                     self.seasonalCollectionView.reloadData()
                 }
             } else {
-                print("Failed to fetch trending anime")
+                print("Failed to fetch seasonal anime")
             }
         }
     }
+    
 }
 
 extension WatchNextViewController: UICollectionViewDataSource {
@@ -100,26 +108,61 @@ extension WatchNextViewController: UICollectionViewDataSource {
     }
 }
 
-struct Anime: Codable {
-    let id: Int
-    let title: Title
-    let coverImage: CoverImage
-    
-    enum CodingKeys: String, CodingKey {
-        case id
-        case title
-        case coverImage = "coverImage"
+extension WatchNextViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        var selectedAnime: Anime?
+        
+        if collectionView == self.collectionView {
+            selectedAnime = trendingAnime[indexPath.item]
+        } else if collectionView == self.seasonalCollectionView {
+            selectedAnime = seasonalAnime[indexPath.item]
+        }
+        
+        guard let anime = selectedAnime else { return }
+        
+        let storyboard = UIStoryboard(name: "AnilistAnimeInformation", bundle: nil)
+        if let animeDetailVC = storyboard.instantiateViewController(withIdentifier: "AnimeInformation") as? AnimeInformation {
+            animeDetailVC.animeID = anime.id
+            navigationController?.pushViewController(animeDetailVC, animated: true)
+        }
     }
 }
 
-struct Title: Codable {
+struct Anime {
+    let id: Int
+    let title: Title
+    let coverImage: CoverImage
+    var mediaRelations: [MediaRelation] = []
+    var characters: [Character] = []
+}
+
+struct MediaRelation {
+    let node: MediaNode
+    
+    struct MediaNode {
+        let id: Int
+        let title: Title
+    }
+}
+
+struct Character {
+    let node: CharacterNode
+    let role: String
+    
+    struct CharacterNode {
+        let id: Int
+        let name: Name
+        
+        struct Name {
+            let full: String
+        }
+    }
+}
+
+struct Title {
     let romaji: String
 }
 
-struct CoverImage: Codable {
+struct CoverImage {
     let large: String
 }
-
-extension WatchNextViewController: UICollectionViewDelegate {
-}
-

@@ -91,7 +91,7 @@ class AnimeDetailViewController: UIViewController {
             let aliases = try document.select("selector-for-alias").text()
             let airDate = try document.select("dt:contains(Data di Uscita) + dd").text()
             let rating = try document.select("dd.rating span#average-vote").text()
-            let synopsis = try document.select("div.desc div.long").text()
+            let synopsis = try document.select("div.info div.desc").text()
             
             DispatchQueue.main.async {
                 self.aliasLabel.text = aliases
@@ -233,15 +233,14 @@ class AnimeDetailViewController: UIViewController {
             synopsisLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor),
             
             synopsisDescriptionLabel.topAnchor.constraint(equalTo: synopsisLabel.bottomAnchor, constant: 4),
-            synopsisDescriptionLabel.leadingAnchor.constraint(equalTo: synopsisLabel.leadingAnchor)
+            synopsisDescriptionLabel.leadingAnchor.constraint(equalTo: synopsisLabel.leadingAnchor),
+            synopsisDescriptionLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor)
         ])
     }
     
     private func setupEpisodeSection() {
-        // Implement episode section setup
     }
     
     private func setupTableView() {
-        // Implement table view setup
     }
 }
