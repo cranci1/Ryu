@@ -12,7 +12,7 @@ class SearchResultsViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
-    var searchResults: [(title: String, imageUrl: String)] = []
+    var searchResults: [(title: String, imageUrl: String, href: String)] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +20,12 @@ class SearchResultsViewController: UIViewController {
         tableView.delegate = self
 
         tableView.register(SearchResultCell.self, forCellReuseIdentifier: "resultCell")
+    }
+        
+    func navigateToAnimeDetail(title: String, imageUrl: String, href: String) {
+        let detailVC = AnimeDetailViewController()
+        detailVC.configure(title: title, imageUrl: imageUrl, href: href)
+        navigationController?.pushViewController(detailVC, animated: true)
     }
 }
 
@@ -38,7 +44,19 @@ extension SearchResultsViewController: UITableViewDataSource, UITableViewDelegat
             cell.animeImageView.kf.setImage(with: url, placeholder: UIImage(systemName: "photo"), options: [.transition(.fade(0.2)), .cacheOriginalImage])
         }
 
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(cellTapped(_:)))
+        cell.addGestureRecognizer(tapGesture)
+        cell.isUserInteractionEnabled = true
+
         return cell
+    }
+    
+    @objc func cellTapped(_ sender: UITapGestureRecognizer) {
+        if let tappedView = sender.view as? SearchResultCell,
+           let indexPath = tableView.indexPath(for: tappedView) {
+            let selectedResult = searchResults[indexPath.row]
+            navigateToAnimeDetail(title: selectedResult.title, imageUrl: selectedResult.imageUrl, href: selectedResult.href)
+        }
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -58,6 +76,13 @@ class SearchResultCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
         configureAppearance()
+    }
+    
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
+        super.setHighlighted(highlighted, animated: animated)
+        UIView.animate(withDuration: 0.1) {
+            self.contentView.alpha = highlighted ? 0.7 : 1.0
+        }
     }
     
     required init?(coder: NSCoder) {

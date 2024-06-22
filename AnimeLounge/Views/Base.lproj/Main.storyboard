@@ -70,7 +70,7 @@
         <!--Library-->
         <scene sceneID="pt1-Aq-O9k">
             <objects>
-                <viewController id="vf7-AW-lG7" customClass="LibraryView" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="vf7-AW-lG7" customClass="LibraryViewControlller" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="vDf-Rg-wmJ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -285,9 +285,6 @@
                         <barButtonItem key="rightBarButtonItem" id="teZ-LN-6Pb">
                             <imageReference key="image" image="gearshape" catalog="system" symbolScale="large"/>
                             <color key="tintColor" name="AccentColor"/>
-                            <connections>
-                                <segue destination="tkJ-qb-Pci" kind="show" id="YJD-uS-njn"/>
-                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
@@ -367,7 +364,7 @@
         <!--Favorites-->
         <scene sceneID="JNZ-TQ-x2k">
             <objects>
-                <viewController id="IWM-mT-B3l" sceneMemberID="viewController">
+                <viewController id="IWM-mT-B3l" customClass="FavoritesViewController" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="TOP-3B-jqm">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -409,7 +406,7 @@
                         <sections>
                             <tableViewSection id="6fO-PT-Ky8">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="next.standard" rowHeight="285" id="e1S-QQ-s4i" customClass="DiscoveryStandardTableViewCell" customModule="NineAnimator" customModuleProvider="target">
+                                    <tableViewCell contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="next.standard" rowHeight="285" id="e1S-QQ-s4i" customClass="DiscoveryStandardTableViewCell" customModule="AnimeLounge" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="44.5" width="375" height="285"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="e1S-QQ-s4i" id="Klu-ZE-YR1">
@@ -461,7 +458,7 @@
                             </tableViewSection>
                             <tableViewSection id="7Xc-XD-94i">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="next.standard" rowHeight="285" id="Rjk-gX-FSs" customClass="DiscoveryStandardTableViewCell" customModule="NineAnimator" customModuleProvider="target">
+                                    <tableViewCell contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="next.standard" rowHeight="285" id="Rjk-gX-FSs" customClass="DiscoveryStandardTableViewCell" customModule="AnimeLounge" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="396.5" width="375" height="285"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Rjk-gX-FSs" id="S42-Hj-6MZ">
@@ -544,7 +541,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="QUk-Rn-qDy"/>
+        <segue reference="A4S-3U-V1x"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.down.circle.fill" catalog="system" width="128" height="121"/>

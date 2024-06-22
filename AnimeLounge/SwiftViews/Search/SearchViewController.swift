@@ -30,40 +30,45 @@ class SearchViewController: UIViewController {
                 let results = self.parseHTML(html: value)
                 self.navigateToResults(with: results)
             case .failure(let error):
-                print("Error: \(error)")
-                DispatchQueue.main.async {
-                    let alert = UIAlertController(title: "Error", message: "Failed to fetch data. Please try again later.", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
-                }
+                self.showAlert(title: "Error", message: "Failed to fetch data. Please try again later.")
+                print("Error: \(error.localizedDescription)")
             }
         }
     }
     
-    func parseHTML(html: String) -> [(title: String, imageUrl: String)] {
+    func parseHTML(html: String) -> [(title: String, imageUrl: String, href: String)] {
         do {
             let document = try SwiftSoup.parse(html)
             let items = try document.select(".film-list .item")
-            var results: [(title: String, imageUrl: String)] = []
+            var results: [(title: String, imageUrl: String, href: String)] = []
             for item in items {
                 let title = try item.select("a.name").text()
                 let imageUrl = try item.select("a.poster img").attr("src")
-                results.append((title: title, imageUrl: imageUrl))
+                let href = try item.select("a.poster").attr("href")
+                results.append((title: title, imageUrl: imageUrl, href: href))
             }
             return results
         } catch {
-            print("Error parsing HTML: \(error)")
+            print("Error parsing HTML: \(error.localizedDescription)")
             return []
         }
     }
 
-    func navigateToResults(with results: [(title: String, imageUrl: String)]) {
+    func navigateToResults(with results: [(title: String, imageUrl: String, href: String)]) {
         guard let resultsVC = storyboard?.instantiateViewController(withIdentifier: "SearchResultsViewController") as? SearchResultsViewController else {
             print("Failed to instantiate SearchResultsViewController from storyboard.")
             return
         }
         resultsVC.searchResults = results
         navigationController?.pushViewController(resultsVC, animated: true)
+    }
+    
+    func showAlert(title: String, message: String) {
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
 }
 

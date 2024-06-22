@@ -13,7 +13,7 @@ class AnilistServiceSeasonalAnime {
     func fetchSeasonalAnime(completion: @escaping ([Anime]?) -> Void) {
         let query = """
         query {
-          Page(page: 1, perPage: 15) {
+          Page(page: 1, perPage: 50) {
             media(season: SUMMER, seasonYear: 2024, type: ANIME, isAdult: false) {
               id
               title {

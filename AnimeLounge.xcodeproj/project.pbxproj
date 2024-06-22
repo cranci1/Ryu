@@ -12,7 +12,7 @@
 		137F49EC2C254DCA00B787CB /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 137F49EB2C254DCA00B787CB /* Alamofire */; };
 		137F4A332C255DA500B787CB /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137F4A322C255DA500B787CB /* SearchViewController.swift */; };
 		137F4A352C255E9700B787CB /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137F4A342C255E9700B787CB /* SearchResultsViewController.swift */; };
-		137F4A422C25820600B787CB /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137F4A412C25820600B787CB /* LibraryView.swift */; };
+		137F4A422C25820600B787CB /* LibraryViewControlller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137F4A412C25820600B787CB /* LibraryViewControlller.swift */; };
 		137F4A442C258D9000B787CB /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 137F4A432C258D9000B787CB /* Settings.storyboard */; };
 		13AA298F2C245EDD00C8CA8E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AA298E2C245EDD00C8CA8E /* AppDelegate.swift */; };
 		13AA29912C245EDD00C8CA8E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AA29902C245EDD00C8CA8E /* SceneDelegate.swift */; };
@@ -27,6 +27,8 @@
 		13CD3A6D2C26028500B046F9 /* SeasonalAnime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CD3A6C2C26028500B046F9 /* SeasonalAnime.swift */; };
 		13CD3A7B2C26040C00B046F9 /* SeasonalAnimeCell-Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CD3A792C26040C00B046F9 /* SeasonalAnimeCell-Swift.swift */; };
 		13CD3A7C2C26040C00B046F9 /* SeasonalAnimeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13CD3A7A2C26040C00B046F9 /* SeasonalAnimeCell.xib */; };
+		13CD3A802C26B25E00B046F9 /* AnimeDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CD3A7F2C26B25E00B046F9 /* AnimeDetailsViewController.swift */; };
+		13CD3A832C26BB5C00B046F9 /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CD3A822C26BB5C00B046F9 /* FavoritesViewController.swift */; };
 		13E4464E2C25C38A002B14E8 /* WatchNextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E4464D2C25C38A002B14E8 /* WatchNextViewController.swift */; };
 		13E446522C25CBA3002B14E8 /* TrendingAnimeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13E446512C25CBA3002B14E8 /* TrendingAnimeCell.xib */; };
 		13E446542C25CBCA002B14E8 /* TrendingAnimeCell-Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E446532C25CBCA002B14E8 /* TrendingAnimeCell-Swift.swift */; };
@@ -52,7 +54,7 @@
 /* Begin PBXFileReference section */
 		137F4A322C255DA500B787CB /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		137F4A342C255E9700B787CB /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
-		137F4A412C25820600B787CB /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
+		137F4A412C25820600B787CB /* LibraryViewControlller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewControlller.swift; sourceTree = "<group>"; };
 		137F4A432C258D9000B787CB /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		13AA298B2C245EDD00C8CA8E /* AnimeLounge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnimeLounge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13AA298E2C245EDD00C8CA8E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -71,6 +73,8 @@
 		13CD3A6C2C26028500B046F9 /* SeasonalAnime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonalAnime.swift; sourceTree = "<group>"; };
 		13CD3A792C26040C00B046F9 /* SeasonalAnimeCell-Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SeasonalAnimeCell-Swift.swift"; sourceTree = "<group>"; };
 		13CD3A7A2C26040C00B046F9 /* SeasonalAnimeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SeasonalAnimeCell.xib; sourceTree = "<group>"; };
+		13CD3A7F2C26B25E00B046F9 /* AnimeDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeDetailsViewController.swift; sourceTree = "<group>"; };
+		13CD3A822C26BB5C00B046F9 /* FavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
 		13E4464D2C25C38A002B14E8 /* WatchNextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchNextViewController.swift; sourceTree = "<group>"; };
 		13E446512C25CBA3002B14E8 /* TrendingAnimeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TrendingAnimeCell.xib; sourceTree = "<group>"; };
 		13E446532C25CBCA002B14E8 /* TrendingAnimeCell-Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrendingAnimeCell-Swift.swift"; sourceTree = "<group>"; };
@@ -178,7 +182,7 @@
 		13AA29BE2C24708A00C8CA8E /* Library */ = {
 			isa = PBXGroup;
 			children = (
-				137F4A412C25820600B787CB /* LibraryView.swift */,
+				137F4A412C25820600B787CB /* LibraryViewControlller.swift */,
 			);
 			path = Library;
 			sourceTree = "<group>";
@@ -219,9 +223,27 @@
 			path = CustomCells;
 			sourceTree = "<group>";
 		};
+		13CD3A7E2C26B24D00B046F9 /* Anime Details */ = {
+			isa = PBXGroup;
+			children = (
+				13CD3A7F2C26B25E00B046F9 /* AnimeDetailsViewController.swift */,
+			);
+			path = "Anime Details";
+			sourceTree = "<group>";
+		};
+		13CD3A812C26BA2700B046F9 /* Favorites */ = {
+			isa = PBXGroup;
+			children = (
+				13CD3A822C26BB5C00B046F9 /* FavoritesViewController.swift */,
+			);
+			path = Favorites;
+			sourceTree = "<group>";
+		};
 		13E446412C25AC25002B14E8 /* SwiftViews */ = {
 			isa = PBXGroup;
 			children = (
+				13CD3A812C26BA2700B046F9 /* Favorites */,
+				13CD3A7E2C26B24D00B046F9 /* Anime Details */,
 				13E4464A2C25C33F002B14E8 /* Watch Next */,
 				137F4A2B2C255D1C00B787CB /* Search */,
 				13AA29BE2C24708A00C8CA8E /* Library */,
@@ -382,6 +404,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				13CD3A832C26BB5C00B046F9 /* FavoritesViewController.swift in Sources */,
 				137F4A332C255DA500B787CB /* SearchViewController.swift in Sources */,
 				13AA29932C245EDD00C8CA8E /* ViewController.swift in Sources */,
 				13AA298F2C245EDD00C8CA8E /* AppDelegate.swift in Sources */,
@@ -390,7 +413,8 @@
 				13CD3A6B2C2601E800B046F9 /* TrendingAnime.swift in Sources */,
 				13CD3A7B2C26040C00B046F9 /* SeasonalAnimeCell-Swift.swift in Sources */,
 				13E4464E2C25C38A002B14E8 /* WatchNextViewController.swift in Sources */,
-				137F4A422C25820600B787CB /* LibraryView.swift in Sources */,
+				13CD3A802C26B25E00B046F9 /* AnimeDetailsViewController.swift in Sources */,
+				137F4A422C25820600B787CB /* LibraryViewControlller.swift in Sources */,
 				13AA29912C245EDD00C8CA8E /* SceneDelegate.swift in Sources */,
 				13E446542C25CBCA002B14E8 /* TrendingAnimeCell-Swift.swift in Sources */,
 			);
@@ -580,7 +604,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -610,7 +634,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

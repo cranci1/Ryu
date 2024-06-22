@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LibraryView: UIViewController {
+class LibraryViewControlller: UIViewController {
     
     @IBOutlet var FavoritesBox: UIView!
     @IBOutlet var RecentsBox: UIView!
