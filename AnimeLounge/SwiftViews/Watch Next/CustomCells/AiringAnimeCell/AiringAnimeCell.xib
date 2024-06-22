@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AiringAnimeCell" id="wC7-Iu-Tuo" customClass="AiringAnimeCell" customModule="AnimeLounge" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="356" height="160"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                <rect key="frame" x="0.0" y="0.0" width="356" height="160"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LkD-LO-IJZ">
+                        <rect key="frame" x="0.0" y="0.0" width="104" height="156"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="LkD-LO-IJZ" secondAttribute="height" multiplier="24:36" id="YZ5-wK-Fkd"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="8"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="ignoresInvertColors" value="YES"/>
+                        </userDefinedRuntimeAttributes>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Anime Name" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="p6a-Op-VOY">
+                        <rect key="frame" x="116" y="68" width="220" height="25.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isPrimaryText" value="YES"/>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isThemable" value="YES"/>
+                        </userDefinedRuntimeAttributes>
+                    </label>
+                </subviews>
+            </view>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="p6a-Op-VOY" secondAttribute="trailing" constant="20" id="456-8s-d4g"/>
+                <constraint firstItem="p6a-Op-VOY" firstAttribute="leading" secondItem="LkD-LO-IJZ" secondAttribute="trailing" constant="12" id="DZ1-o0-wDt">
+                    <variation key="widthClass=regular" constant="32"/>
+                </constraint>
+                <constraint firstItem="LkD-LO-IJZ" firstAttribute="top" secondItem="wC7-Iu-Tuo" secondAttribute="top" id="Ovl-jx-hZ1"/>
+                <constraint firstAttribute="bottom" secondItem="LkD-LO-IJZ" secondAttribute="bottom" constant="4" id="SSE-PG-sk9"/>
+                <constraint firstItem="LkD-LO-IJZ" firstAttribute="leading" secondItem="wC7-Iu-Tuo" secondAttribute="leading" id="SdU-p9-IHT"/>
+                <constraint firstItem="p6a-Op-VOY" firstAttribute="bottom" secondItem="LkD-LO-IJZ" secondAttribute="centerY" priority="750" constant="15.5" id="T9b-3B-s8L"/>
+            </constraints>
+            <connections>
+                <outlet property="animeImageView" destination="LkD-LO-IJZ" id="jmd-bq-Sxt"/>
+                <outlet property="titleLabel" destination="p6a-Op-VOY" id="CeY-pp-9Ta"/>
+            </connections>
+            <point key="canvasLocation" x="117" y="-240"/>
+        </collectionViewCell>
+    </objects>
+</document>

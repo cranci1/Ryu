@@ -16,6 +16,9 @@
 		137F4A442C258D9000B787CB /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 137F4A432C258D9000B787CB /* Settings.storyboard */; };
 		139B16282C26F4A3007E3477 /* AnimeInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139B16272C26F4A3007E3477 /* AnimeInformation.swift */; };
 		139B162A2C26F4FC007E3477 /* AnilistAnimeInformation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 139B16292C26F4FC007E3477 /* AnilistAnimeInformation.storyboard */; };
+		139B16472C270D41007E3477 /* AiringAnime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139B16462C270D41007E3477 /* AiringAnime.swift */; };
+		139B164C2C270FAF007E3477 /* AiringAnimeCell-Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139B164A2C270FAF007E3477 /* AiringAnimeCell-Swift.swift */; };
+		139B164D2C270FAF007E3477 /* AiringAnimeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 139B164B2C270FAF007E3477 /* AiringAnimeCell.xib */; };
 		13AA298F2C245EDD00C8CA8E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AA298E2C245EDD00C8CA8E /* AppDelegate.swift */; };
 		13AA29912C245EDD00C8CA8E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AA29902C245EDD00C8CA8E /* SceneDelegate.swift */; };
 		13AA29932C245EDD00C8CA8E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AA29922C245EDD00C8CA8E /* ViewController.swift */; };
@@ -60,6 +63,9 @@
 		137F4A432C258D9000B787CB /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		139B16272C26F4A3007E3477 /* AnimeInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeInformation.swift; sourceTree = "<group>"; };
 		139B16292C26F4FC007E3477 /* AnilistAnimeInformation.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AnilistAnimeInformation.storyboard; sourceTree = "<group>"; };
+		139B16462C270D41007E3477 /* AiringAnime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AiringAnime.swift; sourceTree = "<group>"; };
+		139B164A2C270FAF007E3477 /* AiringAnimeCell-Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AiringAnimeCell-Swift.swift"; sourceTree = "<group>"; };
+		139B164B2C270FAF007E3477 /* AiringAnimeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AiringAnimeCell.xib; sourceTree = "<group>"; };
 		13AA298B2C245EDD00C8CA8E /* AnimeLounge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnimeLounge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13AA298E2C245EDD00C8CA8E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		13AA29902C245EDD00C8CA8E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -130,6 +136,25 @@
 				139B16292C26F4FC007E3477 /* AnilistAnimeInformation.storyboard */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		139B16482C270E07007E3477 /* Anime-Fetching */ = {
+			isa = PBXGroup;
+			children = (
+				139B16462C270D41007E3477 /* AiringAnime.swift */,
+				13CD3A6A2C2601E800B046F9 /* TrendingAnime.swift */,
+				13CD3A6C2C26028500B046F9 /* SeasonalAnime.swift */,
+			);
+			path = "Anime-Fetching";
+			sourceTree = "<group>";
+		};
+		139B16492C270F7D007E3477 /* AiringAnimeCell */ = {
+			isa = PBXGroup;
+			children = (
+				139B164A2C270FAF007E3477 /* AiringAnimeCell-Swift.swift */,
+				139B164B2C270FAF007E3477 /* AiringAnimeCell.xib */,
+			);
+			path = AiringAnimeCell;
 			sourceTree = "<group>";
 		};
 		13AA29822C245EDD00C8CA8E = {
@@ -204,8 +229,7 @@
 		13CD3A692C2601D500B046F9 /* Anilist-Services */ = {
 			isa = PBXGroup;
 			children = (
-				13CD3A6A2C2601E800B046F9 /* TrendingAnime.swift */,
-				13CD3A6C2C26028500B046F9 /* SeasonalAnime.swift */,
+				139B16482C270E07007E3477 /* Anime-Fetching */,
 				139B16272C26F4A3007E3477 /* AnimeInformation.swift */,
 			);
 			path = "Anilist-Services";
@@ -223,6 +247,7 @@
 		13CD3A7D2C26043500B046F9 /* CustomCells */ = {
 			isa = PBXGroup;
 			children = (
+				139B16492C270F7D007E3477 /* AiringAnimeCell */,
 				13CD3A6E2C26037800B046F9 /* SeasonalAnimeCell */,
 				13CD3A642C25D39000B046F9 /* TrendingAnimeCell */,
 			);
@@ -380,6 +405,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				139B164D2C270FAF007E3477 /* AiringAnimeCell.xib in Resources */,
 				13AA299B2C245EDF00C8CA8E /* LaunchScreen.storyboard in Resources */,
 				13AA29982C245EDF00C8CA8E /* Assets.xcassets in Resources */,
 				13AA29962C245EDD00C8CA8E /* Main.storyboard in Resources */,
@@ -415,9 +441,11 @@
 				137F4A332C255DA500B787CB /* SearchViewController.swift in Sources */,
 				13AA29932C245EDD00C8CA8E /* ViewController.swift in Sources */,
 				13AA298F2C245EDD00C8CA8E /* AppDelegate.swift in Sources */,
+				139B164C2C270FAF007E3477 /* AiringAnimeCell-Swift.swift in Sources */,
 				137F4A352C255E9700B787CB /* SearchResultsViewController.swift in Sources */,
 				139B16282C26F4A3007E3477 /* AnimeInformation.swift in Sources */,
 				13CD3A6D2C26028500B046F9 /* SeasonalAnime.swift in Sources */,
+				139B16472C270D41007E3477 /* AiringAnime.swift in Sources */,
 				13CD3A6B2C2601E800B046F9 /* TrendingAnime.swift in Sources */,
 				13CD3A7B2C26040C00B046F9 /* SeasonalAnimeCell-Swift.swift in Sources */,
 				13E4464E2C25C38A002B14E8 /* WatchNextViewController.swift in Sources */,

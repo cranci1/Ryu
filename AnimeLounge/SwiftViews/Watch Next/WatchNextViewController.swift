@@ -9,13 +9,17 @@ import UIKit
 
 class WatchNextViewController: UITableViewController {
     
+    @IBOutlet private weak var airingCollectionView: UICollectionView!
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var seasonalCollectionView: UICollectionView!
+    
     @IBOutlet weak var dateLabel: UILabel!
     
+    private var airingAnime: [Anime] = []
     private var trendingAnime: [Anime] = []
     private var seasonalAnime: [Anime] = []
     
+    private let aniListServiceAiring = AnilistServiceAiringAnime()
     private let aniListServiceTrending = AnilistServiceTrendingAnime()
     private let aniListServiceSeasonal = AnilistServiceSeasonalAnime()
     
@@ -25,9 +29,14 @@ class WatchNextViewController: UITableViewController {
         setupCollectionView()
         setupDateLabel()
         fetchAnimeData()
+        fetchAiringAnime()
     }
     
     func setupCollectionView() {
+        airingCollectionView.delegate = self
+        airingCollectionView.dataSource = self
+        airingCollectionView.register(UINib(nibName: "AiringAnimeCell", bundle: nil), forCellWithReuseIdentifier: "AiringAnimeCell")
+        
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(UINib(nibName: "TrendingAnimeCell", bundle: nil), forCellWithReuseIdentifier: "TrendingAnimeCell")
@@ -78,6 +87,20 @@ class WatchNextViewController: UITableViewController {
         }
     }
     
+    func fetchAiringAnime() {
+        aniListServiceAiring.fetchAiringAnime { [weak self] animeList in
+            guard let self = self else { return }
+            if let animeList = animeList {
+                self.airingAnime = animeList
+                DispatchQueue.main.async {
+                    self.airingCollectionView.reloadData()
+                }
+            } else {
+                print("Failed to fetch seasonal anime")
+            }
+        }
+    }
+    
 }
 
 extension WatchNextViewController: UICollectionViewDataSource {
@@ -86,6 +109,8 @@ extension WatchNextViewController: UICollectionViewDataSource {
             return trendingAnime.count
         } else if collectionView == self.seasonalCollectionView {
             return seasonalAnime.count
+        } else if collectionView == self.airingCollectionView {
+            return airingAnime.count
         }
         return 0
     }
@@ -103,6 +128,12 @@ extension WatchNextViewController: UICollectionViewDataSource {
             let imageUrl = URL(string: anime.coverImage.large)
             cell.configure(with: anime.title.romaji, imageUrl: imageUrl)
             return cell
+        } else if collectionView == self.airingCollectionView {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AiringAnimeCell", for: indexPath) as! AiringAnimeCell
+            let anime = airingAnime[indexPath.item]
+            let imageUrl = URL(string: anime.coverImage.large)
+            cell.configure(with: anime.title.romaji, imageUrl: imageUrl)
+            return cell
         }
         fatalError("Unexpected collection view")
     }
@@ -116,6 +147,8 @@ extension WatchNextViewController: UICollectionViewDelegate {
             selectedAnime = trendingAnime[indexPath.item]
         } else if collectionView == self.seasonalCollectionView {
             selectedAnime = seasonalAnime[indexPath.item]
+        } else if collectionView == self.airingCollectionView {
+            selectedAnime = airingAnime[indexPath.item]
         }
         
         guard let anime = selectedAnime else { return }
