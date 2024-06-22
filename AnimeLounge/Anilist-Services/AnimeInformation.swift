@@ -15,6 +15,7 @@ class AnimeInformation: UITableViewController {
     
     private let coverImageView = UIImageView()
     private let bannerImageView = UIImageView()
+    private let titleLabel = UILabel()
     private let loadingIndicator = UIActivityIndicatorView(style: .medium)
     
     override func viewDidLoad() {
@@ -40,9 +41,11 @@ class AnimeInformation: UITableViewController {
         
         headerView.addSubview(bannerImageView)
         headerView.addSubview(coverImageView)
+        headerView.addSubview(titleLabel)
         
         bannerImageView.translatesAutoresizingMaskIntoConstraints = false
         coverImageView.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             bannerImageView.topAnchor.constraint(equalTo: headerView.topAnchor),
@@ -53,13 +56,19 @@ class AnimeInformation: UITableViewController {
             coverImageView.topAnchor.constraint(equalTo: bannerImageView.bottomAnchor, constant: -50),
             coverImageView.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16),
             coverImageView.widthAnchor.constraint(equalToConstant: 100),
-            coverImageView.heightAnchor.constraint(equalToConstant: 150)
+            coverImageView.heightAnchor.constraint(equalToConstant: 150),
+            
+            titleLabel.topAnchor.constraint(equalTo: bannerImageView.bottomAnchor, constant: 8),
+            titleLabel.leadingAnchor.constraint(equalTo: coverImageView.trailingAnchor, constant: 16),
+            titleLabel.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -16)
         ])
         
         coverImageView.layer.cornerRadius = 8
         coverImageView.clipsToBounds = true
         coverImageView.contentMode = .scaleAspectFill
         bannerImageView.contentMode = .scaleAspectFill
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        titleLabel.numberOfLines = 0
         
         tableView.tableHeaderView = headerView
     }
@@ -90,8 +99,9 @@ class AnimeInformation: UITableViewController {
     private func updateUI() {
         guard let animeData = animeData else { return }
         
-        if let title = (animeData["title"] as? [String: String])?["romaji"] {
-            self.title = title
+        if let titleDict = animeData["title"] as? [String: String] {
+            self.title = titleDict["romaji"]
+            titleLabel.text = titleDict["english"] ?? titleDict["romaji"]
         }
         
         if let coverImage = (animeData["coverImage"] as? [String: String])?["large"],
@@ -123,7 +133,7 @@ class AnimeInformation: UITableViewController {
         } else {
             if let characters = animeData?["characters"] as? [String: Any],
                let edges = characters["edges"] as? [[String: Any]] {
-                return edges.count
+                return 1 // Only one row for horizontal scrollable characters
             }
             return 0
         }
@@ -138,7 +148,7 @@ class AnimeInformation: UITableViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: "AnimeCharacterCell", for: indexPath) as! AnimeCharacterCell
             if let characters = animeData?["characters"] as? [String: Any],
                let edges = characters["edges"] as? [[String: Any]] {
-                cell.configure(with: edges[indexPath.row])
+                cell.configure(with: edges)
             }
             return cell
         }
@@ -213,13 +223,66 @@ class AnimeInfoCell: UITableViewCell {
     }
 }
 
-class AnimeCharacterCell: UITableViewCell {
-    private let characterImageView = UIImageView()
-    private let nameLabel = UILabel()
-    private let roleLabel = UILabel()
+class AnimeCharacterCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource {
+    private let collectionView: UICollectionView
+    private var characters: [[String: Any]] = []
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        setupUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupUI() {
+        collectionView.backgroundColor = UIColor.secondarySystemBackground
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.register(CharacterCollectionViewCell.self, forCellWithReuseIdentifier: "CharacterCollectionViewCell")
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.showsHorizontalScrollIndicator = false
+        
+        contentView.addSubview(collectionView)
+        
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            collectionView.heightAnchor.constraint(equalToConstant: 120)
+        ])
+    }
+    
+    func configure(with characters: [[String: Any]]) {
+        self.characters = characters
+        collectionView.reloadData()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return characters.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CharacterCollectionViewCell", for: indexPath) as! CharacterCollectionViewCell
+        cell.configure(with: characters[indexPath.row])
+        return cell
+    }
+}
+
+class CharacterCollectionViewCell: UICollectionViewCell {
+    private let characterImageView = UIImageView()
+    private let nameLabel = UILabel()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
         setupUI()
     }
     
@@ -230,35 +293,29 @@ class AnimeCharacterCell: UITableViewCell {
     private func setupUI() {
         characterImageView.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        roleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         contentView.addSubview(characterImageView)
         contentView.addSubview(nameLabel)
-        contentView.addSubview(roleLabel)
         
         NSLayoutConstraint.activate([
-            characterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            characterImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            characterImageView.widthAnchor.constraint(equalToConstant: 50),
-            characterImageView.heightAnchor.constraint(equalToConstant: 50),
+            characterImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            characterImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            characterImageView.widthAnchor.constraint(equalToConstant: 80),
+            characterImageView.heightAnchor.constraint(equalToConstant: 80),
             
-            nameLabel.leadingAnchor.constraint(equalTo: characterImageView.trailingAnchor, constant: 16),
-            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            
-            roleLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
-            roleLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 4),
-            roleLabel.trailingAnchor.constraint(equalTo: nameLabel.trailingAnchor),
-            roleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
+            nameLabel.topAnchor.constraint(equalTo: characterImageView.bottomAnchor, constant: 4),
+            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            nameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
         
         characterImageView.contentMode = .scaleAspectFill
         characterImageView.clipsToBounds = true
-        characterImageView.layer.cornerRadius = 25
+        characterImageView.layer.cornerRadius = 40
         
-        nameLabel.font = UIFont.boldSystemFont(ofSize: 16)
-        roleLabel.font = UIFont.systemFont(ofSize: 14)
-        roleLabel.textColor = .gray
+        nameLabel.textAlignment = .center
+        nameLabel.font = UIFont.systemFont(ofSize: 12)
+        nameLabel.numberOfLines = 2
     }
     
     func configure(with character: [String: Any]) {
@@ -266,8 +323,6 @@ class AnimeCharacterCell: UITableViewCell {
            let name = node["name"] as? [String: String] {
             nameLabel.text = name["full"]
         }
-        
-        roleLabel.text = character["role"] as? String
         
         if let node = character["node"] as? [String: Any],
            let image = node["image"] as? [String: String],
@@ -359,3 +414,4 @@ class AnimeService {
     }
 }
  
+

@@ -404,27 +404,39 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                         <sections>
-                            <tableViewSection id="W6V-ZM-u7b">
+                            <tableViewSection id="3NA-2J-jaD">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="next.standard" rowHeight="260" id="OFT-fu-aRk" customClass="DiscoveryStandardTableViewCell" customModule="AnimeLounge" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="44.5" width="375" height="260"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="267" id="nNJ-3M-tzB">
+                                        <rect key="frame" x="0.0" y="44.5" width="375" height="267"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="OFT-fu-aRk" id="isH-Od-wQN">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="260"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="nNJ-3M-tzB" id="r1P-dh-oap">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="267"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Airing" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4y4-kT-alg">
-                                                    <rect key="frame" x="16" y="11" width="59" height="26.5"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Airing" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RyN-Df-wHG">
+                                                    <rect key="frame" x="16" y="19" width="57" height="26"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="21"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="isPrimaryText" value="YES"/>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="isThemable" value="YES"/>
+                                                    </userDefinedRuntimeAttributes>
                                                 </label>
-                                                <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" preservesSuperviewLayoutMargins="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="plQ-SY-vbZ">
-                                                    <rect key="frame" x="0.0" y="41" width="375" height="208"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This Week" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hC2-iU-UXJ">
+                                                    <rect key="frame" x="78" y="28" width="69.5" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ehn-iZ-v4H">
+                                                    <rect key="frame" x="0.0" y="53" width="375" height="203"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="180" id="ei2-fh-XCC"/>
+                                                    </constraints>
                                                     <inset key="scrollIndicatorInsets" minX="18" minY="0.0" maxX="18" maxY="0.0"/>
-                                                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" sectionInsetReference="layoutMargins" id="zRJ-zO-yL3">
+                                                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" sectionInsetReference="layoutMargins" id="hs5-mb-kxb">
                                                         <size key="itemSize" width="356" height="160"/>
                                                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                                         <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -435,27 +447,26 @@
                                                         <userDefinedRuntimeAttribute type="boolean" keyPath="isThemable" value="YES"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </collectionView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="This Week" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="POp-Rf-bSc">
-                                                    <rect key="frame" x="83" y="16" width="69.5" height="17"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
-                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="4y4-kT-alg" firstAttribute="leading" secondItem="isH-Od-wQN" secondAttribute="leadingMargin" id="KLF-vN-opw"/>
-                                                <constraint firstItem="4y4-kT-alg" firstAttribute="top" secondItem="isH-Od-wQN" secondAttribute="topMargin" id="ZtU-HJ-UIN"/>
+                                                <constraint firstItem="hC2-iU-UXJ" firstAttribute="bottom" secondItem="RyN-Df-wHG" secondAttribute="bottom" id="GPR-Ut-sEg"/>
+                                                <constraint firstItem="ehn-iZ-v4H" firstAttribute="bottom" secondItem="r1P-dh-oap" secondAttribute="bottomMargin" priority="750" id="Ldg-AE-LQM"/>
+                                                <constraint firstItem="ehn-iZ-v4H" firstAttribute="leading" secondItem="r1P-dh-oap" secondAttribute="leading" id="Qy7-5y-yCf"/>
+                                                <constraint firstItem="ehn-iZ-v4H" firstAttribute="top" secondItem="RyN-Df-wHG" secondAttribute="bottom" constant="8" id="W9N-l3-ZBi"/>
+                                                <constraint firstItem="RyN-Df-wHG" firstAttribute="top" secondItem="r1P-dh-oap" secondAttribute="topMargin" constant="8" id="abw-lN-0NI"/>
+                                                <constraint firstItem="ehn-iZ-v4H" firstAttribute="trailing" secondItem="r1P-dh-oap" secondAttribute="trailing" id="lOe-wM-ZTk"/>
+                                                <constraint firstItem="RyN-Df-wHG" firstAttribute="leading" secondItem="r1P-dh-oap" secondAttribute="leadingMargin" id="oYw-8X-qKP"/>
+                                                <constraint firstItem="hC2-iU-UXJ" firstAttribute="leading" secondItem="RyN-Df-wHG" secondAttribute="trailing" constant="5" id="tUC-aI-wLx"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection id="6fO-PT-Ky8">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="next.standard" rowHeight="285" id="e1S-QQ-s4i" customClass="DiscoveryStandardTableViewCell" customModule="AnimeLounge" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="371.5" width="375" height="285"/>
+                                        <rect key="frame" x="0.0" y="378.5" width="375" height="285"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="e1S-QQ-s4i" id="Klu-ZE-YR1">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="285"/>
@@ -507,7 +518,7 @@
                             <tableViewSection id="7Xc-XD-94i">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="next.standard" rowHeight="285" id="Rjk-gX-FSs" customClass="DiscoveryStandardTableViewCell" customModule="AnimeLounge" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="723.5" width="375" height="285"/>
+                                        <rect key="frame" x="0.0" y="730.5" width="375" height="285"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Rjk-gX-FSs" id="S42-Hj-6MZ">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="285"/>
@@ -578,7 +589,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="airingCollectionView" destination="plQ-SY-vbZ" id="akZ-Tn-deY"/>
+                        <outlet property="airingCollectionView" destination="ehn-iZ-v4H" id="1Ic-6R-wjh"/>
                         <outlet property="collectionView" destination="ETm-Rp-jlq" id="Ckk-gJ-fPQ"/>
                         <outlet property="dateLabel" destination="LQu-l0-ydi" id="hTG-rm-0k1"/>
                         <outlet property="seasonalCollectionView" destination="S4e-tD-YKq" id="AQY-Tx-PMp"/>
