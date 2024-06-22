@@ -29,7 +29,6 @@ class WatchNextViewController: UITableViewController {
         setupCollectionView()
         setupDateLabel()
         fetchAnimeData()
-        fetchAiringAnime()
     }
     
     func setupCollectionView() {
@@ -57,6 +56,7 @@ class WatchNextViewController: UITableViewController {
     func fetchAnimeData() {
         fetchTrendingAnime()
         fetchSeasonalAnime()
+        fetchAiringAnime()
     }
     
     func fetchTrendingAnime() {
@@ -100,7 +100,6 @@ class WatchNextViewController: UITableViewController {
             }
         }
     }
-    
 }
 
 extension WatchNextViewController: UICollectionViewDataSource {
@@ -132,7 +131,13 @@ extension WatchNextViewController: UICollectionViewDataSource {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AiringAnimeCell", for: indexPath) as! AiringAnimeCell
             let anime = airingAnime[indexPath.item]
             let imageUrl = URL(string: anime.coverImage.large)
-            cell.configure(with: anime.title.romaji, imageUrl: imageUrl)
+            cell.configure(
+                with: anime.title.romaji,
+                imageUrl: imageUrl,
+                episodes: anime.episodes,
+                description: anime.description,
+                airingAt: anime.airingAt
+            )
             return cell
         }
         fatalError("Unexpected collection view")
@@ -165,6 +170,9 @@ struct Anime {
     let id: Int
     let title: Title
     let coverImage: CoverImage
+    let episodes: Int?
+    let description: String?
+    let airingAt: Int?
     var mediaRelations: [MediaRelation] = []
     var characters: [Character] = []
 }
@@ -194,6 +202,8 @@ struct Character {
 
 struct Title {
     let romaji: String
+    let english: String?
+    let native: String?
 }
 
 struct CoverImage {

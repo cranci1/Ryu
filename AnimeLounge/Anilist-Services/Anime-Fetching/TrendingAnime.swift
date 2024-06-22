@@ -18,6 +18,8 @@ class AnilistServiceTrendingAnime {
               id
               title {
                 romaji
+                english
+                native
               }
               coverImage {
                 large
@@ -45,13 +47,22 @@ class AnilistServiceTrendingAnime {
                             guard let id = item["id"] as? Int,
                                   let titleData = item["title"] as? [String: Any],
                                   let romaji = titleData["romaji"] as? String,
+                                  let english = titleData["english"] as? String?,
+                                  let native = titleData["native"] as? String?,
                                   let coverImageData = item["coverImage"] as? [String: Any],
                                   let largeImageUrl = coverImageData["large"] as? String,
                                   let imageUrl = URL(string: largeImageUrl) else {
                                 return nil
                             }
                             
-                            let anime = Anime(id: id, title: Title(romaji: romaji), coverImage: CoverImage(large: imageUrl.absoluteString))
+                            let anime = Anime(
+                                id: id,
+                                title: Title(romaji: romaji, english: english, native: native),
+                                coverImage: CoverImage(large: imageUrl.absoluteString),
+                                episodes: nil,
+                                description: nil,
+                                airingAt: nil
+                            )
                             return anime
                         }
                         

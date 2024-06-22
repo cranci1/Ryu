@@ -31,18 +31,19 @@ class AnilistServiceAiringAnime {
                         coverImage {
                             extraLarge
                         }
+                        episodes
+                        description(asHtml: false)
                     }
                 }
             }
         }
         """
         
-        // Set up variables for the GraphQL query
         let variables: [String: Any] = [
             "page": 1,
             "perPage": 50,
             "startTime": Int(Date().timeIntervalSince1970),
-            "endTime": Int(Date().timeIntervalSince1970) + (7 * 24 * 60 * 60)  // Fetch for the next 7 days
+            "endTime": Int(Date().timeIntervalSince1970) + (7 * 24 * 60 * 60)
         ]
         
         let parameters: [String: Any] = [
@@ -65,14 +66,26 @@ class AnilistServiceAiringAnime {
                                   let id = media["id"] as? Int,
                                   let titleData = media["title"] as? [String: Any],
                                   let romaji = titleData["romaji"] as? String,
+                                  let english = titleData["english"] as? String?,
+                                  let native = titleData["native"] as? String?,
                                   let coverImageData = media["coverImage"] as? [String: Any],
                                   let extraLargeImageUrl = coverImageData["extraLarge"] as? String,
-                                  let imageUrl = URL(string: extraLargeImageUrl),
-                                  let _ = schedule["airingAt"] as? Int else {
+                                  let imageUrl = URL(string: extraLargeImageUrl) else {
                                 return nil
                             }
                             
-                            let anime = Anime(id: id, title: Title(romaji: romaji), coverImage: CoverImage(large: imageUrl.absoluteString))
+                            let episodes = media["episodes"] as? Int
+                            let description = media["description"] as? String
+                            let airingAt = schedule["airingAt"] as? Int
+                            
+                            let anime = Anime(
+                                id: id,
+                                title: Title(romaji: romaji, english: english, native: native),
+                                coverImage: CoverImage(large: imageUrl.absoluteString),
+                                episodes: episodes,
+                                description: description,
+                                airingAt: airingAt
+                            )
                             
                             return anime
                         }
