@@ -133,7 +133,7 @@ class AnimeInformation: UITableViewController {
         } else {
             if let characters = animeData?["characters"] as? [String: Any],
                let edges = characters["edges"] as? [[String: Any]] {
-                return 1 // Only one row for horizontal scrollable characters
+                return 1
             }
             return 0
         }
