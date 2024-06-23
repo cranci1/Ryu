@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		130645DD2C288CEA004642B3 /* AnimeWorld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130645DC2C288CEA004642B3 /* AnimeWorld.swift */; };
 		137F49D92C24B60800B787CB /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 137F49D82C24B60800B787CB /* SwiftSoup */; };
 		137F49EC2C254DCA00B787CB /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 137F49EB2C254DCA00B787CB /* Alamofire */; };
 		137F4A332C255DA500B787CB /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137F4A322C255DA500B787CB /* SearchViewController.swift */; };
@@ -58,6 +59,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		130645DC2C288CEA004642B3 /* AnimeWorld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeWorld.swift; sourceTree = "<group>"; };
 		137F4A322C255DA500B787CB /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		137F4A342C255E9700B787CB /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
 		137F4A412C25820600B787CB /* LibraryViewControlller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewControlller.swift; sourceTree = "<group>"; };
@@ -120,6 +122,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		130645DA2C288CD3004642B3 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				130645DB2C288CDA004642B3 /* AnimeWorld */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		130645DB2C288CDA004642B3 /* AnimeWorld */ = {
+			isa = PBXGroup;
+			children = (
+				130645DC2C288CEA004642B3 /* AnimeWorld.swift */,
+			);
+			path = AnimeWorld;
+			sourceTree = "<group>";
+		};
 		137F4A2B2C255D1C00B787CB /* Search */ = {
 			isa = PBXGroup;
 			children = (
@@ -190,6 +208,7 @@
 		13AA298D2C245EDD00C8CA8E /* AnimeLounge */ = {
 			isa = PBXGroup;
 			children = (
+				130645DA2C288CD3004642B3 /* Sources */,
 				13CD3A692C2601D500B046F9 /* Anilist-Services */,
 				13E446412C25AC25002B14E8 /* SwiftViews */,
 				137F4A452C258DE200B787CB /* Views */,
@@ -463,6 +482,7 @@
 				139B16502C272A55007E3477 /* SettingsViewController.swift in Sources */,
 				13CD3A802C26B25E00B046F9 /* AnimeDetailsViewController.swift in Sources */,
 				137F4A422C25820600B787CB /* LibraryViewControlller.swift in Sources */,
+				130645DD2C288CEA004642B3 /* AnimeWorld.swift in Sources */,
 				13AA29912C245EDD00C8CA8E /* SceneDelegate.swift in Sources */,
 				13E446542C25CBCA002B14E8 /* TrendingAnimeCell-Swift.swift in Sources */,
 			);

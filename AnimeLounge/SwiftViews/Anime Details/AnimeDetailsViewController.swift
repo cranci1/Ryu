@@ -384,6 +384,7 @@ extension AnimeDetailViewController: UITableViewDataSource, UITableViewDelegate 
 
 class EpisodeCell: UITableViewCell {
     let episodeLabel = UILabel()
+    let downloadButton = UIButton(type: .system)
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -396,14 +397,23 @@ class EpisodeCell: UITableViewCell {
     
     private func setupCell() {
         contentView.addSubview(episodeLabel)
+        contentView.addSubview(downloadButton)
+        
         episodeLabel.translatesAutoresizingMaskIntoConstraints = false
+        downloadButton.translatesAutoresizingMaskIntoConstraints = false
         
         episodeLabel.font = UIFont.systemFont(ofSize: 16)
+        downloadButton.setImage(UIImage(systemName: "icloud.and.arrow.down"), for: .normal)
+        downloadButton.tintColor = .systemTeal
         
         NSLayoutConstraint.activate([
             episodeLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            episodeLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            episodeLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            episodeLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            
+            downloadButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            downloadButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            downloadButton.widthAnchor.constraint(equalToConstant: 30),
+            downloadButton.heightAnchor.constraint(equalToConstant: 30)
         ])
     }
 }

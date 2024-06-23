@@ -289,6 +289,7 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="historyTableView" destination="xbx-GI-YdK" id="gBn-9z-ugI"/>
                         <outlet property="searchBar" destination="K3f-Dc-Cgq" id="QM0-dJ-O3m"/>
                     </connections>
                 </tableViewController>
