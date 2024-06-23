@@ -81,28 +81,62 @@ class AnimeDetailViewController: UIViewController {
     }
 
     private func fetchAnimeDetails(from href: String) {
-        let fullUrl = "https://animeworld.so" + href
+        guard let selectedSource = UserDefaults.standard.selectedMediaSource else {
+            showAlert(title: "Error", message: "No media source selected.")
+            return
+        }
+        
+        let baseUrl: String
+        switch selectedSource {
+        case .animeWorld:
+            baseUrl = "https://animeworld.so"
+        case .monoschinos:
+            baseUrl = ""
+        case .gogoanime:
+            baseUrl = ""
+        }
+        
+        let fullUrl = baseUrl + href
         AF.request(fullUrl).responseString { [weak self] response in
             guard let self = self else { return }
             switch response.result {
             case .success(let html):
-                self.parseAnimeDetails(html: html)
+                self.parseAnimeDetails(html: html, for: selectedSource)
             case .failure(let error):
                 print("Failed to fetch anime details: \(error.localizedDescription)")
                 self.showAlert(title: "Error", message: "Failed to fetch anime details. Please try again later.")
             }
         }
     }
-
-    private func parseAnimeDetails(html: String) {
+    
+    private func parseAnimeDetails(html: String, for source: MediaSource) {
         do {
             let document = try SwiftSoup.parse(html)
-            let aliases = try document.select("selector-for-alias").text()
-            let airDate = try document.select("dt:contains(Data di Uscita) + dd").text()
-            let rating = try document.select("dd.rating span#average-vote").text()
-            let synopsis = try document.select("div.info div.desc").text()
             
-            fetchEpisodes(document: document)
+            var aliases = ""
+            var airDate = ""
+            var rating = ""
+            var synopsis = ""
+            
+            switch source {
+            case .animeWorld:
+                aliases = try document.select("selector-for-alias").text()
+                airDate = try document.select("dt:contains(Data di Uscita) + dd").text()
+                rating = try document.select("dd.rating span#average-vote").text()
+                synopsis = try document.select("div.info div.desc").text()
+            case .monoschinos:
+                aliases = try document.select("div.d-flex.flex-column.pt-3 h1").text()
+                airDate = ""
+                rating = ""
+                synopsis = try document.select("div.d-flex.flex-column.pt-3 span").text()
+            case .gogoanime:
+                aliases = try document.select("p.type.other-name span + a").text()
+                airDate = try document.select("p.type:contains(Released:)").text().replacingOccurrences(of: "Released: ", with: "")
+                synopsis = try document.select("div.description").text()
+                rating = "" // Gogoanime does not provide rating in the given HTML structure
+            }
+            
+            fetchEpisodes(document: document, for: source)
             
             DispatchQueue.main.async {
                 self.aliasLabel.text = aliases
@@ -115,9 +149,19 @@ class AnimeDetailViewController: UIViewController {
         }
     }
     
-    private func fetchEpisodes(document: Document) {
+    private func fetchEpisodes(document: Document, for source: MediaSource) {
         do {
-            let episodeElements = try document.select("div.server.active ul.episodes li.episode a")
+            var episodeElements: Elements
+            
+            switch source {
+            case .animeWorld:
+                episodeElements = try document.select("div.server.active ul.episodes li.episode a")
+            case .monoschinos:
+                episodeElements = try document.select("div.episode-list a.episode-link")
+            case .gogoanime:
+                episodeElements = try document.select("ul.episode-items li a.episode-item")
+            }
+            
             episodes = episodeElements.compactMap { element in
                 guard let episodeNumber = try? element.text(),
                       let href = try? element.attr("href") else { return nil }
@@ -269,11 +313,11 @@ class AnimeDetailViewController: UIViewController {
         toggleSynopsisButton.addTarget(self, action: #selector(toggleSynopsis), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
-            synopsisLabel.topAnchor.constraint(equalTo: airDateLabel.bottomAnchor, constant: 16),
-            synopsisLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            synopsisLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10),
+            synopsisLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor),
             
             synopsisDescriptionLabel.topAnchor.constraint(equalTo: synopsisLabel.bottomAnchor, constant: 8),
-            synopsisDescriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            synopsisDescriptionLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor),
             synopsisDescriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
             toggleSynopsisButton.centerYAnchor.constraint(equalTo: synopsisLabel.centerYAnchor),

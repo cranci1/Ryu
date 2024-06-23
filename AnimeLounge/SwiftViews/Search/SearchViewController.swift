@@ -33,16 +33,33 @@ class SearchViewController: UIViewController {
         searchHistory.insert(query, at: 0)
         saveSearchHistory()
         historyTableView.reloadData()
-        
-        let url = "https://animeworld.so/search"
-        let parameters: Parameters = ["keyword": query]
-        
+
+        guard let selectedSource = UserDefaults.standard.selectedMediaSource else {
+            showAlert(title: "Error", message: "No media source selected.")
+            return
+        }
+
+        let url: String
+        let parameters: Parameters
+
+        switch selectedSource {
+        case .animeWorld:
+            url = "https://animeworld.so/search"
+            parameters = ["keyword": query]
+        case .monoschinos:
+            url = "https://monoschinos2.com/buscar"
+            parameters = ["q": query]
+        case .gogoanime:
+            url = "https://gogoanime3.co/search.html"
+            parameters = ["keyword": query]
+        }
+
         AF.request(url, parameters: parameters).responseString { [weak self] response in
             guard let self = self else { return }
-            
+
             switch response.result {
             case .success(let value):
-                let results = self.parseHTML(html: value)
+                let results = self.parseHTML(html: value, for: selectedSource)
                 self.navigateToResults(with: results)
             case .failure(let error):
                 self.showAlert(title: "Error", message: "Failed to fetch data. Please try again later.")
@@ -51,17 +68,40 @@ class SearchViewController: UIViewController {
         }
     }
     
-    func parseHTML(html: String) -> [(title: String, imageUrl: String, href: String)] {
+    func parseHTML(html: String, for source: MediaSource) -> [(title: String, imageUrl: String, href: String)] {
         do {
             let document = try SwiftSoup.parse(html)
-            let items = try document.select(".film-list .item")
             var results: [(title: String, imageUrl: String, href: String)] = []
-            for item in items {
-                let title = try item.select("a.name").text()
-                let imageUrl = try item.select("a.poster img").attr("src")
-                let href = try item.select("a.poster").attr("href")
-                results.append((title: title, imageUrl: imageUrl, href: href))
+
+            switch source {
+            case .animeWorld:
+                let items = try document.select(".film-list .item")
+                for item in items {
+                    let title = try item.select("a.name").text()
+                    let imageUrl = try item.select("a.poster img").attr("src")
+                    let href = try item.select("a.poster").attr("href")
+                    results.append((title: title, imageUrl: imageUrl, href: href))
+                }
+            case .monoschinos:
+                let items = try document.select("li.ficha_efecto")
+                for item in items {
+                    let linkElement = try item.select("a").first()
+                    let href = try linkElement?.attr("href") ?? ""
+                    let imageUrl = try linkElement?.select("img").attr("data-src") ?? ""
+                    let title = try linkElement?.select("h3.title_cap").text() ?? ""
+                    results.append((title: title, imageUrl: imageUrl, href: href))
+                }
+            case .gogoanime:
+                let items = try document.select("ul.items li")
+                for item in items {
+                    let linkElement = try item.select("a").first()
+                    let href = try linkElement?.attr("href") ?? ""
+                    let imageUrl = try linkElement?.select("img").attr("src") ?? ""
+                    let title = try linkElement?.attr("title") ?? ""
+                    results.append((title: title, imageUrl: imageUrl, href: href))
+                }
             }
+            
             return results
         } catch {
             print("Error parsing HTML: \(error.localizedDescription)")

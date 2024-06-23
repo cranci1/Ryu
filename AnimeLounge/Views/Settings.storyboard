@@ -11,7 +11,7 @@
         <!--Settings-->
         <scene sceneID="PN2-dX-KkT">
             <objects>
-                <tableViewController id="pc2-lO-9Ci" sceneMemberID="viewController">
+                <tableViewController id="pc2-lO-9Ci" customClass="SettingsViewController" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="pHY-2n-1Hq">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -31,9 +31,19 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dzf-hZ-WRn">
+                                                    <rect key="frame" x="139.5" y="6.5" width="67" height="31"/>
+                                                    <state key="normal" title="Button"/>
+                                                    <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                                    <connections>
+                                                        <action selector="selectSourceButtonTapped:" destination="pc2-lO-9Ci" eventType="touchUpInside" id="Tfa-Ya-iXb"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="Dzf-hZ-WRn" firstAttribute="centerY" secondItem="QHg-2c-5oZ" secondAttribute="centerY" id="6uY-0W-I4q"/>
                                                 <constraint firstItem="lKL-3a-n9V" firstAttribute="leading" secondItem="QHg-2c-5oZ" secondAttribute="leading" constant="15" id="V3b-0w-bUo"/>
+                                                <constraint firstItem="Dzf-hZ-WRn" firstAttribute="centerX" secondItem="QHg-2c-5oZ" secondAttribute="centerX" id="gQD-QW-h6D"/>
                                                 <constraint firstItem="lKL-3a-n9V" firstAttribute="centerY" secondItem="QHg-2c-5oZ" secondAttribute="centerY" id="xPC-va-UKY"/>
                                             </constraints>
                                         </tableViewCellContentView>

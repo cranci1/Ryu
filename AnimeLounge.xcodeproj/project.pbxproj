@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		130645DD2C288CEA004642B3 /* AnimeWorld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130645DC2C288CEA004642B3 /* AnimeWorld.swift */; };
+		130645DF2C28A27E004642B3 /* Sources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130645DE2C28A27E004642B3 /* Sources.swift */; };
 		137F49D92C24B60800B787CB /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 137F49D82C24B60800B787CB /* SwiftSoup */; };
 		137F49EC2C254DCA00B787CB /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 137F49EB2C254DCA00B787CB /* Alamofire */; };
 		137F4A332C255DA500B787CB /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137F4A322C255DA500B787CB /* SearchViewController.swift */; };
@@ -60,6 +61,7 @@
 
 /* Begin PBXFileReference section */
 		130645DC2C288CEA004642B3 /* AnimeWorld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeWorld.swift; sourceTree = "<group>"; };
+		130645DE2C28A27E004642B3 /* Sources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources.swift; sourceTree = "<group>"; };
 		137F4A322C255DA500B787CB /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		137F4A342C255E9700B787CB /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
 		137F4A412C25820600B787CB /* LibraryViewControlller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewControlller.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				130645DB2C288CDA004642B3 /* AnimeWorld */,
+				130645DE2C28A27E004642B3 /* Sources.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -484,6 +487,7 @@
 				137F4A422C25820600B787CB /* LibraryViewControlller.swift in Sources */,
 				130645DD2C288CEA004642B3 /* AnimeWorld.swift in Sources */,
 				13AA29912C245EDD00C8CA8E /* SceneDelegate.swift in Sources */,
+				130645DF2C28A27E004642B3 /* Sources.swift in Sources */,
 				13E446542C25CBCA002B14E8 /* TrendingAnimeCell-Swift.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
