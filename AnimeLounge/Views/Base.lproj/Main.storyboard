@@ -246,7 +246,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Library" id="0UW-nF-Gvu">
                         <barButtonItem key="rightBarButtonItem" id="z00-5E-Bud">
-                            <imageReference key="image" image="gearshape" catalog="system" symbolScale="large"/>
+                            <imageReference key="image" image="gear" catalog="system" symbolScale="large"/>
                             <color key="tintColor" name="AccentColor"/>
                             <connections>
                                 <segue destination="tkJ-qb-Pci" kind="show" id="QUk-Rn-qDy"/>
@@ -283,7 +283,7 @@
                             <color key="tintColor" name="AccentColor"/>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" id="teZ-LN-6Pb">
-                            <imageReference key="image" image="gearshape" catalog="system" symbolScale="large"/>
+                            <imageReference key="image" image="gear" catalog="system" symbolScale="large"/>
                             <color key="tintColor" name="AccentColor"/>
                         </barButtonItem>
                     </navigationItem>
@@ -373,7 +373,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Favorites" id="BBu-Lh-qnt">
                         <barButtonItem key="rightBarButtonItem" id="2ET-QB-yVC">
-                            <imageReference key="image" image="gearshape" catalog="system" symbolScale="large"/>
+                            <imageReference key="image" image="gear" catalog="system" symbolScale="large"/>
                             <color key="tintColor" name="AccentColor"/>
                             <connections>
                                 <segue destination="tkJ-qb-Pci" kind="show" id="A4S-3U-V1x"/>
@@ -581,7 +581,7 @@
                             <color key="tintColor" name="AccentColor"/>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" id="jaz-KQ-Hh9">
-                            <imageReference key="image" image="gearshape" catalog="system" symbolScale="large"/>
+                            <imageReference key="image" image="gear" catalog="system" symbolScale="large"/>
                             <color key="tintColor" name="AccentColor"/>
                             <connections>
                                 <segue destination="tkJ-qb-Pci" kind="show" id="Af5-Kj-0iD"/>
@@ -601,12 +601,12 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Af5-Kj-0iD"/>
+        <segue reference="QUk-Rn-qDy"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.down.circle.fill" catalog="system" width="128" height="121"/>
         <image name="clock.arrow.circlepath" catalog="system" width="128" height="110"/>
-        <image name="gearshape" catalog="system" width="128" height="121"/>
+        <image name="gear" catalog="system" width="128" height="119"/>
         <image name="play.tv.fill" catalog="system" width="128" height="97"/>
         <image name="square.stack.fill" catalog="system" width="113" height="128"/>
         <image name="star.fill" catalog="system" width="128" height="116"/>
