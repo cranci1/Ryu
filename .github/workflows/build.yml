@@ -27,5 +27,5 @@ jobs:
     - name: Upload IPA artifact
       uses: actions/upload-artifact@v4
       with:
-        name: AnimeGen-IPA
+        name: AnimeLounge-IPA
         path: build/AnimeLounge.ipa
