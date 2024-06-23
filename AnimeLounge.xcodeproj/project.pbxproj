@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		137F49D92C24B60800B787CB /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 137F49D82C24B60800B787CB /* SwiftSoup */; };
-		137F49E92C254BFE00B787CB /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 137F49E82C254BFE00B787CB /* Kingfisher */; };
 		137F49EC2C254DCA00B787CB /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 137F49EB2C254DCA00B787CB /* Alamofire */; };
 		137F4A332C255DA500B787CB /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137F4A322C255DA500B787CB /* SearchViewController.swift */; };
 		137F4A352C255E9700B787CB /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137F4A342C255E9700B787CB /* SearchResultsViewController.swift */; };
@@ -35,6 +34,7 @@
 		13CD3A7C2C26040C00B046F9 /* SeasonalAnimeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13CD3A7A2C26040C00B046F9 /* SeasonalAnimeCell.xib */; };
 		13CD3A802C26B25E00B046F9 /* AnimeDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CD3A7F2C26B25E00B046F9 /* AnimeDetailsViewController.swift */; };
 		13CD3A832C26BB5C00B046F9 /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CD3A822C26BB5C00B046F9 /* FavoritesViewController.swift */; };
+		13D1DAA82C28750E00A35D79 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 13D1DAA72C28750E00A35D79 /* Kingfisher */; };
 		13E4464E2C25C38A002B14E8 /* WatchNextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E4464D2C25C38A002B14E8 /* WatchNextViewController.swift */; };
 		13E446522C25CBA3002B14E8 /* TrendingAnimeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13E446512C25CBA3002B14E8 /* TrendingAnimeCell.xib */; };
 		13E446542C25CBCA002B14E8 /* TrendingAnimeCell-Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E446532C25CBCA002B14E8 /* TrendingAnimeCell-Swift.swift */; };
@@ -97,8 +97,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				13D1DAA82C28750E00A35D79 /* Kingfisher in Frameworks */,
 				137F49EC2C254DCA00B787CB /* Alamofire in Frameworks */,
-				137F49E92C254BFE00B787CB /* Kingfisher in Frameworks */,
 				137F49D92C24B60800B787CB /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -320,8 +320,8 @@
 			name = AnimeLounge;
 			packageProductDependencies = (
 				137F49D82C24B60800B787CB /* SwiftSoup */,
-				137F49E82C254BFE00B787CB /* Kingfisher */,
 				137F49EB2C254DCA00B787CB /* Alamofire */,
+				13D1DAA72C28750E00A35D79 /* Kingfisher */,
 			);
 			productName = AnimeLounge;
 			productReference = 13AA298B2C245EDD00C8CA8E /* AnimeLounge.app */;
@@ -397,8 +397,8 @@
 			mainGroup = 13AA29822C245EDD00C8CA8E;
 			packageReferences = (
 				137F49D72C24B60800B787CB /* XCRemoteSwiftPackageReference "SwiftSoup" */,
-				137F49E72C254BFE00B787CB /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				137F49EA2C254DCA00B787CB /* XCRemoteSwiftPackageReference "Alamofire" */,
+				13D1DAA62C28750E00A35D79 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 13AA298C2C245EDD00C8CA8E /* Products */;
 			projectDirPath = "";
@@ -822,20 +822,20 @@
 				version = 2.4.0;
 			};
 		};
-		137F49E72C254BFE00B787CB /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
-			requirement = {
-				kind = exactVersion;
-				version = 7.5.0;
-			};
-		};
 		137F49EA2C254DCA00B787CB /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
 			requirement = {
 				kind = exactVersion;
 				version = 5.6.0;
+			};
+		};
+		13D1DAA62C28750E00A35D79 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = exactVersion;
+				version = 7.8.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -846,15 +846,15 @@
 			package = 137F49D72C24B60800B787CB /* XCRemoteSwiftPackageReference "SwiftSoup" */;
 			productName = SwiftSoup;
 		};
-		137F49E82C254BFE00B787CB /* Kingfisher */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 137F49E72C254BFE00B787CB /* XCRemoteSwiftPackageReference "Kingfisher" */;
-			productName = Kingfisher;
-		};
 		137F49EB2C254DCA00B787CB /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 137F49EA2C254DCA00B787CB /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		13D1DAA72C28750E00A35D79 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 13D1DAA62C28750E00A35D79 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
