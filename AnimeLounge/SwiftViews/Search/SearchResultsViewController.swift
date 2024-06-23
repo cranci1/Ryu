@@ -102,10 +102,9 @@ class SearchResultCell: UITableViewCell {
             animeImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             animeImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             animeImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-            animeImageView.widthAnchor.constraint(equalToConstant: 80),
-            animeImageView.heightAnchor.constraint(equalToConstant: 115),
+            animeImageView.widthAnchor.constraint(equalToConstant: 105),
             
-            titleLabel.leadingAnchor.constraint(equalTo: animeImageView.trailingAnchor, constant: 10),
+            titleLabel.leadingAnchor.constraint(equalTo: animeImageView.trailingAnchor, constant: 15),
             titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: disclosureIndicatorImageView.leadingAnchor, constant: -10),
             
@@ -116,7 +115,7 @@ class SearchResultCell: UITableViewCell {
         ])
         
         NSLayoutConstraint.activate([
-            contentView.heightAnchor.constraint(equalToConstant: 140)
+            contentView.heightAnchor.constraint(equalToConstant: 170)
         ])
         
         animeImageView.clipsToBounds = true
