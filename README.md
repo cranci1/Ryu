@@ -8,10 +8,10 @@ Yes it's a NineAnimator fork aimed to be more stable and to support more sources
 
 - [x] Ads Free and no logins
 - [x] Streaming support
-- [-] Download
-- [-] Third-party anime services: Anilist, MAL
-- [-] Background playback
-- [-] Pip support on iOS/iPadOS 14+
+- [ ] Download
+- [ ] Third-party anime services: Anilist, MAL
+- [ ] Background playback
+- [ ] Pip support on iOS/iPadOS 14+
 
 ## Sources working:
 
