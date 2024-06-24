@@ -25,8 +25,6 @@ class AnimeDetailViewController: UIViewController {
     private let aliasLabel = UILabel()
     private let favoriteButton = UIButton()
     private let infoButton = UIButton()
-    private let ratingLabel = UILabel()
-    private let airDateLabel = UILabel()
     private let synopsisLabel = UILabel()
     private let synopsisDescriptionLabel = UILabel()
     private let toggleSynopsisButton = UIButton()
@@ -62,7 +60,6 @@ class AnimeDetailViewController: UIViewController {
         setupScrollView()
         setupImageView()
         setupTitleSection()
-        setupRatingSection()
         setupSynopsisSection()
         setupTableView()
     }
@@ -114,34 +111,24 @@ class AnimeDetailViewController: UIViewController {
             let document = try SwiftSoup.parse(html)
             
             var aliases = ""
-            var airDate = ""
-            var rating = ""
             var synopsis = ""
             
             switch source {
             case .animeWorld:
                 aliases = try document.select("selector-for-alias").text()
-                airDate = try document.select("dt:contains(Data di Uscita) + dd").text()
-                rating = try document.select("dd.rating span#average-vote").text()
                 synopsis = try document.select("div.info div.desc").text()
             case .monoschinos:
                 aliases = try document.select("div.d-flex.flex-column.pt-3 h1").text()
-                airDate = ""
-                rating = ""
                 synopsis = try document.select("div.d-flex.flex-column.pt-3 span").text()
             case .gogoanime:
                 aliases = try document.select("p.type.other-name span + a").text()
-                airDate = try document.select("p.type:contains(Released:)").text().replacingOccurrences(of: "Released: ", with: "")
                 synopsis = try document.select("div.description").text()
-                rating = "" // Gogoanime does not provide rating in the given HTML structure
             }
             
             fetchEpisodes(document: document, for: source)
             
             DispatchQueue.main.async {
                 self.aliasLabel.text = aliases
-                self.airDateLabel.text = "Air Date: \(airDate)"
-                self.ratingLabel.text = "Rating: \(rating)"
                 self.synopsisDescriptionLabel.text = synopsis
             }
         } catch {
@@ -250,57 +237,32 @@ class AnimeDetailViewController: UIViewController {
 
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: imageView.topAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 16),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-
-            aliasLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
-            aliasLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            aliasLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
-
-            favoriteButton.topAnchor.constraint(equalTo: aliasLabel.bottomAnchor, constant: 16),
-            favoriteButton.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            favoriteButton.widthAnchor.constraint(equalToConstant: 100),
-            favoriteButton.heightAnchor.constraint(equalToConstant: 30),
-
-            infoButton.centerYAnchor.constraint(equalTo: favoriteButton.centerYAnchor),
-            infoButton.leadingAnchor.constraint(equalTo: favoriteButton.trailingAnchor, constant: 8),
-            infoButton.widthAnchor.constraint(equalToConstant: 30),
-            infoButton.heightAnchor.constraint(equalToConstant: 30)
-        ])
-    }
-    
-    private func setupRatingSection() {
-        contentView.addSubview(ratingLabel)
-        contentView.addSubview(airDateLabel)
-        
-        ratingLabel.translatesAutoresizingMaskIntoConstraints = false
-        airDateLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        ratingLabel.font = UIFont.systemFont(ofSize: 14)
-        ratingLabel.textColor = .secondaryLabel
-        
-        airDateLabel.font = UIFont.systemFont(ofSize: 14)
-        airDateLabel.textColor = .secondaryLabel
-        
-        NSLayoutConstraint.activate([
-            ratingLabel.topAnchor.constraint(equalTo: favoriteButton.bottomAnchor, constant: 16),
-            ratingLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 12),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             
-            airDateLabel.topAnchor.constraint(equalTo: ratingLabel.bottomAnchor, constant: 4),
-            airDateLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor)
+            aliasLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+            aliasLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 12),
+            aliasLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            
+            favoriteButton.topAnchor.constraint(equalTo: aliasLabel.bottomAnchor, constant: 8),
+            favoriteButton.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 12),
+            favoriteButton.heightAnchor.constraint(equalToConstant: 30),
+            favoriteButton.widthAnchor.constraint(equalToConstant: 100),
+            
+            infoButton.centerYAnchor.constraint(equalTo: favoriteButton.centerYAnchor),
+            infoButton.leadingAnchor.constraint(equalTo: favoriteButton.trailingAnchor, constant: 10),
+            infoButton.widthAnchor.constraint(equalToConstant: 24),
+            infoButton.heightAnchor.constraint(equalToConstant: 24)
         ])
     }
     
     private func setupSynopsisSection() {
-        contentView.addSubview(synopsisLabel)
-        contentView.addSubview(synopsisDescriptionLabel)
-        contentView.addSubview(toggleSynopsisButton)
-        
-        synopsisLabel.translatesAutoresizingMaskIntoConstraints = false
-        synopsisDescriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-        toggleSynopsisButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        synopsisLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        [synopsisLabel, synopsisDescriptionLabel, toggleSynopsisButton].forEach {
+            contentView.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+
+        synopsisLabel.font = UIFont.boldSystemFont(ofSize: 18)
         synopsisLabel.textColor = .label
         synopsisLabel.text = "Synopsis"
         
@@ -351,7 +313,7 @@ class AnimeDetailViewController: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor),
-            tableView.heightAnchor.constraint(greaterThanOrEqualToConstant: 200)
+            tableView.heightAnchor.constraint(greaterThanOrEqualToConstant: 320)
         ])
         
         tableView.rowHeight = 44
