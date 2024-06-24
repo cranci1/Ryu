@@ -6,8 +6,10 @@ Yes it's a NineAnimator fork aimed to be more stable and to support more sources
 
 ## Sources working:
 
-- AnimeWorld // Italian Server
-- animesaikou // French Server - Doesn't provide streaming, only Downloads (downloads coming soon)
+| Sources                   | Language     | Search     | AnimeInfo  | Streaming | Download |
+| ------------------------- | -----------  | --------   | -------    | ------    | -------- |
+| AnimeWorld                | Italian      | ✅         | ✅        |   ✅      | :x:      |
+| Anime-Saikou              | French       | ✅         | ✅        |   :x:     | :x:      |
 
 ## Working in progress
 
