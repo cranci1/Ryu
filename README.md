@@ -10,12 +10,9 @@ Yes it's a NineAnimator fork aimed to be more stable and to support more sources
 | ----------------------------- | -----------  | --------   | -------    | ------    | -------- |
 | AnimeWorld                    | Italian      | ✅         | ✅        |   ✅      | :x:      |
 | Anime-Saikou                  | French       | ✅         | ✅        |   :x:     | :x:      |
-
-## Working in progress
-
-- monoschinos // Spanish Server - missing episodes
-- gogoanime // English Server - missing info + episodes
-- tioanime // Spanish Server - missing episodes
+| monoschinos                   | Spanish      | ✅         | ✅        |   :x:     | :x:      |
+| gogoanime                      | English       | ✅          | :x:       |   :x:     | :x:       |
+| tioanime                       | Spanish       | ✅         | ✅        |   :x:       | :x:       | 
 
 ## Coming soon:
 
