@@ -16,25 +16,14 @@ struct Episode {
     let href: String
 }
 
-class AnimeDetailViewController: UIViewController {
-    private let scrollView = UIScrollView()
-    private let contentView = UIView()
-    
-    private let imageView = UIImageView()
-    private let titleLabel = UILabel()
-    private let aliasLabel = UILabel()
-    private let favoriteButton = UIButton()
-    private let infoButton = UIButton()
-    private let synopsisLabel = UILabel()
-    private let synopsisDescriptionLabel = UILabel()
-    private let toggleSynopsisButton = UIButton()
-    private let tableView = UITableView()
-
+class AnimeDetailViewController: UITableViewController {
     private var animeTitle: String?
     private var imageUrl: String?
     private var href: String?
     
     private var episodes: [Episode] = []
+    private var synopsis: String = ""
+    private var aliases: String = ""
     private var isSynopsisExpanded = false
 
     func configure(title: String, imageUrl: String, href: String) {
@@ -49,29 +38,16 @@ class AnimeDetailViewController: UIViewController {
         updateUI()
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        updateContentSize()
-    }
-    
     private func setupUI() {
         view.backgroundColor = .secondarySystemBackground
         
-        setupScrollView()
-        setupImageView()
-        setupTitleSection()
-        setupSynopsisSection()
-        setupTableView()
+        tableView.backgroundColor = .secondarySystemBackground
+        tableView.register(AnimeHeaderCell.self, forCellReuseIdentifier: "AnimeHeaderCell")
+        tableView.register(SynopsisCell.self, forCellReuseIdentifier: "SynopsisCell")
+        tableView.register(EpisodeCell.self, forCellReuseIdentifier: "EpisodeCell")
     }
 
     private func updateUI() {
-        titleLabel.text = animeTitle
-        aliasLabel.text = ""
-
-        if let url = URL(string: imageUrl ?? "") {
-            imageView.kf.setImage(with: url, placeholder: UIImage(systemName: "photo"))
-        }
-
         if let href = href {
             fetchAnimeDetails(from: href)
         }
@@ -90,6 +66,12 @@ class AnimeDetailViewController: UIViewController {
         case .monoschinos:
             baseUrl = ""
         case .gogoanime:
+            baseUrl = ""
+        case .animevietsub:
+            baseUrl = ""
+        case .tioanime:
+            baseUrl = "https://tioanime.com"
+        case .animesaikou:
             baseUrl = ""
         }
         
@@ -110,9 +92,6 @@ class AnimeDetailViewController: UIViewController {
         do {
             let document = try SwiftSoup.parse(html)
             
-            var aliases = ""
-            var synopsis = ""
-            
             switch source {
             case .animeWorld:
                 aliases = try document.select("selector-for-alias").text()
@@ -123,13 +102,21 @@ class AnimeDetailViewController: UIViewController {
             case .gogoanime:
                 aliases = try document.select("p.type.other-name span + a").text()
                 synopsis = try document.select("div.description").text()
+            case .animevietsub:
+                aliases = try document.select("p.type.other-name span + a").text()
+                synopsis = try document.select("div.description").text()
+            case .tioanime:
+                aliases = try document.select("p.original-title").text()
+                synopsis = try document.select("p.sinopsis").text()
+            case .animesaikou:
+                aliases = try document.select("p.original-title").text()
+                synopsis = try document.select("p.sinopsis").text()
             }
             
             fetchEpisodes(document: document, for: source)
             
             DispatchQueue.main.async {
-                self.aliasLabel.text = aliases
-                self.synopsisDescriptionLabel.text = synopsis
+                self.tableView.reloadData()
             }
         } catch {
             print("Error parsing anime details HTML: \(error.localizedDescription)")
@@ -147,26 +134,37 @@ class AnimeDetailViewController: UIViewController {
                 episodeElements = try document.select("div.episode-list a.episode-link")
             case .gogoanime:
                 episodeElements = try document.select("ul.episode-items li a.episode-item")
+            case .animevietsub:
+                episodeElements = try document.select("idk still need to do this")
+            case .tioanime:
+                episodeElements = try document.select("ul.episodes-list li a")
+            case .animesaikou:
+                episodeElements = try document.select("div.siteorigin-widget-tinymce p")
             }
             
-            episodes = episodeElements.compactMap { element in
-                guard let episodeNumber = try? element.text(),
-                      let href = try? element.attr("href") else { return nil }
-                return Episode(number: episodeNumber, href: href)
+            switch source {
+            case .tioanime:
+                episodes = episodeElements.compactMap { element in
+                    guard let href = try? element.attr("href") else { return nil }
+                    
+                    let episodeNumber = (try? element.select("p span").text()) ?? "Unknown"
+                    
+                    return Episode(number: episodeNumber, href: href)
+                }
+            default:
+                episodes = episodeElements.compactMap { element in
+                    guard let episodeText = try? element.text(),
+                          let href = try? element.attr("href") else { return nil }
+                    return Episode(number: episodeText, href: href)
+                }
             }
+
             DispatchQueue.main.async {
                 self.tableView.reloadData()
-                self.updateContentSize()
             }
         } catch {
             print("Error parsing episodes: \(error.localizedDescription)")
         }
-    }
-
-    private func updateContentSize() {
-        let totalHeight = tableView.frame.maxY + 20
-        contentView.frame.size = CGSize(width: view.frame.width, height: totalHeight)
-        scrollView.contentSize = contentView.frame.size
     }
     
     private func showAlert(title: String, message: String) {
@@ -174,169 +172,56 @@ class AnimeDetailViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
     }
-
-    private func setupScrollView() {
-        view.addSubview(scrollView)
-        scrollView.addSubview(contentView)
-        
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
-            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
-        ])
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 3
     }
     
-    private func setupImageView() {
-        contentView.addSubview(imageView)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFit
-        imageView.backgroundColor = .gray
-        
-        NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
-            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            imageView.widthAnchor.constraint(equalToConstant: 120),
-            imageView.heightAnchor.constraint(equalToConstant: 180)
-        ])
-        
-        imageView.clipsToBounds = true
-        imageView.contentMode = .scaleAspectFill
-    }
-    
-    private func setupTitleSection() {
-        [titleLabel, aliasLabel, favoriteButton, infoButton].forEach {
-            contentView.addSubview($0)
-            $0.translatesAutoresizingMaskIntoConstraints = false
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch section {
+        case 0, 1: return 1
+        case 2: return episodes.count
+        default: return 0
         }
-
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
-        titleLabel.textColor = .label
-        titleLabel.numberOfLines = 0
-
-        aliasLabel.font = UIFont.systemFont(ofSize: 14)
-        aliasLabel.textColor = .secondaryLabel
-        aliasLabel.numberOfLines = 0
-
-        favoriteButton.setTitle("FAVORITE", for: .normal)
-        favoriteButton.setTitleColor(.black, for: .normal)
-        favoriteButton.backgroundColor = UIColor.systemTeal
-        favoriteButton.layer.cornerRadius = 16
-
-        infoButton.setImage(UIImage(systemName: "info.circle"), for: .normal)
-        infoButton.tintColor = UIColor.systemTeal
-
-        NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: imageView.topAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 12),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            
-            aliasLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
-            aliasLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 12),
-            aliasLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            
-            favoriteButton.topAnchor.constraint(equalTo: aliasLabel.bottomAnchor, constant: 8),
-            favoriteButton.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 12),
-            favoriteButton.heightAnchor.constraint(equalToConstant: 30),
-            favoriteButton.widthAnchor.constraint(equalToConstant: 100),
-            
-            infoButton.centerYAnchor.constraint(equalTo: favoriteButton.centerYAnchor),
-            infoButton.leadingAnchor.constraint(equalTo: favoriteButton.trailingAnchor, constant: 10),
-            infoButton.widthAnchor.constraint(equalToConstant: 24),
-            infoButton.heightAnchor.constraint(equalToConstant: 24)
-        ])
     }
     
-    private func setupSynopsisSection() {
-        [synopsisLabel, synopsisDescriptionLabel, toggleSynopsisButton].forEach {
-            contentView.addSubview($0)
-            $0.translatesAutoresizingMaskIntoConstraints = false
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        switch indexPath.section {
+        case 0:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "AnimeHeaderCell", for: indexPath) as! AnimeHeaderCell
+            cell.configure(title: animeTitle, imageUrl: imageUrl, aliases: aliases)
+            return cell
+        case 1:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "SynopsisCell", for: indexPath) as! SynopsisCell
+            cell.configure(synopsis: synopsis, isExpanded: isSynopsisExpanded)
+            cell.delegate = self
+            return cell
+        case 2:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "EpisodeCell", for: indexPath) as! EpisodeCell
+            let episode = episodes[indexPath.row]
+            cell.configure(episodeNumber: episode.number)
+            return cell
+        default:
+            return UITableViewCell()
         }
-
-        synopsisLabel.font = UIFont.boldSystemFont(ofSize: 18)
-        synopsisLabel.textColor = .label
-        synopsisLabel.text = "Synopsis"
-        
-        synopsisDescriptionLabel.font = UIFont.systemFont(ofSize: 14)
-        synopsisDescriptionLabel.textColor = .secondaryLabel
-        synopsisDescriptionLabel.numberOfLines = 4
-        
-        toggleSynopsisButton.setTitle("More", for: .normal)
-        toggleSynopsisButton.setTitleColor(.systemTeal, for: .normal)
-        toggleSynopsisButton.addTarget(self, action: #selector(toggleSynopsis), for: .touchUpInside)
-        
-        NSLayoutConstraint.activate([
-            synopsisLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10),
-            synopsisLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor),
-            
-            synopsisDescriptionLabel.topAnchor.constraint(equalTo: synopsisLabel.bottomAnchor, constant: 8),
-            synopsisDescriptionLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor),
-            synopsisDescriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            
-            toggleSynopsisButton.centerYAnchor.constraint(equalTo: synopsisLabel.centerYAnchor),
-            toggleSynopsisButton.leadingAnchor.constraint(equalTo: synopsisLabel.trailingAnchor, constant: 5),
-        ])
     }
     
-    @objc func toggleSynopsis() {
-        if synopsisDescriptionLabel.numberOfLines == 0 {
-            synopsisDescriptionLabel.numberOfLines = 4
-            toggleSynopsisButton.setTitle("More", for: .normal)
-        } else {
-            synopsisDescriptionLabel.numberOfLines = 0
-            toggleSynopsisButton.setTitle("Less", for: .normal)
-        }
-        contentView.layoutIfNeeded()
-    }
-
-    
-    private func setupTableView() {
-        contentView.addSubview(tableView)
-        tableView.backgroundColor = UIColor.secondarySystemBackground
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.register(EpisodeCell.self, forCellReuseIdentifier: "EpisodeCell")
-        
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: synopsisDescriptionLabel.bottomAnchor, constant: 10),
-            tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor),
-            tableView.heightAnchor.constraint(greaterThanOrEqualToConstant: 320)
-        ])
-        
-        tableView.rowHeight = 44
-    }
-}
-extension AnimeDetailViewController: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return episodes.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "EpisodeCell", for: indexPath) as! EpisodeCell
-        let episode = episodes[indexPath.row]
-        cell.episodeLabel.text = "Episode \(episode.number)"
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let episode = episodes[indexPath.row]
-        episodeSelected(episode: episode)
+        if indexPath.section == 2 {
+            let episode = episodes[indexPath.row]
+            episodeSelected(episode: episode)
+        }
     }
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+        case 1: return "Synopsis"
+        case 2: return "Episodes"
+        default: return nil
+        }
+    }
+
     private func episodeSelected(episode: Episode) {
         let baseURL = "https://www.animeworld.so/api/episode/serverPlayerAnimeWorld?id="
         let episodeId = episode.href.components(separatedBy: "/").last ?? episode.href
@@ -388,9 +273,158 @@ extension AnimeDetailViewController: UITableViewDataSource, UITableViewDelegate 
     }
 }
 
+extension AnimeDetailViewController: SynopsisCellDelegate {
+    func synopsisCellDidToggleExpansion(_ cell: SynopsisCell) {
+        isSynopsisExpanded.toggle()
+        tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
+    }
+}
+
+class AnimeHeaderCell: UITableViewCell {
+    private let animeImageView = UIImageView()
+    private let titleLabel = UILabel()
+    private let aliasLabel = UILabel()
+    private let favoriteButton = UIButton()
+    private let infoButton = UIButton()
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupUI() {
+        contentView.backgroundColor = .secondarySystemBackground
+        
+        contentView.addSubview(animeImageView)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(aliasLabel)
+        contentView.addSubview(favoriteButton)
+        contentView.addSubview(infoButton)
+        
+        animeImageView.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        aliasLabel.translatesAutoresizingMaskIntoConstraints = false
+        favoriteButton.translatesAutoresizingMaskIntoConstraints = false
+        infoButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        animeImageView.contentMode = .scaleAspectFit
+        
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        titleLabel.textColor = .label
+        titleLabel.numberOfLines = 0
+
+        aliasLabel.font = UIFont.systemFont(ofSize: 14)
+        aliasLabel.textColor = .secondaryLabel
+        aliasLabel.numberOfLines = 0
+
+        favoriteButton.setTitle("FAVORITE", for: .normal)
+        favoriteButton.setTitleColor(.black, for: .normal)
+        favoriteButton.backgroundColor = UIColor.systemTeal
+        favoriteButton.layer.cornerRadius = 14
+
+        infoButton.setImage(UIImage(systemName: "ellipsis.circle.fill"), for: .normal)
+        infoButton.tintColor = UIColor.systemTeal
+        
+        NSLayoutConstraint.activate([
+            animeImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            animeImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            animeImageView.widthAnchor.constraint(equalToConstant: 120),
+            animeImageView.heightAnchor.constraint(equalToConstant: 180),
+            
+            titleLabel.topAnchor.constraint(equalTo: animeImageView.topAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: animeImageView.trailingAnchor, constant: 12),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            
+            aliasLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+            aliasLabel.leadingAnchor.constraint(equalTo: animeImageView.trailingAnchor, constant: 12),
+            aliasLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            
+            favoriteButton.topAnchor.constraint(equalTo: aliasLabel.bottomAnchor, constant: 8),
+            favoriteButton.leadingAnchor.constraint(equalTo: animeImageView.trailingAnchor, constant: 12),
+            favoriteButton.heightAnchor.constraint(equalToConstant: 30),
+            favoriteButton.widthAnchor.constraint(equalToConstant: 100),
+            
+            infoButton.centerYAnchor.constraint(equalTo: favoriteButton.centerYAnchor),
+            infoButton.leadingAnchor.constraint(equalTo: favoriteButton.trailingAnchor, constant: 10),
+            infoButton.widthAnchor.constraint(equalToConstant: 24),
+            infoButton.heightAnchor.constraint(equalToConstant: 24),
+            
+            contentView.bottomAnchor.constraint(equalTo: animeImageView.bottomAnchor, constant: 10)
+        ])
+    }
+    
+    func configure(title: String?, imageUrl: String?, aliases: String) {
+        titleLabel.text = title
+        aliasLabel.text = aliases
+        if let url = URL(string: imageUrl ?? "") {
+            animeImageView.kf.setImage(with: url, placeholder: UIImage(systemName: "photo"))
+        }
+    }
+}
+
+protocol SynopsisCellDelegate: AnyObject {
+    func synopsisCellDidToggleExpansion(_ cell: SynopsisCell)
+}
+
+class SynopsisCell: UITableViewCell {
+    private let synopsisLabel = UILabel()
+    private let toggleButton = UIButton()
+    
+    weak var delegate: SynopsisCellDelegate?
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupUI() {
+        contentView.backgroundColor = .secondarySystemBackground
+        contentView.addSubview(synopsisLabel)
+        contentView.addSubview(toggleButton)
+        
+        synopsisLabel.translatesAutoresizingMaskIntoConstraints = false
+        toggleButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        synopsisLabel.numberOfLines = 4
+        synopsisLabel.font = UIFont.systemFont(ofSize: 14)
+        
+        toggleButton.setTitleColor(.systemTeal, for: .normal)
+        toggleButton.addTarget(self, action: #selector(toggleButtonTapped), for: .touchUpInside)
+        
+        NSLayoutConstraint.activate([
+            synopsisLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            synopsisLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            synopsisLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            
+            toggleButton.topAnchor.constraint(equalTo: synopsisLabel.bottomAnchor, constant: 5),
+            toggleButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            toggleButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
+        ])
+    }
+    
+    func configure(synopsis: String, isExpanded: Bool) {
+        synopsisLabel.text = synopsis
+        synopsisLabel.numberOfLines = isExpanded ? 0 : 4
+        toggleButton.setTitle(isExpanded ? "Less" : "More", for: .normal)
+    }
+    
+    @objc private func toggleButtonTapped() {
+        delegate?.synopsisCellDidToggleExpansion(self)
+    }
+}
+
 class EpisodeCell: UITableViewCell {
     let episodeLabel = UILabel()
     let downloadButton = UIButton(type: .system)
+    let startnowLabel = UILabel()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -402,24 +436,41 @@ class EpisodeCell: UITableViewCell {
     }
     
     private func setupCell() {
+        contentView.backgroundColor = UIColor.secondarySystemBackground
         contentView.addSubview(episodeLabel)
         contentView.addSubview(downloadButton)
+        contentView.addSubview(startnowLabel)
         
         episodeLabel.translatesAutoresizingMaskIntoConstraints = false
         downloadButton.translatesAutoresizingMaskIntoConstraints = false
+        startnowLabel.translatesAutoresizingMaskIntoConstraints = false
         
         episodeLabel.font = UIFont.systemFont(ofSize: 16)
+        
+        startnowLabel.font = UIFont.systemFont(ofSize: 13)
+        startnowLabel.text = "Start Now"
+        startnowLabel.textColor = .secondaryLabel
+        
         downloadButton.setImage(UIImage(systemName: "icloud.and.arrow.down"), for: .normal)
         downloadButton.tintColor = .systemTeal
         
         NSLayoutConstraint.activate([
             episodeLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            episodeLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            episodeLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            
+            startnowLabel.leadingAnchor.constraint(equalTo: episodeLabel.leadingAnchor),
+            startnowLabel.topAnchor.constraint(equalTo: episodeLabel.bottomAnchor, constant: 5),
             
             downloadButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             downloadButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             downloadButton.widthAnchor.constraint(equalToConstant: 30),
-            downloadButton.heightAnchor.constraint(equalToConstant: 30)
+            downloadButton.heightAnchor.constraint(equalToConstant: 30),
+            
+            contentView.bottomAnchor.constraint(equalTo: startnowLabel.bottomAnchor, constant: 10)
         ])
+    }
+    
+    func configure(episodeNumber: String) {
+        episodeLabel.text = "Episode \(episodeNumber)"
     }
 }

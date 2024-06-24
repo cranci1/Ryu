@@ -52,6 +52,15 @@ class SearchViewController: UIViewController {
         case .gogoanime:
             url = "https://gogoanime3.co/search.html"
             parameters = ["keyword": query]
+        case .animevietsub:
+            url = "https://animevietsub.dev/tim-kiem/"
+            parameters = [query: query]
+        case .tioanime:
+            url = "https://tioanime.com/directorio"
+            parameters = ["q": query]
+        case .animesaikou:
+            url = "https://anime-saikou.com/"
+            parameters = ["s": query]
         }
 
         AF.request(url, parameters: parameters).responseString { [weak self] response in
@@ -100,8 +109,39 @@ class SearchViewController: UIViewController {
                     let title = try linkElement?.attr("title") ?? ""
                     results.append((title: title, imageUrl: imageUrl, href: href))
                 }
+            case .animevietsub:
+                let items = try document.select("ul.items li")
+                for item in items {
+                    let linkElement = try item.select("a").first()
+                    let href = try linkElement?.attr("href") ?? ""
+                    let imageUrl = try linkElement?.select("img").attr("src") ?? ""
+                    let title = try linkElement?.attr("title") ?? ""
+                    results.append((title: title, imageUrl: imageUrl, href: href))
+                }
+            case .tioanime:
+                let items = try document.select("ul.animes li article.anime")
+
+                for item in items {
+                    let linkElement = try item.select("a").first()
+                    let href = try linkElement?.attr("href") ?? ""
+                    var imageUrl = try linkElement?.select("img").attr("src") ?? ""
+                    if !imageUrl.isEmpty && !imageUrl.hasPrefix("http") {
+                        imageUrl = "https://tioanime.com\(imageUrl)"
+                    }
+                    let title = try linkElement?.select("h3.title").text() ?? ""
+                    results.append((title: title, imageUrl: imageUrl, href: href))
+                }
+            case .animesaikou:
+                let items = try document.select("article.post-entry")
+                for item in items {
+                    let linkElement = try item.select("h2.post-title a").first()
+                    let href = try linkElement?.attr("href") ?? ""
+                    let imageElement = try item.select("img").first()
+                    let imageUrl = try imageElement?.attr("src") ?? ""
+                    let title = try linkElement?.attr("title") ?? ""
+                    results.append((title: title, imageUrl: imageUrl, href: href))
+                }
             }
-            
             return results
         } catch {
             print("Error parsing HTML: \(error.localizedDescription)")

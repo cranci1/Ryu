@@ -6,14 +6,15 @@ Yes it's a NineAnimator fork aimed to be more stable and to support more sources
 
 ## Sources working:
 
-- [AnimeWorld](https://animeworld.so) Italian Server
+- AnimeWorld // Italian Server
+- animesaikou // French Server - Doesn't provide streaming, only Downloads (downloads coming soon)
 
 ## Working in progress
 
-- [monoschinos](https://monoschinos2.com/) Spanish Server
-- [gogoanime](https://gogoanime3.co/) English Server
+- monoschinos // Spanish Server - missing episodes
+- gogoanime // English Server - missing info + episodes
+- tioanime // Spanish Server - missing episodes
 
 ## Coming soon:
 
-- [animevietsub](https://animevietsub.io/) Vietnamese Server
-- [tioanime](https://tioanime.com/) Spanish Server
+- animevietsub // Vietnamese Server
