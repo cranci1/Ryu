@@ -274,7 +274,7 @@
                         <searchBar key="tableHeaderView" contentMode="redraw" searchBarStyle="minimal" placeholder="Search an Anime" id="K3f-Dc-Cgq">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="51"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <textInputTraits key="textInputTraits"/>
+                            <textInputTraits key="textInputTraits" returnKeyType="search"/>
                         </searchBar>
                     </tableView>
                     <toolbarItems/>
@@ -285,6 +285,9 @@
                         <barButtonItem key="rightBarButtonItem" id="teZ-LN-6Pb">
                             <imageReference key="image" image="gear" catalog="system" symbolScale="large"/>
                             <color key="tintColor" name="AccentColor"/>
+                            <connections>
+                                <segue destination="tkJ-qb-Pci" kind="show" id="X14-oT-TJn"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
@@ -602,7 +605,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="QUk-Rn-qDy"/>
+        <segue reference="X14-oT-TJn"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.down.circle.fill" catalog="system" width="128" height="121"/>

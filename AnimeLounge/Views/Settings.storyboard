@@ -5,6 +5,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -47,6 +48,10 @@
                                                 <constraint firstItem="lKL-3a-n9V" firstAttribute="centerY" secondItem="QHg-2c-5oZ" secondAttribute="centerY" id="xPC-va-UKY"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <segue destination="RUG-Sz-sjD" kind="show" id="mfq-UI-2tL"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="McV-an-f8h">
                                         <rect key="frame" x="20" y="75.5" width="374" height="43.5"/>
@@ -306,6 +311,242 @@
             </objects>
             <point key="canvasLocation" x="464" y="217"/>
         </scene>
+        <!--About-->
+        <scene sceneID="jyj-y0-bE4">
+            <objects>
+                <tableViewController id="RUG-Sz-sjD" customClass="SettingsViewAbout" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="tcc-6g-ZdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <sections>
+                            <tableViewSection headerTitle="About AnimeLounge" id="12i-Tl-sd4">
+                                <string key="footerTitle">AnimeLounge is a free, open source iOS app, developed by cranci. The app is under the GNU General Public License version 3. 
+
+AnimeLounge is also not made to promote piracy. Its just a steaming app.</string>
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="tq6-ws-kMz">
+                                        <rect key="frame" x="20" y="32" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="tq6-ws-kMz" id="cII-Cg-Sqo">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="N/A" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yxN-nY-MRO">
+                                                    <rect key="frame" x="333" y="13" width="25" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kSI-QE-y8R">
+                                                    <rect key="frame" x="16" y="13" width="55.5" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="kSI-QE-y8R" firstAttribute="centerY" secondItem="cII-Cg-Sqo" secondAttribute="centerY" id="6pM-dS-lcw"/>
+                                                <constraint firstItem="kSI-QE-y8R" firstAttribute="leading" secondItem="cII-Cg-Sqo" secondAttribute="leading" constant="16" id="YER-gC-YfC"/>
+                                                <constraint firstItem="yxN-nY-MRO" firstAttribute="trailing" secondItem="cII-Cg-Sqo" secondAttribute="trailing" constant="-16" id="ppr-S3-ELq"/>
+                                                <constraint firstItem="yxN-nY-MRO" firstAttribute="centerY" secondItem="cII-Cg-Sqo" secondAttribute="centerY" id="wd4-Kp-tby"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="jAG-3C-jat">
+                                        <rect key="frame" x="20" y="75.5" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jAG-3C-jat" id="Gdq-C6-xzx">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="N/A" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bnx-Qa-LHS">
+                                                    <rect key="frame" x="333" y="13" width="25" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Build:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ieP-jj-2Pv">
+                                                    <rect key="frame" x="16" y="13" width="38.5" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="bnx-Qa-LHS" firstAttribute="centerY" secondItem="Gdq-C6-xzx" secondAttribute="centerY" id="DS5-S2-AAd"/>
+                                                <constraint firstItem="ieP-jj-2Pv" firstAttribute="centerY" secondItem="Gdq-C6-xzx" secondAttribute="centerY" id="Qmc-7c-xu6"/>
+                                                <constraint firstItem="ieP-jj-2Pv" firstAttribute="leading" secondItem="Gdq-C6-xzx" secondAttribute="leading" constant="16" id="fab-Y2-bdI"/>
+                                                <constraint firstItem="bnx-Qa-LHS" firstAttribute="trailing" secondItem="Gdq-C6-xzx" secondAttribute="trailing" constant="-16" id="ttR-ok-Hal"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="qVD-qi-mRG">
+                                        <rect key="frame" x="20" y="119" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qVD-qi-mRG" id="uPt-gv-rql">
+                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Github Repository" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Slg-s4-b48">
+                                                    <rect key="frame" x="16" y="13" width="123.5" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Slg-s4-b48" firstAttribute="leading" secondItem="uPt-gv-rql" secondAttribute="leading" constant="16" id="Uxf-Bb-TnY"/>
+                                                <constraint firstItem="Slg-s4-b48" firstAttribute="centerY" secondItem="uPt-gv-rql" secondAttribute="centerY" id="tzD-Hl-OnT"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="0qe-B8-dQ2" appends="YES" id="xcP-Eu-EXD"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Fgy-G7-OYD">
+                                        <rect key="frame" x="20" y="162.5" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Fgy-G7-OYD" id="ANt-qn-9fI">
+                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Report an Issue" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y74-eG-IA4">
+                                                    <rect key="frame" x="16" y="13" width="106.5" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="y74-eG-IA4" firstAttribute="centerY" secondItem="ANt-qn-9fI" secondAttribute="centerY" id="Nhz-dW-2OO"/>
+                                                <constraint firstItem="y74-eG-IA4" firstAttribute="leading" secondItem="ANt-qn-9fI" secondAttribute="leading" constant="16" id="TKc-8t-Oja"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="HkR-tl-v32" appends="YES" id="WHJ-JV-kOn"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="Privacy" id="I1e-zt-hkV">
+                                <string key="footerTitle">AnimeLounge prioritizes user privacy and does not store any personal data. All generated images are not retained by the app. If a user chooses to download an episode, it will only be stored locally in their device storage or on the Downloads Page in the app. We are committed to ensuring a secure and private experience for our users.</string>
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="b3t-fq-I03">
+                                        <rect key="frame" x="20" y="342" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="b3t-fq-I03" id="hGD-gI-TTN">
+                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Privacy Info" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x2u-DE-D60">
+                                                    <rect key="frame" x="16" y="13" width="80" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="x2u-DE-D60" firstAttribute="centerY" secondItem="hGD-gI-TTN" secondAttribute="centerY" id="Cse-JQ-Blv"/>
+                                                <constraint firstItem="x2u-DE-D60" firstAttribute="leading" secondItem="hGD-gI-TTN" secondAttribute="leading" constant="16" id="Yxc-oN-wrj"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="oBQ-XV-Yb3">
+                                        <rect key="frame" x="20" y="385.5" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oBQ-XV-Yb3" id="iwq-sG-PiT">
+                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Review Code" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rOT-dp-A7l">
+                                                    <rect key="frame" x="16" y="13" width="89.5" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="rOT-dp-A7l" firstAttribute="leading" secondItem="iwq-sG-PiT" secondAttribute="leading" constant="16" id="Tag-0R-jDl"/>
+                                                <constraint firstItem="rOT-dp-A7l" firstAttribute="centerY" secondItem="iwq-sG-PiT" secondAttribute="centerY" id="juO-uO-TVw"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="37h-4f-79A" appends="YES" id="DcU-43-N6n"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="GNU General Public License version 3" id="OMu-tZ-KaQ">
+                                <string key="footerTitle">AnimeLounge prioritizes user privacy and does not store any personal data. All generated images are not retained by the app. If a user chooses to download an episode, it will only be stored locally in their device storage or on the Downloads Page in the app. We are committed to ensuring a secure and private experience for our users.</string>
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="HkG-T8-RWQ">
+                                        <rect key="frame" x="20" y="565" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HkG-T8-RWQ" id="w93-1l-591">
+                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="License" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iPe-aW-DeN">
+                                                    <rect key="frame" x="16" y="13" width="53" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="iPe-aW-DeN" firstAttribute="centerY" secondItem="w93-1l-591" secondAttribute="centerY" id="Ibt-Qa-SYQ"/>
+                                                <constraint firstItem="iPe-aW-DeN" firstAttribute="leading" secondItem="w93-1l-591" secondAttribute="leading" constant="16" id="Xl6-Pd-bb3"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="xPk-l6-h7W" appends="YES" id="fbl-O2-JSX"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="RUG-Sz-sjD" id="ouk-Rb-7m9"/>
+                            <outlet property="delegate" destination="RUG-Sz-sjD" id="vhl-0Q-AbE"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="About" id="Xo8-bS-vsz"/>
+                    <connections>
+                        <outlet property="buildLabel" destination="bnx-Qa-LHS" id="c88-U0-WXE"/>
+                        <outlet property="licenseLabel" destination="iPe-aW-DeN" id="Ecx-cF-Pzy"/>
+                        <outlet property="privacyLabel" destination="x2u-DE-D60" id="osT-un-ECM"/>
+                        <outlet property="versionLabel" destination="yxN-nY-MRO" id="Rjb-S9-Bv4"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="M2c-XY-tsa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="xPk-l6-h7W" userLabel="License">
+                    <connections>
+                        <action selector="fullLicenseTapped:" destination="RUG-Sz-sjD" id="Hkk-dw-jqB"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="HkR-tl-v32" userLabel="issue">
+                    <connections>
+                        <action selector="reportIssueTapped:" destination="RUG-Sz-sjD" id="xkO-wQ-PTC"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="0qe-B8-dQ2" userLabel="Github">
+                    <connections>
+                        <action selector="githubTapped:" destination="RUG-Sz-sjD" id="XeM-Od-raV"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="37h-4f-79A" userLabel="review code">
+                    <connections>
+                        <action selector="reviewCodeTapped:" destination="RUG-Sz-sjD" id="fl7-Xt-a1U"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="1394" y="217"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="p83-24-qV7">
             <objects>
@@ -327,5 +568,8 @@
         <namedColor name="AccentColor">
             <color red="0.18823529411764706" green="0.69019607843137254" blue="0.7803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>
