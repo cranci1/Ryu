@@ -21,8 +21,8 @@ Yes it's a NineAnimator fork aimed to be more stable and to support more sources
 | AnimeWorld                    | Italian      | ✅         | ✅         |   ✅      | :x:      |
 | GoGoAnime                     | English      | ✅         | ✅         |   :x:     | :x:      |
 | TioAnime                      | Spanish      | ✅         | ✅         |   :x:     | :x:      | 
-| AnimeHeaven                   | English      | ✅         | ✅         |   :x:     | :x:      |
+| AnimeHeaven                   | English      | ✅         | ✅         |   ✅      | :x:      |
 
 ## Coming soon:
 
-~~idk need to find sources that doesn't use .m3u8 file or i need to find a way to display the .m3u8 file. (GoGoAnime uses .m3u8 files and im trying my best to add support)~~ Found method now i need to update sources to support it i will start rn - 25 June 14:35
+~~idk need to find sources that doesn't use .m3u8 file or i need to find a way to display the .m3u8 file. (GoGoAnime uses .m3u8 files and im trying my best to add support)~~ Found method now i need to update sources to support it i will start rn - 25 June

@@ -6,14 +6,13 @@
 //
 
 import UIKit
-import Kingfisher
-import Alamofire
-import SwiftSoup
 import AVKit
+import SwiftSoup
 
-struct Episode {
-    let number: String
-    let href: String
+extension String {
+    var nilIfEmpty: String? {
+        return self.isEmpty ? nil : self
+    }
 }
 
 class AnimeDetailViewController: UITableViewController {
@@ -25,6 +24,9 @@ class AnimeDetailViewController: UITableViewController {
     private var synopsis: String = ""
     private var aliases: String = ""
     private var isSynopsisExpanded = false
+    
+    private var player: AVPlayer?
+    private var playerViewController: AVPlayerViewController?
 
     func configure(title: String, imageUrl: String, href: String) {
         self.animeTitle = title
@@ -36,6 +38,7 @@ class AnimeDetailViewController: UITableViewController {
         super.viewDidLoad()
         setupUI()
         updateUI()
+        setupNotifications()
     }
     
     private func setupUI() {
@@ -47,128 +50,47 @@ class AnimeDetailViewController: UITableViewController {
         tableView.register(EpisodeCell.self, forCellReuseIdentifier: "EpisodeCell")
     }
 
-    private func updateUI() {
-        if let href = href {
-            fetchAnimeDetails(from: href)
-        }
+    private func setupNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleInterruption), name: AVAudioSession.interruptionNotification, object: AVAudioSession.sharedInstance())
     }
 
-    private func fetchAnimeDetails(from href: String) {
-        guard let selectedSource = UserDefaults.standard.selectedMediaSource else {
-            showAlert(title: "Error", message: "No media source selected.")
+    @objc private func handleInterruption(notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
+              let type = AVAudioSession.InterruptionType(rawValue: typeValue) else {
             return
         }
         
-        let baseUrl: String
-        switch selectedSource {
-        case .animeWorld:
-            baseUrl = "https://animeworld.so"
-        case .gogoanime:
-            baseUrl = "https://anitaku.pe"
-        case .tioanime:
-            baseUrl = "https://tioanime.com"
-        case .animeheaven:
-            baseUrl = "https://animeheaven.me/"
-        }
-        
-        let fullUrl = baseUrl + href
-        AF.request(fullUrl).responseString { [weak self] response in
-            guard let self = self else { return }
-            switch response.result {
-            case .success(let html):
-                self.parseAnimeDetails(html: html, for: selectedSource)
-            case .failure(let error):
-                print("Failed to fetch anime details: \(error.localizedDescription)")
-                self.showAlert(title: "Error", message: "Failed to fetch anime details. Please try again later.")
+        switch type {
+        case .began:
+            player?.pause()
+        case .ended:
+            do {
+                try AVAudioSession.sharedInstance().setActive(true)
+                player?.play()
+            } catch {
+                print("Failed to reactivate AVAudioSession: \(error)")
             }
+        default:
+            break
         }
     }
-    
-    private func parseAnimeDetails(html: String, for source: MediaSource) {
-        do {
-            let document = try SwiftSoup.parse(html)
-            
-            switch source {
-            case .animeWorld:
-                aliases = ""
-                synopsis = try document.select("div.info div.desc").text()
-            case .gogoanime:
-                aliases = try document.select("div.anime_info_body_bg p.other-name a").text()
-                synopsis = try document.select("div.anime_info_body_bg div.description").text()
-            case .tioanime:
-                aliases = try document.select("p.original-title").text()
-                synopsis = try document.select("p.sinopsis").text()
-            case .animeheaven:
-                aliases = try document.select("div.infodiv div.infotitlejp").text()
-                synopsis = try document.select("div.infodiv div.infodes").text()
-            }
-            
-            fetchEpisodes(document: document, for: source)
-            
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        } catch {
-            print("Error parsing anime details HTML: \(error.localizedDescription)")
-        }
-    }
-    
-    private func fetchEpisodes(document: Document, for source: MediaSource) {
-        do {
-            var episodeElements: Elements
-            
-            switch source {
-            case .animeWorld:
-                episodeElements = try document.select("div.server.active ul.episodes li.episode a")
-            case .gogoanime:
-                episodeElements = try document.select("a.active")
-            case .tioanime:
-                episodeElements = try document.select("ul.episodes-list li a")
-            case .animeheaven:
-                episodeElements = try document.select("div.linetitle2 a")
-            }
-            
-            switch source {
-            case .gogoanime:
-                episodes = episodeElements.flatMap { element -> [Episode] in
-                    guard let episodeText = try? element.text() else { return [] }
-                    
-                    let parts = episodeText.split(separator: "-")
-                    guard parts.count == 2,
-                          let start = Int(parts[0]),
-                          let end = Int(parts[1]) else {
-                        return []
-                    }
-                    
-                    return (max(1, start)...end).map { episodeNumber in
-                        let formattedEpisode = "Episode \(episodeNumber)"
-                        let baseHref = self.href ?? ""
-                        let episodeHref = "\(baseHref)-episode-\(episodeNumber)"
-                        
-                        return Episode(number: formattedEpisode, href: episodeHref)
-                    }
-                }
-            case .tioanime:
-                episodes = episodeElements.compactMap { element in
-                    guard let href = try? element.attr("href") else { return nil }
-                    
-                    let episodeNumber = (try? element.select("p span").text()) ?? "Unknown"
-                    
-                    return Episode(number: episodeNumber, href: href)
-                }
-            default:
-                episodes = episodeElements.compactMap { element in
-                    guard let episodeText = try? element.text(),
-                          let href = try? element.attr("href") else { return nil }
-                    return Episode(number: episodeText, href: href)
-                }
-            }
 
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
+    private func updateUI() {
+        if let href = href {
+            AnimeDetailService.fetchAnimeDetails(from: href) { [weak self] (result) in
+                switch result {
+                case .success(let details):
+                    self?.aliases = details.aliases
+                    self?.synopsis = details.synopsis
+                    self?.episodes = details.episodes
+                    DispatchQueue.main.async {
+                        self?.tableView.reloadData()
+                    }
+                case .failure(let error):
+                    self?.showAlert(title: "Error", message: error.localizedDescription)
+                }
             }
-        } catch {
-            print("Error parsing episodes: \(error.localizedDescription)")
         }
     }
     
@@ -228,10 +150,51 @@ class AnimeDetailViewController: UITableViewController {
     }
 
     private func episodeSelected(episode: Episode) {
-        let baseURL = "https://www.animeworld.so/api/episode/serverPlayerAnimeWorld?id="
-        let episodeId = episode.href.components(separatedBy: "/").last ?? episode.href
-        let fullURL = baseURL + episodeId
+        let selectedSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "animeheaven"
+        
+        var baseURL: String
+        var fullURL: String
+        var episodeId: String
+        
+        switch selectedSource {
+        case "AnimeWorld":
+            baseURL = "https://www.animeworld.so/api/episode/serverPlayerAnimeWorld?id="
+            episodeId = episode.href.components(separatedBy: "/").last ?? episode.href
+            fullURL = baseURL + episodeId
+        case "AnimeHeaven":
+            baseURL = "https://animeheaven.me/"
+            episodeId = episode.href
+            fullURL = baseURL + episodeId
+        default:
+            baseURL = ""
+            episodeId = episode.href
+            fullURL = baseURL + episodeId
+        }
+        
+        print("Selected source: \(selectedSource)")
+        print("Full URL: \(fullURL)")
         playEpisode(url: fullURL)
+    }
+    
+    private func fetchHTMLContent(from url: String, completion: @escaping (Result<String, Error>) -> Void) {
+        guard let url = URL(string: url) else {
+            completion(.failure(NSError(domain: "Invalid URL", code: 0, userInfo: nil)))
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let data = data, let htmlString = String(data: data, encoding: .utf8) else {
+                completion(.failure(NSError(domain: "Invalid data", code: 0, userInfo: nil)))
+                return
+            }
+            
+            completion(.success(htmlString))
+        }.resume()
     }
 
     private func playEpisode(url: String) {
@@ -239,24 +202,55 @@ class AnimeDetailViewController: UITableViewController {
             print("Invalid URL")
             return
         }
-        
-        URLSession.shared.dataTask(with: videoURL) { [weak self] (data, response, error) in
-            guard let self = self,
-                  let data = data,
-                  let htmlString = String(data: data, encoding: .utf8),
-                  let srcURL = self.extractVideoSourceURL(from: htmlString) else {
-                print("Error fetching or parsing video data")
-                return
-            }
-            
+
+        if url.contains(".mp4") || url.contains(".m3u8") || url.contains("animeheaven.me/video.mp4") {
             DispatchQueue.main.async {
-                self.playVideoWithAVPlayer(sourceURL: srcURL)
+                self.playVideoWithAVPlayer(sourceURL: videoURL)
             }
-        }.resume()
+        } else {
+            URLSession.shared.dataTask(with: videoURL) { [weak self] (data, response, error) in
+                guard let self = self,
+                      let data = data,
+                      let htmlString = String(data: data, encoding: .utf8),
+                      let srcURL = self.extractVideoSourceURL(from: htmlString) else {
+                    print("Error fetching or parsing video data")
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    self.playVideoWithAVPlayer(sourceURL: srcURL)
+                }
+            }.resume()
+        }
     }
 
     private func extractVideoSourceURL(from htmlString: String) -> URL? {
-        let pattern = #"<source src="(.*?)" type="video/mp4">"#
+        do {
+            let doc: Document = try SwiftSoup.parse(htmlString)
+            guard let videoElement = try doc.select("video").first(),
+                  let sourceElement = try videoElement.select("source").first(),
+                  let sourceURLString = try sourceElement.attr("src").nilIfEmpty,
+                  let sourceURL = URL(string: sourceURLString) else {
+                return nil
+            }
+            return sourceURL
+        } catch {
+            print("Error parsing HTML with SwiftSoup: \(error)")
+            
+            // Fallback to regex method if SwiftSoup fails
+            let mp4Pattern = #"<source src="(.*?)" type="video/mp4">"#
+            let m3u8Pattern = #"<source src="(.*?)" type="application/x-mpegURL">"#
+            
+            if let mp4URL = extractURL(from: htmlString, pattern: mp4Pattern) {
+                return mp4URL
+            } else if let m3u8URL = extractURL(from: htmlString, pattern: m3u8Pattern) {
+                return m3u8URL
+            }
+            return nil
+        }
+    }
+    
+    private func extractURL(from htmlString: String, pattern: String) -> URL? {
         guard let regex = try? NSRegularExpression(pattern: pattern, options: []),
               let match = regex.firstMatch(in: htmlString, range: NSRange(htmlString.startIndex..., in: htmlString)),
               let urlRange = Range(match.range(at: 1), in: htmlString) else {
@@ -268,12 +262,12 @@ class AnimeDetailViewController: UITableViewController {
     }
 
     private func playVideoWithAVPlayer(sourceURL: URL) {
-        let player = AVPlayer(url: sourceURL)
-        let playerViewController = AVPlayerViewController()
-        playerViewController.player = player
+        player = AVPlayer(url: sourceURL)
+        playerViewController = AVPlayerViewController()
+        playerViewController?.player = player
         
-        present(playerViewController, animated: true) {
-            player.play()
+        present(playerViewController!, animated: true) {
+            self.player?.play()
         }
     }
 }

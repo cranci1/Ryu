@@ -180,7 +180,7 @@ class SearchViewController: UIViewController {
             UserDefaults.standard.selectedMediaSource = .tioanime
         }
         
-        let animeheavenAction = UIAlertAction(title: "Animeheaven", style: .default) { _ in
+        let animeheavenAction = UIAlertAction(title: "AnimeHeaven", style: .default) { _ in
             UserDefaults.standard.selectedMediaSource = .animeheaven
         }
         
