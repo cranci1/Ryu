@@ -17,8 +17,12 @@ Yes it's a NineAnimator fork aimed to be more stable and to support more sources
 
 | Sources                       | Language     | Search     | AnimeInfo  | Streaming | Download |
 | ----------------------------- | -----------  | --------   | -------    | ------    | -------- |
-| AnimeWorld                    | Italian      | ✅         | ✅         |   ✅      | :x:      |
-| gogoanime                     | English      | ✅         | ✅         |   :x:     | :x:      |
-| tioanime                      | Spanish      | ✅         | ✅         |   :x:     | :x:      | 
+| AnimeWorld                    | Italian      | ✅         | ✅        |   ✅      | :x:      |
+| Anime-Saikou                  | French       | ✅         | ✅        |   :x:     | :x:      |
+| monoschinos                   | Spanish      | ✅         | ✅        |   :x:     | :x:      |
+| gogoanime                     | English      | ✅         | :x:       |   :x:     | :x:       |
+| tioanime                      | Spanish      | ✅         | ✅        |   :x:     | :x:      | 
 
 ## Coming soon:
+
+- animevietsub // Vietnamese Server
