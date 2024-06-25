@@ -47,7 +47,7 @@ class SearchViewController: UIViewController {
             url = "https://animeworld.so/search"
             parameters = ["keyword": query]
         case .gogoanime:
-            url = "https://gogoanime3.co/search.html"
+            url = "https://anitaku.pe/search.html"
             parameters = ["keyword": query]
         case .tioanime:
             url = "https://tioanime.com/directorio"
@@ -92,6 +92,7 @@ class SearchViewController: UIViewController {
                     let href = try linkElement?.attr("href") ?? ""
                     let imageUrl = try linkElement?.select("img").attr("src") ?? ""
                     let title = try linkElement?.attr("title") ?? ""
+                    print("\(href)")
                     results.append((title: title, imageUrl: imageUrl, href: href))
                 }
             case .tioanime:

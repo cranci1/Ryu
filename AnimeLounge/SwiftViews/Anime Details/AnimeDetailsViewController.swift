@@ -165,6 +165,10 @@ class AnimeDetailViewController: UITableViewController {
             baseURL = "https://animeheaven.me/"
             episodeId = episode.href
             fullURL = baseURL + episodeId
+        case "GoGoAnime":
+            baseURL = "https://anitaku.pe/"
+            episodeId = episode.href.components(separatedBy: "/").last ?? episode.href
+            fullURL = baseURL + episodeId
         default:
             baseURL = ""
             episodeId = episode.href

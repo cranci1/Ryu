@@ -84,7 +84,7 @@ class AnimeDetailService {
             case .gogoanime:
                 episodeElements = try document.select("a.active")
             case .tioanime:
-                episodeElements = try document.select("ul.episodes-list li a")
+                episodeElements = try document.select("ul.episodes-list li")
             case .animeheaven:
                 episodeElements = try document.select("div.linetitle2 a")
             }
@@ -102,20 +102,11 @@ class AnimeDetailService {
                     }
                     
                     return (max(1, start)...end).map { episodeNumber in
-                        let formattedEpisode = "Episode \(episodeNumber)"
+                        let formattedEpisode = "\(episodeNumber)"
                         let episodeHref = "\(href)-episode-\(episodeNumber)"
                         
                         return Episode(number: formattedEpisode, href: episodeHref)
                     }
-                }
-            case .tioanime:
-                episodes = episodeElements.compactMap { element in
-                    guard let href = try? element.attr("href") else { return nil }
-                    
-                    let episodeNumber = (try? element.select("p span").text()) ?? "Unknown"
-                    
-                    print("\(href)")
-                    return Episode(number: episodeNumber, href: href)
                 }
             default:
                 episodes = episodeElements.compactMap { element in
