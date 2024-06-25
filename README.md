@@ -11,7 +11,7 @@ Yes it's a NineAnimator fork aimed to be more stable and to support more sources
 - [ ] Download support
 - [ ] Third-party anime services: Anilist, MAL
 - [ ] Background playback
-- [ ] PiP support on iOS/iPadOS 14+
+- [x] PiP support on iOS/iPadOS 14+ (Still needs improvements)
 - [ ] MultiSources support for Streaming and Download
 
 ## Sources working:
@@ -20,7 +20,6 @@ Yes it's a NineAnimator fork aimed to be more stable and to support more sources
 | ----------------------------- | -----------  | --------   | -------    | ------    | -------- |
 | AnimeWorld                    | Italian      | ✅         | ✅         |   ✅      | :x:      |
 | GoGoAnime                     | English      | ✅         | ✅         |   :x:     | :x:      |
-| TioAnime                      | Spanish      | ✅         | ✅         |   :x:     | :x:      | 
 | AnimeHeaven                   | English      | ✅         | ✅         |   ✅      | :x:      |
 
 ## Coming soon:

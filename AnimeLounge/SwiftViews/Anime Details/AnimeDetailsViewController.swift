@@ -241,7 +241,6 @@ class AnimeDetailViewController: UITableViewController {
         } catch {
             print("Error parsing HTML with SwiftSoup: \(error)")
             
-            // Fallback to regex method if SwiftSoup fails
             let mp4Pattern = #"<source src="(.*?)" type="video/mp4">"#
             let m3u8Pattern = #"<source src="(.*?)" type="application/x-mpegURL">"#
             

@@ -49,9 +49,6 @@ class SearchViewController: UIViewController {
         case .gogoanime:
             url = "https://anitaku.pe/search.html"
             parameters = ["keyword": query]
-        case .tioanime:
-            url = "https://tioanime.com/directorio"
-            parameters = ["q": query]
         case .animeheaven:
             url = "https://animeheaven.me/search.php"
             parameters = ["s": query]
@@ -93,18 +90,6 @@ class SearchViewController: UIViewController {
                     let imageUrl = try linkElement?.select("img").attr("src") ?? ""
                     let title = try linkElement?.attr("title") ?? ""
                     print("\(href)")
-                    results.append((title: title, imageUrl: imageUrl, href: href))
-                }
-            case .tioanime:
-                let items = try document.select("ul.animes li article.anime")
-                for item in items {
-                    let linkElement = try item.select("a").first()
-                    let href = try linkElement?.attr("href") ?? ""
-                    var imageUrl = try linkElement?.select("img").attr("src") ?? ""
-                    if !imageUrl.isEmpty && !imageUrl.hasPrefix("http") {
-                        imageUrl = "https://tioanime.com\(imageUrl)"
-                    }
-                    let title = try linkElement?.select("h3.title").text() ?? ""
                     results.append((title: title, imageUrl: imageUrl, href: href))
                 }
             case .animeheaven:
@@ -177,10 +162,6 @@ class SearchViewController: UIViewController {
             UserDefaults.standard.selectedMediaSource = .gogoanime
         }
         
-        let tioanimeAction = UIAlertAction(title: "TioAnime", style: .default) { _ in
-            UserDefaults.standard.selectedMediaSource = .tioanime
-        }
-        
         let animeheavenAction = UIAlertAction(title: "AnimeHeaven", style: .default) { _ in
             UserDefaults.standard.selectedMediaSource = .animeheaven
         }
@@ -189,7 +170,6 @@ class SearchViewController: UIViewController {
         
         actionSheet.addAction(animeWorldAction)
         actionSheet.addAction(gogoAnimeAction)
-        actionSheet.addAction(tioanimeAction)
         actionSheet.addAction(animeheavenAction)
         actionSheet.addAction(cancelAction)
         

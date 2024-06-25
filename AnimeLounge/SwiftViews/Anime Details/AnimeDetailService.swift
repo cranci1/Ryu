@@ -29,8 +29,6 @@ class AnimeDetailService {
             baseUrl = "https://animeworld.so"
         case .gogoanime:
             baseUrl = "https://anitaku.pe"
-        case .tioanime:
-            baseUrl = "https://tioanime.com"
         case .animeheaven:
             baseUrl = "https://animeheaven.me/"
         }
@@ -52,9 +50,6 @@ class AnimeDetailService {
                     case .gogoanime:
                         aliases = try document.select("div.anime_info_body_bg p.other-name a").text()
                         synopsis = try document.select("div.anime_info_body_bg div.description").text()
-                    case .tioanime:
-                        aliases = try document.select("p.original-title").text()
-                        synopsis = try document.select("p.sinopsis").text()
                     case .animeheaven:
                         aliases = try document.select("div.infodiv div.infotitlejp").text()
                         synopsis = try document.select("div.infodiv div.infodes").text()
@@ -83,8 +78,6 @@ class AnimeDetailService {
                 episodeElements = try document.select("div.server.active ul.episodes li.episode a")
             case .gogoanime:
                 episodeElements = try document.select("a.active")
-            case .tioanime:
-                episodeElements = try document.select("ul.episodes-list li")
             case .animeheaven:
                 episodeElements = try document.select("div.linetitle2 a")
             }

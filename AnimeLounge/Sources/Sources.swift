@@ -10,7 +10,6 @@ import Foundation
 enum MediaSource: String {
     case animeWorld = "AnimeWorld"
     case gogoanime = "GoGoAnime"
-    case tioanime = "TioAnime"
     case animeheaven = "AnimeHeaven"
 }
 

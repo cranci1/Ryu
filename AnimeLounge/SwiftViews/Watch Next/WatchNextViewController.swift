@@ -112,10 +112,6 @@ class WatchNextViewController: UITableViewController {
             UserDefaults.standard.selectedMediaSource = .gogoanime
         }
         
-        let tioanimeAction = UIAlertAction(title: "TioAnime", style: .default) { _ in
-            UserDefaults.standard.selectedMediaSource = .tioanime
-        }
-        
         let animeheavenAction = UIAlertAction(title: "AnimeHeaven", style: .default) { _ in
             UserDefaults.standard.selectedMediaSource = .animeheaven
         }
@@ -124,7 +120,6 @@ class WatchNextViewController: UITableViewController {
         
         actionSheet.addAction(animeWorldAction)
         actionSheet.addAction(gogoAnimeAction)
-        actionSheet.addAction(tioanimeAction)
         actionSheet.addAction(animeheavenAction)
         actionSheet.addAction(cancelAction)
         
