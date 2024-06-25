@@ -46,21 +46,12 @@ class SearchViewController: UIViewController {
         case .animeWorld:
             url = "https://animeworld.so/search"
             parameters = ["keyword": query]
-        case .monoschinos:
-            url = "https://monoschinos2.com/buscar"
-            parameters = ["q": query]
         case .gogoanime:
-            url = "https://gogoanime3.co/search.html"
+            url = "https://anitaku.pe/search.html"
             parameters = ["keyword": query]
-        case .animevietsub:
-            url = "https://animevietsub.dev/tim-kiem/"
-            parameters = [query: query]
         case .tioanime:
             url = "https://tioanime.com/directorio"
             parameters = ["q": query]
-        case .animesaikou:
-            url = "https://anime-saikou.com/"
-            parameters = ["s": query]
         }
 
         AF.request(url, parameters: parameters).responseString { [weak self] response in
@@ -91,36 +82,16 @@ class SearchViewController: UIViewController {
                     let href = try item.select("a.poster").attr("href")
                     results.append((title: title, imageUrl: imageUrl, href: href))
                 }
-            case .monoschinos:
-                let items = try document.select("li.ficha_efecto")
-                for item in items {
-                    let linkElement = try item.select("a").first()
-                    let href = try linkElement?.attr("href") ?? ""
-                    let imageUrl = try linkElement?.select("img").attr("data-src") ?? ""
-                    let title = try linkElement?.select("h3.title_cap").text() ?? ""
-                    results.append((title: title, imageUrl: imageUrl, href: href))
-                }
             case .gogoanime:
-                let items = try document.select("ul.items li")
+                let items = try document.select("div.last_episodes ul.items li")
                 for item in items {
-                    let linkElement = try item.select("a").first()
-                    let href = try linkElement?.attr("href") ?? ""
-                    let imageUrl = try linkElement?.select("img").attr("src") ?? ""
-                    let title = try linkElement?.attr("title") ?? ""
-                    results.append((title: title, imageUrl: imageUrl, href: href))
-                }
-            case .animevietsub:
-                let items = try document.select("ul.items li")
-                for item in items {
-                    let linkElement = try item.select("a").first()
-                    let href = try linkElement?.attr("href") ?? ""
-                    let imageUrl = try linkElement?.select("img").attr("src") ?? ""
-                    let title = try linkElement?.attr("title") ?? ""
+                    let title = try item.select("p.name a").text()
+                    let imageUrl = try item.select("div.img a img").attr("src")
+                    let href = try item.select("p.name a").attr("href")
                     results.append((title: title, imageUrl: imageUrl, href: href))
                 }
             case .tioanime:
                 let items = try document.select("ul.animes li article.anime")
-
                 for item in items {
                     let linkElement = try item.select("a").first()
                     let href = try linkElement?.attr("href") ?? ""
@@ -129,16 +100,6 @@ class SearchViewController: UIViewController {
                         imageUrl = "https://tioanime.com\(imageUrl)"
                     }
                     let title = try linkElement?.select("h3.title").text() ?? ""
-                    results.append((title: title, imageUrl: imageUrl, href: href))
-                }
-            case .animesaikou:
-                let items = try document.select("article.post-entry")
-                for item in items {
-                    let linkElement = try item.select("h2.post-title a").first()
-                    let href = try linkElement?.attr("href") ?? ""
-                    let imageElement = try item.select("img").first()
-                    let imageUrl = try imageElement?.attr("src") ?? ""
-                    let title = try linkElement?.attr("title") ?? ""
                     results.append((title: title, imageUrl: imageUrl, href: href))
                 }
             }

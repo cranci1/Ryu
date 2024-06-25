@@ -9,11 +9,8 @@ import Foundation
 
 enum MediaSource: String {
     case animeWorld = "AnimeWorld"
-    case monoschinos = "MonosChinos"
     case gogoanime = "GoGoAnime"
-    case animevietsub = "AnimeVietSUB"
     case tioanime = "TioAnime"
-    case animesaikou = "AnimeSaikou"
 }
 
 extension UserDefaults {

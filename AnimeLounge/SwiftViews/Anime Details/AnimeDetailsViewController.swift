@@ -63,16 +63,10 @@ class AnimeDetailViewController: UITableViewController {
         switch selectedSource {
         case .animeWorld:
             baseUrl = "https://animeworld.so"
-        case .monoschinos:
-            baseUrl = ""
         case .gogoanime:
-            baseUrl = ""
-        case .animevietsub:
-            baseUrl = ""
+            baseUrl = "https://anitaku.pe"
         case .tioanime:
             baseUrl = "https://tioanime.com"
-        case .animesaikou:
-            baseUrl = ""
         }
         
         let fullUrl = baseUrl + href
@@ -94,21 +88,12 @@ class AnimeDetailViewController: UITableViewController {
             
             switch source {
             case .animeWorld:
-                aliases = try document.select("selector-for-alias").text()
+                aliases = ""
                 synopsis = try document.select("div.info div.desc").text()
-            case .monoschinos:
-                aliases = try document.select("div.d-flex.flex-column.pt-3 h1").text()
-                synopsis = try document.select("div.d-flex.flex-column.pt-3 span").text()
             case .gogoanime:
-                aliases = try document.select("p.type.other-name span + a").text()
-                synopsis = try document.select("div.description").text()
-            case .animevietsub:
-                aliases = try document.select("p.type.other-name span + a").text()
-                synopsis = try document.select("div.description").text()
+                aliases = try document.select("div.anime_info_body_bg p.other-name a").text()
+                synopsis = try document.select("div.anime_info_body_bg div.description").text()
             case .tioanime:
-                aliases = try document.select("p.original-title").text()
-                synopsis = try document.select("p.sinopsis").text()
-            case .animesaikou:
                 aliases = try document.select("p.original-title").text()
                 synopsis = try document.select("p.sinopsis").text()
             }
@@ -130,26 +115,31 @@ class AnimeDetailViewController: UITableViewController {
             switch source {
             case .animeWorld:
                 episodeElements = try document.select("div.server.active ul.episodes li.episode a")
-            case .monoschinos:
-                episodeElements = try document.select("div.episode-list a.episode-link")
             case .gogoanime:
-                episodeElements = try document.select("ul.episode-items li a.episode-item")
-            case .animevietsub:
-                episodeElements = try document.select("idk still need to do this")
+                episodeElements = try document.select("a.active")
             case .tioanime:
                 episodeElements = try document.select("ul.episodes-list li a")
-            case .animesaikou:
-                episodeElements = try document.select("div.siteorigin-widget-tinymce p")
             }
             
             switch source {
-            case .tioanime:
-                episodes = episodeElements.compactMap { element in
-                    guard let href = try? element.attr("href") else { return nil }
+            case .gogoanime:
+                episodes = episodeElements.flatMap { element -> [Episode] in
+                    guard let episodeText = try? element.text() else { return [] }
                     
-                    let episodeNumber = (try? element.select("p span").text()) ?? "Unknown"
+                    let parts = episodeText.split(separator: "-")
+                    guard parts.count == 2,
+                          let start = Int(parts[0]),
+                          let end = Int(parts[1]) else {
+                        return []
+                    }
                     
-                    return Episode(number: episodeNumber, href: href)
+                    return (max(1, start)...end).map { episodeNumber in
+                        let formattedEpisode = "Episode \(episodeNumber)"
+                        let baseHref = self.href ?? ""
+                        let episodeHref = "\(baseHref)-episode-\(episodeNumber)"
+                        
+                        return Episode(number: formattedEpisode, href: episodeHref)
+                    }
                 }
             default:
                 episodes = episodeElements.compactMap { element in
@@ -223,9 +213,10 @@ class AnimeDetailViewController: UITableViewController {
     }
 
     private func episodeSelected(episode: Episode) {
-        let baseURL = "https://www.animeworld.so/api/episode/serverPlayerAnimeWorld?id="
+        let baseURL = "https://anitaku.pe/"
         let episodeId = episode.href.components(separatedBy: "/").last ?? episode.href
         let fullURL = baseURL + episodeId
+        print("\(fullURL)")
         playEpisode(url: fullURL)
     }
 
@@ -239,7 +230,7 @@ class AnimeDetailViewController: UITableViewController {
             guard let self = self,
                   let data = data,
                   let htmlString = String(data: data, encoding: .utf8),
-                  let srcURL = self.extractVideoSourceURL(from: htmlString) else {
+                  let srcURL = self.extractVideoSourceURLGoGo(from: htmlString) else {
                 print("Error fetching or parsing video data")
                 return
             }
@@ -248,6 +239,18 @@ class AnimeDetailViewController: UITableViewController {
                 self.playVideoWithAVPlayer(sourceURL: srcURL)
             }
         }.resume()
+    }
+    
+    private func extractVideoSourceURLGoGo(from htmlString: String) -> URL? {
+        let pattern = #"<iframe\s+[^>]*src="([^"]*)"[^>]*>"#
+        guard let regex = try? NSRegularExpression(pattern: pattern, options: []),
+              let match = regex.firstMatch(in: htmlString, range: NSRange(htmlString.startIndex..., in: htmlString)),
+              let urlRange = Range(match.range(at: 1), in: htmlString) else {
+            return nil
+        }
+        
+        let urlString = String(htmlString[urlRange])
+        return URL(string: urlString)
     }
 
     private func extractVideoSourceURL(from htmlString: String) -> URL? {
@@ -471,6 +474,6 @@ class EpisodeCell: UITableViewCell {
     }
     
     func configure(episodeNumber: String) {
-        episodeLabel.text = "Episode \(episodeNumber)"
+        episodeLabel.text = "\(episodeNumber)"
     }
 }
