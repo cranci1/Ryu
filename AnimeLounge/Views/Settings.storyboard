@@ -32,19 +32,9 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dzf-hZ-WRn">
-                                                    <rect key="frame" x="139.5" y="6.5" width="67" height="31"/>
-                                                    <state key="normal" title="Button"/>
-                                                    <buttonConfiguration key="configuration" style="plain" title="Button"/>
-                                                    <connections>
-                                                        <action selector="selectSourceButtonTapped:" destination="pc2-lO-9Ci" eventType="touchUpInside" id="Tfa-Ya-iXb"/>
-                                                    </connections>
-                                                </button>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="Dzf-hZ-WRn" firstAttribute="centerY" secondItem="QHg-2c-5oZ" secondAttribute="centerY" id="6uY-0W-I4q"/>
                                                 <constraint firstItem="lKL-3a-n9V" firstAttribute="leading" secondItem="QHg-2c-5oZ" secondAttribute="leading" constant="15" id="V3b-0w-bUo"/>
-                                                <constraint firstItem="Dzf-hZ-WRn" firstAttribute="centerX" secondItem="QHg-2c-5oZ" secondAttribute="centerX" id="gQD-QW-h6D"/>
                                                 <constraint firstItem="lKL-3a-n9V" firstAttribute="centerY" secondItem="QHg-2c-5oZ" secondAttribute="centerY" id="xPC-va-UKY"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -295,6 +285,34 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection footerTitle="Clear all the Caches of the app." id="y8g-0P-qDQ">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="n5d-fw-PKi">
+                                        <rect key="frame" x="20" y="694.5" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="n5d-fw-PKi" id="wu2-Xf-PMd">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Clear Caches" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gnM-uY-fIj">
+                                                    <rect key="frame" x="15" y="11.5" width="101.5" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" systemColor="systemRedColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="gnM-uY-fIj" firstAttribute="centerY" secondItem="wu2-Xf-PMd" secondAttribute="centerY" id="6CI-Z8-j1E"/>
+                                                <constraint firstItem="gnM-uY-fIj" firstAttribute="leading" secondItem="wu2-Xf-PMd" secondAttribute="leading" constant="15" id="W34-fW-BBV"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="lSD-S4-QDS" appends="YES" id="y9o-EY-LjH"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="pc2-lO-9Ci" id="4B1-El-4KI"/>
@@ -308,6 +326,11 @@
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QIX-WY-Iit" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="lSD-S4-QDS">
+                    <connections>
+                        <action selector="clearCache:" destination="pc2-lO-9Ci" id="XBB-kW-d7c"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="464" y="217"/>
         </scene>
@@ -570,6 +593,9 @@ AnimeLounge is also not made to promote piracy. Its just a steaming app.</string
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

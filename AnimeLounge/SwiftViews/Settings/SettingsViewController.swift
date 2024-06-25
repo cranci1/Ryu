@@ -13,48 +13,26 @@ class SettingsViewController: UITableViewController {
         super.viewDidLoad()
     }
     
-    @IBAction func selectSourceButtonTapped(_ sender: UIButton) {
-        let actionSheet = UIAlertController(title: "Select Source", message: "Choose your preferred source for AnimeLounge.", preferredStyle: .actionSheet)
+    @IBAction func clearCache(_ sender: Any) {
+        let cacheURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first
         
-        let animeWorldAction = UIAlertAction(title: "AnimeWorld", style: .default) { _ in
-            UserDefaults.standard.selectedMediaSource = .animeWorld
+        do {
+            if let cacheURL = cacheURL {
+                let filePaths = try FileManager.default.contentsOfDirectory(at: cacheURL, includingPropertiesForKeys: nil, options: [])
+                for filePath in filePaths {
+                    try FileManager.default.removeItem(at: filePath)
+                }
+                showAlert(message: "Cache cleared successfully!")
+            }
+        } catch {
+            print("Could not clear cache: \(error)")
+            showAlert(message: "Failed to clear cache.")
         }
-        
-        let monosChinosAction = UIAlertAction(title: "MonosChinos", style: .default) { _ in
-            UserDefaults.standard.selectedMediaSource = .monoschinos
-        }
-        
-        let gogoAnimeAction = UIAlertAction(title: "GoGoAnime", style: .default) { _ in
-            UserDefaults.standard.selectedMediaSource = .gogoanime
-        }
-        
-        let animevietAction = UIAlertAction(title: "AnimeVietSUB", style: .default) { _ in
-            UserDefaults.standard.selectedMediaSource = .animevietsub
-        }
-        
-        let tioanimeAction = UIAlertAction(title: "TioAnime", style: .default) { _ in
-            UserDefaults.standard.selectedMediaSource = .tioanime
-        }
-        
-        let animesaikouAction = UIAlertAction(title: "AnimeSaikou", style: .default) { _ in
-            UserDefaults.standard.selectedMediaSource = .animesaikou
-        }
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
-        actionSheet.addAction(animeWorldAction)
-        actionSheet.addAction(monosChinosAction)
-        actionSheet.addAction(gogoAnimeAction)
-        actionSheet.addAction(animevietAction)
-        actionSheet.addAction(tioanimeAction)
-        actionSheet.addAction(animesaikouAction)
-        actionSheet.addAction(cancelAction)
-        
-        if let popoverController = actionSheet.popoverPresentationController {
-            popoverController.sourceView = sender
-            popoverController.sourceRect = sender.bounds
-        }
-        
-        present(actionSheet, animated: true, completion: nil)
+    }
+    
+    private func showAlert(message: String) {
+        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alertController, animated: true, completion: nil)
     }
 }

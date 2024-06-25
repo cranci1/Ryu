@@ -8,21 +8,21 @@ Yes it's a NineAnimator fork aimed to be more stable and to support more sources
 
 - [x] Ads Free and no logins
 - [x] Streaming support
-- [ ] Download
+- [ ] Download support
 - [ ] Third-party anime services: Anilist, MAL
 - [ ] Background playback
-- [ ] Pip support on iOS/iPadOS 14+
+- [ ] PiP support on iOS/iPadOS 14+
+- [ ] MultiSources support for Streaming and Download
 
 ## Sources working:
 
 | Sources                       | Language     | Search     | AnimeInfo  | Streaming | Download |
 | ----------------------------- | -----------  | --------   | -------    | ------    | -------- |
-| AnimeWorld                    | Italian      | ✅         | ✅        |   ✅      | :x:      |
-| Anime-Saikou                  | French       | ✅         | ✅        |   :x:     | :x:      |
-| monoschinos                   | Spanish      | ✅         | ✅        |   :x:     | :x:      |
-| gogoanime                     | English      | ✅         | :x:       |   :x:     | :x:       |
-| tioanime                      | Spanish      | ✅         | ✅        |   :x:     | :x:      | 
+| AnimeWorld                    | Italian      | ✅         | ✅         |   ✅      | :x:      |
+| GoGoAnime                     | English      | ✅         | ✅         |   :x:     | :x:      |
+| TioAnime                      | Spanish      | ✅         | ✅         |   :x:     | :x:      | 
+| AnimeHeaven                   | English      | ✅         | ✅         |   :x:     | :x:      |
 
 ## Coming soon:
 
-- animevietsub // Vietnamese Server
+idk need to find sources that doesn't use .m3u8 file or i need to find a way to display the .m3u8 file. (GoGoAnime uses .m3u8 files and im trying my best to add support)

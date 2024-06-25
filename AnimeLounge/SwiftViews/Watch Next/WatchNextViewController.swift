@@ -100,6 +100,41 @@ class WatchNextViewController: UITableViewController {
             }
         }
     }
+    
+    @IBAction func selectSourceButtonTapped(_ sender: UIButton) {
+        let actionSheet = UIAlertController(title: "Select Source", message: "Choose your preferred source for AnimeLounge.", preferredStyle: .actionSheet)
+        
+        let animeWorldAction = UIAlertAction(title: "AnimeWorld", style: .default) { _ in
+            UserDefaults.standard.selectedMediaSource = .animeWorld
+        }
+        
+        let gogoAnimeAction = UIAlertAction(title: "GoGoAnime", style: .default) { _ in
+            UserDefaults.standard.selectedMediaSource = .gogoanime
+        }
+        
+        let tioanimeAction = UIAlertAction(title: "TioAnime", style: .default) { _ in
+            UserDefaults.standard.selectedMediaSource = .tioanime
+        }
+        
+        let animeheavenAction = UIAlertAction(title: "Animeheaven", style: .default) { _ in
+            UserDefaults.standard.selectedMediaSource = .animeheaven
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        actionSheet.addAction(animeWorldAction)
+        actionSheet.addAction(gogoAnimeAction)
+        actionSheet.addAction(tioanimeAction)
+        actionSheet.addAction(animeheavenAction)
+        actionSheet.addAction(cancelAction)
+        
+        if let popoverController = actionSheet.popoverPresentationController {
+            popoverController.sourceView = sender
+            popoverController.sourceRect = sender.bounds
+        }
+        
+        present(actionSheet, animated: true, completion: nil)
+    }
 }
 
 extension WatchNextViewController: UICollectionViewDataSource {
