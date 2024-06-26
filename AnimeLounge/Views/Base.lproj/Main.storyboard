@@ -375,8 +375,31 @@
                     <view key="view" contentMode="scaleToFill" id="TOP-3B-jqm">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" keyboardDismissMode="onDrag" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="RC6-7K-ADf">
+                                <rect key="frame" x="0.0" y="44" width="375" height="574"/>
+                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                <inset key="scrollIndicatorInsets" minX="18" minY="0.0" maxX="18" maxY="0.0"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="25" minimumInteritemSpacing="10" sectionInsetReference="layoutMargins" id="6ek-RP-jK5">
+                                    <size key="itemSize" width="101" height="200"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isThemable" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                            </collectionView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="icT-SM-Cdp"/>
                         <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="RC6-7K-ADf" firstAttribute="centerX" secondItem="TOP-3B-jqm" secondAttribute="centerX" id="Gim-jB-upG"/>
+                            <constraint firstItem="icT-SM-Cdp" firstAttribute="bottom" secondItem="RC6-7K-ADf" secondAttribute="bottom" id="KL5-UN-O6M"/>
+                            <constraint firstItem="RC6-7K-ADf" firstAttribute="top" secondItem="icT-SM-Cdp" secondAttribute="top" id="l3j-ju-9ZW"/>
+                            <constraint firstItem="RC6-7K-ADf" firstAttribute="leading" secondItem="icT-SM-Cdp" secondAttribute="leading" id="owC-Er-z1o"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Favorites" id="BBu-Lh-qnt">
                         <barButtonItem key="rightBarButtonItem" id="2ET-QB-yVC">
@@ -387,10 +410,13 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="collectionView" destination="RC6-7K-ADf" id="IPD-HB-lUf"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TeC-A3-ms6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-5588" y="-17"/>
+            <point key="canvasLocation" x="-5588" y="-17.541229385307346"/>
         </scene>
         <!--Settings-->
         <scene sceneID="wm0-ai-LFy">
@@ -611,7 +637,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="X14-oT-TJn"/>
+        <segue reference="A4S-3U-V1x"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.down.circle.fill" catalog="system" width="128" height="121"/>

@@ -27,6 +27,8 @@ class AnimeDetailViewController: UITableViewController {
     
     private var player: AVPlayer?
     private var playerViewController: AVPlayerViewController?
+    
+    private var isFavorite: Bool = false
 
     func configure(title: String, imageUrl: String, href: String) {
         self.animeTitle = title
@@ -34,11 +36,39 @@ class AnimeDetailViewController: UITableViewController {
         self.href = href
     }
     
+    private func toggleFavorite() {
+        isFavorite.toggle()
+        if let anime = createFavoriteAnime() {
+            if isFavorite {
+                FavoritesManager.shared.addFavorite(anime)
+            } else {
+                FavoritesManager.shared.removeFavorite(anime)
+            }
+        }
+        tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+    }
+    
+    private func createFavoriteAnime() -> FavoriteItem? {
+        guard let title = animeTitle,
+              let imageURL = URL(string: imageUrl ?? ""),
+              let contentURL = URL(string: href ?? "") else {
+            return nil
+        }
+        return FavoriteItem(title: title, imageURL: imageURL, contentURL: contentURL)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         updateUI()
         setupNotifications()
+        checkFavoriteStatus()
+    }
+    
+    private func checkFavoriteStatus() {
+        if let anime = createFavoriteAnime() {
+            isFavorite = FavoritesManager.shared.isFavorite(anime)
+        }
     }
     
     private func setupUI() {
@@ -116,7 +146,10 @@ class AnimeDetailViewController: UITableViewController {
         switch indexPath.section {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "AnimeHeaderCell", for: indexPath) as! AnimeHeaderCell
-            cell.configure(title: animeTitle, imageUrl: imageUrl, aliases: aliases)
+            cell.configure(title: animeTitle, imageUrl: imageUrl, aliases: aliases, isFavorite: isFavorite)
+            cell.favoriteButtonTapped = { [weak self] in
+                self?.toggleFavorite()
+            }
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "SynopsisCell", for: indexPath) as! SynopsisCell
@@ -289,6 +322,8 @@ class AnimeHeaderCell: UITableViewCell {
     private let favoriteButton = UIButton()
     private let infoButton = UIButton()
     
+    var favoriteButtonTapped: (() -> Void)?
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
@@ -327,6 +362,7 @@ class AnimeHeaderCell: UITableViewCell {
         favoriteButton.setTitleColor(.black, for: .normal)
         favoriteButton.backgroundColor = UIColor.systemTeal
         favoriteButton.layer.cornerRadius = 14
+        favoriteButton.addTarget(self, action: #selector(favoriteButtonPressed), for: .touchUpInside)
 
         infoButton.setImage(UIImage(systemName: "ellipsis.circle.fill"), for: .normal)
         infoButton.tintColor = UIColor.systemTeal
@@ -359,12 +395,23 @@ class AnimeHeaderCell: UITableViewCell {
         ])
     }
     
-    func configure(title: String?, imageUrl: String?, aliases: String) {
+    @objc private func favoriteButtonPressed() {
+        favoriteButtonTapped?()
+    }
+    
+    func configure(title: String?, imageUrl: String?, aliases: String, isFavorite: Bool) {
         titleLabel.text = title
         aliasLabel.text = aliases
         if let url = URL(string: imageUrl ?? "") {
             animeImageView.kf.setImage(with: url, placeholder: UIImage(systemName: "photo"))
         }
+        updateFavoriteButtonState(isFavorite: isFavorite)
+    }
+    
+    private func updateFavoriteButtonState(isFavorite: Bool) {
+        let title = isFavorite ? "UNFAVORITE" : "FAVORITE"
+        favoriteButton.setTitle(title, for: .normal)
+        favoriteButton.backgroundColor = isFavorite ? .systemGray : .systemTeal
     }
 }
 
