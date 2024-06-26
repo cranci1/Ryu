@@ -35,7 +35,7 @@ class FavoritesViewController: UIViewController {
         collectionView.prefetchDataSource = self
         
         let nib = UINib(nibName: "FavoriteCell", bundle: nil)
-         collectionView.register(nib, forCellWithReuseIdentifier: "FavoriteCell")
+        collectionView.register(nib, forCellWithReuseIdentifier: "FavoriteCell")
     }
     
     private func loadFavorites() {
@@ -58,6 +58,13 @@ extension FavoritesViewController: UICollectionViewDataSource, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let item = favorites[indexPath.item]
+        navigateToAnimeDetail(title: item.title, imageUrl: item.imageURL.absoluteString, href: item.contentURL.absoluteString)
+    }
+    
+    func navigateToAnimeDetail(title: String, imageUrl: String, href: String) {
+        let detailVC = AnimeDetailViewController()
+        detailVC.configure(title: title, imageUrl: imageUrl, href: href)
+        navigationController?.pushViewController(detailVC, animated: true)
     }
 }
 

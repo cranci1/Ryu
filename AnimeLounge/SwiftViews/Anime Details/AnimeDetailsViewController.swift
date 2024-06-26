@@ -63,6 +63,8 @@ class AnimeDetailViewController: UITableViewController {
         updateUI()
         setupNotifications()
         checkFavoriteStatus()
+        
+        navigationController?.navigationBar.prefersLargeTitles = false
     }
     
     private func checkFavoriteStatus() {

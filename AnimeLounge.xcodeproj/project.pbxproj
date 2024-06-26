@@ -311,8 +311,8 @@
 		13CD3A7E2C26B24D00B046F9 /* Anime Details */ = {
 			isa = PBXGroup;
 			children = (
-				13AE19DB2C2AF1400012633D /* AnimeDetailService.swift */,
 				13CD3A7F2C26B25E00B046F9 /* AnimeDetailsViewController.swift */,
+				13AE19DB2C2AF1400012633D /* AnimeDetailService.swift */,
 				13AE19D92C2AF1130012633D /* Episode.swift */,
 			);
 			path = "Anime Details";

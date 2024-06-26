@@ -356,8 +356,8 @@
             <objects>
                 <navigationController id="zUE-0l-pun" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="favorites" id="bqb-dW-tII"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="nBH-n3-bIW">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="96"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="nBH-n3-bIW">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>

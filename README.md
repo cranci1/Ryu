@@ -12,6 +12,8 @@ Yes it's a NineAnimator fork aimed to be more stable and to support more sources
 - [ ] Third-party anime services: Anilist, MAL
 - [ ] Background playback
 - [x] PiP support on iOS/iPadOS 14+ (Still needs improvements)
+- [x] Favorite/Subscribe system
+- [ ] Notification on new episode
 - [ ] MultiSources support for Streaming and Download
 
 ## Sources working:
