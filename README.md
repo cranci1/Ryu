@@ -20,9 +20,9 @@ Yes it's a NineAnimator fork aimed to be more stable and to support more sources
 
 | Sources                       | Language     | Search     | AnimeInfo  | Streaming | Download |
 | ----------------------------- | -----------  | --------   | -------    | ------    | -------- |
-| AnimeWorld                    | Italian      | ✅         | ✅         |   ✅      | :x:      |
-| GoGoAnime                     | English      | ✅         | ✅         |   :x:     | :x:      |
-| AnimeHeaven                   | English      | ✅         | ✅         |   ✅      | :x:      |
+| AnimeWorld                    | Italian      | ✅         | ✅         |   ✅     | :x:      |
+| GoGoAnime                     | English      | ✅         | ✅         |   ⚠️     | :x:      |
+| AnimeHeaven                   | English      | ✅         | ✅         |   ✅     | :x:      |
 
 ## Coming soon:
 
