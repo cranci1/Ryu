@@ -32,7 +32,7 @@
         <scene sceneID="T9Z-Ks-MCz">
             <objects>
                 <navigationController id="URY-4Z-Kae" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Watch Next" image="play.tv.fill" catalog="system" id="wSa-ve-edd"/>
+                    <tabBarItem key="tabBarItem" title="Watch Next" image="play.rectangle.fill" catalog="system" id="wSa-ve-edd"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="UnL-A0-MB5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -113,6 +113,7 @@
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="quaternarySystemFillColor"/>
+                                <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstItem="pvJ-mQ-Yxk" firstAttribute="top" secondItem="ucB-tJ-LtI" secondAttribute="bottom" constant="8" id="Dvh-mT-Tqx"/>
                                     <constraint firstItem="pvJ-mQ-Yxk" firstAttribute="top" secondItem="71g-M8-deH" secondAttribute="bottom" constant="10" id="SD8-eb-uQd"/>
@@ -124,6 +125,9 @@
                                     <constraint firstAttribute="trailing" secondItem="ucB-tJ-LtI" secondAttribute="trailing" constant="10" id="klP-x1-NCJ"/>
                                     <constraint firstAttribute="trailing" secondItem="pvJ-mQ-Yxk" secondAttribute="trailing" constant="79" id="zNx-FO-gEn"/>
                                 </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="LbR-PN-yde" appends="YES" id="SxA-4f-mu2"/>
+                                </connections>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0dG-mT-9uv">
                                 <rect key="frame" x="16" y="96" width="164.5" height="80"/>
@@ -163,6 +167,7 @@
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="quaternarySystemFillColor"/>
+                                <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="GSZ-aV-pga" secondAttribute="trailing" constant="17.5" id="2mA-xV-Uyb"/>
                                     <constraint firstItem="iWj-w1-Px9" firstAttribute="leading" secondItem="pvu-t5-nwh" secondAttribute="leading" id="7o6-0t-mBf"/>
@@ -173,6 +178,9 @@
                                     <constraint firstItem="iWj-w1-Px9" firstAttribute="leading" secondItem="0dG-mT-9uv" secondAttribute="leading" constant="12" id="SO5-cq-oCZ"/>
                                     <constraint firstItem="GSZ-aV-pga" firstAttribute="leading" secondItem="iWj-w1-Px9" secondAttribute="trailing" constant="4" id="b8L-sc-0Fa"/>
                                 </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="jRp-U8-0xf" appends="YES" id="9Vf-fJ-OB2"/>
+                                </connections>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZK0-8S-Whv">
                                 <rect key="frame" x="16" y="184" width="343" height="51"/>
@@ -215,6 +223,7 @@
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="quaternarySystemFillColor"/>
+                                <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstItem="U8V-Ph-Tqn" firstAttribute="top" secondItem="Gef-Db-fz0" secondAttribute="bottom" constant="-22" id="8gY-TJ-69P"/>
                                     <constraint firstItem="Gef-Db-fz0" firstAttribute="leading" secondItem="ZK0-8S-Whv" secondAttribute="leading" constant="12" id="AxE-v3-aMu"/>
@@ -225,6 +234,9 @@
                                     <constraint firstItem="Gef-Db-fz0" firstAttribute="centerY" secondItem="ZK0-8S-Whv" secondAttribute="centerY" constant="-1" id="fPn-dg-uK7"/>
                                     <constraint firstItem="Gef-Db-fz0" firstAttribute="trailing" secondItem="U8V-Ph-Tqn" secondAttribute="leading" constant="-5" id="hRK-83-Qzy"/>
                                 </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="akv-PI-rO3" appends="YES" id="hgO-Zh-fXi"/>
+                                </connections>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Py1-Cw-iYd"/>
@@ -260,6 +272,9 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qGL-YY-bfp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="LbR-PN-yde" userLabel="recents"/>
+                <tapGestureRecognizer id="jRp-U8-0xf" userLabel="favorites"/>
+                <tapGestureRecognizer id="akv-PI-rO3" userLabel="downloads"/>
             </objects>
             <point key="canvasLocation" x="-5588" y="1497.3013493253375"/>
         </scene>
@@ -637,13 +652,13 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="A4S-3U-V1x"/>
+        <segue reference="QUk-Rn-qDy"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.down.circle.fill" catalog="system" width="128" height="121"/>
         <image name="clock" catalog="system" width="128" height="121"/>
         <image name="gear" catalog="system" width="128" height="119"/>
-        <image name="play.tv.fill" catalog="system" width="128" height="97"/>
+        <image name="play.rectangle.fill" catalog="system" width="128" height="93"/>
         <image name="square.stack.fill" catalog="system" width="113" height="128"/>
         <image name="star.fill" catalog="system" width="128" height="116"/>
         <namedColor name="AccentColor">

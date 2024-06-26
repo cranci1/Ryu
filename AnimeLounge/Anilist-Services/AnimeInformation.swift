@@ -426,7 +426,7 @@ class AnimeService {
               english
               native
             }
-            description(asHtml: false)
+            description
             coverImage {
               large
             }

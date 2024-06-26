@@ -72,14 +72,18 @@ class AnimeDetailService {
         var episodes: [Episode] = []
         do {
             var episodeElements: Elements
+            var downloadUrlElement: String
             
             switch source {
             case .animeWorld:
                 episodeElements = try document.select("div.server.active ul.episodes li.episode a")
+                downloadUrlElement = ""
             case .gogoanime:
                 episodeElements = try document.select("a.active")
+                downloadUrlElement = ""
             case .animeheaven:
                 episodeElements = try document.select("div.linetitle2 a")
+                downloadUrlElement = ""
             }
             
             switch source {
@@ -97,15 +101,17 @@ class AnimeDetailService {
                     return (max(1, start)...end).map { episodeNumber in
                         let formattedEpisode = "\(episodeNumber)"
                         let episodeHref = "\(href)-episode-\(episodeNumber)"
+                        let downloadUrl = try? document.select(downloadUrlElement).attr("href")
                         
-                        return Episode(number: formattedEpisode, href: episodeHref)
+                        return Episode(number: formattedEpisode, href: episodeHref, downloadUrl: downloadUrl ?? "")
                     }
                 }
             default:
                 episodes = episodeElements.compactMap { element in
                     guard let episodeText = try? element.text(),
                           let href = try? element.attr("href") else { return nil }
-                    return Episode(number: episodeText, href: href)
+                    let downloadUrl = try? document.select(downloadUrlElement).attr("href")
+                    return Episode(number: episodeText, href: href, downloadUrl: downloadUrl ?? "")
                 }
             }
         } catch {
@@ -114,4 +120,3 @@ class AnimeDetailService {
         return episodes
     }
 }
-
