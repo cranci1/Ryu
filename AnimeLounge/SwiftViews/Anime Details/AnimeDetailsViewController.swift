@@ -8,6 +8,7 @@
 import UIKit
 import AVKit
 import SwiftSoup
+import WebKit
 
 extension String {
     var nilIfEmpty: String? {
@@ -15,7 +16,7 @@ extension String {
     }
 }
 
-class AnimeDetailViewController: UITableViewController {
+class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
     private var animeTitle: String?
     private var imageUrl: String?
     private var href: String?
@@ -186,23 +187,38 @@ class AnimeDetailViewController: UITableViewController {
             baseURL = "https://www.animeworld.so/api/episode/serverPlayerAnimeWorld?id="
             episodeId = episode.href.components(separatedBy: "/").last ?? episode.href
             fullURL = baseURL + episodeId
+            playEpisode(url: fullURL)
+            return
         case "AnimeHeaven":
             baseURL = "https://animeheaven.me/"
             episodeId = episode.href
             fullURL = baseURL + episodeId
+            playEpisode(url: fullURL)
+            return
         case "GoGoAnime":
             baseURL = "https://anitaku.pe/"
             episodeId = episode.href.components(separatedBy: "/").last ?? episode.href
             fullURL = baseURL + episodeId
+
+            let webView = WKWebView(frame: view.bounds)
+            webView.navigationDelegate = self
+            view.addSubview(webView)
+            
+            if let url = URL(string: fullURL) {
+                let request = URLRequest(url: url)
+                webView.load(request)
+            }
+            
         default:
             baseURL = ""
             episodeId = episode.href
             fullURL = baseURL + episodeId
+            playEpisode(url: fullURL)
+            return
         }
         
         print("Selected source: \(selectedSource)")
         print("Full URL: \(fullURL)")
-        playEpisode(url: fullURL)
     }
     
     private func fetchHTMLContent(from url: String, completion: @escaping (Result<String, Error>) -> Void) {
@@ -378,10 +394,10 @@ class AnimeHeaderCell: UITableViewCell {
             favoriteButton.heightAnchor.constraint(equalToConstant: 30),
             favoriteButton.widthAnchor.constraint(equalToConstant: 100),
             
-            infoButton.centerYAnchor.constraint(equalTo: favoriteButton.centerYAnchor),
-            infoButton.leadingAnchor.constraint(equalTo: favoriteButton.trailingAnchor, constant: 10),
-            infoButton.widthAnchor.constraint(equalToConstant: 24),
-            infoButton.heightAnchor.constraint(equalToConstant: 24),
+            infoButton.bottomAnchor.constraint(equalTo: animeImageView.bottomAnchor),
+            infoButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            infoButton.widthAnchor.constraint(equalToConstant: 30),
+            infoButton.heightAnchor.constraint(equalToConstant: 30),
             
             contentView.bottomAnchor.constraint(equalTo: animeImageView.bottomAnchor, constant: 10)
         ])
