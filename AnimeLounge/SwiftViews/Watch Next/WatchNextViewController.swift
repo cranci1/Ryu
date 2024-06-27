@@ -119,11 +119,17 @@ class WatchNextViewController: UITableViewController {
         }
         setUntintedImage(for: heavenAction, named: "AnimeHeaven")
         
+        let fireAction = UIAlertAction(title: "AnimeFire", style: .default) { _ in
+            UserDefaults.standard.selectedMediaSource = .animefire
+        }
+        setUntintedImage(for: fireAction, named: "AnimeFire")
+        
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         alertController.addAction(worldAction)
         alertController.addAction(gogoAction)
         alertController.addAction(heavenAction)
+        alertController.addAction(fireAction)
         alertController.addAction(cancelAction)
         
         if let popoverController = alertController.popoverPresentationController {

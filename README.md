@@ -10,7 +10,7 @@ Yes it's a NineAnimator fork aimed to be more stable and to support more sources
 - [x] Streaming support
 - [ ] Download support
 - [ ] Third-party anime services: Anilist, MAL
-- [ ] Background playback
+- [x] Background playback
 - [x] PiP support on iOS/iPadOS 14+ (Still needs improvements)
 - [x] Favorite/Subscribe system
 - [ ] Notification on new episode
@@ -19,11 +19,16 @@ Yes it's a NineAnimator fork aimed to be more stable and to support more sources
 ## Sources working:
 
 | Sources                       | Language     | Search     | AnimeInfo  | Streaming | Download |
-| ----------------------------- | -----------  | --------   | -------    | ------    | -------- |
+| ----------------------------- | -----------  | --------   | -------    | --------  | -------- |
 | AnimeWorld                    | Italian      | ✅         | ✅         |   ✅     | :x:      |
 | GoGoAnime                     | English      | ✅         | ✅         |   ⚠️     | :x:      |
 | AnimeHeaven                   | English      | ✅         | ✅         |   ✅     | :x:      |
+| AnimeFire                     | Portuguese   | ✅         | ✅         |   ⚠️     | :x:      |
+
+> [!Note]
+> AnimeFire is region Blocked. Only Portuguese and Brazil IP are allowed!
+
 
 ## Coming soon:
 
-~~idk need to find sources that doesn't use .m3u8 file or i need to find a way to display the .m3u8 file. (GoGoAnime uses .m3u8 files and im trying my best to add support)~~ Found method now i need to update sources to support it i will start rn - 25 June
+~~idk need to find sources that doesn't use .m3u8 file or i need to find a way to display the .m3u8 file. (GoGoAnime uses .m3u8 files and im trying my best to add support)~~ Found method now i need to update sources to support it i will start rn - 25 June (Its kinda impossible on iOS so wont be possilbe for now)

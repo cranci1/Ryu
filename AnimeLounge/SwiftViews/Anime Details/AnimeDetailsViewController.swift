@@ -211,6 +211,19 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
             fullURL = baseURL + episodeId
             playEpisode(url: fullURL, cell: cell, fullURL: fullURL)
             return
+        case "AnimeFire":
+            episodeId = episode.href
+            fullURL =  episodeId
+            
+            let webView = WKWebView(frame: view.bounds)
+            webView.navigationDelegate = self
+            view.addSubview(webView)
+            
+            if let url = URL(string: fullURL) {
+                let request = URLRequest(url: url)
+                webView.load(request)
+            }
+            return
         case "GoGoAnime":
             baseURL = "https://anitaku.pe/"
             episodeId = episode.href.components(separatedBy: "/").last ?? episode.href

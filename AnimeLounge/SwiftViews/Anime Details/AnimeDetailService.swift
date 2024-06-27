@@ -33,6 +33,8 @@ class AnimeDetailService {
             baseUrl = "https://anitaku.pe"
         case .animeheaven:
             baseUrl = "https://animeheaven.me/"
+        case .animefire:
+            baseUrl = ""
         }
         
         let fullUrl = baseUrl + href
@@ -63,6 +65,11 @@ class AnimeDetailService {
                         synopsis = try document.select("div.infodiv div.infodes").text()
                         airdate = try document.select("div.infoyear div.c2").eq(1).text()
                         stars = try document.select("div.infoyear div.c2").last()?.text() ?? ""
+                    case .animefire:
+                        aliases = try document.select("div.mr-2 h6.text-gray").text()
+                        synopsis = try document.select("div.divSinopse span.spanAnimeInfo").text()
+                        airdate = try document.select("div.divAnimePageInfo div.animeInfo span.spanAnimeInfo").last()?.text() ?? ""
+                        stars = try document.select("div.div_anime_score h4.text-white").text()
                     }
                     
                     episodes = self.fetchEpisodes(document: document, for: selectedSource, href: href)
@@ -93,6 +100,9 @@ class AnimeDetailService {
                 downloadUrlElement = ""
             case .animeheaven:
                 episodeElements = try document.select("div.linetitle2 a")
+                downloadUrlElement = ""
+            case .animefire:
+                episodeElements = try document.select("div.div_video_list a")
                 downloadUrlElement = ""
             }
             

@@ -40,7 +40,7 @@ class SearchViewController: UIViewController {
         }
 
         let url: String
-        let parameters: Parameters
+        var parameters: Parameters = [:]
 
         switch selectedSource {
         case .animeWorld:
@@ -52,9 +52,15 @@ class SearchViewController: UIViewController {
         case .animeheaven:
             url = "https://animeheaven.me/search.php"
             parameters = ["s": query]
+        case .animefire:
+            let lowercaseQuery = query.lowercased()
+            let encodedQuery = lowercaseQuery.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? lowercaseQuery
+            url = "https://animefire.plus/pesquisar/\(encodedQuery)"
         }
 
-        AF.request(url, parameters: parameters).responseString { [weak self] response in
+        print("Completed URL: \(url)")
+
+        AF.request(url, method: .get, parameters: parameters).responseString { [weak self] response in
             guard let self = self else { return }
 
             switch response.result {
@@ -103,6 +109,15 @@ class SearchViewController: UIViewController {
                     }
                     let title = try item.select("div.similarname a.c").text()
                     results.append((title: title, imageUrl: imageUrl, href: href))
+                }
+            case .animefire:
+                let items = try document.select("div.container div.card-group div.row div")
+                for item in items {
+                    let title = try item.select("div.text-block h3.animeTitle").text()
+                    let imageUrl = try item.select("article.card a img").attr("data-src")
+                    let href = try item.select("a").attr("href")
+                    results.append((title: title, imageUrl: imageUrl, href: href))
+                    print("Href: \(href)")
                 }
             }
             return results
@@ -169,11 +184,17 @@ class SearchViewController: UIViewController {
         }
         setUntintedImage(for: heavenAction, named: "AnimeHeaven")
         
+        let fireAction = UIAlertAction(title: "AnimeFire", style: .default) { _ in
+            UserDefaults.standard.selectedMediaSource = .animefire
+        }
+        setUntintedImage(for: fireAction, named: "AnimeFire")
+        
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         alertController.addAction(worldAction)
         alertController.addAction(gogoAction)
         alertController.addAction(heavenAction)
+        alertController.addAction(fireAction)
         alertController.addAction(cancelAction)
         
         if let popoverController = alertController.popoverPresentationController {
