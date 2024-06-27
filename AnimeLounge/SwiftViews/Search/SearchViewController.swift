@@ -56,6 +56,9 @@ class SearchViewController: UIViewController {
             let lowercaseQuery = query.lowercased()
             let encodedQuery = lowercaseQuery.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? lowercaseQuery
             url = "https://animefire.plus/pesquisar/\(encodedQuery)"
+        case .kuramanime:
+            url = "https://kuramanime.boo/anime"
+            parameters = ["search": query]
         }
 
         print("Completed URL: \(url)")
@@ -117,7 +120,14 @@ class SearchViewController: UIViewController {
                     let imageUrl = try item.select("article.card a img").attr("data-src")
                     let href = try item.select("a").attr("href")
                     results.append((title: title, imageUrl: imageUrl, href: href))
-                    print("Href: \(href)")
+                }
+            case .kuramanime:
+                let items = try document.select("div#animeList div.col-lg-4")
+                for item in items {
+                    let title = try item.select("div.product__item__text h5 a").text()
+                    let imageUrl = try item.select("div.product__item__pic").attr("data-setbg")
+                    let href = try item.select("div.product__item a").attr("href")
+                    results.append((title: title, imageUrl: imageUrl, href: href))
                 }
             }
             return results
@@ -189,12 +199,18 @@ class SearchViewController: UIViewController {
         }
         setUntintedImage(for: fireAction, named: "AnimeFire")
         
+        let kuraAction = UIAlertAction(title: "Kuramanime", style: .default) { _ in
+            UserDefaults.standard.selectedMediaSource = .kuramanime
+        }
+        setUntintedImage(for: kuraAction, named: "Kuramanime")
+        
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         alertController.addAction(worldAction)
         alertController.addAction(gogoAction)
         alertController.addAction(heavenAction)
         alertController.addAction(fireAction)
+        alertController.addAction(kuraAction)
         alertController.addAction(cancelAction)
         
         if let popoverController = alertController.popoverPresentationController {

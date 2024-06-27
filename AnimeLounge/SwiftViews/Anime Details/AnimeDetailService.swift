@@ -35,6 +35,8 @@ class AnimeDetailService {
             baseUrl = "https://animeheaven.me/"
         case .animefire:
             baseUrl = ""
+        case .kuramanime:
+            baseUrl = ""
         }
         
         let fullUrl = baseUrl + href
@@ -70,6 +72,11 @@ class AnimeDetailService {
                         synopsis = try document.select("div.divSinopse span.spanAnimeInfo").text()
                         airdate = try document.select("div.divAnimePageInfo div.animeInfo span.spanAnimeInfo").last()?.text() ?? ""
                         stars = try document.select("div.div_anime_score h4.text-white").text()
+                    case .kuramanime:
+                        aliases = try document.select("div.anime__details__title span").last()?.text() ?? ""
+                        synopsis = try document.select("div.anime__details__text p").text()
+                        airdate = try document.select("div.anime__details__widget ul li div.col-9").eq(3).text()
+                        stars = try document.select("div.anime__details__widget div.row div.col-lg-6 ul li").select("div:contains(Skor:) ~ div.col-9").text()
                     }
                     
                     episodes = self.fetchEpisodes(document: document, for: selectedSource, href: href)
@@ -104,6 +111,16 @@ class AnimeDetailService {
             case .animefire:
                 episodeElements = try document.select("div.div_video_list a")
                 downloadUrlElement = ""
+            case .kuramanime:
+                if let episodeCountText = try? document.select("div.col-lg-6.col-md-6 ul li:contains(Episode:) div.col-9 a").text(),
+                   let episodeCount = Int(episodeCountText) {
+                    episodes = (1...episodeCount).map { episodeNumber in
+                        let formattedEpisode = "\(episodeNumber)"
+                        let episodeHref = "\(href)/episode/\(episodeNumber)"
+                        return Episode(number: formattedEpisode, href: episodeHref, downloadUrl: "")
+                    }
+                }
+                return episodes
             }
             
             switch source {

@@ -213,7 +213,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
             return
         case "AnimeFire":
             episodeId = episode.href
-            fullURL =  episodeId
+            fullURL = episodeId
             
             let webView = WKWebView(frame: view.bounds)
             webView.navigationDelegate = self
@@ -228,6 +228,19 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
             baseURL = "https://anitaku.pe/"
             episodeId = episode.href.components(separatedBy: "/").last ?? episode.href
             fullURL = baseURL + episodeId
+            
+            let webView = WKWebView(frame: view.bounds)
+            webView.navigationDelegate = self
+            view.addSubview(webView)
+            
+            if let url = URL(string: fullURL) {
+                let request = URLRequest(url: url)
+                webView.load(request)
+            }
+            return
+        case "Kuramanime":
+            episodeId = episode.href
+            fullURL = episodeId
             
             let webView = WKWebView(frame: view.bounds)
             webView.navigationDelegate = self
@@ -473,7 +486,7 @@ class AnimeHeaderCell: UITableViewCell {
             starIconImageView.widthAnchor.constraint(equalToConstant: 20),
             starIconImageView.heightAnchor.constraint(equalToConstant: 20),
              
-            starLabel.centerYAnchor.constraint(equalTo: starIconImageView.centerYAnchor),
+            starLabel.bottomAnchor.constraint(equalTo: starIconImageView.bottomAnchor),
             starLabel.leadingAnchor.constraint(equalTo: starIconImageView.trailingAnchor),
              
             calendarIconImageView.topAnchor.constraint(equalTo: animeImageView.bottomAnchor, constant: 16),
@@ -481,10 +494,10 @@ class AnimeHeaderCell: UITableViewCell {
             calendarIconImageView.widthAnchor.constraint(equalToConstant: 20),
             calendarIconImageView.heightAnchor.constraint(equalToConstant: 20),
              
-            airDateLabel.centerYAnchor.constraint(equalTo: calendarIconImageView.centerYAnchor),
+            airDateLabel.bottomAnchor.constraint(equalTo: calendarIconImageView.bottomAnchor),
             airDateLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
              
-            contentView.bottomAnchor.constraint(equalTo: starLabel.bottomAnchor, constant: 10)
+            contentView.bottomAnchor.constraint(equalTo: calendarIconImageView.bottomAnchor, constant: 10)
         ])
     }
     

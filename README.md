@@ -24,9 +24,10 @@ Yes it's a NineAnimator fork aimed to be more stable and to support more sources
 | GoGoAnime                     | English      | ✅         | ✅         |   ⚠️     | :x:      |
 | AnimeHeaven                   | English      | ✅         | ✅         |   ✅     | :x:      |
 | AnimeFire                     | Portuguese   | ✅         | ✅         |   ⚠️     | :x:      |
+| Kuramanime                    | Indonesian   | ✅         | ✅         |   ⚠️     | :x:      |
 
 > [!Note]
-> AnimeFire is region Blocked. Only Portuguese and Brazil IP are allowed!
+> AnimeFire may be region Blocked. Only Portuguese and Brazil IP are allowed some times!
 
 
 ## Coming soon:
