@@ -410,7 +410,7 @@ class CharacterCollectionViewCell: UICollectionViewCell {
            let image = node["image"] as? [String: String],
            let imageUrlString = image["large"],
            let imageUrl = URL(string: imageUrlString) {
-            characterImageView.kf.setImage(with: imageUrl, placeholder: UIImage(systemName: "person.circle.fill"))
+            characterImageView.kf.setImage(with: imageUrl, placeholder: UIImage(systemName: "questionmark.circle.fill"))
         }
     }
 }

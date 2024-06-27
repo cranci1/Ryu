@@ -24,6 +24,8 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
     private var episodes: [Episode] = []
     private var synopsis: String = ""
     private var aliases: String = ""
+    private var airdate: String = ""
+    private var stars: String = ""
     private var isSynopsisExpanded = false
     
     private var player: AVPlayer?
@@ -114,6 +116,8 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
                 case .success(let details):
                     self?.aliases = details.aliases
                     self?.synopsis = details.synopsis
+                    self?.airdate = details.airdate
+                    self?.stars = details.stars
                     self?.episodes = details.episodes
                     DispatchQueue.main.async {
                         self?.tableView.reloadData()
@@ -147,7 +151,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
         switch indexPath.section {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "AnimeHeaderCell", for: indexPath) as! AnimeHeaderCell
-            cell.configure(title: animeTitle, imageUrl: imageUrl, aliases: aliases, isFavorite: isFavorite)
+            cell.configure(title: animeTitle, imageUrl: imageUrl, aliases: aliases, isFavorite: isFavorite, airdate: airdate, stars: stars)
             cell.favoriteButtonTapped = { [weak self] in
                 self?.toggleFavorite()
             }
@@ -328,7 +332,10 @@ class AnimeHeaderCell: UITableViewCell {
     private let titleLabel = UILabel()
     private let aliasLabel = UILabel()
     private let favoriteButton = UIButton()
-    private let infoButton = UIButton()
+    private let starLabel = UILabel()
+    private let airDateLabel = UILabel()
+    private let starIconImageView = UIImageView()
+    private let calendarIconImageView = UIImageView()
     
     var favoriteButtonTapped: (() -> Void)?
     
@@ -348,38 +355,53 @@ class AnimeHeaderCell: UITableViewCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(aliasLabel)
         contentView.addSubview(favoriteButton)
-        contentView.addSubview(infoButton)
+        contentView.addSubview(starLabel)
+        contentView.addSubview(airDateLabel)
+        contentView.addSubview(starIconImageView)
+        contentView.addSubview(calendarIconImageView)
         
         animeImageView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         aliasLabel.translatesAutoresizingMaskIntoConstraints = false
         favoriteButton.translatesAutoresizingMaskIntoConstraints = false
-        infoButton.translatesAutoresizingMaskIntoConstraints = false
+        starLabel.translatesAutoresizingMaskIntoConstraints = false
+        airDateLabel.translatesAutoresizingMaskIntoConstraints = false
+        starIconImageView.translatesAutoresizingMaskIntoConstraints = false
+        calendarIconImageView.translatesAutoresizingMaskIntoConstraints = false
         
         animeImageView.contentMode = .scaleAspectFit
         
         titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
         titleLabel.textColor = .label
-        titleLabel.numberOfLines = 0
+        titleLabel.numberOfLines = 4
 
-        aliasLabel.font = UIFont.systemFont(ofSize: 14)
+        aliasLabel.font = UIFont.systemFont(ofSize: 13)
         aliasLabel.textColor = .secondaryLabel
-        aliasLabel.numberOfLines = 0
+        aliasLabel.numberOfLines = 2
 
         favoriteButton.setTitle("FAVORITE", for: .normal)
         favoriteButton.setTitleColor(.black, for: .normal)
         favoriteButton.backgroundColor = UIColor.systemTeal
         favoriteButton.layer.cornerRadius = 14
         favoriteButton.addTarget(self, action: #selector(favoriteButtonPressed), for: .touchUpInside)
-
-        infoButton.setImage(UIImage(systemName: "ellipsis.circle.fill"), for: .normal)
-        infoButton.tintColor = UIColor.systemTeal
+        
+        starLabel.font = UIFont.boldSystemFont(ofSize: 15)
+        starLabel.textColor = .secondaryLabel
+        
+        airDateLabel.font = UIFont.boldSystemFont(ofSize: 15)
+        airDateLabel.textColor = .secondaryLabel
+        
+        starIconImageView.image = UIImage(systemName: "star.fill")
+        starIconImageView.tintColor = .systemGray
+        
+        calendarIconImageView.image = UIImage(systemName: "calendar")
+        calendarIconImageView.tintColor = .systemGray
         
         NSLayoutConstraint.activate([
             animeImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             animeImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
-            animeImageView.widthAnchor.constraint(equalToConstant: 120),
-            animeImageView.heightAnchor.constraint(equalToConstant: 180),
+            animeImageView.widthAnchor.constraint(equalToConstant: 110),
+            animeImageView.heightAnchor.constraint(equalToConstant: 160),
             
             titleLabel.topAnchor.constraint(equalTo: animeImageView.topAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: animeImageView.trailingAnchor, constant: 10),
@@ -394,12 +416,23 @@ class AnimeHeaderCell: UITableViewCell {
             favoriteButton.heightAnchor.constraint(equalToConstant: 30),
             favoriteButton.widthAnchor.constraint(equalToConstant: 100),
             
-            infoButton.bottomAnchor.constraint(equalTo: animeImageView.bottomAnchor),
-            infoButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            infoButton.widthAnchor.constraint(equalToConstant: 30),
-            infoButton.heightAnchor.constraint(equalToConstant: 30),
-            
-            contentView.bottomAnchor.constraint(equalTo: animeImageView.bottomAnchor, constant: 10)
+            starIconImageView.topAnchor.constraint(equalTo: animeImageView.bottomAnchor, constant: 10),
+            starIconImageView.leadingAnchor.constraint(equalTo: animeImageView.leadingAnchor),
+            starIconImageView.widthAnchor.constraint(equalToConstant: 20),
+            starIconImageView.heightAnchor.constraint(equalToConstant: 20),
+             
+            starLabel.centerYAnchor.constraint(equalTo: starIconImageView.centerYAnchor),
+            starLabel.leadingAnchor.constraint(equalTo: starIconImageView.trailingAnchor),
+             
+            calendarIconImageView.topAnchor.constraint(equalTo: animeImageView.bottomAnchor, constant: 10),
+            calendarIconImageView.trailingAnchor.constraint(equalTo: airDateLabel.leadingAnchor),
+            calendarIconImageView.widthAnchor.constraint(equalToConstant: 20),
+            calendarIconImageView.heightAnchor.constraint(equalToConstant: 20),
+             
+            airDateLabel.centerYAnchor.constraint(equalTo: calendarIconImageView.centerYAnchor),
+            airDateLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
+             
+            contentView.bottomAnchor.constraint(equalTo: starLabel.bottomAnchor, constant: 10)
         ])
     }
     
@@ -407,9 +440,24 @@ class AnimeHeaderCell: UITableViewCell {
         favoriteButtonTapped?()
     }
     
-    func configure(title: String?, imageUrl: String?, aliases: String, isFavorite: Bool) {
+    func configure(title: String?, imageUrl: String?, aliases: String, isFavorite: Bool, airdate: String, stars: String) {
         titleLabel.text = title
         aliasLabel.text = aliases
+        airDateLabel.text = airdate
+        
+        let selectedSource = UserDefaults.standard.string(forKey: "selectedMediaSource")
+        
+        switch selectedSource {
+        case "AnimeWorld":
+            starLabel.text = stars + "/10"
+            airDateLabel.text = airdate
+        case "GoGoAnime":
+            starLabel.text = "N/A"
+        default:
+            starLabel.text = stars
+            airDateLabel.text = airdate
+        }
+        
         if let url = URL(string: imageUrl ?? "") {
             animeImageView.kf.setImage(with: url, placeholder: UIImage(systemName: "photo"))
         }
@@ -422,6 +470,7 @@ class AnimeHeaderCell: UITableViewCell {
         favoriteButton.backgroundColor = isFavorite ? .systemGray : .systemTeal
     }
 }
+
 
 protocol SynopsisCellDelegate: AnyObject {
     func synopsisCellDidToggleExpansion(_ cell: SynopsisCell)

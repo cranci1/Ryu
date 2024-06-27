@@ -58,13 +58,6 @@ extension SearchResultsViewController: UITableViewDataSource, UITableViewDelegat
             navigateToAnimeDetail(title: selectedResult.title, imageUrl: selectedResult.imageUrl, href: selectedResult.href)
         }
     }
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // Handle row selection here, e.g., navigate to detail view
-        // Example:
-        // let selectedResult = searchResults[indexPath.row]
-        // print("Selected: \(selectedResult.title)")
-    }
 }
 
 class SearchResultCell: UITableViewCell {
@@ -99,10 +92,10 @@ class SearchResultCell: UITableViewCell {
         contentView.addSubview(disclosureIndicatorImageView)
         
         NSLayoutConstraint.activate([
-            animeImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            animeImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             animeImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             animeImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-            animeImageView.widthAnchor.constraint(equalToConstant: 105),
+            animeImageView.widthAnchor.constraint(equalToConstant: 100),
             
             titleLabel.leadingAnchor.constraint(equalTo: animeImageView.trailingAnchor, constant: 15),
             titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
@@ -115,7 +108,7 @@ class SearchResultCell: UITableViewCell {
         ])
         
         NSLayoutConstraint.activate([
-            contentView.heightAnchor.constraint(equalToConstant: 170)
+            contentView.heightAnchor.constraint(equalToConstant: 160)
         ])
         
         animeImageView.clipsToBounds = true

@@ -12,6 +12,8 @@ import UIKit
 struct AnimeDetail {
     let aliases: String
     let synopsis: String
+    let airdate: String
+    let stars: String
     let episodes: [Episode]
 }
 
@@ -41,23 +43,31 @@ class AnimeDetailService {
                     let document = try SwiftSoup.parse(html)
                     let aliases: String
                     let synopsis: String
+                    let airdate: String
+                    let stars: String
                     let episodes: [Episode]
                     
                     switch selectedSource {
                     case .animeWorld:
-                        aliases = ""
+                        aliases = try document.select("div.widget-title h1").attr("data-jtitle")
                         synopsis = try document.select("div.info div.desc").text()
+                        airdate = try document.select("div.row dl.meta dt:contains(Data di Uscita) + dd").first()?.text() ?? ""
+                        stars = try document.select("dd.rating span").text()
                     case .gogoanime:
                         aliases = try document.select("div.anime_info_body_bg p.other-name a").text()
                         synopsis = try document.select("div.anime_info_body_bg div.description").text()
+                        airdate = try document.select("p.type:contains(Released:)").first()?.text().replacingOccurrences(of: "Released: ", with: "") ?? ""
+                        stars =  ""
                     case .animeheaven:
                         aliases = try document.select("div.infodiv div.infotitlejp").text()
                         synopsis = try document.select("div.infodiv div.infodes").text()
+                        airdate = try document.select("div.infoyear div.c2").eq(1).text()
+                        stars = try document.select("div.infoyear div.c2").last()?.text() ?? ""
                     }
                     
                     episodes = self.fetchEpisodes(document: document, for: selectedSource, href: href)
                     
-                    let details = AnimeDetail(aliases: aliases, synopsis: synopsis, episodes: episodes)
+                    let details = AnimeDetail(aliases: aliases, synopsis: synopsis, airdate: airdate, stars: stars, episodes: episodes)
                     completion(.success(details))
                 } catch {
                     completion(.failure(error))
