@@ -25,6 +25,8 @@ class EpisodeCell: UITableViewCell {
     private var fileName: String = ""
     private var downloadUrl: String = ""
     
+    let playbackProgressView = UIProgressView(progressViewStyle: .default)
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupCell()
@@ -36,15 +38,18 @@ class EpisodeCell: UITableViewCell {
     
     private func setupCell() {
         contentView.backgroundColor = UIColor.secondarySystemBackground
+        
         contentView.addSubview(episodeLabel)
         contentView.addSubview(downloadButton)
         contentView.addSubview(startnowLabel)
         contentView.addSubview(progressView)
+        contentView.addSubview(playbackProgressView)
         
         episodeLabel.translatesAutoresizingMaskIntoConstraints = false
         downloadButton.translatesAutoresizingMaskIntoConstraints = false
         startnowLabel.translatesAutoresizingMaskIntoConstraints = false
         progressView.translatesAutoresizingMaskIntoConstraints = false
+        playbackProgressView.translatesAutoresizingMaskIntoConstraints = false
         
         episodeLabel.font = UIFont.systemFont(ofSize: 16)
         
@@ -75,10 +80,40 @@ class EpisodeCell: UITableViewCell {
             progressView.widthAnchor.constraint(equalToConstant: 30),
             progressView.heightAnchor.constraint(equalToConstant: 30),
             
+            playbackProgressView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            playbackProgressView.trailingAnchor.constraint(equalTo: contentView.centerXAnchor),
+            playbackProgressView.centerYAnchor.constraint(equalTo: startnowLabel.centerYAnchor),
+            
             contentView.bottomAnchor.constraint(equalTo: startnowLabel.bottomAnchor, constant: 10)
         ])
     }
     
+    func updatePlaybackProgress(progress: Float) {
+        playbackProgressView.isHidden = false
+        playbackProgressView.progress = progress
+    }
+    
+    func resetPlaybackProgress() {
+        playbackProgressView.isHidden = true
+        playbackProgressView.progress = 0.0
+    }
+    
+    func loadSavedProgress(for fullURL: String) {
+        let lastPlayedTime = UserDefaults.standard.double(forKey: "lastPlayedTime_\(fullURL)")
+        let totalTime = UserDefaults.standard.double(forKey: "totalTime_\(fullURL)")
+        
+        if totalTime > 0 {
+            let progress = Float(lastPlayedTime / totalTime)
+            updatePlaybackProgress(progress: progress)
+            playbackProgressView.isHidden = false
+            startnowLabel.isHidden = true
+        } else {
+            resetPlaybackProgress()
+            playbackProgressView.isHidden = true
+            startnowLabel.isHidden = false
+        }
+    }
+
     func configure(episodeNumber: String, downloadUrl: String) {
         self.episodeNumber = episodeNumber
         self.downloadUrl = downloadUrl

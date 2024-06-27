@@ -26,12 +26,13 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
     private var aliases: String = ""
     private var airdate: String = ""
     private var stars: String = ""
-    private var isSynopsisExpanded = false
     
     private var player: AVPlayer?
     private var playerViewController: AVPlayerViewController?
+    private var timeObserverToken: Any?
     
     private var isFavorite: Bool = false
+    private var isSynopsisExpanded = false
 
     func configure(title: String, imageUrl: String, href: String) {
         self.animeTitle = title
@@ -47,6 +48,12 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
         checkFavoriteStatus()
         
         navigationController?.navigationBar.prefersLargeTitles = false
+        
+        for (index, episode) in episodes.enumerated() {
+            if let cell = tableView.cellForRow(at: IndexPath(row: index, section: 2)) as? EpisodeCell {
+                cell.loadSavedProgress(for: episode.href)
+            }
+        }
     }
     
     private func toggleFavorite() {
@@ -165,6 +172,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: "EpisodeCell", for: indexPath) as! EpisodeCell
             let episode = episodes[indexPath.row]
             cell.configure(episodeNumber: episode.number, downloadUrl: episode.downloadUrl)
+            cell.loadSavedProgress(for: episode.href)
             return cell
         default:
             return UITableViewCell()
@@ -175,35 +183,39 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.section == 2 {
             let episode = episodes[indexPath.row]
-            episodeSelected(episode: episode)
+            if let cell = tableView.cellForRow(at: indexPath) as? EpisodeCell {
+                episodeSelected(episode: episode, cell: cell)
+            }
         }
     }
 
-    private func episodeSelected(episode: Episode) {
+    private func episodeSelected(episode: Episode, cell: EpisodeCell) {
         let selectedSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeHeaven"
         
         var baseURL: String
         var fullURL: String
         var episodeId: String
+        var episodeTimeURL: String
         
         switch selectedSource {
         case "AnimeWorld":
             baseURL = "https://www.animeworld.so/api/episode/serverPlayerAnimeWorld?id="
             episodeId = episode.href.components(separatedBy: "/").last ?? episode.href
             fullURL = baseURL + episodeId
-            playEpisode(url: fullURL)
+            episodeTimeURL = episode.href
+            playEpisode(url: fullURL, cell: cell, fullURL: episodeTimeURL)
             return
         case "AnimeHeaven":
             baseURL = "https://animeheaven.me/"
             episodeId = episode.href
             fullURL = baseURL + episodeId
-            playEpisode(url: fullURL)
+            playEpisode(url: fullURL, cell: cell, fullURL: fullURL)
             return
         case "GoGoAnime":
             baseURL = "https://anitaku.pe/"
             episodeId = episode.href.components(separatedBy: "/").last ?? episode.href
             fullURL = baseURL + episodeId
-
+            
             let webView = WKWebView(frame: view.bounds)
             webView.navigationDelegate = self
             view.addSubview(webView)
@@ -212,17 +224,14 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
                 let request = URLRequest(url: url)
                 webView.load(request)
             }
-            
+            return
         default:
             baseURL = ""
             episodeId = episode.href
             fullURL = baseURL + episodeId
-            playEpisode(url: fullURL)
+            playEpisode(url: fullURL, cell: cell, fullURL: fullURL)
             return
         }
-        
-        print("Selected source: \(selectedSource)")
-        print("Full URL: \(fullURL)")
     }
     
     private func fetchHTMLContent(from url: String, completion: @escaping (Result<String, Error>) -> Void) {
@@ -246,7 +255,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
         }.resume()
     }
 
-    private func playEpisode(url: String) {
+    private func playEpisode(url: String, cell: EpisodeCell, fullURL: String) {
         guard let videoURL = URL(string: url) else {
             print("Invalid URL")
             return
@@ -254,7 +263,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
 
         if url.contains(".mp4") || url.contains(".m3u8") || url.contains("animeheaven.me/video.mp4") {
             DispatchQueue.main.async {
-                self.playVideoWithAVPlayer(sourceURL: videoURL)
+                self.playVideoWithAVPlayer(sourceURL: videoURL, cell: cell, fullURL: fullURL)
             }
         } else {
             URLSession.shared.dataTask(with: videoURL) { [weak self] (data, response, error) in
@@ -267,7 +276,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
                 }
                 
                 DispatchQueue.main.async {
-                    self.playVideoWithAVPlayer(sourceURL: srcURL)
+                    self.playVideoWithAVPlayer(sourceURL: srcURL, cell: cell, fullURL: fullURL)
                 }
             }.resume()
         }
@@ -309,13 +318,43 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
         return URL(string: urlString)
     }
 
-    private func playVideoWithAVPlayer(sourceURL: URL) {
+    private func playVideoWithAVPlayer(sourceURL: URL, cell: EpisodeCell, fullURL: String) {
         player = AVPlayer(url: sourceURL)
         playerViewController = AVPlayerViewController()
         playerViewController?.player = player
         
+        let lastPlayedTime = UserDefaults.standard.double(forKey: "lastPlayedTime_\(fullURL)")
+        
         present(playerViewController!, animated: true) {
-            self.player?.play()
+            if lastPlayedTime > 0 {
+                let seekTime = CMTime(seconds: lastPlayedTime, preferredTimescale: 1)
+                self.player?.seek(to: seekTime) { _ in
+                    self.player?.play()
+                }
+            } else {
+                self.player?.play()
+            }
+            self.addPeriodicTimeObserver(cell: cell, fullURL: fullURL)
+        }
+    }
+
+    private func addPeriodicTimeObserver(cell: EpisodeCell, fullURL: String) {
+        let interval = CMTime(seconds: 1.0, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+        timeObserverToken = player?.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
+            guard let self = self,
+                  let currentItem = self.player?.currentItem,
+                  currentItem.duration.seconds.isFinite else {
+                return
+            }
+            
+            let currentTime = time.seconds
+            let duration = currentItem.duration.seconds
+            let progress = currentTime / duration
+            
+            cell.updatePlaybackProgress(progress: Float(progress))
+            
+            UserDefaults.standard.set(currentTime, forKey: "lastPlayedTime_\(fullURL)")
+            UserDefaults.standard.set(duration, forKey: "totalTime_\(fullURL)")
         }
     }
 }
@@ -371,13 +410,13 @@ class AnimeHeaderCell: UITableViewCell {
         
         animeImageView.contentMode = .scaleAspectFit
         
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 19)
         titleLabel.textColor = .label
         titleLabel.numberOfLines = 4
 
-        aliasLabel.font = UIFont.systemFont(ofSize: 13)
+        aliasLabel.font = UIFont.systemFont(ofSize: 11)
         aliasLabel.textColor = .secondaryLabel
-        aliasLabel.numberOfLines = 2
+        aliasLabel.numberOfLines = 3
 
         favoriteButton.setTitle("FAVORITE", for: .normal)
         favoriteButton.setTitleColor(.black, for: .normal)
@@ -407,16 +446,16 @@ class AnimeHeaderCell: UITableViewCell {
             titleLabel.leadingAnchor.constraint(equalTo: animeImageView.trailingAnchor, constant: 10),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
             
-            aliasLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+            aliasLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
             aliasLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             aliasLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
             
-            favoriteButton.topAnchor.constraint(equalTo: aliasLabel.bottomAnchor, constant: 8),
+            favoriteButton.bottomAnchor.constraint(equalTo: animeImageView.bottomAnchor),
             favoriteButton.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             favoriteButton.heightAnchor.constraint(equalToConstant: 30),
             favoriteButton.widthAnchor.constraint(equalToConstant: 100),
             
-            starIconImageView.topAnchor.constraint(equalTo: animeImageView.bottomAnchor, constant: 10),
+            starIconImageView.topAnchor.constraint(equalTo: animeImageView.bottomAnchor, constant: 16),
             starIconImageView.leadingAnchor.constraint(equalTo: animeImageView.leadingAnchor),
             starIconImageView.widthAnchor.constraint(equalToConstant: 20),
             starIconImageView.heightAnchor.constraint(equalToConstant: 20),
@@ -424,7 +463,7 @@ class AnimeHeaderCell: UITableViewCell {
             starLabel.centerYAnchor.constraint(equalTo: starIconImageView.centerYAnchor),
             starLabel.leadingAnchor.constraint(equalTo: starIconImageView.trailingAnchor),
              
-            calendarIconImageView.topAnchor.constraint(equalTo: animeImageView.bottomAnchor, constant: 10),
+            calendarIconImageView.topAnchor.constraint(equalTo: animeImageView.bottomAnchor, constant: 16),
             calendarIconImageView.trailingAnchor.constraint(equalTo: airDateLabel.leadingAnchor),
             calendarIconImageView.widthAnchor.constraint(equalToConstant: 20),
             calendarIconImageView.heightAnchor.constraint(equalToConstant: 20),
