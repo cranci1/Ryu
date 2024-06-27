@@ -27,7 +27,7 @@ Yes it's a NineAnimator fork aimed to be more stable and to support more sources
 | Kuramanime                    | Indonesian   | ✅         | ✅         |   ⚠️     | :x:      |
 
 > [!Note]
-> AnimeFire may be region Blocked. Only Portuguese and Brazil IP are allowed some times!
+> AnimeFire is region Blocked. Only Portuguese and Brazil IP are allowed!
 
 
 ## Coming soon:
