@@ -81,8 +81,8 @@ class EpisodeCell: UITableViewCell {
             progressView.heightAnchor.constraint(equalToConstant: 30),
             
             playbackProgressView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            playbackProgressView.trailingAnchor.constraint(equalTo: contentView.centerXAnchor),
             playbackProgressView.centerYAnchor.constraint(equalTo: startnowLabel.centerYAnchor),
+            playbackProgressView.widthAnchor.constraint(equalToConstant: 150),
             
             contentView.bottomAnchor.constraint(equalTo: startnowLabel.bottomAnchor, constant: 10)
         ])
@@ -90,11 +90,13 @@ class EpisodeCell: UITableViewCell {
     
     func updatePlaybackProgress(progress: Float) {
         playbackProgressView.isHidden = false
+        startnowLabel.isHidden = true
         playbackProgressView.progress = progress
     }
     
     func resetPlaybackProgress() {
         playbackProgressView.isHidden = true
+        startnowLabel.isHidden = false
         playbackProgressView.progress = 0.0
     }
     

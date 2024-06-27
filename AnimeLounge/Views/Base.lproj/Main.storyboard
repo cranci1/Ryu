@@ -297,7 +297,7 @@
                         <barButtonItem key="leftBarButtonItem" title="Select Source" id="xDq-TS-qlu">
                             <color key="tintColor" name="AccentColor"/>
                             <connections>
-                                <action selector="selectSourceButtonTapped:" destination="Y70-mk-R3V" id="V6J-BW-BjV"/>
+                                <action selector="selectSourceButtonTapped:" destination="Y70-mk-R3V" id="i9P-su-hSO"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" id="teZ-LN-6Pb">
@@ -652,7 +652,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="QUk-Rn-qDy"/>
+        <segue reference="X14-oT-TJn"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.down.circle.fill" catalog="system" width="128" height="121"/>

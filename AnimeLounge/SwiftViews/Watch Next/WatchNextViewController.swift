@@ -102,33 +102,68 @@ class WatchNextViewController: UITableViewController {
     }
     
     @IBAction func selectSourceButtonTapped(_ sender: UIButton) {
-        let actionSheet = UIAlertController(title: "Select Source", message: "Choose your preferred source for AnimeLounge.", preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: "Select Source", message: "Choose your preferred source for AnimeLounge.", preferredStyle: .actionSheet)
         
-        let animeWorldAction = UIAlertAction(title: "AnimeWorld", style: .default) { _ in
+        let worldAction = UIAlertAction(title: "AnimeWorld", style: .default) { _ in
             UserDefaults.standard.selectedMediaSource = .animeWorld
         }
+        setUntintedImage(for: worldAction, named: "AnimeWorld")
         
-        let gogoAnimeAction = UIAlertAction(title: "GoGoAnime", style: .default) { _ in
+        let gogoAction = UIAlertAction(title: "GoGoAnime", style: .default) { _ in
             UserDefaults.standard.selectedMediaSource = .gogoanime
         }
+        setUntintedImage(for: gogoAction, named: "GoGoAnime")
         
-        let animeheavenAction = UIAlertAction(title: "AnimeHeaven", style: .default) { _ in
+        let heavenAction = UIAlertAction(title: "AnimeHeaven", style: .default) { _ in
             UserDefaults.standard.selectedMediaSource = .animeheaven
         }
+        setUntintedImage(for: heavenAction, named: "AnimeHeaven")
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
-        actionSheet.addAction(animeWorldAction)
-        actionSheet.addAction(gogoAnimeAction)
-        actionSheet.addAction(animeheavenAction)
-        actionSheet.addAction(cancelAction)
+        alertController.addAction(worldAction)
+        alertController.addAction(gogoAction)
+        alertController.addAction(heavenAction)
+        alertController.addAction(cancelAction)
         
-        if let popoverController = actionSheet.popoverPresentationController {
+        if let popoverController = alertController.popoverPresentationController {
             popoverController.sourceView = sender
             popoverController.sourceRect = sender.bounds
         }
         
-        present(actionSheet, animated: true, completion: nil)
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    func setUntintedImage(for action: UIAlertAction, named imageName: String) {
+        if let originalImage = UIImage(named: imageName) {
+            let resizedImage = resizeImage(originalImage, targetSize: CGSize(width: 35, height: 35))
+            if let untintedImage = resizedImage?.withRenderingMode(.alwaysOriginal) {
+                action.setValue(untintedImage, forKey: "image")
+            }
+        }
+    }
+    
+    func resizeImage(_ image: UIImage, targetSize: CGSize) -> UIImage? {
+        let size = image.size
+        
+        let widthRatio  = targetSize.width  / size.width
+        let heightRatio = targetSize.height / size.height
+        
+        var newSize: CGSize
+        if widthRatio > heightRatio {
+            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
+        } else {
+            newSize = CGSize(width: size.width * widthRatio,  height: size.height * widthRatio)
+        }
+        
+        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
+        
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0)
+        image.draw(in: rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage
     }
 }
 
