@@ -15,6 +15,7 @@ Yes it's a NineAnimator fork aimed to be more stable and to support more sources
 - [x] Favorite/Subscribe system
 - [ ] Notification on new episode
 - [ ] MultiSources support for Streaming and Download
+- [ ] iOS, macOS, iPadOS support
 
 ## Sources working:
 

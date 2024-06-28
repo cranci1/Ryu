@@ -18,6 +18,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } catch {
             print("Failed to set up AVAudioSession: \(error)")
         }
+        
+        if UserDefaults.standard.object(forKey: "selectedMediaSource") == nil {
+            UserDefaults.standard.set("AnimeWorld", forKey: "selectedMediaSource")
+        }
+        
         return true
     }
     
