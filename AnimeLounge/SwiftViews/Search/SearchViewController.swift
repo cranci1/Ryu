@@ -114,7 +114,7 @@ class SearchViewController: UIViewController {
                     results.append((title: title, imageUrl: imageUrl, href: href))
                 }
             case .animefire:
-                let items = try document.select("div.container div.card-group div.row div")
+                let items = try document.select("div.card-group div.row div")
                 for item in items {
                     let title = try item.select("div.text-block h3.animeTitle").text()
                     let imageUrl = try item.select("article.card a img").attr("data-src")
