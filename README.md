@@ -18,13 +18,13 @@ Yes it's a NineAnimator fork aimed to be more stable and to support more sources
 
 ## Sources working:
 
-| Sources                       | Language     | Search     | AnimeInfo  | Streaming | Download | Anime Catalog |
-| ----------------------------- | -----------  | --------   | -------    | --------  | -------- | ------------- |
-| AnimeWorld                    | Italian      | ✅         | ✅         |   ✅     | :x:      | Big           |
-| GoGoAnime                     | English      | ✅         | ✅         |   ⚠️     | :x:      | Big           |
-| AnimeHeaven                   | English      | ✅         | ✅         |   ✅     | :x:      | Small         |
-| AnimeFire                     | Portuguese   | ✅         | ✅         |   ⚠️     | :x:      | Big           |
-| Kuramanime                    | Indonesian   | ✅         | ✅         |   ⚠️     | :x:      | Big           |
+| Sources                       | Language     | Search     | AnimeInfo  | Streaming | Download |
+| ----------------------------- | -----------  | --------   | -------    | --------  | -------- |
+| AnimeWorld                    | Italian      | ✅         |  ✅        |   ✅     | :x:      |
+| GoGoAnime                     | English      | ✅         |  ✅        |   ⚠️     | :x:      |
+| AnimeHeaven                   | English      | ✅         |  ✅        |   ✅     | :x:      |
+| AnimeFire                     | Portuguese   | ✅         |  ✅        |   ⚠️     | :x:      |
+| Kuramanime                    | Indonesian   | ✅         |  ✅        |   ⚠️     | :x:      |
 
 > [!Note]
 > AnimeFire is region Blocked. Only Portuguese and Brazil IP are allowed!

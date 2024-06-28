@@ -436,13 +436,13 @@ class AnimeHeaderCell: UITableViewCell {
         
         animeImageView.contentMode = .scaleAspectFit
         
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 19)
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 21)
         titleLabel.textColor = .label
         titleLabel.numberOfLines = 4
 
-        aliasLabel.font = UIFont.systemFont(ofSize: 11)
+        aliasLabel.font = UIFont.systemFont(ofSize: 13)
         aliasLabel.textColor = .secondaryLabel
-        aliasLabel.numberOfLines = 3
+        aliasLabel.numberOfLines = 2
 
         favoriteButton.setTitle("FAVORITE", for: .normal)
         favoriteButton.setTitleColor(.black, for: .normal)

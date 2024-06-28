@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		130645DD2C288CEA004642B3 /* AnimeWorld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130645DC2C288CEA004642B3 /* AnimeWorld.swift */; };
 		130645DF2C28A27E004642B3 /* Sources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130645DE2C28A27E004642B3 /* Sources.swift */; };
 		130645E12C295264004642B3 /* SettingsViewAbout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130645E02C295264004642B3 /* SettingsViewAbout.swift */; };
 		137F49D92C24B60800B787CB /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 137F49D82C24B60800B787CB /* SwiftSoup */; };
@@ -66,7 +65,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		130645DC2C288CEA004642B3 /* AnimeWorld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeWorld.swift; sourceTree = "<group>"; };
 		130645DE2C28A27E004642B3 /* Sources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources.swift; sourceTree = "<group>"; };
 		130645E02C295264004642B3 /* SettingsViewAbout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewAbout.swift; sourceTree = "<group>"; };
 		137F4A322C255DA500B787CB /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -140,18 +138,9 @@
 		130645DA2C288CD3004642B3 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				130645DB2C288CDA004642B3 /* AnimeWorld */,
 				130645DE2C28A27E004642B3 /* Sources.swift */,
 			);
 			path = Sources;
-			sourceTree = "<group>";
-		};
-		130645DB2C288CDA004642B3 /* AnimeWorld */ = {
-			isa = PBXGroup;
-			children = (
-				130645DC2C288CEA004642B3 /* AnimeWorld.swift */,
-			);
-			path = AnimeWorld;
 			sourceTree = "<group>";
 		};
 		137F4A2B2C255D1C00B787CB /* Search */ = {
@@ -518,7 +507,6 @@
 				13CD3A802C26B25E00B046F9 /* AnimeDetailsViewController.swift in Sources */,
 				137F4A422C25820600B787CB /* LibraryViewControlller.swift in Sources */,
 				13AE19DA2C2AF1130012633D /* Episode.swift in Sources */,
-				130645DD2C288CEA004642B3 /* AnimeWorld.swift in Sources */,
 				13AA29912C245EDD00C8CA8E /* SceneDelegate.swift in Sources */,
 				13AE19DC2C2AF1400012633D /* AnimeDetailService.swift in Sources */,
 				130645DF2C28A27E004642B3 /* Sources.swift in Sources */,
