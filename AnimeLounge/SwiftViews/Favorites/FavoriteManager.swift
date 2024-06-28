@@ -30,7 +30,7 @@ class FavoritesManager {
         return (try? JSONDecoder().decode([FavoriteItem].self, from: data)) ?? []
     }
     
-    private func saveFavorites(_ favorites: [FavoriteItem]) {
+    func saveFavorites(_ favorites: [FavoriteItem]) {
         if let data = try? JSONEncoder().encode(favorites) {
             UserDefaults.standard.set(data, forKey: favoritesKey)
         }

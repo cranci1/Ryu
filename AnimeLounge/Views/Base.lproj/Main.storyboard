@@ -417,13 +417,22 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Favorites" id="BBu-Lh-qnt">
-                        <barButtonItem key="rightBarButtonItem" id="2ET-QB-yVC">
-                            <imageReference key="image" image="gear" catalog="system" symbolScale="large"/>
-                            <color key="tintColor" name="AccentColor"/>
-                            <connections>
-                                <segue destination="tkJ-qb-Pci" kind="show" id="A4S-3U-V1x"/>
-                            </connections>
-                        </barButtonItem>
+                        <leftBarButtonItems>
+                            <barButtonItem id="2ET-QB-yVC">
+                                <imageReference key="image" image="gear" catalog="system" symbolScale="large"/>
+                                <color key="tintColor" name="AccentColor"/>
+                                <connections>
+                                    <segue destination="tkJ-qb-Pci" kind="show" id="A4S-3U-V1x"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem id="end-2d-NSa">
+                                <imageReference key="image" image="antenna.radiowaves.left.and.right" catalog="system" symbolScale="large"/>
+                                <color key="tintColor" name="AccentColor"/>
+                                <connections>
+                                    <action selector="selectSourceButtonTapped:" destination="IWM-mT-B3l" id="QCY-jW-MT7"/>
+                                </connections>
+                            </barButtonItem>
+                        </leftBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="RC6-7K-ADf" id="IPD-HB-lUf"/>
@@ -652,9 +661,10 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="X14-oT-TJn"/>
+        <segue reference="A4S-3U-V1x"/>
     </inferredMetricsTieBreakers>
     <resources>
+        <image name="antenna.radiowaves.left.and.right" catalog="system" width="128" height="109"/>
         <image name="arrow.down.circle.fill" catalog="system" width="128" height="121"/>
         <image name="clock" catalog="system" width="128" height="121"/>
         <image name="gear" catalog="system" width="128" height="119"/>

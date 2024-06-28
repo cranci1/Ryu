@@ -114,14 +114,13 @@ class SearchViewController: UIViewController {
                     results.append((title: title, imageUrl: imageUrl, href: href))
                 }
             case .animefire:
-                let items = try document.select("div.card-group div.row div")
+                let items = try document.select("div.card-group div.row div.divCardUltimosEps")
                 for item in items {
-                    let title = try item.select("div.text-block h3.animeTitle").text()
-                    let imageUrl = try item.select("article.card a img").attr("data-src")
-                    let href = try item.select("a").attr("href")
+                    let title = try item.select("div.text-block h3.animeTitle").first()?.text() ?? ""
+                    let imageUrl = try item.select("article.card a img").first()?.attr("data-src") ?? ""
+                    let href = try item.select("article.card a").first()?.attr("href") ?? ""
                     results.append((title: title, imageUrl: imageUrl, href: href))
-                }
-            case .kuramanime:
+                }            case .kuramanime:
                 let items = try document.select("div#animeList div.col-lg-4")
                 for item in items {
                     let title = try item.select("div.product__item__text h5 a").text()
