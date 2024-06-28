@@ -39,12 +39,14 @@ class FavoritesViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.prefetchDataSource = self
+        collectionView.dragDelegate = self
+        collectionView.dropDelegate = self
         
         let nib = UINib(nibName: "FavoriteCell", bundle: nil)
         collectionView.register(nib, forCellWithReuseIdentifier: "FavoriteCell")
         
-        collectionView.dragDelegate = self
-        collectionView.dropDelegate = self
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+        collectionView.addGestureRecognizer(longPressGesture)
     }
     
     private func setupEditButton() {
@@ -82,6 +84,42 @@ class FavoritesViewController: UIViewController {
     
     private func removeShakeAnimation(from view: UIView) {
         view.layer.removeAnimation(forKey: "shake")
+    }
+    
+    @objc func handleLongPress(gesture: UILongPressGestureRecognizer) {
+        if gesture.state == .began {
+            let point = gesture.location(in: collectionView)
+            if let indexPath = collectionView.indexPathForItem(at: point) {
+                showRemoveMenu(for: indexPath)
+            }
+        }
+    }
+    
+    func showRemoveMenu(for indexPath: IndexPath) {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let removeAction = UIAlertAction(title: "Remove from Favorites", style: .destructive) { [weak self] _ in
+            self?.removeFavorite(at: indexPath)
+        }
+        alertController.addAction(removeAction)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        if let popoverController = alertController.popoverPresentationController {
+            if let cell = collectionView.cellForItem(at: indexPath) {
+                popoverController.sourceView = cell
+                popoverController.sourceRect = cell.bounds
+            }
+        }
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    func removeFavorite(at indexPath: IndexPath) {
+        favorites.remove(at: indexPath.item)
+        collectionView.deleteItems(at: [indexPath])
+        FavoritesManager.shared.saveFavorites(favorites)
     }
 }
 
