@@ -13,7 +13,7 @@ class AnilistServiceTrendingAnime {
     func fetchTrendingAnime(completion: @escaping ([Anime]?) -> Void) {
         let query = """
         query {
-          Page(page: 1, perPage: 50) {
+          Page(page: 1, perPage: 100) {
             media(sort: TRENDING_DESC, type: ANIME, isAdult: false) {
               id
               title {

@@ -14,25 +14,36 @@ class AnilistServiceAiringAnime {
         let query = """
         query($page: Int, $perPage: Int, $startTime: Int, $endTime: Int) {
             Page(page: $page, perPage: $perPage) {
+                pageInfo {
+                    total
+                    hasNextPage
+                }
                 airingSchedules(
                     sort: [TIME],
                     airingAt_greater: $startTime,
                     airingAt_lesser: $endTime
                 ) {
                     id
+                    episode
                     airingAt
                     media {
                         id
+                        isAdult
+                        episodes
+                        description
+                        coverImage {
+                            extraLarge
+                        }
                         title {
+                            userPreferred
                             romaji
                             english
                             native
                         }
-                        coverImage {
-                            extraLarge
+                        mediaListEntry {
+                            status
+                            progress
                         }
-                        episodes
-                        description
                     }
                 }
             }
@@ -41,7 +52,7 @@ class AnilistServiceAiringAnime {
         
         let variables: [String: Any] = [
             "page": 1,
-            "perPage": 50,
+            "perPage": 100,
             "startTime": Int(Date().timeIntervalSince1970),
             "endTime": Int(Date().timeIntervalSince1970) + (7 * 24 * 60 * 60)
         ]

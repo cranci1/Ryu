@@ -98,7 +98,7 @@ class FavoritesViewController: UIViewController {
     func showRemoveMenu(for indexPath: IndexPath) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let reorderAction = UIAlertAction(title: "Reorder Favorites", style: .default) { [weak self] _ in
+        let reorderAction = UIAlertAction(title: "Reorder", style: .default) { [weak self] _ in
             self?.isEditingMode = true
             self?.navigationItem.rightBarButtonItem?.title = "Done"
             self?.collectionView.reloadData()
