@@ -211,7 +211,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
             fullURL = baseURL + episodeId
             playEpisode(url: fullURL, cell: cell, fullURL: fullURL)
             return
-        case "AnimeFire":
+        case "AnimeFire", "Kuramanime", "Latanime":
             episodeId = episode.href
             fullURL = episodeId
             
@@ -228,19 +228,6 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
             baseURL = "https://anitaku.pe/"
             episodeId = episode.href.components(separatedBy: "/").last ?? episode.href
             fullURL = baseURL + episodeId
-            
-            let webView = WKWebView(frame: view.bounds)
-            webView.navigationDelegate = self
-            view.addSubview(webView)
-            
-            if let url = URL(string: fullURL) {
-                let request = URLRequest(url: url)
-                webView.load(request)
-            }
-            return
-        case "Kuramanime":
-            episodeId = episode.href
-            fullURL = episodeId
             
             let webView = WKWebView(frame: view.bounds)
             webView.navigationDelegate = self
@@ -516,7 +503,7 @@ class AnimeHeaderCell: UITableViewCell {
         case "AnimeWorld":
             starLabel.text = stars + "/10"
             airDateLabel.text = airdate
-        case "GoGoAnime", "AnimeFire":
+        case "GoGoAnime", "AnimeFire", "Latanime":
             starLabel.text = "N/A"
         default:
             starLabel.text = stars

@@ -37,6 +37,8 @@ class AnimeDetailService {
             baseUrl = ""
         case .kuramanime:
             baseUrl = ""
+        case .latanime:
+            baseUrl = ""
         }
         
         let fullUrl = baseUrl + href
@@ -77,6 +79,11 @@ class AnimeDetailService {
                         synopsis = try document.select("div.anime__details__text p").text()
                         airdate = try document.select("div.anime__details__widget ul li div.col-9").eq(3).text()
                         stars = try document.select("div.anime__details__widget div.row div.col-lg-6 ul li").select("div:contains(Skor:) ~ div.col-9").text()
+                    case .latanime:
+                        aliases = ""
+                        synopsis = try document.select("div.col-md-8 p").last()?.text() ?? ""
+                        airdate = try document.select("div.col-md-8 div.my-2 span").last()?.text().replacingOccurrences(of: "Estreno: ", with: "") ?? ""
+                        stars = ""
                     }
                     
                     episodes = self.fetchEpisodes(document: document, for: selectedSource, href: href)
@@ -121,6 +128,9 @@ class AnimeDetailService {
                     }
                 }
                 return episodes
+            case .latanime:
+                episodeElements = try document.select("div.row div.row div a")
+                downloadUrlElement = ""
             }
             
             switch source {

@@ -59,6 +59,9 @@ class SearchViewController: UIViewController {
         case .kuramanime:
             url = "https://kuramanime.boo/anime"
             parameters = ["search": query]
+        case .latanime:
+            url = "https://latanime.org/buscar"
+            parameters = ["q": query]
         }
 
         print("Completed URL: \(url)")
@@ -120,12 +123,21 @@ class SearchViewController: UIViewController {
                     let imageUrl = try item.select("article.card a img").first()?.attr("data-src") ?? ""
                     let href = try item.select("article.card a").first()?.attr("href") ?? ""
                     results.append((title: title, imageUrl: imageUrl, href: href))
-                }            case .kuramanime:
+                }
+            case .kuramanime:
                 let items = try document.select("div#animeList div.col-lg-4")
                 for item in items {
                     let title = try item.select("div.product__item__text h5 a").text()
                     let imageUrl = try item.select("div.product__item__pic").attr("data-setbg")
                     let href = try item.select("div.product__item a").attr("href")
+                    results.append((title: title, imageUrl: imageUrl, href: href))
+                }
+            case .latanime:
+                let items = try document.select("div.row div.col-md-4")
+                for item in items {
+                    let title = try item.select("div.series div.seriedetails h3.my-1").text()
+                    let imageUrl = try item.select("div.series div.serieimg img").attr("src")
+                    let href = try item.select("a").attr("href")
                     results.append((title: title, imageUrl: imageUrl, href: href))
                 }
             }
@@ -203,6 +215,11 @@ class SearchViewController: UIViewController {
         }
         setUntintedImage(for: kuraAction, named: "Kuramanime")
         
+        let latAction = UIAlertAction(title: "Latanime", style: .default) { _ in
+            UserDefaults.standard.selectedMediaSource = .latanime
+        }
+        setUntintedImage(for: latAction, named: "Latanime")
+        
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         alertController.addAction(worldAction)
@@ -210,6 +227,7 @@ class SearchViewController: UIViewController {
         alertController.addAction(heavenAction)
         alertController.addAction(fireAction)
         alertController.addAction(kuraAction)
+        alertController.addAction(latAction)
         alertController.addAction(cancelAction)
         
         if let popoverController = alertController.popoverPresentationController {

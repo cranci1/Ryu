@@ -129,6 +129,11 @@ class WatchNextViewController: UITableViewController {
         }
         setUntintedImage(for: kuraAction, named: "Kuramanime")
         
+        let latAction = UIAlertAction(title: "Latanime", style: .default) { _ in
+            UserDefaults.standard.selectedMediaSource = .latanime
+        }
+        setUntintedImage(for: latAction, named: "Latanime")
+        
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         alertController.addAction(worldAction)
@@ -136,6 +141,7 @@ class WatchNextViewController: UITableViewController {
         alertController.addAction(heavenAction)
         alertController.addAction(fireAction)
         alertController.addAction(kuraAction)
+        alertController.addAction(latAction)
         alertController.addAction(cancelAction)
         
         if let popoverController = alertController.popoverPresentationController {

@@ -26,6 +26,7 @@ Yes it's a NineAnimator fork aimed to be more stable and to support more sources
 | AnimeHeaven                   | English      | ✅         |  ✅        |   ✅     | :x:      |
 | AnimeFire                     | Portuguese   | ✅         |  ✅        |   ⚠️     | :x:      |
 | Kuramanime                    | Indonesian   | ✅         |  ✅        |   ⚠️     | :x:      |
+| Latanime                      | Spanish      | ✅         |  ✅        |   ⚠️     | :x:      |
 
 > [!Note]
 > AnimeFire is region Blocked. Only Portugal and Brazil IP are allowed!
