@@ -98,9 +98,18 @@ class FavoritesViewController: UIViewController {
     func showRemoveMenu(for indexPath: IndexPath) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
+        let reorderAction = UIAlertAction(title: "Reorder Favorites", style: .default) { [weak self] _ in
+            self?.isEditingMode = true
+            self?.navigationItem.rightBarButtonItem?.title = "Done"
+            self?.collectionView.reloadData()
+        }
+        reorderAction.setValue(UIImage(systemName: "arrow.up.arrow.down"), forKey: "image")
+        alertController.addAction(reorderAction)
+        
         let removeAction = UIAlertAction(title: "Remove from Favorites", style: .destructive) { [weak self] _ in
             self?.removeFavorite(at: indexPath)
         }
+        removeAction.setValue(UIImage(systemName: "trash"), forKey: "image")
         alertController.addAction(removeAction)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
