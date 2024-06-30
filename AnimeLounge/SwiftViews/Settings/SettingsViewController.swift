@@ -8,9 +8,17 @@
 import UIKit
 
 class SettingsViewController: UITableViewController {
+
+    @IBOutlet var autoPlaySwitch: UISwitch!
+    @IBOutlet var landScapeSwitch: UISwitch!
+    @IBOutlet var browserPlayerSwitch: UISwitch!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        autoPlaySwitch.isOn = UserDefaults.standard.bool(forKey: "AutoPlay")
+        landScapeSwitch.isOn = UserDefaults.standard.bool(forKey: "AlwaysLandscape")
+        browserPlayerSwitch.isOn = UserDefaults.standard.bool(forKey: "browserPlayer")
     }
     
     @IBAction func clearCache(_ sender: Any) {
@@ -34,5 +42,17 @@ class SettingsViewController: UITableViewController {
         let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alertController, animated: true, completion: nil)
+    }
+    
+    @IBAction func autpPlayToggle(_ sender: UISwitch) {
+        UserDefaults.standard.set(sender.isOn, forKey: "AutoPlay")
+    }
+    
+    @IBAction func landScapeToggle(_ sender: UISwitch) {
+        UserDefaults.standard.set(sender.isOn, forKey: "AlwaysLandscape")
+    }
+    
+    @IBAction func browserPlayerToggle(_ sender: UISwitch) {
+        UserDefaults.standard.set(sender.isOn, forKey: "browserPlayer")
     }
 }

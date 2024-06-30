@@ -29,6 +29,8 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
     
     private var player: AVPlayer?
     private var playerViewController: AVPlayerViewController?
+    private var currentEpisodeIndex: Int = 0
+    
     private var timeObserverToken: Any?
     
     private var isFavorite: Bool = false
@@ -54,6 +56,14 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
                 cell.loadSavedProgress(for: episode.href)
             }
         }
+        
+        if let firstEpisodeHref = episodes.first?.href {
+             currentEpisodeIndex = episodes.firstIndex(where: { $0.href == firstEpisodeHref }) ?? 0
+         }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     private func toggleFavorite() {
@@ -191,6 +201,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
 
     private func episodeSelected(episode: Episode, cell: EpisodeCell) {
         let selectedSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeHeaven"
+        currentEpisodeIndex = episodes.firstIndex(where: { $0.href == episode.href }) ?? 0
         
         var baseURL: String
         var fullURL: String
@@ -203,40 +214,24 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
             episodeId = episode.href.components(separatedBy: "/").last ?? episode.href
             fullURL = baseURL + episodeId
             episodeTimeURL = episode.href
-            playEpisode(url: fullURL, cell: cell, fullURL: episodeTimeURL)
+            checkUserDefault(url: fullURL, cell: cell, fullURL: episodeTimeURL)
             return
         case "AnimeHeaven":
             baseURL = "https://animeheaven.me/"
             episodeId = episode.href
             fullURL = baseURL + episodeId
-            playEpisode(url: fullURL, cell: cell, fullURL: fullURL)
+            checkUserDefault(url: fullURL, cell: cell, fullURL: fullURL)
             return
         case "AnimeFire", "Kuramanime", "Latanime":
             episodeId = episode.href
             fullURL = episodeId
-            
-            let webView = WKWebView(frame: view.bounds)
-            webView.navigationDelegate = self
-            view.addSubview(webView)
-            
-            if let url = URL(string: fullURL) {
-                let request = URLRequest(url: url)
-                webView.load(request)
-            }
+            openWebView(fullURL: fullURL)
             return
         case "GoGoAnime":
             baseURL = "https://anitaku.pe/"
             episodeId = episode.href.components(separatedBy: "/").last ?? episode.href
             fullURL = baseURL + episodeId
-            
-            let webView = WKWebView(frame: view.bounds)
-            webView.navigationDelegate = self
-            view.addSubview(webView)
-            
-            if let url = URL(string: fullURL) {
-                let request = URLRequest(url: url)
-                webView.load(request)
-            }
+            openWebView(fullURL: fullURL)
             return
         default:
             baseURL = ""
@@ -244,6 +239,25 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
             fullURL = baseURL + episodeId
             playEpisode(url: fullURL, cell: cell, fullURL: fullURL)
             return
+        }
+    }
+    
+    private func checkUserDefault(url: String, cell: EpisodeCell, fullURL: String) {
+        if UserDefaults.standard.bool(forKey: "browserPlayer") {
+            openWebView(fullURL: url)
+        } else {
+            playEpisode(url: url, cell: cell, fullURL: fullURL)
+        }
+    }
+    
+    private func openWebView(fullURL: String) {
+        let webView = WKWebView(frame: view.bounds)
+        webView.navigationDelegate = self
+        view.addSubview(webView)
+        
+        if let url = URL(string: fullURL) {
+            let request = URLRequest(url: url)
+            webView.load(request)
         }
     }
     
@@ -333,7 +347,13 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
 
     private func playVideoWithAVPlayer(sourceURL: URL, cell: EpisodeCell, fullURL: String) {
         player = AVPlayer(url: sourceURL)
-        playerViewController = AVPlayerViewController()
+        
+        if UserDefaults.standard.bool(forKey: "AlwaysLandscape") {
+            playerViewController = LandscapePlayer()
+        } else {
+            playerViewController = AVPlayerViewController()
+        }
+        
         playerViewController?.player = player
         
         let lastPlayedTime = UserDefaults.standard.double(forKey: "lastPlayedTime_\(fullURL)")
@@ -349,6 +369,8 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
             }
             self.addPeriodicTimeObserver(cell: cell, fullURL: fullURL)
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd), name: .AVPlayerItemDidPlayToEndTime, object: player?.currentItem)
     }
 
     private func addPeriodicTimeObserver(cell: EpisodeCell, fullURL: String) {
@@ -368,6 +390,28 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
             
             UserDefaults.standard.set(currentTime, forKey: "lastPlayedTime_\(fullURL)")
             UserDefaults.standard.set(duration, forKey: "totalTime_\(fullURL)")
+        }
+    }
+    
+    private func playNextEpisode() {
+        currentEpisodeIndex += 1
+        if currentEpisodeIndex < episodes.count {
+            let nextEpisode = episodes[currentEpisodeIndex]
+            if let cell = tableView.cellForRow(at: IndexPath(row: currentEpisodeIndex, section: 2)) as? EpisodeCell {
+                episodeSelected(episode: nextEpisode, cell: cell)
+            }
+        } else {
+            print("No more episodes to play")
+        }
+    }
+    
+    @objc func playerItemDidReachEnd(notification: Notification) {        
+        if UserDefaults.standard.bool(forKey: "AutoPlay") {
+            playerViewController?.dismiss(animated: true) { [weak self] in
+                self?.playNextEpisode()
+            }
+        } else {
+            playerViewController?.dismiss(animated: true, completion: nil)
         }
     }
 }

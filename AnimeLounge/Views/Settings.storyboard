@@ -177,62 +177,10 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection footerTitle="Sort the episode from the newest to oldest (ordered), from oldest to newest (reversed)." id="Ao9-xv-dJB">
+                            <tableViewSection headerTitle="Player" id="Ao9-xv-dJB">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="uoq-xR-pv7">
-                                        <rect key="frame" x="20" y="462" width="374" height="43.5"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="uoq-xR-pv7" id="d2g-4A-mY4">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Picture in Picture" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NMW-NH-NDu">
-                                                    <rect key="frame" x="15" y="13" width="117" height="18"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MD6-39-ZD0">
-                                                    <rect key="frame" x="310" y="6.5" width="51" height="31"/>
-                                                    <color key="onTintColor" name="AccentColor"/>
-                                                </switch>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="MD6-39-ZD0" firstAttribute="centerY" secondItem="d2g-4A-mY4" secondAttribute="centerY" id="NEJ-2e-hs6"/>
-                                                <constraint firstItem="MD6-39-ZD0" firstAttribute="trailing" secondItem="d2g-4A-mY4" secondAttribute="trailing" constant="-15" id="l1x-61-jpB"/>
-                                                <constraint firstItem="NMW-NH-NDu" firstAttribute="centerY" secondItem="d2g-4A-mY4" secondAttribute="centerY" id="n4y-MU-BRf"/>
-                                                <constraint firstItem="NMW-NH-NDu" firstAttribute="leading" secondItem="d2g-4A-mY4" secondAttribute="leading" constant="15" id="rVr-9n-aw2"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="HNJ-rj-cbF">
-                                        <rect key="frame" x="20" y="505.5" width="374" height="43.5"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HNJ-rj-cbF" id="KQQ-s6-KIF">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Background Playback" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GG5-VU-V6W">
-                                                    <rect key="frame" x="15" y="13" width="148" height="18"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nt4-CI-LGa">
-                                                    <rect key="frame" x="310" y="6.5" width="51" height="31"/>
-                                                    <color key="onTintColor" name="AccentColor"/>
-                                                </switch>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="nt4-CI-LGa" firstAttribute="trailing" secondItem="KQQ-s6-KIF" secondAttribute="trailing" constant="-15" id="Qrw-Kg-yzf"/>
-                                                <constraint firstItem="GG5-VU-V6W" firstAttribute="leading" secondItem="KQQ-s6-KIF" secondAttribute="leading" constant="15" id="Rgz-bX-t84"/>
-                                                <constraint firstItem="nt4-CI-LGa" firstAttribute="centerY" secondItem="KQQ-s6-KIF" secondAttribute="centerY" id="aod-Bu-erE"/>
-                                                <constraint firstItem="GG5-VU-V6W" firstAttribute="centerY" secondItem="KQQ-s6-KIF" secondAttribute="centerY" id="chO-8I-YeU"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="p2W-Y0-0VQ">
-                                        <rect key="frame" x="20" y="549" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="476" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="p2W-Y0-0VQ" id="6eF-kO-gnu">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -247,6 +195,9 @@
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2jM-8Y-fd7">
                                                     <rect key="frame" x="310" y="6.5" width="51" height="31"/>
                                                     <color key="onTintColor" name="AccentColor"/>
+                                                    <connections>
+                                                        <action selector="browserPlayerToggle:" destination="pc2-lO-9Ci" eventType="valueChanged" id="8JB-5x-W7V"/>
+                                                    </connections>
                                                 </switch>
                                             </subviews>
                                             <constraints>
@@ -258,14 +209,14 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="pZ8-Bd-ctw">
-                                        <rect key="frame" x="20" y="592.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="519.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="pZ8-Bd-ctw" id="n9K-6T-tka">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Always Landscape Player" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wTl-bp-g16">
-                                                    <rect key="frame" x="15" y="13" width="173" height="18"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Force Landscape Player" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wTl-bp-g16">
+                                                    <rect key="frame" x="15" y="13" width="164" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -273,6 +224,9 @@
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="apH-8D-ZHY">
                                                     <rect key="frame" x="310" y="6.5" width="51" height="31"/>
                                                     <color key="onTintColor" name="AccentColor"/>
+                                                    <connections>
+                                                        <action selector="landScapeToggle:" destination="pc2-lO-9Ci" eventType="valueChanged" id="nDB-RD-L3t"/>
+                                                    </connections>
                                                 </switch>
                                             </subviews>
                                             <constraints>
@@ -283,12 +237,41 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="YcD-pQ-iyV">
+                                        <rect key="frame" x="20" y="563" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="YcD-pQ-iyV" id="MxW-95-5nY">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AutoPlay next Episode" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8a8-PH-leA">
+                                                    <rect key="frame" x="15" y="13" width="152.5" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xtA-Zv-yy8">
+                                                    <rect key="frame" x="310" y="6.5" width="51" height="31"/>
+                                                    <color key="onTintColor" name="AccentColor"/>
+                                                    <connections>
+                                                        <action selector="autpPlayToggle:" destination="pc2-lO-9Ci" eventType="valueChanged" id="dFg-yK-Z16"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="xtA-Zv-yy8" firstAttribute="trailing" secondItem="MxW-95-5nY" secondAttribute="trailing" constant="-15" id="10O-3V-hsZ"/>
+                                                <constraint firstItem="8a8-PH-leA" firstAttribute="leading" secondItem="MxW-95-5nY" secondAttribute="leading" constant="15" id="Y0F-Dl-NDf"/>
+                                                <constraint firstItem="xtA-Zv-yy8" firstAttribute="centerY" secondItem="MxW-95-5nY" secondAttribute="centerY" id="bui-0b-uA0"/>
+                                                <constraint firstItem="8a8-PH-leA" firstAttribute="centerY" secondItem="MxW-95-5nY" secondAttribute="centerY" id="wPt-0o-MmD"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection footerTitle="Clear all the Caches of the app." id="y8g-0P-qDQ">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="n5d-fw-PKi">
-                                        <rect key="frame" x="20" y="694.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="642.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="n5d-fw-PKi" id="wu2-Xf-PMd">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -324,6 +307,11 @@
                             <color key="tintColor" name="AccentColor"/>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="autoPlaySwitch" destination="xtA-Zv-yy8" id="Wzy-AC-GdI"/>
+                        <outlet property="browserPlayerSwitch" destination="2jM-8Y-fd7" id="iLv-e3-heq"/>
+                        <outlet property="landScapeSwitch" destination="apH-8D-ZHY" id="GwO-YD-2iP"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QIX-WY-Iit" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="lSD-S4-QDS">

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		130645DF2C28A27E004642B3 /* Sources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130645DE2C28A27E004642B3 /* Sources.swift */; };
 		130645E12C295264004642B3 /* SettingsViewAbout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130645E02C295264004642B3 /* SettingsViewAbout.swift */; };
+		13327B362C314E6F00CEE6AC /* LandScapePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13327B352C314E6F00CEE6AC /* LandScapePlayer.swift */; };
 		137F49D92C24B60800B787CB /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 137F49D82C24B60800B787CB /* SwiftSoup */; };
 		137F49EC2C254DCA00B787CB /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 137F49EB2C254DCA00B787CB /* Alamofire */; };
 		137F4A332C255DA500B787CB /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137F4A322C255DA500B787CB /* SearchViewController.swift */; };
@@ -67,6 +68,7 @@
 /* Begin PBXFileReference section */
 		130645DE2C28A27E004642B3 /* Sources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources.swift; sourceTree = "<group>"; };
 		130645E02C295264004642B3 /* SettingsViewAbout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewAbout.swift; sourceTree = "<group>"; };
+		13327B352C314E6F00CEE6AC /* LandScapePlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandScapePlayer.swift; sourceTree = "<group>"; };
 		137F4A322C255DA500B787CB /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		137F4A342C255E9700B787CB /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
 		137F4A412C25820600B787CB /* LibraryViewControlller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewControlller.swift; sourceTree = "<group>"; };
@@ -141,6 +143,14 @@
 				130645DE2C28A27E004642B3 /* Sources.swift */,
 			);
 			path = Sources;
+			sourceTree = "<group>";
+		};
+		13327B342C314E6300CEE6AC /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				13327B352C314E6F00CEE6AC /* LandScapePlayer.swift */,
+			);
+			path = Player;
 			sourceTree = "<group>";
 		};
 		137F4A2B2C255D1C00B787CB /* Search */ = {
@@ -299,14 +309,15 @@
 			path = CustomCells;
 			sourceTree = "<group>";
 		};
-		13CD3A7E2C26B24D00B046F9 /* Anime Details */ = {
+		13CD3A7E2C26B24D00B046F9 /* Anime */ = {
 			isa = PBXGroup;
 			children = (
+				13327B342C314E6300CEE6AC /* Player */,
 				13CD3A7F2C26B25E00B046F9 /* AnimeDetailsViewController.swift */,
 				13AE19DB2C2AF1400012633D /* AnimeDetailService.swift */,
 				13AE19D92C2AF1130012633D /* Episode.swift */,
 			);
-			path = "Anime Details";
+			path = Anime;
 			sourceTree = "<group>";
 		};
 		13CD3A812C26BA2700B046F9 /* Favorites */ = {
@@ -324,7 +335,7 @@
 			children = (
 				139B164E2C272A48007E3477 /* Settings */,
 				13CD3A812C26BA2700B046F9 /* Favorites */,
-				13CD3A7E2C26B24D00B046F9 /* Anime Details */,
+				13CD3A7E2C26B24D00B046F9 /* Anime */,
 				13E4464A2C25C33F002B14E8 /* Watch Next */,
 				137F4A2B2C255D1C00B787CB /* Search */,
 				13AA29BE2C24708A00C8CA8E /* Library */,
@@ -504,6 +515,7 @@
 				13AE19E12C2BF71F0012633D /* FavoriteCell-Swift.swift in Sources */,
 				13E4464E2C25C38A002B14E8 /* WatchNextViewController.swift in Sources */,
 				139B16502C272A55007E3477 /* SettingsViewController.swift in Sources */,
+				13327B362C314E6F00CEE6AC /* LandScapePlayer.swift in Sources */,
 				13CD3A802C26B25E00B046F9 /* AnimeDetailsViewController.swift in Sources */,
 				137F4A422C25820600B787CB /* LibraryViewControlller.swift in Sources */,
 				13AE19DA2C2AF1130012633D /* Episode.swift in Sources */,
