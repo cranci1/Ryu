@@ -323,7 +323,7 @@ class AnimeCharacterCell: UITableViewCell {
     private func setupUI() {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = UIColor.secondarySystemBackground
-        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.showsHorizontalScrollIndicator = true
         collectionView.dataSource = self
         collectionView.register(CharacterCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
         

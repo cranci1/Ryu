@@ -7,8 +7,8 @@
 
 import UIKit
 import AVKit
-import SwiftSoup
 import WebKit
+import SwiftSoup
 import GoogleCast
 
 extension String {
@@ -331,63 +331,73 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         fetchHTMLContent(from: url.absoluteString) { [weak self] result in
             guard let self = self else { return }
 
-            switch result {
-            case .success(let htmlString):
-                if let videoURL = self.extractVideoSourceURL(from: htmlString) {
-                    self.proceedWithCasting(videoURL: videoURL)
-                } else {
-                    print("Error: Could not extract video URL from the page")
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let htmlString):
+                    if let videoURL = self.extractVideoSourceURL(from: htmlString) {
+                        self.proceedWithCasting(videoURL: videoURL)
+                    } else {
+                        print("Error: Could not extract video URL from the page")
+                    }
+                case .failure(let error):
+                    print("Error fetching HTML content: \(error.localizedDescription)")
                 }
-            case .failure(let error):
-                print("Error fetching HTML content: \(error.localizedDescription)")
             }
         }
     }
 
     private func proceedWithCasting(videoURL: URL) {
-        guard let animeTitle = animeTitle else {
-            print("Error: Anime title is missing.")
-            return
-        }
+        DispatchQueue.main.async {
+            guard let animeTitle = self.animeTitle else {
+                print("Error: Anime title is missing.")
+                return
+            }
 
-        let metadata = GCKMediaMetadata(metadataType: .movie)
-        metadata.setString(animeTitle, forKey: kGCKMetadataKeyTitle)
+            let metadata = GCKMediaMetadata(metadataType: .movie)
+            metadata.setString(animeTitle, forKey: kGCKMetadataKeyTitle)
 
-        let contentType: String
-        let streamType: GCKMediaStreamType
+            if let imageURL = URL(string: self.imageUrl ?? "") {
+                metadata.addImage(GCKImage(url: imageURL, width: 480, height: 720))
+            } else {
+                print("Error: Anime image URL is missing or invalid.")
+            }
 
-        if videoURL.absoluteString.contains(".m3u8") {
-            contentType = "application/x-mpegurl"
-            streamType = .live
-        } else if videoURL.absoluteString.contains(".mp4") {
-            contentType = "video/mp4"
-            streamType = .buffered
-        } else {
-            contentType = "application/x-mpegurl"
-            streamType = .buffered
-        }
+            let contentType: String
+            let streamType: GCKMediaStreamType
 
-        let mediaInfo = GCKMediaInformation(
-            contentID: videoURL.absoluteString,
-            streamType: streamType,
-            contentType: contentType,
-            metadata: metadata,
-            streamDuration: 0,
-            mediaTracks: nil,
-            textTrackStyle: nil,
-            customData: nil
-        )
+            if videoURL.absoluteString.contains(".m3u8") {
+                contentType = "application/x-mpegurl"
+                streamType = .live
+            } else if videoURL.absoluteString.contains(".mp4") {
+                contentType = "video/mp4"
+                streamType = .buffered
+            } else {
+                contentType = "application/x-mpegurl"
+                streamType = .buffered
+            }
 
-        let mediaLoadOptions = GCKMediaLoadOptions()
-        mediaLoadOptions.autoplay = true
-        mediaLoadOptions.playPosition = 0
+            let mediaInfo = GCKMediaInformation(
+                contentID: videoURL.absoluteString,
+                streamType: streamType,
+                contentType: contentType,
+                metadata: metadata,
+                streamDuration: 0,
+                mediaTracks: nil,
+                textTrackStyle: nil,
+                customData: nil
+            )
 
-        if let castSession = GCKCastContext.sharedInstance().sessionManager.currentCastSession,
-           let remoteMediaClient = castSession.remoteMediaClient {
-            remoteMediaClient.loadMedia(mediaInfo, with: mediaLoadOptions)
-            remoteMediaClient.add(self)
-        } else {
-            print("Error: Failed to load media to Google Cast")
+            let mediaLoadOptions = GCKMediaLoadOptions()
+            mediaLoadOptions.autoplay = true
+            mediaLoadOptions.playPosition = 0
+
+            if let castSession = GCKCastContext.sharedInstance().sessionManager.currentCastSession,
+               let remoteMediaClient = castSession.remoteMediaClient {
+                remoteMediaClient.loadMedia(mediaInfo, with: mediaLoadOptions)
+                remoteMediaClient.add(self)
+            } else {
+                print("Error: Failed to load media to Google Cast")
+            }
         }
     }
     
