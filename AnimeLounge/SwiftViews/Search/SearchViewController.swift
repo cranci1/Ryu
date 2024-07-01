@@ -23,6 +23,10 @@ class SearchViewController: UIViewController {
         historyTableView.dataSource = self
         
         historyTableView.register(HistoryTableViewCell.self, forCellReuseIdentifier: "HistoryCell")
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         loadSearchHistory()
     }
     
