@@ -58,6 +58,15 @@ class SettingsViewController: UITableViewController {
         presentResetConfirmation()
     }
     
+    @IBAction func clearSearchHistory(_ sender: Any) {
+        clearSearchHistory()
+    }
+    
+    private func clearSearchHistory() {
+        UserDefaults.standard.removeObject(forKey: "SearchHistory")
+        showAlert(message: "Search history cleared successfully!")
+    }
+    
     private func clearCache() {
         let cacheURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first
         

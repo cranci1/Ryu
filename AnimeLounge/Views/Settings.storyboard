@@ -270,32 +270,8 @@
                             </tableViewSection>
                             <tableViewSection footerTitle="Clear all the Caches of the app." id="y8g-0P-qDQ">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="n5d-fw-PKi">
-                                        <rect key="frame" x="20" y="642.5" width="374" height="43.5"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="n5d-fw-PKi" id="wu2-Xf-PMd">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Clear Caches" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gnM-uY-fIj">
-                                                    <rect key="frame" x="15" y="11.5" width="101.5" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" systemColor="systemRedColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="gnM-uY-fIj" firstAttribute="centerY" secondItem="wu2-Xf-PMd" secondAttribute="centerY" id="6CI-Z8-j1E"/>
-                                                <constraint firstItem="gnM-uY-fIj" firstAttribute="leading" secondItem="wu2-Xf-PMd" secondAttribute="leading" constant="15" id="W34-fW-BBV"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <gestureRecognizers/>
-                                        <connections>
-                                            <outletCollection property="gestureRecognizers" destination="lSD-S4-QDS" appends="YES" id="y9o-EY-LjH"/>
-                                        </connections>
-                                    </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="hfE-We-1uZ">
-                                        <rect key="frame" x="20" y="686" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="642.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hfE-We-1uZ" id="xJ2-Ge-9P0">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -319,7 +295,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="MCd-19-KYt">
-                                        <rect key="frame" x="20" y="729.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="686" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="MCd-19-KYt" id="q9N-QI-RRZ">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -343,7 +319,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="yPV-fy-M4c">
-                                        <rect key="frame" x="20" y="773" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="729.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="yPV-fy-M4c" id="YZv-xL-sWU">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -366,6 +342,54 @@
                                             <outletCollection property="gestureRecognizers" destination="oU6-Qe-5We" appends="YES" id="hkH-kb-ymn"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="mQq-1t-gtR">
+                                        <rect key="frame" x="20" y="773" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mQq-1t-gtR" id="tiP-rb-fIJ">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Clear History" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZNc-C1-eRY">
+                                                    <rect key="frame" x="15" y="11.5" width="99" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" systemColor="systemRedColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="ZNc-C1-eRY" firstAttribute="leading" secondItem="tiP-rb-fIJ" secondAttribute="leading" constant="15" id="Q3E-Yo-0nb"/>
+                                                <constraint firstItem="ZNc-C1-eRY" firstAttribute="centerY" secondItem="tiP-rb-fIJ" secondAttribute="centerY" id="zIo-k1-tih"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="hHT-Ee-gUq" appends="YES" id="kHZ-x5-kH8"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="HUR-n8-Rbx">
+                                        <rect key="frame" x="20" y="816.5" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HUR-n8-Rbx" id="bHB-r2-4FI">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Clear Caches" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qbf-58-ZPz">
+                                                    <rect key="frame" x="15" y="11.5" width="101.5" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" systemColor="systemRedColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Qbf-58-ZPz" firstAttribute="centerY" secondItem="bHB-r2-4FI" secondAttribute="centerY" id="Dzv-nT-LGE"/>
+                                                <constraint firstItem="Qbf-58-ZPz" firstAttribute="leading" secondItem="bHB-r2-4FI" secondAttribute="leading" constant="15" id="ku2-E5-UwL"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="YfA-Ft-yXD" appends="YES" id="nyJ-PN-8if"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -386,11 +410,6 @@
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QIX-WY-Iit" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="lSD-S4-QDS" userLabel="cache">
-                    <connections>
-                        <action selector="clearCache:" destination="pc2-lO-9Ci" id="XBB-kW-d7c"/>
-                    </connections>
-                </tapGestureRecognizer>
                 <tapGestureRecognizer id="GHs-72-WT1" userLabel="create">
                     <connections>
                         <action selector="createBackup:" destination="pc2-lO-9Ci" id="ELi-wc-7gP"/>
@@ -404,6 +423,16 @@
                 <tapGestureRecognizer id="oU6-Qe-5We" userLabel="reset">
                     <connections>
                         <action selector="resetAppTapped:" destination="pc2-lO-9Ci" id="C1K-cB-mQG"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="YfA-Ft-yXD" userLabel="caches">
+                    <connections>
+                        <action selector="clearCache:" destination="pc2-lO-9Ci" id="SAt-Yz-tIL"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="hHT-Ee-gUq" userLabel="history">
+                    <connections>
+                        <action selector="clearSearchHistory:" destination="pc2-lO-9Ci" id="dKn-3d-mk4"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
