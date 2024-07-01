@@ -11,6 +11,7 @@
 		130645E12C295264004642B3 /* SettingsViewAbout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130645E02C295264004642B3 /* SettingsViewAbout.swift */; };
 		1308F17A2C328571004348A9 /* BackupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1308F1792C328571004348A9 /* BackupManager.swift */; };
 		13327B362C314E6F00CEE6AC /* LandScapePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13327B352C314E6F00CEE6AC /* LandScapePlayer.swift */; };
+		136D50812C32E7C500028CC6 /* GoogleCastSDK-ios-no-bluetooth in Frameworks */ = {isa = PBXBuildFile; productRef = 136D50802C32E7C500028CC6 /* GoogleCastSDK-ios-no-bluetooth */; };
 		137F49D92C24B60800B787CB /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 137F49D82C24B60800B787CB /* SwiftSoup */; };
 		137F49EC2C254DCA00B787CB /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 137F49EB2C254DCA00B787CB /* Alamofire */; };
 		137F4A332C255DA500B787CB /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137F4A322C255DA500B787CB /* SearchViewController.swift */; };
@@ -117,6 +118,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13D1DAAB2C28760900A35D79 /* Kingfisher in Frameworks */,
+				136D50812C32E7C500028CC6 /* GoogleCastSDK-ios-no-bluetooth in Frameworks */,
 				137F49EC2C254DCA00B787CB /* Alamofire in Frameworks */,
 				137F49D92C24B60800B787CB /* SwiftSoup in Frameworks */,
 			);
@@ -383,6 +385,7 @@
 				137F49D82C24B60800B787CB /* SwiftSoup */,
 				137F49EB2C254DCA00B787CB /* Alamofire */,
 				13D1DAAA2C28760900A35D79 /* Kingfisher */,
+				136D50802C32E7C500028CC6 /* GoogleCastSDK-ios-no-bluetooth */,
 			);
 			productName = AnimeLounge;
 			productReference = 13AA298B2C245EDD00C8CA8E /* AnimeLounge.app */;
@@ -460,6 +463,7 @@
 				137F49D72C24B60800B787CB /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 				137F49EA2C254DCA00B787CB /* XCRemoteSwiftPackageReference "Alamofire" */,
 				13D1DAA92C28760900A35D79 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				136D507F2C32E7C500028CC6 /* XCRemoteSwiftPackageReference "GoogleCastSDK-ios-no-bluetooth" */,
 			);
 			productRefGroup = 13AA298C2C245EDD00C8CA8E /* Products */;
 			projectDirPath = "";
@@ -894,6 +898,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		136D507F2C32E7C500028CC6 /* XCRemoteSwiftPackageReference "GoogleCastSDK-ios-no-bluetooth" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SRGSSR/GoogleCastSDK-ios-no-bluetooth.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		137F49D72C24B60800B787CB /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/scinfu/SwiftSoup.git";
@@ -921,6 +933,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		136D50802C32E7C500028CC6 /* GoogleCastSDK-ios-no-bluetooth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 136D507F2C32E7C500028CC6 /* XCRemoteSwiftPackageReference "GoogleCastSDK-ios-no-bluetooth" */;
+			productName = "GoogleCastSDK-ios-no-bluetooth";
+		};
 		137F49D82C24B60800B787CB /* SwiftSoup */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 137F49D72C24B60800B787CB /* XCRemoteSwiftPackageReference "SwiftSoup" */;

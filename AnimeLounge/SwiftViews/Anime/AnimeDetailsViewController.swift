@@ -9,6 +9,7 @@ import UIKit
 import AVKit
 import SwiftSoup
 import WebKit
+import GoogleCast
 
 extension String {
     var nilIfEmpty: String? {
@@ -16,7 +17,7 @@ extension String {
     }
 }
 
-class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
+class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GCKRemoteMediaClientListener {
     private var animeTitle: String?
     private var imageUrl: String?
     private var href: String?
@@ -48,6 +49,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
         updateUI()
         setupNotifications()
         checkFavoriteStatus()
+        setupCastButton()
         
         navigationController?.navigationBar.prefersLargeTitles = false
         
@@ -61,6 +63,12 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
              currentEpisodeIndex = episodes.firstIndex(where: { $0.href == firstEpisodeHref }) ?? 0
          }
     }
+
+    private func setupCastButton() {
+        let castButton = GCKUICastButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: castButton)
+    }
+
     
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -288,27 +296,101 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
             return
         }
 
-        if url.contains(".mp4") || url.contains(".m3u8") || url.contains("animeheaven.me/video.mp4") {
-            DispatchQueue.main.async {
-                self.playVideoWithAVPlayer(sourceURL: videoURL, cell: cell, fullURL: fullURL)
-            }
+        if GCKCastContext.sharedInstance().sessionManager.hasConnectedCastSession() {
+            castVideoToGoogleCast(url: videoURL)
         } else {
-            URLSession.shared.dataTask(with: videoURL) { [weak self] (data, response, error) in
-                guard let self = self,
-                      let data = data,
-                      let htmlString = String(data: data, encoding: .utf8),
-                      let srcURL = self.extractVideoSourceURL(from: htmlString) else {
-                    print("Error fetching or parsing video data")
-                    return
-                }
-                
+            if url.contains(".mp4") || url.contains(".m3u8") || url.contains("animeheaven.me/video.mp4") {
                 DispatchQueue.main.async {
-                    self.playVideoWithAVPlayer(sourceURL: srcURL, cell: cell, fullURL: fullURL)
+                    self.playVideoWithAVPlayer(sourceURL: videoURL, cell: cell, fullURL: fullURL)
                 }
-            }.resume()
+            } else {
+                URLSession.shared.dataTask(with: videoURL) { [weak self] (data, response, error) in
+                    guard let self = self else { return }
+                    
+                    if let error = error {
+                        print("Error fetching video data: \(error.localizedDescription)")
+                        return
+                    }
+                    
+                    guard let data = data,
+                          let htmlString = String(data: data, encoding: .utf8),
+                          let srcURL = self.extractVideoSourceURL(from: htmlString) else {
+                        print("Error parsing video data")
+                        return
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.playVideoWithAVPlayer(sourceURL: srcURL, cell: cell, fullURL: fullURL)
+                    }
+                }.resume()
+            }
         }
     }
 
+    private func castVideoToGoogleCast(url: URL) {
+        fetchHTMLContent(from: url.absoluteString) { [weak self] result in
+            guard let self = self else { return }
+
+            switch result {
+            case .success(let htmlString):
+                if let videoURL = self.extractVideoSourceURL(from: htmlString) {
+                    self.proceedWithCasting(videoURL: videoURL)
+                } else {
+                    print("Error: Could not extract video URL from the page")
+                }
+            case .failure(let error):
+                print("Error fetching HTML content: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    private func proceedWithCasting(videoURL: URL) {
+        guard let animeTitle = animeTitle else {
+            print("Error: Anime title is missing.")
+            return
+        }
+
+        let metadata = GCKMediaMetadata(metadataType: .movie)
+        metadata.setString(animeTitle, forKey: kGCKMetadataKeyTitle)
+
+        let contentType: String
+        let streamType: GCKMediaStreamType
+
+        if videoURL.absoluteString.contains(".m3u8") {
+            contentType = "application/x-mpegurl"
+            streamType = .live
+        } else if videoURL.absoluteString.contains(".mp4") {
+            contentType = "video/mp4"
+            streamType = .buffered
+        } else {
+            contentType = "application/x-mpegurl"
+            streamType = .buffered
+        }
+
+        let mediaInfo = GCKMediaInformation(
+            contentID: videoURL.absoluteString,
+            streamType: streamType,
+            contentType: contentType,
+            metadata: metadata,
+            streamDuration: 0,
+            mediaTracks: nil,
+            textTrackStyle: nil,
+            customData: nil
+        )
+
+        let mediaLoadOptions = GCKMediaLoadOptions()
+        mediaLoadOptions.autoplay = true
+        mediaLoadOptions.playPosition = 0
+
+        if let castSession = GCKCastContext.sharedInstance().sessionManager.currentCastSession,
+           let remoteMediaClient = castSession.remoteMediaClient {
+            remoteMediaClient.loadMedia(mediaInfo, with: mediaLoadOptions)
+            remoteMediaClient.add(self)
+        } else {
+            print("Error: Failed to load media to Google Cast")
+        }
+    }
+    
     private func extractVideoSourceURL(from htmlString: String) -> URL? {
         do {
             let doc: Document = try SwiftSoup.parse(htmlString)

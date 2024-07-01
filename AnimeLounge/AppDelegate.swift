@@ -7,6 +7,7 @@
 
 import UIKit
 import AVFoundation
+import GoogleCast
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -22,6 +23,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if UserDefaults.standard.object(forKey: "selectedMediaSource") == nil {
             UserDefaults.standard.set("AnimeWorld", forKey: "selectedMediaSource")
         }
+        
+        let options = GCKCastOptions(discoveryCriteria: GCKDiscoveryCriteria(applicationID: kGCKDefaultMediaReceiverApplicationID))
+        GCKCastContext.setSharedInstanceWith(options)
         
         return true
     }
