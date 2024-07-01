@@ -294,6 +294,78 @@
                                             <outletCollection property="gestureRecognizers" destination="lSD-S4-QDS" appends="YES" id="y9o-EY-LjH"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="hfE-We-1uZ">
+                                        <rect key="frame" x="20" y="686" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hfE-We-1uZ" id="xJ2-Ge-9P0">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create Backup" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oye-d6-1Hv">
+                                                    <rect key="frame" x="15" y="11.5" width="112.5" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" name="AccentColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Oye-d6-1Hv" firstAttribute="leading" secondItem="xJ2-Ge-9P0" secondAttribute="leading" constant="15" id="G6S-kj-Kyv"/>
+                                                <constraint firstItem="Oye-d6-1Hv" firstAttribute="centerY" secondItem="xJ2-Ge-9P0" secondAttribute="centerY" id="Nza-hO-U1m"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="GHs-72-WT1" appends="YES" id="TS1-hS-vNN"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="MCd-19-KYt">
+                                        <rect key="frame" x="20" y="729.5" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="MCd-19-KYt" id="q9N-QI-RRZ">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Import Backup" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HSv-07-1Gt">
+                                                    <rect key="frame" x="15" y="11.5" width="111.5" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" name="AccentColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="HSv-07-1Gt" firstAttribute="leading" secondItem="q9N-QI-RRZ" secondAttribute="leading" constant="15" id="N6T-X0-uQJ"/>
+                                                <constraint firstItem="HSv-07-1Gt" firstAttribute="centerY" secondItem="q9N-QI-RRZ" secondAttribute="centerY" id="oKb-Vu-LqS"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="dIm-r0-LFM" appends="YES" id="PUH-Aq-pD2"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="yPV-fy-M4c">
+                                        <rect key="frame" x="20" y="773" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="yPV-fy-M4c" id="YZv-xL-sWU">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reset app" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9rv-Bj-siq">
+                                                    <rect key="frame" x="15" y="11.5" width="76.5" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" systemColor="systemRedColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="9rv-Bj-siq" firstAttribute="leading" secondItem="YZv-xL-sWU" secondAttribute="leading" constant="15" id="2rt-6K-Ksl"/>
+                                                <constraint firstItem="9rv-Bj-siq" firstAttribute="centerY" secondItem="YZv-xL-sWU" secondAttribute="centerY" id="Zak-YL-idm"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="oU6-Qe-5We" appends="YES" id="hkH-kb-ymn"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -314,9 +386,24 @@
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QIX-WY-Iit" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="lSD-S4-QDS">
+                <tapGestureRecognizer id="lSD-S4-QDS" userLabel="cache">
                     <connections>
                         <action selector="clearCache:" destination="pc2-lO-9Ci" id="XBB-kW-d7c"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="GHs-72-WT1" userLabel="create">
+                    <connections>
+                        <action selector="createBackup:" destination="pc2-lO-9Ci" id="ELi-wc-7gP"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="dIm-r0-LFM" userLabel="import">
+                    <connections>
+                        <action selector="importBackupTapped:" destination="pc2-lO-9Ci" id="4uX-Dk-Hq5"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="oU6-Qe-5We" userLabel="reset">
+                    <connections>
+                        <action selector="resetAppTapped:" destination="pc2-lO-9Ci" id="C1K-cB-mQG"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>

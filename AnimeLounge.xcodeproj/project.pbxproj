@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		130645DF2C28A27E004642B3 /* Sources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130645DE2C28A27E004642B3 /* Sources.swift */; };
 		130645E12C295264004642B3 /* SettingsViewAbout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130645E02C295264004642B3 /* SettingsViewAbout.swift */; };
+		1308F17A2C328571004348A9 /* BackupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1308F1792C328571004348A9 /* BackupManager.swift */; };
 		13327B362C314E6F00CEE6AC /* LandScapePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13327B352C314E6F00CEE6AC /* LandScapePlayer.swift */; };
 		137F49D92C24B60800B787CB /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 137F49D82C24B60800B787CB /* SwiftSoup */; };
 		137F49EC2C254DCA00B787CB /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 137F49EB2C254DCA00B787CB /* Alamofire */; };
@@ -68,6 +69,7 @@
 /* Begin PBXFileReference section */
 		130645DE2C28A27E004642B3 /* Sources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources.swift; sourceTree = "<group>"; };
 		130645E02C295264004642B3 /* SettingsViewAbout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewAbout.swift; sourceTree = "<group>"; };
+		1308F1792C328571004348A9 /* BackupManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupManager.swift; sourceTree = "<group>"; };
 		13327B352C314E6F00CEE6AC /* LandScapePlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandScapePlayer.swift; sourceTree = "<group>"; };
 		137F4A322C255DA500B787CB /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		137F4A342C255E9700B787CB /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
@@ -143,6 +145,14 @@
 				130645DE2C28A27E004642B3 /* Sources.swift */,
 			);
 			path = Sources;
+			sourceTree = "<group>";
+		};
+		1308F1782C328563004348A9 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				1308F1792C328571004348A9 /* BackupManager.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		13327B342C314E6300CEE6AC /* Player */ = {
@@ -224,6 +234,7 @@
 		13AA298D2C245EDD00C8CA8E /* AnimeLounge */ = {
 			isa = PBXGroup;
 			children = (
+				1308F1782C328563004348A9 /* Utils */,
 				13AE19E42C2C54EB0012633D /* AnimeLounge.entitlements */,
 				130645DA2C288CD3004642B3 /* Sources */,
 				13CD3A692C2601D500B046F9 /* Anilist-Services */,
@@ -502,6 +513,7 @@
 				13CD3A832C26BB5C00B046F9 /* FavoritesViewController.swift in Sources */,
 				137F4A332C255DA500B787CB /* SearchViewController.swift in Sources */,
 				13AA29932C245EDD00C8CA8E /* ViewController.swift in Sources */,
+				1308F17A2C328571004348A9 /* BackupManager.swift in Sources */,
 				13AA298F2C245EDD00C8CA8E /* AppDelegate.swift in Sources */,
 				139B164C2C270FAF007E3477 /* AiringAnimeCell-Swift.swift in Sources */,
 				137F4A352C255E9700B787CB /* SearchResultsViewController.swift in Sources */,
@@ -703,6 +715,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 399LMK6Q2Y;
+				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AnimeLounge/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
@@ -710,7 +723,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -719,7 +732,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = me.sobet.AnimeLounge;
+				PRODUCT_BUNDLE_IDENTIFIER = me.cranci.animelounge;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -737,6 +750,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 399LMK6Q2Y;
+				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AnimeLounge/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
@@ -744,7 +758,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -753,7 +767,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = me.sobet.AnimeLounge;
+				PRODUCT_BUNDLE_IDENTIFIER = me.cranci.animelounge;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
