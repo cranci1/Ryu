@@ -34,6 +34,9 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
     
     private var timeObserverToken: Any?
     
+    private var webView: WKWebView!
+    private var clickTimer: Timer?
+    
     private var isFavorite: Bool = false
     private var isSynopsisExpanded = false
 
@@ -243,7 +246,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             baseURL = "https://anitaku.pe/"
             episodeId = episode.href.components(separatedBy: "/").last ?? episode.href
             fullURL = baseURL + episodeId
-            openWebView(fullURL: fullURL)
+            checkUserDefault(url: fullURL, cell: cell, fullURL: fullURL)
             return
         default:
             baseURL = ""
@@ -262,14 +265,64 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         }
     }
     
-    private func openWebView(fullURL: String) {
-        let webView = WKWebView(frame: view.bounds)
-        webView.navigationDelegate = self
-        view.addSubview(webView)
+    private func startClickingHTMLElement(interval: TimeInterval) {
+        stopClickingHTMLElement()
         
+        clickTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { [weak self] _ in
+            self?.clickHTMLElement()
+        }
+        
+        clickHTMLElement()
+    }
+
+    private func stopClickingHTMLElement() {
+        clickTimer?.invalidate()
+        clickTimer = nil
+    }
+
+    private func clickHTMLElement() {
+        guard let webView = self.webView else {
+            print("WKWebView is nil.")
+            return
+        }
+        
+        let script = """
+        (function() {
+            var playButton = document.querySelector('.jw-icon.jw-icon-display.jw-button-color.jw-reset');
+            if (playButton) {
+                playButton.click();
+                return 'Clicked play button';
+            } else {
+                return 'Play button not found';
+            }
+        })();
+        """
+        
+        webView.evaluateJavaScript(script) { (result, error) in
+            if let error = error {
+                print("Error executing JavaScript: \(error)")
+            } else if let result = result as? String {
+                print(result)
+            }
+        }
+    }
+
+    private func openWebView(fullURL: String) {
+        if webView == nil {
+            webView = WKWebView(frame: view.bounds)
+            webView.navigationDelegate = self
+            view.addSubview(webView)
+        }
+
         if let url = URL(string: fullURL) {
             let request = URLRequest(url: url)
             webView.load(request)
+        }
+    }
+
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            self?.startClickingHTMLElement(interval: 1.0)
         }
     }
     
@@ -318,13 +371,15 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                     
                     guard let data = data,
                           let htmlString = String(data: data, encoding: .utf8),
-                          let srcURL = self.extractVideoSourceURL(from: htmlString) else {
+                          let srcURL = self.extractIframeSourceURL(from: htmlString) else {
                         print("Error parsing video data")
                         return
                     }
                     
+                    let srcString = srcURL.absoluteString
+
                     DispatchQueue.main.async {
-                        self.playVideoWithAVPlayer(sourceURL: srcURL, cell: cell, fullURL: fullURL)
+                        self.openWebView(fullURL: srcString)
                     }
                 }.resume()
             }
@@ -338,7 +393,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             DispatchQueue.main.async {
                 switch result {
                 case .success(let htmlString):
-                    if let videoURL = self.extractVideoSourceURL(from: htmlString) {
+                    if let videoURL = self.extractIframeSourceURL(from: htmlString) {
                         self.proceedWithCasting(videoURL: videoURL)
                     } else {
                         print("Error: Could not extract video URL from the page")
@@ -443,6 +498,29 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                 return mp4URL
             } else if let m3u8URL = extractURL(from: htmlString, pattern: m3u8Pattern) {
                 return m3u8URL
+            }
+            return nil
+        }
+    }
+    
+    private func extractIframeSourceURL(from htmlString: String) -> URL? {
+        do {
+            let doc: Document = try SwiftSoup.parse(htmlString)
+            guard let iframeElement = try doc.select("iframe").first(),
+                  let sourceURLString = try iframeElement.attr("src").nilIfEmpty,
+                  let sourceURL = URL(string: sourceURLString) else {
+                return nil
+            }
+            print("Iframe src URL: \(sourceURL.absoluteString)")
+            return sourceURL
+        } catch {
+            print("Error parsing HTML with SwiftSoup: \(error)")
+            
+            let iframePattern = #"<iframe[^>]+src="(.*?)"[^>]*>"#
+            
+            if let iframeURL = extractURL(from: htmlString, pattern: iframePattern) {
+                print("Iframe src URL: \(iframeURL.absoluteString)")
+                return iframeURL
             }
             return nil
         }
