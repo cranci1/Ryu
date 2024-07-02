@@ -352,23 +352,30 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
 
     private func proceedWithCasting(videoURL: URL) {
         DispatchQueue.main.async {
-            guard let animeTitle = self.animeTitle else {
-                print("Error: Anime title is missing.")
-                return
-            }
-
             let metadata = GCKMediaMetadata(metadataType: .movie)
-            metadata.setString(animeTitle, forKey: kGCKMetadataKeyTitle)
-
-            if let imageURL = URL(string: self.imageUrl ?? "") {
-                metadata.addImage(GCKImage(url: imageURL, width: 480, height: 720))
+            
+            if UserDefaults.standard.bool(forKey: "fullTitleCast") {
+                if let animeTitle = self.animeTitle {
+                    metadata.setString(animeTitle, forKey: kGCKMetadataKeyTitle)
+                } else {
+                    print("Error: Anime title is missing.")
+                }
             } else {
-                print("Error: Anime image URL is missing or invalid.")
+                let episodeNumber = self.currentEpisodeIndex + 1
+                metadata.setString("Episode \(episodeNumber)", forKey: kGCKMetadataKeyTitle)
             }
-
+            
+            if UserDefaults.standard.bool(forKey: "animeImageCast") {
+                if let imageURL = URL(string: self.imageUrl ?? "") {
+                    metadata.addImage(GCKImage(url: imageURL, width: 480, height: 720))
+                } else {
+                    print("Error: Anime image URL is missing or invalid.")
+                }
+            }
+            
             let contentType: String
             let streamType: GCKMediaStreamType
-
+            
             if videoURL.absoluteString.contains(".m3u8") {
                 contentType = "application/x-mpegurl"
                 streamType = .live
@@ -379,7 +386,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                 contentType = "application/x-mpegurl"
                 streamType = .buffered
             }
-
+            
             let mediaInfo = GCKMediaInformation(
                 contentID: videoURL.absoluteString,
                 streamType: streamType,
@@ -390,11 +397,11 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                 textTrackStyle: nil,
                 customData: nil
             )
-
+            
             let mediaLoadOptions = GCKMediaLoadOptions()
             mediaLoadOptions.autoplay = true
             mediaLoadOptions.playPosition = 0
-
+            
             if let castSession = GCKCastContext.sharedInstance().sessionManager.currentCastSession,
                let remoteMediaClient = castSession.remoteMediaClient {
                 remoteMediaClient.loadMedia(mediaInfo, with: mediaLoadOptions)
@@ -404,6 +411,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             }
         }
     }
+
     
     func remoteMediaClient(_ client: GCKRemoteMediaClient, didUpdate mediaStatus: GCKMediaStatus?) {
          if let mediaStatus = mediaStatus, mediaStatus.idleReason == .finished {
