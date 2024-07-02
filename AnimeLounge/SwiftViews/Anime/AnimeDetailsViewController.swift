@@ -68,10 +68,14 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         let castButton = GCKUICastButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: castButton)
     }
-
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+        
+        if let castSession = GCKCastContext.sharedInstance().sessionManager.currentCastSession,
+           let remoteMediaClient = castSession.remoteMediaClient {
+            remoteMediaClient.remove(self)
+        }
     }
     
     private func toggleFavorite() {
@@ -401,6 +405,16 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         }
     }
     
+    func remoteMediaClient(_ client: GCKRemoteMediaClient, didUpdate mediaStatus: GCKMediaStatus?) {
+         if let mediaStatus = mediaStatus, mediaStatus.idleReason == .finished {
+             if UserDefaults.standard.bool(forKey: "AutoPlay") {
+                 DispatchQueue.main.async { [weak self] in
+                     self?.playNextEpisode()
+                 }
+             }
+         }
+     }
+    
     private func extractVideoSourceURL(from htmlString: String) -> URL? {
         do {
             let doc: Document = try SwiftSoup.parse(htmlString)
@@ -493,7 +507,10 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                 episodeSelected(episode: nextEpisode, cell: cell)
             }
         } else {
-            print("No more episodes to play")
+            if let castSession = GCKCastContext.sharedInstance().sessionManager.currentCastSession,
+               let remoteMediaClient = castSession.remoteMediaClient {
+                remoteMediaClient.stop()
+            }
         }
     }
     
