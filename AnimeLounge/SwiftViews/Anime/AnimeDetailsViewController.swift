@@ -37,6 +37,8 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
     
     private var isFavorite: Bool = false
     private var isSynopsisExpanded = false
+    
+    var availableQualities: [String] = []
 
     func configure(title: String, imageUrl: String, href: String) {
         self.animeTitle = title
@@ -239,6 +241,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             episodeId = episode.href
             fullURL = episodeId
             checkUserDefault(url: fullURL, cell: cell, fullURL: fullURL)
+            print("\(fullURL)")
             return
         case "GoGoAnime":
             baseURL = "https://anitaku.pe/"
@@ -335,8 +338,10 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                     let srcURL: URL?
                     
                     switch selectedMediaSource {
-                    case "GoGoAnime", "AnimeFire", "Latanime", "Kuramanime":
+                    case "GoGoAnime", "Latanime", "Kuramanime":
                         srcURL = self.extractIframeSourceURL(from: htmlString)
+                    case "AnimeFire":
+                        srcURL = self.extractDataVideoSrcURL(from: htmlString)
                     case "AnimeWorld", "AnimeHeaven":
                         srcURL = self.extractVideoSourceURL(from: htmlString)
                     default:
@@ -349,8 +354,16 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                     }
                     
                     DispatchQueue.main.async {
-                        if selectedMediaSource == "GoGoAnime" || selectedMediaSource == "AnimeFire" || selectedMediaSource == "Latanime" || selectedMediaSource == "Kuramanime" {
+                        if selectedMediaSource == "GoGoAnime" || selectedMediaSource == "Latanime" || selectedMediaSource == "Kuramanime" {
                             self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString)
+                        } else if selectedMediaSource == "AnimeFire" {
+                            self.fetchVideoDataAndChooseQuality(from: finalSrcURL.absoluteString) { selectedURL in
+                                if let selectedURL = selectedURL {
+                                    self.playVideoWithAVPlayer(sourceURL: selectedURL, cell: cell, fullURL: fullURL)
+                                } else {
+                                    print("Failed to select video URL")
+                                }
+                            }
                         } else {
                             self.playVideoWithAVPlayer(sourceURL: finalSrcURL, cell: cell, fullURL: fullURL)
                         }
@@ -498,6 +511,17 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         }
     }
     
+    private func extractURL(from htmlString: String, pattern: String) -> URL? {
+        guard let regex = try? NSRegularExpression(pattern: pattern, options: []),
+              let match = regex.firstMatch(in: htmlString, range: NSRange(htmlString.startIndex..., in: htmlString)),
+              let urlRange = Range(match.range(at: 1), in: htmlString) else {
+            return nil
+        }
+        
+        let urlString = String(htmlString[urlRange])
+        return URL(string: urlString)
+    }
+    
     private func extractIframeSourceURL(from htmlString: String) -> URL? {
         do {
             let doc: Document = try SwiftSoup.parse(htmlString)
@@ -514,15 +538,103 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         }
     }
     
-    private func extractURL(from htmlString: String, pattern: String) -> URL? {
-        guard let regex = try? NSRegularExpression(pattern: pattern, options: []),
-              let match = regex.firstMatch(in: htmlString, range: NSRange(htmlString.startIndex..., in: htmlString)),
-              let urlRange = Range(match.range(at: 1), in: htmlString) else {
+    private func extractDataVideoSrcURL(from htmlString: String) -> URL? {
+        do {
+            let doc: Document = try SwiftSoup.parse(htmlString)
+            guard let element = try doc.select("[data-video-src]").first(),
+                  let sourceURLString = try element.attr("data-video-src").nilIfEmpty,
+                  let sourceURL = URL(string: sourceURLString) else {
+                return nil
+            }
+            print("Data-video-src URL: \(sourceURL.absoluteString)")
+            return sourceURL
+        } catch {
+            print("Error parsing HTML with SwiftSoup: \(error)")
             return nil
         }
+    }
+    
+    private func fetchVideoDataAndChooseQuality(from urlString: String, completion: @escaping (URL?) -> Void) {
+        guard let url = URL(string: urlString) else {
+            print("Invalid URL string")
+            completion(nil)
+            return
+        }
         
-        let urlString = String(htmlString[urlRange])
-        return URL(string: urlString)
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else {
+                print("Network error: \(String(describing: error))")
+                completion(nil)
+                return
+            }
+            
+            do {
+                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                   let videoDataArray = json["data"] as? [[String: Any]] {
+                    
+                    self.availableQualities.removeAll()
+                    
+                    for videoData in videoDataArray {
+                        if let label = videoData["label"] as? String {
+                            self.availableQualities.append(label)
+                        }
+                    }
+                    
+                    if self.availableQualities.isEmpty {
+                        print("No available video qualities found")
+                        completion(nil)
+                        return
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.showQualityPicker(qualities: self.availableQualities) { selectedQuality in
+                            guard let selectedQuality = selectedQuality,
+                                  let selectedVideoData = videoDataArray.first(where: { $0["label"] as? String == selectedQuality }),
+                                  let selectedURLString = selectedVideoData["src"] as? String,
+                                  let selectedURL = URL(string: selectedURLString) else {
+                                completion(nil)
+                                return
+                            }
+                            
+                            completion(selectedURL)
+                        }
+                    }
+                    
+                } else {
+                    print("JSON structure is invalid or data key is missing")
+                    completion(nil)
+                }
+            } catch {
+                print("Error parsing JSON: \(error)")
+                completion(nil)
+            }
+        }
+        
+        task.resume()
+    }
+    
+    private func showQualityPicker(qualities: [String], completion: @escaping (String?) -> Void) {
+        let alertController = UIAlertController(title: "Choose Video Quality", message: nil, preferredStyle: .actionSheet)
+        
+        for quality in qualities {
+            let action = UIAlertAction(title: quality, style: .default) { _ in
+                completion(quality)
+            }
+            alertController.addAction(action)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
+            completion(nil)
+        }
+        alertController.addAction(cancelAction)
+        
+        if let popoverController = alertController.popoverPresentationController {
+            popoverController.sourceView = view
+            popoverController.sourceRect = CGRect(x: view.bounds.midX, y: view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+        
+        present(alertController, animated: true, completion: nil)
     }
 
     private func playVideoWithAVPlayer(sourceURL: URL, cell: EpisodeCell, fullURL: String) {

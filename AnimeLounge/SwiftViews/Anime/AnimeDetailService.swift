@@ -33,11 +33,7 @@ class AnimeDetailService {
             baseUrl = "https://anitaku.pe"
         case .animeheaven:
             baseUrl = "https://animeheaven.me/"
-        case .animefire:
-            baseUrl = ""
-        case .kuramanime:
-            baseUrl = ""
-        case .latanime:
+        case .animefire, .kuramanime, .latanime:
             baseUrl = ""
         }
         
