@@ -24,12 +24,10 @@ class AnilistServiceAiringAnime {
                     airingAt_lesser: $endTime
                 ) {
                     id
-                    episode
                     airingAt
                     media {
                         id
                         isAdult
-                        episodes
                         description
                         coverImage {
                             extraLarge
@@ -39,6 +37,10 @@ class AnilistServiceAiringAnime {
                             romaji
                             english
                             native
+                        }
+                        nextAiringEpisode {
+                            episode
+                            airingAt
                         }
                         mediaListEntry {
                             status
@@ -81,19 +83,20 @@ class AnilistServiceAiringAnime {
                                   let native = titleData["native"] as? String?,
                                   let coverImageData = media["coverImage"] as? [String: Any],
                                   let extraLargeImageUrl = coverImageData["extraLarge"] as? String,
-                                  let imageUrl = URL(string: extraLargeImageUrl) else {
+                                  let imageUrl = URL(string: extraLargeImageUrl),
+                                  let nextAiringEpisode = media["nextAiringEpisode"] as? [String: Any],
+                                  let episode = nextAiringEpisode["episode"] as? Int,
+                                  let airingAt = nextAiringEpisode["airingAt"] as? Int else {
                                 return nil
                             }
                             
-                            let episodes = media["episodes"] as? Int
                             let description = media["description"] as? String
-                            let airingAt = schedule["airingAt"] as? Int
                             
                             let anime = Anime(
                                 id: id,
                                 title: Title(romaji: romaji, english: english, native: native),
                                 coverImage: CoverImage(large: imageUrl.absoluteString),
-                                episodes: episodes,
+                                episodes: episode,
                                 description: description,
                                 airingAt: airingAt
                             )
