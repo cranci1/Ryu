@@ -334,8 +334,8 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="Oye-d6-1Hv" firstAttribute="leading" secondItem="xJ2-Ge-9P0" secondAttribute="leading" constant="15" id="G6S-kj-Kyv"/>
-                                                <constraint firstItem="Oye-d6-1Hv" firstAttribute="centerY" secondItem="xJ2-Ge-9P0" secondAttribute="centerY" id="Nza-hO-U1m"/>
+                                                <constraint firstItem="Oye-d6-1Hv" firstAttribute="leading" secondItem="xJ2-Ge-9P0" secondAttribute="leading" constant="15" id="2w5-VP-oWY"/>
+                                                <constraint firstItem="Oye-d6-1Hv" firstAttribute="centerY" secondItem="xJ2-Ge-9P0" secondAttribute="centerY" id="ASq-66-APy"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <gestureRecognizers/>
@@ -358,8 +358,8 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="HSv-07-1Gt" firstAttribute="leading" secondItem="q9N-QI-RRZ" secondAttribute="leading" constant="15" id="N6T-X0-uQJ"/>
-                                                <constraint firstItem="HSv-07-1Gt" firstAttribute="centerY" secondItem="q9N-QI-RRZ" secondAttribute="centerY" id="oKb-Vu-LqS"/>
+                                                <constraint firstItem="HSv-07-1Gt" firstAttribute="centerY" secondItem="q9N-QI-RRZ" secondAttribute="centerY" id="8Bq-QP-edr"/>
+                                                <constraint firstItem="HSv-07-1Gt" firstAttribute="leading" secondItem="q9N-QI-RRZ" secondAttribute="leading" constant="15" id="ivB-HJ-xwz"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <gestureRecognizers/>
@@ -382,8 +382,8 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="ZNc-C1-eRY" firstAttribute="leading" secondItem="tiP-rb-fIJ" secondAttribute="leading" constant="15" id="Q3E-Yo-0nb"/>
-                                                <constraint firstItem="ZNc-C1-eRY" firstAttribute="centerY" secondItem="tiP-rb-fIJ" secondAttribute="centerY" id="zIo-k1-tih"/>
+                                                <constraint firstItem="ZNc-C1-eRY" firstAttribute="leading" secondItem="tiP-rb-fIJ" secondAttribute="leading" constant="15" id="d8c-G0-fsl"/>
+                                                <constraint firstItem="ZNc-C1-eRY" firstAttribute="centerY" secondItem="tiP-rb-fIJ" secondAttribute="centerY" id="uG2-WB-RcN"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <gestureRecognizers/>
@@ -406,8 +406,8 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="Qbf-58-ZPz" firstAttribute="centerY" secondItem="bHB-r2-4FI" secondAttribute="centerY" id="Dzv-nT-LGE"/>
-                                                <constraint firstItem="Qbf-58-ZPz" firstAttribute="leading" secondItem="bHB-r2-4FI" secondAttribute="leading" constant="15" id="ku2-E5-UwL"/>
+                                                <constraint firstItem="Qbf-58-ZPz" firstAttribute="leading" secondItem="bHB-r2-4FI" secondAttribute="leading" constant="15" id="Ob8-Ky-XGS"/>
+                                                <constraint firstItem="Qbf-58-ZPz" firstAttribute="centerY" secondItem="bHB-r2-4FI" secondAttribute="centerY" id="s36-gP-pCa"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <gestureRecognizers/>
@@ -430,8 +430,8 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="9rv-Bj-siq" firstAttribute="leading" secondItem="YZv-xL-sWU" secondAttribute="leading" constant="15" id="2rt-6K-Ksl"/>
-                                                <constraint firstItem="9rv-Bj-siq" firstAttribute="centerY" secondItem="YZv-xL-sWU" secondAttribute="centerY" id="Zak-YL-idm"/>
+                                                <constraint firstItem="9rv-Bj-siq" firstAttribute="centerY" secondItem="YZv-xL-sWU" secondAttribute="centerY" id="3mW-G6-sXp"/>
+                                                <constraint firstItem="9rv-Bj-siq" firstAttribute="leading" secondItem="YZv-xL-sWU" secondAttribute="leading" constant="15" id="cGW-gw-klq"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <gestureRecognizers/>
@@ -656,9 +656,16 @@ AnimeLounge is also not made to promote piracy. Its just a steaming app.</string
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="GNU General Public License version 3" id="OMu-tZ-KaQ">
+                                <mutableString key="footerTitle">Copyright © 2024 cranci. All rights reserved.
+
+AnimeLounge is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License.
+
+AnimeLounge is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with AnimeLounge. If not, see &lt;https://www.gnu.org/licenses/&gt;.</mutableString>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="HkG-T8-RWQ">
-                                        <rect key="frame" x="20" y="557.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="565" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HkG-T8-RWQ" id="w93-1l-591">
                                             <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
@@ -684,7 +691,7 @@ AnimeLounge is also not made to promote piracy. Its just a steaming app.</string
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="Credits" id="Mkr-5S-bqG">
-                                <string key="footerTitle">SwiftSoup 
+                                <mutableString key="footerTitle">SwiftSoup 
 
 Copyright (c) 2016 Nabil Chatbi
 
@@ -719,10 +726,12 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-</string>
+Google Cast
+
+https://developers.google.com/terms/</mutableString>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="w4T-NN-0Re">
-                                        <rect key="frame" x="20" y="658.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="884.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="w4T-NN-0Re" id="94Y-a6-fSO">
                                             <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
@@ -750,7 +759,11 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
                             <outlet property="delegate" destination="RUG-Sz-sjD" id="vhl-0Q-AbE"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="About" id="Xo8-bS-vsz"/>
+                    <navigationItem key="navigationItem" title="About" id="Blf-pU-9my">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="E5i-56-YvF">
+                            <color key="tintColor" name="AccentColor"/>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="buildLabel" destination="bnx-Qa-LHS" id="c88-U0-WXE"/>
                         <outlet property="licenseLabel" destination="iPe-aW-DeN" id="Ecx-cF-Pzy"/>

@@ -245,4 +245,3 @@ class CircularProgressView: UIView {
         progressLayer.strokeEnd = CGFloat(progress)
     }
 }
-

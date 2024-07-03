@@ -29,7 +29,6 @@
 		139B16502C272A55007E3477 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139B164F2C272A55007E3477 /* SettingsViewController.swift */; };
 		13AA298F2C245EDD00C8CA8E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AA298E2C245EDD00C8CA8E /* AppDelegate.swift */; };
 		13AA29912C245EDD00C8CA8E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AA29902C245EDD00C8CA8E /* SceneDelegate.swift */; };
-		13AA29932C245EDD00C8CA8E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AA29922C245EDD00C8CA8E /* ViewController.swift */; };
 		13AA29982C245EDF00C8CA8E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13AA29972C245EDF00C8CA8E /* Assets.xcassets */; };
 		13AA29A62C245EDF00C8CA8E /* AnimeLoungeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AA29A52C245EDF00C8CA8E /* AnimeLoungeTests.swift */; };
 		13AA29B02C245EDF00C8CA8E /* AnimeLoungeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AA29AF2C245EDF00C8CA8E /* AnimeLoungeUITests.swift */; };
@@ -90,7 +89,6 @@
 		13AA298B2C245EDD00C8CA8E /* AnimeLounge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnimeLounge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13AA298E2C245EDD00C8CA8E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		13AA29902C245EDD00C8CA8E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		13AA29922C245EDD00C8CA8E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		13AA29972C245EDF00C8CA8E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		13AA299C2C245EDF00C8CA8E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		13AA29A12C245EDF00C8CA8E /* AnimeLoungeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AnimeLoungeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -250,7 +248,6 @@
 				137F4A452C258DE200B787CB /* Views */,
 				13AA298E2C245EDD00C8CA8E /* AppDelegate.swift */,
 				13AA29902C245EDD00C8CA8E /* SceneDelegate.swift */,
-				13AA29922C245EDD00C8CA8E /* ViewController.swift */,
 				13AA29972C245EDF00C8CA8E /* Assets.xcassets */,
 				13AA299C2C245EDF00C8CA8E /* Info.plist */,
 			);
@@ -523,7 +520,6 @@
 				139655D12C33FCE10098A679 /* SettingsViewCast.swift in Sources */,
 				13CD3A832C26BB5C00B046F9 /* FavoritesViewController.swift in Sources */,
 				137F4A332C255DA500B787CB /* SearchViewController.swift in Sources */,
-				13AA29932C245EDD00C8CA8E /* ViewController.swift in Sources */,
 				1308F17A2C328571004348A9 /* BackupManager.swift in Sources */,
 				13AA298F2C245EDD00C8CA8E /* AppDelegate.swift in Sources */,
 				139B164C2C270FAF007E3477 /* AiringAnimeCell-Swift.swift in Sources */,

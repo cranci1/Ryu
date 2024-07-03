@@ -213,7 +213,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
     }
 
     private func episodeSelected(episode: Episode, cell: EpisodeCell) {
-        let selectedSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeHeaven"
+        let selectedSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
         currentEpisodeIndex = episodes.firstIndex(where: { $0.href == episode.href }) ?? 0
         
         var baseURL: String
