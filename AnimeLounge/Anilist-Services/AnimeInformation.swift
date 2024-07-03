@@ -140,7 +140,7 @@ class AnimeInformation: UITableViewController {
             titleLabel.text = titleDict["english"] ?? titleDict["romaji"]
         }
         
-        if let coverImage = (animeData["coverImage"] as? [String: String])?["large"],
+        if let coverImage = (animeData["coverImage"] as? [String: String])?["extraLarge"],
            let coverImageUrl = URL(string: coverImage) {
             coverImageView.kf.setImage(with: coverImageUrl)
         }
@@ -419,47 +419,110 @@ class AnimeService {
     static func fetchAnimeDetails(animeID: Int, completion: @escaping (Result<[String: Any], Error>) -> Void) {
         let query = """
         query {
-          Media(id: \(animeID), type: ANIME) {
-            id
-            title {
-              romaji
-              english
-              native
-            }
-            description
-            coverImage {
-              large
-            }
-            bannerImage
-            averageScore
-            genres
-            episodes
-            status
-            startDate {
-              year
-              month
-              day
-            }
-            endDate {
-              year
-              month
-              day
-            }
-            characters {
-              edges {
-                role
-                node {
-                  id
-                  name {
-                    full
-                  }
-                  image {
-                    large
-                  }
+            Media(id: \(animeID), type: ANIME) {
+                id
+                idMal
+                title {
+                    romaji
+                    english
+                    native
+                    userPreferred
                 }
-              }
+                type
+                format
+                status
+                description
+                startDate {
+                    year
+                    month
+                    day
+                }
+                endDate {
+                    year
+                    month
+                    day
+                }
+                season
+                episodes
+                duration
+                countryOfOrigin
+                isLicensed
+                source
+                hashtag
+                trailer {
+                    id
+                    site
+                }
+                updatedAt
+                coverImage {
+                    extraLarge
+                }
+                bannerImage
+                genres
+                popularity
+                tags {
+                    id
+                    name
+                }
+                relations {
+                    nodes {
+                        id
+                        coverImage { extraLarge }
+                        title { userPreferred },
+                        mediaListEntry { status }
+                    }
+                }
+                characters {
+                    edges {
+                        node {
+                            name {
+                                first
+                                last
+                                native
+                            }
+                            image {
+                                large
+                                medium
+                            }
+                        }
+                        role
+                        voiceActors {
+                            name {
+                                first
+                                last
+                                native
+                            }
+                        }
+                    }
+                }
+                studios {
+                    nodes {
+                        name
+                    }
+                }
+                isFavourite
+                reviews {
+                    nodes {
+                        summary
+                        user {
+                            name
+                        }
+                    }
+                }
+                siteUrl
+                stats {
+                    scoreDistribution {
+                        score
+                        amount
+                    }
+                }
+                airingSchedule(notYetAired: true) {
+                    nodes {
+                        airingAt
+                        episode
+                    }
+                }
             }
-          }
         }
         """
         

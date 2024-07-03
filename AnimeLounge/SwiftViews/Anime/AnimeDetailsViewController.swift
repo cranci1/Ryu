@@ -302,27 +302,6 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             print("Could not find the Library directory.")
         }
     }
-    
-    private func fetchHTMLContent(from url: String, completion: @escaping (Result<String, Error>) -> Void) {
-        guard let url = URL(string: url) else {
-            completion(.failure(NSError(domain: "Invalid URL", code: 0, userInfo: nil)))
-            return
-        }
-        
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-            
-            guard let data = data, let htmlString = String(data: data, encoding: .utf8) else {
-                completion(.failure(NSError(domain: "Invalid data", code: 0, userInfo: nil)))
-                return
-            }
-            
-            completion(.success(htmlString))
-        }.resume()
-    }
 
     private func playEpisode(url: String, cell: EpisodeCell, fullURL: String) {
         guard let videoURL = URL(string: url) else {
@@ -398,6 +377,27 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                 }
             }
         }
+    }
+    
+    private func fetchHTMLContent(from url: String, completion: @escaping (Result<String, Error>) -> Void) {
+        guard let url = URL(string: url) else {
+            completion(.failure(NSError(domain: "Invalid URL", code: 0, userInfo: nil)))
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let data = data, let htmlString = String(data: data, encoding: .utf8) else {
+                completion(.failure(NSError(domain: "Invalid data", code: 0, userInfo: nil)))
+                return
+            }
+            
+            completion(.success(htmlString))
+        }.resume()
     }
     
     private func proceedWithCasting(videoURL: URL) {

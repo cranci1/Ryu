@@ -13,7 +13,7 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
     private var webView: WKWebView?
     private var clickCancellable: AnyCancellable?
     private var loadingObserver: NSKeyValueObservation?
-    private var avPlayerViewController: AVPlayerViewController?
+    private var playerViewController: AVPlayerViewController?
     private var isVideoPlaying = false
     private var streamURL: String
     
@@ -173,6 +173,27 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
         }
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        stopPlayerAndCleanUp()
+    }
+    
+    private func stopPlayerAndCleanUp() {
+        playerViewController?.player?.pause()
+        playerViewController?.player = nil
+        
+        playerViewController?.willMove(toParent: nil)
+        playerViewController?.view.removeFromSuperview()
+        playerViewController?.removeFromParent()
+        playerViewController = nil
+        
+        stopMonitoringPlayState()
+        isVideoPlaying = false
+        
+        webView?.stopLoading()
+        webView?.loadHTMLString("", baseURL: nil)
+    }
+
     private func playVideoInAVPlayer(url: URL) {
         let player = AVPlayer(url: url)
         let playerViewController = AVPlayerViewController()
@@ -183,12 +204,14 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
         playerViewController.view.frame = view.bounds
         playerViewController.didMove(toParent: self)
         
+        self.playerViewController = playerViewController
+        
         player.play()
         isVideoPlaying = true
     }
     
     deinit {
-        stopMonitoringPlayState()
+        stopPlayerAndCleanUp()
         loadingObserver?.invalidate()
     }
 }
