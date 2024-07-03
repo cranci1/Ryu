@@ -10,6 +10,7 @@ import AVKit
 import WebKit
 import SwiftSoup
 import GoogleCast
+import Foundation
 
 extension String {
     var nilIfEmpty: String? {
@@ -280,7 +281,26 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
     }
     
     @objc func startStreamingButtonTapped(withURL url: String) {
+        deleteWebKitFolder()
         presentStreamingView(withURL: url)
+    }
+    
+    func deleteWebKitFolder() {
+        if let libraryPath = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first {
+            let webKitFolderPath = libraryPath.appendingPathComponent("WebKit")
+            do {
+                if FileManager.default.fileExists(atPath: webKitFolderPath.path) {
+                    try FileManager.default.removeItem(at: webKitFolderPath)
+                    print("Successfully deleted the WebKit folder.")
+                } else {
+                    print("The WebKit folder does not exist.")
+                }
+            } catch {
+                print("Error deleting the WebKit folder: \(error.localizedDescription)")
+            }
+        } else {
+            print("Could not find the Library directory.")
+        }
     }
     
     private func fetchHTMLContent(from url: String, completion: @escaping (Result<String, Error>) -> Void) {
