@@ -388,7 +388,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             DispatchQueue.main.async {
                 switch result {
                 case .success(let htmlString):
-                    if let videoURL = self.extractIframeSourceURL(from: htmlString) {
+                    if let videoURL = self.extractVideoSourceURL(from: htmlString) {
                         self.proceedWithCasting(videoURL: videoURL)
                     } else {
                         print("Error: Could not extract video URL from the page")
