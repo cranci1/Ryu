@@ -43,20 +43,38 @@ extension SearchResultsViewController: UITableViewDataSource, UITableViewDelegat
         if let url = URL(string: result.imageUrl) {
             cell.animeImageView.kf.setImage(with: url, placeholder: UIImage(systemName: "photo"), options: [.transition(.fade(0.2)), .cacheOriginalImage])
         }
-
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(cellTapped(_:)))
-        cell.addGestureRecognizer(tapGesture)
-        cell.isUserInteractionEnabled = true
+        
+        let interaction = UIContextMenuInteraction(delegate: self)
+        cell.addInteraction(interaction)
 
         return cell
     }
     
-    @objc func cellTapped(_ sender: UITapGestureRecognizer) {
-        if let tappedView = sender.view as? SearchResultCell,
-           let indexPath = tableView.indexPath(for: tappedView) {
-            let selectedResult = searchResults[indexPath.row]
-            navigateToAnimeDetail(title: selectedResult.title, imageUrl: selectedResult.imageUrl, href: selectedResult.href)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedResult = searchResults[indexPath.row]
+        navigateToAnimeDetail(title: selectedResult.title, imageUrl: selectedResult.imageUrl, href: selectedResult.href)
+    }
+}
+
+extension SearchResultsViewController: UIContextMenuInteractionDelegate {
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        guard let cell = interaction.view as? UITableViewCell,
+              let indexPath = tableView.indexPath(for: cell) else {
+            return nil
         }
+        
+        let result = searchResults[indexPath.row]
+        
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: {
+            let detailVC = AnimeDetailViewController()
+            detailVC.configure(title: result.title, imageUrl: result.imageUrl, href: result.href)
+            return detailVC
+        }, actionProvider: { _ in
+            let openAction = UIAction(title: "Open", image: UIImage(systemName: "arrow.up.right.square")) { [weak self] _ in
+                self?.navigateToAnimeDetail(title: result.title, imageUrl: result.imageUrl, href: result.href)
+            }
+            return UIMenu(title: "", children: [openAction])
+        })
     }
 }
 
