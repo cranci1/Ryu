@@ -211,7 +211,6 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
                 });
             }
             
-            // Initial check for already playing video
             var video = document.querySelector('video');
             if (video && !video.paused) {
                 notifyVideoState('play', video.src);

@@ -10,6 +10,7 @@ import Foundation
 class FavoritesManager {
     static let shared = FavoritesManager()
     private let favoritesKey = "FavoriteItems"
+    static let favoritesChangedNotification = Notification.Name("FavoritesChangedNotification")
     
     private init() {}
     
@@ -17,12 +18,14 @@ class FavoritesManager {
         var favorites = getFavorites()
         favorites.append(item)
         saveFavorites(favorites)
+        NotificationCenter.default.post(name: FavoritesManager.favoritesChangedNotification, object: nil)
     }
     
     func removeFavorite(_ item: FavoriteItem) {
         var favorites = getFavorites()
         favorites.removeAll { $0.contentURL == item.contentURL }
         saveFavorites(favorites)
+        NotificationCenter.default.post(name: FavoritesManager.favoritesChangedNotification, object: nil)
     }
     
     func getFavorites() -> [FavoriteItem] {

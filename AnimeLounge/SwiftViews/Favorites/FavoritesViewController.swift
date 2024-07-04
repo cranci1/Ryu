@@ -129,6 +129,7 @@ class FavoritesViewController: UIViewController {
         favorites.remove(at: indexPath.item)
         collectionView.deleteItems(at: [indexPath])
         FavoritesManager.shared.saveFavorites(favorites)
+        NotificationCenter.default.post(name: FavoritesManager.favoritesChangedNotification, object: nil)
     }
 }
 

@@ -269,6 +269,7 @@
                         <outlet property="DownloadBox" destination="ZK0-8S-Whv" id="oaC-wG-80C"/>
                         <outlet property="FavoritesBox" destination="0dG-mT-9uv" id="ChM-jZ-e2H"/>
                         <outlet property="RecentsBox" destination="k3s-Y1-fap" id="Y5A-qC-p1i"/>
+                        <outlet property="favoriteCountLabel" destination="GSZ-aV-pga" id="HAz-FZ-86b"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qGL-YY-bfp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -661,7 +662,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="X14-oT-TJn"/>
+        <segue reference="QUk-Rn-qDy"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="antenna.radiowaves.left.and.right" catalog="system" width="128" height="109"/>

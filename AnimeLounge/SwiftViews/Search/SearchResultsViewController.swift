@@ -73,8 +73,82 @@ extension SearchResultsViewController: UIContextMenuInteractionDelegate {
             let openAction = UIAction(title: "Open", image: UIImage(systemName: "arrow.up.right.square")) { [weak self] _ in
                 self?.navigateToAnimeDetail(title: result.title, imageUrl: result.imageUrl, href: result.href)
             }
-            return UIMenu(title: "", children: [openAction])
+            
+            let openInBrowserAction = UIAction(title: "Open in Browser", image: UIImage(systemName: "globe")) { [weak self] _ in
+                self?.openInBrowser(path: result.href)
+            }
+            
+            let favoriteAction = UIAction(title: self.isFavorite(for: result) ? "Remove from Favorites" : "Add to Favorites",
+                                          image: UIImage(systemName: self.isFavorite(for: result) ? "star.fill" : "star")) { [weak self] _ in
+                self?.toggleFavorite(for: result)
+            }
+            
+            return UIMenu(title: "", children: [openAction, openInBrowserAction, favoriteAction])
         })
+    }
+    
+    private func openInBrowser(path: String) {
+        let selectedSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? ""
+        let baseUrl: String
+        
+        switch selectedSource {
+        case "AnimeWorld":
+            baseUrl = "https://animeworld.so"
+        case "GoGoAnime":
+            baseUrl = "https://anitaku.pe"
+        case "AnimeHeaven":
+            baseUrl = "https://animeheaven.me/"
+        default:
+            baseUrl = ""
+        }
+        
+        let fullUrlString = baseUrl + path
+        
+        guard let url = URL(string: fullUrlString) else {
+            print("Invalid URL string: \(fullUrlString)")
+            showAlert(withTitle: "Error", message: "The URL is invalid.")
+            return
+        }
+        
+        UIApplication.shared.open(url, options: [:]) { success in
+            if !success {
+                print("Failed to open URL: \(url)")
+                self.showAlert(withTitle: "Error", message: "Failed to open the URL.")
+            }
+        }
+    }
+    
+    private func showAlert(withTitle title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    private func isFavorite(for result: (title: String, imageUrl: String, href: String)) -> Bool {
+        guard let anime = createFavoriteAnime(from: result) else { return false }
+        return FavoritesManager.shared.isFavorite(anime)
+    }
+    
+    private func toggleFavorite(for result: (title: String, imageUrl: String, href: String)) {
+        guard let anime = createFavoriteAnime(from: result) else { return }
+        
+        if FavoritesManager.shared.isFavorite(anime) {
+            FavoritesManager.shared.removeFavorite(anime)
+        } else {
+            FavoritesManager.shared.addFavorite(anime)
+        }
+        
+        if let index = searchResults.firstIndex(where: { $0.href == result.href }) {
+            tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+        }
+    }
+    
+    private func createFavoriteAnime(from result: (title: String, imageUrl: String, href: String)) -> FavoriteItem? {
+        guard let imageURL = URL(string: result.imageUrl),
+              let contentURL = URL(string: result.href) else {
+            return nil
+        }
+        return FavoriteItem(title: result.title, imageURL: imageURL, contentURL: contentURL)
     }
 }
 
