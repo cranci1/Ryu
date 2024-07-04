@@ -8,15 +8,25 @@
 import UIKit
 import Kingfisher
 
-class AnimeInformation: UITableViewController {
+class AnimeInformation: UIViewController, UITableViewDataSource {
     
     var animeID: Int = 0
-    var animeData: [String: Any]?
+    private var animeData: [String: Any]?
+    
+    private let scrollView = UIScrollView()
+    private let contentView = UIView()
     
     private let coverImageView = UIImageView()
     private let bannerImageView = UIImageView()
     private let titleLabel = UILabel()
-    private let ratingView = UIView()
+    private let ratingView = RatingView()
+    private let genresView = GenresView()
+    private let descriptionView = DescriptionView()
+    private let infoView = AnimeInfoView()
+    private let statsView = StatsView()
+    private let charactersView = CharactersView()
+    private let relationsView = RelationsView()
+    
     private let loadingIndicator = UIActivityIndicatorView(style: .large)
     
     override func viewDidLoad() {
@@ -26,49 +36,72 @@ class AnimeInformation: UITableViewController {
     }
     
     private func setupUI() {
-        tableView.backgroundColor = UIColor.secondarySystemBackground
-        tableView.register(AnimeInfoCell.self, forCellReuseIdentifier: "AnimeInfoCell")
-        tableView.register(AnimeCharacterCell.self, forCellReuseIdentifier: "AnimeCharacterCell")
-        tableView.estimatedRowHeight = 100
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.separatorStyle = .none
+        view.backgroundColor = .secondarySystemBackground
         
+        setupScrollView()
         setupHeaderView()
+        setupContentViews()
         setupLoadingIndicator()
     }
     
-    private func setupHeaderView() {
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 300))
+    private func setupScrollView() {
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
         
-        headerView.addSubview(bannerImageView)
-        headerView.addSubview(coverImageView)
-        headerView.addSubview(titleLabel)
-        headerView.addSubview(ratingView)
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
+        ])
+    }
+    
+    private func setupHeaderView() {
+        contentView.addSubview(bannerImageView)
+        contentView.addSubview(coverImageView)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(ratingView)
+        contentView.addSubview(genresView)
         
         bannerImageView.translatesAutoresizingMaskIntoConstraints = false
         coverImageView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         ratingView.translatesAutoresizingMaskIntoConstraints = false
+        genresView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            bannerImageView.topAnchor.constraint(equalTo: headerView.topAnchor),
-            bannerImageView.leadingAnchor.constraint(equalTo: headerView.leadingAnchor),
-            bannerImageView.trailingAnchor.constraint(equalTo: headerView.trailingAnchor),
-            bannerImageView.heightAnchor.constraint(equalToConstant: 180),
+            bannerImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            bannerImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            bannerImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            bannerImageView.heightAnchor.constraint(equalToConstant: 200),
             
             coverImageView.topAnchor.constraint(equalTo: bannerImageView.bottomAnchor, constant: -60),
-            coverImageView.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16),
+            coverImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             coverImageView.widthAnchor.constraint(equalToConstant: 120),
             coverImageView.heightAnchor.constraint(equalToConstant: 180),
             
             titleLabel.topAnchor.constraint(equalTo: bannerImageView.bottomAnchor, constant: 8),
             titleLabel.leadingAnchor.constraint(equalTo: coverImageView.trailingAnchor, constant: 16),
-            titleLabel.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -16),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
             ratingView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
             ratingView.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             ratingView.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
-            ratingView.heightAnchor.constraint(equalToConstant: 30)
+            ratingView.heightAnchor.constraint(equalToConstant: 30),
+            
+            genresView.topAnchor.constraint(equalTo: ratingView.bottomAnchor, constant: 8),
+            genresView.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            genresView.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
+            genresView.heightAnchor.constraint(equalToConstant: 30)
         ])
         
         coverImageView.layer.cornerRadius = 12
@@ -78,29 +111,24 @@ class AnimeInformation: UITableViewController {
         bannerImageView.clipsToBounds = true
         titleLabel.font = UIFont.boldSystemFont(ofSize: 22)
         titleLabel.numberOfLines = 0
-        
-        setupRatingView()
-        
-        tableView.tableHeaderView = headerView
     }
     
-    private func setupRatingView() {
-        let starSize: CGFloat = 20
-        let spacing: CGFloat = 4
+    private func setupContentViews() {
+        let stackView = UIStackView(arrangedSubviews: [
+            descriptionView, statsView, infoView, charactersView, relationsView
+        ])
+        stackView.axis = .vertical
+        stackView.spacing = 16
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         
-        for i in 0..<5 {
-            let starImageView = UIImageView(image: UIImage(systemName: "star.fill"))
-            starImageView.tintColor = .systemYellow
-            starImageView.translatesAutoresizingMaskIntoConstraints = false
-            ratingView.addSubview(starImageView)
-            
-            NSLayoutConstraint.activate([
-                starImageView.leadingAnchor.constraint(equalTo: ratingView.leadingAnchor, constant: CGFloat(i) * (starSize + spacing)),
-                starImageView.centerYAnchor.constraint(equalTo: ratingView.centerYAnchor),
-                starImageView.widthAnchor.constraint(equalToConstant: starSize),
-                starImageView.heightAnchor.constraint(equalToConstant: starSize)
-            ])
-        }
+        contentView.addSubview(stackView)
+        
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: genresView.bottomAnchor, constant: 16),
+            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
+        ])
     }
     
     private func setupLoadingIndicator() {
@@ -151,19 +179,18 @@ class AnimeInformation: UITableViewController {
         }
         
         if let averageScore = animeData["averageScore"] as? Int {
-            updateRatingView(score: averageScore)
+            ratingView.setRating(score: averageScore)
         }
         
-        tableView.reloadData()
-    }
-    
-    private func updateRatingView(score: Int) {
-        let starCount = Int((Float(score) / 20.0).rounded())
-        for (index, view) in ratingView.subviews.enumerated() {
-            if let starImageView = view as? UIImageView {
-                starImageView.image = index < starCount ? UIImage(systemName: "star.fill") : UIImage(systemName: "star")
-            }
+        if let genres = animeData["genres"] as? [String] {
+            genresView.setGenres(genres)
         }
+        
+        descriptionView.configure(with: animeData["description"] as? String)
+        infoView.configure(with: animeData)
+        statsView.configure(with: animeData["stats"] as? [String: Any])
+        charactersView.configure(with: animeData["characters"] as? [String: Any])
+        relationsView.configure(with: animeData["relations"] as? [String: Any])
     }
     
     private func showError(message: String) {
@@ -171,51 +198,25 @@ class AnimeInformation: UITableViewController {
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
     }
-    
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+}
+
+extension AnimeInformation {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 8
     }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return 1
-        } else if section == 1 {
-            return animeData?["characters"] != nil ? 1 : 0
-        }
-        return 0
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "AnimeInfoCell", for: indexPath) as! AnimeInfoCell
-            cell.configure(with: animeData)
-            return cell
-        } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "AnimeCharacterCell", for: indexPath) as! AnimeCharacterCell
-            if let characters = animeData?["characters"] as? [String: Any],
-               let edges = characters["edges"] as? [[String: Any]] {
-                cell.configure(with: edges)
-            }
-            return cell
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return section == 0 ? "Anime Information" : "Characters"
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellIdentifier", for: indexPath)
+        return cell
     }
 }
 
-class AnimeInfoCell: UITableViewCell {
-    private let titleLabel = UILabel()
-    private let descriptionLabel = UILabel()
-    private let genresLabel = UILabel()
+class RatingView: UIView {
+    private let starStackView = UIStackView()
     private let scoreLabel = UILabel()
-    private let episodesLabel = UILabel()
-    private let statusLabel = UILabel()
-    private let datesLabel = UILabel()
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupUI()
     }
     
@@ -224,95 +225,357 @@ class AnimeInfoCell: UITableViewCell {
     }
     
     private func setupUI() {
-        let stackView = UIStackView(arrangedSubviews: [
-            titleLabel, descriptionLabel, genresLabel,
-            scoreLabel, episodesLabel, statusLabel, datesLabel
+        addSubview(starStackView)
+        addSubview(scoreLabel)
+        
+        starStackView.translatesAutoresizingMaskIntoConstraints = false
+        scoreLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        starStackView.axis = .horizontal
+        starStackView.spacing = 4
+        
+        NSLayoutConstraint.activate([
+            starStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            starStackView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            
+            scoreLabel.leadingAnchor.constraint(equalTo: starStackView.trailingAnchor, constant: 8),
+            scoreLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            scoreLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor)
         ])
+        
+        for _ in 0..<5 {
+            let starImageView = UIImageView(image: UIImage(systemName: "star.fill"))
+            starImageView.tintColor = .systemYellow
+            starStackView.addArrangedSubview(starImageView)
+        }
+        
+        scoreLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+    }
+    
+    func setRating(score: Int) {
+        let starCount = Int((Float(score) / 20.0).rounded())
+        for (index, view) in starStackView.arrangedSubviews.enumerated() {
+            if let starImageView = view as? UIImageView {
+                starImageView.image = UIImage(systemName: index < starCount ? "star.fill" : "star")
+            }
+        }
+        scoreLabel.text = "\(score)/100"
+    }
+}
+
+class GenresView: UIView {
+    private let scrollView = UIScrollView()
+    private let stackView = UIStackView()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupUI() {
+        addSubview(scrollView)
+        scrollView.addSubview(stackView)
+        
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        scrollView.showsHorizontalScrollIndicator = false
+        
+        stackView.axis = .horizontal
+        stackView.spacing = 8
+        
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            
+            stackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            stackView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
+        ])
+    }
+    
+    func setGenres(_ genres: [String]) {
+        stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        
+        for genre in genres {
+            let genreLabel = PaddedLabel()
+            genreLabel.text = genre
+            genreLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+            genreLabel.textColor = .secondaryLabel
+            genreLabel.clipsToBounds = false
+            stackView.addArrangedSubview(genreLabel)
+        }
+    }
+}
+
+class PaddedLabel: UILabel {
+    override var intrinsicContentSize: CGSize {
+        let size = super.intrinsicContentSize
+        return CGSize(width: size.width + 16, height: size.height + 8)
+    }
+}
+
+class AnimeInfoView: UIView {
+    private let stackView = UIStackView()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupUI() {
+        addSubview(stackView)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.spacing = 8
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.backgroundColor = UIColor.secondarySystemBackground
         
-        contentView.addSubview(stackView)
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
-            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
+            stackView.topAnchor.constraint(equalTo: topAnchor),
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
+    }
+    
+    func configure(with animeData: [String: Any]) {
+        stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        
+        addInfoRow(title: "Type", value: animeData["type"] as? String)
+        addInfoRow(title: "Format", value: animeData["format"] as? String)
+        addInfoRow(title: "Status", value: animeData["status"] as? String)
+        addInfoRow(title: "Episodes", value: animeData["episodes"] as? Int)
+        addInfoRow(title: "Duration", value: animeData["duration"] as? Int)
+        addInfoRow(title: "Source", value: animeData["source"] as? String)
+        addInfoRow(title: "Start Date", value: formatDate(animeData["startDate"] as? [String: Int]))
+        addInfoRow(title: "End Date", value: formatDate(animeData["endDate"] as? [String: Int]))
+        
+        if let studios = animeData["studios"] as? [String: Any],
+           let nodes = studios["nodes"] as? [[String: String]] {
+            let studioNames = nodes.compactMap { $0["name"] }.joined(separator: ", ")
+            addInfoRow(title: "Studios", value: studioNames)
+        }
+    }
+    
+    private func addInfoRow(title: String, value: Any?) {
+        let rowView = UIView()
+        let titleLabel = UILabel()
+        let valueLabel = UILabel()
+        
+        rowView.addSubview(titleLabel)
+        rowView.addSubview(valueLabel)
+        
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        valueLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            titleLabel.leadingAnchor.constraint(equalTo: rowView.leadingAnchor),
+            titleLabel.centerYAnchor.constraint(equalTo: rowView.centerYAnchor),
+            valueLabel.trailingAnchor.constraint(equalTo: rowView.trailingAnchor),
+            valueLabel.centerYAnchor.constraint(equalTo: rowView.centerYAnchor),
+            rowView.heightAnchor.constraint(equalToConstant: 24)
         ])
         
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
-        titleLabel.numberOfLines = 0
+        titleLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        valueLabel.font = UIFont.systemFont(ofSize: 14)
+        titleLabel.textColor = .secondaryLabel
+        
+        titleLabel.text = title
+        valueLabel.text = "\(value ?? "N/A")"
+        
+        stackView.addArrangedSubview(rowView)
+    }
+    
+    private func formatDate(_ dateDict: [String: Int]?) -> String {
+        guard let year = dateDict?["year"],
+              let month = dateDict?["month"],
+              let day = dateDict?["day"] else {
+            return "N/A"
+        }
+        return "\(year)-\(String(format: "%02d", month))-\(String(format: "%02d", day))"
+    }
+}
+
+class DescriptionView: UIView {
+    private let titleLabel = UILabel()
+    private let descriptionLabel = UILabel()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupUI() {
+        addSubview(titleLabel)
+        addSubview(descriptionLabel)
+        
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: topAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            
+            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+            descriptionLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            descriptionLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            descriptionLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
+        
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        titleLabel.text = "Description"
         
         descriptionLabel.font = UIFont.systemFont(ofSize: 14)
         descriptionLabel.numberOfLines = 0
-        
-        genresLabel.font = UIFont.systemFont(ofSize: 14)
-        genresLabel.textColor = .secondaryLabel
-        genresLabel.numberOfLines = 0
-        
-        scoreLabel.font = UIFont.systemFont(ofSize: 16)
-        scoreLabel.textColor = .systemGreen
-        
-        episodesLabel.font = UIFont.systemFont(ofSize: 16)
-        episodesLabel.textColor = .systemBlue
-        
-        statusLabel.font = UIFont.systemFont(ofSize: 16)
-        statusLabel.textColor = .systemRed
-        
-        datesLabel.font = UIFont.systemFont(ofSize: 14)
-        datesLabel.textColor = .secondaryLabel
-        datesLabel.numberOfLines = 0
     }
     
-    func configure(with animeData: [String: Any]?) {
-        guard let animeData = animeData else { return }
+    func configure(with description: String?) {
+        descriptionLabel.text = description ?? "No description available."
+    }
+}
+
+class RelationsView: UIView {
+    private let titleLabel = UILabel()
+    private let collectionView: UICollectionView
+    private var relations: [[String: Any]] = []
+    
+    override init(frame: CGRect) {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: 90, height: 150)
+        layout.minimumInteritemSpacing = 10
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
-        if let titleDict = animeData["title"] as? [String: String] {
-            titleLabel.text = titleDict["romaji"] ?? titleDict["english"]
-        }
+        super.init(frame: frame)
+        setupUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupUI() {
+        addSubview(titleLabel)
+        addSubview(collectionView)
         
-        descriptionLabel.text = animeData["description"] as? String
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         
-        if let genres = animeData["genres"] as? [String] {
-            genresLabel.text = "Genres: " + genres.joined(separator: ", ")
-        }
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: topAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            
+            collectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+            collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            collectionView.heightAnchor.constraint(equalToConstant: 180)
+        ])
         
-        if let averageScore = animeData["averageScore"] as? Int {
-            scoreLabel.text = "Score: \(averageScore)"
-        }
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        titleLabel.text = "Related Contents"
         
-        if let episodes = animeData["episodes"] as? Int {
-            episodesLabel.text = "Episodes: \(episodes)"
-        }
-        
-        if let status = animeData["status"] as? String {
-            statusLabel.text = "Status: \(status)"
-        }
-        
-        if let startDateDict = animeData["startDate"] as? [String: Int],
-           let endDateDict = animeData["endDate"] as? [String: Int] {
-            let startDate = "\(startDateDict["year"] ?? 0)-\(startDateDict["month"] ?? 0)-\(startDateDict["day"] ?? 0)"
-            let endDate = "\(endDateDict["year"] ?? 0)-\(endDateDict["month"] ?? 0)-\(endDateDict["day"] ?? 0)"
-            datesLabel.text = "Aired: \(startDate) to \(endDate)"
+        collectionView.backgroundColor = .clear
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.dataSource = self
+        collectionView.register(RelationCell.self, forCellWithReuseIdentifier: "RelationCell")
+    }
+    
+    func configure(with relations: [String: Any]?) {
+        if let nodes = relations?["nodes"] as? [[String: Any]] {
+            self.relations = nodes
+            collectionView.reloadData()
         }
     }
 }
 
-class AnimeCharacterCell: UITableViewCell {
-    private let collectionView: UICollectionView
-    private let cellId = "CharacterCollectionViewCell"
-    private var characters: [[String: Any]] = []
+extension RelationsView: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return relations.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RelationCell", for: indexPath) as! RelationCell
+        cell.configure(with: relations[indexPath.item])
+        return cell
+    }
+}
 
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.minimumInteritemSpacing = 8
-        layout.minimumLineSpacing = 8
-        layout.itemSize = CGSize(width: 120, height: 140)
+class RelationCell: UICollectionViewCell {
+    private let imageView = UIImageView()
+    private let titleLabel = UILabel()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupUI() {
+        contentView.addSubview(imageView)
+        contentView.addSubview(titleLabel)
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1.5),
+            
+            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 4),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        ])
+        
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 8
+        
+        titleLabel.font = UIFont.systemFont(ofSize: 12)
+        titleLabel.textAlignment = .center
+        titleLabel.numberOfLines = 2
+    }
+    
+    func configure(with relation: [String: Any]) {
+        if let title = relation["title"] as? [String: String],
+           let coverImage = relation["coverImage"] as? [String: String],
+           let imageUrlString = coverImage["extraLarge"],
+           let imageUrl = URL(string: imageUrlString) {
+            titleLabel.text = title["userPreferred"]
+            imageView.kf.setImage(with: imageUrl)
+        }
+    }
+}
 
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+class StatsView: UIView {
+    private let titleLabel = UILabel()
+    private let barChartView = UIView()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupUI()
     }
 
@@ -321,46 +584,138 @@ class AnimeCharacterCell: UITableViewCell {
     }
 
     private func setupUI() {
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = UIColor.secondarySystemBackground
-        collectionView.showsHorizontalScrollIndicator = true
-        collectionView.dataSource = self
-        collectionView.register(CharacterCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
+        addSubview(titleLabel)
+        addSubview(barChartView)
         
-        contentView.addSubview(collectionView)
-        
-        let collectionViewHeightConstraint = collectionView.heightAnchor.constraint(equalToConstant: 140)
-        collectionViewHeightConstraint.priority = .required
-        collectionViewHeightConstraint.isActive = true
-        
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        barChartView.translatesAutoresizingMaskIntoConstraints = false
+
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            titleLabel.topAnchor.constraint(equalTo: topAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+
+            barChartView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+            barChartView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            barChartView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            barChartView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            barChartView.heightAnchor.constraint(equalToConstant: 100)
         ])
+
+        titleLabel.font = UIFont.systemFont(ofSize: 14)
+        titleLabel.text = "Ratings & Statistics"
+        titleLabel.textColor = .lightGray
+    }
+
+    func configure(with stats: [String: Any]?) {
+        barChartView.subviews.forEach { $0.removeFromSuperview() }
+
+        if let scoreDistribution = stats?["scoreDistribution"] as? [[String: Int]] {
+            let sortedDistribution = scoreDistribution.sorted { $0["score"] ?? 0 < $1["score"] ?? 0 }
+            let maxAmount = sortedDistribution.max { ($0["amount"] ?? 0) < ($1["amount"] ?? 0) }?["amount"] ?? 1
+
+            for (index, scoreStat) in sortedDistribution.enumerated() {
+                if let score = scoreStat["score"], let amount = scoreStat["amount"] {
+                    let barView = UIView()
+                    barView.backgroundColor = .systemTeal
+                    barView.layer.cornerRadius = 2
+                    barChartView.addSubview(barView)
+
+                    barView.translatesAutoresizingMaskIntoConstraints = false
+                    NSLayoutConstraint.activate([
+                        barView.bottomAnchor.constraint(equalTo: barChartView.bottomAnchor),
+                        barView.leadingAnchor.constraint(equalTo: barChartView.leadingAnchor, constant: CGFloat(index) * (barChartView.bounds.width / CGFloat(sortedDistribution.count))),
+                        barView.widthAnchor.constraint(equalToConstant: (barChartView.bounds.width / CGFloat(sortedDistribution.count)) - 2),
+                        barView.heightAnchor.constraint(equalTo: barChartView.heightAnchor, multiplier: CGFloat(amount) / CGFloat(maxAmount))
+                    ])
+
+                    let scoreLabel = UILabel()
+                    scoreLabel.text = "\(score)"
+                    scoreLabel.font = UIFont.systemFont(ofSize: 10)
+                    scoreLabel.textAlignment = .center
+                    barChartView.addSubview(scoreLabel)
+
+                    scoreLabel.translatesAutoresizingMaskIntoConstraints = false
+                    NSLayoutConstraint.activate([
+                        scoreLabel.topAnchor.constraint(equalTo: barView.bottomAnchor, constant: 2),
+                        scoreLabel.centerXAnchor.constraint(equalTo: barView.centerXAnchor)
+                    ])
+                }
+            }
+        }
+    }
+}
+ 
+class CharactersView: UIView {
+    private let titleLabel = UILabel()
+    private let collectionView: UICollectionView
+    private var characters: [[String: Any]] = []
+    
+    override init(frame: CGRect) {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: 100, height: 150)
+        layout.minimumInteritemSpacing = 10
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        
+        super.init(frame: frame)
+        setupUI()
     }
     
-    func configure(with characters: [[String: Any]]) {
-        self.characters = characters
-        collectionView.reloadData()
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupUI() {
+        addSubview(titleLabel)
+        addSubview(collectionView)
+        
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: topAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            
+            collectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+            collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            collectionView.heightAnchor.constraint(equalToConstant: 150)
+        ])
+        
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        titleLabel.text = "Characters"
+        
+        collectionView.backgroundColor = .clear
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.dataSource = self
+        collectionView.register(CharacterCell.self, forCellWithReuseIdentifier: "CharacterCell")
+    }
+    
+    func configure(with characters: [String: Any]?) {
+        if let edges = characters?["edges"] as? [[String: Any]] {
+            self.characters = edges
+            collectionView.reloadData()
+        }
     }
 }
 
-extension AnimeCharacterCell: UICollectionViewDataSource {
+extension CharactersView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return characters.count
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! CharacterCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CharacterCell", for: indexPath) as! CharacterCell
         cell.configure(with: characters[indexPath.item])
         return cell
     }
 }
 
-class CharacterCollectionViewCell: UICollectionViewCell {
-    private let characterImageView = UIImageView()
+class CharacterCell: UICollectionViewCell {
+    private let imageView = UIImageView()
     private let nameLabel = UILabel()
     
     override init(frame: CGRect) {
@@ -373,44 +728,42 @@ class CharacterCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupUI() {
-        characterImageView.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        contentView.addSubview(characterImageView)
+        contentView.addSubview(imageView)
         contentView.addSubview(nameLabel)
         
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
-            characterImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            characterImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            characterImageView.widthAnchor.constraint(equalToConstant: 100),
-            characterImageView.heightAnchor.constraint(equalToConstant: 100),
+            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor),
             
-            nameLabel.topAnchor.constraint(equalTo: characterImageView.bottomAnchor, constant: 8),
-            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4),
-            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
-            nameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4)
+            nameLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 4),
+            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            nameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
         
-        characterImageView.contentMode = .scaleAspectFill
-        characterImageView.clipsToBounds = true
-        characterImageView.layer.cornerRadius = 50
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 50
         
+        nameLabel.font = UIFont.systemFont(ofSize: 12)
         nameLabel.textAlignment = .center
-        nameLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        nameLabel.textColor = .secondaryLabel
         nameLabel.numberOfLines = 2
     }
     
     func configure(with character: [String: Any]) {
         if let node = character["node"] as? [String: Any],
-           let name = node["name"] as? [String: String] {
-            nameLabel.text = name["full"]
-        }
-        
-        if let node = character["node"] as? [String: Any],
+           let name = node["name"] as? [String: String],
            let image = node["image"] as? [String: String],
-           let imageUrlString = image["large"],
+           let imageUrlString = image["medium"],
            let imageUrl = URL(string: imageUrlString) {
-            characterImageView.kf.setImage(with: imageUrl, placeholder: UIImage(systemName: "questionmark.circle.fill"))
+            nameLabel.text = name["first"]! + " " + name["last"]!
+            imageView.kf.setImage(with: imageUrl)
         }
     }
 }
@@ -498,15 +851,6 @@ class AnimeService {
                 studios {
                     nodes {
                         name
-                    }
-                }
-                isFavourite
-                reviews {
-                    nodes {
-                        summary
-                        user {
-                            name
-                        }
                     }
                 }
                 siteUrl
