@@ -63,19 +63,52 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
             return
         }
         
-        let script = """
-        (function() {
-            var player = jwplayer();
-            if (player && player.getState() === 'idle') {
-                var playButton = document.querySelector('.jw-icon.jw-icon-display.jw-button-color.jw-reset');
+        let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "GoGoAnime"
+        
+        let script: String
+        
+        switch selectedMediaSource {
+        case "GoGoAnime":
+            script = """
+            (function() {
+                var player = jwplayer();
+                if (player && player.getState() === 'idle') {
+                    var playButton = document.querySelector('.jw-icon.jw-icon-display.jw-button-color.jw-reset');
+                    if (playButton) {
+                        playButton.click();
+                        return 'Clicked play button for GoGoAnime';
+                    }
+                }
+                return player ? player.getState() : 'Player not found';
+            })();
+            """
+        case "AnimeFire":
+            script = """
+            (function() {
+                var playButton = document.querySelector('div.play-button');
                 if (playButton) {
                     playButton.click();
-                    return 'Clicked play button';
+                    return 'Clicked play button for AnimeFire';
                 }
-            }
-            return player ? player.getState() : 'Player not found';
-        })();
-        """
+                var video = document.querySelector('video');
+                if (video) {
+                    if (video.paused) {
+                        video.play();
+                        return 'Started video playback for AnimeFire';
+                    } else {
+                        return 'Video is already playing for AnimeFire';
+                    }
+                }
+                return 'No play button or video element found for AnimeFire';
+            })();
+            """
+        default:
+            script = """
+            (function() {
+                return 'Unknown media source';
+            })();
+            """
+        }
         
         webView.evaluateJavaScript(script) { (result, error) in
             if let error = error {
@@ -120,31 +153,73 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
     private func setupLoadingObserver() {
         loadingObserver = webView?.observe(\.isLoading, options: [.new]) { [weak self] _, change in
             if let isLoading = change.newValue, !isLoading {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                     self?.injectCustomJavaScript()
-                    self?.startMonitoringPlayState(interval: 2.0)
+                    self?.startMonitoringPlayState(interval: 1.0)
                 }
             }
         }
     }
     
     private func injectCustomJavaScript() {
-        let script = """
-        function notifyVideoState(state, videoUrl) {
-            window.webkit.messageHandlers.videoHandler.postMessage({state: state, url: videoUrl});
-        }
+        let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "GoGoAnime"
         
-        if (typeof jwplayer !== 'undefined') {
-            var player = jwplayer();
-            player.on('play', function() {
-                var videoUrl = player.getPlaylistItem().file;
-                notifyVideoState('play', videoUrl);
-            });
-            player.on('pause', function() { notifyVideoState('pause', null); });
-            player.on('complete', function() { notifyVideoState('complete', null); });
-            player.on('error', function() { notifyVideoState('error', null); });
+        let script: String
+        
+        switch selectedMediaSource {
+        case "GoGoAnime":
+            script = """
+            function notifyVideoState(state, videoUrl) {
+                window.webkit.messageHandlers.videoHandler.postMessage({state: state, url: videoUrl});
+            }
+            
+            if (typeof jwplayer !== 'undefined') {
+                var player = jwplayer();
+                player.on('play', function() {
+                    var videoUrl = player.getPlaylistItem().file;
+                    notifyVideoState('play', videoUrl);
+                });
+                player.on('pause', function() { notifyVideoState('pause', null); });
+                player.on('complete', function() { notifyVideoState('complete', null); });
+                player.on('error', function() { notifyVideoState('error', null); });
+            }
+            """
+        case "AnimeFire":
+            script = """
+            function notifyVideoState(state, videoUrl) {
+                window.webkit.messageHandlers.videoHandler.postMessage({state: state, url: videoUrl});
+            }
+            
+            function setupVideoListeners() {
+                var video = document.querySelector('video');
+                if (video) {
+                    video.addEventListener('play', function() {
+                        notifyVideoState('play', video.src);
+                    });
+                    video.addEventListener('pause', function() { notifyVideoState('pause', null); });
+                    video.addEventListener('ended', function() { notifyVideoState('complete', null); });
+                    video.addEventListener('error', function() { notifyVideoState('error', null); });
+                }
+            }
+            
+            setupVideoListeners();
+            
+            var playButton = document.querySelector('div.play-button');
+            if (playButton) {
+                playButton.addEventListener('click', function() {
+                    setTimeout(setupVideoListeners, 100);
+                });
+            }
+            
+            // Initial check for already playing video
+            var video = document.querySelector('video');
+            if (video && !video.paused) {
+                notifyVideoState('play', video.src);
+            }
+            """
+        default:
+            script = ""
         }
-        """
         
         webView?.evaluateJavaScript(script, completionHandler: nil)
     }

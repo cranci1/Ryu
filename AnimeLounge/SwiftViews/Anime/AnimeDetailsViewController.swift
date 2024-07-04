@@ -278,9 +278,11 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
     }
     
     func presentStreamingView(withURL url: String) {
-        let streamingVC = ExternalVideoPlayer(streamURL: url)
-        streamingVC.modalPresentationStyle = .fullScreen
-        present(streamingVC, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            let streamingVC = ExternalVideoPlayer(streamURL: url)
+            streamingVC.modalPresentationStyle = .fullScreen
+            self.present(streamingVC, animated: true, completion: nil)
+        }
     }
     
     @objc func startStreamingButtonTapped(withURL url: String) {
@@ -335,7 +337,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                     }
                     
                     let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource")
-                    let srcURL: URL?
+                    var srcURL: URL?
                     
                     switch selectedMediaSource {
                     case "GoGoAnime", "Latanime", "Kuramanime":
@@ -346,6 +348,10 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                         srcURL = self.extractVideoSourceURL(from: htmlString)
                     default:
                         srcURL = nil
+                    }
+                    
+                    if srcURL == nil {
+                        srcURL = self.extractIframeSourceURL(from: htmlString)
                     }
                     
                     guard let finalSrcURL = srcURL else {
@@ -362,6 +368,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                                     self.playVideoWithAVPlayer(sourceURL: selectedURL, cell: cell, fullURL: fullURL)
                                 } else {
                                     print("Failed to select video URL")
+                                    self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString)
                                 }
                             }
                         } else {
