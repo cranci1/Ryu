@@ -360,12 +360,6 @@ class AnimeInfoView: UIView {
         addInfoRow(title: "Source", value: animeData["source"] as? String)
         addInfoRow(title: "Start Date", value: formatDate(animeData["startDate"] as? [String: Int]))
         addInfoRow(title: "End Date", value: formatDate(animeData["endDate"] as? [String: Int]))
-        
-        if let studios = animeData["studios"] as? [String: Any],
-           let nodes = studios["nodes"] as? [[String: String]] {
-            let studioNames = nodes.compactMap { $0["name"] }.joined(separator: ", ")
-            addInfoRow(title: "Studios", value: studioNames)
-        }
     }
     
     private func addInfoRow(title: String, value: Any?) {
@@ -486,11 +480,11 @@ class RelationsView: UIView {
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            collectionView.heightAnchor.constraint(equalToConstant: 180)
+            collectionView.heightAnchor.constraint(equalToConstant: 170)
         ])
         
         titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
-        titleLabel.text = "Related Contents"
+        titleLabel.text = "Related Content"
         
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
@@ -552,11 +546,11 @@ class RelationCell: UICollectionViewCell {
         
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 8
+        imageView.layer.cornerRadius = 2
         
         titleLabel.font = UIFont.systemFont(ofSize: 12)
         titleLabel.textAlignment = .center
-        titleLabel.numberOfLines = 2
+        titleLabel.numberOfLines = 0
     }
     
     func configure(with relation: [String: Any]) {
@@ -649,13 +643,16 @@ class StatsView: UIView {
 class CharactersView: UIView {
     private let titleLabel = UILabel()
     private let collectionView: UICollectionView
+    private let cellId = "CharacterCollectionViewCell"
     private var characters: [[String: Any]] = []
-    
+
     override init(frame: CGRect) {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: 100, height: 150)
-        layout.minimumInteritemSpacing = 10
+        layout.minimumInteritemSpacing = 8
+        layout.minimumLineSpacing = 8
+        layout.itemSize = CGSize(width: 120, height: 140)
+
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
         super.init(frame: frame)
@@ -673,6 +670,11 @@ class CharactersView: UIView {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
+        collectionView.backgroundColor = UIColor.secondarySystemBackground
+        collectionView.showsHorizontalScrollIndicator = true
+        collectionView.dataSource = self
+        collectionView.register(CharacterCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
+        
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: topAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -687,11 +689,6 @@ class CharactersView: UIView {
         
         titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
         titleLabel.text = "Characters"
-        
-        collectionView.backgroundColor = .clear
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.dataSource = self
-        collectionView.register(CharacterCell.self, forCellWithReuseIdentifier: "CharacterCell")
     }
     
     func configure(with characters: [String: Any]?) {
@@ -706,16 +703,16 @@ extension CharactersView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return characters.count
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CharacterCell", for: indexPath) as! CharacterCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! CharacterCollectionViewCell
         cell.configure(with: characters[indexPath.item])
         return cell
     }
 }
 
-class CharacterCell: UICollectionViewCell {
-    private let imageView = UIImageView()
+class CharacterCollectionViewCell: UICollectionViewCell {
+    private let characterImageView = UIImageView()
     private let nameLabel = UILabel()
     
     override init(frame: CGRect) {
@@ -728,42 +725,51 @@ class CharacterCell: UICollectionViewCell {
     }
     
     private func setupUI() {
-        contentView.addSubview(imageView)
-        contentView.addSubview(nameLabel)
-        
-        imageView.translatesAutoresizingMaskIntoConstraints = false
+        characterImageView.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         
+        contentView.addSubview(characterImageView)
+        contentView.addSubview(nameLabel)
+        
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor),
+            characterImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            characterImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            characterImageView.widthAnchor.constraint(equalToConstant: 100),
+            characterImageView.heightAnchor.constraint(equalToConstant: 100),
             
-            nameLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 4),
-            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            nameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            nameLabel.topAnchor.constraint(equalTo: characterImageView.bottomAnchor, constant: 8),
+            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4),
+            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
+            nameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0)
         ])
         
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 50
+        characterImageView.contentMode = .scaleAspectFill
+        characterImageView.clipsToBounds = true
+        characterImageView.layer.cornerRadius = 50
         
-        nameLabel.font = UIFont.systemFont(ofSize: 12)
         nameLabel.textAlignment = .center
-        nameLabel.textColor = .secondaryLabel
-        nameLabel.numberOfLines = 2
+        nameLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        nameLabel.numberOfLines = 3
     }
     
     func configure(with character: [String: Any]) {
         if let node = character["node"] as? [String: Any],
-           let name = node["name"] as? [String: String],
+           let name = node["name"] as? [String: String] {
+            let firstName = name["first"] ?? ""
+            let lastName = name["last"] ?? ""
+            let nativeName = name["native"] ?? ""
+            
+            let fullName = "\(firstName) \(lastName)"
+            let displayName = fullName + (nativeName.isEmpty ? "" : " (\(nativeName))")
+            
+            nameLabel.text = displayName
+        }
+        
+        if let node = character["node"] as? [String: Any],
            let image = node["image"] as? [String: String],
-           let imageUrlString = image["medium"],
+           let imageUrlString = image["large"] ?? image["medium"],
            let imageUrl = URL(string: imageUrlString) {
-            nameLabel.text = name["first"]! + " " + name["last"]!
-            imageView.kf.setImage(with: imageUrl)
+            characterImageView.kf.setImage(with: imageUrl, placeholder: UIImage(systemName: "questionmark.circle.fill"))
         }
     }
 }
@@ -846,11 +852,6 @@ class AnimeService {
                                 native
                             }
                         }
-                    }
-                }
-                studios {
-                    nodes {
-                        name
                     }
                 }
                 siteUrl

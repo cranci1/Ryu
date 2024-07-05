@@ -707,7 +707,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         }
     }
     
-    @objc func playerItemDidReachEnd(notification: Notification) {        
+    @objc func playerItemDidReachEnd(notification: Notification) {
         if UserDefaults.standard.bool(forKey: "AutoPlay") {
             playerViewController?.dismiss(animated: true) { [weak self] in
                 self?.playNextEpisode()
@@ -768,6 +768,8 @@ class AnimeHeaderCell: UITableViewCell {
         calendarIconImageView.translatesAutoresizingMaskIntoConstraints = false
         
         animeImageView.contentMode = .scaleAspectFit
+        animeImageView.layer.cornerRadius = 10
+        animeImageView.clipsToBounds = true
         
         titleLabel.font = UIFont.boldSystemFont(ofSize: 21)
         titleLabel.textColor = .label
