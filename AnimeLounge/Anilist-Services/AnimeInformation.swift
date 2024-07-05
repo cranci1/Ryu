@@ -19,7 +19,6 @@ class AnimeInformation: UIViewController, UITableViewDataSource {
     private let coverImageView = UIImageView()
     private let bannerImageView = UIImageView()
     private let titleLabel = UILabel()
-    private let ratingView = RatingView()
     private let genresView = GenresView()
     private let descriptionView = DescriptionView()
     private let infoView = AnimeInfoView()
@@ -31,6 +30,8 @@ class AnimeInformation: UIViewController, UITableViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.largeTitleDisplayMode = .never
+        
         setupUI()
         fetchAnimeData()
     }
@@ -69,13 +70,11 @@ class AnimeInformation: UIViewController, UITableViewDataSource {
         contentView.addSubview(bannerImageView)
         contentView.addSubview(coverImageView)
         contentView.addSubview(titleLabel)
-        contentView.addSubview(ratingView)
         contentView.addSubview(genresView)
         
         bannerImageView.translatesAutoresizingMaskIntoConstraints = false
         coverImageView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        ratingView.translatesAutoresizingMaskIntoConstraints = false
         genresView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -93,24 +92,21 @@ class AnimeInformation: UIViewController, UITableViewDataSource {
             titleLabel.leadingAnchor.constraint(equalTo: coverImageView.trailingAnchor, constant: 16),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
-            ratingView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
-            ratingView.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            ratingView.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
-            ratingView.heightAnchor.constraint(equalToConstant: 30),
-            
-            genresView.topAnchor.constraint(equalTo: ratingView.bottomAnchor, constant: 8),
+            genresView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
             genresView.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             genresView.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
             genresView.heightAnchor.constraint(equalToConstant: 30)
         ])
         
-        coverImageView.layer.cornerRadius = 12
+        coverImageView.layer.cornerRadius = 2
         coverImageView.clipsToBounds = true
         coverImageView.contentMode = .scaleAspectFill
+        
         bannerImageView.contentMode = .scaleAspectFill
         bannerImageView.clipsToBounds = true
+        
         titleLabel.font = UIFont.boldSystemFont(ofSize: 22)
-        titleLabel.numberOfLines = 0
+        titleLabel.numberOfLines = 3
     }
     
     private func setupContentViews() {
@@ -124,7 +120,7 @@ class AnimeInformation: UIViewController, UITableViewDataSource {
         contentView.addSubview(stackView)
         
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: genresView.bottomAnchor, constant: 16),
+            stackView.topAnchor.constraint(equalTo: coverImageView.bottomAnchor, constant: 8),
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
@@ -163,24 +159,28 @@ class AnimeInformation: UIViewController, UITableViewDataSource {
     private func updateUI() {
         guard let animeData = animeData else { return }
         
+        var bannerImageUrl: URL?
+        
         if let titleDict = animeData["title"] as? [String: String] {
-            self.title = titleDict["romaji"]
             titleLabel.text = titleDict["english"] ?? titleDict["romaji"]
         }
         
         if let coverImage = (animeData["coverImage"] as? [String: String])?["extraLarge"],
-           let coverImageUrl = URL(string: coverImage) {
-            coverImageView.kf.setImage(with: coverImageUrl)
-        }
-        
-        if let bannerImage = animeData["bannerImage"] as? String,
-           let bannerImageUrl = URL(string: bannerImage) {
-            bannerImageView.kf.setImage(with: bannerImageUrl)
-        }
-        
-        if let averageScore = animeData["averageScore"] as? Int {
-            ratingView.setRating(score: averageScore)
-        }
+            let coverImageUrl = URL(string: coverImage) {
+             coverImageView.kf.setImage(with: coverImageUrl)
+         }
+         
+         if let bannerImage = animeData["bannerImage"] as? String {
+             bannerImageUrl = URL(string: bannerImage)
+         }
+         
+         if bannerImageUrl == nil, let coverImage = (animeData["coverImage"] as? [String: String])?["extraLarge"] {
+             bannerImageUrl = URL(string: coverImage)
+         }
+         
+         if let bannerUrl = bannerImageUrl {
+             bannerImageView.kf.setImage(with: bannerUrl)
+         }
         
         if let genres = animeData["genres"] as? [String] {
             genresView.setGenres(genres)
@@ -208,58 +208,6 @@ extension AnimeInformation {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellIdentifier", for: indexPath)
         return cell
-    }
-}
-
-class RatingView: UIView {
-    private let starStackView = UIStackView()
-    private let scoreLabel = UILabel()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupUI()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func setupUI() {
-        addSubview(starStackView)
-        addSubview(scoreLabel)
-        
-        starStackView.translatesAutoresizingMaskIntoConstraints = false
-        scoreLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        starStackView.axis = .horizontal
-        starStackView.spacing = 4
-        
-        NSLayoutConstraint.activate([
-            starStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            starStackView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            
-            scoreLabel.leadingAnchor.constraint(equalTo: starStackView.trailingAnchor, constant: 8),
-            scoreLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-            scoreLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor)
-        ])
-        
-        for _ in 0..<5 {
-            let starImageView = UIImageView(image: UIImage(systemName: "star.fill"))
-            starImageView.tintColor = .systemYellow
-            starStackView.addArrangedSubview(starImageView)
-        }
-        
-        scoreLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
-    }
-    
-    func setRating(score: Int) {
-        let starCount = Int((Float(score) / 20.0).rounded())
-        for (index, view) in starStackView.arrangedSubviews.enumerated() {
-            if let starImageView = view as? UIImageView {
-                starImageView.image = UIImage(systemName: index < starCount ? "star.fill" : "star")
-            }
-        }
-        scoreLabel.text = "\(score)/100"
     }
 }
 
@@ -426,7 +374,7 @@ class DescriptionView: UIView {
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
             
-            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
             descriptionLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             descriptionLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
             descriptionLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
@@ -476,11 +424,11 @@ class RelationsView: UIView {
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
             
-            collectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+            collectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: -18),
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            collectionView.heightAnchor.constraint(equalToConstant: 170)
+            collectionView.heightAnchor.constraint(equalToConstant: 210)
         ])
         
         titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
@@ -538,10 +486,9 @@ class RelationCell: UICollectionViewCell {
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1.5),
             
-            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 4),
+            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
         
         imageView.contentMode = .scaleAspectFill
@@ -550,7 +497,7 @@ class RelationCell: UICollectionViewCell {
         
         titleLabel.font = UIFont.systemFont(ofSize: 12)
         titleLabel.textAlignment = .center
-        titleLabel.numberOfLines = 0
+        titleLabel.numberOfLines = 3
     }
     
     func configure(with relation: [String: Any]) {
@@ -737,7 +684,7 @@ class CharacterCollectionViewCell: UICollectionViewCell {
             characterImageView.widthAnchor.constraint(equalToConstant: 100),
             characterImageView.heightAnchor.constraint(equalToConstant: 100),
             
-            nameLabel.topAnchor.constraint(equalTo: characterImageView.bottomAnchor, constant: 8),
+            nameLabel.topAnchor.constraint(equalTo: characterImageView.bottomAnchor),
             nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4),
             nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
             nameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0)
