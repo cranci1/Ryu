@@ -253,7 +253,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             baseURL = ""
             episodeId = episode.href
             fullURL = baseURL + episodeId
-            playEpisode(url: fullURL, cell: cell, fullURL: fullURL)
+            checkUserDefault(url: fullURL, cell: cell, fullURL: fullURL)
             return
         }
     }
@@ -767,8 +767,8 @@ class AnimeHeaderCell: UITableViewCell {
         starIconImageView.translatesAutoresizingMaskIntoConstraints = false
         calendarIconImageView.translatesAutoresizingMaskIntoConstraints = false
         
-        animeImageView.contentMode = .scaleAspectFit
-        animeImageView.layer.cornerRadius = 10
+        animeImageView.contentMode = .scaleAspectFill
+        animeImageView.layer.cornerRadius = 8
         animeImageView.clipsToBounds = true
         
         titleLabel.font = UIFont.boldSystemFont(ofSize: 21)

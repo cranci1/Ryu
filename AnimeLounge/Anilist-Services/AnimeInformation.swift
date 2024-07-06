@@ -7,6 +7,7 @@
 
 import UIKit
 import Kingfisher
+import SwiftSoup
 
 class AnimeInformation: UIViewController, UITableViewDataSource {
     
@@ -85,8 +86,8 @@ class AnimeInformation: UIViewController, UITableViewDataSource {
             
             coverImageView.topAnchor.constraint(equalTo: bannerImageView.bottomAnchor, constant: -60),
             coverImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            coverImageView.widthAnchor.constraint(equalToConstant: 120),
-            coverImageView.heightAnchor.constraint(equalToConstant: 180),
+            coverImageView.widthAnchor.constraint(equalToConstant: 110),
+            coverImageView.heightAnchor.constraint(equalToConstant: 160),
             
             titleLabel.topAnchor.constraint(equalTo: bannerImageView.bottomAnchor, constant: 8),
             titleLabel.leadingAnchor.constraint(equalTo: coverImageView.trailingAnchor, constant: 16),
@@ -98,14 +99,14 @@ class AnimeInformation: UIViewController, UITableViewDataSource {
             genresView.heightAnchor.constraint(equalToConstant: 30)
         ])
         
-        coverImageView.layer.cornerRadius = 2
+        coverImageView.layer.cornerRadius = 4
         coverImageView.clipsToBounds = true
         coverImageView.contentMode = .scaleAspectFill
         
         bannerImageView.contentMode = .scaleAspectFill
         bannerImageView.clipsToBounds = true
         
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 22)
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
         titleLabel.numberOfLines = 3
     }
     
@@ -370,7 +371,7 @@ class DescriptionView: UIView {
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: topAnchor),
+            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 8),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
             
@@ -385,6 +386,7 @@ class DescriptionView: UIView {
         
         descriptionLabel.font = UIFont.systemFont(ofSize: 14)
         descriptionLabel.numberOfLines = 0
+        descriptionLabel.textColor = .secondaryLabel
     }
     
     func configure(with description: String?) {

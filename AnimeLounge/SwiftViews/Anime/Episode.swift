@@ -54,7 +54,7 @@ class EpisodeCell: UITableViewCell {
         episodeLabel.font = UIFont.systemFont(ofSize: 16)
         
         startnowLabel.font = UIFont.systemFont(ofSize: 13)
-        startnowLabel.text = "Start Now"
+        startnowLabel.text = "Watch Now"
         startnowLabel.textColor = .secondaryLabel
         
         downloadButton.setImage(UIImage(systemName: "icloud.and.arrow.down"), for: .normal)
