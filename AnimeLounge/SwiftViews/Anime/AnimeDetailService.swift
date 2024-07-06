@@ -33,7 +33,7 @@ class AnimeDetailService {
             baseUrl = "https://anitaku.pe"
         case .animeheaven:
             baseUrl = "https://animeheaven.me/"
-        case .animefire, .kuramanime, .latanime:
+        case .animefire, .kuramanime, .latanime, .animetoast:
             baseUrl = ""
         }
         
@@ -80,6 +80,11 @@ class AnimeDetailService {
                         synopsis = try document.select("div.col-md-8 p").last()?.text() ?? ""
                         airdate = try document.select("div.col-md-8 div.my-2 span").last()?.text().replacingOccurrences(of: "Estreno: ", with: "") ?? ""
                         stars = ""
+                    case .animetoast:
+                         aliases = try document.select("div.col-md-8 p").last()?.text() ?? ""
+                         synopsis = try document.select("div.col-md-8 p").eq(0).text()
+                         airdate = try document.select("div.col-md-8 p").eq(2).text().replacingOccurrences(of: "Season Start: ", with: "")
+                         stars = ""
                     }
                     
                     episodes = self.fetchEpisodes(document: document, for: selectedSource, href: href)
@@ -127,6 +132,9 @@ class AnimeDetailService {
             case .latanime:
                 episodeElements = try document.select("div.row div.row div a")
                 downloadUrlElement = ""
+            case .animetoast:
+                episodeElements = try document.select("div.tab-content div#multi_link_tab1 a.multilink-btn")
+                downloadUrlElement = ""
             }
             
             switch source {
@@ -148,6 +156,16 @@ class AnimeDetailService {
                         
                         return Episode(number: formattedEpisode, href: episodeHref, downloadUrl: downloadUrl ?? "")
                     }
+                }
+            case .animetoast:
+                episodes = episodeElements.compactMap { element in
+                    guard let episodeText = try? element.text(),
+                          let href = try? element.attr("href") else { return nil }
+                    
+                    let episodeNumber = episodeText.components(separatedBy: CharacterSet.decimalDigits.inverted)
+                        .joined()
+                    
+                    return Episode(number: episodeNumber, href: href, downloadUrl: "")
                 }
             default:
                 episodes = episodeElements.compactMap { element in

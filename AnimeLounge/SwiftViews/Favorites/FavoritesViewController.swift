@@ -8,26 +8,37 @@
 import UIKit
 import Kingfisher
 
-struct FavoriteItem: Codable {
+struct FavoriteItem: Codable, Hashable {
     let title: String
     let imageURL: URL
     let contentURL: URL
 }
 
+enum SortOption: String, CaseIterable {
+    case normal = "Normal"
+    case alphabetical = "A-Z"
+    case alphabeticalReversed = "Z-A"
+}
+
 class FavoritesViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     
-    var favorites: [FavoriteItem] = []
-    var isEditingMode = false {
+    private var dataSource: UICollectionViewDiffableDataSource<Int, FavoriteItem>!
+    private var favorites: [FavoriteItem] = []
+    private var sortedFavorites: [FavoriteItem] = []
+    private var currentSortOption: SortOption = .normal
+    
+    private var isEditingMode = false {
         didSet {
-            updateShakeAnimation()
+            updateEditingState()
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
-        setupEditButton()
+        setupDataSource()
+        setupNavigationBar()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -37,8 +48,6 @@ class FavoritesViewController: UIViewController {
     
     private func setupCollectionView() {
         collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.prefetchDataSource = self
         collectionView.dragDelegate = self
         collectionView.dropDelegate = self
         
@@ -49,23 +58,54 @@ class FavoritesViewController: UIViewController {
         collectionView.addGestureRecognizer(longPressGesture)
     }
     
-    private func setupEditButton() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editButtonTapped))
+    private func setupDataSource() {
+        dataSource = UICollectionViewDiffableDataSource<Int, FavoriteItem>(collectionView: collectionView) { (collectionView, indexPath, item) -> UICollectionViewCell? in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FavoriteCell", for: indexPath) as! FavoriteCell
+            cell.configure(with: item)
+            return cell
+        }
+    }
+    
+    private func setupNavigationBar() {
+        let tealColor = UIColor.systemTeal
+
+        let editButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editButtonTapped))
+        editButton.tintColor = tealColor
+        
+        let sortButton = UIBarButtonItem(image: UIImage(systemName: "arrow.up.arrow.down"), style: .plain, target: self, action: #selector(sortButtonTapped))
+        sortButton.tintColor = tealColor
+        
+        navigationItem.rightBarButtonItems = [editButton, sortButton]
+        navigationController?.navigationBar.tintColor = tealColor
     }
     
     private func loadFavorites() {
         favorites = FavoritesManager.shared.getFavorites()
-        collectionView.reloadData()
+        sortFavorites()
+        applySnapshot()
     }
     
-    @objc private func editButtonTapped() {
-        isEditingMode.toggle()
+    private func sortFavorites() {
+        switch currentSortOption {
+        case .normal:
+            sortedFavorites = favorites
+        case .alphabetical:
+            sortedFavorites = favorites.sorted { $0.title.lowercased() < $1.title.lowercased() }
+        case .alphabeticalReversed:
+            sortedFavorites = favorites.sorted { $0.title.lowercased() > $1.title.lowercased() }
+        }
+    }
+    
+    private func applySnapshot() {
+        var snapshot = NSDiffableDataSourceSnapshot<Int, FavoriteItem>()
+        snapshot.appendSections([0])
+        snapshot.appendItems(sortedFavorites)
+        dataSource.apply(snapshot, animatingDifferences: true)
+    }
+    
+    private func updateEditingState() {
         navigationItem.rightBarButtonItem?.title = isEditingMode ? "Done" : "Edit"
-        collectionView.reloadData()
-    }
-    
-    private func updateShakeAnimation() {
-        for cell in collectionView.visibleCells {
+        collectionView.visibleCells.forEach { cell in
             if isEditingMode {
                 addShakeAnimation(to: cell)
             } else {
@@ -74,42 +114,46 @@ class FavoritesViewController: UIViewController {
         }
     }
     
-    private func addShakeAnimation(to view: UIView) {
-        let animation = CAKeyframeAnimation(keyPath: "transform.rotation")
-        animation.values = [-0.02, 0.02, -0.02]
-        animation.duration = 0.25
-        animation.repeatCount = Float.infinity
-        view.layer.add(animation, forKey: "shake")
+    @objc private func editButtonTapped() {
+        isEditingMode.toggle()
     }
     
-    private func removeShakeAnimation(from view: UIView) {
-        view.layer.removeAnimation(forKey: "shake")
-    }
-    
-    @objc func handleLongPress(gesture: UILongPressGestureRecognizer) {
-        if gesture.state == .began {
-            let point = gesture.location(in: collectionView)
-            if let indexPath = collectionView.indexPathForItem(at: point) {
-                showRemoveMenu(for: indexPath)
-            }
-        }
-    }
-    
-    func showRemoveMenu(for indexPath: IndexPath) {
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+    @objc private func sortButtonTapped() {
+        let alertController = UIAlertController(title: "Sort Favorites", message: nil, preferredStyle: .actionSheet)
         
-        let reorderAction = UIAlertAction(title: "Reorder", style: .default) { [weak self] _ in
-            self?.isEditingMode = true
-            self?.navigationItem.rightBarButtonItem?.title = "Done"
-            self?.collectionView.reloadData()
+        for option in SortOption.allCases {
+            let action = UIAlertAction(title: option.rawValue, style: .default) { [weak self] _ in
+                self?.currentSortOption = option
+                self?.sortFavorites()
+                self?.applySnapshot()
+            }
+            alertController.addAction(action)
         }
-        reorderAction.setValue(UIImage(systemName: "arrow.up.arrow.down"), forKey: "image")
-        alertController.addAction(reorderAction)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        if let popoverController = alertController.popoverPresentationController {
+            popoverController.barButtonItem = navigationItem.leftBarButtonItem
+        }
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    @objc private func handleLongPress(gesture: UILongPressGestureRecognizer) {
+        guard gesture.state == .began else { return }
+        let point = gesture.location(in: collectionView)
+        if let indexPath = collectionView.indexPathForItem(at: point) {
+            showRemoveMenu(for: indexPath)
+        }
+    }
+    
+    private func showRemoveMenu(for indexPath: IndexPath) {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let removeAction = UIAlertAction(title: "Remove from Favorites", style: .destructive) { [weak self] _ in
             self?.removeFavorite(at: indexPath)
         }
-        removeAction.setValue(UIImage(systemName: "trash"), forKey: "image")
         alertController.addAction(removeAction)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -125,38 +169,32 @@ class FavoritesViewController: UIViewController {
         present(alertController, animated: true, completion: nil)
     }
     
-    func removeFavorite(at indexPath: IndexPath) {
-        favorites.remove(at: indexPath.item)
-        collectionView.deleteItems(at: [indexPath])
+    private func removeFavorite(at indexPath: IndexPath) {
+        guard let item = dataSource.itemIdentifier(for: indexPath) else { return }
+        favorites.removeAll { $0 == item }
         FavoritesManager.shared.saveFavorites(favorites)
+        sortFavorites()
+        applySnapshot()
         NotificationCenter.default.post(name: FavoritesManager.favoritesChangedNotification, object: nil)
+    }
+    
+    private func addShakeAnimation(to view: UIView) {
+        let animation = CAKeyframeAnimation(keyPath: "transform.rotation")
+        animation.values = [-0.02, 0.02, -0.02]
+        animation.duration = 0.25
+        animation.repeatCount = Float.infinity
+        view.layer.add(animation, forKey: "shake")
+    }
+    
+    private func removeShakeAnimation(from view: UIView) {
+        view.layer.removeAnimation(forKey: "shake")
     }
 }
 
-extension FavoritesViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return favorites.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FavoriteCell", for: indexPath) as! FavoriteCell
-        let item = favorites[indexPath.item]
-        cell.configure(with: item)
-        
-        if isEditingMode {
-            addShakeAnimation(to: cell)
-        } else {
-            removeShakeAnimation(from: cell)
-        }
-        
-        return cell
-    }
-    
+extension FavoritesViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if !isEditingMode {
-            let item = favorites[indexPath.item]
-            navigateToAnimeDetail(title: item.title, imageUrl: item.imageURL.absoluteString, href: item.contentURL.absoluteString)
-        }
+        guard !isEditingMode, let item = dataSource.itemIdentifier(for: indexPath) else { return }
+        navigateToAnimeDetail(title: item.title, imageUrl: item.imageURL.absoluteString, href: item.contentURL.absoluteString)
     }
     
     func navigateToAnimeDetail(title: String, imageUrl: String, href: String) {
@@ -172,8 +210,7 @@ extension FavoritesViewController: UICollectionViewDataSource, UICollectionViewD
 
 extension FavoritesViewController: UICollectionViewDragDelegate, UICollectionViewDropDelegate {
     func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
-        guard isEditingMode else { return [] }
-        let item = favorites[indexPath.item]
+        guard isEditingMode, let item = dataSource.itemIdentifier(for: indexPath) else { return [] }
         let itemProvider = NSItemProvider(object: item.title as NSString)
         let dragItem = UIDragItem(itemProvider: itemProvider)
         dragItem.localObject = item
@@ -182,32 +219,24 @@ extension FavoritesViewController: UICollectionViewDragDelegate, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
         guard isEditingMode else { return UICollectionViewDropProposal(operation: .forbidden) }
-        if collectionView.hasActiveDrag {
-            return UICollectionViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
-        }
-        return UICollectionViewDropProposal(operation: .forbidden)
+        return UICollectionViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
     }
     
     func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
-        guard let destinationIndexPath = coordinator.destinationIndexPath else { return }
+        guard let destinationIndexPath = coordinator.destinationIndexPath,
+              let item = coordinator.items.first,
+              let dragItem = item.dragItem.localObject as? FavoriteItem else { return }
         
-        if let item = coordinator.items.first, let sourceIndexPath = item.sourceIndexPath {
-            collectionView.performBatchUpdates({
-                let movedItem = favorites.remove(at: sourceIndexPath.item)
-                favorites.insert(movedItem, at: destinationIndexPath.item)
-                collectionView.deleteItems(at: [sourceIndexPath])
-                collectionView.insertItems(at: [destinationIndexPath])
-            }, completion: { _ in
-                FavoritesManager.shared.saveFavorites(self.favorites)
-            })
-            coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
+        var snapshot = dataSource.snapshot()
+        snapshot.deleteItems([dragItem])
+        snapshot.insertItems([dragItem], beforeItem: snapshot.itemIdentifiers[destinationIndexPath.item])
+        
+        dataSource.apply(snapshot, animatingDifferences: true) {
+            self.sortedFavorites = snapshot.itemIdentifiers
+            self.favorites = self.sortedFavorites
+            FavoritesManager.shared.saveFavorites(self.favorites)
         }
-    }
-}
-
-extension FavoritesViewController: UICollectionViewDataSourcePrefetching {
-    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        let urls = indexPaths.compactMap { favorites[$0.item].imageURL }
-        ImagePrefetcher(urls: urls).start()
+        
+        coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
     }
 }

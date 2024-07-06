@@ -340,7 +340,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                     var srcURL: URL?
                     
                     switch selectedMediaSource {
-                    case "GoGoAnime", "Latanime", "Kuramanime":
+                    case "GoGoAnime", "Latanime", "Kuramanime", "AnimeToast":
                         srcURL = self.extractIframeSourceURL(from: htmlString)
                     case "AnimeFire":
                         srcURL = self.extractDataVideoSrcURL(from: htmlString)
@@ -360,7 +360,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                     }
                     
                     DispatchQueue.main.async {
-                        if selectedMediaSource == "GoGoAnime" || selectedMediaSource == "Latanime" || selectedMediaSource == "Kuramanime" {
+                        if selectedMediaSource == "GoGoAnime" || selectedMediaSource == "Latanime" || selectedMediaSource == "Kuramanime" || selectedMediaSource == "AnimeToast" {
                             self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString)
                         } else if selectedMediaSource == "AnimeFire" {
                             self.fetchVideoDataAndChooseQuality(from: finalSrcURL.absoluteString) { selectedURL in

@@ -160,8 +160,9 @@
 			children = (
 				13327B342C314E6300CEE6AC /* Player */,
 				1308F1792C328571004348A9 /* BackupManager.swift */,
-				131464002C382B6800F6AD8B /* UIImage.swift */,
+				13AE19DD2C2BF52A0012633D /* FavoriteManager.swift */,
 				135F85282C382ECE0024954D /* SourceMenu.swift */,
+				131464002C382B6800F6AD8B /* UIImage.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -356,7 +357,6 @@
 			isa = PBXGroup;
 			children = (
 				13CD3A822C26BB5C00B046F9 /* FavoritesViewController.swift */,
-				13AE19DD2C2BF52A0012633D /* FavoriteManager.swift */,
 			);
 			path = Favorites;
 			sourceTree = "<group>";
