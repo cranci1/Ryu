@@ -102,6 +102,26 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
                 return 'No play button or video element found for AnimeFire';
             })();
             """
+        case "AnimeToast":
+            script = """
+            (function() {
+                var playButton = document.querySelector('.vjs-big-play-button');
+                if (playButton) {
+                    playButton.click();
+                    return 'Clicked play button for AnimeToast';
+                }
+                var video = document.querySelector('video');
+                if (video) {
+                    if (video.paused) {
+                        video.play();
+                        return 'Started video playback for AnimeToast';
+                    } else {
+                        return 'Video is already playing for AnimeToast';
+                    }
+                }
+                return 'No play button or video element found for AnimeToast';
+            })();
+            """
         default:
             script = """
             (function() {
@@ -205,6 +225,38 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
             setupVideoListeners();
             
             var playButton = document.querySelector('div.play-button');
+            if (playButton) {
+                playButton.addEventListener('click', function() {
+                    setTimeout(setupVideoListeners, 100);
+                });
+            }
+            
+            var video = document.querySelector('video');
+            if (video && !video.paused) {
+                notifyVideoState('play', video.src);
+            }
+            """
+        case "AnimeToast":
+            script = """
+            function notifyVideoState(state, videoUrl) {
+                window.webkit.messageHandlers.videoHandler.postMessage({state: state, url: videoUrl});
+            }
+            
+            function setupVideoListeners() {
+                var video = document.querySelector('video');
+                if (video) {
+                    video.addEventListener('play', function() {
+                        notifyVideoState('play', video.src);
+                    });
+                    video.addEventListener('pause', function() { notifyVideoState('pause', null); });
+                    video.addEventListener('ended', function() { notifyVideoState('complete', null); });
+                    video.addEventListener('error', function() { notifyVideoState('error', null); });
+                }
+            }
+            
+            setupVideoListeners();
+            
+            var playButton = document.querySelector('.vjs-big-play-button');
             if (playButton) {
                 playButton.addEventListener('click', function() {
                     setTimeout(setupVideoListeners, 100);

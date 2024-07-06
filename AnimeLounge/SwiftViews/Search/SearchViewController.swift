@@ -65,12 +65,7 @@ class SearchViewController: UIViewController {
         case .latanime:
             url = "https://latanime.org/buscar"
             parameters = ["q": query]
-        case .animetoast:
-            url = "https://www.animetoast.cc/"
-            parameters = ["s": query]
         }
-
-        print("Completed URL: \(url)")
 
         AF.request(url, method: .get, parameters: parameters).responseString { [weak self] response in
             guard let self = self else { return }
@@ -143,14 +138,6 @@ class SearchViewController: UIViewController {
                 for item in items {
                     let title = try item.select("div.series div.seriedetails h3.my-1").text()
                     let imageUrl = try item.select("div.series div.serieimg img").attr("src")
-                    let href = try item.select("a").attr("href")
-                    results.append((title: title, imageUrl: imageUrl, href: href))
-                }
-            case .animetoast:
-                let items = try document.select("div.search-listing-content div.post")
-                for item in items {
-                    let title = try item.select("a").text()
-                    let imageUrl = try item.select("a img").attr("src")
                     let href = try item.select("a").attr("href")
                     results.append((title: title, imageUrl: imageUrl, href: href))
                 }
