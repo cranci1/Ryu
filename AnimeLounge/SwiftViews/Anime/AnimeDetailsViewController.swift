@@ -183,9 +183,12 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         switch indexPath.section {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "AnimeHeaderCell", for: indexPath) as! AnimeHeaderCell
-            cell.configure(title: animeTitle, imageUrl: imageUrl, aliases: aliases, isFavorite: isFavorite, airdate: airdate, stars: stars)
+            cell.configure(title: animeTitle, imageUrl: imageUrl, aliases: aliases, isFavorite: isFavorite, airdate: airdate, stars: stars, href: href)
             cell.favoriteButtonTapped = { [weak self] in
                 self?.toggleFavorite()
+            }
+            cell.showOptionsMenu = { [weak self] in
+                self?.showOptionsMenu()
             }
             return cell
         case 1:
@@ -202,6 +205,111 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         default:
             return UITableViewCell()
         }
+    }
+    
+    private func showOptionsMenu() {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let openOnWebAction = UIAlertAction(title: "Open on Web", style: .default) { [weak self] _ in
+            self?.openAnimeOnWeb()
+        }
+        openOnWebAction.setValue(UIImage(systemName: "safari"), forKey: "image")
+        alertController.addAction(openOnWebAction)
+        
+        let refreshAction = UIAlertAction(title: "Refresh", style: .default) { [weak self] _ in
+            self?.refreshAnimeDetails()
+        }
+        refreshAction.setValue(UIImage(systemName: "arrow.clockwise"), forKey: "image")
+        alertController.addAction(refreshAction)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        if let popoverController = alertController.popoverPresentationController {
+            popoverController.sourceView = view
+            popoverController.sourceRect = CGRect(x: view.bounds.midX, y: view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    private func openAnimeOnWeb() {
+        guard let path = href else {
+            print("Invalid URL string: \(href ?? "nil")")
+            showAlert(withTitle: "Error", message: "The URL is invalid.")
+            return
+        }
+        
+        let selectedSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? ""
+        let baseUrl: String
+        
+        switch selectedSource {
+        case "AnimeWorld":
+            baseUrl = "https://animeworld.so"
+        case "GoGoAnime":
+            baseUrl = "https://anitaku.pe"
+        case "AnimeHeaven":
+            baseUrl = "https://animeheaven.me"
+        default:
+            baseUrl = ""
+        }
+        
+        let fullUrlString = baseUrl + path
+        
+        guard let url = URL(string: fullUrlString) else {
+            print("Invalid URL string: \(fullUrlString)")
+            showAlert(withTitle: "Error", message: "The URL is invalid.")
+            return
+        }
+        
+        UIApplication.shared.open(url, options: [:]) { success in
+            if !success {
+                print("Failed to open URL: \(url)")
+                self.showAlert(withTitle: "Error", message: "Failed to open the URL.")
+            }
+        }
+    }
+
+    private func refreshAnimeDetails() {
+        let loadingIndicator = UIActivityIndicatorView(style: .medium)
+        loadingIndicator.startAnimating()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: loadingIndicator)
+            
+        if let href = href {
+            AnimeDetailService.fetchAnimeDetails(from: href) { [weak self] result in
+                DispatchQueue.main.async {
+                    self?.navigationItem.rightBarButtonItem = nil
+                    
+                    switch result {
+                    case .success(let details):
+                        self?.updateAnimeDetails(with: details)
+                    case .failure(let error):
+                        self?.showAlert(withTitle: "Refresh Failed", message: error.localizedDescription)
+                    }
+                }
+            }
+        } else {
+            showAlert(withTitle: "Error", message: "Unable to refresh. No valid URL found.")
+        }
+    }
+
+    private func updateAnimeDetails(with details: AnimeDetail) {
+        aliases = details.aliases
+        synopsis = details.synopsis
+        airdate = details.airdate
+        stars = details.stars
+        episodes = details.episodes
+        
+        tableView.reloadData()
+        setupCastButton()
+    }
+    
+    func showAlert(withTitle title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -729,12 +837,14 @@ class AnimeHeaderCell: UITableViewCell {
     private let titleLabel = UILabel()
     private let aliasLabel = UILabel()
     private let favoriteButton = UIButton()
+    private let optionsButton = UIButton()
     private let starLabel = UILabel()
     private let airDateLabel = UILabel()
     private let starIconImageView = UIImageView()
     private let calendarIconImageView = UIImageView()
     
     var favoriteButtonTapped: (() -> Void)?
+    var showOptionsMenu: (() -> Void)?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -752,6 +862,7 @@ class AnimeHeaderCell: UITableViewCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(aliasLabel)
         contentView.addSubview(favoriteButton)
+        contentView.addSubview(optionsButton)
         contentView.addSubview(starLabel)
         contentView.addSubview(airDateLabel)
         contentView.addSubview(starIconImageView)
@@ -761,6 +872,7 @@ class AnimeHeaderCell: UITableViewCell {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         aliasLabel.translatesAutoresizingMaskIntoConstraints = false
         favoriteButton.translatesAutoresizingMaskIntoConstraints = false
+        optionsButton.translatesAutoresizingMaskIntoConstraints = false
         starLabel.translatesAutoresizingMaskIntoConstraints = false
         airDateLabel.translatesAutoresizingMaskIntoConstraints = false
         starIconImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -783,6 +895,10 @@ class AnimeHeaderCell: UITableViewCell {
         favoriteButton.backgroundColor = UIColor.systemTeal
         favoriteButton.layer.cornerRadius = 14
         favoriteButton.addTarget(self, action: #selector(favoriteButtonPressed), for: .touchUpInside)
+        
+        optionsButton.setImage(UIImage(systemName: "ellipsis.circle.fill"), for: .normal)
+        optionsButton.tintColor = .systemTeal
+        optionsButton.addTarget(self, action: #selector(optionsButtonTapped), for: .touchUpInside)
         
         starLabel.font = UIFont.boldSystemFont(ofSize: 15)
         starLabel.textColor = .secondaryLabel
@@ -815,6 +931,11 @@ class AnimeHeaderCell: UITableViewCell {
             favoriteButton.heightAnchor.constraint(equalToConstant: 30),
             favoriteButton.widthAnchor.constraint(equalToConstant: 100),
             
+            optionsButton.centerYAnchor.constraint(equalTo: favoriteButton.centerYAnchor),
+            optionsButton.leadingAnchor.constraint(equalTo: favoriteButton.trailingAnchor, constant: 10),
+            optionsButton.widthAnchor.constraint(equalToConstant: 30),
+            optionsButton.heightAnchor.constraint(equalToConstant: 30),
+            
             starIconImageView.topAnchor.constraint(equalTo: animeImageView.bottomAnchor, constant: 16),
             starIconImageView.leadingAnchor.constraint(equalTo: animeImageView.leadingAnchor),
             starIconImageView.widthAnchor.constraint(equalToConstant: 20),
@@ -839,7 +960,11 @@ class AnimeHeaderCell: UITableViewCell {
         favoriteButtonTapped?()
     }
     
-    func configure(title: String?, imageUrl: String?, aliases: String, isFavorite: Bool, airdate: String, stars: String) {
+    @objc private func optionsButtonTapped() {
+        showOptionsMenu?()
+    }
+    
+    func configure(title: String?, imageUrl: String?, aliases: String, isFavorite: Bool, airdate: String, stars: String, href: String?) {
         titleLabel.text = title
         aliasLabel.text = aliases
         airDateLabel.text = airdate
@@ -861,6 +986,8 @@ class AnimeHeaderCell: UITableViewCell {
             animeImageView.kf.setImage(with: url, placeholder: UIImage(systemName: "photo"))
         }
         updateFavoriteButtonState(isFavorite: isFavorite)
+        
+        optionsButton.isEnabled = href != nil
     }
     
     private func updateFavoriteButtonState(isFavorite: Bool) {
@@ -869,7 +996,6 @@ class AnimeHeaderCell: UITableViewCell {
         favoriteButton.backgroundColor = isFavorite ? .systemGray : .systemTeal
     }
 }
-
 
 protocol SynopsisCellDelegate: AnyObject {
     func synopsisCellDidToggleExpansion(_ cell: SynopsisCell)
