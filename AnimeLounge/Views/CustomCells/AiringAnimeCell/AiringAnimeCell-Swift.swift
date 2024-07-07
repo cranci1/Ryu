@@ -32,8 +32,10 @@ class AiringAnimeCell: UICollectionViewCell {
         if let airingAt = airingAt {
             let date = Date(timeIntervalSince1970: TimeInterval(airingAt))
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "EEEE hh:mm a"
-            airingAtLabel.text = "\(dateFormatter.string(from: date))"
+            dateFormatter.dateFormat = "EEEE, HH:mm zzz"
+            dateFormatter.timeZone = TimeZone.current
+            dateFormatter.locale = Locale.current
+            airingAtLabel.text = dateFormatter.string(from: date)
         } else {
             airingAtLabel.text = "Airing date: N/A"
         }

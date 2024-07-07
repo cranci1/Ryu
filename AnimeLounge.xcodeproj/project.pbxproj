@@ -147,14 +147,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		130645DA2C288CD3004642B3 /* Sources */ = {
-			isa = PBXGroup;
-			children = (
-				130645DE2C28A27E004642B3 /* Sources.swift */,
-			);
-			path = Sources;
-			sourceTree = "<group>";
-		};
 		1308F1782C328563004348A9 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -163,6 +155,7 @@
 				13AE19DD2C2BF52A0012633D /* FavoriteManager.swift */,
 				135F85282C382ECE0024954D /* SourceMenu.swift */,
 				131464002C382B6800F6AD8B /* UIImage.swift */,
+				130645DE2C28A27E004642B3 /* Sources.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -259,7 +252,6 @@
 			children = (
 				13AE19E42C2C54EB0012633D /* AnimeLounge.entitlements */,
 				1308F1782C328563004348A9 /* Utils */,
-				130645DA2C288CD3004642B3 /* Sources */,
 				13CD3A692C2601D500B046F9 /* Anilist-Services */,
 				13E446412C25AC25002B14E8 /* SwiftViews */,
 				137F4A452C258DE200B787CB /* Views */,
