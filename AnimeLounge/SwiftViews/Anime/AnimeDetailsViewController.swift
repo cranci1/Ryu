@@ -387,9 +387,22 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         }
     }
     
+    func presentStreamingView3rb(withURL url: String) {
+        DispatchQueue.main.async {
+            let streamingVC = ExternalVideoPlayer3rb(streamURL: url)
+            streamingVC.modalPresentationStyle = .fullScreen
+            self.present(streamingVC, animated: true, completion: nil)
+        }
+    }
+    
     @objc func startStreamingButtonTapped(withURL url: String) {
         deleteWebKitFolder()
         presentStreamingView(withURL: url)
+    }
+    
+    @objc func startStreamingButtonTapped3rb(withURL url: String) {
+        deleteWebKitFolder()
+        presentStreamingView3rb(withURL: url)
     }
     
     func deleteWebKitFolder() {
@@ -464,7 +477,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                     }
                     
                     DispatchQueue.main.async {
-                        if selectedMediaSource == "GoGoAnime" || selectedMediaSource == "Latanime" || selectedMediaSource == "Kuramanime" || selectedMediaSource == "Anime3rb" || selectedMediaSource == "AnimeToast"{
+                        if selectedMediaSource == "GoGoAnime" || selectedMediaSource == "Latanime" || selectedMediaSource == "Kuramanime" || selectedMediaSource == "AnimeToast" {
                             self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString)
                         } else if selectedMediaSource == "AnimeFire" {
                             self.fetchVideoDataAndChooseQuality(from: finalSrcURL.absoluteString) { selectedURL in
@@ -472,6 +485,8 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                                     self.playVideoWithAVPlayer(sourceURL: selectedURL, cell: cell, fullURL: fullURL)
                                 }
                             }
+                        } else if selectedMediaSource == "Anime3rb" {
+                            self.startStreamingButtonTapped3rb(withURL: finalSrcURL.absoluteString)
                         } else {
                             self.playVideoWithAVPlayer(sourceURL: finalSrcURL, cell: cell, fullURL: fullURL)
                         }

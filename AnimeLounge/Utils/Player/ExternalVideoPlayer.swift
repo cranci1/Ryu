@@ -111,7 +111,30 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
                 var playButton = document.querySelector('.vjs-big-play-button');
                 if (playButton) {
                     playButton.click();
-                    return 'Clicked play button for AnimeToast';
+                    setTimeout(function() {
+                        var videoContainer = document.querySelector('.video-js');
+                        if (videoContainer) {
+                            var containerRect = videoContainer.getBoundingClientRect();
+                            var randomX = Math.floor(Math.random() * containerRect.width);
+                            var randomY = Math.floor(Math.random() * containerRect.height);
+                            var clickEvent = new MouseEvent('click', {
+                                bubbles: true,
+                                cancelable: true,
+                                view: window,
+                                clientX: containerRect.left + randomX,
+                                clientY: containerRect.top + randomY
+                            });
+                            videoContainer.dispatchEvent(clickEvent);
+            
+                            setTimeout(function() {
+                                var fullScreenButton = document.querySelector('.vjs-fullscreen-control');
+                                if (fullScreenButton) {
+                                    fullScreenButton.click();
+                                }
+                            }, 3000);
+                        }
+                    }, 500);
+                    return 'Clicked play button and random location for AnimeToast';
                 }
                 var video = document.querySelector('video');
                 if (video) {
@@ -123,26 +146,6 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
                     }
                 }
                 return 'No play button or video element found for AnimeToast';
-            })();
-            """
-        case "Anime3rb":
-            script = """
-            (function() {
-                var playButton = document.querySelector('button.vjs-big-play-button');
-                if (playButton) {
-                    playButton.click();
-                    return 'Clicked play button for Anime3rb';
-                }
-                var video = document.querySelector('video');
-                if (video) {
-                    if (video.paused) {
-                        video.play();
-                        return 'Started video playback for Anime3rb';
-                    } else {
-                        return 'Video is already playing for Anime3rb';
-                    }
-                }
-                return 'No play button or video element found for Anime3rb';
             })();
             """
         default:
@@ -173,6 +176,7 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
 
         webView = WKWebView(frame: .zero, configuration: configuration)
         webView?.navigationDelegate = self
+        webView?.isHidden = true
 
         if let webView = webView {
             view.addSubview(webView)
@@ -291,44 +295,40 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
                 notifyVideoState('play', video.src);
             }
             """
-        case "Anime3rb":
-            script = """
-            function notifyVideoState(state, videoUrl) {
-                window.webkit.messageHandlers.videoHandler.postMessage({state: state, url: videoUrl});
-            }
-
-            function setupVideoListeners() {
-                var video = document.querySelector('video');
-                if (video) {
-                    video.addEventListener('play', function() {
-                        notifyVideoState('play', video.src);
-                    });
-                    video.addEventListener('pause', function() { notifyVideoState('pause', null); });
-                    video.addEventListener('ended', function() { notifyVideoState('complete', null); });
-                    video.addEventListener('error', function() { notifyVideoState('error', null); });
-                }
-            }
-
-            setupVideoListeners();
-
-            var playButton = document.querySelector('button.vjs-big-play-button');
-            if (playButton) {
-                playButton.addEventListener('click', function() {
-                    setTimeout(setupVideoListeners, 100);
-                });
-            }
-
-            var video = document.querySelector('video');
-            if (video && !video.paused) {
-                notifyVideoState('play', video.src);
-            }
-            """
         default:
             script = ""
         }
 
-        webView?.evaluateJavaScript(script, completionHandler: nil)
+        webView?.evaluateJavaScript(script) { [weak self] _, error in
+            if let error = error {
+                print("Error injecting custom JavaScript: \(error)")
+            } else {
+                self?.startCheckingForMediaPlayback()
+            }
+        }
     }
+    
+    private func startCheckingForMediaPlayback() {
+          let script = """
+          function checkMediaPlayback() {
+              var video = document.querySelector('video');
+              if (video && !video.paused) {
+                  window.webkit.messageHandlers.videoHandler.postMessage({state: 'play', url: video.src});
+                  return true;
+              }
+              return false;
+          }
+          checkMediaPlayback();
+          """
+          
+          Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] timer in
+              self?.webView?.evaluateJavaScript(script) { result, error in
+                  if let isPlaying = result as? Bool, isPlaying {
+                      timer.invalidate()
+                  }
+              }
+          }
+      }
 
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         if message.name == "videoHandler" {
