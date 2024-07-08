@@ -581,7 +581,7 @@ class StatsView: UIView {
             if let score = scoreStat["score"], let amount = scoreStat["amount"] {
                 let barView = UIView()
                 barView.layer.cornerRadius = 4
-                barView.backgroundColor = .systemBlue
+                barView.backgroundColor = .systemTeal
                 barChartView.addSubview(barView)
 
                 barView.translatesAutoresizingMaskIntoConstraints = false
