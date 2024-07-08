@@ -199,14 +199,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		139B16482C270E07007E3477 /* Anime-Fetching */ = {
+		139B16482C270E07007E3477 /* Requests */ = {
 			isa = PBXGroup;
 			children = (
 				139B16462C270D41007E3477 /* AiringAnime.swift */,
 				13CD3A6A2C2601E800B046F9 /* TrendingAnime.swift */,
 				13CD3A6C2C26028500B046F9 /* SeasonalAnime.swift */,
 			);
-			path = "Anime-Fetching";
+			path = Requests;
 			sourceTree = "<group>";
 		};
 		139B16492C270F7D007E3477 /* AiringAnimeCell */ = {
@@ -309,7 +309,7 @@
 		13CD3A692C2601D500B046F9 /* Anilist-Services */ = {
 			isa = PBXGroup;
 			children = (
-				139B16482C270E07007E3477 /* Anime-Fetching */,
+				139B16482C270E07007E3477 /* Requests */,
 				139B16272C26F4A3007E3477 /* AnimeInformation.swift */,
 			);
 			path = "Anilist-Services";

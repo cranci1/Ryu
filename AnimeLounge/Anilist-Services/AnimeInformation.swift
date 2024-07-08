@@ -516,6 +516,7 @@ class RelationCell: UICollectionViewCell {
 class StatsView: UIView {
     private let titleLabel = UILabel()
     private let barChartView = UIView()
+    private let averageScoreLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -527,63 +528,82 @@ class StatsView: UIView {
     }
 
     private func setupUI() {
+        layer.cornerRadius = 12
+        
         addSubview(titleLabel)
         addSubview(barChartView)
+        addSubview(averageScoreLabel)
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         barChartView.translatesAutoresizingMaskIntoConstraints = false
+        averageScoreLabel.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: topAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
 
-            barChartView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+            barChartView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
             barChartView.leadingAnchor.constraint(equalTo: leadingAnchor),
             barChartView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            barChartView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            barChartView.heightAnchor.constraint(equalToConstant: 100)
+            barChartView.heightAnchor.constraint(equalToConstant: 150),
+            
+            averageScoreLabel.topAnchor.constraint(equalTo: barChartView.bottomAnchor, constant: 20),
+            averageScoreLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            averageScoreLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
         ])
 
-        titleLabel.font = UIFont.systemFont(ofSize: 14)
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
         titleLabel.text = "Ratings & Statistics"
-        titleLabel.textColor = .lightGray
+        titleLabel.textColor = .label
+        
+        averageScoreLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        averageScoreLabel.textColor = .secondaryLabel
     }
 
     func configure(with stats: [String: Any]?) {
         barChartView.subviews.forEach { $0.removeFromSuperview() }
 
-        if let scoreDistribution = stats?["scoreDistribution"] as? [[String: Int]] {
-            let sortedDistribution = scoreDistribution.sorted { $0["score"] ?? 0 < $1["score"] ?? 0 }
-            let maxAmount = sortedDistribution.max { ($0["amount"] ?? 0) < ($1["amount"] ?? 0) }?["amount"] ?? 1
+        guard let scoreDistribution = stats?["scoreDistribution"] as? [[String: Int]] else {
+            return
+        }
 
-            for (index, scoreStat) in sortedDistribution.enumerated() {
-                if let score = scoreStat["score"], let amount = scoreStat["amount"] {
-                    let barView = UIView()
-                    barView.backgroundColor = .systemTeal
-                    barView.layer.cornerRadius = 2
-                    barChartView.addSubview(barView)
+        let sortedDistribution = scoreDistribution.sorted { $0["score"] ?? 0 < $1["score"] ?? 0 }
+        let maxAmount = sortedDistribution.max { ($0["amount"] ?? 0) < ($1["amount"] ?? 0) }?["amount"] ?? 1
+        
+        let totalScore = sortedDistribution.reduce(0) { $0 + ($1["score"] ?? 0) * ($1["amount"] ?? 0) }
+        let totalAmount = sortedDistribution.reduce(0) { $0 + ($1["amount"] ?? 0) }
+        let averageScore = Double(totalScore) / Double(totalAmount)
+        
+        averageScoreLabel.text = String(format: "Average Score: %.1f", averageScore)
 
-                    barView.translatesAutoresizingMaskIntoConstraints = false
-                    NSLayoutConstraint.activate([
-                        barView.bottomAnchor.constraint(equalTo: barChartView.bottomAnchor),
-                        barView.leadingAnchor.constraint(equalTo: barChartView.leadingAnchor, constant: CGFloat(index) * (barChartView.bounds.width / CGFloat(sortedDistribution.count))),
-                        barView.widthAnchor.constraint(equalToConstant: (barChartView.bounds.width / CGFloat(sortedDistribution.count)) - 2),
-                        barView.heightAnchor.constraint(equalTo: barChartView.heightAnchor, multiplier: CGFloat(amount) / CGFloat(maxAmount))
-                    ])
+        for (index, scoreStat) in sortedDistribution.enumerated() {
+            if let score = scoreStat["score"], let amount = scoreStat["amount"] {
+                let barView = UIView()
+                barView.layer.cornerRadius = 4
+                barView.backgroundColor = .systemBlue
+                barChartView.addSubview(barView)
 
-                    let scoreLabel = UILabel()
-                    scoreLabel.text = "\(score)"
-                    scoreLabel.font = UIFont.systemFont(ofSize: 10)
-                    scoreLabel.textAlignment = .center
-                    barChartView.addSubview(scoreLabel)
+                barView.translatesAutoresizingMaskIntoConstraints = false
+                NSLayoutConstraint.activate([
+                    barView.bottomAnchor.constraint(equalTo: barChartView.bottomAnchor),
+                    barView.leadingAnchor.constraint(equalTo: barChartView.leadingAnchor, constant: CGFloat(index) * (barChartView.bounds.width / CGFloat(sortedDistribution.count))),
+                    barView.widthAnchor.constraint(equalToConstant: (barChartView.bounds.width / CGFloat(sortedDistribution.count)) - 4),
+                    barView.heightAnchor.constraint(equalTo: barChartView.heightAnchor, multiplier: CGFloat(amount) / CGFloat(maxAmount))
+                ])
+                
+                let scoreLabel = UILabel()
+                scoreLabel.text = "\(score)"
+                scoreLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+                scoreLabel.textAlignment = .center
+                scoreLabel.textColor = .secondaryLabel
+                barChartView.addSubview(scoreLabel)
 
-                    scoreLabel.translatesAutoresizingMaskIntoConstraints = false
-                    NSLayoutConstraint.activate([
-                        scoreLabel.topAnchor.constraint(equalTo: barView.bottomAnchor, constant: 2),
-                        scoreLabel.centerXAnchor.constraint(equalTo: barView.centerXAnchor)
-                    ])
-                }
+                scoreLabel.translatesAutoresizingMaskIntoConstraints = false
+                NSLayoutConstraint.activate([
+                    scoreLabel.topAnchor.constraint(equalTo: barView.bottomAnchor, constant: 4),
+                    scoreLabel.centerXAnchor.constraint(equalTo: barView.centerXAnchor)
+                ])
             }
         }
     }
@@ -640,11 +660,19 @@ class CharactersView: UIView {
         titleLabel.text = "Characters"
     }
     
-    func configure(with characters: [String: Any]?) {
-        if let edges = characters?["edges"] as? [[String: Any]] {
-            self.characters = edges
-            collectionView.reloadData()
+    func configure(with charactersData: [String: Any]?) {
+        guard let edges = charactersData?["edges"] as? [[String: Any]] else {
+            return
         }
+        
+        self.characters = edges.compactMap { edge in
+            guard let node = edge["node"] as? [String: Any] else {
+                return nil
+            }
+            return node
+        }
+        
+        collectionView.reloadData()
     }
 }
 
@@ -652,10 +680,11 @@ extension CharactersView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return characters.count
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! CharacterCollectionViewCell
-        cell.configure(with: characters[indexPath.item])
+        let character = characters[indexPath.item]
+        cell.configure(with: character)
         return cell
     }
 }
@@ -702,23 +731,23 @@ class CharacterCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(with character: [String: Any]) {
-        if let node = character["node"] as? [String: Any],
-           let name = node["name"] as? [String: String] {
-            let firstName = name["first"] ?? ""
-            let lastName = name["last"] ?? ""
+        if let name = character["name"] as? [String: String],
+           let image = character["image"] as? [String: String] {
+            
+            let fullName = name["full"] ?? ""
             let nativeName = name["native"] ?? ""
             
-            let fullName = "\(firstName) \(lastName)"
-            let displayName = fullName + (nativeName.isEmpty ? "" : " (\(nativeName))")
+            if !nativeName.isEmpty {
+                nameLabel.text = "\(fullName)\n(\(nativeName))"
+            } else {
+                nameLabel.text = fullName
+            }
             
-            nameLabel.text = displayName
-        }
-        
-        if let node = character["node"] as? [String: Any],
-           let image = node["image"] as? [String: String],
-           let imageUrlString = image["large"] ?? image["medium"],
-           let imageUrl = URL(string: imageUrlString) {
-            characterImageView.kf.setImage(with: imageUrl, placeholder: UIImage(systemName: "questionmark.circle.fill"))
+            if let largeImage = image["large"], let imageUrl = URL(string: largeImage) {
+                characterImageView.kf.setImage(with: imageUrl)
+            } else if let mediumImage = image["medium"], let imageUrl = URL(string: mediumImage) {
+                characterImageView.kf.setImage(with: imageUrl)
+            }
         }
     }
 }
@@ -784,13 +813,10 @@ class AnimeService {
                     edges {
                         node {
                             name {
-                                first
-                                last
-                                native
+                                full
                             }
                             image {
                                 large
-                                medium
                             }
                         }
                         role

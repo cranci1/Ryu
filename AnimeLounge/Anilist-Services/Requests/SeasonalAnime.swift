@@ -36,8 +36,6 @@ class AnilistServiceSeasonalAnime {
             .responseJSON { response in
                 switch response.result {
                 case .success(let value):
-                    print("Response JSON: \(value)")
-                    
                     if let json = value as? [String: Any],
                        let data = json["data"] as? [String: Any],
                        let page = data["Page"] as? [String: Any],

@@ -259,7 +259,7 @@ class HistoryTableViewCell: UITableViewCell {
         contentView.addSubview(deleteButton)
         
         NSLayoutConstraint.activate([
-            deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             deleteButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             deleteButton.widthAnchor.constraint(equalToConstant: 44),
             deleteButton.heightAnchor.constraint(equalToConstant: 44)
