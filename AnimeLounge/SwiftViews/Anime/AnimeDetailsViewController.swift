@@ -251,6 +251,8 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             baseUrl = "https://anitaku.pe"
         case "AnimeHeaven":
             baseUrl = "https://animeheaven.me"
+        case "TioAnime":
+            baseUrl = "https://tioanime.com"
         default:
             baseUrl = ""
         }
@@ -343,11 +345,6 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             baseURL = "https://animeheaven.me/"
             episodeId = episode.href
             fullURL = baseURL + episodeId
-            checkUserDefault(url: fullURL, cell: cell, fullURL: fullURL)
-            return
-        case "AnimeFire", "Kuramanime", "Latanime":
-            episodeId = episode.href
-            fullURL = episodeId
             checkUserDefault(url: fullURL, cell: cell, fullURL: fullURL)
             return
         case "GoGoAnime":
@@ -975,7 +972,7 @@ class AnimeHeaderCell: UITableViewCell {
         case "AnimeWorld":
             starLabel.text = stars + "/10"
             airDateLabel.text = airdate
-        case "GoGoAnime", "AnimeFire", "Latanime":
+        case "GoGoAnime", "AnimeFire", "Latanime", "TioAnime":
             starLabel.text = "N/A"
         default:
             starLabel.text = stars

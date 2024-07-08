@@ -65,6 +65,9 @@ class SearchViewController: UIViewController {
         case .latanime:
             url = "https://latanime.org/buscar"
             parameters = ["q": query]
+        case .tioanime:
+            url = "https://tioanime.com/directorio"
+            parameters = ["q": query]
         }
 
         AF.request(url, method: .get, parameters: parameters).responseString { [weak self] response in
@@ -139,6 +142,18 @@ class SearchViewController: UIViewController {
                     let title = try item.select("div.series div.seriedetails h3.my-1").text()
                     let imageUrl = try item.select("div.series div.serieimg img").attr("src")
                     let href = try item.select("a").attr("href")
+                    results.append((title: title, imageUrl: imageUrl, href: href))
+                }
+            case .tioanime:
+                let items = try document.select("ul.animes li article.anime")
+                for item in items {
+                    let linkElement = try item.select("a").first()
+                    let href = try linkElement?.attr("href") ?? ""
+                    var imageUrl = try linkElement?.select("img").attr("src") ?? ""
+                    if !imageUrl.isEmpty && !imageUrl.hasPrefix("http") {
+                        imageUrl = "https://tioanime.com\(imageUrl)"
+                    }
+                    let title = try linkElement?.select("h3.title").text() ?? ""
                     results.append((title: title, imageUrl: imageUrl, href: href))
                 }
             }

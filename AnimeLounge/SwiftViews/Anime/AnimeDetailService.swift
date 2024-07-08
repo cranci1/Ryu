@@ -33,6 +33,8 @@ class AnimeDetailService {
             baseUrl = "https://anitaku.pe"
         case .animeheaven:
             baseUrl = "https://animeheaven.me/"
+        case .tioanime:
+            baseUrl = "https://tioanime.com"
         case .animefire, .kuramanime, .latanime:
             baseUrl = ""
         }
@@ -80,6 +82,11 @@ class AnimeDetailService {
                         synopsis = try document.select("div.col-md-8 p").last()?.text() ?? ""
                         airdate = try document.select("div.col-md-8 div.my-2 span").last()?.text().replacingOccurrences(of: "Estreno: ", with: "") ?? ""
                         stars = ""
+                    case .tioanime:
+                        aliases = ""
+                        synopsis = try document.select("p.sinopsis").text()
+                        airdate = try document.select("span.season span.season span").text()
+                        stars = ""
                     }
                     
                     episodes = self.fetchEpisodes(document: document, for: selectedSource, href: href)
@@ -126,6 +133,9 @@ class AnimeDetailService {
                 return episodes
             case .latanime:
                 episodeElements = try document.select("div.row div.row div a")
+                downloadUrlElement = ""
+            case .tioanime:
+                episodeElements = try document.select("ul.episodes-list li")
                 downloadUrlElement = ""
             }
             
