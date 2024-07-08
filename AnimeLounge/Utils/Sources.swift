@@ -14,7 +14,8 @@ enum MediaSource: String {
     case animefire = "AnimeFire"
     case kuramanime = "Kuramanime"
     case latanime = "Latanime"
-    case tioanime = "TioAnime"
+    case anime3rb = "Anime3rb"
+    case animetoast = "AnimeToast"
 }
 
 extension UserDefaults {

@@ -33,9 +33,7 @@ class AnimeDetailService {
             baseUrl = "https://anitaku.pe"
         case .animeheaven:
             baseUrl = "https://animeheaven.me/"
-        case .tioanime:
-            baseUrl = "https://tioanime.com"
-        case .animefire, .kuramanime, .latanime:
+        case .animefire, .kuramanime, .latanime, .anime3rb, .animetoast:
             baseUrl = ""
         }
         
@@ -82,11 +80,16 @@ class AnimeDetailService {
                         synopsis = try document.select("div.col-md-8 p").last()?.text() ?? ""
                         airdate = try document.select("div.col-md-8 div.my-2 span").last()?.text().replacingOccurrences(of: "Estreno: ", with: "") ?? ""
                         stars = ""
-                    case .tioanime:
+                    case .anime3rb:
                         aliases = ""
-                        synopsis = try document.select("p.sinopsis").text()
-                        airdate = try document.select("span.season span.season span").text()
-                        stars = ""
+                        synopsis = try document.select("p.leading-loose").text()
+                        airdate = try document.select("td[title]").attr("title")
+                        stars = try document.select("p.text-lg.leading-relaxed").first()?.text() ?? ""
+                    case .animetoast:
+                         aliases = try document.select("div.col-md-8 p").last()?.text() ?? ""
+                         synopsis = try document.select("div.col-md-8 p").eq(0).text()
+                         airdate = try document.select("div.col-md-8 p").eq(2).text().replacingOccurrences(of: "Season Start: ", with: "")
+                         stars = ""
                     }
                     
                     episodes = self.fetchEpisodes(document: document, for: selectedSource, href: href)
@@ -134,8 +137,11 @@ class AnimeDetailService {
             case .latanime:
                 episodeElements = try document.select("div.row div.row div a")
                 downloadUrlElement = ""
-            case .tioanime:
-                episodeElements = try document.select("ul.episodes-list li")
+            case .anime3rb:
+                episodeElements = try document.select("div.absolute.overflow-hidden div a.gap-3")
+                downloadUrlElement = ""
+            case .animetoast:
+                episodeElements = try document.select("div.tab-content div#multi_link_tab1 a.multilink-btn")
                 downloadUrlElement = ""
             }
             
@@ -158,6 +164,16 @@ class AnimeDetailService {
                         
                         return Episode(number: formattedEpisode, href: episodeHref, downloadUrl: downloadUrl ?? "")
                     }
+                }
+            case .animetoast:
+                episodes = episodeElements.compactMap { element in
+                    guard let episodeText = try? element.text(),
+                          let href = try? element.attr("href") else { return nil }
+                    
+                    let episodeNumber = episodeText.components(separatedBy: CharacterSet.decimalDigits.inverted)
+                        .joined()
+                    
+                    return Episode(number: episodeNumber, href: href, downloadUrl: "")
                 }
             default:
                 episodes = episodeElements.compactMap { element in

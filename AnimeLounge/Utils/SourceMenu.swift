@@ -16,7 +16,8 @@ class SourceMenu {
             ("AnimeFire", .animefire),
             ("Kuramanime", .kuramanime),
             ("Latanime", .latanime),
-            ("TioAnime", .tioanime)
+            ("Anime3rb", .anime3rb),
+            ("AnimeToast", .animetoast)
         ]
         
         let alertController = UIAlertController(title: "Select Source", message: "Choose your preferred source for AnimeLounge.", preferredStyle: .actionSheet)

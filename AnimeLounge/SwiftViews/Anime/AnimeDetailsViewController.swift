@@ -251,8 +251,6 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             baseUrl = "https://anitaku.pe"
         case "AnimeHeaven":
             baseUrl = "https://animeheaven.me"
-        case "TioAnime":
-            baseUrl = "https://tioanime.com"
         default:
             baseUrl = ""
         }
@@ -444,12 +442,14 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                     var srcURL: URL?
                     
                     switch selectedMediaSource {
-                    case "GoGoAnime", "Latanime", "Kuramanime":
+                    case "GoGoAnime", "Latanime", "Kuramanime", "AnimeToast":
                         srcURL = self.extractIframeSourceURL(from: htmlString)
                     case "AnimeFire":
                         srcURL = self.extractDataVideoSrcURL(from: htmlString)
                     case "AnimeWorld", "AnimeHeaven":
                         srcURL = self.extractVideoSourceURL(from: htmlString)
+                    case "Anime3rb":
+                        srcURL = URL(string: fullURL)
                     default:
                         srcURL = nil
                     }
@@ -464,15 +464,12 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                     }
                     
                     DispatchQueue.main.async {
-                        if selectedMediaSource == "GoGoAnime" || selectedMediaSource == "Latanime" || selectedMediaSource == "Kuramanime" {
+                        if selectedMediaSource == "GoGoAnime" || selectedMediaSource == "Latanime" || selectedMediaSource == "Kuramanime" || selectedMediaSource == "Anime3rb" || selectedMediaSource == "AnimeToast"{
                             self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString)
                         } else if selectedMediaSource == "AnimeFire" {
                             self.fetchVideoDataAndChooseQuality(from: finalSrcURL.absoluteString) { selectedURL in
                                 if let selectedURL = selectedURL {
                                     self.playVideoWithAVPlayer(sourceURL: selectedURL, cell: cell, fullURL: fullURL)
-                                } else {
-                                    print("Failed to select video URL")
-                                    self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString)
                                 }
                             }
                         } else {
@@ -972,7 +969,7 @@ class AnimeHeaderCell: UITableViewCell {
         case "AnimeWorld":
             starLabel.text = stars + "/10"
             airDateLabel.text = airdate
-        case "GoGoAnime", "AnimeFire", "Latanime", "TioAnime":
+        case "GoGoAnime", "AnimeFire", "Latanime":
             starLabel.text = "N/A"
         default:
             starLabel.text = stars

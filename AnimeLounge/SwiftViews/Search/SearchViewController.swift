@@ -65,9 +65,12 @@ class SearchViewController: UIViewController {
         case .latanime:
             url = "https://latanime.org/buscar"
             parameters = ["q": query]
-        case .tioanime:
-            url = "https://tioanime.com/directorio"
+        case .anime3rb:
+            url = "https://anime3rb.com/search"
             parameters = ["q": query]
+        case .animetoast:
+            url = "https://www.animetoast.cc/"
+            parameters = ["s": query]
         }
 
         AF.request(url, method: .get, parameters: parameters).responseString { [weak self] response in
@@ -144,16 +147,20 @@ class SearchViewController: UIViewController {
                     let href = try item.select("a").attr("href")
                     results.append((title: title, imageUrl: imageUrl, href: href))
                 }
-            case .tioanime:
-                let items = try document.select("ul.animes li article.anime")
+            case .anime3rb:
+                let items = try document.select("section div.my-2")
                 for item in items {
-                    let linkElement = try item.select("a").first()
-                    let href = try linkElement?.attr("href") ?? ""
-                    var imageUrl = try linkElement?.select("img").attr("src") ?? ""
-                    if !imageUrl.isEmpty && !imageUrl.hasPrefix("http") {
-                        imageUrl = "https://tioanime.com\(imageUrl)"
-                    }
-                    let title = try linkElement?.select("h3.title").text() ?? ""
+                    let title = try item.select("h2.pt-1").text()
+                    let imageUrl = try item.select("img").attr("src")
+                    let href = try item.select("a").first()?.attr("href") ?? ""
+                    results.append((title: title, imageUrl: imageUrl, href: href))
+                }
+            case .animetoast:
+                let items = try document.select("div.search-listing-content div.post")
+                for item in items {
+                    let title = try item.select("a").text()
+                    let imageUrl = try item.select("a img").attr("src")
+                    let href = try item.select("a").attr("href")
                     results.append((title: title, imageUrl: imageUrl, href: href))
                 }
             }
