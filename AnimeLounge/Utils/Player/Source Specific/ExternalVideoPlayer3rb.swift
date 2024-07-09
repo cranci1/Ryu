@@ -7,37 +7,45 @@
 
 import WebKit
 import AVKit
-import Combine
 import SwiftSoup
 
-class ExternalVideoPlayer3rb: UIViewController, WKNavigationDelegate {
+class ExternalVideoPlayer3rb: UIViewController {
+    private let streamURL: String
     private var webView: WKWebView?
-    private var streamURL: String
+    private var player: AVPlayer?
+    private var playerViewController: AVPlayerViewController?
     private var activityIndicator: UIActivityIndicatorView?
     
     private var retryCount = 0
-    private let maxRetries = 999999
+    private let maxRetries = 5
     
-    private var player: AVPlayer?
-    private var playerViewController: AVPlayerViewController?
-
     init(streamURL: String) {
         self.streamURL = streamURL
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupLoadingView()
+        setupUI()
+        loadInitialURL()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        cleanup()
+    }
+    
+    private func setupUI() {
+        view.backgroundColor = .black
+        setupActivityIndicator()
         setupWebView()
     }
-
-    private func setupLoadingView() {
-        view.backgroundColor = .black
+    
+    private func setupActivityIndicator() {
         activityIndicator = UIActivityIndicatorView(style: .large)
         activityIndicator?.color = .white
         activityIndicator?.startAnimating()
@@ -46,33 +54,30 @@ class ExternalVideoPlayer3rb: UIViewController, WKNavigationDelegate {
             view.addSubview(activityIndicator)
         }
     }
-
+    
     private func setupWebView() {
         let configuration = WKWebViewConfiguration()
         webView = WKWebView(frame: .zero, configuration: configuration)
         webView?.navigationDelegate = self
-        
-        if let webView = webView {
-            view.addSubview(webView)
-            webView.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                webView.topAnchor.constraint(equalTo: view.topAnchor),
-                webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                webView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-            ])
+    }
+    
+    private func loadInitialURL() {
+        guard let url = URL(string: streamURL) else {
+            print("Invalid stream URL")
+            return
         }
-        
-        if let url = URL(string: streamURL) {
-            let request = URLRequest(url: url)
-            webView?.load(request)
+        let request = URLRequest(url: url)
+        webView?.load(request)
+    }
+    
+    private func loadIframeContent(url: URL) {
+        let request = URLRequest(url: url)
+        webView?.load(request)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
+            self?.extractVideoSource()
         }
     }
-
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        extractIframeSource()
-    }
-
+    
     private func extractIframeSource() {
         webView?.evaluateJavaScript("document.body.innerHTML") { [weak self] (result, error) in
             guard let self = self, let htmlString = result as? String else {
@@ -82,6 +87,7 @@ class ExternalVideoPlayer3rb: UIViewController, WKNavigationDelegate {
             }
             
             if let iframeURL = self.extractIframeSourceURL(from: htmlString) {
+                print("Iframe src URL found: \(iframeURL.absoluteString)")
                 self.loadIframeContent(url: iframeURL)
             } else {
                 print("No iframe source found")
@@ -89,18 +95,7 @@ class ExternalVideoPlayer3rb: UIViewController, WKNavigationDelegate {
             }
         }
     }
-
-    private func loadIframeContent(url: URL) {
-        let request = URLRequest(url: url)
-        webView?.load(request)
-        webView?.navigationDelegate = self
-    }
-
-    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-        print("Failed to load page: \(error.localizedDescription)")
-        retryExtraction()
-    }
-
+    
     private func extractVideoSource() {
         webView?.evaluateJavaScript("document.body.innerHTML") { [weak self] (result, error) in
             guard let self = self, let htmlString = result as? String else {
@@ -110,70 +105,13 @@ class ExternalVideoPlayer3rb: UIViewController, WKNavigationDelegate {
             }
             
             if let videoURL = self.extractVideoSourceURL(from: htmlString) {
+                print("Video source URL found: \(videoURL.absoluteString)")
                 self.playVideo(url: videoURL)
             } else {
-                print("No video source found")
+                print("No video source found in iframe content")
                 self.retryExtraction()
             }
         }
-    }
-
-    private func retryExtraction() {
-        retryCount += 1
-        if retryCount < maxRetries {
-            print("Retrying extraction (Attempt \(retryCount + 1))")
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
-                self?.extractIframeSource()
-            }
-        } else {
-            print("Max retries reached. Unable to find video source.")
-        }
-    }
-
-    private func playVideo(url: URL) {
-        player = AVPlayer(url: url)
-        playerViewController = AVPlayerViewController()
-        playerViewController?.player = player
-        
-        present(playerViewController!, animated: true) {
-            self.player?.play()
-        }
-    }
-    
-    private func extractVideoSourceURL(from htmlString: String) -> URL? {
-        do {
-            let doc: Document = try SwiftSoup.parse(htmlString)
-            guard let videoElement = try doc.select("video").first(),
-                  let sourceElement = try videoElement.select("source").first(),
-                  let sourceURLString = try sourceElement.attr("src").nilIfEmpty,
-                  let sourceURL = URL(string: sourceURLString) else {
-                return nil
-            }
-            return sourceURL
-        } catch {
-            print("Error parsing HTML with SwiftSoup: \(error)")
-            
-            let mp4Pattern = #"<source src="(.*?)" type="video/mp4">"#
-            let m3u8Pattern = #"<source src="(.*?)" type="application/x-mpegURL">"#
-            
-            if let mp4URL = extractURL(from: htmlString, pattern: mp4Pattern) {
-                return mp4URL
-            } else if let m3u8URL = extractURL(from: htmlString, pattern: m3u8Pattern) {
-                return m3u8URL
-            }
-            return nil
-        }
-    }
-    
-    private func extractURL(from htmlString: String, pattern: String) -> URL? {
-        guard let regex = try? NSRegularExpression(pattern: pattern, options: []),
-              let match = regex.firstMatch(in: htmlString, range: NSRange(htmlString.startIndex..., in: htmlString)),
-              let urlRange = Range(match.range(at: 1), in: htmlString) else {
-            return nil
-        }
-        
-        let urlString = String(htmlString[urlRange])
-        return URL(string: urlString)
     }
     
     private func extractIframeSourceURL(from htmlString: String) -> URL? {
@@ -184,23 +122,103 @@ class ExternalVideoPlayer3rb: UIViewController, WKNavigationDelegate {
                   let sourceURL = URL(string: sourceURLString) else {
                 return nil
             }
-            print("Iframe src URL: \(sourceURL.absoluteString)")
             return sourceURL
         } catch {
             print("Error parsing HTML with SwiftSoup: \(error)")
             return nil
         }
     }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        playerViewController?.player?.pause()
-        playerViewController?.player = nil
+    
+    private func extractVideoSourceURL(from htmlString: String) -> URL? {
+        do {
+            let doc: Document = try SwiftSoup.parse(htmlString)
+            guard let videoElement = try doc.select("video").first(),
+                  let sourceURLString = try videoElement.attr("src").nilIfEmpty,
+                  let sourceURL = URL(string: sourceURLString) else {
+                return nil
+            }
+            return sourceURL
+        } catch {
+            print("Error parsing HTML with SwiftSoup: \(error)")
+            
+            let pattern = #"<video[^>]+src="([^"]+)"#
+            
+            guard let regex = try? NSRegularExpression(pattern: pattern, options: []),
+                  let match = regex.firstMatch(in: htmlString, range: NSRange(htmlString.startIndex..., in: htmlString)),
+                  let urlRange = Range(match.range(at: 1), in: htmlString) else {
+                return nil
+            }
+            
+            let urlString = String(htmlString[urlRange])
+            return URL(string: urlString)
+        }
+    }
+    
+    private func playVideo(url: URL) {
+        DispatchQueue.main.async {
+            self.activityIndicator?.stopAnimating()
+            
+            let player = AVPlayer(url: url)
+            let playerViewController = AVPlayerViewController()
+            playerViewController.player = player
+            
+            self.addChild(playerViewController)
+            self.view.addSubview(playerViewController.view)
+            playerViewController.view.frame = self.view.bounds
+            playerViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            playerViewController.didMove(toParent: self)
+            
+            player.play()
+            
+            self.player = player
+            self.playerViewController = playerViewController
+        }
+    }
+    
+    private func retryExtraction() {
+        retryCount += 1
+        if retryCount < maxRetries {
+            print("Retrying extraction (Attempt \(retryCount + 1))")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+                guard let self = self else { return }
+                self.loadInitialURL()
+            }
+        } else {
+            print("Max retries reached. Unable to find video source.")
+            DispatchQueue.main.async {
+                self.activityIndicator?.stopAnimating()
+            }
+        }
+    }
+    
+    private func cleanup() {
+        player?.pause()
+        player = nil
+        
         playerViewController?.willMove(toParent: nil)
         playerViewController?.view.removeFromSuperview()
         playerViewController?.removeFromParent()
         playerViewController = nil
+        
         webView?.stopLoading()
         webView?.loadHTMLString("", baseURL: nil)
+    }
+}
+
+extension ExternalVideoPlayer3rb: WKNavigationDelegate {
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        if webView.url?.absoluteString == streamURL {
+            extractIframeSource()
+        }
+    }
+    
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        print("WebView navigation failed: \(error.localizedDescription)")
+        retryExtraction()
+    }
+    
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        print("WebView provisional navigation failed: \(error.localizedDescription)")
+        retryExtraction()
     }
 }
