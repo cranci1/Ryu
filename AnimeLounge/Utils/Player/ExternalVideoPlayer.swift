@@ -106,48 +106,25 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
             })();
             """
         case "AnimeToast":
-            script = """
-            (function() {
-                var playButton = document.querySelector('.vjs-big-play-button');
-                if (playButton) {
-                    playButton.click();
-                    setTimeout(function() {
-                        var videoContainer = document.querySelector('.video-js');
-                        if (videoContainer) {
-                            var containerRect = videoContainer.getBoundingClientRect();
-                            var randomX = Math.floor(Math.random() * containerRect.width);
-                            var randomY = Math.floor(Math.random() * containerRect.height);
-                            var clickEvent = new MouseEvent('click', {
-                                bubbles: true,
-                                cancelable: true,
-                                view: window,
-                                clientX: containerRect.left + randomX,
-                                clientY: containerRect.top + randomY
-                            });
-                            videoContainer.dispatchEvent(clickEvent);
-            
-                            setTimeout(function() {
-                                var fullScreenButton = document.querySelector('.vjs-fullscreen-control');
-                                if (fullScreenButton) {
-                                    fullScreenButton.click();
-                                }
-                            }, 3000);
-                        }
-                    }, 500);
-                    return 'Clicked play button and random location for AnimeToast';
-                }
-                var video = document.querySelector('video');
-                if (video) {
-                    if (video.paused) {
-                        video.play();
-                        return 'Started video playback for AnimeToast';
-                    } else {
-                        return 'Video is already playing for AnimeToast';
-                    }
-                }
-                return 'No play button or video element found for AnimeToast';
-            })();
-            """
+             script = """
+             (function() {
+                 var playButton = document.querySelector('.video-js');
+                 if (playButton) {
+                     playButton.click();
+                     return 'Clicked play button for AnimeToast';
+                 }
+                 var video = document.querySelector('video');
+                 if (video) {
+                     if (video.paused) {
+                         video.play();
+                         return 'Started video playback for AnimeToast';
+                     } else {
+                         return 'Video is already playing for AnimeToast';
+                     }
+                 }
+                 return 'No play button or video element found for AnimeToast';
+             })();
+             """
         default:
             script = """
             (function() {
@@ -283,7 +260,7 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
 
             setupVideoListeners();
 
-            var playButton = document.querySelector('.vjs-big-play-button');
+            var playButton = document.querySelector('.video-js');
             if (playButton) {
                 playButton.addEventListener('click', function() {
                     setTimeout(setupVideoListeners, 100);
@@ -360,6 +337,7 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
 
     private func stopPlayerAndCleanUp() {
         playerViewController?.player?.pause()
+        playerViewController?.player?.replaceCurrentItem(with: nil)
         playerViewController?.player = nil
 
         playerViewController?.willMove(toParent: nil)
@@ -372,6 +350,14 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
 
         webView?.stopLoading()
         webView?.loadHTMLString("", baseURL: nil)
+        webView?.configuration.userContentController.removeAllUserScripts()
+        webView?.configuration.userContentController.removeScriptMessageHandler(forName: "videoHandler")
+
+        webView?.removeFromSuperview()
+        webView = nil
+
+        loadingObserver?.invalidate()
+        loadingObserver = nil
     }
 
     private func playVideoInAVPlayer(url: URL) {

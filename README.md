@@ -28,9 +28,9 @@ Yes it's a NineAnimator fork aimed to be more stable and to support more sources
 | GoGoAnime                     | English      | ✅         |  ✅        |   ✅     | :x:      |
 | AnimeHeaven                   | English      | ✅         |  ✅        |   ✅     | :x:      |
 | AnimeFire                     | Portuguese   | ✅         |  ✅        |   ✅     | :x:      |
-| Kuramanime                    | Indonesian   | ✅         |  ✅        |   :x:    | :x:      |
+| Kuramanime                    | Indonesian   | ✅         |  ✅        |   ✅     | :x:      |
 | Latanime                      | Spanish      | ✅         |  ✅        |   :x:    | :x:      |
-| AnimeToast                    | German       | ✅         |  ✅        |   ⚠️     | :x:      |
+| AnimeToast                    | German       | ✅         |  ✅        |   :x:    | :x:      |
 | Anime3rb                      | Arab         | ✅         |  ✅        |   ✅     | :x:      |
 
 > [!Note]

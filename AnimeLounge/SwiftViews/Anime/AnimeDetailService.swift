@@ -125,15 +125,10 @@ class AnimeDetailService {
                 episodeElements = try document.select("div.div_video_list a")
                 downloadUrlElement = ""
             case .kuramanime:
-                if let episodeCountText = try? document.select("div.col-lg-6.col-md-6 ul li:contains(Episode:) div.col-9 a").text(),
-                   let episodeCount = Int(episodeCountText) {
-                    episodes = (1...episodeCount).map { episodeNumber in
-                        let formattedEpisode = "\(episodeNumber)"
-                        let episodeHref = "\(href)/episode/\(episodeNumber)"
-                        return Episode(number: formattedEpisode, href: episodeHref, downloadUrl: "")
-                    }
-                }
-                return episodes
+                let episodeContent = try document.select("div.d-inline a.follow-btn").attr("data-content")
+                let episodeDocument = try SwiftSoup.parse(episodeContent)
+                episodeElements = try episodeDocument.select("a.btn")
+                downloadUrlElement = ""
             case .latanime:
                 episodeElements = try document.select("div.row div.row div a")
                 downloadUrlElement = ""
@@ -164,6 +159,14 @@ class AnimeDetailService {
                         
                         return Episode(number: formattedEpisode, href: episodeHref, downloadUrl: downloadUrl ?? "")
                     }
+                }
+            case .kuramanime:
+                episodes = episodeElements.compactMap { element in
+                    guard let episodeText = try? element.text(),
+                          let href = try? element.attr("href") else { return nil }
+                    
+                    let episodeNumber = episodeText.replacingOccurrences(of: "Ep ", with: "")
+                    return Episode(number: episodeNumber, href: href, downloadUrl: "")
                 }
             case .animetoast:
                 episodes = episodeElements.compactMap { element in

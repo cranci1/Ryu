@@ -379,32 +379,28 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         }
     }
     
-    func presentStreamingView(withURL url: String) {
+    func presentStreamingView(withURL url: String, playerType: String) {
         DispatchQueue.main.async {
-            let streamingVC = ExternalVideoPlayer(streamURL: url)
+            var streamingVC: UIViewController
+            switch playerType {
+            case VideoPlayerType.standard:
+                streamingVC = ExternalVideoPlayer(streamURL: url)
+            case VideoPlayerType.player3rb:
+                streamingVC = ExternalVideoPlayer3rb(streamURL: url)
+            case VideoPlayerType.playerKura:
+                streamingVC = ExternalVideoPlayerKura(streamURL: url)
+            default:
+                return
+            }
             streamingVC.modalPresentationStyle = .fullScreen
             self.present(streamingVC, animated: true, completion: nil)
         }
     }
     
-    func presentStreamingView3rb(withURL url: String) {
-        DispatchQueue.main.async {
-            let streamingVC = ExternalVideoPlayer3rb(streamURL: url)
-            streamingVC.modalPresentationStyle = .fullScreen
-            self.present(streamingVC, animated: true, completion: nil)
-        }
-    }
-    
-    @objc func startStreamingButtonTapped(withURL url: String) {
+    @objc func startStreamingButtonTapped(withURL url: String, playerType: String) {
         deleteWebKitFolder()
-        presentStreamingView(withURL: url)
+        presentStreamingView(withURL: url, playerType: playerType)
     }
-    
-    @objc func startStreamingButtonTapped3rb(withURL url: String) {
-        deleteWebKitFolder()
-        presentStreamingView3rb(withURL: url)
-    }
-    
     func deleteWebKitFolder() {
         if let libraryPath = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first {
             let webKitFolderPath = libraryPath.appendingPathComponent("WebKit")
@@ -455,13 +451,13 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                     var srcURL: URL?
                     
                     switch selectedMediaSource {
-                    case "GoGoAnime", "Latanime", "Kuramanime", "AnimeToast":
+                    case "GoGoAnime", "Latanime", "AnimeToast":
                         srcURL = self.extractIframeSourceURL(from: htmlString)
                     case "AnimeFire":
                         srcURL = self.extractDataVideoSrcURL(from: htmlString)
                     case "AnimeWorld", "AnimeHeaven":
                         srcURL = self.extractVideoSourceURL(from: htmlString)
-                    case "Anime3rb":
+                    case "Anime3rb", "Kuramanime":
                         srcURL = URL(string: fullURL)
                     default:
                         srcURL = nil
@@ -477,8 +473,8 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                     }
                     
                     DispatchQueue.main.async {
-                        if selectedMediaSource == "GoGoAnime" || selectedMediaSource == "Latanime" || selectedMediaSource == "Kuramanime" || selectedMediaSource == "AnimeToast" {
-                            self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString)
+                        if selectedMediaSource == "GoGoAnime" || selectedMediaSource == "Latanime" || selectedMediaSource == "AnimeToast" {
+                            self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, playerType: VideoPlayerType.standard)
                         } else if selectedMediaSource == "AnimeFire" {
                             self.fetchVideoDataAndChooseQuality(from: finalSrcURL.absoluteString) { selectedURL in
                                 if let selectedURL = selectedURL {
@@ -486,7 +482,9 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                                 }
                             }
                         } else if selectedMediaSource == "Anime3rb" {
-                            self.startStreamingButtonTapped3rb(withURL: finalSrcURL.absoluteString)
+                            self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, playerType: VideoPlayerType.player3rb)
+                        } else if selectedMediaSource == "Kuramanime" {
+                            self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, playerType: VideoPlayerType.playerKura)
                         } else {
                             self.playVideoWithAVPlayer(sourceURL: finalSrcURL, cell: cell, fullURL: fullURL)
                         }
