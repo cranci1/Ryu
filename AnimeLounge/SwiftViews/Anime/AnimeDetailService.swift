@@ -137,7 +137,7 @@ class AnimeDetailService {
                 downloadUrlElement = ""
             case .animetoast:
                 episodeElements = try document.select("div.tab-content div#multi_link_tab1 a.multilink-btn")
-                downloadUrlElement = ""
+                downloadUrlElement = "" 
             }
             
             switch source {
