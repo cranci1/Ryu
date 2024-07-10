@@ -18,14 +18,14 @@ class EpisodeCell: UITableViewCell {
     let downloadButton = UIButton(type: .system)
     let startnowLabel = UILabel()
     let progressView = CircularProgressView()
+    let playbackProgressView = UIProgressView(progressViewStyle: .default)
+    let remainingTimeLabel = UILabel()
     
     private var downloadProgress: Float = 0.0
     private var downloadTask: URLSessionDownloadTask?
     private var episodeNumber: String = ""
     private var fileName: String = ""
     private var downloadUrl: String = ""
-    
-    let playbackProgressView = UIProgressView(progressViewStyle: .default)
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -44,12 +44,14 @@ class EpisodeCell: UITableViewCell {
         contentView.addSubview(startnowLabel)
         contentView.addSubview(progressView)
         contentView.addSubview(playbackProgressView)
+        contentView.addSubview(remainingTimeLabel)
         
         episodeLabel.translatesAutoresizingMaskIntoConstraints = false
         downloadButton.translatesAutoresizingMaskIntoConstraints = false
         startnowLabel.translatesAutoresizingMaskIntoConstraints = false
         progressView.translatesAutoresizingMaskIntoConstraints = false
         playbackProgressView.translatesAutoresizingMaskIntoConstraints = false
+        remainingTimeLabel.translatesAutoresizingMaskIntoConstraints = false
         
         episodeLabel.font = UIFont.systemFont(ofSize: 16)
         
@@ -62,6 +64,10 @@ class EpisodeCell: UITableViewCell {
         downloadButton.addTarget(self, action: #selector(downloadButtonTapped), for: .touchUpInside)
         
         progressView.isHidden = true
+        
+        remainingTimeLabel.font = UIFont.systemFont(ofSize: 12)
+        remainingTimeLabel.textColor = .secondaryLabel
+        remainingTimeLabel.textAlignment = .right
         
         NSLayoutConstraint.activate([
             episodeLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
@@ -84,20 +90,39 @@ class EpisodeCell: UITableViewCell {
             playbackProgressView.centerYAnchor.constraint(equalTo: startnowLabel.centerYAnchor),
             playbackProgressView.widthAnchor.constraint(equalToConstant: 150),
             
+            remainingTimeLabel.trailingAnchor.constraint(equalTo: downloadButton.leadingAnchor, constant: -8),
+            remainingTimeLabel.centerYAnchor.constraint(equalTo: startnowLabel.centerYAnchor),
+            
             contentView.bottomAnchor.constraint(equalTo: startnowLabel.bottomAnchor, constant: 10)
         ])
     }
     
-    func updatePlaybackProgress(progress: Float) {
+    func updatePlaybackProgress(progress: Float, remainingTime: TimeInterval) {
         playbackProgressView.isHidden = false
         startnowLabel.isHidden = true
+        remainingTimeLabel.isHidden = false
         playbackProgressView.progress = progress
+        remainingTimeLabel.text = formatRemainingTime(remainingTime)
     }
     
     func resetPlaybackProgress() {
         playbackProgressView.isHidden = true
         startnowLabel.isHidden = false
+        remainingTimeLabel.isHidden = true
         playbackProgressView.progress = 0.0
+        remainingTimeLabel.text = ""
+    }
+    
+    private func formatRemainingTime(_ time: TimeInterval) -> String {
+        let hours = Int(time) / 3600
+        let minutes = (Int(time) % 3600) / 60
+        let seconds = Int(time) % 60
+        
+        if hours > 0 {
+            return String(format: "%d:%02d:%02d left", hours, minutes, seconds)
+        } else {
+            return String(format: "%02d:%02d left", minutes, seconds)
+        }
     }
     
     func loadSavedProgress(for fullURL: String) {
@@ -106,13 +131,10 @@ class EpisodeCell: UITableViewCell {
         
         if totalTime > 0 {
             let progress = Float(lastPlayedTime / totalTime)
-            updatePlaybackProgress(progress: progress)
-            playbackProgressView.isHidden = false
-            startnowLabel.isHidden = true
+            let remainingTime = totalTime - lastPlayedTime
+            updatePlaybackProgress(progress: progress, remainingTime: remainingTime)
         } else {
             resetPlaybackProgress()
-            playbackProgressView.isHidden = true
-            startnowLabel.isHidden = false
         }
     }
 

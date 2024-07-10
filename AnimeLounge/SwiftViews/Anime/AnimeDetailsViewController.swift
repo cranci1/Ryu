@@ -11,6 +11,7 @@ import WebKit
 import SwiftSoup
 import GoogleCast
 import Foundation
+import MediaPlayer
 
 extension String {
     var nilIfEmpty: String? {
@@ -781,9 +782,36 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                 self.player?.play()
             }
             self.addPeriodicTimeObserver(cell: cell, fullURL: fullURL)
+            self.setupNowPlayingInfo()
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd), name: .AVPlayerItemDidPlayToEndTime, object: player?.currentItem)
+    }
+
+    private func setupNowPlayingInfo() {
+        var nowPlayingInfo = [String: Any]()
+        
+        nowPlayingInfo[MPMediaItemPropertyTitle] = animeTitle ?? "Unknown Anime"
+        nowPlayingInfo[MPMediaItemPropertyArtist] = "Episode \(currentEpisodeIndex + 1)"
+        
+        if let imageUrlString = imageUrl, let imageUrl = URL(string: imageUrlString) {
+            URLSession.shared.dataTask(with: imageUrl) { data, _, error in
+                if let data = data, let image = UIImage(data: data) {
+                    let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
+                    nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
+                    MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+                }
+            }.resume()
+        }
+        
+        if let duration = player?.currentItem?.duration.seconds, duration.isFinite {
+            nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = duration
+        }
+        
+        nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = player?.currentTime().seconds
+        nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = player?.rate
+        
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
     }
 
     private func addPeriodicTimeObserver(cell: EpisodeCell, fullURL: String) {
@@ -798,11 +826,17 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             let currentTime = time.seconds
             let duration = currentItem.duration.seconds
             let progress = currentTime / duration
+            let remainingTime = duration - currentTime
             
-            cell.updatePlaybackProgress(progress: Float(progress))
+            cell.updatePlaybackProgress(progress: Float(progress), remainingTime: remainingTime)
             
             UserDefaults.standard.set(currentTime, forKey: "lastPlayedTime_\(fullURL)")
             UserDefaults.standard.set(duration, forKey: "totalTime_\(fullURL)")
+            
+            var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo ?? [String: Any]()
+            nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = currentTime
+            nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = duration
+            MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
         }
     }
     
