@@ -27,7 +27,6 @@ class FavoritesViewController: UIViewController {
     private var favorites: [FavoriteItem] = []
     private var sortedFavorites: [FavoriteItem] = []
     private var currentSortOption: SortOption = .normal
-    
     private var isEditingMode = false {
         didSet {
             updateEditingState()
@@ -100,7 +99,9 @@ class FavoritesViewController: UIViewController {
         var snapshot = NSDiffableDataSourceSnapshot<Int, FavoriteItem>()
         snapshot.appendSections([0])
         snapshot.appendItems(sortedFavorites)
-        dataSource.apply(snapshot, animatingDifferences: true)
+        DispatchQueue.main.async {
+            self.dataSource.apply(snapshot, animatingDifferences: true)
+        }
     }
     
     private func updateEditingState() {
@@ -119,6 +120,10 @@ class FavoritesViewController: UIViewController {
     }
     
     @objc private func sortButtonTapped() {
+        showSortOptions()
+    }
+    
+    private func showSortOptions() {
         let alertController = UIAlertController(title: "Sort Favorites", message: nil, preferredStyle: .actionSheet)
         
         for option in SortOption.allCases {
@@ -134,7 +139,7 @@ class FavoritesViewController: UIViewController {
         alertController.addAction(cancelAction)
         
         if let popoverController = alertController.popoverPresentationController {
-            popoverController.barButtonItem = navigationItem.leftBarButtonItem
+            popoverController.barButtonItem = navigationItem.rightBarButtonItems?.last
         }
         
         present(alertController, animated: true, completion: nil)
@@ -201,10 +206,6 @@ extension FavoritesViewController: UICollectionViewDelegate {
         let detailVC = AnimeDetailViewController()
         detailVC.configure(title: title, imageUrl: imageUrl, href: href)
         navigationController?.pushViewController(detailVC, animated: true)
-    }
-    
-    @IBAction func selectSourceButtonTapped(_ sender: UIButton) {
-        SourceMenu.showSourceSelector(from: self, sourceView: sender)
     }
 }
 
