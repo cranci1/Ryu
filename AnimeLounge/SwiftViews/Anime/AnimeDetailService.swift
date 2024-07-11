@@ -33,6 +33,8 @@ class AnimeDetailService {
             baseUrl = "https://anitaku.pe"
         case .animeheaven:
             baseUrl = "https://animeheaven.me/"
+        case .aniwave:
+            baseUrl = "https://lite.aniwave.to"
         case .animefire, .kuramanime, .latanime, .anime3rb, .animetoast:
             baseUrl = ""
         }
@@ -90,6 +92,11 @@ class AnimeDetailService {
                          synopsis = try document.select("div.col-md-8 p").eq(0).text()
                          airdate = try document.select("div.col-md-8 p").eq(2).text().replacingOccurrences(of: "Season Start: ", with: "")
                          stars = ""
+                    case .aniwave:
+                        aliases = ""
+                        synopsis = try document.select("div.description.cts-wrapper div.full div").text()
+                        airdate = try document.select("span[itemprop='dateCreated']").text()
+                        stars = ""
                     }
                     
                     episodes = self.fetchEpisodes(document: document, for: selectedSource, href: href)
@@ -137,7 +144,10 @@ class AnimeDetailService {
                 downloadUrlElement = ""
             case .animetoast:
                 episodeElements = try document.select("div.tab-content div#multi_link_tab1 a.multilink-btn")
-                downloadUrlElement = "" 
+                downloadUrlElement = ""
+            case .aniwave:
+                episodeElements = try document.select("div.episodes ul.ep-range li")
+                downloadUrlElement = ""
             }
             
             switch source {

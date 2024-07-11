@@ -32,6 +32,7 @@ Yes it's a NineAnimator fork aimed to be more stable and to support more sources
 | Latanime                      | Spanish      | ✅         |  ✅        |   :x:    | :x:      |
 | AnimeToast                    | German       | ✅         |  ✅        |   :x:    | :x:      |
 | Anime3rb                      | Arab         | ✅         |  ✅        |   ✅     | :x:      |
+| AniWave                       | English      | ✅         |  ⚠️        |   :x:    | :x:      |
 
 > [!Note]
 > AnimeFire is region Blocked. Only Portugal and Brazil IP are allowed!

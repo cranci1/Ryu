@@ -71,6 +71,9 @@ class SearchViewController: UIViewController {
         case .animetoast:
             url = "https://www.animetoast.cc/"
             parameters = ["s": query]
+        case .aniwave:
+            url = "https://lite.aniwave.to/filter"
+            parameters = ["keyword": query]
         }
 
         AF.request(url, method: .get, parameters: parameters).responseString { [weak self] response in
@@ -161,6 +164,14 @@ class SearchViewController: UIViewController {
                     let title = try item.select("a").text()
                     let imageUrl = try item.select("a img").attr("src")
                     let href = try item.select("a").attr("href")
+                    results.append((title: title, imageUrl: imageUrl, href: href))
+                }
+            case .aniwave:
+                let items = try document.select("div.anime.lg div.cell")
+                for item in items {
+                    let title = try item.select("div.title a").text()
+                    let imageUrl = try item.select("a.poster img").attr("src")
+                    let href = try item.select("div.title a").attr("href")
                     results.append((title: title, imageUrl: imageUrl, href: href))
                 }
             }
