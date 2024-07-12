@@ -27,7 +27,12 @@ class AiringAnimeCell: UICollectionViewCell {
             episodesLabel.text = "Ep. N/A"
         }
         
-        descriptionLabel.text = description ?? "Description not available"
+        var cleanDescription = description ?? "Description not available"
+        cleanDescription = cleanDescription.replacingOccurrences(of: "<br>", with: "")
+        cleanDescription = cleanDescription.replacingOccurrences(of: "<i>", with: "")
+        cleanDescription = cleanDescription.replacingOccurrences(of: "</i>", with: "")
+        
+        descriptionLabel.text = cleanDescription
         
         if let airingAt = airingAt {
             let date = Date(timeIntervalSince1970: TimeInterval(airingAt))

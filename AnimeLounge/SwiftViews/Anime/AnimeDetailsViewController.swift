@@ -9,7 +9,6 @@ import UIKit
 import AVKit
 import WebKit
 import SwiftSoup
-import GoogleCast
 import Foundation
 import MediaPlayer
 
@@ -19,7 +18,7 @@ extension String {
     }
 }
 
-class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GCKRemoteMediaClientListener {
+class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
     private var animeTitle: String?
     private var imageUrl: String?
     private var href: String?
@@ -53,7 +52,6 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         updateUI()
         setupNotifications()
         checkFavoriteStatus()
-        setupCastButton()
         
         navigationController?.navigationBar.prefersLargeTitles = false
         
@@ -68,18 +66,9 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
          }
     }
 
-    private func setupCastButton() {
-        let castButton = GCKUICastButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: castButton)
-    }
     
     deinit {
         NotificationCenter.default.removeObserver(self)
-        
-        if let castSession = GCKCastContext.sharedInstance().sessionManager.currentCastSession,
-           let remoteMediaClient = castSession.remoteMediaClient {
-            remoteMediaClient.remove(self)
-        }
     }
     
     private func toggleFavorite() {
@@ -303,7 +292,6 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         episodes = details.episodes
         
         tableView.reloadData()
-        setupCastButton()
     }
     
     func showAlert(withTitle title: String, message: String) {
@@ -422,95 +410,68 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
 
     private func playEpisode(url: String, cell: EpisodeCell, fullURL: String) {
         guard let videoURL = URL(string: url) else {
-            print("Invalid URL")
+            print("Invalid URL: \(url)")
             return
         }
-
-        if GCKCastContext.sharedInstance().sessionManager.hasConnectedCastSession() {
-            castVideoToGoogleCast(url: videoURL)
+        
+        if url.contains(".mp4") || url.contains(".m3u8") || url.contains("animeheaven.me/video.mp4") {
+            DispatchQueue.main.async {
+                self.playVideoWithAVPlayer(sourceURL: videoURL, cell: cell, fullURL: fullURL)
+            }
         } else {
-            if url.contains(".mp4") || url.contains(".m3u8") || url.contains("animeheaven.me/video.mp4") {
-                DispatchQueue.main.async {
-                    self.playVideoWithAVPlayer(sourceURL: videoURL, cell: cell, fullURL: fullURL)
+            URLSession.shared.dataTask(with: videoURL) { [weak self] (data, response, error) in
+                guard let self = self else { return }
+                
+                if let error = error {
+                    print("Error fetching video data: \(error.localizedDescription)")
+                    return
                 }
-            } else {
-                URLSession.shared.dataTask(with: videoURL) { [weak self] (data, response, error) in
-                    guard let self = self else { return }
-                    
-                    if let error = error {
-                        print("Error fetching video data: \(error.localizedDescription)")
-                        return
-                    }
-                    
-                    guard let data = data,
-                          let htmlString = String(data: data, encoding: .utf8) else {
-                        print("Error parsing video data")
-                        return
-                    }
-                    
-                    let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource")
-                    var srcURL: URL?
-                    
+                
+                guard let data = data,
+                      let htmlString = String(data: data, encoding: .utf8) else {
+                    print("Error parsing video data")
+                    return
+                }
+                
+                let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? ""
+                var srcURL: URL?
+                
+                switch selectedMediaSource {
+                case "GoGoAnime", "Latanime", "AnimeToast":
+                    srcURL = self.extractIframeSourceURL(from: htmlString)
+                case "AnimeFire":
+                    srcURL = self.extractDataVideoSrcURL(from: htmlString)
+                case "AnimeWorld", "AnimeHeaven":
+                    srcURL = self.extractVideoSourceURL(from: htmlString)
+                case "Anime3rb", "Kuramanime":
+                    srcURL = URL(string: fullURL)
+                default:
+                    srcURL = self.extractIframeSourceURL(from: htmlString)
+                }
+                
+                guard let finalSrcURL = srcURL else {
+                    print("Error extracting source URL")
+                    return
+                }
+                
+                DispatchQueue.main.async {
                     switch selectedMediaSource {
                     case "GoGoAnime", "Latanime", "AnimeToast":
-                        srcURL = self.extractIframeSourceURL(from: htmlString)
+                        self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, playerType: VideoPlayerType.standard)
                     case "AnimeFire":
-                        srcURL = self.extractDataVideoSrcURL(from: htmlString)
-                    case "AnimeWorld", "AnimeHeaven":
-                        srcURL = self.extractVideoSourceURL(from: htmlString)
-                    case "Anime3rb", "Kuramanime":
-                        srcURL = URL(string: fullURL)
-                    default:
-                        srcURL = nil
-                    }
-                    
-                    if srcURL == nil {
-                        srcURL = self.extractIframeSourceURL(from: htmlString)
-                    }
-                    
-                    guard let finalSrcURL = srcURL else {
-                        print("Error extracting source URL")
-                        return
-                    }
-                    
-                    DispatchQueue.main.async {
-                        if selectedMediaSource == "GoGoAnime" || selectedMediaSource == "Latanime" || selectedMediaSource == "AnimeToast" {
-                            self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, playerType: VideoPlayerType.standard)
-                        } else if selectedMediaSource == "AnimeFire" {
-                            self.fetchVideoDataAndChooseQuality(from: finalSrcURL.absoluteString) { selectedURL in
-                                if let selectedURL = selectedURL {
-                                    self.playVideoWithAVPlayer(sourceURL: selectedURL, cell: cell, fullURL: fullURL)
-                                }
-                            }
-                        } else if selectedMediaSource == "Anime3rb" {
-                            self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, playerType: VideoPlayerType.player3rb)
-                        } else if selectedMediaSource == "Kuramanime" {
-                            self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, playerType: VideoPlayerType.playerKura)
-                        } else {
-                            self.playVideoWithAVPlayer(sourceURL: finalSrcURL, cell: cell, fullURL: fullURL)
+                        self.fetchVideoDataAndChooseQuality(from: finalSrcURL.absoluteString) { selectedURL in
+                            guard let selectedURL = selectedURL else { return }
+                            self.playVideoWithAVPlayer(sourceURL: selectedURL, cell: cell, fullURL: fullURL)
                         }
+                    case "Anime3rb":
+                        self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, playerType: VideoPlayerType.player3rb)
+                    case "Kuramanime":
+                        self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, playerType: VideoPlayerType.playerKura)
+                    default:
+                        self.playVideoWithAVPlayer(sourceURL: finalSrcURL, cell: cell, fullURL: fullURL)
                     }
-                }.resume()
-            }
-        }
-    }
-    
-    private func castVideoToGoogleCast(url: URL) {
-        fetchHTMLContent(from: url.absoluteString) { [weak self] result in
-            guard let self = self else { return }
-
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let htmlString):
-                    if let videoURL = self.extractVideoSourceURL(from: htmlString) {
-                        self.proceedWithCasting(videoURL: videoURL)
-                    } else {
-                        print("Error: Could not extract video URL from the page")
-                    }
-                case .failure(let error):
-                    print("Error fetching HTML content: \(error.localizedDescription)")
                 }
-            }
+            }.resume()
         }
     }
     
@@ -533,79 +494,6 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             
             completion(.success(htmlString))
         }.resume()
-    }
-    
-    private func proceedWithCasting(videoURL: URL) {
-        DispatchQueue.main.async {
-            let metadata = GCKMediaMetadata(metadataType: .movie)
-            
-            if UserDefaults.standard.bool(forKey: "fullTitleCast") {
-                if let animeTitle = self.animeTitle {
-                    metadata.setString(animeTitle, forKey: kGCKMetadataKeyTitle)
-                } else {
-                    print("Error: Anime title is missing.")
-                }
-            } else {
-                let episodeNumber = self.currentEpisodeIndex + 1
-                metadata.setString("Episode \(episodeNumber)", forKey: kGCKMetadataKeyTitle)
-            }
-            
-            if UserDefaults.standard.bool(forKey: "animeImageCast") {
-                if let imageURL = URL(string: self.imageUrl ?? "") {
-                    metadata.addImage(GCKImage(url: imageURL, width: 480, height: 720))
-                } else {
-                    print("Error: Anime image URL is missing or invalid.")
-                }
-            }
-            
-            let contentType: String
-            let streamType: GCKMediaStreamType
-            
-            if videoURL.absoluteString.contains(".m3u8") {
-                contentType = "application/x-mpegurl"
-                streamType = .live
-            } else if videoURL.absoluteString.contains(".mp4") {
-                contentType = "video/mp4"
-                streamType = .buffered
-            } else {
-                contentType = "application/x-mpegurl"
-                streamType = .buffered
-            }
-            
-            let mediaInfo = GCKMediaInformation(
-                contentID: videoURL.absoluteString,
-                streamType: streamType,
-                contentType: contentType,
-                metadata: metadata,
-                streamDuration: 0,
-                mediaTracks: nil,
-                textTrackStyle: nil,
-                customData: nil
-            )
-            
-            let mediaLoadOptions = GCKMediaLoadOptions()
-            mediaLoadOptions.autoplay = true
-            mediaLoadOptions.playPosition = 0
-            
-            if let castSession = GCKCastContext.sharedInstance().sessionManager.currentCastSession,
-               let remoteMediaClient = castSession.remoteMediaClient {
-                remoteMediaClient.loadMedia(mediaInfo, with: mediaLoadOptions)
-                remoteMediaClient.add(self)
-            } else {
-                print("Error: Failed to load media to Google Cast")
-            }
-        }
-    }
-
-    
-    func remoteMediaClient(_ client: GCKRemoteMediaClient, didUpdate mediaStatus: GCKMediaStatus?) {
-        if let mediaStatus = mediaStatus, mediaStatus.idleReason == .finished {
-            if UserDefaults.standard.bool(forKey: "AutoPlay") {
-                DispatchQueue.main.async { [weak self] in
-                    self?.playNextEpisode()
-                }
-            }
-        }
     }
     
     private func extractVideoSourceURL(from htmlString: String) -> URL? {
@@ -782,36 +670,9 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                 self.player?.play()
             }
             self.addPeriodicTimeObserver(cell: cell, fullURL: fullURL)
-            self.setupNowPlayingInfo()
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd), name: .AVPlayerItemDidPlayToEndTime, object: player?.currentItem)
-    }
-
-    private func setupNowPlayingInfo() {
-        var nowPlayingInfo = [String: Any]()
-        
-        nowPlayingInfo[MPMediaItemPropertyTitle] = animeTitle ?? "Unknown Anime"
-        nowPlayingInfo[MPMediaItemPropertyArtist] = "Episode \(currentEpisodeIndex + 1)"
-        
-        if let imageUrlString = imageUrl, let imageUrl = URL(string: imageUrlString) {
-            URLSession.shared.dataTask(with: imageUrl) { data, _, error in
-                if let data = data, let image = UIImage(data: data) {
-                    let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
-                    nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
-                    MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
-                }
-            }.resume()
-        }
-        
-        if let duration = player?.currentItem?.duration.seconds, duration.isFinite {
-            nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = duration
-        }
-        
-        nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = player?.currentTime().seconds
-        nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = player?.rate
-        
-        MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
     }
 
     private func addPeriodicTimeObserver(cell: EpisodeCell, fullURL: String) {
@@ -832,11 +693,6 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             
             UserDefaults.standard.set(currentTime, forKey: "lastPlayedTime_\(fullURL)")
             UserDefaults.standard.set(duration, forKey: "totalTime_\(fullURL)")
-            
-            var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo ?? [String: Any]()
-            nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = currentTime
-            nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = duration
-            MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
         }
     }
     
@@ -846,11 +702,6 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             let nextEpisode = episodes[currentEpisodeIndex]
             if let cell = tableView.cellForRow(at: IndexPath(row: currentEpisodeIndex, section: 2)) as? EpisodeCell {
                 episodeSelected(episode: nextEpisode, cell: cell)
-            }
-        } else {
-            if let castSession = GCKCastContext.sharedInstance().sessionManager.currentCastSession,
-               let remoteMediaClient = castSession.remoteMediaClient {
-                remoteMediaClient.stop()
             }
         }
     }

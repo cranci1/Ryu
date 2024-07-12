@@ -194,6 +194,10 @@ class FavoritesViewController: UIViewController {
     private func removeShakeAnimation(from view: UIView) {
         view.layer.removeAnimation(forKey: "shake")
     }
+    
+    @IBAction func selectSourceButtonTapped(_ sender: UIButton) {
+        SourceMenu.showSourceSelector(from: self, sourceView: sender)
+    }
 }
 
 extension FavoritesViewController: UICollectionViewDelegate {

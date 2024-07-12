@@ -15,7 +15,6 @@
 		1326E4D42C343E040056A66E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1326E4D32C343E040056A66E /* LaunchScreen.storyboard */; };
 		13327B362C314E6F00CEE6AC /* LandScapePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13327B352C314E6F00CEE6AC /* LandScapePlayer.swift */; };
 		135F85292C382ECE0024954D /* SourceMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135F85282C382ECE0024954D /* SourceMenu.swift */; };
-		136D50812C32E7C500028CC6 /* GoogleCastSDK-ios-no-bluetooth in Frameworks */ = {isa = PBXBuildFile; productRef = 136D50802C32E7C500028CC6 /* GoogleCastSDK-ios-no-bluetooth */; };
 		137F49D92C24B60800B787CB /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 137F49D82C24B60800B787CB /* SwiftSoup */; };
 		137F49EC2C254DCA00B787CB /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 137F49EB2C254DCA00B787CB /* Alamofire */; };
 		137F4A332C255DA500B787CB /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137F4A322C255DA500B787CB /* SearchViewController.swift */; };
@@ -130,7 +129,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				13D1DAAB2C28760900A35D79 /* Kingfisher in Frameworks */,
-				136D50812C32E7C500028CC6 /* GoogleCastSDK-ios-no-bluetooth in Frameworks */,
 				137F49EC2C254DCA00B787CB /* Alamofire in Frameworks */,
 				137F49D92C24B60800B787CB /* SwiftSoup in Frameworks */,
 			);
@@ -411,7 +409,6 @@
 				137F49D82C24B60800B787CB /* SwiftSoup */,
 				137F49EB2C254DCA00B787CB /* Alamofire */,
 				13D1DAAA2C28760900A35D79 /* Kingfisher */,
-				136D50802C32E7C500028CC6 /* GoogleCastSDK-ios-no-bluetooth */,
 			);
 			productName = AnimeLounge;
 			productReference = 13AA298B2C245EDD00C8CA8E /* AnimeLounge.app */;
@@ -489,7 +486,6 @@
 				137F49D72C24B60800B787CB /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 				137F49EA2C254DCA00B787CB /* XCRemoteSwiftPackageReference "Alamofire" */,
 				13D1DAA92C28760900A35D79 /* XCRemoteSwiftPackageReference "Kingfisher" */,
-				136D507F2C32E7C500028CC6 /* XCRemoteSwiftPackageReference "GoogleCastSDK-ios-no-bluetooth" */,
 			);
 			productRefGroup = 13AA298C2C245EDD00C8CA8E /* Products */;
 			projectDirPath = "";
@@ -744,7 +740,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -752,7 +748,7 @@
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.cranci.animelounge;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -780,7 +776,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -788,7 +784,7 @@
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.cranci.animelounge;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -913,14 +909,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		136D507F2C32E7C500028CC6 /* XCRemoteSwiftPackageReference "GoogleCastSDK-ios-no-bluetooth" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SRGSSR/GoogleCastSDK-ios-no-bluetooth.git";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
 		137F49D72C24B60800B787CB /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/scinfu/SwiftSoup.git";
@@ -948,11 +936,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		136D50802C32E7C500028CC6 /* GoogleCastSDK-ios-no-bluetooth */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 136D507F2C32E7C500028CC6 /* XCRemoteSwiftPackageReference "GoogleCastSDK-ios-no-bluetooth" */;
-			productName = "GoogleCastSDK-ios-no-bluetooth";
-		};
 		137F49D82C24B60800B787CB /* SwiftSoup */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 137F49D72C24B60800B787CB /* XCRemoteSwiftPackageReference "SwiftSoup" */;
