@@ -301,12 +301,13 @@ class AnimeInfoView: UIView {
     func configure(with animeData: [String: Any]) {
         stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         
-        addInfoRow(title: "Type", value: animeData["type"] as? String)
-        addInfoRow(title: "Format", value: animeData["format"] as? String)
-        addInfoRow(title: "Status", value: animeData["status"] as? String)
+        addInfoRow(title: "Type", value: formatValue(for: animeData["type"], mapping: typeMapping))
+        addInfoRow(title: "Format", value: formatValue(for: animeData["format"], mapping: formatMapping))
+        addInfoRow(title: "Status", value: formatValue(for: animeData["status"], mapping: statusMapping))
+        addInfoRow(title: "Season", value: formatValue(for: animeData["season"], mapping: seasonMapping))
         addInfoRow(title: "Episodes", value: animeData["episodes"] as? Int)
-        addInfoRow(title: "Duration", value: animeData["duration"] as? Int)
-        addInfoRow(title: "Source", value: animeData["source"] as? String)
+        addInfoRow(title: "Duration", value: formatDuration(animeData["duration"] as? Int))
+        addInfoRow(title: "Source", value: formatValue(for: animeData["source"], mapping: sourceMapping))
         addInfoRow(title: "Start Date", value: formatDate(animeData["startDate"] as? [String: Int]))
         addInfoRow(title: "End Date", value: formatDate(animeData["endDate"] as? [String: Int]))
     }
@@ -331,8 +332,9 @@ class AnimeInfoView: UIView {
         ])
         
         titleLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
-        valueLabel.font = UIFont.systemFont(ofSize: 14)
         titleLabel.textColor = .secondaryLabel
+        
+        valueLabel.font = UIFont.systemFont(ofSize: 14)
         
         titleLabel.text = title
         valueLabel.text = "\(value ?? "N/A")"
@@ -346,8 +348,57 @@ class AnimeInfoView: UIView {
               let day = dateDict?["day"] else {
             return "N/A"
         }
-        return "\(year)-\(String(format: "%02d", month))-\(String(format: "%02d", day))"
+        return "\(String(format: "%02d", day))/\(String(format: "%02d", month))/\(year)"
     }
+    
+    private func formatDuration(_ duration: Int?) -> String {
+        guard let duration = duration else { return "N/A" }
+        return "\(duration) Mins"
+    }
+    
+    private func formatValue(for key: Any?, mapping: [String: String]) -> String {
+        guard let key = key as? String else { return "N/A" }
+        return mapping[key] ?? "N/A"
+    }
+    
+    private let typeMapping = [
+        "ANIME": "Anime",
+        "MANGA": "Manga",
+        "LIGHT_NOVEL": "Light Novel"
+    ]
+    
+    private let formatMapping = [
+        "TV": "TV Series",
+        "TV_SHORT": "TV Short",
+        "MOVIE": "Movie",
+        "OVA": "OVA",
+        "ONA": "ONA",
+        "SPECIAL": "Special",
+        "MUSIC": "Music"
+    ]
+    
+    private let statusMapping = [
+        "FINISHED": "Finished",
+        "RELEASING": "Releasing",
+        "NOT_YET_RELEASED": "Not yet released",
+        "CANCELLED": "Cancelled"
+    ]
+    
+    private let seasonMapping = [
+        "WINTER": "Winter",
+        "SPRING": "Spring",
+        "SUMMER": "Summer",
+        "FALL": "Fall"
+    ]
+    
+    private let sourceMapping = [
+        "ORIGINAL": "Original",
+        "MANGA": "Manga",
+        "LIGHT_NOVEL": "Light Novel",
+        "VISUAL_NOVEL": "Visual Novel",
+        "VIDEO_GAME": "Video Game",
+        "OTHER": "Other"
+    ]
 }
 
 class DescriptionView: UIView {
@@ -375,13 +426,13 @@ class DescriptionView: UIView {
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
             
-            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
+            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 2),
             descriptionLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             descriptionLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
             descriptionLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
         
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
         titleLabel.text = "Description"
         
         descriptionLabel.font = UIFont.systemFont(ofSize: 14)
@@ -390,7 +441,11 @@ class DescriptionView: UIView {
     }
     
     func configure(with description: String?) {
-        descriptionLabel.text = description ?? "No description available."
+        var cleanedDescription = description ?? "No description available."
+        cleanedDescription = cleanedDescription.replacingOccurrences(of: "<br>", with: "")
+        cleanedDescription = cleanedDescription.replacingOccurrences(of: "<i>", with: "")
+        cleanedDescription = cleanedDescription.replacingOccurrences(of: "</i>", with: "")
+        descriptionLabel.text = cleanedDescription
     }
 }
 
@@ -433,7 +488,7 @@ class RelationsView: UIView {
             collectionView.heightAnchor.constraint(equalToConstant: 210)
         ])
         
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
         titleLabel.text = "Related Content"
         
         collectionView.backgroundColor = .clear
@@ -553,7 +608,7 @@ class StatsView: UIView {
             averageScoreLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
         ])
 
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
         titleLabel.text = "Ratings & Statistics"
         titleLabel.textColor = .label
         
@@ -656,7 +711,7 @@ class CharactersView: UIView {
             collectionView.heightAnchor.constraint(equalToConstant: 150)
         ])
         
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
         titleLabel.text = "Characters"
     }
     
