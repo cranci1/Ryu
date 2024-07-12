@@ -119,7 +119,7 @@ class AnimeDetailService {
                 episodeElements = try document.select("a.active")
                 downloadUrlElement = ""
             case .animeheaven:
-                episodeElements = try document.select("div.linetitle2 a")
+                episodeElements = try document.select("a[href^='episode.php']")
                 downloadUrlElement = ""
             case .animefire:
                 episodeElements = try document.select("div.div_video_list a")
@@ -177,6 +177,35 @@ class AnimeDetailService {
                         .joined()
                     
                     return Episode(number: episodeNumber, href: href, downloadUrl: "")
+                }
+            case .anime3rb:
+                episodes = episodeElements.compactMap { element in
+                    do {
+                        let episodeTitle = try element.select("div.video-metadata span").first()?.text() ?? ""
+                        let episodeNumber = episodeTitle.replacingOccurrences(of: "الحلقة ", with: "")
+                        let href = try element.attr("href")
+                        
+                        return Episode(number: episodeNumber, href: href, downloadUrl: "")
+                    } catch {
+                        print("Error parsing episode: \(error.localizedDescription)")
+                        return nil
+                    }
+                }
+                
+            case .animeheaven:
+                episodes = episodeElements.compactMap { element in
+                    guard let episodeNumberElement = try? element.select("div.watch2.bc.c").first() else {
+                        return nil
+                    }
+                    
+                    let episodeNumber = try? episodeNumberElement.text().trimmingCharacters(in: .whitespacesAndNewlines)
+                    let href = try? element.attr("href")
+                    
+                    if let episodeNumber = episodeNumber, let href = href {
+                        return Episode(number: episodeNumber, href: href, downloadUrl: "")
+                    } else {
+                        return nil
+                    }
                 }
             default:
                 episodes = episodeElements.compactMap { element in
