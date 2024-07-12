@@ -15,9 +15,43 @@ class SettingsViewController: UITableViewController {
     @IBOutlet var landScapeSwitch: UISwitch!
     @IBOutlet var browserPlayerSwitch: UISwitch!
     
+    @IBOutlet weak var playerButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         loadUserDefaults()
+        setupMenu()
+    }
+    
+    func setupMenu() {
+        let defaultIcon = UIImage(systemName: "play.circle.fill")
+        let infuseIcon = UIImage(systemName: "flame")
+        let vlcIcon = UIImage(systemName: "film")
+
+        let action1 = UIAction(title: "Default", image: defaultIcon, handler: { [weak self] _ in
+            UserDefaults.standard.set("Default", forKey: "mediaPlayerSelected")
+            self?.playerButton.setTitle("Default", for: .normal)
+        })
+        let action2 = UIAction(title: "Infuse", image: infuseIcon, handler: { [weak self] _ in
+            UserDefaults.standard.set("Infuse", forKey: "mediaPlayerSelected")
+            self?.playerButton.setTitle("Infuse", for: .normal)
+        })
+        let action3 = UIAction(title: "VLC", image: vlcIcon, handler: { [weak self] _ in
+            UserDefaults.standard.set("VLC", forKey: "mediaPlayerSelected")
+            self?.playerButton.setTitle("VLC", for: .normal)
+        })
+
+        // Create the menu
+        let menu = UIMenu(title: "Select Media Player", children: [action1, action2, action3])
+
+        // Assign the menu to the button
+        playerButton.menu = menu
+        playerButton.showsMenuAsPrimaryAction = true
+
+        // Load and set the initial button title from UserDefaults if available
+        if let selectedOption = UserDefaults.standard.string(forKey: "mediaPlayerSelected") {
+            playerButton.setTitle(selectedOption, for: .normal)
+        }
     }
     
     private func loadUserDefaults() {

@@ -416,7 +416,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
         
         if url.contains(".mp4") || url.contains(".m3u8") || url.contains("animeheaven.me/video.mp4") {
             DispatchQueue.main.async {
-                self.playVideoWithAVPlayer(sourceURL: videoURL, cell: cell, fullURL: fullURL)
+                self.playVideo(sourceURL: videoURL, cell: cell, fullURL: fullURL)
             }
         } else {
             URLSession.shared.dataTask(with: videoURL) { [weak self] (data, response, error) in
@@ -461,14 +461,14 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
                     case "AnimeFire":
                         self.fetchVideoDataAndChooseQuality(from: finalSrcURL.absoluteString) { selectedURL in
                             guard let selectedURL = selectedURL else { return }
-                            self.playVideoWithAVPlayer(sourceURL: selectedURL, cell: cell, fullURL: fullURL)
+                            self.playVideo(sourceURL: selectedURL, cell: cell, fullURL: fullURL)
                         }
                     case "Anime3rb":
                         self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, playerType: VideoPlayerType.player3rb)
                     case "Kuramanime":
                         self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, playerType: VideoPlayerType.playerKura)
                     default:
-                        self.playVideoWithAVPlayer(sourceURL: finalSrcURL, cell: cell, fullURL: fullURL)
+                        self.playVideo(sourceURL: finalSrcURL, cell: cell, fullURL: fullURL)
                     }
                 }
             }.resume()
@@ -647,6 +647,21 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
         present(alertController, animated: true, completion: nil)
     }
 
+    private func playVideo(sourceURL: URL, cell: EpisodeCell, fullURL: String) {
+        let selectedPlayer = UserDefaults.standard.string(forKey: "mediaPlayerSelected") ?? "Default"
+        
+        switch selectedPlayer {
+        case "Default":
+            playVideoWithAVPlayer(sourceURL: sourceURL, cell: cell, fullURL: fullURL)
+        case "Infuse":
+            openInInfuse(url: sourceURL)
+        case "VLC":
+            openInVLC(url: sourceURL)
+        default:
+            playVideoWithAVPlayer(sourceURL: sourceURL, cell: cell, fullURL: fullURL)
+        }
+    }
+
     private func playVideoWithAVPlayer(sourceURL: URL, cell: EpisodeCell, fullURL: String) {
         player = AVPlayer(url: sourceURL)
         
@@ -673,6 +688,34 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd), name: .AVPlayerItemDidPlayToEndTime, object: player?.currentItem)
+    }
+
+    private func openInInfuse(url: URL) {
+        guard let infuseURL = URL(string: "infuse://x-callback-url/play?url=\(url.absoluteString)") else {
+            print("Failed to create Infuse URL")
+            return
+        }
+        
+        if UIApplication.shared.canOpenURL(infuseURL) {
+            UIApplication.shared.open(infuseURL, options: [:], completionHandler: nil)
+        } else {
+            print("Infuse app is not installed")
+            showAlert(title: "Infuse Error", message: "Infuse app is not installed.")
+        }
+    }
+
+    private func openInVLC(url: URL) {
+        guard let vlcURL = URL(string: "vlc://\(url.absoluteString)") else {
+            print("Failed to create VLC URL")
+            return
+        }
+        
+        if UIApplication.shared.canOpenURL(vlcURL) {
+            UIApplication.shared.open(vlcURL, options: [:], completionHandler: nil)
+        } else {
+            print("VLC app is not installed.")
+            showAlert(title: "VLC Error", message: "VLC app is not installed.")
+        }
     }
 
     private func addPeriodicTimeObserver(cell: EpisodeCell, fullURL: String) {

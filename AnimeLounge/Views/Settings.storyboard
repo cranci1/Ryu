@@ -196,7 +196,7 @@
                                                     <rect key="frame" x="310" y="6.5" width="51" height="31"/>
                                                     <color key="onTintColor" name="AccentColor"/>
                                                     <connections>
-                                                        <action selector="browserPlayerToggle:" destination="pc2-lO-9Ci" eventType="valueChanged" id="8JB-5x-W7V"/>
+                                                        <action selector="browserPlayerToggle:" destination="pc2-lO-9Ci" eventType="valueChanged" id="ci3-is-imR"/>
                                                     </connections>
                                                 </switch>
                                             </subviews>
@@ -225,7 +225,7 @@
                                                     <rect key="frame" x="310" y="6.5" width="51" height="31"/>
                                                     <color key="onTintColor" name="AccentColor"/>
                                                     <connections>
-                                                        <action selector="landScapeToggle:" destination="pc2-lO-9Ci" eventType="valueChanged" id="nDB-RD-L3t"/>
+                                                        <action selector="landScapeToggle:" destination="pc2-lO-9Ci" eventType="valueChanged" id="YvR-tB-33a"/>
                                                     </connections>
                                                 </switch>
                                             </subviews>
@@ -254,7 +254,7 @@
                                                     <rect key="frame" x="310" y="6.5" width="51" height="31"/>
                                                     <color key="onTintColor" name="AccentColor"/>
                                                     <connections>
-                                                        <action selector="autpPlayToggle:" destination="pc2-lO-9Ci" eventType="valueChanged" id="dFg-yK-Z16"/>
+                                                        <action selector="autpPlayToggle:" destination="pc2-lO-9Ci" eventType="valueChanged" id="XNE-Y6-eyH"/>
                                                     </connections>
                                                 </switch>
                                             </subviews>
@@ -266,12 +266,39 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="gfO-ze-BcA">
+                                        <rect key="frame" x="20" y="606.5" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gfO-ze-BcA" id="dwo-ud-ay0">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Media Player" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iy6-kj-EvD">
+                                                    <rect key="frame" x="15" y="13" width="88" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L8H-Zg-guy">
+                                                    <rect key="frame" x="294" y="6.5" width="65" height="31"/>
+                                                    <state key="normal" title="Button"/>
+                                                    <buttonConfiguration key="configuration" style="plain" title="Select"/>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Iy6-kj-EvD" firstAttribute="leading" secondItem="dwo-ud-ay0" secondAttribute="leading" constant="15" id="7Cq-cz-Cyg"/>
+                                                <constraint firstItem="L8H-Zg-guy" firstAttribute="trailing" secondItem="dwo-ud-ay0" secondAttribute="trailing" constant="-15" id="Vx1-hS-GkQ"/>
+                                                <constraint firstItem="Iy6-kj-EvD" firstAttribute="centerY" secondItem="dwo-ud-ay0" secondAttribute="centerY" id="gOg-Sx-UWt"/>
+                                                <constraint firstItem="L8H-Zg-guy" firstAttribute="centerY" secondItem="dwo-ud-ay0" secondAttribute="centerY" id="m6c-m9-XM4"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection footerTitle="Clear all the Caches of the app." id="y8g-0P-qDQ">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="hfE-We-1uZ">
-                                        <rect key="frame" x="20" y="642.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="686" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hfE-We-1uZ" id="xJ2-Ge-9P0">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -295,7 +322,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="MCd-19-KYt">
-                                        <rect key="frame" x="20" y="686" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="729.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="MCd-19-KYt" id="q9N-QI-RRZ">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -319,7 +346,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="mQq-1t-gtR">
-                                        <rect key="frame" x="20" y="729.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="773" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mQq-1t-gtR" id="tiP-rb-fIJ">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -343,7 +370,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="HUR-n8-Rbx">
-                                        <rect key="frame" x="20" y="773" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="816.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HUR-n8-Rbx" id="bHB-r2-4FI">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -367,7 +394,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="yPV-fy-M4c">
-                                        <rect key="frame" x="20" y="816.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="860" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="yPV-fy-M4c" id="YZv-xL-sWU">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -407,32 +434,33 @@
                         <outlet property="autoPlaySwitch" destination="xtA-Zv-yy8" id="Wzy-AC-GdI"/>
                         <outlet property="browserPlayerSwitch" destination="2jM-8Y-fd7" id="iLv-e3-heq"/>
                         <outlet property="landScapeSwitch" destination="apH-8D-ZHY" id="GwO-YD-2iP"/>
+                        <outlet property="playerButton" destination="L8H-Zg-guy" id="0Q4-Tt-FwK"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QIX-WY-Iit" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="GHs-72-WT1" userLabel="create">
                     <connections>
-                        <action selector="createBackup:" destination="pc2-lO-9Ci" id="ELi-wc-7gP"/>
+                        <action selector="createBackup:" destination="pc2-lO-9Ci" id="KIs-Bz-YyT"/>
                     </connections>
                 </tapGestureRecognizer>
                 <tapGestureRecognizer id="dIm-r0-LFM" userLabel="import">
                     <connections>
-                        <action selector="importBackupTapped:" destination="pc2-lO-9Ci" id="4uX-Dk-Hq5"/>
+                        <action selector="importBackupTapped:" destination="pc2-lO-9Ci" id="va2-eL-q6R"/>
                     </connections>
                 </tapGestureRecognizer>
                 <tapGestureRecognizer id="oU6-Qe-5We" userLabel="reset">
                     <connections>
-                        <action selector="resetAppTapped:" destination="pc2-lO-9Ci" id="C1K-cB-mQG"/>
+                        <action selector="resetAppTapped:" destination="pc2-lO-9Ci" id="yPe-8a-toX"/>
                     </connections>
                 </tapGestureRecognizer>
                 <tapGestureRecognizer id="YfA-Ft-yXD" userLabel="caches">
                     <connections>
-                        <action selector="clearCache:" destination="pc2-lO-9Ci" id="SAt-Yz-tIL"/>
+                        <action selector="clearCache:" destination="pc2-lO-9Ci" id="xfE-fv-g4M"/>
                     </connections>
                 </tapGestureRecognizer>
                 <tapGestureRecognizer id="hHT-Ee-gUq" userLabel="history">
                     <connections>
-                        <action selector="clearSearchHistory:" destination="pc2-lO-9Ci" id="dKn-3d-mk4"/>
+                        <action selector="clearSearchHistory:" destination="pc2-lO-9Ci" id="W18-pr-7HG"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
