@@ -17,9 +17,15 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
     private var isVideoPlaying = false
     private var streamURL: String
     private var activityIndicator: UIActivityIndicatorView?
+    private var cell: EpisodeCell
+    private var fullURL: String
+    private weak var animeDetailsViewController: AnimeDetailViewController?
 
-    init(streamURL: String) {
+    init(streamURL: String, cell: EpisodeCell, fullURL: String, animeDetailsViewController: AnimeDetailViewController) {
         self.streamURL = streamURL
+        self.cell = cell
+        self.fullURL = fullURL
+        self.animeDetailsViewController = animeDetailsViewController
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -308,76 +314,53 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
       }
 
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        if message.name == "videoHandler" {
-            if let dict = message.body as? [String: Any],
-               let state = dict["state"] as? String {
-                print("Video state changed: \(state)")
-                if state == "play" {
-                    stopMonitoringPlayState()
-                    activityIndicator?.stopAnimating()
-                    activityIndicator?.removeFromSuperview()
-                    if let videoUrlString = dict["url"] as? String,
-                       let videoUrl = URL(string: videoUrlString) {
-                        DispatchQueue.main.async {
-                            self.playVideoInAVPlayer(url: videoUrl)
-                        }
-                    }
-                } else if state == "pause" || state == "complete" || state == "error" {
-                    isVideoPlaying = false
-                    startMonitoringPlayState(interval: 2.0)
-                }
-            }
-        }
-    }
+         if message.name == "videoHandler" {
+             if let dict = message.body as? [String: Any],
+                let state = dict["state"] as? String {
+                 print("Video state changed: \(state)")
+                 if state == "play" {
+                     stopMonitoringPlayState()
+                     activityIndicator?.stopAnimating()
+                     activityIndicator?.removeFromSuperview()
+                     if let videoUrlString = dict["url"] as? String,
+                        let videoUrl = URL(string: videoUrlString) {
+                         DispatchQueue.main.async { [weak self] in
+                             guard let self = self else { return }
+                             self.animeDetailsViewController?.playVideo(sourceURL: videoUrl, cell: self.cell, fullURL: self.fullURL)
+                             self.dismiss(animated: true, completion: nil)
+                         }
+                     }
+                 } else if state == "pause" || state == "complete" || state == "error" {
+                     isVideoPlaying = false
+                     startMonitoringPlayState(interval: 2.0)
+                 }
+             }
+         }
+     }
 
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        stopPlayerAndCleanUp()
-    }
+     override func viewDidDisappear(_ animated: Bool) {
+         super.viewDidDisappear(animated)
+         stopAndCleanUp()
+     }
 
-    private func stopPlayerAndCleanUp() {
-        playerViewController?.player?.pause()
-        playerViewController?.player?.replaceCurrentItem(with: nil)
-        playerViewController?.player = nil
+     private func stopAndCleanUp() {
+         stopMonitoringPlayState()
+         isVideoPlaying = false
 
-        playerViewController?.willMove(toParent: nil)
-        playerViewController?.view.removeFromSuperview()
-        playerViewController?.removeFromParent()
-        playerViewController = nil
+         webView?.stopLoading()
+         webView?.loadHTMLString("", baseURL: nil)
+         webView?.configuration.userContentController.removeAllUserScripts()
+         webView?.configuration.userContentController.removeScriptMessageHandler(forName: "videoHandler")
 
-        stopMonitoringPlayState()
-        isVideoPlaying = false
+         webView?.removeFromSuperview()
+         webView = nil
 
-        webView?.stopLoading()
-        webView?.loadHTMLString("", baseURL: nil)
-        webView?.configuration.userContentController.removeAllUserScripts()
-        webView?.configuration.userContentController.removeScriptMessageHandler(forName: "videoHandler")
+         loadingObserver?.invalidate()
+         loadingObserver = nil
+     }
 
-        webView?.removeFromSuperview()
-        webView = nil
-
-        loadingObserver?.invalidate()
-        loadingObserver = nil
-    }
-
-    private func playVideoInAVPlayer(url: URL) {
-        let player = AVPlayer(url: url)
-        let playerViewController = AVPlayerViewController()
-        playerViewController.player = player
-
-        addChild(playerViewController)
-        view.addSubview(playerViewController.view)
-        playerViewController.view.frame = view.bounds
-        playerViewController.didMove(toParent: self)
-
-        self.playerViewController = playerViewController
-
-        player.play()
-        isVideoPlaying = true
-    }
-
-    deinit {
-        stopPlayerAndCleanUp()
-        loadingObserver?.invalidate()
-    }
-}
+     deinit {
+         stopAndCleanUp()
+         loadingObserver?.invalidate()
+     }
+ }

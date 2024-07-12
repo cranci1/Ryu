@@ -19,8 +19,15 @@ class ExternalVideoPlayer3rb: UIViewController {
     private var retryCount = 0
     private let maxRetries = 5
     
-    init(streamURL: String) {
+    private var cell: EpisodeCell
+    private var fullURL: String
+    private weak var animeDetailsViewController: AnimeDetailViewController?
+
+    init(streamURL: String, cell: EpisodeCell, fullURL: String, animeDetailsViewController: AnimeDetailViewController) {
         self.streamURL = streamURL
+        self.cell = cell
+        self.fullURL = fullURL
+        self.animeDetailsViewController = animeDetailsViewController
         super.init(nibName: nil, bundle: nil)
     }
     

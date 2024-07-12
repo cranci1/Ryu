@@ -368,16 +368,21 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
         }
     }
     
-    func presentStreamingView(withURL url: String, playerType: String) {
+    @objc func startStreamingButtonTapped(withURL url: String, playerType: String, cell: EpisodeCell, fullURL: String) {
+        deleteWebKitFolder()
+        presentStreamingView(withURL: url, playerType: playerType, cell: cell, fullURL: fullURL)
+    }
+
+    func presentStreamingView(withURL url: String, playerType: String, cell: EpisodeCell, fullURL: String) {
         DispatchQueue.main.async {
             var streamingVC: UIViewController
             switch playerType {
             case VideoPlayerType.standard:
-                streamingVC = ExternalVideoPlayer(streamURL: url)
+                streamingVC = ExternalVideoPlayer(streamURL: url, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
             case VideoPlayerType.player3rb:
-                streamingVC = ExternalVideoPlayer3rb(streamURL: url)
+                streamingVC = ExternalVideoPlayer3rb(streamURL: url, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
             case VideoPlayerType.playerKura:
-                streamingVC = ExternalVideoPlayerKura(streamURL: url)
+                streamingVC = ExternalVideoPlayerKura(streamURL: url, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
             default:
                 return
             }
@@ -386,10 +391,6 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
         }
     }
     
-    @objc func startStreamingButtonTapped(withURL url: String, playerType: String) {
-        deleteWebKitFolder()
-        presentStreamingView(withURL: url, playerType: playerType)
-    }
     func deleteWebKitFolder() {
         if let libraryPath = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first {
             let webKitFolderPath = libraryPath.appendingPathComponent("WebKit")
@@ -457,16 +458,16 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
                 DispatchQueue.main.async {
                     switch selectedMediaSource {
                     case "GoGoAnime", "Latanime", "AnimeToast":
-                        self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, playerType: VideoPlayerType.standard)
+                        self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, playerType: VideoPlayerType.standard, cell: cell, fullURL: fullURL)
                     case "AnimeFire":
                         self.fetchVideoDataAndChooseQuality(from: finalSrcURL.absoluteString) { selectedURL in
                             guard let selectedURL = selectedURL else { return }
                             self.playVideo(sourceURL: selectedURL, cell: cell, fullURL: fullURL)
                         }
                     case "Anime3rb":
-                        self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, playerType: VideoPlayerType.player3rb)
+                        self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, playerType: VideoPlayerType.player3rb, cell: cell, fullURL: fullURL)
                     case "Kuramanime":
-                        self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, playerType: VideoPlayerType.playerKura)
+                        self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, playerType: VideoPlayerType.playerKura, cell: cell, fullURL: fullURL)
                     default:
                         self.playVideo(sourceURL: finalSrcURL, cell: cell, fullURL: fullURL)
                     }
@@ -647,7 +648,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
         present(alertController, animated: true, completion: nil)
     }
 
-    private func playVideo(sourceURL: URL, cell: EpisodeCell, fullURL: String) {
+    func playVideo(sourceURL: URL, cell: EpisodeCell, fullURL: String) {
         let selectedPlayer = UserDefaults.standard.string(forKey: "mediaPlayerSelected") ?? "Default"
         
         switch selectedPlayer {
