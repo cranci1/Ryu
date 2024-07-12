@@ -658,6 +658,8 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
             openInInfuse(url: sourceURL)
         case "VLC":
             openInVLC(url: sourceURL)
+        case "Outplayer":
+            openInOutplayer(url: sourceURL)
         default:
             playVideoWithAVPlayer(sourceURL: sourceURL, cell: cell, fullURL: fullURL)
         }
@@ -716,6 +718,20 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
         } else {
             print("VLC app is not installed.")
             showAlert(title: "VLC Error", message: "VLC app is not installed.")
+        }
+    }
+    
+    private func openInOutplayer(url: URL) {
+        guard let outURL = URL(string: "outplayer://\(url.absoluteString)") else {
+            print("Failed to create Outplayer URL")
+            return
+        }
+        
+        if UIApplication.shared.canOpenURL(outURL) {
+            UIApplication.shared.open(outURL, options: [:], completionHandler: nil)
+        } else {
+            print("Outplayer app is not installed.")
+            showAlert(title: "Outplayer Error", message: "Outplayer app is not installed.")
         }
     }
 

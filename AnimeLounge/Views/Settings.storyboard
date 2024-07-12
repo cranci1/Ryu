@@ -280,14 +280,14 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L8H-Zg-guy">
-                                                    <rect key="frame" x="294" y="6.5" width="65" height="31"/>
+                                                    <rect key="frame" x="299" y="6.5" width="65" height="31"/>
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain" title="Select"/>
                                                 </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="Iy6-kj-EvD" firstAttribute="leading" secondItem="dwo-ud-ay0" secondAttribute="leading" constant="15" id="7Cq-cz-Cyg"/>
-                                                <constraint firstItem="L8H-Zg-guy" firstAttribute="trailing" secondItem="dwo-ud-ay0" secondAttribute="trailing" constant="-15" id="Vx1-hS-GkQ"/>
+                                                <constraint firstItem="L8H-Zg-guy" firstAttribute="trailing" secondItem="dwo-ud-ay0" secondAttribute="trailing" constant="-10" id="Vx1-hS-GkQ"/>
                                                 <constraint firstItem="Iy6-kj-EvD" firstAttribute="centerY" secondItem="dwo-ud-ay0" secondAttribute="centerY" id="gOg-Sx-UWt"/>
                                                 <constraint firstItem="L8H-Zg-guy" firstAttribute="centerY" secondItem="dwo-ud-ay0" secondAttribute="centerY" id="m6c-m9-XM4"/>
                                             </constraints>

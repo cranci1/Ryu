@@ -24,9 +24,10 @@ class SettingsViewController: UITableViewController {
     }
     
     func setupMenu() {
-        let defaultIcon = UIImage(systemName: "play.circle.fill")
+        let defaultIcon = UIImage(systemName: "play.rectangle.fill")
         let infuseIcon = UIImage(systemName: "flame")
         let vlcIcon = UIImage(systemName: "film")
+        let outIcon = UIImage(systemName: "play.circle.fill")
 
         let action1 = UIAction(title: "Default", image: defaultIcon, handler: { [weak self] _ in
             UserDefaults.standard.set("Default", forKey: "mediaPlayerSelected")
@@ -40,15 +41,16 @@ class SettingsViewController: UITableViewController {
             UserDefaults.standard.set("VLC", forKey: "mediaPlayerSelected")
             self?.playerButton.setTitle("VLC", for: .normal)
         })
+        let action4 = UIAction(title: "Outplayer", image: outIcon, handler: { [weak self] _ in
+            UserDefaults.standard.set("Outplayer", forKey: "mediaPlayerSelected")
+            self?.playerButton.setTitle("Outplayer", for: .normal)
+        })
 
-        // Create the menu
-        let menu = UIMenu(title: "Select Media Player", children: [action1, action2, action3])
-
-        // Assign the menu to the button
+        let menu = UIMenu(title: "Select Media Player", children: [action1, action2, action3, action4])
+        
         playerButton.menu = menu
         playerButton.showsMenuAsPrimaryAction = true
-
-        // Load and set the initial button title from UserDefaults if available
+        
         if let selectedOption = UserDefaults.standard.string(forKey: "mediaPlayerSelected") {
             playerButton.setTitle(selectedOption, for: .normal)
         }
