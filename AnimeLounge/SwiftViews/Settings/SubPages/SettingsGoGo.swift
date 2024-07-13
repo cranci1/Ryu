@@ -10,33 +10,62 @@ import UIKit
 
 class SettingsGoGo: UITableViewController {
     
-    @IBOutlet weak var methodButton: UIButton!
+    @IBOutlet weak var methodGoGoButton: UIButton!
+    // @IBOutlet weak var methodJKButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupMenu()
+        setupGoGoMenu()
+        // setupJKMenu()
     }
     
-    func setupMenu() {
-        let defaultIcon = UIImage(systemName: "play.rectangle.fill")
-        let videoIcon = UIImage(systemName: "play.circle.fill")
-
-        let action1 = UIAction(title: "Experimental", image: defaultIcon, handler: { [weak self] _ in
+    func setupGoGoMenu() {
+        let expeIcon = UIImage(systemName: "bolt.fill")
+        let defaultIcon = UIImage(systemName: "checkmark.circle.fill")
+        
+        let action1 = UIAction(title: "Experimental", image: expeIcon, handler: { [weak self] _ in
             UserDefaults.standard.set("Experimental", forKey: "GoGoAnimeMethod")
-            self?.methodButton.setTitle("Experimental", for: .normal)
+            self?.methodGoGoButton.setTitle("Experimental", for: .normal)
         })
-        let action2 = UIAction(title: "Stable", image: videoIcon, handler: { [weak self] _ in
+        let action2 = UIAction(title: "Stable", image: defaultIcon, handler: { [weak self] _ in
             UserDefaults.standard.set("Stable", forKey: "GoGoAnimeMethod")
-            self?.methodButton.setTitle("Stable", for: .normal)
+            self?.methodGoGoButton.setTitle("Stable", for: .normal)
         })
-
+        
         let menu = UIMenu(title: "Select Method", children: [action1, action2])
         
-        methodButton.menu = menu
-        methodButton.showsMenuAsPrimaryAction = true
+        methodGoGoButton.menu = menu
+        methodGoGoButton.showsMenuAsPrimaryAction = true
         
         if let selectedOption = UserDefaults.standard.string(forKey: "GoGoAnimeMethod") {
-            methodButton.setTitle(selectedOption, for: .normal)
+            methodGoGoButton.setTitle(selectedOption, for: .normal)
         }
+    }
+    
+    // func setupJKMenu() {
+    //    let expeIcon = UIImage(systemName: "bolt.fill")
+    //    let defaultIcon = UIImage(systemName: "checkmark.circle.fill")
+    //
+    //    let action1 = UIAction(title: "Experimental", image: expeIcon, handler: { [weak self] _ in
+    //        UserDefaults.standard.set("Experimental", forKey: "JKAnimeMethod")
+    //        self?.methodJKButton.setTitle("Experimental", for: .normal)
+    //    })
+    //    let action2 = UIAction(title: "Stable", image: defaultIcon, handler: { [weak self] _ in
+    //        UserDefaults.standard.set("Stable", forKey: "JKAnimeMethod")
+    //        self?.methodJKButton.setTitle("Stable", for: .normal)
+    //    })
+    //
+    //    let menu = UIMenu(title: "Select Method", children: [action1, action2])
+    //
+    //    methodJKButton.menu = menu
+    //    methodJKButton.showsMenuAsPrimaryAction = true
+    //
+    //    if let selectedOption = UserDefaults.standard.string(forKey: "JKAnimeMethod") {
+    //        methodJKButton.setTitle(selectedOption, for: .normal)
+    //    }
+    // }
+    
+    @IBAction func closeButtonTapped() {
+        dismiss(animated: true, completion: nil)
     }
 }

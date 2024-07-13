@@ -20,10 +20,10 @@
                             <tableViewSection headerTitle="About AnimeLounge" footerTitle="Find some Information about AnimeLounge" id="PtL-kS-yFQ">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="Gne-PG-d7D">
-                                        <rect key="frame" x="20" y="32" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="32" width="374" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Gne-PG-d7D" id="QHg-2c-5oZ">
-                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="About" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lKL-3a-n9V">
@@ -44,10 +44,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="McV-an-f8h">
-                                        <rect key="frame" x="20" y="75.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="76" width="374" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="McV-an-f8h" id="sbr-Pt-vRR">
-                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GitHub Repository" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mfn-kK-Wvh">
@@ -68,7 +68,7 @@
                             <tableViewSection headerTitle="General" footerTitle="Syncs the theme with the system settings." id="SqC-P1-dcw">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="LqX-21-yjN">
-                                        <rect key="frame" x="20" y="185" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="186" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="LqX-21-yjN" id="QYA-6S-xEe">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -97,7 +97,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="aA1-6i-eAO">
-                                        <rect key="frame" x="20" y="228.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="229.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="aA1-6i-eAO" id="wkK-NF-FGV">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -127,13 +127,13 @@
                             <tableViewSection footerTitle="Sort the episode from the newest to oldest (ordered), from oldest to newest (reversed)." id="ty0-GI-xA3">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="Qaa-M6-70v">
-                                        <rect key="frame" x="20" y="316.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="317.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Qaa-M6-70v" id="cmh-Zx-hsE">
                                             <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Storage &amp; Donwloads" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a9e-mj-HXJ">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Storage &amp; Downloads" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a9e-mj-HXJ">
                                                     <rect key="frame" x="15" y="13" width="148" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
@@ -147,7 +147,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="9CQ-M3-DZs">
-                                        <rect key="frame" x="20" y="360" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="361" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9CQ-M3-DZs" id="Myg-5z-9Va">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -180,7 +180,7 @@
                             <tableViewSection headerTitle="Player" footerTitle="You must have the VLC/Infuse/Outplayer app installed to be able to use the external Media Player." id="Ao9-xv-dJB">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="p2W-Y0-0VQ">
-                                        <rect key="frame" x="20" y="483.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="484.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="p2W-Y0-0VQ" id="6eF-kO-gnu">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -209,7 +209,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="pZ8-Bd-ctw">
-                                        <rect key="frame" x="20" y="527" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="528" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="pZ8-Bd-ctw" id="n9K-6T-tka">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -238,7 +238,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="YcD-pQ-iyV">
-                                        <rect key="frame" x="20" y="570.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="571.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="YcD-pQ-iyV" id="MxW-95-5nY">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -267,7 +267,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="gfO-ze-BcA">
-                                        <rect key="frame" x="20" y="614" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="615" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gfO-ze-BcA" id="dwo-ud-ay0">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -299,7 +299,7 @@
                             <tableViewSection headerTitle="Sources" id="2Ds-cg-lq5">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="PP0-F1-up3">
-                                        <rect key="frame" x="20" y="730" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="731" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="PP0-F1-up3" id="aRo-I3-zI0">
                                             <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
@@ -318,7 +318,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="jXW-TN-7KP" kind="show" id="1SA-13-oXh"/>
+                                            <segue destination="mJJ-Q0-g1H" kind="show" id="ZhG-EB-eYX"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -326,7 +326,7 @@
                             <tableViewSection id="y8g-0P-qDQ">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="hfE-We-1uZ">
-                                        <rect key="frame" x="20" y="809.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="810.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hfE-We-1uZ" id="xJ2-Ge-9P0">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -350,7 +350,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="MCd-19-KYt">
-                                        <rect key="frame" x="20" y="853" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="854" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="MCd-19-KYt" id="q9N-QI-RRZ">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -374,7 +374,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="mQq-1t-gtR">
-                                        <rect key="frame" x="20" y="896.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="897.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mQq-1t-gtR" id="tiP-rb-fIJ">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -398,7 +398,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="HUR-n8-Rbx">
-                                        <rect key="frame" x="20" y="940" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="941" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HUR-n8-Rbx" id="bHB-r2-4FI">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -422,7 +422,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="yPV-fy-M4c">
-                                        <rect key="frame" x="20" y="983.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="984.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="yPV-fy-M4c" id="YZv-xL-sWU">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -456,6 +456,9 @@
                     <navigationItem key="navigationItem" title="Settings" id="SAe-EI-ZI4">
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="C1o-kr-hL8">
                             <color key="tintColor" name="AccentColor"/>
+                            <connections>
+                                <action selector="closeButtonTapped" destination="pc2-lO-9Ci" id="iI2-z5-ssy"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
@@ -771,6 +774,9 @@ https://developers.google.com/terms/</string>
                     <navigationItem key="navigationItem" title="About" id="Blf-pU-9my">
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="E5i-56-YvF">
                             <color key="tintColor" name="AccentColor"/>
+                            <connections>
+                                <action selector="closeButtonTapped" destination="RUG-Sz-sjD" id="2gg-YV-kLf"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
@@ -903,6 +909,9 @@ https://developers.google.com/terms/</string>
                     <navigationItem key="navigationItem" title="Google Cast" id="cPs-Uw-PGo">
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="QQK-TY-r0q">
                             <color key="tintColor" name="AccentColor"/>
+                            <connections>
+                                <action selector="closeButtonTapped" destination="iYA-2R-889" id="Ans-vQ-K61"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
@@ -915,57 +924,6 @@ https://developers.google.com/terms/</string>
             <point key="canvasLocation" x="1387" y="217"/>
         </scene>
         <!--Sources-->
-        <scene sceneID="rgU-cD-mRw">
-            <objects>
-                <tableViewController id="jXW-TN-7KP" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="Oaj-9o-tu5">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <sections>
-                            <tableViewSection headerTitle="General" id="B7z-fP-lFp">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="sRl-Zx-qO0">
-                                        <rect key="frame" x="20" y="32" width="374" height="43.5"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sRl-Zx-qO0" id="Zsl-ha-p4L">
-                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GoGoAnime settings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9wp-EK-3fj">
-                                                    <rect key="frame" x="15" y="13" width="141" height="18"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="9wp-EK-3fj" firstAttribute="centerY" secondItem="Zsl-ha-p4L" secondAttribute="centerY" id="2LA-bn-inG"/>
-                                                <constraint firstItem="9wp-EK-3fj" firstAttribute="leading" secondItem="Zsl-ha-p4L" secondAttribute="leading" constant="15" id="7S6-Pu-KVz"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="mJJ-Q0-g1H" kind="show" id="D3m-9t-wCi"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                        </sections>
-                        <connections>
-                            <outlet property="dataSource" destination="jXW-TN-7KP" id="YmN-IF-VRR"/>
-                            <outlet property="delegate" destination="jXW-TN-7KP" id="xOx-kN-lGt"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Sources" id="uzL-4M-ahL">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="q1Y-so-3qD">
-                            <color key="tintColor" name="AccentColor"/>
-                        </barButtonItem>
-                    </navigationItem>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="J1U-DV-i1W" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1387" y="-541"/>
-        </scene>
-        <!--GoGoAnime-->
         <scene sceneID="zcg-7b-vfP">
             <objects>
                 <tableViewController id="mJJ-Q0-g1H" customClass="SettingsGoGo" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
@@ -973,7 +931,7 @@ https://developers.google.com/terms/</string>
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <sections>
-                            <tableViewSection headerTitle="Video Parser" id="shU-SR-cSY">
+                            <tableViewSection headerTitle="GoGoanime" id="shU-SR-cSY">
                                 <string key="footerTitle">Stable, will not be able to save the playback of the episode but may be the best choice in case a episode is not playing.
 
 Experimental, will save the playback progress but may not work on all the episodes. (Experimental by default is selected)</string>
@@ -1014,18 +972,21 @@ Experimental, will save the playback progress but may not work on all the episod
                             <outlet property="delegate" destination="mJJ-Q0-g1H" id="QN5-gv-dPE"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="GoGoAnime" id="jU3-VX-A6Q">
+                    <navigationItem key="navigationItem" title="Sources" id="jU3-VX-A6Q">
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="pgV-kN-MA0">
                             <color key="tintColor" name="AccentColor"/>
+                            <connections>
+                                <action selector="closeButtonTapped" destination="mJJ-Q0-g1H" id="z0R-Mq-YRZ"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="methodButton" destination="s8s-69-DLI" id="gfN-aq-zUS"/>
+                        <outlet property="methodGoGoButton" destination="s8s-69-DLI" id="Luw-tE-2hm"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7B5-6n-XQe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2264" y="-541"/>
+            <point key="canvasLocation" x="1387" y="-536"/>
         </scene>
     </scenes>
     <resources>

@@ -383,6 +383,8 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
                 streamingVC = ExternalVideoPlayer3rb(streamURL: url, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
             case VideoPlayerType.playerKura:
                 streamingVC = ExternalVideoPlayerKura(streamURL: url, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
+            case VideoPlayerType.playerJK:
+                streamingVC = ExternalVideoPlayerJK(streamURL: url)
             default:
                 return
             }
@@ -438,13 +440,13 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
                 var srcURL: URL?
                 
                 switch selectedMediaSource {
-                case "GoGoAnime", "Latanime", "AnimeToast":
+                case "GoGoAnime":
                     srcURL = self.extractIframeSourceURL(from: htmlString)
                 case "AnimeFire":
                     srcURL = self.extractDataVideoSrcURL(from: htmlString)
                 case "AnimeWorld", "AnimeHeaven":
                     srcURL = self.extractVideoSourceURL(from: htmlString)
-                case "Anime3rb", "Kuramanime":
+                case "Anime3rb", "Kuramanime", "JKanime":
                     srcURL = URL(string: fullURL)
                 default:
                     srcURL = self.extractIframeSourceURL(from: htmlString)
@@ -457,7 +459,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
                 
                 DispatchQueue.main.async {
                     switch selectedMediaSource {
-                    case "GoGoAnime", "Latanime", "AnimeToast":
+                    case "GoGoAnime":
                         self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, playerType: VideoPlayerType.standard, cell: cell, fullURL: fullURL)
                     case "AnimeFire":
                         self.fetchVideoDataAndChooseQuality(from: finalSrcURL.absoluteString) { selectedURL in
@@ -468,6 +470,8 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
                         self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, playerType: VideoPlayerType.player3rb, cell: cell, fullURL: fullURL)
                     case "Kuramanime":
                         self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, playerType: VideoPlayerType.playerKura, cell: cell, fullURL: fullURL)
+                    case "JKanime":
+                        self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, playerType: VideoPlayerType.playerJK, cell: cell, fullURL: fullURL)
                     default:
                         self.playVideo(sourceURL: finalSrcURL, cell: cell, fullURL: fullURL)
                     }
@@ -927,7 +931,7 @@ class AnimeHeaderCell: UITableViewCell {
         case "AnimeWorld":
             starLabel.text = stars + "/10"
             airDateLabel.text = airdate
-        case "GoGoAnime", "AnimeFire", "Latanime":
+        case "GoGoAnime", "AnimeFire", "JKanime":
             starLabel.text = "N/A"
         default:
             starLabel.text = stars

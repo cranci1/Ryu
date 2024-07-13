@@ -47,7 +47,7 @@ class ExternalVideoPlayerKura: UIViewController {
     }
     
     private func setupUI() {
-        view.backgroundColor = .black
+        view.backgroundColor = UIColor.secondarySystemBackground
         setupActivityIndicator()
         setupWebView()
     }

@@ -47,7 +47,7 @@ class ExternalVideoPlayer3rb: UIViewController {
     }
     
     private func setupUI() {
-        view.backgroundColor = .black
+        view.backgroundColor = UIColor.secondarySystemBackground
         setupActivityIndicator()
         setupWebView()
     }

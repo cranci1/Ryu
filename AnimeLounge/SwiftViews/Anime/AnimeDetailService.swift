@@ -33,7 +33,7 @@ class AnimeDetailService {
             baseUrl = "https://anitaku.pe"
         case .animeheaven:
             baseUrl = "https://animeheaven.me/"
-        case .animefire, .kuramanime, .latanime, .anime3rb, .animetoast:
+        case .animefire, .kuramanime, .jkanime, .anime3rb:
             baseUrl = ""
         }
         
@@ -75,21 +75,16 @@ class AnimeDetailService {
                         synopsis = try document.select("div.anime__details__text p").text()
                         airdate = try document.select("div.anime__details__widget ul li div.col-9").eq(3).text()
                         stars = try document.select("div.anime__details__widget div.row div.col-lg-6 ul li").select("div:contains(Skor:) ~ div.col-9").text()
-                    case .latanime:
-                        aliases = ""
-                        synopsis = try document.select("div.col-md-8 p").last()?.text() ?? ""
-                        airdate = try document.select("div.col-md-8 div.my-2 span").last()?.text().replacingOccurrences(of: "Estreno: ", with: "") ?? ""
+                    case .jkanime:
+                        aliases = try document.select("div.anime__details__title span").text()
+                        synopsis = try document.select("p.tab.sinopsis").text()
+                        airdate = try document.select("li:contains(Emitido:)").first()?.text().replacingOccurrences(of: "Emitido: ", with: "") ?? ""
                         stars = ""
                     case .anime3rb:
                         aliases = ""
                         synopsis = try document.select("p.leading-loose").text()
                         airdate = try document.select("td[title]").attr("title")
                         stars = try document.select("p.text-lg.leading-relaxed").first()?.text() ?? ""
-                    case .animetoast:
-                         aliases = try document.select("div.col-md-8 p").last()?.text() ?? ""
-                         synopsis = try document.select("div.col-md-8 p").eq(0).text()
-                         airdate = try document.select("div.col-md-8 p").eq(2).text().replacingOccurrences(of: "Season Start: ", with: "")
-                         stars = ""
                     }
                     
                     episodes = self.fetchEpisodes(document: document, for: selectedSource, href: href)
@@ -116,7 +111,7 @@ class AnimeDetailService {
                 episodeElements = try document.select("div.server.active ul.episodes li.episode a")
                 downloadUrlElement = ""
             case .gogoanime:
-                episodeElements = try document.select("a.active")
+                episodeElements = try document.select("ul#episode_page a")
                 downloadUrlElement = ""
             case .animeheaven:
                 episodeElements = try document.select("a[href^='episode.php']")
@@ -129,28 +124,19 @@ class AnimeDetailService {
                 let episodeDocument = try SwiftSoup.parse(episodeContent)
                 episodeElements = try episodeDocument.select("a.btn")
                 downloadUrlElement = ""
-            case .latanime:
-                episodeElements = try document.select("div.row div.row div a")
+            case .jkanime:
+                episodeElements = try document.select("div.anime__pagination a.numbers")
                 downloadUrlElement = ""
             case .anime3rb:
                 episodeElements = try document.select("div.absolute.overflow-hidden div a.gap-3")
-                downloadUrlElement = ""
-            case .animetoast:
-                episodeElements = try document.select("div.tab-content div#multi_link_tab1 a.multilink-btn")
                 downloadUrlElement = ""
             }
             
             switch source {
             case .gogoanime:
                 episodes = episodeElements.flatMap { element -> [Episode] in
-                    guard let episodeText = try? element.text() else { return [] }
-                    
-                    let parts = episodeText.split(separator: "-")
-                    guard parts.count == 2,
-                          let start = Int(parts[0]),
-                          let end = Int(parts[1]) else {
-                        return []
-                    }
+                    guard let startStr = try? element.attr("ep_start"), let endStr = try? element.attr("ep_end"),
+                          let start = Int(startStr), let end = Int(endStr) else { return [] }
                     
                     return (max(1, start)...end).map { episodeNumber in
                         let formattedEpisode = "\(episodeNumber)"
@@ -168,16 +154,6 @@ class AnimeDetailService {
                     let episodeNumber = episodeText.replacingOccurrences(of: "Ep ", with: "")
                     return Episode(number: episodeNumber, href: href, downloadUrl: "")
                 }
-            case .animetoast:
-                episodes = episodeElements.compactMap { element in
-                    guard let episodeText = try? element.text(),
-                          let href = try? element.attr("href") else { return nil }
-                    
-                    let episodeNumber = episodeText.components(separatedBy: CharacterSet.decimalDigits.inverted)
-                        .joined()
-                    
-                    return Episode(number: episodeNumber, href: href, downloadUrl: "")
-                }
             case .anime3rb:
                 episodes = episodeElements.compactMap { element in
                     do {
@@ -191,7 +167,6 @@ class AnimeDetailService {
                         return nil
                     }
                 }
-                
             case .animeheaven:
                 episodes = episodeElements.compactMap { element in
                     guard let episodeNumberElement = try? element.select("div.watch2.bc.c").first() else {
@@ -205,6 +180,24 @@ class AnimeDetailService {
                         return Episode(number: episodeNumber, href: href, downloadUrl: "")
                     } else {
                         return nil
+                    }
+                }
+            case .jkanime:
+                episodes = episodeElements.flatMap { element -> [Episode] in
+                    guard let episodeText = try? element.text() else { return [] }
+                    
+                    let parts = episodeText.split(separator: "-")
+                    guard parts.count == 2,
+                          let start = Int(parts[0].trimmingCharacters(in: .whitespaces)),
+                          let end = Int(parts[1].trimmingCharacters(in: .whitespaces)) else {
+                        return []
+                    }
+                    
+                    return (max(1, start)...end).map { episodeNumber in
+                        let formattedEpisode = String(format: "%02d", episodeNumber)
+                        let episodeHref = "\(href)\(formattedEpisode)"
+                        
+                        return Episode(number: formattedEpisode, href: episodeHref, downloadUrl: "")
                     }
                 }
             default:

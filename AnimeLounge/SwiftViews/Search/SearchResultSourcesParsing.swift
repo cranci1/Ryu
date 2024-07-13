@@ -100,12 +100,12 @@ extension SearchResultsViewController {
         }
     }
     
-    func parseLatAnime(_ document: Document) -> [(title: String, imageUrl: String, href: String)] {
+    func parseJKanime(_ document: Document) -> [(title: String, imageUrl: String, href: String)] {
         do {
-            let items = try document.select("div.row div.col-md-4")
+            let items = try document.select("div.anime__page__content div.row div.col-lg-2")
             return try items.map { item -> (title: String, imageUrl: String, href: String) in
-                let title = try item.select("div.series div.seriedetails h3.my-1").text()
-                let imageUrl = try item.select("div.series div.serieimg img").attr("src")
+                let title = try item.select("h5").text()
+                let imageUrl = try item.select("div.anime__item__pic").attr("data-setbg")
                 let href = try item.select("a").attr("href")
                 return (title: title, imageUrl: imageUrl, href: href)
             }
@@ -126,21 +126,6 @@ extension SearchResultsViewController {
             }
         } catch {
             print("Error parsing Anime3rb: \(error.localizedDescription)")
-            return []
-        }
-    }
-    
-    func parseAnimeToast(_ document: Document) -> [(title: String, imageUrl: String, href: String)] {
-        do {
-            let items = try document.select("div.search-listing-content div.post")
-            return try items.map { item -> (title: String, imageUrl: String, href: String) in
-                let title = try item.select("a").text()
-                let imageUrl = try item.select("a img").attr("src")
-                let href = try item.select("a").attr("href")
-                return (title: title, imageUrl: imageUrl, href: href)
-            }
-        } catch {
-            print("Error parsing AnimeToast: \(error.localizedDescription)")
             return []
         }
     }

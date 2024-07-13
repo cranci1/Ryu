@@ -22,6 +22,10 @@ class SettingsViewCast: UITableViewController {
         animeImageSwitch.isOn = UserDefaults.standard.bool(forKey: "animeImageCast")
     }
     
+    @IBAction func closeButtonTapped() {
+        dismiss(animated: true, completion: nil)
+    }
+    
     @IBAction func fullTitleToggle(_ sender: UISwitch) {
         UserDefaults.standard.set(sender.isOn, forKey: "fullTitleCast")
     }

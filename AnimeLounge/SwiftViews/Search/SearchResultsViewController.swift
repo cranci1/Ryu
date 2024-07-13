@@ -177,19 +177,16 @@ class SearchResultsViewController: UIViewController {
         case "Kuramanime":
             url = "https://kuramanime.boo/anime"
             parameters["search"] = query
-        case "Latanime":
-            url = "https://latanime.org/buscar"
-            parameters["q"] = query
+        case "JKanime":
+            let encodedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? query
+            url = "https://jkanime.net/buscar/\(encodedQuery)"
         case "Anime3rb":
             url = "https://anime3rb.com/search"
             parameters["q"] = query
-        case "AnimeToast":
-            url = "https://www.animetoast.cc/"
-            parameters["s"] = query
         default:
             return nil
         }
-
+        
         return (url, parameters)
     }
 
@@ -225,12 +222,10 @@ class SearchResultsViewController: UIViewController {
             return parseAnimeFire(document)
         case .kuramanime:
             return parseKuramanime(document)
-        case .latanime:
-            return parseLatAnime(document)
+        case .jkanime:
+            return parseJKanime(document)
         case .anime3rb:
             return parseAnime3rb(document)
-        case .animetoast:
-            return parseAnimeToast(document)
         }
     }
 

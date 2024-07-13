@@ -56,6 +56,10 @@ class SettingsViewController: UITableViewController {
         }
     }
     
+    @IBAction func closeButtonTapped() {
+        dismiss(animated: true, completion: nil)
+    }
+    
     private func loadUserDefaults() {
         autoPlaySwitch.isOn = UserDefaults.standard.bool(forKey: "AutoPlay")
         landScapeSwitch.isOn = UserDefaults.standard.bool(forKey: "AlwaysLandscape")

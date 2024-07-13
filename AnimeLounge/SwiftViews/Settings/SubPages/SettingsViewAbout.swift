@@ -41,6 +41,10 @@ class SettingsViewAbout: UITableViewController {
         }
     }
     
+    @IBAction func closeButtonTapped() {
+        dismiss(animated: true, completion: nil)
+    }
+    
     @IBAction func githubTapped(_ sender: UITapGestureRecognizer) {
         openURL(githubURL)
     }

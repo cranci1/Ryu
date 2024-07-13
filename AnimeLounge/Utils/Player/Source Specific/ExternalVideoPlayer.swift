@@ -91,46 +91,6 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
                 return player ? player.getState() : 'Player not found';
             })();
             """
-        case "AnimeFire":
-            script = """
-            (function() {
-                var playButton = document.querySelector('div.play-button');
-                if (playButton) {
-                    playButton.click();
-                    return 'Clicked play button for AnimeFire';
-                }
-                var video = document.querySelector('video');
-                if (video) {
-                    if (video.paused) {
-                        video.play();
-                        return 'Started video playback for AnimeFire';
-                    } else {
-                        return 'Video is already playing for AnimeFire';
-                    }
-                }
-                return 'No play button or video element found for AnimeFire';
-            })();
-            """
-        case "AnimeToast":
-             script = """
-             (function() {
-                 var playButton = document.querySelector('.video-js');
-                 if (playButton) {
-                     playButton.click();
-                     return 'Clicked play button for AnimeToast';
-                 }
-                 var video = document.querySelector('video');
-                 if (video) {
-                     if (video.paused) {
-                         video.play();
-                         return 'Started video playback for AnimeToast';
-                     } else {
-                         return 'Video is already playing for AnimeToast';
-                     }
-                 }
-                 return 'No play button or video element found for AnimeToast';
-             })();
-             """
         default:
             script = """
             (function() {
@@ -214,70 +174,6 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
                 player.on('error', function() { notifyVideoState('error', null); });
             }
             """
-        case "AnimeFire":
-            script = """
-            function notifyVideoState(state, videoUrl) {
-                window.webkit.messageHandlers.videoHandler.postMessage({state: state, url: videoUrl});
-            }
-
-            function setupVideoListeners() {
-                var video = document.querySelector('video');
-                if (video) {
-                    video.addEventListener('play', function() {
-                        notifyVideoState('play', video.src);
-                    });
-                    video.addEventListener('pause', function() { notifyVideoState('pause', null); });
-                    video.addEventListener('ended', function() { notifyVideoState('complete', null); });
-                    video.addEventListener('error', function() { notifyVideoState('error', null); });
-                }
-            }
-
-            setupVideoListeners();
-
-            var playButton = document.querySelector('div.play-button');
-            if (playButton) {
-                playButton.addEventListener('click', function() {
-                    setTimeout(setupVideoListeners, 100);
-                });
-            }
-
-            var video = document.querySelector('video');
-            if (video && !video.paused) {
-                notifyVideoState('play', video.src);
-            }
-            """
-        case "AnimeToast":
-            script = """
-            function notifyVideoState(state, videoUrl) {
-                window.webkit.messageHandlers.videoHandler.postMessage({state: state, url: videoUrl});
-            }
-
-            function setupVideoListeners() {
-                var video = document.querySelector('video');
-                if (video) {
-                    video.addEventListener('play', function() {
-                        notifyVideoState('play', video.src);
-                    });
-                    video.addEventListener('pause', function() { notifyVideoState('pause', null); });
-                    video.addEventListener('ended', function() { notifyVideoState('complete', null); });
-                    video.addEventListener('error', function() { notifyVideoState('error', null); });
-                }
-            }
-
-            setupVideoListeners();
-
-            var playButton = document.querySelector('.video-js');
-            if (playButton) {
-                playButton.addEventListener('click', function() {
-                    setTimeout(setupVideoListeners, 100);
-                });
-            }
-
-            var video = document.querySelector('video');
-            if (video && !video.paused) {
-                notifyVideoState('play', video.src);
-            }
-            """
         default:
             script = ""
         }
@@ -327,14 +223,13 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
                         DispatchQueue.main.async { [weak self] in
                             guard let self = self else { return }
                             
-                            let goGoAnimeMethod = UserDefaults.standard.string(forKey: "GoGoAnimeMethod") ?? "default"
+                            let goGoAnimeMethod = UserDefaults.standard.string(forKey: "GoGoAnimeMethod") ?? "Experimental"
                             
                             switch goGoAnimeMethod {
                             case "Stable":
                                 self.playVideoInAVPlayer(url: videoUrl)
                             case "Experimental":
                                 self.animeDetailsViewController?.playVideo(sourceURL: videoUrl, cell: self.cell, fullURL: self.fullURL)
-                                print("\(videoUrl)")
                                 self.dismiss(animated: true, completion: nil)
                             default:
                                 self.animeDetailsViewController?.playVideo(sourceURL: videoUrl, cell: self.cell, fullURL: self.fullURL)
