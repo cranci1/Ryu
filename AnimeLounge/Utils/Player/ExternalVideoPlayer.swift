@@ -40,7 +40,7 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
     }
 
     private func setupLoadingView() {
-        view.backgroundColor = .black
+        view.backgroundColor = .secondarySystemBackground
         activityIndicator = UIActivityIndicatorView(style: .large)
         activityIndicator?.color = .white
         activityIndicator?.startAnimating()
@@ -314,29 +314,57 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
       }
 
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-         if message.name == "videoHandler" {
-             if let dict = message.body as? [String: Any],
-                let state = dict["state"] as? String {
-                 print("Video state changed: \(state)")
-                 if state == "play" {
-                     stopMonitoringPlayState()
-                     activityIndicator?.stopAnimating()
-                     activityIndicator?.removeFromSuperview()
-                     if let videoUrlString = dict["url"] as? String,
-                        let videoUrl = URL(string: videoUrlString) {
-                         DispatchQueue.main.async { [weak self] in
-                             guard let self = self else { return }
-                             self.animeDetailsViewController?.playVideo(sourceURL: videoUrl, cell: self.cell, fullURL: self.fullURL)
-                             self.dismiss(animated: true, completion: nil)
-                         }
-                     }
-                 } else if state == "pause" || state == "complete" || state == "error" {
-                     isVideoPlaying = false
-                     startMonitoringPlayState(interval: 2.0)
-                 }
-             }
-         }
-     }
+        if message.name == "videoHandler" {
+            if let dict = message.body as? [String: Any],
+               let state = dict["state"] as? String {
+                print("Video state changed: \(state)")
+                if state == "play" {
+                    stopMonitoringPlayState()
+                    activityIndicator?.stopAnimating()
+                    activityIndicator?.removeFromSuperview()
+                    if let videoUrlString = dict["url"] as? String,
+                       let videoUrl = URL(string: videoUrlString) {
+                        DispatchQueue.main.async { [weak self] in
+                            guard let self = self else { return }
+                            
+                            let goGoAnimeMethod = UserDefaults.standard.string(forKey: "GoGoAnimeMethod") ?? "default"
+                            
+                            switch goGoAnimeMethod {
+                            case "Stable":
+                                self.playVideoInAVPlayer(url: videoUrl)
+                            case "Experimental":
+                                self.animeDetailsViewController?.playVideo(sourceURL: videoUrl, cell: self.cell, fullURL: self.fullURL)
+                                print("\(videoUrl)")
+                                self.dismiss(animated: true, completion: nil)
+                            default:
+                                self.animeDetailsViewController?.playVideo(sourceURL: videoUrl, cell: self.cell, fullURL: self.fullURL)
+                                self.dismiss(animated: true, completion: nil)
+                            }
+                        }
+                    }
+                } else if state == "pause" || state == "complete" || state == "error" {
+                    isVideoPlaying = false
+                    startMonitoringPlayState(interval: 2.0)
+                }
+            }
+        }
+    }
+    
+    private func playVideoInAVPlayer(url: URL) {
+        let player = AVPlayer(url: url)
+        let playerViewController = AVPlayerViewController()
+        playerViewController.player = player
+
+        addChild(playerViewController)
+        view.addSubview(playerViewController.view)
+        playerViewController.view.frame = view.bounds
+        playerViewController.didMove(toParent: self)
+
+        self.playerViewController = playerViewController
+
+        player.play()
+        isVideoPlaying = true
+    }
 
      override func viewDidDisappear(_ animated: Bool) {
          super.viewDidDisappear(animated)
@@ -344,6 +372,15 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
      }
 
      private func stopAndCleanUp() {
+         playerViewController?.player?.pause()
+         playerViewController?.player?.replaceCurrentItem(with: nil)
+         playerViewController?.player = nil
+
+         playerViewController?.willMove(toParent: nil)
+         playerViewController?.view.removeFromSuperview()
+         playerViewController?.removeFromParent()
+         playerViewController = nil
+         
          stopMonitoringPlayState()
          isVideoPlaying = false
 

@@ -258,7 +258,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Library" id="0UW-nF-Gvu">
                         <barButtonItem key="rightBarButtonItem" id="z00-5E-Bud">
-                            <imageReference key="image" image="gear" catalog="system" symbolScale="large"/>
+                            <imageReference key="image" image="gearshape" catalog="system" symbolScale="large"/>
                             <color key="tintColor" name="AccentColor"/>
                             <connections>
                                 <segue destination="tkJ-qb-Pci" kind="show" id="QUk-Rn-qDy"/>
@@ -302,7 +302,7 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" id="teZ-LN-6Pb">
-                            <imageReference key="image" image="gear" catalog="system" symbolScale="large"/>
+                            <imageReference key="image" image="gearshape" catalog="system" symbolScale="large"/>
                             <color key="tintColor" name="AccentColor"/>
                             <connections>
                                 <segue destination="tkJ-qb-Pci" kind="show" id="X14-oT-TJn"/>
@@ -326,25 +326,10 @@
                     <view key="view" contentMode="scaleToFill" id="yXd-Tk-AwV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="TXn-77-GgS">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
-                            </tableView>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="ItH-UE-F4b"/>
                         <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="TXn-77-GgS" firstAttribute="top" secondItem="ItH-UE-F4b" secondAttribute="top" id="FM6-cE-c2Q"/>
-                            <constraint firstItem="TXn-77-GgS" firstAttribute="leading" secondItem="ItH-UE-F4b" secondAttribute="leading" id="G6l-x1-Rra"/>
-                            <constraint firstItem="TXn-77-GgS" firstAttribute="centerX" secondItem="yXd-Tk-AwV" secondAttribute="centerX" id="RLj-bN-18P"/>
-                            <constraint firstItem="TXn-77-GgS" firstAttribute="bottom" secondItem="ItH-UE-F4b" secondAttribute="bottom" id="uDA-60-HIb"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Results" largeTitleDisplayMode="never" id="sIr-SL-AbL"/>
-                    <connections>
-                        <outlet property="tableView" destination="TXn-77-GgS" id="wtt-xt-zC6"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K9U-nE-S9x" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -420,14 +405,14 @@
                     <navigationItem key="navigationItem" title="Favorites" id="BBu-Lh-qnt">
                         <leftBarButtonItems>
                             <barButtonItem id="2ET-QB-yVC">
-                                <imageReference key="image" image="gear" catalog="system" symbolScale="large"/>
+                                <imageReference key="image" image="gearshape" catalog="system" symbolScale="large"/>
                                 <color key="tintColor" name="AccentColor"/>
                                 <connections>
                                     <segue destination="tkJ-qb-Pci" kind="show" id="A4S-3U-V1x"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem id="end-2d-NSa">
-                                <imageReference key="image" image="antenna.radiowaves.left.and.right" catalog="system" symbolScale="large"/>
+                                <imageReference key="image" image="network" catalog="system" symbolScale="large"/>
                                 <color key="tintColor" name="AccentColor"/>
                                 <connections>
                                     <action selector="selectSourceButtonTapped:" destination="IWM-mT-B3l" id="QCY-jW-MT7"/>
@@ -642,7 +627,7 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" id="jaz-KQ-Hh9">
-                            <imageReference key="image" image="gear" catalog="system" symbolScale="large"/>
+                            <imageReference key="image" image="gearshape" catalog="system" symbolScale="large"/>
                             <color key="tintColor" name="AccentColor"/>
                             <connections>
                                 <segue destination="tkJ-qb-Pci" kind="show" id="Af5-Kj-0iD"/>
@@ -662,13 +647,13 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="QUk-Rn-qDy"/>
+        <segue reference="Af5-Kj-0iD"/>
     </inferredMetricsTieBreakers>
     <resources>
-        <image name="antenna.radiowaves.left.and.right" catalog="system" width="128" height="109"/>
         <image name="arrow.down.circle.fill" catalog="system" width="128" height="121"/>
         <image name="clock" catalog="system" width="128" height="121"/>
-        <image name="gear" catalog="system" width="128" height="119"/>
+        <image name="gearshape" catalog="system" width="128" height="121"/>
+        <image name="network" catalog="system" width="128" height="121"/>
         <image name="play.rectangle.fill" catalog="system" width="128" height="93"/>
         <image name="square.stack.fill" catalog="system" width="113" height="128"/>
         <image name="star.fill" catalog="system" width="128" height="116"/>

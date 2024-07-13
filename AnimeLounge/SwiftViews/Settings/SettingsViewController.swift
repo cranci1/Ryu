@@ -33,13 +33,13 @@ class SettingsViewController: UITableViewController {
             UserDefaults.standard.set("Default", forKey: "mediaPlayerSelected")
             self?.playerButton.setTitle("Default", for: .normal)
         })
-        let action2 = UIAction(title: "Infuse", image: infuseIcon, handler: { [weak self] _ in
-            UserDefaults.standard.set("Infuse", forKey: "mediaPlayerSelected")
-            self?.playerButton.setTitle("Infuse", for: .normal)
-        })
-        let action3 = UIAction(title: "VLC", image: vlcIcon, handler: { [weak self] _ in
+        let action2 = UIAction(title: "VLC", image: vlcIcon, handler: { [weak self] _ in
             UserDefaults.standard.set("VLC", forKey: "mediaPlayerSelected")
             self?.playerButton.setTitle("VLC", for: .normal)
+        })
+        let action3 = UIAction(title: "Infuse", image: infuseIcon, handler: { [weak self] _ in
+            UserDefaults.standard.set("Infuse", forKey: "mediaPlayerSelected")
+            self?.playerButton.setTitle("Infuse", for: .normal)
         })
         let action4 = UIAction(title: "Outplayer", image: outIcon, handler: { [weak self] _ in
             UserDefaults.standard.set("Outplayer", forKey: "mediaPlayerSelected")

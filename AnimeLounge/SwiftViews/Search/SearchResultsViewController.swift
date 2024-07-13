@@ -7,22 +7,234 @@
 
 import UIKit
 import Kingfisher
+import Alamofire
+import SwiftSoup
 
 class SearchResultsViewController: UIViewController {
 
-    @IBOutlet weak var tableView: UITableView!
-    
+    private lazy var tableView: UITableView = {
+        let table = UITableView()
+        table.translatesAutoresizingMaskIntoConstraints = false
+        return table
+    }()
+
+    private let loadingIndicator = UIActivityIndicatorView(style: .large)
+    private let errorLabel = UILabel()
+    private let noResultsLabel = UILabel()
+
     var searchResults: [(title: String, imageUrl: String, href: String)] = []
+    var query: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .secondarySystemBackground
+        
+        setupUI()
+        fetchResults()
+    }
+
+    private func setupUI() {
+        navigationItem.largeTitleDisplayMode = .never
+
+        view.addSubview(tableView)
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+
         tableView.dataSource = self
         tableView.delegate = self
-
+        tableView.backgroundColor = .secondarySystemBackground
         tableView.register(SearchResultCell.self, forCellReuseIdentifier: "resultCell")
-    }
         
-    func navigateToAnimeDetail(title: String, imageUrl: String, href: String) {
+        setupLoadingIndicator()
+        setupErrorLabel()
+        setupNoResultsLabel()
+    }
+
+    private func setupLoadingIndicator() {
+        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(loadingIndicator)
+        NSLayoutConstraint.activate([
+            loadingIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
+
+    private func setupErrorLabel() {
+        errorLabel.translatesAutoresizingMaskIntoConstraints = false
+        errorLabel.textAlignment = .center
+        errorLabel.numberOfLines = 0
+        errorLabel.isHidden = true
+        view.addSubview(errorLabel)
+        NSLayoutConstraint.activate([
+            errorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            errorLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            errorLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            errorLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+        ])
+    }
+
+    private func setupNoResultsLabel() {
+        noResultsLabel.translatesAutoresizingMaskIntoConstraints = false
+        noResultsLabel.textAlignment = .center
+        noResultsLabel.text = "No results found"
+        noResultsLabel.isHidden = true
+        view.addSubview(noResultsLabel)
+        NSLayoutConstraint.activate([
+            noResultsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            noResultsLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
+
+    private func fetchResults() {
+        loadingIndicator.startAnimating()
+        tableView.isHidden = true
+        errorLabel.isHidden = true
+        noResultsLabel.isHidden = true
+
+        guard let selectedSource = UserDefaults.standard.string(forKey: "selectedMediaSource") else {
+            showError("No media source selected.")
+            return
+        }
+
+        guard let urlParameters = getUrlAndParameters(for: selectedSource) else {
+            showError("Unsupported media source.")
+            return
+        }
+
+        AF.request(urlParameters.url, method: .get, parameters: urlParameters.parameters).responseString { [weak self] response in
+            guard let self = self else { return }
+            self.loadingIndicator.stopAnimating()
+
+            switch response.result {
+            case .success(let value):
+                let results = self.parseHTML(html: value, for: MediaSource(rawValue: selectedSource) ?? .animeWorld)
+                self.searchResults = results
+                if results.isEmpty {
+                    self.showNoResults()
+                } else {
+                    self.tableView.isHidden = false
+                    self.tableView.reloadData()
+                }
+            case .failure(let error):
+                if let httpStatusCode = response.response?.statusCode {
+                    switch httpStatusCode {
+                    case 400:
+                        self.showError("Bad request. Please check your input and try again.")
+                    case 403:
+                        self.showError("Access forbidden. You don't have permission to access this resource.")
+                    case 404:
+                        self.showError("Resource not found. Please try a different search.")
+                    case 429:
+                        self.showError("Too many requests. Please slow down and try again later.")
+                    case 500:
+                        self.showError("Internal server error. Please try again later.")
+                    case 502:
+                        self.showError("Bad gateway. The server is temporarily unable to handle the request.")
+                    case 503:
+                        self.showError("Service unavailable. Please try again later.")
+                    case 504:
+                        self.showError("Gateway timeout. The server took too long to respond.")
+                    default:
+                        self.showError("Unexpected error occurred. Please try again later.")
+                    }
+                } else if let nsError = error as NSError?, nsError.domain == NSURLErrorDomain {
+                    switch nsError.code {
+                    case NSURLErrorNotConnectedToInternet:
+                        self.showError("No internet connection. Please check your network and try again.")
+                    case NSURLErrorTimedOut:
+                        self.showError("Request timed out. Please try again later.")
+                    default:
+                        self.showError("Network error occurred. Please try again later.")
+                    }
+                } else {
+                    self.showError("Failed to fetch data. Please try again later.")
+                }
+            }
+        }
+    }
+
+    private func getUrlAndParameters(for source: String) -> (url: String, parameters: Parameters)? {
+        let url: String
+        var parameters: Parameters = [:]
+
+        switch source {
+        case "AnimeWorld":
+            url = "https://animeworld.so/search"
+            parameters["keyword"] = query
+        case "GoGoAnime":
+            url = "https://anitaku.pe/search.html"
+            parameters["keyword"] = query
+        case "AnimeHeaven":
+            url = "https://animeheaven.me/search.php"
+            parameters["s"] = query
+        case "AnimeFire":
+            let encodedQuery = query.lowercased().addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? query
+            url = "https://animefire.plus/pesquisar/\(encodedQuery)"
+        case "Kuramanime":
+            url = "https://kuramanime.boo/anime"
+            parameters["search"] = query
+        case "Latanime":
+            url = "https://latanime.org/buscar"
+            parameters["q"] = query
+        case "Anime3rb":
+            url = "https://anime3rb.com/search"
+            parameters["q"] = query
+        case "AnimeToast":
+            url = "https://www.animetoast.cc/"
+            parameters["s"] = query
+        default:
+            return nil
+        }
+
+        return (url, parameters)
+    }
+
+    private func showError(_ message: String) {
+        loadingIndicator.stopAnimating()
+        errorLabel.text = message
+        errorLabel.isHidden = false
+    }
+
+    private func showNoResults() {
+        noResultsLabel.isHidden = false
+    }
+
+    func parseHTML(html: String, for source: MediaSource) -> [(title: String, imageUrl: String, href: String)] {
+        do {
+            let document = try SwiftSoup.parse(html)
+            return parseDocument(document, for: source)
+        } catch {
+            print("Error parsing HTML: \(error.localizedDescription)")
+            return []
+        }
+    }
+
+    private func parseDocument(_ document: Document, for source: MediaSource) -> [(title: String, imageUrl: String, href: String)] {
+        switch source {
+        case .animeWorld:
+            return parseAnimeWorld(document)
+        case .gogoanime:
+            return parseGoGoAnime(document)
+        case .animeheaven:
+            return parseAnimeHeaven(document)
+        case .animefire:
+            return parseAnimeFire(document)
+        case .kuramanime:
+            return parseKuramanime(document)
+        case .latanime:
+            return parseLatAnime(document)
+        case .anime3rb:
+            return parseAnime3rb(document)
+        case .animetoast:
+            return parseAnimeToast(document)
+        }
+    }
+
+    private func navigateToAnimeDetail(title: String, imageUrl: String, href: String) {
         let detailVC = AnimeDetailViewController()
         detailVC.configure(title: title, imageUrl: imageUrl, href: href)
         navigationController?.pushViewController(detailVC, animated: true)
@@ -78,8 +290,7 @@ extension SearchResultsViewController: UIContextMenuInteractionDelegate {
                 self?.openInBrowser(path: result.href)
             }
             
-            let favoriteAction = UIAction(title: self.isFavorite(for: result) ? "Remove from Favorites" : "Add to Favorites",
-                                          image: UIImage(systemName: self.isFavorite(for: result) ? "star.fill" : "star")) { [weak self] _ in
+            let favoriteAction = UIAction(title: self.isFavorite(for: result) ? "Remove from Favorites" : "Add to Favorites", image: UIImage(systemName: self.isFavorite(for: result) ? "star.fill" : "star")) { [weak self] _ in
                 self?.toggleFavorite(for: result)
             }
             
