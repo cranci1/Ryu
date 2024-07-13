@@ -29,6 +29,17 @@ class AnimeInformation: UIViewController, UITableViewDataSource {
     
     private let loadingIndicator = UIActivityIndicatorView(style: .large)
     
+    private let searchEpisodesButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Search Episodes", for: .normal)
+        button.addTarget(self, action: #selector(searchEpisodesButtonTapped), for: .touchUpInside)
+        button.backgroundColor = .systemTeal
+        button.setTitleColor(.label, for: .normal)
+        button.layer.cornerRadius = 15
+        button.clipsToBounds = true
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.largeTitleDisplayMode = .never
@@ -68,65 +79,81 @@ class AnimeInformation: UIViewController, UITableViewDataSource {
     }
     
     private func setupHeaderView() {
-        contentView.addSubview(bannerImageView)
-        contentView.addSubview(coverImageView)
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(genresView)
-        
-        bannerImageView.translatesAutoresizingMaskIntoConstraints = false
-        coverImageView.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        genresView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            bannerImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            bannerImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            bannerImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            bannerImageView.heightAnchor.constraint(equalToConstant: 200),
-            
-            coverImageView.topAnchor.constraint(equalTo: bannerImageView.bottomAnchor, constant: -60),
-            coverImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            coverImageView.widthAnchor.constraint(equalToConstant: 110),
-            coverImageView.heightAnchor.constraint(equalToConstant: 160),
-            
-            titleLabel.topAnchor.constraint(equalTo: bannerImageView.bottomAnchor, constant: 8),
-            titleLabel.leadingAnchor.constraint(equalTo: coverImageView.trailingAnchor, constant: 16),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            
-            genresView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
-            genresView.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            genresView.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
-            genresView.heightAnchor.constraint(equalToConstant: 30)
-        ])
-        
-        coverImageView.layer.cornerRadius = 4
-        coverImageView.clipsToBounds = true
-        coverImageView.contentMode = .scaleAspectFill
-        
-        bannerImageView.contentMode = .scaleAspectFill
-        bannerImageView.clipsToBounds = true
-        
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
-        titleLabel.numberOfLines = 3
-    }
-    
-    private func setupContentViews() {
-        let stackView = UIStackView(arrangedSubviews: [
-            descriptionView, statsView, infoView, charactersView, relationsView
-        ])
-        stackView.axis = .vertical
-        stackView.spacing = 16
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        contentView.addSubview(stackView)
-        
-        NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: coverImageView.bottomAnchor, constant: 8),
-            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
-        ])
-    }
+         contentView.addSubview(bannerImageView)
+         contentView.addSubview(coverImageView)
+         contentView.addSubview(titleLabel)
+         contentView.addSubview(genresView)
+         contentView.addSubview(searchEpisodesButton)
+         
+         bannerImageView.translatesAutoresizingMaskIntoConstraints = false
+         coverImageView.translatesAutoresizingMaskIntoConstraints = false
+         titleLabel.translatesAutoresizingMaskIntoConstraints = false
+         genresView.translatesAutoresizingMaskIntoConstraints = false
+         searchEpisodesButton.translatesAutoresizingMaskIntoConstraints = false
+         
+         NSLayoutConstraint.activate([
+             bannerImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+             bannerImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+             bannerImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+             bannerImageView.heightAnchor.constraint(equalToConstant: 200),
+             
+             coverImageView.topAnchor.constraint(equalTo: bannerImageView.bottomAnchor, constant: -60),
+             coverImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+             coverImageView.widthAnchor.constraint(equalToConstant: 110),
+             coverImageView.heightAnchor.constraint(equalToConstant: 160),
+             
+             titleLabel.topAnchor.constraint(equalTo: bannerImageView.bottomAnchor, constant: 8),
+             titleLabel.leadingAnchor.constraint(equalTo: coverImageView.trailingAnchor, constant: 16),
+             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+             
+             searchEpisodesButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
+             searchEpisodesButton.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+             searchEpisodesButton.widthAnchor.constraint(equalToConstant: 150),
+             searchEpisodesButton.heightAnchor.constraint(equalToConstant: 30)
+         ])
+         
+         coverImageView.layer.cornerRadius = 4
+         coverImageView.clipsToBounds = true
+         coverImageView.contentMode = .scaleAspectFill
+         
+         bannerImageView.contentMode = .scaleAspectFill
+         bannerImageView.clipsToBounds = true
+         
+         titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
+         titleLabel.numberOfLines = 3
+     }
+     
+     @objc private func searchEpisodesButtonTapped() {
+         guard let query = titleLabel.text, !query.isEmpty else {
+             showError(message: "Could not find anime title.")
+             return
+         }
+         searchMedia(query: query)
+     }
+     
+     private func searchMedia(query: String) {
+         let resultsVC = SearchResultsViewController()
+         resultsVC.query = query
+         navigationController?.pushViewController(resultsVC, animated: true)
+     }
+     
+     private func setupContentViews() {
+         let stackView = UIStackView(arrangedSubviews: [
+             descriptionView, statsView, infoView, charactersView, relationsView
+         ])
+         stackView.axis = .vertical
+         stackView.spacing = 16
+         stackView.translatesAutoresizingMaskIntoConstraints = false
+         
+         contentView.addSubview(stackView)
+         
+         NSLayoutConstraint.activate([
+             stackView.topAnchor.constraint(equalTo: coverImageView.bottomAnchor, constant: 8),
+             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+             stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
+         ])
+     }
     
     private func setupLoadingIndicator() {
         view.addSubview(loadingIndicator)
