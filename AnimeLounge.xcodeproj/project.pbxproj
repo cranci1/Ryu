@@ -16,7 +16,7 @@
 		13327B362C314E6F00CEE6AC /* LandScapePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13327B352C314E6F00CEE6AC /* LandScapePlayer.swift */; };
 		1354F64A2C426EE700E45682 /* SearchResultSourcesParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1354F6492C426EE700E45682 /* SearchResultSourcesParsing.swift */; };
 		1354F64C2C42C49C00E45682 /* ExternalVideoPlayerJK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1354F64B2C42C49C00E45682 /* ExternalVideoPlayerJK.swift */; };
-		1354F6522C43C22000E45682 /* OpenCastSwift iOS in Frameworks */ = {isa = PBXBuildFile; productRef = 1354F6512C43C22000E45682 /* OpenCastSwift iOS */; };
+		1354F6552C43C2F300E45682 /* OpenCastSwift iOS in Frameworks */ = {isa = PBXBuildFile; productRef = 1354F6542C43C2F300E45682 /* OpenCastSwift iOS */; };
 		135F85292C382ECE0024954D /* SourceMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135F85282C382ECE0024954D /* SourceMenu.swift */; };
 		137F49D92C24B60800B787CB /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 137F49D82C24B60800B787CB /* SwiftSoup */; };
 		137F49EC2C254DCA00B787CB /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 137F49EB2C254DCA00B787CB /* Alamofire */; };
@@ -137,7 +137,7 @@
 			files = (
 				13D1DAAB2C28760900A35D79 /* Kingfisher in Frameworks */,
 				137F49EC2C254DCA00B787CB /* Alamofire in Frameworks */,
-				1354F6522C43C22000E45682 /* OpenCastSwift iOS in Frameworks */,
+				1354F6552C43C2F300E45682 /* OpenCastSwift iOS in Frameworks */,
 				137F49D92C24B60800B787CB /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -420,7 +420,7 @@
 				137F49D82C24B60800B787CB /* SwiftSoup */,
 				137F49EB2C254DCA00B787CB /* Alamofire */,
 				13D1DAAA2C28760900A35D79 /* Kingfisher */,
-				1354F6512C43C22000E45682 /* OpenCastSwift iOS */,
+				1354F6542C43C2F300E45682 /* OpenCastSwift iOS */,
 			);
 			productName = AnimeLounge;
 			productReference = 13AA298B2C245EDD00C8CA8E /* AnimeLounge.app */;
@@ -498,7 +498,7 @@
 				137F49D72C24B60800B787CB /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 				137F49EA2C254DCA00B787CB /* XCRemoteSwiftPackageReference "Alamofire" */,
 				13D1DAA92C28760900A35D79 /* XCRemoteSwiftPackageReference "Kingfisher" */,
-				1354F6502C43C22000E45682 /* XCRemoteSwiftPackageReference "OpenCastSwift" */,
+				1354F6532C43C2F300E45682 /* XCRemoteSwiftPackageReference "OpenCastSwift" */,
 			);
 			productRefGroup = 13AA298C2C245EDD00C8CA8E /* Products */;
 			projectDirPath = "";
@@ -927,7 +927,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		1354F6502C43C22000E45682 /* XCRemoteSwiftPackageReference "OpenCastSwift" */ = {
+		1354F6532C43C2F300E45682 /* XCRemoteSwiftPackageReference "OpenCastSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/danwilliams64/OpenCastSwift.git";
 			requirement = {
@@ -962,9 +962,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		1354F6512C43C22000E45682 /* OpenCastSwift iOS */ = {
+		1354F6542C43C2F300E45682 /* OpenCastSwift iOS */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 1354F6502C43C22000E45682 /* XCRemoteSwiftPackageReference "OpenCastSwift" */;
+			package = 1354F6532C43C2F300E45682 /* XCRemoteSwiftPackageReference "OpenCastSwift" */;
 			productName = "OpenCastSwift iOS";
 		};
 		137F49D82C24B60800B787CB /* SwiftSoup */ = {
