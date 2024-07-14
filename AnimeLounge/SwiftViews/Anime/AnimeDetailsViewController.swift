@@ -11,7 +11,7 @@ import WebKit
 import SwiftSoup
 import Foundation
 import MediaPlayer
-import OpenCastSwift_iOS
+import GoogleCast
 
 extension String {
     var nilIfEmpty: String? {
