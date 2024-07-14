@@ -5,20 +5,27 @@
 //  Created by Francesco on 13/07/24.
 //
 
-import UIKit
-import WebKit
 import AVKit
+import WebKit
+import GoogleCast
 
-class ExternalVideoPlayerJK: UIViewController, WKNavigationDelegate {
+class ExternalVideoPlayerJK: UIViewController, WKNavigationDelegate, GCKRemoteMediaClientListener {
     
     private var webView: WKWebView!
     private var activityIndicator: UIActivityIndicatorView!
     private var videoURL: String?
     private var playerViewController: AVPlayerViewController?
     
-    init(streamURL: String) {
-        super.init(nibName: nil, bundle: nil)
+    private var cell: EpisodeCell
+    private var fullURL: String
+    private weak var animeDetailsViewController: AnimeDetailViewController?
+
+    init(streamURL: String, cell: EpisodeCell, fullURL: String, animeDetailsViewController: AnimeDetailViewController) {
         self.videoURL = streamURL
+        self.cell = cell
+        self.fullURL = fullURL
+        self.animeDetailsViewController = animeDetailsViewController
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -97,9 +104,45 @@ class ExternalVideoPlayerJK: UIViewController, WKNavigationDelegate {
         let player = AVPlayer(url: url)
         playerViewController = AVPlayerViewController()
         playerViewController?.player = player
-        player.play()
         
-        present(playerViewController!, animated: true, completion: nil)
+        if let castSession = GCKCastContext.sharedInstance().sessionManager.currentCastSession {
+            castVideoToGoogleCast(videoURL: url)
+            dismiss(animated: true, completion: nil)
+        } else {
+            player.play()
+            present(playerViewController!, animated: true, completion: nil)
+        }
+    }
+    
+    private func castVideoToGoogleCast(videoURL: URL) {
+        DispatchQueue.main.async {
+            let metadata = GCKMediaMetadata(metadataType: .movie)
+            
+            if UserDefaults.standard.bool(forKey: "fullTitleCast") {
+                if let animeTitle = self.animeDetailsViewController?.animeTitle {
+                    metadata.setString(animeTitle, forKey: kGCKMetadataKeyTitle)
+                } else {
+                    print("Error: Anime title is missing.")
+                }
+            } else {
+                let episodeNumber = (self.animeDetailsViewController?.currentEpisodeIndex ?? -1) + 1
+                metadata.setString("Episode \(episodeNumber)", forKey: kGCKMetadataKeyTitle)
+            }
+            
+            if UserDefaults.standard.bool(forKey: "animeImageCast") {
+                if let imageURL = URL(string: self.animeDetailsViewController?.imageUrl ?? "") {
+                    metadata.addImage(GCKImage(url: imageURL, width: 480, height: 720))
+                } else {
+                    print("Error: Anime image URL is missing or invalid.")
+                }
+            }
+            
+            let mediaInformation = GCKMediaInformation(contentID: videoURL.absoluteString, streamType: .buffered, contentType: "application/x-mpegURL", metadata: metadata, streamDuration: 0, mediaTracks: nil, textTrackStyle: nil, customData: nil)
+            
+            if let remoteMediaClient = GCKCastContext.sharedInstance().sessionManager.currentCastSession?.remoteMediaClient {
+                remoteMediaClient.loadMedia(mediaInformation)
+            }
+        }
     }
     
     @objc private func closeButtonTapped() {

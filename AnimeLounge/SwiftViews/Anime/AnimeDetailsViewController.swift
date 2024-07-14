@@ -9,9 +9,9 @@ import UIKit
 import AVKit
 import WebKit
 import SwiftSoup
+import GoogleCast
 import Foundation
 import MediaPlayer
-import GoogleCast
 
 extension String {
     var nilIfEmpty: String? {
@@ -19,9 +19,9 @@ extension String {
     }
 }
 
-class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
-    private var animeTitle: String?
-    private var imageUrl: String?
+class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GCKRemoteMediaClientListener {
+    var animeTitle: String?
+    var imageUrl: String?
     private var href: String?
     
     private var episodes: [Episode] = []
@@ -32,9 +32,9 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
     
     private var player: AVPlayer?
     private var playerViewController: AVPlayerViewController?
-    private var currentEpisodeIndex: Int = 0
+    var currentEpisodeIndex: Int = 0
     
-    private var timeObserverToken: Any?
+    var timeObserverToken: Any?
     
     private var isFavorite: Bool = false
     private var isSynopsisExpanded = false
@@ -53,6 +53,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
         updateUI()
         setupNotifications()
         checkFavoriteStatus()
+        setupCastButton()
         
         navigationController?.navigationBar.prefersLargeTitles = false
         
@@ -66,10 +67,19 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
              currentEpisodeIndex = episodes.firstIndex(where: { $0.href == firstEpisodeHref }) ?? 0
          }
     }
-
+    
+    private func setupCastButton() {
+        let castButton = GCKUICastButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: castButton)
+    }
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+        
+        if let castSession = GCKCastContext.sharedInstance().sessionManager.currentCastSession,
+           let remoteMediaClient = castSession.remoteMediaClient {
+            remoteMediaClient.remove(self)
+        }
     }
     
     private func toggleFavorite() {
@@ -275,8 +285,10 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
                     switch result {
                     case .success(let details):
                         self?.updateAnimeDetails(with: details)
+                        self?.setupCastButton()
                     case .failure(let error):
                         self?.showAlert(withTitle: "Refresh Failed", message: error.localizedDescription)
+                        self?.setupCastButton()
                     }
                 }
             }
@@ -385,7 +397,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
             case VideoPlayerType.playerKura:
                 streamingVC = ExternalVideoPlayerKura(streamURL: url, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
             case VideoPlayerType.playerJK:
-                streamingVC = ExternalVideoPlayerJK(streamURL: url)
+                streamingVC = ExternalVideoPlayerJK(streamURL: url, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
             default:
                 return
             }
@@ -412,7 +424,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
         }
     }
 
-    private func playEpisode(url: String, cell: EpisodeCell, fullURL: String) {
+    func playEpisode(url: String, cell: EpisodeCell, fullURL: String) {
         guard let videoURL = URL(string: url) else {
             print("Invalid URL: \(url)")
             return
@@ -466,6 +478,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
                         self.fetchVideoDataAndChooseQuality(from: finalSrcURL.absoluteString) { selectedURL in
                             guard let selectedURL = selectedURL else { return }
                             self.playVideo(sourceURL: selectedURL, cell: cell, fullURL: fullURL)
+                            print("\(selectedURL)")
                         }
                     case "Anime3rb":
                         self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, playerType: VideoPlayerType.player3rb, cell: cell, fullURL: fullURL)
@@ -500,6 +513,78 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
             
             completion(.success(htmlString))
         }.resume()
+    }
+    
+    private func proceedWithCasting(videoURL: URL) {
+        DispatchQueue.main.async {
+            let metadata = GCKMediaMetadata(metadataType: .movie)
+            
+            if UserDefaults.standard.bool(forKey: "fullTitleCast") {
+                if let animeTitle = self.animeTitle {
+                    metadata.setString(animeTitle, forKey: kGCKMetadataKeyTitle)
+                } else {
+                    print("Error: Anime title is missing.")
+                }
+            } else {
+                let episodeNumber = self.currentEpisodeIndex + 1
+                metadata.setString("Episode \(episodeNumber)", forKey: kGCKMetadataKeyTitle)
+            }
+            
+            if UserDefaults.standard.bool(forKey: "animeImageCast") {
+                if let imageURL = URL(string: self.imageUrl ?? "") {
+                    metadata.addImage(GCKImage(url: imageURL, width: 480, height: 720))
+                } else {
+                    print("Error: Anime image URL is missing or invalid.")
+                }
+            }
+            
+            let contentType: String
+            let streamType: GCKMediaStreamType
+            
+            if videoURL.absoluteString.contains(".m3u8") {
+                contentType = "application/x-mpegurl"
+                streamType = .buffered
+            } else if videoURL.absoluteString.contains(".mp4") {
+                contentType = "video/mp4"
+                streamType = .buffered
+            } else {
+                contentType = "video/mp4"
+                streamType = .buffered
+            }
+            
+            let mediaInfo = GCKMediaInformation(
+                contentID: videoURL.absoluteString,
+                streamType: streamType,
+                contentType: contentType,
+                metadata: metadata,
+                streamDuration: 0,
+                mediaTracks: nil,
+                textTrackStyle: nil,
+                customData: nil
+            )
+            
+            let mediaLoadOptions = GCKMediaLoadOptions()
+            mediaLoadOptions.autoplay = true
+            mediaLoadOptions.playPosition = 0
+            
+            if let castSession = GCKCastContext.sharedInstance().sessionManager.currentCastSession,
+               let remoteMediaClient = castSession.remoteMediaClient {
+                remoteMediaClient.loadMedia(mediaInfo, with: mediaLoadOptions)
+                remoteMediaClient.add(self)
+            } else {
+                print("Error: Failed to load media to Google Cast")
+            }
+        }
+    }
+    
+    func remoteMediaClient(_ client: GCKRemoteMediaClient, didUpdate mediaStatus: GCKMediaStatus?) {
+        if let mediaStatus = mediaStatus, mediaStatus.idleReason == .finished {
+            if UserDefaults.standard.bool(forKey: "AutoPlay") {
+                DispatchQueue.main.async { [weak self] in
+                    self?.playNextEpisode()
+                }
+            }
+        }
     }
     
     private func extractVideoSourceURL(from htmlString: String) -> URL? {
@@ -671,31 +756,35 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
     }
 
     private func playVideoWithAVPlayer(sourceURL: URL, cell: EpisodeCell, fullURL: String) {
-        player = AVPlayer(url: sourceURL)
-        
-        if UserDefaults.standard.bool(forKey: "AlwaysLandscape") {
-            playerViewController = LandscapePlayer()
+        if GCKCastContext.sharedInstance().castState == .connected {
+            proceedWithCasting(videoURL: sourceURL)
         } else {
-            playerViewController = AVPlayerViewController()
-        }
-        
-        playerViewController?.player = player
-        
-        let lastPlayedTime = UserDefaults.standard.double(forKey: "lastPlayedTime_\(fullURL)")
-        
-        present(playerViewController!, animated: true) {
-            if lastPlayedTime > 0 {
-                let seekTime = CMTime(seconds: lastPlayedTime, preferredTimescale: 1)
-                self.player?.seek(to: seekTime) { _ in
+            player = AVPlayer(url: sourceURL)
+            
+            if UserDefaults.standard.bool(forKey: "AlwaysLandscape") {
+                playerViewController = LandscapePlayer()
+            } else {
+                playerViewController = AVPlayerViewController()
+            }
+            
+            playerViewController?.player = player
+            
+            let lastPlayedTime = UserDefaults.standard.double(forKey: "lastPlayedTime_\(fullURL)")
+            
+            present(playerViewController!, animated: true) {
+                if lastPlayedTime > 0 {
+                    let seekTime = CMTime(seconds: lastPlayedTime, preferredTimescale: 1)
+                    self.player?.seek(to: seekTime) { _ in
+                        self.player?.play()
+                    }
+                } else {
                     self.player?.play()
                 }
-            } else {
-                self.player?.play()
+                self.addPeriodicTimeObserver(cell: cell, fullURL: fullURL)
             }
-            self.addPeriodicTimeObserver(cell: cell, fullURL: fullURL)
+            
+            NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd), name: .AVPlayerItemDidPlayToEndTime, object: player?.currentItem)
         }
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd), name: .AVPlayerItemDidPlayToEndTime, object: player?.currentItem)
     }
 
     private func openInInfuse(url: URL) {
@@ -761,7 +850,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
         }
     }
     
-    private func playNextEpisode() {
+    func playNextEpisode() {
         currentEpisodeIndex += 1
         if currentEpisodeIndex < episodes.count {
             let nextEpisode = episodes[currentEpisodeIndex]

@@ -5,11 +5,12 @@
 //  Created by Francesco on 03/07/24.
 //
 
+import AVKit
 import WebKit
 import Combine
-import AVKit
+import GoogleCast
 
-class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessageHandler {
+class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessageHandler, GCKRemoteMediaClientListener {
     private var webView: WKWebView?
     private var clickCancellable: AnyCancellable?
     private var loadingObserver: NSKeyValueObservation?
@@ -223,17 +224,22 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
                         DispatchQueue.main.async { [weak self] in
                             guard let self = self else { return }
                             
-                            let goGoAnimeMethod = UserDefaults.standard.string(forKey: "GoGoAnimeMethod") ?? "Experimental"
-                            
-                            switch goGoAnimeMethod {
-                            case "Stable":
-                                self.playVideoInAVPlayer(url: videoUrl)
-                            case "Experimental":
-                                self.animeDetailsViewController?.playVideo(sourceURL: videoUrl, cell: self.cell, fullURL: self.fullURL)
+                            if GCKCastContext.sharedInstance().sessionManager.hasConnectedCastSession() {
+                                self.castVideoToGoogleCast(videoURL: videoUrl)
                                 self.dismiss(animated: true, completion: nil)
-                            default:
-                                self.animeDetailsViewController?.playVideo(sourceURL: videoUrl, cell: self.cell, fullURL: self.fullURL)
-                                self.dismiss(animated: true, completion: nil)
+                            } else {
+                                let goGoAnimeMethod = UserDefaults.standard.string(forKey: "GoGoAnimeMethod") ?? "Experimental"
+                                
+                                switch goGoAnimeMethod {
+                                case "Stable":
+                                    self.playVideoInAVPlayer(url: videoUrl)
+                                case "Experimental":
+                                    self.animeDetailsViewController?.playVideo(sourceURL: videoUrl, cell: self.cell, fullURL: self.fullURL)
+                                    self.dismiss(animated: true, completion: nil)
+                                default:
+                                    self.animeDetailsViewController?.playVideo(sourceURL: videoUrl, cell: self.cell, fullURL: self.fullURL)
+                                    self.dismiss(animated: true, completion: nil)
+                                }
                             }
                         }
                     }
@@ -241,6 +247,37 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
                     isVideoPlaying = false
                     startMonitoringPlayState(interval: 2.0)
                 }
+            }
+        }
+    }
+
+    private func castVideoToGoogleCast(videoURL: URL) {
+        DispatchQueue.main.async {
+            let metadata = GCKMediaMetadata(metadataType: .movie)
+            
+            if UserDefaults.standard.bool(forKey: "fullTitleCast") {
+                if let animeTitle = self.animeDetailsViewController?.animeTitle {
+                    metadata.setString(animeTitle, forKey: kGCKMetadataKeyTitle)
+                } else {
+                    print("Error: Anime title is missing.")
+                }
+            } else {
+                let episodeNumber = (self.animeDetailsViewController?.currentEpisodeIndex ?? -1) + 1
+                metadata.setString("Episode \(episodeNumber)", forKey: kGCKMetadataKeyTitle)
+            }
+            
+            if UserDefaults.standard.bool(forKey: "animeImageCast") {
+                if let imageURL = URL(string: self.animeDetailsViewController?.imageUrl ?? "") {
+                    metadata.addImage(GCKImage(url: imageURL, width: 480, height: 720))
+                } else {
+                    print("Error: Anime image URL is missing or invalid.")
+                }
+            }
+            
+            let mediaInformation = GCKMediaInformation(contentID: videoURL.absoluteString, streamType: .buffered, contentType: "application/x-mpegURL", metadata: metadata, streamDuration: 0, mediaTracks: nil, textTrackStyle: nil, customData: nil)
+            
+            if let remoteMediaClient = GCKCastContext.sharedInstance().sessionManager.currentCastSession?.remoteMediaClient {
+                remoteMediaClient.loadMedia(mediaInformation)
             }
         }
     }

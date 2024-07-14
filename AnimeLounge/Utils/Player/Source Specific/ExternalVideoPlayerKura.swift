@@ -5,11 +5,12 @@
 //  Created by Francesco on 09/07/24.
 //
 
-import WebKit
 import AVKit
+import WebKit
 import SwiftSoup
+import GoogleCast
 
-class ExternalVideoPlayerKura: UIViewController {
+class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
     private let streamURL: String
     private var webView: WKWebView?
     private var player: AVPlayer?
@@ -124,20 +125,56 @@ class ExternalVideoPlayerKura: UIViewController {
         DispatchQueue.main.async {
             self.activityIndicator?.stopAnimating()
             
-            let player = AVPlayer(url: url)
-            let playerViewController = AVPlayerViewController()
-            playerViewController.player = player
+            if let castSession = GCKCastContext.sharedInstance().sessionManager.currentCastSession {
+                self.castVideoToGoogleCast(videoURL: url)
+                self.dismiss(animated: true, completion: nil)
+            } else {
+                let player = AVPlayer(url: url)
+                let playerViewController = AVPlayerViewController()
+                playerViewController.player = player
+                
+                self.addChild(playerViewController)
+                self.view.addSubview(playerViewController.view)
+                playerViewController.view.frame = self.view.bounds
+                playerViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+                playerViewController.didMove(toParent: self)
+                
+                player.play()
+                
+                self.player = player
+                self.playerViewController = playerViewController
+            }
+        }
+    }
+
+    private func castVideoToGoogleCast(videoURL: URL) {
+        DispatchQueue.main.async {
+            let metadata = GCKMediaMetadata(metadataType: .movie)
             
-            self.addChild(playerViewController)
-            self.view.addSubview(playerViewController.view)
-            playerViewController.view.frame = self.view.bounds
-            playerViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            playerViewController.didMove(toParent: self)
+            if UserDefaults.standard.bool(forKey: "fullTitleCast") {
+                if let animeTitle = self.animeDetailsViewController?.animeTitle {
+                    metadata.setString(animeTitle, forKey: kGCKMetadataKeyTitle)
+                } else {
+                    print("Error: Anime title is missing.")
+                }
+            } else {
+                let episodeNumber = (self.animeDetailsViewController?.currentEpisodeIndex ?? -1) + 1
+                metadata.setString("Episode \(episodeNumber)", forKey: kGCKMetadataKeyTitle)
+            }
             
-            player.play()
+            if UserDefaults.standard.bool(forKey: "animeImageCast") {
+                if let imageURL = URL(string: self.animeDetailsViewController?.imageUrl ?? "") {
+                    metadata.addImage(GCKImage(url: imageURL, width: 480, height: 720))
+                } else {
+                    print("Error: Anime image URL is missing or invalid.")
+                }
+            }
             
-            self.player = player
-            self.playerViewController = playerViewController
+            let mediaInformation = GCKMediaInformation(contentID: videoURL.absoluteString, streamType: .buffered, contentType: "video/mp4", metadata: metadata, streamDuration: 0, mediaTracks: nil, textTrackStyle: nil, customData: nil)
+            
+            if let remoteMediaClient = GCKCastContext.sharedInstance().sessionManager.currentCastSession?.remoteMediaClient {
+                remoteMediaClient.loadMedia(mediaInformation)
+            }
         }
     }
     
