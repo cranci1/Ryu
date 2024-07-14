@@ -11,6 +11,7 @@ import WebKit
 import SwiftSoup
 import Foundation
 import MediaPlayer
+import OpenCastSwift_iOS
 
 extension String {
     var nilIfEmpty: String? {
