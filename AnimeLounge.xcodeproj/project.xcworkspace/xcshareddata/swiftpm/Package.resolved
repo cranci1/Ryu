@@ -20,12 +20,39 @@
         }
       },
       {
+        "package": "OpenCastSwift",
+        "repositoryURL": "https://github.com/danwilliams64/OpenCastSwift.git",
+        "state": {
+          "branch": "master",
+          "revision": "f96bf1ed9c1dcad34a1fcccb50d79a6cf612def4",
+          "version": null
+        }
+      },
+      {
+        "package": "SwiftProtobuf",
+        "repositoryURL": "https://github.com/apple/swift-protobuf",
+        "state": {
+          "branch": null,
+          "revision": "9f0c76544701845ad98716f3f6a774a892152bcb",
+          "version": "1.26.0"
+        }
+      },
+      {
         "package": "SwiftSoup",
         "repositoryURL": "https://github.com/scinfu/SwiftSoup.git",
         "state": {
           "branch": null,
           "revision": "5386dab25134eec11fc35fc5e43caf422fad0270",
           "version": "2.4.0"
+        }
+      },
+      {
+        "package": "SwiftyJSON",
+        "repositoryURL": "https://github.com/SwiftyJSON/SwiftyJSON",
+        "state": {
+          "branch": null,
+          "revision": "af76cf3ef710b6ca5f8c05f3a31307d44a3c5828",
+          "version": "5.0.2"
         }
       }
     ]

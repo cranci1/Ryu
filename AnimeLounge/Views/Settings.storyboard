@@ -421,14 +421,14 @@
                                             <outletCollection property="gestureRecognizers" destination="YfA-Ft-yXD" appends="YES" id="nyJ-PN-8if"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="yPV-fy-M4c">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="nUw-b7-C1T">
                                         <rect key="frame" x="20" y="984.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="yPV-fy-M4c" id="YZv-xL-sWU">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="nUw-b7-C1T" id="zBm-wD-CZR">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reset app" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9rv-Bj-siq">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reset app" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8V1-Vb-S8x">
                                                     <rect key="frame" x="15" y="13" width="69" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" systemColor="systemRedColor"/>
@@ -436,13 +436,13 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="9rv-Bj-siq" firstAttribute="centerY" secondItem="YZv-xL-sWU" secondAttribute="centerY" id="3mW-G6-sXp"/>
-                                                <constraint firstItem="9rv-Bj-siq" firstAttribute="leading" secondItem="YZv-xL-sWU" secondAttribute="leading" constant="15" id="cGW-gw-klq"/>
+                                                <constraint firstItem="8V1-Vb-S8x" firstAttribute="centerY" secondItem="zBm-wD-CZR" secondAttribute="centerY" id="SB8-rp-7AJ"/>
+                                                <constraint firstItem="8V1-Vb-S8x" firstAttribute="leading" secondItem="zBm-wD-CZR" secondAttribute="leading" constant="15" id="iPB-Sp-gnI"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <gestureRecognizers/>
                                         <connections>
-                                            <outletCollection property="gestureRecognizers" destination="oU6-Qe-5We" appends="YES" id="hkH-kb-ymn"/>
+                                            <outletCollection property="gestureRecognizers" destination="Mmk-n9-uVN" appends="YES" id="L3X-Zs-Uhv"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -479,11 +479,6 @@
                         <action selector="importBackupTapped:" destination="pc2-lO-9Ci" id="va2-eL-q6R"/>
                     </connections>
                 </tapGestureRecognizer>
-                <tapGestureRecognizer id="oU6-Qe-5We" userLabel="reset">
-                    <connections>
-                        <action selector="resetAppTapped:" destination="pc2-lO-9Ci" id="yPe-8a-toX"/>
-                    </connections>
-                </tapGestureRecognizer>
                 <tapGestureRecognizer id="YfA-Ft-yXD" userLabel="caches">
                     <connections>
                         <action selector="clearCache:" destination="pc2-lO-9Ci" id="xfE-fv-g4M"/>
@@ -492,6 +487,11 @@
                 <tapGestureRecognizer id="hHT-Ee-gUq" userLabel="history">
                     <connections>
                         <action selector="clearSearchHistory:" destination="pc2-lO-9Ci" id="W18-pr-7HG"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="Mmk-n9-uVN" userLabel="reset">
+                    <connections>
+                        <action selector="resetAppTapped:" destination="pc2-lO-9Ci" id="Q5G-TZ-ODl"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>

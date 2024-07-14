@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import MobileCoreServices
 import UniformTypeIdentifiers
 
 class SettingsViewController: UITableViewController {
@@ -160,11 +159,7 @@ class SettingsViewController: UITableViewController {
     
     private func presentDocumentPicker() {
         let documentPicker: UIDocumentPickerViewController
-        if #available(iOS 14.0, *) {
-            documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [UTType("me.cranci.albackup")!], asCopy: true)
-        } else {
-            documentPicker = UIDocumentPickerViewController(documentTypes: ["me.cranci.albackup"], in: .import)
-        }
+        documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [UTType("me.cranci.albackup")!], asCopy: true)
         documentPicker.delegate = self
         documentPicker.allowsMultipleSelection = false
         present(documentPicker, animated: true, completion: nil)
