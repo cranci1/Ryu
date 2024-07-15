@@ -229,10 +229,16 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
                             
                             if UserDefaults.standard.bool(forKey: "isToDownload") {
                                 UserDefaults.standard.set(false, forKey: "isToDownload")
+                                self.loadQualityOptions(from: videoUrl) { success, error in
+                                    if success {
+                                        self.showQualitySelection()
+                                    } else if let error = error {
+                                        print("Error loading quality options: \(error)")
+                                    }
+                                }
                             } else {
                                 if GCKCastContext.sharedInstance().sessionManager.hasConnectedCastSession() {
                                     self.castVideoToGoogleCast(videoURL: videoUrl)
-                                    self.showQualitySelection()
                                     self.dismiss(animated: true, completion: nil)
                                 } else {
                                     let goGoAnimeMethod = UserDefaults.standard.string(forKey: "GoGoAnimeMethod") ?? "Stable"
