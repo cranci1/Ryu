@@ -200,7 +200,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "EpisodeCell", for: indexPath) as! EpisodeCell
             let episode = episodes[indexPath.row]
-            cell.configure(episodeNumber: episode.number, downloadUrl: episode.downloadUrl)
+            cell.configure(episode: episode, delegate: self)
             cell.loadSavedProgress(for: episode.href)
             return cell
         default:
@@ -865,6 +865,18 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         } else {
             playerViewController?.dismiss(animated: true, completion: nil)
         }
+    }
+    
+    func downloadMedia(for episode: Episode) {
+        print("Downloading episode: \(episode.number)")
+        guard let cell = tableView.cellForRow(at: IndexPath(row: episodes.firstIndex(where: { $0.href == episode.href }) ?? 0, section: 2)) as? EpisodeCell else {
+            print("Error: Could not get cell for episode \(episode.number)")
+            return
+        }
+        
+        UserDefaults.standard.set(true, forKey: "isToDownload")
+        
+        episodeSelected(episode: episode, cell: cell)
     }
 }
 

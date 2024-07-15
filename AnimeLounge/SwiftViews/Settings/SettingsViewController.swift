@@ -15,15 +15,24 @@ class SettingsViewController: UITableViewController {
     @IBOutlet var browserPlayerSwitch: UISwitch!
     
     @IBOutlet weak var playerButton: UIButton!
+    @IBOutlet weak var sourceButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         loadUserDefaults()
         setupMenu()
+        
+        if let selectedOption = UserDefaults.standard.string(forKey: "selectedMediaSource") {
+            sourceButton.setTitle(selectedOption, for: .normal)
+        }
     }
     
     @IBAction func selectSourceButtonTapped(_ sender: UIButton) {
         SourceMenu.showSourceSelector(from: self, sourceView: sender)
+        
+        if let selectedOption = UserDefaults.standard.string(forKey: "selectedMediaSource") {
+            sourceButton.setTitle(selectedOption, for: .normal)
+        }
     }
     
     func setupMenu() {

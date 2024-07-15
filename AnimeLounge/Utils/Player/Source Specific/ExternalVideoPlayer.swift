@@ -11,6 +11,9 @@ import Combine
 import GoogleCast
 
 class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessageHandler, GCKRemoteMediaClientListener {
+    private var downloader = M3U8Downloader()
+    private var qualityOptions: [(name: String, fileName: String)] = []
+    
     private var webView: WKWebView?
     private var clickCancellable: AnyCancellable?
     private var loadingObserver: NSKeyValueObservation?
@@ -224,21 +227,26 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
                         DispatchQueue.main.async { [weak self] in
                             guard let self = self else { return }
                             
-                            if GCKCastContext.sharedInstance().sessionManager.hasConnectedCastSession() {
-                                self.castVideoToGoogleCast(videoURL: videoUrl)
-                                self.dismiss(animated: true, completion: nil)
+                            if UserDefaults.standard.bool(forKey: "isToDownload") {
+                                UserDefaults.standard.set(false, forKey: "isToDownload")
                             } else {
-                                let goGoAnimeMethod = UserDefaults.standard.string(forKey: "GoGoAnimeMethod") ?? "Experimental"
-                                
-                                switch goGoAnimeMethod {
-                                case "Stable":
-                                    self.playVideoInAVPlayer(url: videoUrl)
-                                case "Experimental":
-                                    self.animeDetailsViewController?.playVideo(sourceURL: videoUrl, cell: self.cell, fullURL: self.fullURL)
+                                if GCKCastContext.sharedInstance().sessionManager.hasConnectedCastSession() {
+                                    self.castVideoToGoogleCast(videoURL: videoUrl)
+                                    self.showQualitySelection()
                                     self.dismiss(animated: true, completion: nil)
-                                default:
-                                    self.animeDetailsViewController?.playVideo(sourceURL: videoUrl, cell: self.cell, fullURL: self.fullURL)
-                                    self.dismiss(animated: true, completion: nil)
+                                } else {
+                                    let goGoAnimeMethod = UserDefaults.standard.string(forKey: "GoGoAnimeMethod") ?? "Stable"
+                                    
+                                    switch goGoAnimeMethod {
+                                    case "Stable":
+                                        self.playVideoInAVPlayer(url: videoUrl)
+                                    case "Experimental":
+                                        self.animeDetailsViewController?.playVideo(sourceURL: videoUrl, cell: self.cell, fullURL: self.fullURL)
+                                        self.dismiss(animated: true, completion: nil)
+                                    default:
+                                        self.animeDetailsViewController?.playVideo(sourceURL: videoUrl, cell: self.cell, fullURL: self.fullURL)
+                                        self.dismiss(animated: true, completion: nil)
+                                    }
                                 }
                             }
                         }
@@ -249,6 +257,62 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
                 }
             }
         }
+    }
+    
+    func showQualitySelection() {
+        let alert = UIAlertController(title: "Select Quality", message: nil, preferredStyle: .actionSheet)
+        
+        for option in qualityOptions {
+            alert.addAction(UIAlertAction(title: option.name, style: .default, handler: { _ in
+                self.downloader.downloadAndCombineM3U8(url: URL(string: option.fileName)!, outputFileName: option.name)
+                self.dismiss(animated: true, completion: nil)
+            }))
+        }
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func loadQualityOptions(from url: URL, completion: @escaping (Bool, Error?) -> Void) {
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else {
+                print("Error downloading m3u8 file: \(String(describing: error))")
+                completion(false, error)
+                return
+            }
+            
+            guard let m3u8Content = String(data: data, encoding: .utf8) else {
+                print("Failed to decode m3u8 file content")
+                completion(false, NSError(domain: "M3U8ErrorDomain", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to parse m3u8 file"]))
+                return
+            }
+            
+            print("m3u8 file content:\n\(m3u8Content)")
+            
+            let lines = m3u8Content.components(separatedBy: .newlines)
+            var currentName: String?
+            
+            for line in lines {
+                if line.hasPrefix("#EXT-X-STREAM-INF") {
+                    if let nameRange = line.range(of: "NAME=\"") {
+                        let nameStartIndex = line.index(nameRange.upperBound, offsetBy: 0)
+                        let nameEndIndex = line[nameStartIndex...].firstIndex(of: "\"")
+                        if let nameEndIndex = nameEndIndex {
+                            currentName = String(line[nameStartIndex..<nameEndIndex])
+                        }
+                    }
+                } else if line.hasSuffix(".m3u8"), let name = currentName {
+                    self.qualityOptions.append((name: name, fileName: line))
+                    currentName = nil
+                }
+            }
+            
+            print("Parsed quality options: \(self.qualityOptions)")
+            
+            completion(true, nil)
+        }
+        task.resume()
     }
 
     private func castVideoToGoogleCast(videoURL: URL) {

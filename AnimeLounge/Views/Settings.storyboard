@@ -80,9 +80,9 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W9H-Zl-VGT">
-                                                    <rect key="frame" x="287" y="6" width="67" height="31"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W9H-Zl-VGT">
+                                                    <rect key="frame" x="300" y="6.5" width="67" height="31"/>
+                                                    <color key="tintColor" name="AccentColor"/>
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain" title="Button"/>
                                                     <connections>
@@ -92,6 +92,8 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="rFm-Lf-wis" firstAttribute="leading" secondItem="dJP-XZ-jWj" secondAttribute="leading" constant="15" id="J1O-Rz-aDs"/>
+                                                <constraint firstItem="W9H-Zl-VGT" firstAttribute="centerY" secondItem="dJP-XZ-jWj" secondAttribute="centerY" id="Kxx-7f-ucQ"/>
+                                                <constraint firstItem="W9H-Zl-VGT" firstAttribute="trailing" secondItem="dJP-XZ-jWj" secondAttribute="trailing" constant="-7" id="ru7-If-sdi"/>
                                                 <constraint firstItem="rFm-Lf-wis" firstAttribute="centerY" secondItem="dJP-XZ-jWj" secondAttribute="centerY" id="ux9-h3-o24"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -224,7 +226,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L8H-Zg-guy">
-                                                    <rect key="frame" x="298.5" y="6.5" width="70.5" height="31"/>
+                                                    <rect key="frame" x="296.5" y="6.5" width="70.5" height="31"/>
                                                     <color key="tintColor" name="AccentColor"/>
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain" title="Default"/>
@@ -232,7 +234,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="Iy6-kj-EvD" firstAttribute="leading" secondItem="dwo-ud-ay0" secondAttribute="leading" constant="15" id="7Cq-cz-Cyg"/>
-                                                <constraint firstItem="L8H-Zg-guy" firstAttribute="trailing" secondItem="dwo-ud-ay0" secondAttribute="trailing" constant="-5" id="Vx1-hS-GkQ"/>
+                                                <constraint firstItem="L8H-Zg-guy" firstAttribute="trailing" secondItem="dwo-ud-ay0" secondAttribute="trailing" constant="-7" id="Vx1-hS-GkQ"/>
                                                 <constraint firstItem="Iy6-kj-EvD" firstAttribute="centerY" secondItem="dwo-ud-ay0" secondAttribute="centerY" id="gOg-Sx-UWt"/>
                                                 <constraint firstItem="L8H-Zg-guy" firstAttribute="centerY" secondItem="dwo-ud-ay0" secondAttribute="centerY" id="m6c-m9-XM4"/>
                                             </constraints>
@@ -410,6 +412,7 @@
                         <outlet property="browserPlayerSwitch" destination="2jM-8Y-fd7" id="iLv-e3-heq"/>
                         <outlet property="landScapeSwitch" destination="apH-8D-ZHY" id="GwO-YD-2iP"/>
                         <outlet property="playerButton" destination="L8H-Zg-guy" id="0Q4-Tt-FwK"/>
+                        <outlet property="sourceButton" destination="W9H-Zl-VGT" id="UpL-9A-z5g"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QIX-WY-Iit" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -894,10 +897,10 @@ Experimental, will save the playback progress but may not work on all the episod
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s8s-69-DLI">
-                                                    <rect key="frame" x="261" y="6.5" width="108" height="31"/>
+                                                    <rect key="frame" x="304" y="6.5" width="65" height="31"/>
                                                     <color key="tintColor" name="AccentColor"/>
                                                     <state key="normal" title="Button"/>
-                                                    <buttonConfiguration key="configuration" style="plain" title="Experimental"/>
+                                                    <buttonConfiguration key="configuration" style="plain" title="Stable"/>
                                                 </button>
                                             </subviews>
                                             <constraints>
