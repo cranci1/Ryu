@@ -16,7 +16,7 @@
 		13327B362C314E6F00CEE6AC /* LandScapePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13327B352C314E6F00CEE6AC /* LandScapePlayer.swift */; };
 		1354F64A2C426EE700E45682 /* SearchResultSourcesParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1354F6492C426EE700E45682 /* SearchResultSourcesParsing.swift */; };
 		1354F64C2C42C49C00E45682 /* ExternalVideoPlayerJK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1354F64B2C42C49C00E45682 /* ExternalVideoPlayerJK.swift */; };
-		1354F6582C43C72100E45682 /* GoogleCastSDK-ios-no-bluetooth in Frameworks */ = {isa = PBXBuildFile; productRef = 1354F6572C43C72100E45682 /* GoogleCastSDK-ios-no-bluetooth */; };
+		1354F6582C43C72100E45682 /* GoogleCastSDK-ios-no-bluetooth in Frameworks */ = {isa = PBXBuildFile; platformFilter = ios; productRef = 1354F6572C43C72100E45682 /* GoogleCastSDK-ios-no-bluetooth */; };
 		135F85292C382ECE0024954D /* SourceMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135F85282C382ECE0024954D /* SourceMenu.swift */; };
 		137F49D92C24B60800B787CB /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 137F49D82C24B60800B787CB /* SwiftSoup */; };
 		137F49EC2C254DCA00B787CB /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 137F49EB2C254DCA00B787CB /* Alamofire */; };

@@ -22,6 +22,10 @@ class SettingsViewController: UITableViewController {
         setupMenu()
     }
     
+    @IBAction func selectSourceButtonTapped(_ sender: UIButton) {
+        SourceMenu.showSourceSelector(from: self, sourceView: sender)
+    }
+    
     func setupMenu() {
         let defaultIcon = UIImage(systemName: "play.rectangle.fill")
         let infuseIcon = UIImage(systemName: "flame")

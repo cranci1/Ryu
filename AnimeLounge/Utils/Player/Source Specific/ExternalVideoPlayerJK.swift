@@ -105,7 +105,7 @@ class ExternalVideoPlayerJK: UIViewController, WKNavigationDelegate, GCKRemoteMe
         playerViewController = AVPlayerViewController()
         playerViewController?.player = player
         
-        if let castSession = GCKCastContext.sharedInstance().sessionManager.currentCastSession {
+        if GCKCastContext.sharedInstance().sessionManager.currentCastSession != nil {
             castVideoToGoogleCast(videoURL: url)
             dismiss(animated: true, completion: nil)
         } else {
@@ -137,7 +137,12 @@ class ExternalVideoPlayerJK: UIViewController, WKNavigationDelegate, GCKRemoteMe
                 }
             }
             
-            let mediaInformation = GCKMediaInformation(contentID: videoURL.absoluteString, streamType: .buffered, contentType: "application/x-mpegURL", metadata: metadata, streamDuration: 0, mediaTracks: nil, textTrackStyle: nil, customData: nil)
+            let builder = GCKMediaInformationBuilder(contentURL: videoURL)
+            builder.streamType = .buffered
+            builder.contentType = "application/x-mpegURL"
+            builder.metadata = metadata
+            
+            let mediaInformation = builder.build()
             
             if let remoteMediaClient = GCKCastContext.sharedInstance().sessionManager.currentCastSession?.remoteMediaClient {
                 remoteMediaClient.loadMedia(mediaInformation)

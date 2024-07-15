@@ -538,6 +538,8 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                 }
             }
             
+            let builder = GCKMediaInformationBuilder(contentURL: videoURL)
+            
             let contentType: String
             let streamType: GCKMediaStreamType
             
@@ -552,16 +554,11 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                 streamType = .buffered
             }
             
-            let mediaInfo = GCKMediaInformation(
-                contentID: videoURL.absoluteString,
-                streamType: streamType,
-                contentType: contentType,
-                metadata: metadata,
-                streamDuration: 0,
-                mediaTracks: nil,
-                textTrackStyle: nil,
-                customData: nil
-            )
+            builder.contentType = contentType
+            builder.streamType = streamType
+            builder.metadata = metadata
+            
+            let mediaInformation = builder.build()
             
             let mediaLoadOptions = GCKMediaLoadOptions()
             mediaLoadOptions.autoplay = true
@@ -569,7 +566,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             
             if let castSession = GCKCastContext.sharedInstance().sessionManager.currentCastSession,
                let remoteMediaClient = castSession.remoteMediaClient {
-                remoteMediaClient.loadMedia(mediaInfo, with: mediaLoadOptions)
+                remoteMediaClient.loadMedia(mediaInformation, with: mediaLoadOptions)
                 remoteMediaClient.add(self)
             } else {
                 print("Error: Failed to load media to Google Cast")

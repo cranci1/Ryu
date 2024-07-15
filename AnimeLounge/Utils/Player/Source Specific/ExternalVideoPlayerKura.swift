@@ -125,7 +125,7 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
         DispatchQueue.main.async {
             self.activityIndicator?.stopAnimating()
             
-            if let castSession = GCKCastContext.sharedInstance().sessionManager.currentCastSession {
+            if GCKCastContext.sharedInstance().sessionManager.currentCastSession != nil {
                 self.castVideoToGoogleCast(videoURL: url)
                 self.dismiss(animated: true, completion: nil)
             } else {
@@ -170,7 +170,12 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
                 }
             }
             
-            let mediaInformation = GCKMediaInformation(contentID: videoURL.absoluteString, streamType: .buffered, contentType: "video/mp4", metadata: metadata, streamDuration: 0, mediaTracks: nil, textTrackStyle: nil, customData: nil)
+            let builder = GCKMediaInformationBuilder(contentURL: videoURL)
+            builder.streamType = .buffered
+            builder.contentType = "video/mp4"
+            builder.metadata = metadata
+            
+            let mediaInformation = builder.build()
             
             if let remoteMediaClient = GCKCastContext.sharedInstance().sessionManager.currentCastSession?.remoteMediaClient {
                 remoteMediaClient.loadMedia(mediaInformation)
