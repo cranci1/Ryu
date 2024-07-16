@@ -784,7 +784,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         }
     }
 
-    private func openInInfuse(url: URL) {
+    func openInInfuse(url: URL) {
         guard let infuseURL = URL(string: "infuse://x-callback-url/play?url=\(url.absoluteString)") else {
             print("Failed to create Infuse URL")
             return
@@ -798,7 +798,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         }
     }
 
-    private func openInVLC(url: URL) {
+    func openInVLC(url: URL) {
         guard let vlcURL = URL(string: "vlc://\(url.absoluteString)") else {
             print("Failed to create VLC URL")
             return
@@ -812,7 +812,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         }
     }
     
-    private func openInOutplayer(url: URL) {
+    func openInOutplayer(url: URL) {
         guard let outURL = URL(string: "outplayer://\(url.absoluteString)") else {
             print("Failed to create Outplayer URL")
             return

@@ -12,6 +12,8 @@
 		1308F17A2C328571004348A9 /* BackupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1308F1792C328571004348A9 /* BackupManager.swift */; };
 		131464012C382B6800F6AD8B /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131464002C382B6800F6AD8B /* UIImage.swift */; };
 		131C06CB2C459DFB004ED5D9 /* M3U8Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131C06CA2C459DFB004ED5D9 /* M3U8Downloader.swift */; };
+		131C06D12C4661B9004ED5D9 /* DownloadsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131C06D02C4661B9004ED5D9 /* DownloadsViewController.swift */; };
+		131C06D32C4661D6004ED5D9 /* DownloadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131C06D22C4661D6004ED5D9 /* DownloadCell.swift */; };
 		1326E4D22C343DF80056A66E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1326E4D12C343DF80056A66E /* Main.storyboard */; };
 		1326E4D42C343E040056A66E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1326E4D32C343E040056A66E /* LaunchScreen.storyboard */; };
 		13327B362C314E6F00CEE6AC /* LandScapePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13327B352C314E6F00CEE6AC /* LandScapePlayer.swift */; };
@@ -63,6 +65,8 @@
 		1308F1792C328571004348A9 /* BackupManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupManager.swift; sourceTree = "<group>"; };
 		131464002C382B6800F6AD8B /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		131C06CA2C459DFB004ED5D9 /* M3U8Downloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = M3U8Downloader.swift; sourceTree = "<group>"; };
+		131C06D02C4661B9004ED5D9 /* DownloadsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadsViewController.swift; sourceTree = "<group>"; };
+		131C06D22C4661D6004ED5D9 /* DownloadCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadCell.swift; sourceTree = "<group>"; };
 		1326E4D12C343DF80056A66E /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		1326E4D32C343E040056A66E /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		13327B352C314E6F00CEE6AC /* LandScapePlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandScapePlayer.swift; sourceTree = "<group>"; };
@@ -157,6 +161,15 @@
 				135F85282C382ECE0024954D /* SourceMenu.swift */,
 			);
 			path = Sources;
+			sourceTree = "<group>";
+		};
+		131C06CF2C4661A8004ED5D9 /* Downloads */ = {
+			isa = PBXGroup;
+			children = (
+				131C06D02C4661B9004ED5D9 /* DownloadsViewController.swift */,
+				131C06D22C4661D6004ED5D9 /* DownloadCell.swift */,
+			);
+			path = Downloads;
 			sourceTree = "<group>";
 		};
 		13327B342C314E6300CEE6AC /* Player */ = {
@@ -349,6 +362,7 @@
 		13E446412C25AC25002B14E8 /* SwiftViews */ = {
 			isa = PBXGroup;
 			children = (
+				131C06CF2C4661A8004ED5D9 /* Downloads */,
 				139B164E2C272A48007E3477 /* Settings */,
 				13CD3A812C26BA2700B046F9 /* Favorites */,
 				13CD3A7E2C26B24D00B046F9 /* Anime */,
@@ -470,6 +484,7 @@
 				13BE7A112C42646B005EE2F7 /* SettingsGoGo.swift in Sources */,
 				13CD3A6D2C26028500B046F9 /* SeasonalAnime.swift in Sources */,
 				139B16472C270D41007E3477 /* AiringAnime.swift in Sources */,
+				131C06D12C4661B9004ED5D9 /* DownloadsViewController.swift in Sources */,
 				13C674662C3C6ED300ACFEFA /* ExternalVideoPlayer3rb.swift in Sources */,
 				130645E12C295264004642B3 /* SettingsViewAbout.swift in Sources */,
 				13C674692C3D31DB00ACFEFA /* ExternalVideoPlayerKura.swift in Sources */,
@@ -478,6 +493,7 @@
 				13CD3A7B2C26040C00B046F9 /* SeasonalAnimeCell-Swift.swift in Sources */,
 				13AE19E12C2BF71F0012633D /* FavoriteCell-Swift.swift in Sources */,
 				13D486412C3535FE003ED471 /* ExternalVideoPlayer.swift in Sources */,
+				131C06D32C4661D6004ED5D9 /* DownloadCell.swift in Sources */,
 				13E4464E2C25C38A002B14E8 /* WatchNextViewController.swift in Sources */,
 				139B16502C272A55007E3477 /* SettingsViewController.swift in Sources */,
 				131C06CB2C459DFB004ED5D9 /* M3U8Downloader.swift in Sources */,

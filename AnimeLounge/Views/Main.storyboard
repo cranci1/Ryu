@@ -67,6 +67,22 @@
             </objects>
             <point key="canvasLocation" x="-3490.4000000000001" y="723.68815592203907"/>
         </scene>
+        <!--Downloads-->
+        <scene sceneID="tSA-64-xtt">
+            <objects>
+                <viewController id="Yrt-vo-JgV" customClass="DownloadListViewController" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8XU-33-PSj">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="8Xn-BK-u6a"/>
+                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Downloads" id="LUJ-JV-k8K"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="y8o-Na-PE2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-6388" y="1499"/>
+        </scene>
         <!--Library-->
         <scene sceneID="pt1-Aq-O9k">
             <objects>
@@ -275,7 +291,11 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qGL-YY-bfp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="LbR-PN-yde" userLabel="recents"/>
                 <tapGestureRecognizer id="jRp-U8-0xf" userLabel="favorites"/>
-                <tapGestureRecognizer id="akv-PI-rO3" userLabel="downloads"/>
+                <tapGestureRecognizer id="akv-PI-rO3" userLabel="downloads">
+                    <connections>
+                        <segue destination="Yrt-vo-JgV" kind="show" id="ig6-Di-cen"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-5588" y="1497.3013493253375"/>
         </scene>
@@ -647,7 +667,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Af5-Kj-0iD"/>
+        <segue reference="QUk-Rn-qDy"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.down.circle.fill" catalog="system" width="128" height="121"/>

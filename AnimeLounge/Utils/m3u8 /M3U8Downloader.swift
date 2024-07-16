@@ -5,8 +5,8 @@
 //  Created by Francesco on 15/07/24.
 //
 
-import Foundation
 import Combine
+import UIKit
 
 class M3U8Downloader: ObservableObject {
     @Published var downloadProgress: Double = 0.0
@@ -69,7 +69,7 @@ class M3U8Downloader: ObservableObject {
     private func combineSegments(segmentURLs: [URL], outputFileName: String) -> Future<Void, Error> {
         Future { promise in
             DispatchQueue.global(qos: .background).async {
-                let outputURL = self.createOutputFileURL(withName: outputFileName)
+                let outputURL = self.createOutputFileURL(withName: outputFileName + ".mpeg")
                 
                 do {
                     if !FileManager.default.fileExists(atPath: outputURL.path) {
