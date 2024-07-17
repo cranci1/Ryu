@@ -54,9 +54,11 @@ class DownloadCell: UITableViewCell {
         contentView.addSubview(fileSizeLabel)
         contentView.addSubview(chevronImageView)
         
-        contentView.backgroundColor = .secondarySystemBackground
-        backgroundColor = .secondarySystemBackground
-        
+        setupConstraints()
+        setupAppearance()
+    }
+    
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             playButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             playButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
@@ -76,5 +78,10 @@ class DownloadCell: UITableViewCell {
             chevronImageView.widthAnchor.constraint(equalToConstant: 10),
             chevronImageView.heightAnchor.constraint(equalToConstant: 20)
         ])
+    }
+    
+    private func setupAppearance() {
+        contentView.backgroundColor = .secondarySystemBackground
+        backgroundColor = .secondarySystemBackground
     }
 }

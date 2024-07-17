@@ -17,6 +17,9 @@ class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
     private var playerViewController: AVPlayerViewController?
     private var activityIndicator: UIActivityIndicatorView?
     
+    private var progressView: UIProgressView?
+    private var progressLabel: UILabel?
+    
     private var retryCount = 0
     private let maxRetries = 5
     
@@ -51,6 +54,29 @@ class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
         view.backgroundColor = UIColor.secondarySystemBackground
         setupActivityIndicator()
         setupWebView()
+        setupProgressUI()
+    }
+    
+    private func setupProgressUI() {
+        progressView = UIProgressView(progressViewStyle: .default)
+        progressView?.progress = 0.0
+        progressView?.center = view.center
+        progressView?.trackTintColor = UIColor.gray
+        progressView?.progressTintColor = UIColor.systemTeal
+        
+        progressLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 30))
+        progressLabel?.textColor = .label
+        progressLabel?.center = CGPoint(x: view.center.x, y: view.center.y + 30)
+        
+        if let progressView = progressView, let progressLabel = progressLabel {
+            view.addSubview(progressView)
+            view.addSubview(progressLabel)
+        }
+    }
+    
+    private func updateProgress(progress: Float) {
+        progressView?.progress = progress
+        progressLabel?.text = "\(Int(progress * 100))%"
     }
     
     private func setupActivityIndicator() {
@@ -166,7 +192,25 @@ class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
         DispatchQueue.main.async {
             self.activityIndicator?.stopAnimating()
             
-            if GCKCastContext.sharedInstance().sessionManager.currentCastSession != nil {
+            if UserDefaults.standard.bool(forKey: "isToDownload") {
+                UserDefaults.standard.set(false, forKey: "isToDownload")
+                let downloader = MP4Downloader(url: url)
+                downloader.startDownload(progress: { progress in
+                    DispatchQueue.main.async {
+                        self.updateProgress(progress: progress)
+                    }
+                }) { result in
+                    switch result {
+                    case .success:
+                        self.animeDetailsViewController?.showAlert(withTitle: "Download Completed!", message: "You can find your download in the Library -> Downloads.")
+                        self.dismiss(animated: true, completion: nil)
+                    case .failure(let error):
+                        print("Download failed with error: \(error.localizedDescription)")
+                        self.animeDetailsViewController?.showAlert(withTitle: "Download Failed", message: "\(error.localizedDescription)")
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                }
+            } else if GCKCastContext.sharedInstance().sessionManager.currentCastSession != nil {
                 self.castVideoToGoogleCast(videoURL: url)
                 self.dismiss(animated: true, completion: nil)
             } else {

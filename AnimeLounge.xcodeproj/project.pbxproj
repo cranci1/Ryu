@@ -14,6 +14,7 @@
 		131C06CB2C459DFB004ED5D9 /* M3U8Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131C06CA2C459DFB004ED5D9 /* M3U8Downloader.swift */; };
 		131C06D12C4661B9004ED5D9 /* DownloadsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131C06D02C4661B9004ED5D9 /* DownloadsViewController.swift */; };
 		131C06D32C4661D6004ED5D9 /* DownloadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131C06D22C4661D6004ED5D9 /* DownloadCell.swift */; };
+		131C06D92C47AEA8004ED5D9 /* MP4Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131C06D82C47AEA8004ED5D9 /* MP4Downloader.swift */; };
 		1326E4D22C343DF80056A66E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1326E4D12C343DF80056A66E /* Main.storyboard */; };
 		1326E4D42C343E040056A66E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1326E4D32C343E040056A66E /* LaunchScreen.storyboard */; };
 		13327B362C314E6F00CEE6AC /* LandScapePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13327B352C314E6F00CEE6AC /* LandScapePlayer.swift */; };
@@ -67,6 +68,7 @@
 		131C06CA2C459DFB004ED5D9 /* M3U8Downloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = M3U8Downloader.swift; sourceTree = "<group>"; };
 		131C06D02C4661B9004ED5D9 /* DownloadsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadsViewController.swift; sourceTree = "<group>"; };
 		131C06D22C4661D6004ED5D9 /* DownloadCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadCell.swift; sourceTree = "<group>"; };
+		131C06D82C47AEA8004ED5D9 /* MP4Downloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MP4Downloader.swift; sourceTree = "<group>"; };
 		1326E4D12C343DF80056A66E /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		1326E4D32C343E040056A66E /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		13327B352C314E6F00CEE6AC /* LandScapePlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandScapePlayer.swift; sourceTree = "<group>"; };
@@ -130,19 +132,20 @@
 			isa = PBXGroup;
 			children = (
 				131C06CD2C45A273004ED5D9 /* Managers */,
-				131C06C92C459D5E004ED5D9 /* m3u8  */,
+				131C06C92C459D5E004ED5D9 /* Downloader */,
 				13327B342C314E6300CEE6AC /* Player */,
 				131464002C382B6800F6AD8B /* UIImage.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		131C06C92C459D5E004ED5D9 /* m3u8  */ = {
+		131C06C92C459D5E004ED5D9 /* Downloader */ = {
 			isa = PBXGroup;
 			children = (
 				131C06CA2C459DFB004ED5D9 /* M3U8Downloader.swift */,
+				131C06D82C47AEA8004ED5D9 /* MP4Downloader.swift */,
 			);
-			path = "m3u8 ";
+			path = Downloader;
 			sourceTree = "<group>";
 		};
 		131C06CD2C45A273004ED5D9 /* Managers */ = {
@@ -500,6 +503,7 @@
 				13327B362C314E6F00CEE6AC /* LandScapePlayer.swift in Sources */,
 				13CD3A802C26B25E00B046F9 /* AnimeDetailsViewController.swift in Sources */,
 				137F4A422C25820600B787CB /* LibraryViewControlller.swift in Sources */,
+				131C06D92C47AEA8004ED5D9 /* MP4Downloader.swift in Sources */,
 				13AE19DA2C2AF1130012633D /* Episode.swift in Sources */,
 				13AA29912C245EDD00C8CA8E /* SceneDelegate.swift in Sources */,
 				13AE19DC2C2AF1400012633D /* AnimeDetailService.swift in Sources */,

@@ -737,8 +737,29 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
 
     func playVideo(sourceURL: URL, cell: EpisodeCell, fullURL: String) {
         let selectedPlayer = UserDefaults.standard.string(forKey: "mediaPlayerSelected") ?? "Default"
-        
-        switch selectedPlayer {
+        let isToDownload = UserDefaults.standard.bool(forKey: "isToDownload")
+
+        if isToDownload {
+            let downloader = MP4Downloader(url: sourceURL)
+            downloader.startDownload(progress: { progress in
+                UserDefaults.standard.set(false, forKey: "isToDownload")
+                print("Download progress: \(progress * 100)%")
+            }) { result in
+                switch result {
+                case .success:
+                    self.showAlert(title: "Download Compleated!", message: "You can find your donwload in the Library -> Downloads.")
+                case .failure(let error):
+                    print("Download failed with error: \(error.localizedDescription)")
+                    self.showAlert(title: "Download Failed", message: "\(error.localizedDescription)")
+                }
+            }
+        } else {
+            playVideoWithSelectedPlayer(player: selectedPlayer, sourceURL: sourceURL, cell: cell, fullURL: fullURL)
+        }
+    }
+
+    private func playVideoWithSelectedPlayer(player: String, sourceURL: URL, cell: EpisodeCell, fullURL: String) {
+        switch player {
         case "Default":
             playVideoWithAVPlayer(sourceURL: sourceURL, cell: cell, fullURL: fullURL)
         case "Infuse":
