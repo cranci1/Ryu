@@ -69,7 +69,7 @@ class M3U8Downloader: ObservableObject {
     private func combineSegments(segmentURLs: [URL], outputFileName: String) -> Future<Void, Error> {
         Future { promise in
             DispatchQueue.global(qos: .background).async {
-                let outputURL = self.createOutputFileURL(withName: outputFileName + ".mpeg")
+                let outputURL = self.createOutputFileURL(withName: outputFileName + ".mpg")
                 
                 do {
                     if !FileManager.default.fileExists(atPath: outputURL.path) {
