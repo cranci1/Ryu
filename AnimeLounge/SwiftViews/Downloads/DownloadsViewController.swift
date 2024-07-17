@@ -51,9 +51,8 @@ class DownloadListViewController: UIViewController {
     }
     
     private func playDownload(url: URL) {
-        let supportedExtensions = ["mpg", "mpeg", "mp4"]
-        guard supportedExtensions.contains(url.pathExtension.lowercased()) else {
-            print("Error: File format is not supported")
+        guard url.pathExtension.lowercased() == "mpeg" else {
+            print("Error: File is not an MPEG")
             return
         }
         
@@ -116,7 +115,7 @@ class DownloadManager {
         
         do {
             let fileURLs = try fileManager.contentsOfDirectory(at: documentsURL, includingPropertiesForKeys: nil)
-            return fileURLs.filter { ["mpg", "mpeg", "mp4"].contains($0.pathExtension.lowercased()) }
+            return fileURLs.filter { $0.pathExtension == "mpeg" }
         } catch {
             print("Error while enumerating files: \(error.localizedDescription)")
             return []
