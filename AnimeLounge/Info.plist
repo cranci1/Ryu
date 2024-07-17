@@ -2,22 +2,21 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>NSLocalNetworkUsageDescription</key>
-    <string>AnimeLounge needs this to cast episodes using the Google Cast service</string>
-    
-    <key>NSBonjourServices</key>
-    <array>
-        <string>_googlecast._tcp</string>
-        <string>_CC1AD845._googlecast._tcp</string>
-    </array>
+    <key>NSUserNotificationUsageDescription</key>
+    <string>AnimeLounge usew notifications to alert you when your downloads are complete.</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>AnimeLounge needs this to cast episodes using the Google Cast service</string>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_googlecast._tcp</string>
+		<string>_CC1AD845._googlecast._tcp</string>
+	</array>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>outplayer</string>
 		<string>infuse</string>
 		<string>vlc</string>
 	</array>
-	<key>NSLocalNetworkUsageDescription</key>
-	<string>AnimeLounge needs this to cast episodes using the Google Cast service</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

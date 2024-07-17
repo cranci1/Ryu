@@ -285,6 +285,7 @@
                         <outlet property="DownloadBox" destination="ZK0-8S-Whv" id="oaC-wG-80C"/>
                         <outlet property="FavoritesBox" destination="0dG-mT-9uv" id="ChM-jZ-e2H"/>
                         <outlet property="RecentsBox" destination="k3s-Y1-fap" id="Y5A-qC-p1i"/>
+                        <outlet property="downloadCountLabel" destination="whC-V3-DAg" id="fAT-Jq-CNg"/>
                         <outlet property="favoriteCountLabel" destination="GSZ-aV-pga" id="HAz-FZ-86b"/>
                     </connections>
                 </viewController>

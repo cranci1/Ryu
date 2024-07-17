@@ -42,6 +42,7 @@ class ExternalVideoPlayerJK: UIViewController, WKNavigationDelegate, GCKRemoteMe
         view.addSubview(webView)
         
         activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.color = .label
         activityIndicator.center = view.center
         activityIndicator.startAnimating()
         view.addSubview(activityIndicator)

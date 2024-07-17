@@ -740,6 +740,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         let isToDownload = UserDefaults.standard.bool(forKey: "isToDownload")
 
         if isToDownload {
+            self.showAlert(title: "Download Started", message: "Your download will be ready in a bit.")
             let downloader = MP4Downloader(url: sourceURL)
             downloader.startDownload(progress: { progress in
                 UserDefaults.standard.set(false, forKey: "isToDownload")

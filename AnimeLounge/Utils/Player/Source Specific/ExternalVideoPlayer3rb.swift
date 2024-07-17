@@ -8,7 +8,7 @@
 import AVKit
 import WebKit
 import SwiftSoup
-import GoogleCast 
+import GoogleCast
 
 class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
     private let streamURL: String
@@ -21,7 +21,7 @@ class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
     private var progressLabel: UILabel?
     
     private var retryCount = 0
-    private let maxRetries = 5
+    private let maxRetries = 99
     
     private var cell: EpisodeCell
     private var fullURL: String
@@ -55,33 +55,49 @@ class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
         setupActivityIndicator()
         setupWebView()
         setupProgressUI()
+        
+        self.progressView?.isHidden = true
+        self.progressLabel?.isHidden = true
     }
     
     private func setupProgressUI() {
         progressView = UIProgressView(progressViewStyle: .default)
         progressView?.progress = 0.0
-        progressView?.center = view.center
         progressView?.trackTintColor = UIColor.gray
         progressView?.progressTintColor = UIColor.systemTeal
+        progressView?.translatesAutoresizingMaskIntoConstraints = false
         
-        progressLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 30))
+        progressLabel = UILabel()
         progressLabel?.textColor = .label
-        progressLabel?.center = CGPoint(x: view.center.x, y: view.center.y + 30)
-        
+        progressLabel?.translatesAutoresizingMaskIntoConstraints = false
+
         if let progressView = progressView, let progressLabel = progressLabel {
             view.addSubview(progressView)
             view.addSubview(progressLabel)
+            
+            NSLayoutConstraint.activate([
+                progressView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                progressView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+                progressView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.75),
+                
+                progressLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                progressLabel.topAnchor.constraint(equalTo: progressView.bottomAnchor, constant: 8)
+            ])
         }
     }
     
     private func updateProgress(progress: Float) {
+        
+        self.progressView?.isHidden = false
+        self.progressLabel?.isHidden = false
+        
         progressView?.progress = progress
-        progressLabel?.text = "\(Int(progress * 100))%"
+        progressLabel?.text = "Downloaded \(Int(progress * 100))%"
     }
     
     private func setupActivityIndicator() {
         activityIndicator = UIActivityIndicatorView(style: .large)
-        activityIndicator?.color = .white
+        activityIndicator?.color = .label
         activityIndicator?.startAnimating()
         activityIndicator?.center = view.center
         if let activityIndicator = activityIndicator {
@@ -202,33 +218,43 @@ class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
                 }) { result in
                     switch result {
                     case .success:
-                        self.animeDetailsViewController?.showAlert(withTitle: "Download Completed!", message: "You can find your download in the Library -> Downloads.")
-                        self.dismiss(animated: true, completion: nil)
+                        DispatchQueue.main.async {
+                            self.animeDetailsViewController?.showAlert(withTitle: "Download Completed!", message: "You can find your download in the Library -> Downloads.")
+                            self.dismiss(animated: true, completion: nil)
+                        }
                     case .failure(let error):
                         print("Download failed with error: \(error.localizedDescription)")
-                        self.animeDetailsViewController?.showAlert(withTitle: "Download Failed", message: "\(error.localizedDescription)")
-                        self.dismiss(animated: true, completion: nil)
+                        DispatchQueue.main.async {
+                            self.animeDetailsViewController?.showAlert(withTitle: "Download Failed", message: "\(error.localizedDescription)")
+                            self.dismiss(animated: true, completion: nil)
+                        }
                     }
                 }
-            } else if GCKCastContext.sharedInstance().sessionManager.currentCastSession != nil {
-                self.castVideoToGoogleCast(videoURL: url)
-                self.dismiss(animated: true, completion: nil)
             } else {
-                let player = AVPlayer(url: url)
-                let playerViewController = AVPlayerViewController()
-                playerViewController.player = player
-                
-                self.addChild(playerViewController)
-                self.view.addSubview(playerViewController.view)
-                playerViewController.view.frame = self.view.bounds
-                playerViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-                playerViewController.didMove(toParent: self)
-                
-                player.play()
-                
-                self.player = player
-                self.playerViewController = playerViewController
+                self.playOrCastVideo(url: url)
             }
+        }
+    }
+
+    private func playOrCastVideo(url: URL) {
+        if GCKCastContext.sharedInstance().sessionManager.currentCastSession != nil {
+            self.castVideoToGoogleCast(videoURL: url)
+            self.dismiss(animated: true, completion: nil)
+        } else {
+            let player = AVPlayer(url: url)
+            let playerViewController = AVPlayerViewController()
+            playerViewController.player = player
+            
+            self.addChild(playerViewController)
+            self.view.addSubview(playerViewController.view)
+            playerViewController.view.frame = self.view.bounds
+            playerViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            playerViewController.didMove(toParent: self)
+            
+            player.play()
+            
+            self.player = player
+            self.playerViewController = playerViewController
         }
     }
 

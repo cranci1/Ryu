@@ -11,10 +11,12 @@ import AVFoundation
 
 class DownloadListViewController: UIViewController {
     
+    static let downloadRemovedNotification = Notification.Name("downloadRemovedNotification")
+    
     private let tableView: UITableView = {
-        let table = UITableView()
-        table.backgroundColor = .secondarySystemBackground
-        table.separatorStyle = .none
+        let table = UITableView(frame: .zero, style: .insetGrouped)
+        table.backgroundColor = .systemGroupedBackground
+        table.separatorStyle = .singleLine
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }()
@@ -52,7 +54,7 @@ class DownloadListViewController: UIViewController {
     
     private func playDownload(url: URL) {
         guard url.pathExtension.lowercased() == "mp4" else {
-            print("Error: File is not an supported yet.")
+            print("Error: File is not supported yet.")
             return
         }
         
@@ -67,6 +69,19 @@ class DownloadListViewController: UIViewController {
         
         present(playerViewController, animated: true) {
             player.play()
+        }
+    }
+    
+    private func deleteDownload(at indexPath: IndexPath) {
+        let download = downloads[indexPath.row]
+        do {
+            try FileManager.default.removeItem(at: download)
+            downloads.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            
+            NotificationCenter.default.post(name: DownloadListViewController.downloadRemovedNotification, object: nil)
+        } catch {
+            print("Error deleting file: \(error.localizedDescription)")
         }
     }
 }
@@ -94,11 +109,14 @@ extension DownloadListViewController: UITableViewDataSource, UITableViewDelegate
             cell.fileSizeLabel.text = "Unknown size"
         }
         
+        let interaction = UIContextMenuInteraction(delegate: self)
+        cell.addInteraction(interaction)
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70
+        return 80
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -107,18 +125,36 @@ extension DownloadListViewController: UITableViewDataSource, UITableViewDelegate
     }
 }
 
-class DownloadManager {
+extension DownloadListViewController: UIContextMenuInteractionDelegate {
     
-    func fetchDownloadURLs() -> [URL] {
-        let fileManager = FileManager.default
-        let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        
-        do {
-            let fileURLs = try fileManager.contentsOfDirectory(at: documentsURL, includingPropertiesForKeys: nil)
-            return fileURLs.filter { $0.pathExtension == "mpeg" || $0.pathExtension == "mp4" }
-        } catch {
-            print("Error while enumerating files: \(error.localizedDescription)")
-            return []
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        let locationInTableView = interaction.location(in: tableView)
+        guard let indexPath = tableView.indexPathForRow(at: locationInTableView),
+              let cell = tableView.cellForRow(at: indexPath) else {
+            return nil
         }
+        
+        return UIContextMenuConfiguration(identifier: indexPath as NSCopying, previewProvider: nil) { _ in
+            let deleteAction = UIAction(title: "Delete", attributes: .destructive) { _ in
+                self.deleteDownload(at: indexPath)
+            }
+            return UIMenu(title: "", children: [deleteAction])
+        }
+    }
+    
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, previewForHighlightingMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
+        guard let indexPath = configuration.identifier as? IndexPath,
+              let cell = tableView.cellForRow(at: indexPath) else {
+            return nil
+        }
+        return UITargetedPreview(view: cell)
+    }
+    
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, previewForDismissingMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
+        guard let indexPath = configuration.identifier as? IndexPath,
+              let cell = tableView.cellForRow(at: indexPath) else {
+            return nil
+        }
+        return UITargetedPreview(view: cell)
     }
 }

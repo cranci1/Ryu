@@ -46,4 +46,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
+    
+    func applicationWillTerminate(_ application: UIApplication) {
+        deleteTemporaryDirectory()
+    }
+    
+    func deleteTemporaryDirectory() {
+        let fileManager = FileManager.default
+        let tmpURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+        
+        do {
+            let tmpContents = try fileManager.contentsOfDirectory(at: tmpURL, includingPropertiesForKeys: nil, options: [])
+            
+            for fileURL in tmpContents {
+                try fileManager.removeItem(at: fileURL)
+            }
+        } catch {
+            print("Error clearing tmp folder: \(error.localizedDescription)")
+        }
+    }
 }

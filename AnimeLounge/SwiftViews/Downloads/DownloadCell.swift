@@ -8,12 +8,12 @@
 import UIKit
 
 class DownloadCell: UITableViewCell {
-    let playButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "play.circle.fill"), for: .normal)
-        button.tintColor = .systemTeal
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
+    let playImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(systemName: "play.circle.fill"))
+        imageView.tintColor = .systemTeal
+        imageView.contentMode = .scaleAspectFit
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
     }()
     
     let titleLabel: UILabel = {
@@ -49,7 +49,7 @@ class DownloadCell: UITableViewCell {
     }
     
     private func setupUI() {
-        contentView.addSubview(playButton)
+        contentView.addSubview(playImageView)
         contentView.addSubview(titleLabel)
         contentView.addSubview(fileSizeLabel)
         contentView.addSubview(chevronImageView)
@@ -60,12 +60,12 @@ class DownloadCell: UITableViewCell {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            playButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            playButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            playButton.widthAnchor.constraint(equalToConstant: 40),
-            playButton.heightAnchor.constraint(equalToConstant: 40),
+            playImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            playImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            playImageView.widthAnchor.constraint(equalToConstant: 40),
+            playImageView.heightAnchor.constraint(equalToConstant: 40),
             
-            titleLabel.leadingAnchor.constraint(equalTo: playButton.trailingAnchor, constant: 16),
+            titleLabel.leadingAnchor.constraint(equalTo: playImageView.trailingAnchor, constant: 16),
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
             titleLabel.trailingAnchor.constraint(equalTo: chevronImageView.leadingAnchor, constant: -8),
             
@@ -81,7 +81,7 @@ class DownloadCell: UITableViewCell {
     }
     
     private func setupAppearance() {
-        contentView.backgroundColor = .secondarySystemBackground
-        backgroundColor = .secondarySystemBackground
+        contentView.backgroundColor = .systemGray5
+        backgroundColor = .systemGray5
     }
 }
