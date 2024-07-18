@@ -137,7 +137,7 @@ class EpisodeCell: UITableViewCell {
     private func updateEpisodeLabel() {
         let mediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeHeaven"
         switch mediaSource {
-        case "AnimeFire", "Latanime":
+        case "AnimeFire", "AnimeSaturn":
             episodeLabel.text = "\(episodeNumber)"
         default:
             episodeLabel.text = "Episode \(episodeNumber)"

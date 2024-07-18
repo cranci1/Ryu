@@ -40,7 +40,27 @@ class AiringAnimeCell: UICollectionViewCell {
             dateFormatter.dateFormat = "EEEE, HH:mm zzz"
             dateFormatter.timeZone = TimeZone.current
             dateFormatter.locale = Locale.current
-            airingAtLabel.text = dateFormatter.string(from: date)
+            
+            let timeFormatter = DateFormatter()
+            timeFormatter.dateFormat = "HH:mm zzz"
+            timeFormatter.timeZone = TimeZone.current
+            timeFormatter.locale = Locale.current
+            
+            let calendar = Calendar.current
+            let today = calendar.startOfDay(for: Date())
+            let tomorrow = calendar.date(byAdding: .day, value: 1, to: today)!
+            let airingDate = calendar.startOfDay(for: date)
+            
+            let dayText: String
+            if airingDate == today {
+                dayText = "Today, \(timeFormatter.string(from: date))"
+            } else if airingDate == tomorrow {
+                dayText = "Tomorrow, \(timeFormatter.string(from: date))"
+            } else {
+                dayText = dateFormatter.string(from: date)
+            }
+            
+            airingAtLabel.text = dayText
         } else {
             airingAtLabel.text = "Airing date: N/A"
         }

@@ -183,6 +183,9 @@ class SearchResultsViewController: UIViewController {
         case "Anime3rb":
             url = "https://anime3rb.com/search"
             parameters["q"] = query
+        case "AnimeSaturn":
+            url = "https://www.animesaturn.nl/animelist"
+            parameters["search"] = query
         default:
             return nil
         }
@@ -226,6 +229,8 @@ class SearchResultsViewController: UIViewController {
             return parseJKanime(document)
         case .anime3rb:
             return parseAnime3rb(document)
+        case .animesaturn:
+            return parseAnimeSaturn(document)
         }
     }
 

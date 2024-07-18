@@ -459,6 +459,11 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                     srcURL = self.extractDataVideoSrcURL(from: htmlString)
                 case "AnimeWorld", "AnimeHeaven":
                     srcURL = self.extractVideoSourceURL(from: htmlString)
+                case "AnimeSaturn":
+                    srcURL = self.extractAnimeSaturnURL(from: htmlString)
+                    if srcURL == nil {
+                        srcURL = self.extractVideoSourceURL(from: htmlString)
+                    }
                 case "Anime3rb", "Kuramanime", "JKanime":
                     srcURL = URL(string: fullURL)
                 default:
@@ -652,6 +657,28 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         }
     }
     
+    private func extractAnimeSaturnURL(from htmlString: String) -> URL? {
+        do {
+            let doc: Document = try SwiftSoup.parse(htmlString)
+            let aElements = try doc.select("a")
+            
+            for aElement in aElements {
+                if let href = try aElement.attr("href").nilIfEmpty,
+                   href.contains("https://www.animesaturn.nl/watch?file="),
+                   let sourceURL = URL(string: href) {
+                    print("Found URL: \(sourceURL.absoluteString)")
+                    return sourceURL
+                }
+            }
+            
+            print("No matching URL found.")
+            return nil
+        } catch {
+            print("Error parsing HTML with SwiftSoup: \(error)")
+            return nil
+        }
+    }
+    
     private func fetchVideoDataAndChooseQuality(from urlString: String, completion: @escaping (URL?) -> Void) {
         guard let url = URL(string: urlString) else {
             print("Invalid URL string")
@@ -763,12 +790,8 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         switch player {
         case "Default":
             playVideoWithAVPlayer(sourceURL: sourceURL, cell: cell, fullURL: fullURL)
-        case "Infuse":
-            openInInfuse(url: sourceURL)
-        case "VLC":
-            openInVLC(url: sourceURL)
-        case "Outplayer":
-            openInOutplayer(url: sourceURL)
+        case "Infuse", "VLC", "Outplayer":
+            openInExternalPlayer(player: player, url: sourceURL)
         default:
             playVideoWithAVPlayer(sourceURL: sourceURL, cell: cell, fullURL: fullURL)
         }
@@ -780,12 +803,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         } else {
             player = AVPlayer(url: sourceURL)
             
-            if UserDefaults.standard.bool(forKey: "AlwaysLandscape") {
-                playerViewController = LandscapePlayer()
-            } else {
-                playerViewController = AVPlayerViewController()
-            }
-            
+            playerViewController = UserDefaults.standard.bool(forKey: "AlwaysLandscape") ? LandscapePlayer() : AVPlayerViewController()
             playerViewController?.player = player
             
             let lastPlayedTime = UserDefaults.standard.double(forKey: "lastPlayedTime_\(fullURL)")
@@ -805,46 +823,31 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd), name: .AVPlayerItemDidPlayToEndTime, object: player?.currentItem)
         }
     }
-
-    func openInInfuse(url: URL) {
-        guard let infuseURL = URL(string: "infuse://x-callback-url/play?url=\(url.absoluteString)") else {
-            print("Failed to create Infuse URL")
-            return
-        }
-        
-        if UIApplication.shared.canOpenURL(infuseURL) {
-            UIApplication.shared.open(infuseURL, options: [:], completionHandler: nil)
-        } else {
-            print("Infuse app is not installed")
-            showAlert(title: "Infuse Error", message: "Infuse app is not installed.")
-        }
-    }
-
-    func openInVLC(url: URL) {
-        guard let vlcURL = URL(string: "vlc://\(url.absoluteString)") else {
-            print("Failed to create VLC URL")
-            return
-        }
-        
-        if UIApplication.shared.canOpenURL(vlcURL) {
-            UIApplication.shared.open(vlcURL, options: [:], completionHandler: nil)
-        } else {
-            print("VLC app is not installed.")
-            showAlert(title: "VLC Error", message: "VLC app is not installed.")
-        }
-    }
     
-    func openInOutplayer(url: URL) {
-        guard let outURL = URL(string: "outplayer://\(url.absoluteString)") else {
-            print("Failed to create Outplayer URL")
+    private func openInExternalPlayer(player: String, url: URL) {
+        var scheme: String
+        switch player {
+        case "Infuse":
+            scheme = "infuse://x-callback-url/play?url="
+        case "VLC":
+            scheme = "vlc://"
+        case "Outplayer":
+            scheme = "outplayer://"
+        default:
+            print("Unsupported player")
             return
         }
         
-        if UIApplication.shared.canOpenURL(outURL) {
-            UIApplication.shared.open(outURL, options: [:], completionHandler: nil)
+        guard let playerURL = URL(string: scheme + url.absoluteString) else {
+            print("Failed to create \(player) URL")
+            return
+        }
+        
+        if UIApplication.shared.canOpenURL(playerURL) {
+            UIApplication.shared.open(playerURL, options: [:], completionHandler: nil)
         } else {
-            print("Outplayer app is not installed.")
-            showAlert(title: "Outplayer Error", message: "Outplayer app is not installed.")
+            print("\(player) app is not installed")
+            showAlert(title: "\(player) Error", message: "\(player) app is not installed.")
         }
     }
 
@@ -995,7 +998,7 @@ class AnimeHeaderCell: UITableViewCell {
             animeImageView.widthAnchor.constraint(equalToConstant: 110),
             animeImageView.heightAnchor.constraint(equalToConstant: 160),
             
-            titleLabel.topAnchor.constraint(equalTo: animeImageView.topAnchor),
+            titleLabel.topAnchor.constraint(equalTo: animeImageView.topAnchor, constant: -4),
             titleLabel.leadingAnchor.constraint(equalTo: animeImageView.trailingAnchor, constant: 10),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
             

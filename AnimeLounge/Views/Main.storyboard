@@ -657,9 +657,9 @@
                     </navigationItem>
                     <connections>
                         <outlet property="airingCollectionView" destination="ehn-iZ-v4H" id="1Ic-6R-wjh"/>
-                        <outlet property="collectionView" destination="ETm-Rp-jlq" id="Ckk-gJ-fPQ"/>
                         <outlet property="dateLabel" destination="LQu-l0-ydi" id="hTG-rm-0k1"/>
                         <outlet property="seasonalCollectionView" destination="S4e-tD-YKq" id="AQY-Tx-PMp"/>
+                        <outlet property="trendingCollectionView" destination="ETm-Rp-jlq" id="UuA-bI-8Od"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lGN-sa-k1h" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -668,7 +668,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="QUk-Rn-qDy"/>
+        <segue reference="Af5-Kj-0iD"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.down.circle.fill" catalog="system" width="128" height="121"/>
