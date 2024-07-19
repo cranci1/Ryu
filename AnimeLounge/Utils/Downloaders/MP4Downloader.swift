@@ -37,12 +37,25 @@ class MP4Downloader: NSObject {
         downloadTask?.cancel()
     }
     
-    func sendNotification() {
+    func sendSuccessNotification() {
         let content = UNMutableNotificationContent()
         content.title = "Download Complete"
         content.body = "Your Episode has been downloaded. You can find it in Library -> Downloads"
         content.sound = .default
         
+        sendNotification(content: content)
+    }
+    
+    func sendErrorNotification(error: Error) {
+        let content = UNMutableNotificationContent()
+        content.title = "Download Failed"
+        content.body = "An error occurred: \(error.localizedDescription)"
+        content.sound = .default
+        
+        sendNotification(content: content)
+    }
+    
+    private func sendNotification(content: UNMutableNotificationContent) {
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
         
@@ -68,12 +81,16 @@ extension MP4Downloader: URLSessionDownloadDelegate {
                 self.completionHandler?(.success(destinationUrl))
                 
                 if UserDefaults.standard.bool(forKey: "notificationOnDownload") {
-                    self.sendNotification()
+                    self.sendSuccessNotification()
                 }
             }
         } catch {
             DispatchQueue.main.async {
                 self.completionHandler?(.failure(error))
+                
+                if UserDefaults.standard.bool(forKey: "notificationOnDownload") {
+                    self.sendErrorNotification(error: error)
+                }
             }
         }
     }

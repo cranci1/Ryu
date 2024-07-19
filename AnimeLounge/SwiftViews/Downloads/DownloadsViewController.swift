@@ -48,7 +48,9 @@ class DownloadListViewController: UIViewController {
     }
     
     private func loadDownloads() {
-        downloads = downloadManager.fetchDownloadURLs()
+        downloads = downloadManager.fetchDownloadURLs().sorted { (url1, url2) -> Bool in
+            return url1.lastPathComponent.localizedStandardCompare(url2.lastPathComponent) == .orderedAscending
+        }
         tableView.reloadData()
     }
     
@@ -78,6 +80,7 @@ class DownloadListViewController: UIViewController {
             try FileManager.default.removeItem(at: download)
             downloads.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
+            loadDownloads()
             
             NotificationCenter.default.post(name: DownloadListViewController.downloadRemovedNotification, object: nil)
         } catch {
@@ -87,7 +90,6 @@ class DownloadListViewController: UIViewController {
 }
 
 extension DownloadListViewController: UITableViewDataSource, UITableViewDelegate {
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return downloads.count
     }
@@ -126,7 +128,6 @@ extension DownloadListViewController: UITableViewDataSource, UITableViewDelegate
 }
 
 extension DownloadListViewController: UIContextMenuInteractionDelegate {
-    
     func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
         let locationInTableView = interaction.location(in: tableView)
         guard let indexPath = tableView.indexPathForRow(at: locationInTableView),
@@ -135,11 +136,11 @@ extension DownloadListViewController: UIContextMenuInteractionDelegate {
         }
         
         return UIContextMenuConfiguration(identifier: indexPath as NSCopying, previewProvider: nil) { _ in
-            let deleteAction = UIAction(title: "Delete", attributes: .destructive) { _ in
+            let deleteAction = UIAction(title: "Delete", image: UIImage(systemName: "trash"), attributes: .destructive) { _ in
                 self.deleteDownload(at: indexPath)
             }
             
-            let renameAction = UIAction(title: "Rename") { _ in
+            let renameAction = UIAction(title: "Rename", image: UIImage(systemName: "pencil")) { _ in
                 self.renameDownload(at: indexPath)
             }
             
@@ -183,6 +184,7 @@ extension DownloadListViewController: UIContextMenuInteractionDelegate {
             do {
                 try FileManager.default.moveItem(at: download, to: newURL)
                 self.downloads[indexPath.row] = newURL
+                self.loadDownloads()
                 self.tableView.reloadRows(at: [indexPath], with: .automatic)
             } catch {
                 print("Error renaming file: \(error.localizedDescription)")
