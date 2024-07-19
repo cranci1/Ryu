@@ -30,6 +30,7 @@ class DownloadListViewController: UIViewController {
         view.backgroundColor = .secondarySystemBackground
         setupTableView()
         loadDownloads()
+        updateTitle()
     }
     
     private func setupTableView() {
@@ -52,6 +53,27 @@ class DownloadListViewController: UIViewController {
             return url1.lastPathComponent.localizedStandardCompare(url2.lastPathComponent) == .orderedAscending
         }
         tableView.reloadData()
+        updateTitle()
+    }
+    
+    private func updateTitle() {
+        let totalSize = calculateTotalDownloadSize()
+        let formattedSize = ByteCountFormatter.string(fromByteCount: totalSize, countStyle: .file)
+        title = "Downloads - \(formattedSize)"
+    }
+    
+    private func calculateTotalDownloadSize() -> Int64 {
+        var totalSize: Int64 = 0
+        for download in downloads {
+            do {
+                let attributes = try FileManager.default.attributesOfItem(atPath: download.path)
+                let fileSize = attributes[.size] as? Int64 ?? 0
+                totalSize += fileSize
+            } catch {
+                print("Error getting file size: \(error.localizedDescription)")
+            }
+        }
+        return totalSize
     }
     
     private func playDownload(url: URL) {
@@ -81,6 +103,7 @@ class DownloadListViewController: UIViewController {
             downloads.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
             loadDownloads()
+            updateTitle()
             
             NotificationCenter.default.post(name: DownloadListViewController.downloadRemovedNotification, object: nil)
         } catch {
