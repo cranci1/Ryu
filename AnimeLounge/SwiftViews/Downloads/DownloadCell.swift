@@ -49,13 +49,16 @@ class DownloadCell: UITableViewCell {
     }
     
     private func setupUI() {
+        addSubviews()
+        setupConstraints()
+        setupAppearance()
+    }
+    
+    private func addSubviews() {
         contentView.addSubview(playImageView)
         contentView.addSubview(titleLabel)
         contentView.addSubview(fileSizeLabel)
         contentView.addSubview(chevronImageView)
-        
-        setupConstraints()
-        setupAppearance()
     }
     
     private func setupConstraints() {
@@ -73,7 +76,7 @@ class DownloadCell: UITableViewCell {
             fileSizeLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
             fileSizeLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
             
-            chevronImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            chevronImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             chevronImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             chevronImageView.widthAnchor.constraint(equalToConstant: 10),
             chevronImageView.heightAnchor.constraint(equalToConstant: 20)
@@ -83,5 +86,6 @@ class DownloadCell: UITableViewCell {
     private func setupAppearance() {
         contentView.backgroundColor = .systemGray5
         backgroundColor = .systemGray5
+        selectionStyle = .none
     }
 }

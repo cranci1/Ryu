@@ -5,6 +5,7 @@
 //  Created by Francesco on 17/07/24.
 //
 
+import UIKit
 import Foundation
 import UserNotifications
 
@@ -25,10 +26,11 @@ class MP4Downloader: NSObject {
         self.progressHandler = progress
         self.completionHandler = completion
         
-        let configuration = URLSessionConfiguration.default
-        let session = URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
-        downloadTask = session.downloadTask(with: url)
-        downloadTask?.resume()
+        let sessionConfig = URLSessionConfiguration.background(withIdentifier: "me.cranci.animelounge.background")
+        let session = URLSession(configuration: sessionConfig, delegate: self, delegateQueue: nil)
+        
+        let task = session.downloadTask(with: url)
+        task.resume()
     }
     
     func cancelDownload() {
@@ -79,6 +81,15 @@ extension MP4Downloader: URLSessionDownloadDelegate {
         
         DispatchQueue.main.async {
             self.progressHandler?(progress)
+        }
+    }
+    
+    func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
+        DispatchQueue.main.async {
+            if let appDelegate = UIApplication.shared.delegate as? AppDelegate, let backgroundCompletionHandler = appDelegate.backgroundCompletionHandler {
+                backgroundCompletionHandler()
+                appDelegate.backgroundCompletionHandler = nil
+            }
         }
     }
 }

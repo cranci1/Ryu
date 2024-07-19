@@ -767,15 +767,46 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         let isToDownload = UserDefaults.standard.bool(forKey: "isToDownload")
 
         if isToDownload {
-            self.showAlert(title: "Download Started", message: "Your download will be ready in a bit.")
+            let progressAlert = UIAlertController(title: "Downloading...", message: "\n\n", preferredStyle: .alert)
+            
+            let progressIndicator = UIProgressView(progressViewStyle: .default)
+            progressIndicator.setProgress(0.0, animated: true)
+            progressIndicator.translatesAutoresizingMaskIntoConstraints = false
+            
+            let progressLabel = UILabel()
+            progressLabel.text = "0%"
+            progressLabel.translatesAutoresizingMaskIntoConstraints = false
+            progressLabel.textAlignment = .center
+            
+            progressAlert.view.addSubview(progressIndicator)
+            progressAlert.view.addSubview(progressLabel)
+
+            NSLayoutConstraint.activate([
+                progressIndicator.leadingAnchor.constraint(equalTo: progressAlert.view.leadingAnchor, constant: 20),
+                progressIndicator.trailingAnchor.constraint(equalTo: progressLabel.leadingAnchor, constant: -8),
+                progressIndicator.topAnchor.constraint(equalTo: progressAlert.view.topAnchor, constant: 50),
+                progressIndicator.heightAnchor.constraint(equalToConstant: 2),
+                
+                progressLabel.trailingAnchor.constraint(equalTo: progressAlert.view.trailingAnchor, constant: -20),
+                progressLabel.topAnchor.constraint(equalTo: progressAlert.view.topAnchor, constant: 40)
+            ])
+
+            self.present(progressAlert, animated: true, completion: nil)
+
             let downloader = MP4Downloader(url: sourceURL)
             downloader.startDownload(progress: { progress in
-                UserDefaults.standard.set(false, forKey: "isToDownload")
+                DispatchQueue.main.async {
+                    progressIndicator.setProgress(Float(progress), animated: true)
+                    progressLabel.text = String(format: "%.0f%%", progress * 100)
+                }
                 print("Download progress: \(progress * 100)%")
             }) { result in
+                DispatchQueue.main.async {
+                    progressAlert.dismiss(animated: true, completion: nil)
+                }
                 switch result {
                 case .success:
-                    self.showAlert(title: "Download Compleated!", message: "You can find your donwload in the Library -> Downloads.")
+                    self.showAlert(title: "Download Completed!", message: "You can find your download in the Library -> Downloads.")
                 case .failure(let error):
                     print("Download failed with error: \(error.localizedDescription)")
                     self.showAlert(title: "Download Failed", message: "\(error.localizedDescription)")

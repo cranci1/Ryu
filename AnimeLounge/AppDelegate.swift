@@ -12,6 +12,8 @@ import AVFoundation
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
+    var backgroundCompletionHandler: (() -> Void)?
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         do {
             try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [])
@@ -47,7 +49,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
     
+    func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
+        backgroundCompletionHandler = completionHandler
+    }
+    
     func applicationWillTerminate(_ application: UIApplication) {
+        UserDefaults.standard.set(false, forKey: "isToDownload")
         deleteTemporaryDirectory()
     }
     

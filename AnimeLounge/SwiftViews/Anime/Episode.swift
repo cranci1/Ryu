@@ -72,8 +72,8 @@ class EpisodeCell: UITableViewCell {
             
             downloadButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
             downloadButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            downloadButton.widthAnchor.constraint(equalToConstant: 30),
-            downloadButton.heightAnchor.constraint(equalToConstant: 30),
+            downloadButton.widthAnchor.constraint(equalToConstant: 50),
+            downloadButton.heightAnchor.constraint(equalToConstant: 50),
             
             playbackProgressView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             playbackProgressView.centerYAnchor.constraint(equalTo: startnowLabel.centerYAnchor),

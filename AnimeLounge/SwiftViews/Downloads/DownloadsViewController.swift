@@ -98,7 +98,7 @@ extension DownloadListViewController: UITableViewDataSource, UITableViewDelegate
         }
         
         let download = downloads[indexPath.row]
-        cell.titleLabel.text = download.lastPathComponent
+        cell.titleLabel.text = (download.lastPathComponent as NSString).deletingPathExtension
         
         do {
             let attributes = try FileManager.default.attributesOfItem(atPath: download.path)
@@ -138,7 +138,12 @@ extension DownloadListViewController: UIContextMenuInteractionDelegate {
             let deleteAction = UIAction(title: "Delete", attributes: .destructive) { _ in
                 self.deleteDownload(at: indexPath)
             }
-            return UIMenu(title: "", children: [deleteAction])
+            
+            let renameAction = UIAction(title: "Rename") { _ in
+                self.renameDownload(at: indexPath)
+            }
+            
+            return UIMenu(title: "", children: [renameAction, deleteAction])
         }
     }
     
@@ -156,5 +161,37 @@ extension DownloadListViewController: UIContextMenuInteractionDelegate {
             return nil
         }
         return UITargetedPreview(view: cell)
+    }
+    
+    private func renameDownload(at indexPath: IndexPath) {
+        let download = downloads[indexPath.row]
+        let alertController = UIAlertController(title: "Rename File", message: nil, preferredStyle: .alert)
+        
+        alertController.addTextField { textField in
+            textField.text = (download.lastPathComponent as NSString).deletingPathExtension
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let renameAction = UIAlertAction(title: "Rename", style: .default) { [weak self] _ in
+            guard let newName = alertController.textFields?.first?.text,
+                  !newName.isEmpty,
+                  let self = self else { return }
+            
+            let fileExtension = download.pathExtension
+            let newURL = download.deletingLastPathComponent().appendingPathComponent(newName).appendingPathExtension(fileExtension)
+            
+            do {
+                try FileManager.default.moveItem(at: download, to: newURL)
+                self.downloads[indexPath.row] = newURL
+                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+            } catch {
+                print("Error renaming file: \(error.localizedDescription)")
+            }
+        }
+        
+        alertController.addAction(cancelAction)
+        alertController.addAction(renameAction)
+        
+        present(alertController, animated: true, completion: nil)
     }
 }
