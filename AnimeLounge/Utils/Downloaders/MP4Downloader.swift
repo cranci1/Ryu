@@ -61,7 +61,9 @@ extension MP4Downloader: URLSessionDownloadDelegate {
         let destinationUrl = documentsUrl.appendingPathComponent(url.lastPathComponent)
         
         do {
-            try fileManager.moveItem(at: location, to: destinationUrl)
+            let tempUrl = fileManager.temporaryDirectory.appendingPathComponent(url.lastPathComponent)
+            try fileManager.moveItem(at: location, to: tempUrl)
+            try fileManager.moveItem(at: tempUrl, to: destinationUrl)
             DispatchQueue.main.async {
                 self.completionHandler?(.success(destinationUrl))
                 
