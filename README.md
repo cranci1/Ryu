@@ -1,6 +1,6 @@
 [![Build and Release IPA](https://github.com/cranci1/AnimeLounge/actions/workflows/build.yml/badge.svg)](https://github.com/cranci1/AnimeLounge/actions/workflows/build.yml)
 
-Still in Development (early state)
+Still in Development
 
 Yes it's a NineAnimator fork aimed to be more stable and to support more sources. I will try to add atleast 2 sources per language if possible
 
@@ -15,7 +15,7 @@ Yes it's a NineAnimator fork aimed to be more stable and to support more sources
 - [x] Favorite/Subscribe system
 - [ ] Notification on new episode
 - [x] MultiSources support for Streaming and Download
-- [ ] iOS, macOS, iPadOS support
+- [ ] macOS support
 - [x] Google Cast support
 - [x] Backup system (import, export)
 - [ ] Offline mode
