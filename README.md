@@ -18,7 +18,7 @@ Yes it's a NineAnimator fork aimed to be more stable and to support more sources
 - [ ] macOS support
 - [x] Google Cast support
 - [x] Backup system (import, export)
-- [ ] Offline mode
+- [x] Offline mode (needs improvements)
 
 ## Sources working:
 
