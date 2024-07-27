@@ -81,10 +81,10 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W9H-Zl-VGT">
-                                                    <rect key="frame" x="300" y="6.5" width="67" height="31"/>
+                                                    <rect key="frame" x="267" y="6.5" width="102" height="31"/>
                                                     <color key="tintColor" name="AccentColor"/>
                                                     <state key="normal" title="Button"/>
-                                                    <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                                    <buttonConfiguration key="configuration" style="plain" title="AnimeWorld"/>
                                                     <connections>
                                                         <action selector="selectSourceButtonTapped:" destination="pc2-lO-9Ci" eventType="touchUpInside" id="0Q2-0R-RPe"/>
                                                     </connections>
@@ -93,7 +93,7 @@
                                             <constraints>
                                                 <constraint firstItem="rFm-Lf-wis" firstAttribute="leading" secondItem="dJP-XZ-jWj" secondAttribute="leading" constant="15" id="J1O-Rz-aDs"/>
                                                 <constraint firstItem="W9H-Zl-VGT" firstAttribute="centerY" secondItem="dJP-XZ-jWj" secondAttribute="centerY" id="Kxx-7f-ucQ"/>
-                                                <constraint firstItem="W9H-Zl-VGT" firstAttribute="trailing" secondItem="dJP-XZ-jWj" secondAttribute="trailing" constant="-7" id="ru7-If-sdi"/>
+                                                <constraint firstItem="W9H-Zl-VGT" firstAttribute="trailing" secondItem="dJP-XZ-jWj" secondAttribute="trailing" constant="-5" id="ru7-If-sdi"/>
                                                 <constraint firstItem="rFm-Lf-wis" firstAttribute="centerY" secondItem="dJP-XZ-jWj" secondAttribute="centerY" id="ux9-h3-o24"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -253,7 +253,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L8H-Zg-guy">
-                                                    <rect key="frame" x="296.5" y="6.5" width="70.5" height="31"/>
+                                                    <rect key="frame" x="298.5" y="6.5" width="70.5" height="31"/>
                                                     <color key="tintColor" name="AccentColor"/>
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain" title="Default"/>
@@ -261,7 +261,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="Iy6-kj-EvD" firstAttribute="leading" secondItem="dwo-ud-ay0" secondAttribute="leading" constant="15" id="7Cq-cz-Cyg"/>
-                                                <constraint firstItem="L8H-Zg-guy" firstAttribute="trailing" secondItem="dwo-ud-ay0" secondAttribute="trailing" constant="-7" id="Vx1-hS-GkQ"/>
+                                                <constraint firstItem="L8H-Zg-guy" firstAttribute="trailing" secondItem="dwo-ud-ay0" secondAttribute="trailing" constant="-5" id="Vx1-hS-GkQ"/>
                                                 <constraint firstItem="Iy6-kj-EvD" firstAttribute="centerY" secondItem="dwo-ud-ay0" secondAttribute="centerY" id="gOg-Sx-UWt"/>
                                                 <constraint firstItem="L8H-Zg-guy" firstAttribute="centerY" secondItem="dwo-ud-ay0" secondAttribute="centerY" id="m6c-m9-XM4"/>
                                             </constraints>
@@ -1006,21 +1006,21 @@ Experimental, will save the playback progress but may not work on all the episod
                         <sections>
                             <tableViewSection headerTitle="AniList" footerTitle="AnimeLounge is not affiliated with AniList.co" id="aA9-OL-lkL">
                                 <cells>
-                                    <tableViewCell opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="124" id="ohD-CI-YwA">
-                                        <rect key="frame" x="20" y="32" width="374" height="124"/>
+                                    <tableViewCell opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="102" id="ohD-CI-YwA">
+                                        <rect key="frame" x="20" y="32" width="374" height="102"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ohD-CI-YwA" id="JMj-T6-2NE">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="124"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="102"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Anilist" translatesAutoresizingMaskIntoConstraints="NO" id="Waq-Ok-NSi">
-                                                    <rect key="frame" x="20" y="11" width="100" height="100"/>
+                                                    <rect key="frame" x="20" y="11" width="80" height="80"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="100" id="sJ6-0u-lpW"/>
+                                                        <constraint firstAttribute="width" constant="80" id="sJ6-0u-lpW"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AniList.co" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uJE-4S-7uu">
-                                                    <rect key="frame" x="130" y="41" width="224" height="42"/>
+                                                    <rect key="frame" x="108" y="30" width="246" height="42"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -1028,17 +1028,17 @@ Experimental, will save the playback progress but may not work on all the episod
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="uJE-4S-7uu" firstAttribute="centerY" secondItem="JMj-T6-2NE" secondAttribute="centerY" id="1ga-Cq-5MV"/>
-                                                <constraint firstItem="uJE-4S-7uu" firstAttribute="top" secondItem="JMj-T6-2NE" secondAttribute="topMargin" constant="30" id="SMc-Nz-Pdp"/>
+                                                <constraint firstItem="uJE-4S-7uu" firstAttribute="top" secondItem="JMj-T6-2NE" secondAttribute="topMargin" constant="19" id="SMc-Nz-Pdp"/>
                                                 <constraint firstItem="uJE-4S-7uu" firstAttribute="trailing" secondItem="JMj-T6-2NE" secondAttribute="trailingMargin" id="WH3-Bf-9G1"/>
                                                 <constraint firstItem="Waq-Ok-NSi" firstAttribute="leading" secondItem="JMj-T6-2NE" secondAttribute="leadingMargin" id="a8A-Ht-R6z"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="Waq-Ok-NSi" secondAttribute="bottom" constant="2" id="ghB-5h-4AQ"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="Waq-Ok-NSi" secondAttribute="bottom" id="ghB-5h-4AQ"/>
                                                 <constraint firstItem="Waq-Ok-NSi" firstAttribute="top" secondItem="JMj-T6-2NE" secondAttribute="topMargin" id="glv-Jr-Iof"/>
-                                                <constraint firstItem="uJE-4S-7uu" firstAttribute="leading" secondItem="Waq-Ok-NSi" secondAttribute="trailing" constant="10" id="wsN-4w-tKf"/>
+                                                <constraint firstItem="uJE-4S-7uu" firstAttribute="leading" secondItem="Waq-Ok-NSi" secondAttribute="trailing" constant="8" id="wsN-4w-tKf"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="L3Y-Vy-gOs">
-                                        <rect key="frame" x="20" y="156" width="374" height="44.5"/>
+                                        <rect key="frame" x="20" y="134" width="374" height="44.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="L3Y-Vy-gOs" id="IM4-hh-Ll4">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="44.5"/>
@@ -1071,135 +1071,135 @@ Experimental, will save the playback progress but may not work on all the episod
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="MyAnimeList" footerTitle="AnimeLounge is not affiliated with MyAnimeList.net" id="ucf-0h-6rX">
+                            <tableViewSection headerTitle="MyAnimeList" footerTitle="AnimeLounge is not affiliated with MyAnimeList.net" id="a2T-Xx-VMp">
                                 <cells>
-                                    <tableViewCell opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="124" id="Tfv-xo-pfH">
-                                        <rect key="frame" x="20" y="266.5" width="374" height="124"/>
+                                    <tableViewCell opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="102" id="IxC-4V-BE7">
+                                        <rect key="frame" x="20" y="244.5" width="374" height="102"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Tfv-xo-pfH" id="KL5-BP-YjU">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="124"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="IxC-4V-BE7" id="5n8-8e-3sY">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="102"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="MyAnimeList" translatesAutoresizingMaskIntoConstraints="NO" id="sjl-zk-4Ue">
-                                                    <rect key="frame" x="20" y="11" width="100" height="100"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="MyAnimeList" translatesAutoresizingMaskIntoConstraints="NO" id="qcj-hh-GGO">
+                                                    <rect key="frame" x="20" y="11" width="80" height="80"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="100" id="mUo-c6-5hU"/>
+                                                        <constraint firstAttribute="width" constant="80" id="S3m-Ag-9sG"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MyAnimeList.net" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NNS-rF-Xsg">
-                                                    <rect key="frame" x="130" y="41" width="224" height="42"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MyAnimeList.net" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Caw-fK-eKL">
+                                                    <rect key="frame" x="108" y="30" width="246" height="42"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="NNS-rF-Xsg" firstAttribute="top" secondItem="KL5-BP-YjU" secondAttribute="topMargin" constant="30" id="Lto-cA-Lia"/>
-                                                <constraint firstItem="NNS-rF-Xsg" firstAttribute="leading" secondItem="sjl-zk-4Ue" secondAttribute="trailing" constant="10" id="SnS-AT-Bov"/>
-                                                <constraint firstItem="sjl-zk-4Ue" firstAttribute="leading" secondItem="KL5-BP-YjU" secondAttribute="leadingMargin" id="bm0-Br-m13"/>
-                                                <constraint firstItem="NNS-rF-Xsg" firstAttribute="trailing" secondItem="KL5-BP-YjU" secondAttribute="trailingMargin" id="nV2-b1-UvT"/>
-                                                <constraint firstItem="NNS-rF-Xsg" firstAttribute="centerY" secondItem="KL5-BP-YjU" secondAttribute="centerY" id="ncz-kB-Ymi"/>
-                                                <constraint firstItem="sjl-zk-4Ue" firstAttribute="top" secondItem="KL5-BP-YjU" secondAttribute="topMargin" id="qsP-68-5Uh"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="sjl-zk-4Ue" secondAttribute="bottom" constant="2" id="zKz-WY-Ixk"/>
+                                                <constraint firstItem="Caw-fK-eKL" firstAttribute="top" secondItem="5n8-8e-3sY" secondAttribute="topMargin" constant="19" id="3kI-dR-VFY"/>
+                                                <constraint firstItem="Caw-fK-eKL" firstAttribute="leading" secondItem="qcj-hh-GGO" secondAttribute="trailing" constant="8" id="CMV-CM-fCL"/>
+                                                <constraint firstItem="qcj-hh-GGO" firstAttribute="top" secondItem="5n8-8e-3sY" secondAttribute="topMargin" id="GEM-Yn-tSd"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="qcj-hh-GGO" secondAttribute="bottom" id="OKc-sq-GSg"/>
+                                                <constraint firstItem="qcj-hh-GGO" firstAttribute="leading" secondItem="5n8-8e-3sY" secondAttribute="leadingMargin" id="eHN-T4-IJR"/>
+                                                <constraint firstItem="Caw-fK-eKL" firstAttribute="centerY" secondItem="5n8-8e-3sY" secondAttribute="centerY" id="hWS-6C-tmN"/>
+                                                <constraint firstItem="Caw-fK-eKL" firstAttribute="trailing" secondItem="5n8-8e-3sY" secondAttribute="trailingMargin" id="iJt-oc-9hy"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="z21-ef-Rsz">
-                                        <rect key="frame" x="20" y="390.5" width="374" height="44.5"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="7ON-22-df4">
+                                        <rect key="frame" x="20" y="346.5" width="374" height="44.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="z21-ef-Rsz" id="55P-n4-YL8">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="7ON-22-df4" id="yaB-nQ-vkW">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="44.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use MyAnimeList as Service" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mgu-bR-kuU">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use MyAnimeList as Service" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5EE-mE-PHJ">
                                                     <rect key="frame" x="15" y="13" width="193" height="18.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kry-Rv-x4j">
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gqU-Om-c1Y">
                                                     <rect key="frame" x="310" y="6.5" width="51" height="31.5"/>
                                                     <color key="onTintColor" name="AccentColor"/>
                                                     <connections>
-                                                        <action selector="animeImageToggle:" destination="iYA-2R-889" eventType="valueChanged" id="gYZ-rG-qYn"/>
-                                                        <action selector="switchChanged:" destination="tJk-lL-JpK" eventType="valueChanged" id="QYo-6Q-3JE"/>
+                                                        <action selector="animeImageToggle:" destination="iYA-2R-889" eventType="valueChanged" id="Dlj-sb-pEy"/>
+                                                        <action selector="switchChanged:" destination="tJk-lL-JpK" eventType="valueChanged" id="FPb-vs-2qd"/>
                                                     </connections>
                                                 </switch>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="kry-Rv-x4j" firstAttribute="trailing" secondItem="55P-n4-YL8" secondAttribute="trailing" constant="-15" id="9OY-2f-9b6"/>
-                                                <constraint firstItem="kry-Rv-x4j" firstAttribute="centerY" secondItem="55P-n4-YL8" secondAttribute="centerY" id="Eir-6P-nOG"/>
-                                                <constraint firstItem="Mgu-bR-kuU" firstAttribute="leading" secondItem="55P-n4-YL8" secondAttribute="leading" constant="15" id="YiJ-fJ-iRr"/>
-                                                <constraint firstItem="kry-Rv-x4j" firstAttribute="top" secondItem="55P-n4-YL8" secondAttribute="topMargin" constant="-4.5" id="dbF-1z-lUl"/>
-                                                <constraint firstItem="Mgu-bR-kuU" firstAttribute="centerY" secondItem="55P-n4-YL8" secondAttribute="centerY" id="deI-4x-dhQ"/>
-                                                <constraint firstItem="Mgu-bR-kuU" firstAttribute="top" secondItem="55P-n4-YL8" secondAttribute="topMargin" constant="2" id="nDx-gn-6ya"/>
+                                                <constraint firstItem="5EE-mE-PHJ" firstAttribute="centerY" secondItem="yaB-nQ-vkW" secondAttribute="centerY" id="1xL-yv-YrM"/>
+                                                <constraint firstItem="gqU-Om-c1Y" firstAttribute="trailing" secondItem="yaB-nQ-vkW" secondAttribute="trailing" constant="-15" id="52O-xB-1Ji"/>
+                                                <constraint firstItem="5EE-mE-PHJ" firstAttribute="top" secondItem="yaB-nQ-vkW" secondAttribute="topMargin" constant="2" id="74o-Sh-k9K"/>
+                                                <constraint firstItem="5EE-mE-PHJ" firstAttribute="leading" secondItem="yaB-nQ-vkW" secondAttribute="leading" constant="15" id="ANR-E9-ODV"/>
+                                                <constraint firstItem="gqU-Om-c1Y" firstAttribute="top" secondItem="yaB-nQ-vkW" secondAttribute="topMargin" constant="-4.5" id="YVW-iq-iL0"/>
+                                                <constraint firstItem="gqU-Om-c1Y" firstAttribute="centerY" secondItem="yaB-nQ-vkW" secondAttribute="centerY" id="hho-kg-l6q"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="kitsu" footerTitle="AnimeLounge is not affiliated with Kitsu.io" id="B4B-ol-eak">
+                            <tableViewSection headerTitle="Kitsu" footerTitle="AnimeLounge is not affiliated with Kitsu.io" id="71N-vx-dyS">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="124" id="gsm-b0-5dl">
-                                        <rect key="frame" x="20" y="501" width="374" height="124"/>
+                                    <tableViewCell opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="102" id="4tb-BE-bSd">
+                                        <rect key="frame" x="20" y="457" width="374" height="102"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gsm-b0-5dl" id="5pD-fO-Xar">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="124"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="4tb-BE-bSd" id="MbO-Ex-fVN">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="102"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Kitsu" translatesAutoresizingMaskIntoConstraints="NO" id="CuU-Cf-kMe">
-                                                    <rect key="frame" x="20" y="11" width="100" height="100"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Kitsu" translatesAutoresizingMaskIntoConstraints="NO" id="QQj-ks-fn0">
+                                                    <rect key="frame" x="20" y="11" width="80" height="80"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="100" id="S2c-Ft-cQm"/>
+                                                        <constraint firstAttribute="width" constant="80" id="alC-IR-1Ia"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kitsu.io" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ELV-Xc-TGr">
-                                                    <rect key="frame" x="130" y="41" width="224" height="42"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kitsu.io" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MTe-SE-rx6">
+                                                    <rect key="frame" x="108" y="30" width="246" height="42"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="ELV-Xc-TGr" firstAttribute="leading" secondItem="CuU-Cf-kMe" secondAttribute="trailing" constant="10" id="5jE-8b-Ou6"/>
-                                                <constraint firstItem="ELV-Xc-TGr" firstAttribute="top" secondItem="5pD-fO-Xar" secondAttribute="topMargin" constant="30" id="Bxh-Sf-iKi"/>
-                                                <constraint firstItem="ELV-Xc-TGr" firstAttribute="centerY" secondItem="5pD-fO-Xar" secondAttribute="centerY" id="b1g-lZ-LNJ"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="CuU-Cf-kMe" secondAttribute="bottom" constant="2" id="mJZ-5j-EHY"/>
-                                                <constraint firstItem="ELV-Xc-TGr" firstAttribute="trailing" secondItem="5pD-fO-Xar" secondAttribute="trailingMargin" id="oXK-Vq-BxZ"/>
-                                                <constraint firstItem="CuU-Cf-kMe" firstAttribute="leading" secondItem="5pD-fO-Xar" secondAttribute="leadingMargin" id="u1f-Ar-9Y4"/>
-                                                <constraint firstItem="CuU-Cf-kMe" firstAttribute="top" secondItem="5pD-fO-Xar" secondAttribute="topMargin" id="zYB-2d-8fA"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="QQj-ks-fn0" secondAttribute="bottom" id="6SK-0K-T7D"/>
+                                                <constraint firstItem="MTe-SE-rx6" firstAttribute="top" secondItem="MbO-Ex-fVN" secondAttribute="topMargin" constant="19" id="6Wg-Ny-DEe"/>
+                                                <constraint firstItem="QQj-ks-fn0" firstAttribute="top" secondItem="MbO-Ex-fVN" secondAttribute="topMargin" id="ASM-r9-heh"/>
+                                                <constraint firstItem="MTe-SE-rx6" firstAttribute="centerY" secondItem="MbO-Ex-fVN" secondAttribute="centerY" id="Qam-kv-QgC"/>
+                                                <constraint firstItem="MTe-SE-rx6" firstAttribute="leading" secondItem="QQj-ks-fn0" secondAttribute="trailing" constant="8" id="mGo-UX-VAv"/>
+                                                <constraint firstItem="MTe-SE-rx6" firstAttribute="trailing" secondItem="MbO-Ex-fVN" secondAttribute="trailingMargin" id="tXw-Ta-3Id"/>
+                                                <constraint firstItem="QQj-ks-fn0" firstAttribute="leading" secondItem="MbO-Ex-fVN" secondAttribute="leadingMargin" id="x9r-Rg-h1B"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="ouO-gh-Pje">
-                                        <rect key="frame" x="20" y="625" width="374" height="44.5"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="6Y1-8q-cHz">
+                                        <rect key="frame" x="20" y="559" width="374" height="44.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ouO-gh-Pje" id="JAD-Mb-eWX">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="6Y1-8q-cHz" id="7ki-U3-BP8">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="44.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use Kitsu as Service" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7PW-yC-CkG">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use Kitsu as Service" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oow-kE-16H">
                                                     <rect key="frame" x="15" y="13" width="140" height="18.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vhR-pN-WFG">
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C2M-i1-gZ8">
                                                     <rect key="frame" x="310" y="6.5" width="51" height="31.5"/>
                                                     <color key="onTintColor" name="AccentColor"/>
                                                     <connections>
-                                                        <action selector="animeImageToggle:" destination="iYA-2R-889" eventType="valueChanged" id="ivU-pw-eHD"/>
-                                                        <action selector="switchChanged:" destination="tJk-lL-JpK" eventType="valueChanged" id="prh-gH-1tI"/>
+                                                        <action selector="animeImageToggle:" destination="iYA-2R-889" eventType="valueChanged" id="Uyq-Ky-GUR"/>
+                                                        <action selector="switchChanged:" destination="tJk-lL-JpK" eventType="valueChanged" id="1sG-y5-Anb"/>
                                                     </connections>
                                                 </switch>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="7PW-yC-CkG" firstAttribute="leading" secondItem="JAD-Mb-eWX" secondAttribute="leading" constant="15" id="5bI-TI-noc"/>
-                                                <constraint firstItem="vhR-pN-WFG" firstAttribute="trailing" secondItem="JAD-Mb-eWX" secondAttribute="trailing" constant="-15" id="HP9-Is-vrC"/>
-                                                <constraint firstItem="7PW-yC-CkG" firstAttribute="top" secondItem="JAD-Mb-eWX" secondAttribute="topMargin" constant="2" id="PIL-cq-HJr"/>
-                                                <constraint firstItem="vhR-pN-WFG" firstAttribute="centerY" secondItem="JAD-Mb-eWX" secondAttribute="centerY" id="PvO-WI-f9n"/>
-                                                <constraint firstItem="vhR-pN-WFG" firstAttribute="top" secondItem="JAD-Mb-eWX" secondAttribute="topMargin" constant="-4.5" id="Zq3-MV-orL"/>
-                                                <constraint firstItem="7PW-yC-CkG" firstAttribute="centerY" secondItem="JAD-Mb-eWX" secondAttribute="centerY" id="pQW-Os-Wnj"/>
+                                                <constraint firstItem="C2M-i1-gZ8" firstAttribute="trailing" secondItem="7ki-U3-BP8" secondAttribute="trailing" constant="-15" id="B8c-RB-Ac4"/>
+                                                <constraint firstItem="C2M-i1-gZ8" firstAttribute="top" secondItem="7ki-U3-BP8" secondAttribute="topMargin" constant="-4.5" id="Fpj-vg-rRA"/>
+                                                <constraint firstItem="oow-kE-16H" firstAttribute="leading" secondItem="7ki-U3-BP8" secondAttribute="leading" constant="15" id="bXe-ca-k4P"/>
+                                                <constraint firstItem="oow-kE-16H" firstAttribute="top" secondItem="7ki-U3-BP8" secondAttribute="topMargin" constant="2" id="caZ-qo-uw7"/>
+                                                <constraint firstItem="oow-kE-16H" firstAttribute="centerY" secondItem="7ki-U3-BP8" secondAttribute="centerY" id="eE4-e8-3hd"/>
+                                                <constraint firstItem="C2M-i1-gZ8" firstAttribute="centerY" secondItem="7ki-U3-BP8" secondAttribute="centerY" id="k2d-ge-x98"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -1221,13 +1221,13 @@ Experimental, will save the playback progress but may not work on all the episod
                     </navigationItem>
                     <connections>
                         <outlet property="aniListSwitch" destination="mxq-fp-ES8" id="L2z-hb-PWl"/>
-                        <outlet property="kitsuSwitch" destination="vhR-pN-WFG" id="X0f-KJ-2lo"/>
-                        <outlet property="malSwitch" destination="kry-Rv-x4j" id="Sdc-Gc-Il8"/>
+                        <outlet property="kitsuSwitch" destination="C2M-i1-gZ8" id="lmy-cS-ewg"/>
+                        <outlet property="malSwitch" destination="gqU-Om-c1Y" id="ehS-99-3U5"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b8m-rs-Y5q" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2990" y="-536"/>
+            <point key="canvasLocation" x="2989.8550724637685" y="-536.38392857142856"/>
         </scene>
     </scenes>
     <resources>

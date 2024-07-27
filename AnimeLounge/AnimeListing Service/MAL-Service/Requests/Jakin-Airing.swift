@@ -26,7 +26,8 @@ class JikanServiceAiringAnime {
                                   let title = item["title"] as? String,
                                   let images = item["images"] as? [String: Any],
                                   let jpg = images["jpg"] as? [String: Any],
-                                  let imageUrl = jpg["large_image_url"] as? String else {
+                                  let imageUrl = jpg["large_image_url"] as? String,
+                                  let description = item["synopsis"] as? String else {
                                 return nil
                             }
                             
@@ -35,7 +36,7 @@ class JikanServiceAiringAnime {
                                 title: Title(romaji: title, english: title, native: title),
                                 coverImage: CoverImage(large: imageUrl),
                                 episodes: nil,
-                                description: nil,
+                                description: description,
                                 airingAt: nil
                             )
                         }
@@ -53,4 +54,3 @@ class JikanServiceAiringAnime {
             }
     }
 }
-
