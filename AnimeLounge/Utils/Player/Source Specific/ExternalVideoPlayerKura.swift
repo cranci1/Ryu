@@ -170,9 +170,11 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
             if UserDefaults.standard.bool(forKey: "isToDownload") {
                 UserDefaults.standard.set(false, forKey: "isToDownload")
                 let downloader = MP4Downloader(url: url)
+                self.dismiss(animated: true, completion: nil)
+                self.animeDetailsViewController?.showAlert(withTitle: "Download Started", message: "You can view your download in the Library -> Downloads.")
                 downloader.startDownload(progress: { progress in
                     DispatchQueue.main.async {
-                        self.updateProgress(progress: progress)
+                        print("Download progress: \(progress * 100)%")
                     }
                 }) { result in
                     switch result {

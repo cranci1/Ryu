@@ -9,32 +9,67 @@ import UIKit
 import Foundation
 import UserNotifications
 
-class MP4Downloader: NSObject {
-    typealias ProgressHandler = (Float) -> Void
-    typealias CompletionHandler = (Result<URL, Error>) -> Void
-    
-    private var url: URL
-    private var progressHandler: ProgressHandler?
-    private var completionHandler: CompletionHandler?
+class MP4Downloader: NSObject, URLSessionDownloadDelegate {
     private var downloadTask: URLSessionDownloadTask?
+    private var backgroundSession: URLSession!
+    private let downloadURL: URL
+    private var progressHandler: ((Float) -> Void)?
+    private var completionHandler: ((Result<Void, Error>) -> Void)?
     
     init(url: URL) {
-        self.url = url
+        self.downloadURL = url
+        super.init()
+        
+        let config = URLSessionConfiguration.background(withIdentifier: "me.cranci.animelounge.background")
+        backgroundSession = URLSession(configuration: config, delegate: self, delegateQueue: nil)
     }
     
-    func startDownload(progress: ProgressHandler? = nil, completion: @escaping CompletionHandler) {
+    func startDownload(progress: @escaping (Float) -> Void, completion: @escaping (Result<Void, Error>) -> Void) {
         self.progressHandler = progress
         self.completionHandler = completion
-        
-        let sessionConfig = URLSessionConfiguration.background(withIdentifier: "me.cranci.animelounge.background")
-        let session = URLSession(configuration: sessionConfig, delegate: self, delegateQueue: nil)
-        
-        let task = session.downloadTask(with: url)
-        task.resume()
+        downloadTask = backgroundSession.downloadTask(with: downloadURL)
+        downloadTask?.resume()
     }
     
-    func cancelDownload() {
-        downloadTask?.cancel()
+    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
+        guard let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            print("Could not access documents directory")
+            completionHandler?(.failure(NSError(domain: "MP4Downloader", code: 1, userInfo: [NSLocalizedDescriptionKey: "Could not access documents directory"])))
+            return
+        }
+        
+        let destinationURL = documentsPath.appendingPathComponent(downloadTask.originalRequest?.url?.lastPathComponent ?? "downloadedVideo.mp4")
+        
+        do {
+            if FileManager.default.fileExists(atPath: destinationURL.path) {
+                try FileManager.default.removeItem(at: destinationURL)
+            }
+            try FileManager.default.moveItem(at: location, to: destinationURL)
+            print("File saved successfully at: \(destinationURL.path)")
+            sendSuccessNotification()
+            completionHandler?(.success(()))
+        } catch {
+            print("Error saving file: \(error.localizedDescription)")
+            sendErrorNotification(error: error)
+            completionHandler?(.failure(error))
+        }
+    }
+    
+    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
+        let progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite)
+        DispatchQueue.main.async {
+            self.progressHandler?(progress)
+        }
+    }
+    
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        if let error = error {
+            print("Download failed with error: \(error.localizedDescription)")
+            sendErrorNotification(error: error)
+            completionHandler?(.failure(error))
+        } else {
+            print("Download completed successfully")
+        }
     }
     
     func sendSuccessNotification() {
@@ -62,52 +97,6 @@ class MP4Downloader: NSObject {
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error {
                 print("Notification error: \(error.localizedDescription)")
-            }
-        }
-    }
-}
-
-extension MP4Downloader: URLSessionDownloadDelegate {
-    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
-        let fileManager = FileManager.default
-        let documentsUrl = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let destinationUrl = documentsUrl.appendingPathComponent(url.lastPathComponent)
-        
-        do {
-            let tempUrl = fileManager.temporaryDirectory.appendingPathComponent(url.lastPathComponent)
-            try fileManager.moveItem(at: location, to: tempUrl)
-            try fileManager.moveItem(at: tempUrl, to: destinationUrl)
-            DispatchQueue.main.async {
-                self.completionHandler?(.success(destinationUrl))
-                
-                if UserDefaults.standard.bool(forKey: "notificationOnDownload") {
-                    self.sendSuccessNotification()
-                }
-            }
-        } catch {
-            DispatchQueue.main.async {
-                self.completionHandler?(.failure(error))
-                
-                if UserDefaults.standard.bool(forKey: "notificationOnDownload") {
-                    self.sendErrorNotification(error: error)
-                }
-            }
-        }
-    }
-    
-    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
-        let progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite)
-        
-        DispatchQueue.main.async {
-            self.progressHandler?(progress)
-        }
-    }
-    
-    func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
-        DispatchQueue.main.async {
-            if let appDelegate = UIApplication.shared.delegate as? AppDelegate, let backgroundCompletionHandler = appDelegate.backgroundCompletionHandler {
-                backgroundCompletionHandler()
-                appDelegate.backgroundCompletionHandler = nil
             }
         }
     }

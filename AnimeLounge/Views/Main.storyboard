@@ -202,12 +202,13 @@
                                 <rect key="frame" x="16" y="184" width="343" height="51"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="249" verticalHuggingPriority="249" horizontalCompressionResistancePriority="500" verticalCompressionResistancePriority="500" image="arrow.down.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Gef-Db-fz0">
-                                        <rect key="frame" x="8" y="15" width="26" height="19"/>
+                                        <rect key="frame" x="12" y="11.5" width="26" height="26"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="tintColor" systemColor="systemBlueColor"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="26" id="Mea-nk-0TM"/>
                                         </constraints>
+                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large" weight="medium"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
                                                 <real key="value" value="4"/>
@@ -228,7 +229,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="253" horizontalCompressionResistancePriority="500" verticalCompressionResistancePriority="500" text="0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="whC-V3-DAg">
-                                        <rect key="frame" x="317" y="11" width="17.5" height="29"/>
+                                        <rect key="frame" x="315.5" y="11" width="17.5" height="29"/>
                                         <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="25"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -242,13 +243,13 @@
                                 <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstItem="U8V-Ph-Tqn" firstAttribute="centerY" secondItem="Gef-Db-fz0" secondAttribute="centerY" id="8gY-TJ-69P"/>
-                                    <constraint firstItem="Gef-Db-fz0" firstAttribute="leading" secondItem="ZK0-8S-Whv" secondAttribute="leading" constant="8" id="AxE-v3-aMu"/>
-                                    <constraint firstItem="whC-V3-DAg" firstAttribute="trailing" secondItem="ZK0-8S-Whv" secondAttribute="trailing" constant="-8.5" id="DNn-q6-eDm"/>
+                                    <constraint firstItem="Gef-Db-fz0" firstAttribute="leading" secondItem="ZK0-8S-Whv" secondAttribute="leading" constant="12" id="AxE-v3-aMu"/>
+                                    <constraint firstItem="whC-V3-DAg" firstAttribute="trailing" secondItem="ZK0-8S-Whv" secondAttribute="trailing" constant="-10" id="DNn-q6-eDm"/>
                                     <constraint firstItem="Gef-Db-fz0" firstAttribute="centerY" secondItem="whC-V3-DAg" secondAttribute="centerY" constant="-1" id="EMf-TD-gfu"/>
                                     <constraint firstItem="whC-V3-DAg" firstAttribute="top" secondItem="ZK0-8S-Whv" secondAttribute="top" constant="11" id="Mo5-Ge-70d"/>
                                     <constraint firstItem="U8V-Ph-Tqn" firstAttribute="top" secondItem="whC-V3-DAg" secondAttribute="bottom" constant="-30" id="dP7-5f-509"/>
                                     <constraint firstItem="Gef-Db-fz0" firstAttribute="centerY" secondItem="ZK0-8S-Whv" secondAttribute="centerY" constant="-1" id="fPn-dg-uK7"/>
-                                    <constraint firstItem="Gef-Db-fz0" firstAttribute="trailing" secondItem="U8V-Ph-Tqn" secondAttribute="leading" constant="-8" id="hRK-83-Qzy"/>
+                                    <constraint firstItem="Gef-Db-fz0" firstAttribute="trailing" secondItem="U8V-Ph-Tqn" secondAttribute="leading" constant="-4" id="hRK-83-Qzy"/>
                                 </constraints>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="akv-PI-rO3" appends="YES" id="hgO-Zh-fXi"/>
@@ -668,7 +669,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Af5-Kj-0iD"/>
+        <segue reference="QUk-Rn-qDy"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.down.circle.fill" catalog="system" width="128" height="121"/>

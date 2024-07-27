@@ -459,11 +459,6 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                     srcURL = self.extractDataVideoSrcURL(from: htmlString)
                 case "AnimeWorld", "AnimeHeaven":
                     srcURL = self.extractVideoSourceURL(from: htmlString)
-                case "AnimeSaturn":
-                    srcURL = self.extractAnimeSaturnURL(from: htmlString)
-                    if srcURL == nil {
-                        srcURL = self.extractVideoSourceURL(from: htmlString)
-                    }
                 case "Anime3rb", "Kuramanime", "JKanime":
                     srcURL = URL(string: fullURL)
                 default:
@@ -657,28 +652,6 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         }
     }
     
-    private func extractAnimeSaturnURL(from htmlString: String) -> URL? {
-        do {
-            let doc: Document = try SwiftSoup.parse(htmlString)
-            let aElements = try doc.select("a")
-            
-            for aElement in aElements {
-                if let href = try aElement.attr("href").nilIfEmpty,
-                   href.contains("https://www.animesaturn.nl/watch?file="),
-                   let sourceURL = URL(string: href) {
-                    print("Found URL: \(sourceURL.absoluteString)")
-                    return sourceURL
-                }
-            }
-            
-            print("No matching URL found.")
-            return nil
-        } catch {
-            print("Error parsing HTML with SwiftSoup: \(error)")
-            return nil
-        }
-    }
-    
     private func fetchVideoDataAndChooseQuality(from urlString: String, completion: @escaping (URL?) -> Void) {
         guard let url = URL(string: urlString) else {
             print("Invalid URL string")
@@ -763,59 +736,29 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
     }
 
     func playVideo(sourceURL: URL, cell: EpisodeCell, fullURL: String) {
-        let selectedPlayer = UserDefaults.standard.string(forKey: "mediaPlayerSelected") ?? "Default"
-        let isToDownload = UserDefaults.standard.bool(forKey: "isToDownload")
+         let selectedPlayer = UserDefaults.standard.string(forKey: "mediaPlayerSelected") ?? "Default"
+         let isToDownload = UserDefaults.standard.bool(forKey: "isToDownload")
 
-        if isToDownload {
-            let progressAlert = UIAlertController(title: "Downloading...", message: "\n\n", preferredStyle: .alert)
-            
-            let progressIndicator = UIProgressView(progressViewStyle: .default)
-            progressIndicator.setProgress(0.0, animated: true)
-            progressIndicator.translatesAutoresizingMaskIntoConstraints = false
-            
-            let progressLabel = UILabel()
-            progressLabel.text = "0%"
-            progressLabel.translatesAutoresizingMaskIntoConstraints = false
-            progressLabel.textAlignment = .center
-            
-            progressAlert.view.addSubview(progressIndicator)
-            progressAlert.view.addSubview(progressLabel)
+         if isToDownload {
+             self.showAlert(title: "Download Started", message: "You can check the download page in the Library to see the progress.")
+             UserDefaults.standard.set(false, forKey: "isToDownload")
+             let downloader = MP4Downloader(url: sourceURL)
+             downloader.startDownload(progress: { progress in
+                 print("Download progress: \(progress * 100)%")
+             }) { result in
+                 switch result {
+                 case .success:
+                     self.showAlert(title: "Download Compleated!", message: "You can find your donwload in the Library -> Downloads.")
+                 case .failure(let error):
+                     print("Download failed with error: \(error.localizedDescription)")
+                     self.showAlert(title: "Download Failed", message: "\(error.localizedDescription)")
+                 }
+             }
+         } else {
+             playVideoWithSelectedPlayer(player: selectedPlayer, sourceURL: sourceURL, cell: cell, fullURL: fullURL)
+         }
+     }
 
-            NSLayoutConstraint.activate([
-                progressIndicator.leadingAnchor.constraint(equalTo: progressAlert.view.leadingAnchor, constant: 20),
-                progressIndicator.trailingAnchor.constraint(equalTo: progressLabel.leadingAnchor, constant: -8),
-                progressIndicator.topAnchor.constraint(equalTo: progressAlert.view.topAnchor, constant: 50),
-                progressIndicator.heightAnchor.constraint(equalToConstant: 2),
-                
-                progressLabel.trailingAnchor.constraint(equalTo: progressAlert.view.trailingAnchor, constant: -20),
-                progressLabel.topAnchor.constraint(equalTo: progressAlert.view.topAnchor, constant: 40)
-            ])
-
-            self.present(progressAlert, animated: true, completion: nil)
-
-            let downloader = MP4Downloader(url: sourceURL)
-            downloader.startDownload(progress: { progress in
-                DispatchQueue.main.async {
-                    progressIndicator.setProgress(Float(progress), animated: true)
-                    progressLabel.text = String(format: "%.0f%%", progress * 100)
-                }
-                print("Download progress: \(progress * 100)%")
-            }) { result in
-                DispatchQueue.main.async {
-                    progressAlert.dismiss(animated: true, completion: nil)
-                }
-                switch result {
-                case .success:
-                    self.showAlert(title: "Download Completed!", message: "You can find your download in the Library -> Downloads.")
-                case .failure(let error):
-                    print("Download failed with error: \(error.localizedDescription)")
-                    self.showAlert(title: "Download Failed", message: "\(error.localizedDescription)")
-                }
-            }
-        } else {
-            playVideoWithSelectedPlayer(player: selectedPlayer, sourceURL: sourceURL, cell: cell, fullURL: fullURL)
-        }
-    }
 
     private func playVideoWithSelectedPlayer(player: String, sourceURL: URL, cell: EpisodeCell, fullURL: String) {
         switch player {

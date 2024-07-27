@@ -10,9 +10,6 @@ import AVKit
 import AVFoundation
 
 class DownloadListViewController: UIViewController {
-    
-    static let downloadRemovedNotification = Notification.Name("downloadRemovedNotification")
-    
     private let tableView: UITableView = {
         let table = UITableView(frame: .zero, style: .insetGrouped)
         table.backgroundColor = .systemGroupedBackground
@@ -105,7 +102,7 @@ class DownloadListViewController: UIViewController {
             loadDownloads()
             updateTitle()
             
-            NotificationCenter.default.post(name: DownloadListViewController.downloadRemovedNotification, object: nil)
+            NotificationCenter.default.post(name: .downloadListUpdated, object: nil)
         } catch {
             print("Error deleting file: \(error.localizedDescription)")
         }

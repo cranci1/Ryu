@@ -9,7 +9,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="TrendingAnimeCell" id="q3N-nE-bON" customClass="TrendingAnimeCell" customModule="AnimeLounge" customModuleProvider="target">
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SlimmAnimeCell" id="q3N-nE-bON" customClass="SlimmAnimeCell" customModule="AnimeLounge" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="101" height="200"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -51,8 +51,8 @@
                 <constraint firstAttribute="trailing" secondItem="zf0-Ia-UVZ" secondAttribute="trailing" id="fRv-fV-oqx"/>
             </constraints>
             <connections>
-                <outlet property="animeImageView" destination="zf0-Ia-UVZ" id="mee-vg-bGl"/>
-                <outlet property="titleLabel" destination="M2g-aV-rWt" id="dN0-JF-6Am"/>
+                <outlet property="animeImageView" destination="zf0-Ia-UVZ" id="bYw-C5-o1i"/>
+                <outlet property="titleLabel" destination="M2g-aV-rWt" id="SRQ-PK-npJ"/>
             </connections>
             <point key="canvasLocation" x="160" y="-76"/>
         </collectionViewCell>

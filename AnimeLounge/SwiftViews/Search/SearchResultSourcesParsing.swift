@@ -129,19 +129,4 @@ extension SearchResultsViewController {
             return []
         }
     }
-    
-    func parseAnimeSaturn(_ document: Document) -> [(title: String, imageUrl: String, href: String)] {
-        do {
-            let items = try document.select("ul.list-group")
-            return try items.map { item -> (title: String, imageUrl: String, href: String) in
-                let title = try item.select("h3 a.badge").text()
-                let imageUrl = try item.select("a.thumb img.locandina-archivio").attr("src")
-                let href = try item.select("a.thumb").attr("href")
-                return (title: title, imageUrl: imageUrl, href: href)
-            }
-        } catch {
-            print("Error parsing AnimeWorld: \(error.localizedDescription)")
-            return []
-        }
-    }
 }

@@ -33,7 +33,7 @@ class AnimeDetailService {
             baseUrl = "https://anitaku.pe"
         case .animeheaven:
             baseUrl = "https://animeheaven.me/"
-        case .animefire, .kuramanime, .jkanime, .anime3rb, .animesaturn:
+        case .animefire, .kuramanime, .jkanime, .anime3rb:
             baseUrl = ""
         }
         
@@ -85,11 +85,6 @@ class AnimeDetailService {
                         synopsis = try document.select("p.leading-loose").text()
                         airdate = try document.select("td[title]").attr("title")
                         stars = try document.select("p.text-lg.leading-relaxed").first()?.text() ?? ""
-                    case .animesaturn:
-                        aliases = try document.select("div.container.anime-title-as.mb-3.w-100 div.box-trasparente-alternativo.rounded").text()
-                        synopsis = try document.select("div#shown-trama").text()
-                        airdate = try document.select("b:contains(Data di uscita:)").first()?.nextSibling()?.outerHtml().trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) ?? ""
-                        stars = try document.select("div.container.shadow.rounded.bg-dark-as-box.mb-3.p-3.w-100.text-white b:contains(Voto:)").first()?.nextSibling()?.outerHtml().trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) ?? ""
                     }
                     
                     episodes = self.fetchEpisodes(document: document, for: selectedSource, href: href)
@@ -134,9 +129,6 @@ class AnimeDetailService {
                 downloadUrlElement = ""
             case .anime3rb:
                 episodeElements = try document.select("div.absolute.overflow-hidden div a.gap-3")
-                downloadUrlElement = ""
-            case .animesaturn:
-                episodeElements = try document.select("div#range-anime-0 div.btn-group a.bottone-ep")
                 downloadUrlElement = ""
             }
             

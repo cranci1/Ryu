@@ -33,8 +33,8 @@ class WatchNextViewController: UITableViewController {
     
     func setupCollectionViews() {
         let collectionViews = [airingCollectionView, trendingCollectionView, seasonalCollectionView]
-        let cellIdentifiers = ["AiringAnimeCell", "TrendingAnimeCell", "SeasonalAnimeCell"]
-        
+        let cellIdentifiers = ["AiringAnimeCell", "SlimmAnimeCell", "SlimmAnimeCell"]
+
         for (collectionView, identifier) in zip(collectionViews, cellIdentifiers) {
             collectionView?.delegate = self
             collectionView?.dataSource = self
@@ -119,15 +119,10 @@ extension WatchNextViewController: UICollectionViewDataSource {
         let cell: UICollectionViewCell
         
         switch collectionView {
-        case trendingCollectionView:
-            cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TrendingAnimeCell", for: indexPath)
-            if let trendingCell = cell as? TrendingAnimeCell {
-                configureTrendingCell(trendingCell, at: indexPath)
-            }
-        case seasonalCollectionView:
-            cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SeasonalAnimeCell", for: indexPath)
-            if let seasonalCell = cell as? SeasonalAnimeCell {
-                configureSeasonalCell(seasonalCell, at: indexPath)
+        case trendingCollectionView, seasonalCollectionView: 
+            cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SlimmAnimeCell", for: indexPath)
+            if let trendingCell = cell as? SlimmAnimeCell {
+                configureTrendingCell(trendingCell, at: indexPath, for: collectionView)
             }
         case airingCollectionView:
             cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AiringAnimeCell", for: indexPath)
@@ -144,14 +139,13 @@ extension WatchNextViewController: UICollectionViewDataSource {
         return cell
     }
     
-    private func configureTrendingCell(_ cell: TrendingAnimeCell, at indexPath: IndexPath) {
-        let anime = trendingAnime[indexPath.item]
-        let imageUrl = URL(string: anime.coverImage.large)
-        cell.configure(with: anime.title.romaji, imageUrl: imageUrl)
-    }
-    
-    private func configureSeasonalCell(_ cell: SeasonalAnimeCell, at indexPath: IndexPath) {
-        let anime = seasonalAnime[indexPath.item]
+    private func configureTrendingCell(_ cell: SlimmAnimeCell, at indexPath: IndexPath, for collectionView: UICollectionView) {
+        let anime: Anime
+        if collectionView == trendingCollectionView {
+            anime = trendingAnime[indexPath.item]
+        } else {
+            anime = seasonalAnime[indexPath.item]
+        }
         let imageUrl = URL(string: anime.coverImage.large)
         cell.configure(with: anime.title.romaji, imageUrl: imageUrl)
     }

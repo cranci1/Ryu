@@ -19,15 +19,18 @@ class LibraryViewControlller: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        FavoritesBox.layer.cornerRadius = 12
-        RecentsBox.layer.cornerRadius = 12
-        DownloadBox.layer.cornerRadius = 12
-        
+        setupUI()
         updateFavoriteCount()
         updateDownloadCount()
         
         NotificationCenter.default.addObserver(self, selector: #selector(favoritesChanged), name: FavoritesManager.favoritesChangedNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(downloadsChanged), name: DownloadListViewController.downloadRemovedNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(downloadsChanged), name: .downloadListUpdated, object: nil)
+    }
+    
+    private func setupUI() {
+        FavoritesBox.layer.cornerRadius = 12
+        RecentsBox.layer.cornerRadius = 12
+        DownloadBox.layer.cornerRadius = 12
     }
     
     func updateFavoriteCount() {

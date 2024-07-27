@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-class TrendingAnimeCell: UICollectionViewCell {
+class SlimmAnimeCell: UICollectionViewCell {
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var animeImageView: UIImageView!
     

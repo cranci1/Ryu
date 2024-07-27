@@ -5,7 +5,11 @@
 //  Created by Francesco on 17/07/24.
 //
 
-import UIKit
+import Foundation
+
+extension Notification.Name {
+    static let downloadListUpdated = Notification.Name("DownloadListUpdated")
+}
 
 class DownloadManager {
     func fetchDownloadURLs() -> [URL] {
@@ -14,11 +18,14 @@ class DownloadManager {
         
         do {
             let fileURLs = try fileManager.contentsOfDirectory(at: documentsURL, includingPropertiesForKeys: nil)
-            return fileURLs.filter { $0.pathExtension == "mpeg" || $0.pathExtension == "mp4" }
+            let downloadURLs = fileURLs.filter { $0.pathExtension == "mpeg" || $0.pathExtension == "mp4" }
+            
+            NotificationCenter.default.post(name: .downloadListUpdated, object: nil)
+            
+            return downloadURLs
         } catch {
             print("Error while enumerating files: \(error.localizedDescription)")
             return []
         }
     }
 }
-
