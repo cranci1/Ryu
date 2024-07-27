@@ -23,11 +23,20 @@ class WatchNextViewController: UITableViewController {
     private let aniListServiceTrending = AnilistServiceTrendingAnime()
     private let aniListServiceSeasonal = AnilistServiceSeasonalAnime()
     
+    private let kitsuServiceAiring = KitsuServiceAiringAnime()
+    private let kitsuServiceTrending = KitsuServiceTrendingAnime()
+    private let kitsuServiceSeasonal = KitsuServiceSeasonalAnime()
+    
+    private let malServiceAiring = JikanServiceAiringAnime()
+    private let malServiceTrending = JikanServiceTrendingAnime()
+    private let malServiceSeasonal = JikanServiceSeasonalAnime()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupCollectionViews()
         setupDateLabel()
+        setupRefreshControl()
         fetchAnimeData()
     }
     
@@ -50,6 +59,15 @@ class WatchNextViewController: UITableViewController {
         dateLabel.text = "on \(dateString)"
     }
     
+    func setupRefreshControl() {
+        refreshControl = UIRefreshControl()
+        refreshControl?.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+    }
+    
+    @objc func refreshData() {
+        fetchAnimeData()
+    }
+    
     func fetchAnimeData() {
         let dispatchGroup = DispatchGroup()
         
@@ -64,27 +82,73 @@ class WatchNextViewController: UITableViewController {
         
         dispatchGroup.notify(queue: .main) {
             self.refreshUI()
+            self.refreshControl?.endRefreshing()
         }
     }
     
     func fetchTrendingAnime(completion: @escaping () -> Void) {
-        aniListServiceTrending.fetchTrendingAnime { [weak self] animeList in
-            self?.trendingAnime = animeList ?? []
-            completion()
+        let animeListingService = UserDefaults.standard.string(forKey: "AnimeListingService") ?? "AniList"
+        
+        switch animeListingService {
+        case "Kitsu":
+            kitsuServiceTrending.fetchTrendingAnime { [weak self] animeList in
+                self?.trendingAnime = animeList ?? []
+                completion()
+            }
+        case "MAL":
+            malServiceTrending.fetchTrendingAnime { [weak self] animeList in
+                self?.trendingAnime = animeList ?? []
+                completion()
+            }
+        default:
+            aniListServiceTrending.fetchTrendingAnime { [weak self] animeList in
+                self?.trendingAnime = animeList ?? []
+                completion()
+            }
         }
     }
     
     func fetchSeasonalAnime(completion: @escaping () -> Void) {
-        aniListServiceSeasonal.fetchSeasonalAnime { [weak self] animeList in
-            self?.seasonalAnime = animeList ?? []
-            completion()
+        let animeListingService = UserDefaults.standard.string(forKey: "AnimeListingService") ?? "AniList"
+        
+        switch animeListingService {
+        case "Kitsu":
+            kitsuServiceSeasonal.fetchSeasonalAnime { [weak self] animeList in
+                self?.seasonalAnime = animeList ?? []
+                completion()
+            }
+        case "MAL":
+            malServiceSeasonal.fetchSeasonalAnime { [weak self] animeList in
+                self?.seasonalAnime = animeList ?? []
+                completion()
+            }
+        default:
+            aniListServiceSeasonal.fetchSeasonalAnime { [weak self] animeList in
+                self?.seasonalAnime = animeList ?? []
+                completion()
+            }
         }
     }
     
     func fetchAiringAnime(completion: @escaping () -> Void) {
-        aniListServiceAiring.fetchAiringAnime { [weak self] animeList in
-            self?.airingAnime = animeList ?? []
-            completion()
+        let animeListingService = UserDefaults.standard.string(forKey: "AnimeListingService") ?? "AniList"
+        
+        switch animeListingService {
+        case "Kitsu":
+            kitsuServiceAiring.fetchAiringAnime { [weak self] animeList in
+                self?.airingAnime = animeList ?? []
+                completion()
+            }
+        case "MAL":
+            malServiceAiring.fetchAiringAnime { [weak self] animeList in
+                self?.airingAnime = animeList ?? []
+                completion()
+            }
+        default:
+            aniListServiceAiring.fetchAiringAnime { [weak self] animeList in
+                self?.airingAnime = animeList ?? []
+                completion()
+            }
         }
     }
     
@@ -93,6 +157,7 @@ class WatchNextViewController: UITableViewController {
             self.airingCollectionView.reloadData()
             self.trendingCollectionView.reloadData()
             self.seasonalCollectionView.reloadData()
+            self.setupDateLabel()
         }
     }
     
@@ -119,7 +184,7 @@ extension WatchNextViewController: UICollectionViewDataSource {
         let cell: UICollectionViewCell
         
         switch collectionView {
-        case trendingCollectionView, seasonalCollectionView: 
+        case trendingCollectionView, seasonalCollectionView:
             cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SlimmAnimeCell", for: indexPath)
             if let trendingCell = cell as? SlimmAnimeCell {
                 configureTrendingCell(trendingCell, at: indexPath, for: collectionView)

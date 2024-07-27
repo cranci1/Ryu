@@ -57,7 +57,7 @@ class EpisodeCell: UITableViewCell {
         
         downloadButton.setImage(UIImage(systemName: "icloud.and.arrow.down"), for: .normal)
         downloadButton.tintColor = .systemTeal
-        // downloadButton.addTarget(self, action: #selector(downloadButtonTapped), for: .touchUpInside)
+        downloadButton.addTarget(self, action: #selector(downloadButtonTapped), for: .touchUpInside)
         
         remainingTimeLabel.font = UIFont.systemFont(ofSize: 12)
         remainingTimeLabel.textColor = .secondaryLabel

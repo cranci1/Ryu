@@ -171,24 +171,31 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
                 UserDefaults.standard.set(false, forKey: "isToDownload")
                 let downloader = MP4Downloader(url: url)
                 self.dismiss(animated: true, completion: nil)
-                self.animeDetailsViewController?.showAlert(withTitle: "Download Started", message: "You can view your download in the Library -> Downloads.")
+                
+                let title = self.animeDetailsViewController?.animeTitle ?? "Anime Download"
+                let imageURL = self.animeDetailsViewController?.imageUrl ?? ""
+                
+                let downloadView = FloatingManager.shared.addDownload(
+                    title: "\(title) - Downloading...",
+                    imageURL: imageURL
+                )
+                
                 downloader.startDownload(progress: { progress in
                     DispatchQueue.main.async {
+                        downloadView.updateProgress(Float(progress))
                         print("Download progress: \(progress * 100)%")
                     }
                 }) { result in
-                    switch result {
-                    case .success:
-                        DispatchQueue.main.async {
+                    DispatchQueue.main.async {
+                        FloatingManager.shared.removeDownload(downloadView)
+                        switch result {
+                        case .success:
                             self.animeDetailsViewController?.showAlert(withTitle: "Download Completed!", message: "You can find your download in the Library -> Downloads.")
-                            self.dismiss(animated: true, completion: nil)
-                        }
-                    case .failure(let error):
-                        print("Download failed with error: \(error.localizedDescription)")
-                        DispatchQueue.main.async {
+                        case .failure(let error):
+                            print("Download failed with error: \(error.localizedDescription)")
                             self.animeDetailsViewController?.showAlert(withTitle: "Download Failed", message: "\(error.localizedDescription)")
-                            self.dismiss(animated: true, completion: nil)
                         }
+                        self.dismiss(animated: true, completion: nil)
                     }
                 }
             } else {

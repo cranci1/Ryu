@@ -15,24 +15,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var backgroundCompletionHandler: (() -> Void)?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        setupAudioSession()
+        setupDefaultUserPreferences()
+        setupGoogleCast()
+        
+        return true
+    }
+    
+    private func setupAudioSession() {
         do {
             try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [])
             try AVAudioSession.sharedInstance().setActive(true)
         } catch {
             print("Failed to set up AVAudioSession: \(error)")
         }
-        
+    }
+    
+    private func setupDefaultUserPreferences() {
         if UserDefaults.standard.object(forKey: "selectedMediaSource") == nil {
             UserDefaults.standard.set("AnimeWorld", forKey: "selectedMediaSource")
         }
         
+        if UserDefaults.standard.object(forKey: "AnimeListingService") == nil {
+            UserDefaults.standard.set("AniList", forKey: "AnimeListingService")
+        }
+        
         UserDefaults.standard.register(defaults: ["fullTitleCast": true])
         UserDefaults.standard.register(defaults: ["animeImageCast": true])
-        
+    }
+    
+    private func setupGoogleCast() {
         let options = GCKCastOptions(discoveryCriteria: GCKDiscoveryCriteria(applicationID: kGCKDefaultMediaReceiverApplicationID))
         GCKCastContext.setSharedInstanceWith(options)
-        
-        return true
     }
     
     // MARK: UISceneSession Lifecycle

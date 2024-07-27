@@ -55,6 +55,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         checkFavoriteStatus()
         setupCastButton()
         
+        FloatingManager.shared.setup(in: view)
         navigationController?.navigationBar.prefersLargeTitles = false
         
         for (index, episode) in episodes.enumerated() {
@@ -162,10 +163,14 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         }
     }
     
-    private func showAlert(title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
+    func showAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let topController = windowScene.windows.first?.rootViewController?.presentedViewController ?? windowScene.windows.first?.rootViewController {
+            topController.present(alertController, animated: true, completion: nil)
+        }
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -736,29 +741,48 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
     }
 
     func playVideo(sourceURL: URL, cell: EpisodeCell, fullURL: String) {
-         let selectedPlayer = UserDefaults.standard.string(forKey: "mediaPlayerSelected") ?? "Default"
-         let isToDownload = UserDefaults.standard.bool(forKey: "isToDownload")
+        let selectedPlayer = UserDefaults.standard.string(forKey: "mediaPlayerSelected") ?? "Default"
+        let isToDownload = UserDefaults.standard.bool(forKey: "isToDownload")
 
-         if isToDownload {
-             self.showAlert(title: "Download Started", message: "You can check the download page in the Library to see the progress.")
-             UserDefaults.standard.set(false, forKey: "isToDownload")
-             let downloader = MP4Downloader(url: sourceURL)
-             downloader.startDownload(progress: { progress in
-                 print("Download progress: \(progress * 100)%")
-             }) { result in
-                 switch result {
-                 case .success:
-                     self.showAlert(title: "Download Compleated!", message: "You can find your donwload in the Library -> Downloads.")
-                 case .failure(let error):
-                     print("Download failed with error: \(error.localizedDescription)")
-                     self.showAlert(title: "Download Failed", message: "\(error.localizedDescription)")
-                 }
-             }
-         } else {
-             playVideoWithSelectedPlayer(player: selectedPlayer, sourceURL: sourceURL, cell: cell, fullURL: fullURL)
-         }
-     }
+        if isToDownload {
+            UserDefaults.standard.set(false, forKey: "isToDownload")
+            
+            guard let episode = episodes.first(where: { $0.href == fullURL }) else {
+                print("Error: Could not find episode for URL \(fullURL)")
+                return
+            }
+            
+            DispatchQueue.main.async {
+                let downloadView = FloatingManager.shared.addDownload(
+                    title: "\(self.animeTitle ?? "Anime") - Ep. \(episode.number)",
+                    imageURL: self.imageUrl ?? ""
+                )
 
+                let downloader = MP4Downloader(url: sourceURL)
+                downloader.startDownload(progress: { progress in
+                    DispatchQueue.main.async {
+                        downloadView.updateProgress(Float(progress))
+                    }
+                    print("Download progress: \(progress * 100)%")
+                }) { result in
+                    DispatchQueue.main.async {
+                        FloatingManager.shared.removeDownload(downloadView)
+                        switch result {
+                        case .success:
+                            self.showAlert(title: "Download Completed!", message: "You can find your download in the Library -> Downloads.")
+                        case .failure(let error):
+                            print("Download failed with error: \(error.localizedDescription)")
+                            self.showAlert(title: "Download Failed", message: "\(error.localizedDescription)")
+                        }
+                    }
+                }
+            }
+        } else {
+            DispatchQueue.main.async {
+                self.playVideoWithSelectedPlayer(player: selectedPlayer, sourceURL: sourceURL, cell: cell, fullURL: fullURL)
+            }
+        }
+    }
 
     private func playVideoWithSelectedPlayer(player: String, sourceURL: URL, cell: EpisodeCell, fullURL: String) {
         switch player {

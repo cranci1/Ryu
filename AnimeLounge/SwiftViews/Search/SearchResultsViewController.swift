@@ -23,7 +23,14 @@ class SearchResultsViewController: UIViewController {
     private let noResultsLabel = UILabel()
 
     var searchResults: [(title: String, imageUrl: String, href: String)] = []
+    var filteredResults: [(title: String, imageUrl: String, href: String)] = []
     var query: String = ""
+    var selectedSource: String = ""
+
+    private lazy var sortButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: UIImage(systemName: "arrow.up.arrow.down"), style: .plain, target: self, action: #selector(sortButtonTapped))
+        return button
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,6 +59,11 @@ class SearchResultsViewController: UIViewController {
         setupLoadingIndicator()
         setupErrorLabel()
         setupNoResultsLabel()
+        
+        selectedSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? ""
+        if ["AnimeWorld", "GoGoAnime", "Kuramanime", "AnimeFire"].contains(selectedSource) {
+            navigationItem.rightBarButtonItem = sortButton
+        }
     }
 
     private func setupLoadingIndicator() {
@@ -89,6 +101,82 @@ class SearchResultsViewController: UIViewController {
         ])
     }
 
+    @objc private func sortButtonTapped() {
+        let alertController = UIAlertController(title: "Sort Anime", message: nil, preferredStyle: .actionSheet)
+        
+        let allAction = UIAlertAction(title: "All", style: .default) { [weak self] _ in
+            self?.filterResults(option: .all)
+        }
+        
+        switch selectedSource {
+        case "GoGoAnime":
+            let dubAction = UIAlertAction(title: "Dub", style: .default) { [weak self] _ in
+                self?.filterResults(option: .dub)
+            }
+            let subAction = UIAlertAction(title: "Sub", style: .default) { [weak self] _ in
+                self?.filterResults(option: .sub)
+            }
+            alertController.addAction(dubAction)
+            alertController.addAction(subAction)
+        case "AnimeWorld":
+            let itaAction = UIAlertAction(title: "Dub", style: .default) { [weak self] _ in
+                self?.filterResults(option: .ita)
+            }
+            alertController.addAction(itaAction)
+        case "Kuramanime":
+            let dubAction = UIAlertAction(title: "Dub", style: .default) { [weak self] _ in
+                self?.filterResults(option: .dub)
+            }
+            alertController.addAction(dubAction)
+        case "AnimeFire":
+            let dubAction = UIAlertAction(title: "Dub", style: .default) { [weak self] _ in
+                self?.filterResults(option: .dub)
+            }
+            alertController.addAction(dubAction)
+        default:
+            break
+        }
+        
+        alertController.addAction(allAction)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        if let popoverController = alertController.popoverPresentationController {
+            popoverController.barButtonItem = sortButton
+        }
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    private enum FilterOption {
+        case all, dub, sub, ita
+    }
+    
+    private func filterResults(option: FilterOption) {
+        switch option {
+        case .all:
+            filteredResults = searchResults
+        case .dub:
+            switch selectedSource {
+            case "GoGoAnime":
+                filteredResults = searchResults.filter { $0.title.lowercased().contains("(dub)") }
+            case "Kuramanime":
+                filteredResults = searchResults.filter { $0.title.contains("(Dub ID)") }
+            case "AnimeFire":
+                filteredResults = searchResults.filter { $0.title.contains("(Dublado)") }
+            default:
+                filteredResults = searchResults
+            }
+        case .sub:
+            filteredResults = searchResults.filter { !$0.title.lowercased().contains("(dub)") }
+        case .ita:
+            filteredResults = searchResults.filter { $0.title.contains("ITA") }
+        }
+        
+        tableView.reloadData()
+    }
+    
     private func fetchResults() {
         loadingIndicator.startAnimating()
         tableView.isHidden = true
@@ -113,6 +201,7 @@ class SearchResultsViewController: UIViewController {
             case .success(let value):
                 let results = self.parseHTML(html: value, for: MediaSource(rawValue: selectedSource) ?? .animeWorld)
                 self.searchResults = results
+                self.filteredResults = results
                 if results.isEmpty {
                     self.showNoResults()
                 } else {
@@ -238,12 +327,12 @@ class SearchResultsViewController: UIViewController {
 
 extension SearchResultsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return searchResults.count
+        return filteredResults.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "resultCell", for: indexPath) as! SearchResultCell
-        let result = searchResults[indexPath.row]
+        let result = filteredResults[indexPath.row]
         
         cell.titleLabel.text = result.title
         
@@ -258,7 +347,7 @@ extension SearchResultsViewController: UITableViewDataSource, UITableViewDelegat
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedResult = searchResults[indexPath.row]
+        let selectedResult = filteredResults[indexPath.row]
         navigateToAnimeDetail(title: selectedResult.title, imageUrl: selectedResult.imageUrl, href: selectedResult.href)
     }
 }

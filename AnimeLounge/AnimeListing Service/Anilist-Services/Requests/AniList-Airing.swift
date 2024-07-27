@@ -1,5 +1,5 @@
 //
-//  AiringAnime.swift
+//  AniList-Airing.swift
 //  AnimeLounge
 //
 //  Created by Francesco on 22/06/24.

@@ -1,5 +1,5 @@
 //
-//  SeasonalAnime.swift
+//  AniList-Sesonal.swift
 //  AnimeLounge
 //
 //  Created by Francesco on 21/06/24.
