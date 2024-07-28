@@ -104,6 +104,7 @@
 		139FD9DA2C55553B00B07996 /* Jakin-Airing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Jakin-Airing.swift"; sourceTree = "<group>"; };
 		139FD9DC2C55575800B07996 /* Jakin-Trending.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Jakin-Trending.swift"; sourceTree = "<group>"; };
 		139FD9DE2C55576B00B07996 /* Jakin-Sesonal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Jakin-Sesonal.swift"; sourceTree = "<group>"; };
+		139FD9E02C563DAF00B07996 /* AnimeLounge.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AnimeLounge.entitlements; sourceTree = "<group>"; };
 		13AA298B2C245EDD00C8CA8E /* AnimeLounge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnimeLounge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13AA298E2C245EDD00C8CA8E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		13AA29902C245EDD00C8CA8E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -329,6 +330,7 @@
 		13AA298D2C245EDD00C8CA8E /* AnimeLounge */ = {
 			isa = PBXGroup;
 			children = (
+				139FD9E02C563DAF00B07996 /* AnimeLounge.entitlements */,
 				139FD9C92C553FB300B07996 /* AnimeListing Service */,
 				131C06CE2C45A281004ED5D9 /* Sources */,
 				1308F1782C328563004348A9 /* Utils */,
