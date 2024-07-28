@@ -14,11 +14,20 @@ extension Notification.Name {
 class DownloadManager {
     func fetchDownloadURLs() -> [URL] {
         let fileManager = FileManager.default
-        let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        guard let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            print("Unable to access Documents directory")
+            return []
+        }
+        
+        let downloadsURL = documentsURL.appendingPathComponent("Downloads")
         
         do {
-            let fileURLs = try fileManager.contentsOfDirectory(at: documentsURL, includingPropertiesForKeys: nil)
-            let downloadURLs = fileURLs.filter { $0.pathExtension == "mpeg" || $0.pathExtension == "mp4" }
+            if !fileManager.fileExists(atPath: downloadsURL.path) {
+                try fileManager.createDirectory(at: downloadsURL, withIntermediateDirectories: true, attributes: nil)
+            }
+            
+            let fileURLs = try fileManager.contentsOfDirectory(at: downloadsURL, includingPropertiesForKeys: nil)
+            let downloadURLs = fileURLs.filter { $0.pathExtension.lowercased() == "mpeg" || $0.pathExtension.lowercased() == "mp4" }
             
             NotificationCenter.default.post(name: .downloadListUpdated, object: nil)
             

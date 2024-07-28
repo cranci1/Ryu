@@ -21,7 +21,7 @@ class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
     private var progressLabel: UILabel?
     
     private var retryCount = 0
-    private let maxRetries = 99
+    private let maxRetries = 10
     
     private var cell: EpisodeCell
     private var fullURL: String

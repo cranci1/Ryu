@@ -33,14 +33,20 @@ class MP4Downloader: NSObject, URLSessionDownloadDelegate {
     
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
         guard let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
-            print("Could not access documents directory")
-            completionHandler?(.failure(NSError(domain: "MP4Downloader", code: 1, userInfo: [NSLocalizedDescriptionKey: "Could not access documents directory"])))
+            print("Could not access app's documents directory")
+            completionHandler?(.failure(NSError(domain: "MP4Downloader", code: 1, userInfo: [NSLocalizedDescriptionKey: "Could not access app's documents directory"])))
             return
         }
         
-        let destinationURL = documentsPath.appendingPathComponent(downloadTask.originalRequest?.url?.lastPathComponent ?? "downloadedVideo.mp4")
+        let downloadsPath = documentsPath.appendingPathComponent("Downloads")
         
         do {
+            if !FileManager.default.fileExists(atPath: downloadsPath.path) {
+                try FileManager.default.createDirectory(at: downloadsPath, withIntermediateDirectories: true, attributes: nil)
+            }
+            
+            let destinationURL = downloadsPath.appendingPathComponent(downloadTask.originalRequest?.url?.lastPathComponent ?? "downloadedAnimeVideo.mp4")
+            
             if FileManager.default.fileExists(atPath: destinationURL.path) {
                 try FileManager.default.removeItem(at: destinationURL)
             }

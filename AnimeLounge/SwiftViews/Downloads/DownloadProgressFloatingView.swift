@@ -34,7 +34,7 @@ class FloatingDownloadView: UIView {
     }
     
     private func setupView() {
-        backgroundColor = .systemBackground
+        backgroundColor = .secondarySystemBackground
         layer.cornerRadius = 10
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOpacity = 0.3

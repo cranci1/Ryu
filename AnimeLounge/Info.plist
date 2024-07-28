@@ -2,8 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>NSUserNotificationUsageDescription</key>
-    <string>AnimeLounge usew notifications to alert you when your downloads are complete.</string>
+	<key>UISupportsDocumentBrowser</key>
+	<true/>
+	<key>NSUserNotificationUsageDescription</key>
+	<string>AnimeLounge usew notifications to alert you when your downloads are complete.</string>
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>AnimeLounge needs this to cast episodes using the Google Cast service</string>
 	<key>NSBonjourServices</key>

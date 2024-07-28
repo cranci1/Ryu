@@ -21,13 +21,32 @@ class DownloadListViewController: UIViewController {
     private var downloads: [URL] = []
     private let downloadManager = DownloadManager()
     
+    private let refreshControl = UIRefreshControl()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .secondarySystemBackground
         setupTableView()
         loadDownloads()
+        setupNavigationBar()
+        setupRefreshControl()
         updateTitle()
+    }
+    
+    private func setupRefreshControl() {
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        tableView.refreshControl = refreshControl
+    }
+    
+    @objc private func refreshData() {
+        loadDownloads()
+        refreshControl.endRefreshing()
+    }
+    
+    private func setupNavigationBar() {
+        let filesButton = UIBarButtonItem(image: UIImage(systemName: "folder"), style: .plain, target: self, action: #selector(openInFilesApp))
+        navigationItem.rightBarButtonItem = filesButton
     }
     
     private func setupTableView() {
@@ -43,6 +62,31 @@ class DownloadListViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    @objc private func openInFilesApp() {
+        guard let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            print("Unable to access Documents directory")
+            return
+        }
+        
+        let downloadsURL = documentsURL.appendingPathComponent("Downloads")
+        let urlString = downloadsURL.absoluteString.replacingOccurrences(of: "file://", with: "shareddocuments://")
+        
+        guard let url = URL(string: urlString) else {
+            print("Invalid URL")
+            return
+        }
+        
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:]) { success in
+                if !success {
+                    print("Failed to open Files app")
+                }
+            }
+        } else {
+            print("Cannot open Files app")
+        }
     }
     
     private func loadDownloads() {
