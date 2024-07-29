@@ -2,20 +2,29 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UISupportsDocumentBrowser</key>
-	<true/>
-	<key>NSLocalNetworkUsageDescription</key>
-	<string>AnimeLounge needs this to cast trailers using the Google Cast service</string>
-	<key>NSBonjourServices</key>
+	<key>CFBundleDocumentTypes</key>
 	<array>
-		<string>_googlecast._tcp</string>
-		<string>_CC1AD845._googlecast._tcp</string>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>AL Backup File</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>me.cranci.albackup</string>
+			</array>
+		</dict>
 	</array>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>outplayer</string>
 		<string>infuse</string>
 		<string>vlc</string>
+	</array>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_googlecast._tcp</string>
+		<string>_CC1AD845._googlecast._tcp</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
@@ -65,19 +74,6 @@
 					<string>application/x-albackup</string>
 				</array>
 			</dict>
-		</dict>
-	</array>
-	<key>CFBundleDocumentTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeName</key>
-			<string>AL Backup File</string>
-			<key>LSHandlerRank</key>
-			<string>Owner</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>me.cranci.albackup</string>
-			</array>
 		</dict>
 	</array>
 </dict>
