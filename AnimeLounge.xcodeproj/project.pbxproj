@@ -19,13 +19,10 @@
 		1326E4D22C343DF80056A66E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1326E4D12C343DF80056A66E /* Main.storyboard */; };
 		1326E4D42C343E040056A66E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1326E4D32C343E040056A66E /* LaunchScreen.storyboard */; };
 		13327B362C314E6F00CEE6AC /* LandScapePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13327B352C314E6F00CEE6AC /* LandScapePlayer.swift */; };
-		1354F64A2C426EE700E45682 /* SearchResultSourcesParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1354F6492C426EE700E45682 /* SearchResultSourcesParsing.swift */; };
 		1354F64C2C42C49C00E45682 /* ExternalVideoPlayerJK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1354F64B2C42C49C00E45682 /* ExternalVideoPlayerJK.swift */; };
 		135F85292C382ECE0024954D /* SourceMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135F85282C382ECE0024954D /* SourceMenu.swift */; };
 		137F49D92C24B60800B787CB /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 137F49D82C24B60800B787CB /* SwiftSoup */; };
 		137F49EC2C254DCA00B787CB /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 137F49EB2C254DCA00B787CB /* Alamofire */; };
-		137F4A332C255DA500B787CB /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137F4A322C255DA500B787CB /* SearchViewController.swift */; };
-		137F4A352C255E9700B787CB /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137F4A342C255E9700B787CB /* SearchResultsViewController.swift */; };
 		137F4A422C25820600B787CB /* LibraryViewControlller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137F4A412C25820600B787CB /* LibraryViewControlller.swift */; };
 		137F4A442C258D9000B787CB /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 137F4A432C258D9000B787CB /* Settings.storyboard */; };
 		139655D12C33FCE10098A679 /* SettingsViewCast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139655D02C33FCE10098A679 /* SettingsViewCast.swift */; };
@@ -65,6 +62,7 @@
 		13E4464E2C25C38A002B14E8 /* WatchNextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E4464D2C25C38A002B14E8 /* WatchNextViewController.swift */; };
 		13E446522C25CBA3002B14E8 /* SlimmAnimeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13E446512C25CBA3002B14E8 /* SlimmAnimeCell.xib */; };
 		13E446542C25CBCA002B14E8 /* SlimmAnimeCell-Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E446532C25CBCA002B14E8 /* SlimmAnimeCell-Swift.swift */; };
+		13FE97152C57A8A800459119 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13FE97142C57A8A800459119 /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -80,11 +78,8 @@
 		1326E4D12C343DF80056A66E /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		1326E4D32C343E040056A66E /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		13327B352C314E6F00CEE6AC /* LandScapePlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandScapePlayer.swift; sourceTree = "<group>"; };
-		1354F6492C426EE700E45682 /* SearchResultSourcesParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultSourcesParsing.swift; sourceTree = "<group>"; };
 		1354F64B2C42C49C00E45682 /* ExternalVideoPlayerJK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalVideoPlayerJK.swift; sourceTree = "<group>"; };
 		135F85282C382ECE0024954D /* SourceMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceMenu.swift; sourceTree = "<group>"; };
-		137F4A322C255DA500B787CB /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
-		137F4A342C255E9700B787CB /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
 		137F4A412C25820600B787CB /* LibraryViewControlller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewControlller.swift; sourceTree = "<group>"; };
 		137F4A432C258D9000B787CB /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		139655D02C33FCE10098A679 /* SettingsViewCast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewCast.swift; sourceTree = "<group>"; };
@@ -125,6 +120,7 @@
 		13E4464D2C25C38A002B14E8 /* WatchNextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchNextViewController.swift; sourceTree = "<group>"; };
 		13E446512C25CBA3002B14E8 /* SlimmAnimeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SlimmAnimeCell.xib; sourceTree = "<group>"; };
 		13E446532C25CBCA002B14E8 /* SlimmAnimeCell-Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SlimmAnimeCell-Swift.swift"; sourceTree = "<group>"; };
+		13FE97142C57A8A800459119 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -210,16 +206,6 @@
 				139FD9D22C55422400B07996 /* SettingsAnimeListing.swift */,
 			);
 			path = SubPages;
-			sourceTree = "<group>";
-		};
-		137F4A2B2C255D1C00B787CB /* Search */ = {
-			isa = PBXGroup;
-			children = (
-				137F4A322C255DA500B787CB /* SearchViewController.swift */,
-				137F4A342C255E9700B787CB /* SearchResultsViewController.swift */,
-				1354F6492C426EE700E45682 /* SearchResultSourcesParsing.swift */,
-			);
-			path = Search;
 			sourceTree = "<group>";
 		};
 		137F4A452C258DE200B787CB /* Views */ = {
@@ -336,6 +322,7 @@
 				13AA29902C245EDD00C8CA8E /* SceneDelegate.swift */,
 				13AA29972C245EDF00C8CA8E /* Assets.xcassets */,
 				13AA299C2C245EDF00C8CA8E /* Info.plist */,
+				13FE97142C57A8A800459119 /* PrivacyInfo.xcprivacy */,
 			);
 			path = AnimeLounge;
 			sourceTree = "<group>";
@@ -422,7 +409,6 @@
 				13CD3A812C26BA2700B046F9 /* Favorites */,
 				13CD3A7E2C26B24D00B046F9 /* Anime */,
 				13E4464A2C25C33F002B14E8 /* Watch Next */,
-				137F4A2B2C255D1C00B787CB /* Search */,
 				13AA29BE2C24708A00C8CA8E /* Library */,
 			);
 			path = SwiftViews;
@@ -507,6 +493,7 @@
 				1326E4D42C343E040056A66E /* LaunchScreen.storyboard in Resources */,
 				139B164D2C270FAF007E3477 /* AiringAnimeCell.xib in Resources */,
 				1326E4D22C343DF80056A66E /* Main.storyboard in Resources */,
+				13FE97152C57A8A800459119 /* PrivacyInfo.xcprivacy in Resources */,
 				13AA29982C245EDF00C8CA8E /* Assets.xcassets in Resources */,
 				13E446522C25CBA3002B14E8 /* SlimmAnimeCell.xib in Resources */,
 				13AE19E32C2BF7410012633D /* FavoriteCell.xib in Resources */,
@@ -524,13 +511,10 @@
 			files = (
 				139655D12C33FCE10098A679 /* SettingsViewCast.swift in Sources */,
 				13CD3A832C26BB5C00B046F9 /* FavoritesViewController.swift in Sources */,
-				137F4A332C255DA500B787CB /* SearchViewController.swift in Sources */,
 				1308F17A2C328571004348A9 /* BackupManager.swift in Sources */,
 				13AA298F2C245EDD00C8CA8E /* AppDelegate.swift in Sources */,
 				139B164C2C270FAF007E3477 /* AiringAnimeCell-Swift.swift in Sources */,
-				1354F64A2C426EE700E45682 /* SearchResultSourcesParsing.swift in Sources */,
 				131464012C382B6800F6AD8B /* UIImage.swift in Sources */,
-				137F4A352C255E9700B787CB /* SearchResultsViewController.swift in Sources */,
 				139B16282C26F4A3007E3477 /* AnimeInformation.swift in Sources */,
 				135F85292C382ECE0024954D /* SourceMenu.swift in Sources */,
 				13BE7A112C42646B005EE2F7 /* SettingsGoGo.swift in Sources */,
