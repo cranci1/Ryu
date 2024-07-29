@@ -160,10 +160,6 @@ class WatchNextViewController: UITableViewController {
             self.setupDateLabel()
         }
     }
-    
-    @IBAction func selectSourceButtonTapped(_ sender: UIButton) {
-        SourceMenu.showSourceSelector(from: self, sourceView: sender)
-    }
 }
 
 extension WatchNextViewController: UICollectionViewDataSource {
@@ -371,12 +367,6 @@ extension WatchNextViewController: UIContextMenuInteractionDelegate {
         }
         
         searchMedia(query: query)
-    }
-    
-    private func searchMedia(query: String) {
-        let resultsVC = SearchResultsViewController()
-        resultsVC.query = query
-        navigationController?.pushViewController(resultsVC, animated: true)
     }
     
     private func showError(message: String) {
