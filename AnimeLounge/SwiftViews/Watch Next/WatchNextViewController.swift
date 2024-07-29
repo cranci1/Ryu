@@ -248,11 +248,27 @@ extension WatchNextViewController: UICollectionViewDelegate {
     }
     
     private func navigateToAnimeDetail(for anime: Anime) {
-        let storyboard = UIStoryboard(name: "AnilistAnimeInformation", bundle: nil)
-        if let animeDetailVC = storyboard.instantiateViewController(withIdentifier: "AnimeInformation") as? AnimeInformation {
-            animeDetailVC.animeID = anime.id
-            navigationController?.pushViewController(animeDetailVC, animated: true)
+        let animeListingService = UserDefaults.standard.string(forKey: "AnimeListingService") ?? "AniList"
+        
+        if animeListingService == "AniList" {
+            let storyboard = UIStoryboard(name: "AnilistAnimeInformation", bundle: nil)
+            if let animeDetailVC = storyboard.instantiateViewController(withIdentifier: "AnimeInformation") as? AnimeInformation {
+                animeDetailVC.animeID = anime.id
+                navigationController?.pushViewController(animeDetailVC, animated: true)
+            }
+        } else {
+            showUnsupportedSourceAlert()
         }
+    }
+
+    private func showUnsupportedSourceAlert() {
+        let alertController = UIAlertController(
+            title: "Unsupported Source",
+            message: "Detailed anime information is only available for AniList as of now.",
+            preferredStyle: .alert
+        )
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alertController, animated: true, completion: nil)
     }
 }
 
@@ -266,15 +282,23 @@ extension WatchNextViewController: UIContextMenuInteractionDelegate {
         }, actionProvider: { [weak self] _ in
             guard let self = self else { return nil }
             
-            let openAction = UIAction(title: "Open", image: UIImage(systemName: "eye")) { _ in
-                self.openAnimeDetail(for: indexPath)
+            let animeListingService = UserDefaults.standard.string(forKey: "AnimeListingService") ?? "AniList"
+            
+            var actions: [UIAction] = []
+            
+            if animeListingService == "AniList" {
+                let openAction = UIAction(title: "Open", image: UIImage(systemName: "eye")) { _ in
+                    self.openAnimeDetail(for: indexPath)
+                }
+                actions.append(openAction)
             }
             
-            let searchAction = UIAction(title: "Search Episodes", image: UIImage(systemName: "magnifyingglass")) { _ in
-                self.searchEpisodes(for: indexPath)
+            let searchAction = UIAction(title: "Watch Trailer", image: UIImage(systemName: "tv")) { _ in
+                self.showError(message: "The trailer implementation is not added yet")
             }
+            actions.append(searchAction)
             
-            return UIMenu(title: "", children: [openAction, searchAction])
+            return UIMenu(title: "", children: actions)
         })
     }
     

@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import GoogleCast
 import AVFoundation
 
 @main
@@ -17,7 +16,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         setupAudioSession()
         setupDefaultUserPreferences()
-        setupGoogleCast()
         
         return true
     }
@@ -42,11 +40,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UserDefaults.standard.register(defaults: ["fullTitleCast": true])
         UserDefaults.standard.register(defaults: ["animeImageCast": true])
-    }
-    
-    private func setupGoogleCast() {
-        let options = GCKCastOptions(discoveryCriteria: GCKDiscoveryCriteria(applicationID: kGCKDefaultMediaReceiverApplicationID))
-        GCKCastContext.setSharedInstanceWith(options)
     }
     
     // MARK: UISceneSession Lifecycle

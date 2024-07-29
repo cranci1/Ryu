@@ -8,9 +8,8 @@
 import AVKit
 import WebKit
 import Combine
-import GoogleCast
 
-class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessageHandler, GCKRemoteMediaClientListener {
+class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessageHandler {
     private var downloader = M3U8Downloader()
     private var qualityOptions: [(name: String, fileName: String)] = []
     
@@ -237,10 +236,6 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
                                     }
                                 }
                             } else {
-                                if GCKCastContext.sharedInstance().sessionManager.hasConnectedCastSession() {
-                                    self.castVideoToGoogleCast(videoURL: videoUrl)
-                                    self.dismiss(animated: true, completion: nil)
-                                } else {
                                     let goGoAnimeMethod = UserDefaults.standard.string(forKey: "GoGoAnimeMethod") ?? "Stable"
                                     
                                     switch goGoAnimeMethod {
@@ -253,7 +248,6 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
                                         self.animeDetailsViewController?.playVideo(sourceURL: videoUrl, cell: self.cell, fullURL: self.fullURL)
                                         self.dismiss(animated: true, completion: nil)
                                     }
-                                }
                             }
                         }
                     }
@@ -344,42 +338,6 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
             }
         }
         task.resume()
-    }
-
-    private func castVideoToGoogleCast(videoURL: URL) {
-        DispatchQueue.main.async {
-            let metadata = GCKMediaMetadata(metadataType: .movie)
-            
-            if UserDefaults.standard.bool(forKey: "fullTitleCast") {
-                if let animeTitle = self.animeDetailsViewController?.animeTitle {
-                    metadata.setString(animeTitle, forKey: kGCKMetadataKeyTitle)
-                } else {
-                    print("Error: Anime title is missing.")
-                }
-            } else {
-                let episodeNumber = (self.animeDetailsViewController?.currentEpisodeIndex ?? -1) + 1
-                metadata.setString("Episode \(episodeNumber)", forKey: kGCKMetadataKeyTitle)
-            }
-            
-            if UserDefaults.standard.bool(forKey: "animeImageCast") {
-                if let imageURL = URL(string: self.animeDetailsViewController?.imageUrl ?? "") {
-                    metadata.addImage(GCKImage(url: imageURL, width: 480, height: 720))
-                } else {
-                    print("Error: Anime image URL is missing or invalid.")
-                }
-            }
-            
-            let builder = GCKMediaInformationBuilder(contentURL: videoURL)
-            builder.streamType = .buffered
-            builder.contentType = "application/x-mpegURL"
-            builder.metadata = metadata
-            
-            let mediaInformation = builder.build()
-            
-            if let remoteMediaClient = GCKCastContext.sharedInstance().sessionManager.currentCastSession?.remoteMediaClient {
-                remoteMediaClient.loadMedia(mediaInformation)
-            }
-        }
     }
     
     private func playVideoInAVPlayer(url: URL) {
