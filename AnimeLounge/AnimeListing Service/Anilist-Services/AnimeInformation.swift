@@ -127,6 +127,12 @@ class AnimeInformation: UIViewController, UITableViewDataSource {
          showError(message: "The trailer implementation is not added yet")
      }
      
+     private func searchMedia(query: String) {
+         let resultsVC = SearchResultsViewController()
+         resultsVC.query = query
+         navigationController?.pushViewController(resultsVC, animated: true)
+     }
+     
      private func setupContentViews() {
          let stackView = UIStackView(arrangedSubviews: [
              descriptionView, statsView, infoView, charactersView, relationsView
