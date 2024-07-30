@@ -58,7 +58,9 @@
                     </tabBar>
                     <connections>
                         <segue destination="URY-4Z-Kae" kind="relationship" relationship="viewControllers" id="B3i-Id-sjP"/>
+                        <segue destination="zUE-0l-pun" kind="relationship" relationship="viewControllers" id="duP-J1-VFZ"/>
                         <segue destination="IoH-Pc-RHZ" kind="relationship" relationship="viewControllers" id="aQI-jM-5Sn"/>
+                        <segue destination="vhg-Mx-6Ju" kind="relationship" relationship="viewControllers" id="xiz-0Q-dgw"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Az2-m6-ouo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -213,7 +215,7 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="800" verticalCompressionResistancePriority="751" text="Downloaded Trailers" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U8V-Ph-Tqn">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="800" verticalCompressionResistancePriority="751" text="Downloads" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U8V-Ph-Tqn">
                                         <rect key="frame" x="42" y="10" width="99" height="29"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="99" id="ojZ-zz-Bkh"/>
@@ -298,6 +300,155 @@
                 </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-5588" y="1497.3013493253375"/>
+        </scene>
+        <!--Search-->
+        <scene sceneID="3jU-2O-voz">
+            <objects>
+                <tableViewController title="Search" id="Y70-mk-R3V" customClass="SearchViewController" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="xbx-GI-YdK">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                        <searchBar key="tableHeaderView" opaque="NO" clipsSubviews="YES" contentMode="redraw" searchBarStyle="minimal" placeholder="Find your Anime" id="K3f-Dc-Cgq">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="51"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="search" enablesReturnKeyAutomatically="YES" smartDashesType="no" smartQuotesType="no"/>
+                        </searchBar>
+                    </tableView>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Search" id="U8J-Ws-qJL">
+                        <barButtonItem key="leftBarButtonItem" title="Select Source" id="xDq-TS-qlu">
+                            <color key="tintColor" name="AccentColor"/>
+                            <connections>
+                                <action selector="selectSourceButtonTapped:" destination="Y70-mk-R3V" id="i9P-su-hSO"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" id="teZ-LN-6Pb">
+                            <imageReference key="image" image="gearshape" catalog="system" symbolScale="large"/>
+                            <color key="tintColor" name="AccentColor"/>
+                            <connections>
+                                <segue destination="tkJ-qb-Pci" kind="show" id="X14-oT-TJn"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="historyTableView" destination="xbx-GI-YdK" id="gBn-9z-ugI"/>
+                        <outlet property="searchBar" destination="K3f-Dc-Cgq" id="QM0-dJ-O3m"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BHX-JB-raA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1804" y="1500"/>
+        </scene>
+        <!--Results-->
+        <scene sceneID="vZd-Ht-s9Z">
+            <objects>
+                <viewController storyboardIdentifier="SearchResultsViewController" id="ro8-Cj-YLu" customClass="SearchResultsViewController" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="yXd-Tk-AwV">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="ItH-UE-F4b"/>
+                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Results" largeTitleDisplayMode="never" id="sIr-SL-AbL"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="K9U-nE-S9x" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-930.39999999999998" y="1499.1004497751126"/>
+        </scene>
+        <!--Search Page Container-->
+        <scene sceneID="YXA-dm-k3d">
+            <objects>
+                <navigationController id="vhg-Mx-6Ju" userLabel="Search Page Container" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" systemItem="search" id="UKm-0L-8YE"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="0CN-Fn-JU4">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Y70-mk-R3V" kind="relationship" relationship="rootViewController" id="Z1t-MP-sKW"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yyv-5w-BpB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2695" y="1500"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="qIV-Ii-dhQ">
+            <objects>
+                <navigationController id="zUE-0l-pun" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" systemItem="favorites" id="bqb-dW-tII"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="nBH-n3-bIW">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="IWM-mT-B3l" kind="relationship" relationship="rootViewController" id="qsq-JZ-RXr"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fMf-7v-lV8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-4590" y="-18"/>
+        </scene>
+        <!--Favorites-->
+        <scene sceneID="JNZ-TQ-x2k">
+            <objects>
+                <viewController id="IWM-mT-B3l" customClass="FavoritesViewController" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="TOP-3B-jqm">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" keyboardDismissMode="onDrag" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="RC6-7K-ADf">
+                                <rect key="frame" x="0.0" y="44" width="375" height="574"/>
+                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                <inset key="scrollIndicatorInsets" minX="18" minY="0.0" maxX="18" maxY="0.0"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="25" minimumInteritemSpacing="10" sectionInsetReference="layoutMargins" id="6ek-RP-jK5">
+                                    <size key="itemSize" width="101" height="200"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isThemable" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                            </collectionView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="icT-SM-Cdp"/>
+                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="RC6-7K-ADf" firstAttribute="centerX" secondItem="TOP-3B-jqm" secondAttribute="centerX" id="Gim-jB-upG"/>
+                            <constraint firstItem="icT-SM-Cdp" firstAttribute="bottom" secondItem="RC6-7K-ADf" secondAttribute="bottom" id="KL5-UN-O6M"/>
+                            <constraint firstItem="RC6-7K-ADf" firstAttribute="top" secondItem="icT-SM-Cdp" secondAttribute="top" id="l3j-ju-9ZW"/>
+                            <constraint firstItem="RC6-7K-ADf" firstAttribute="leading" secondItem="icT-SM-Cdp" secondAttribute="leading" id="owC-Er-z1o"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Favorites" id="BBu-Lh-qnt">
+                        <leftBarButtonItems>
+                            <barButtonItem id="2ET-QB-yVC">
+                                <imageReference key="image" image="gearshape" catalog="system" symbolScale="large"/>
+                                <color key="tintColor" name="AccentColor"/>
+                                <connections>
+                                    <segue destination="tkJ-qb-Pci" kind="show" id="A4S-3U-V1x"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem id="end-2d-NSa">
+                                <imageReference key="image" image="network" catalog="system" symbolScale="large"/>
+                                <color key="tintColor" name="AccentColor"/>
+                                <connections>
+                                    <action selector="selectSourceButtonTapped:" destination="IWM-mT-B3l" id="QCY-jW-MT7"/>
+                                </connections>
+                            </barButtonItem>
+                        </leftBarButtonItems>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="collectionView" destination="RC6-7K-ADf" id="IPD-HB-lUf"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TeC-A3-ms6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-5588" y="-17.541229385307346"/>
         </scene>
         <!--Settings-->
         <scene sceneID="wm0-ai-LFy">
@@ -518,12 +669,13 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="QUk-Rn-qDy"/>
+        <segue reference="Af5-Kj-0iD"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.down.circle.fill" catalog="system" width="128" height="121"/>
         <image name="clock" catalog="system" width="128" height="121"/>
         <image name="gearshape" catalog="system" width="128" height="121"/>
+        <image name="network" catalog="system" width="128" height="121"/>
         <image name="play.rectangle.fill" catalog="system" width="128" height="93"/>
         <image name="square.stack.fill" catalog="system" width="113" height="128"/>
         <image name="star.fill" catalog="system" width="128" height="116"/>

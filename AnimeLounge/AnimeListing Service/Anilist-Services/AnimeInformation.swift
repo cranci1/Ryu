@@ -31,7 +31,7 @@ class AnimeInformation: UIViewController, UITableViewDataSource {
     
     private let searchEpisodesButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Watch Trailer", for: .normal)
+        button.setTitle("Search Episodes", for: .normal)
         button.addTarget(self, action: #selector(searchEpisodesButtonTapped), for: .touchUpInside)
         button.backgroundColor = .systemTeal
         button.setTitleColor(.label, for: .normal)
@@ -124,7 +124,11 @@ class AnimeInformation: UIViewController, UITableViewDataSource {
      }
      
      @objc private func searchEpisodesButtonTapped() {
-         showError(message: "The trailer implementation is not added yet")
+         guard let query = titleLabel.text, !query.isEmpty else {
+             showError(message: "Could not find anime title.")
+             return
+         }
+         searchMedia(query: query)
      }
      
      private func searchMedia(query: String) {

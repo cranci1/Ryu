@@ -11,6 +11,15 @@
         }
       },
       {
+        "package": "GoogleCastSDK-ios-no-bluetooth",
+        "repositoryURL": "https://github.com/SRGSSR/GoogleCastSDK-ios-no-bluetooth.git",
+        "state": {
+          "branch": "master",
+          "revision": "470ba19d955e7859b7a3873454cd30d1b8867e85",
+          "version": null
+        }
+      },
+      {
         "package": "Kingfisher",
         "repositoryURL": "https://github.com/onevcat/Kingfisher.git",
         "state": {

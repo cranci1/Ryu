@@ -9,6 +9,7 @@ import UIKit
 import AVKit
 import WebKit
 import SwiftSoup
+import GoogleCast
 import Foundation
 import MediaPlayer
 
@@ -18,7 +19,7 @@ extension String {
     }
 }
 
-class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
+class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GCKRemoteMediaClientListener {
     var animeTitle: String?
     var imageUrl: String?
     private var href: String?
@@ -52,6 +53,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
         updateUI()
         setupNotifications()
         checkFavoriteStatus()
+        setupCastButton()
         
         FloatingManager.shared.setup(in: view)
         navigationController?.navigationBar.prefersLargeTitles = false
@@ -67,8 +69,18 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
          }
     }
     
+    private func setupCastButton() {
+        let castButton = GCKUICastButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: castButton)
+    }
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
+        
+        if let castSession = GCKCastContext.sharedInstance().sessionManager.currentCastSession,
+           let remoteMediaClient = castSession.remoteMediaClient {
+            remoteMediaClient.remove(self)
+        }
     }
     
     private func toggleFavorite() {
@@ -278,8 +290,10 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
                     switch result {
                     case .success(let details):
                         self?.updateAnimeDetails(with: details)
+                        self?.setupCastButton()
                     case .failure(let error):
                         self?.showAlert(withTitle: "Refresh Failed", message: error.localizedDescription)
+                        self?.setupCastButton()
                     }
                 }
             }
@@ -506,6 +520,75 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
         }.resume()
     }
     
+    private func proceedWithCasting(videoURL: URL) {
+        DispatchQueue.main.async {
+            let metadata = GCKMediaMetadata(metadataType: .movie)
+            
+            if UserDefaults.standard.bool(forKey: "fullTitleCast") {
+                if let animeTitle = self.animeTitle {
+                    metadata.setString(animeTitle, forKey: kGCKMetadataKeyTitle)
+                } else {
+                    print("Error: Anime title is missing.")
+                }
+            } else {
+                let episodeNumber = self.currentEpisodeIndex + 1
+                metadata.setString("Episode \(episodeNumber)", forKey: kGCKMetadataKeyTitle)
+            }
+            
+            if UserDefaults.standard.bool(forKey: "animeImageCast") {
+                if let imageURL = URL(string: self.imageUrl ?? "") {
+                    metadata.addImage(GCKImage(url: imageURL, width: 480, height: 720))
+                } else {
+                    print("Error: Anime image URL is missing or invalid.")
+                }
+            }
+            
+            let builder = GCKMediaInformationBuilder(contentURL: videoURL)
+            
+            let contentType: String
+            let streamType: GCKMediaStreamType
+            
+            if videoURL.absoluteString.contains(".m3u8") {
+                contentType = "application/x-mpegurl"
+                streamType = .buffered
+            } else if videoURL.absoluteString.contains(".mp4") {
+                contentType = "video/mp4"
+                streamType = .buffered
+            } else {
+                contentType = "video/mp4"
+                streamType = .buffered
+            }
+            
+            builder.contentType = contentType
+            builder.streamType = streamType
+            builder.metadata = metadata
+            
+            let mediaInformation = builder.build()
+            
+            let mediaLoadOptions = GCKMediaLoadOptions()
+            mediaLoadOptions.autoplay = true
+            mediaLoadOptions.playPosition = 0
+            
+            if let castSession = GCKCastContext.sharedInstance().sessionManager.currentCastSession,
+               let remoteMediaClient = castSession.remoteMediaClient {
+                remoteMediaClient.loadMedia(mediaInformation, with: mediaLoadOptions)
+                remoteMediaClient.add(self)
+            } else {
+                print("Error: Failed to load media to Google Cast")
+            }
+        }
+    }
+    
+    func remoteMediaClient(_ client: GCKRemoteMediaClient, didUpdate mediaStatus: GCKMediaStatus?) {
+        if let mediaStatus = mediaStatus, mediaStatus.idleReason == .finished {
+            if UserDefaults.standard.bool(forKey: "AutoPlay") {
+                DispatchQueue.main.async { [weak self] in
+                    self?.playNextEpisode()
+                }
+            }
+        }
+    }
+    
     private func extractVideoSourceURL(from htmlString: String) -> URL? {
         do {
             let doc: Document = try SwiftSoup.parse(htmlString)
@@ -713,6 +796,9 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
     }
 
     private func playVideoWithAVPlayer(sourceURL: URL, cell: EpisodeCell, fullURL: String) {
+        if GCKCastContext.sharedInstance().castState == .connected {
+            proceedWithCasting(videoURL: sourceURL)
+        } else {
             player = AVPlayer(url: sourceURL)
             
             playerViewController = UserDefaults.standard.bool(forKey: "AlwaysLandscape") ? LandscapePlayer() : AVPlayerViewController()
@@ -733,6 +819,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate {
             }
             
             NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd), name: .AVPlayerItemDidPlayToEndTime, object: player?.currentItem)
+        }
     }
     
     private func openInExternalPlayer(player: String, url: URL) {
