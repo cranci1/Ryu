@@ -214,9 +214,9 @@
                                         </userDefinedRuntimeAttributes>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="800" verticalCompressionResistancePriority="751" text="Downloaded Trailers" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U8V-Ph-Tqn">
-                                        <rect key="frame" x="42" y="10" width="266" height="29"/>
+                                        <rect key="frame" x="42" y="10" width="99" height="29"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="266" id="ojZ-zz-Bkh"/>
+                                            <constraint firstAttribute="width" constant="99" id="ojZ-zz-Bkh"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                         <nil key="textColor"/>
@@ -491,6 +491,12 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Watch Next" largeTitleDisplayMode="always" id="X0w-qw-3uC" userLabel="Watch Next">
+                        <barButtonItem key="leftBarButtonItem" title="Select Source" id="1CL-Ex-tXm">
+                            <color key="tintColor" name="AccentColor"/>
+                            <connections>
+                                <action selector="selectSourceButtonTapped:" destination="Ct9-Gw-fYc" id="KqQ-7d-8QN"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" id="jaz-KQ-Hh9">
                             <imageReference key="image" image="gearshape" catalog="system" symbolScale="large"/>
                             <color key="tintColor" name="AccentColor"/>
