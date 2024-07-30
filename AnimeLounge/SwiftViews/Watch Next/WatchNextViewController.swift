@@ -358,7 +358,15 @@ extension WatchNextViewController: UIContextMenuInteractionDelegate {
      }
 
     private func searchEpisodes(for indexPath: IndexPath) {
-        showError(message: "The trailer implementation is not added yet")
+        guard let anime = animeForIndexPath(indexPath) else { return }
+        
+        let query = anime.title.romaji
+        guard !query.isEmpty else {
+            showError(message: "Could not find anime title.")
+            return
+        }
+        
+        searchMedia(query: query)
     }
     
     private func showError(message: String) {
