@@ -9,7 +9,7 @@ Yes it's a NineAnimator fork aimed to be more stable and to support more sources
 - [x] Ads Free and no logins
 - [x] Streaming support
 - [x] Download support (needs some improvements)
-- [x] Third-party anime services: Anilist, MAL, Kitsu (MAL uses Jikan api)
+- [x] Third-party anime services: Anilist, MAL (MAL uses Jikan api)
 - [x] Background playback
 - [x] PiP support on iOS/iPadOS 14+ (Still needs improvements)
 - [x] Favorite system
