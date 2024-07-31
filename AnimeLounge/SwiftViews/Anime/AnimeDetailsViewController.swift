@@ -1132,6 +1132,14 @@ class SynopsisCell: UITableViewCell {
         synopsisLabel.text = synopsis
         synopsisLabel.numberOfLines = isExpanded ? 0 : 4
         toggleButton.setTitle(isExpanded ? "Less" : "More", for: .normal)
+        
+        let maxLabelSize = CGSize(width: contentView.frame.width - 30, height: CGFloat.greatestFiniteMagnitude)
+        let textHeight = synopsis.boundingRect(with: maxLabelSize, options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: [.font:synopsisLabel.font!], context: nil).height
+        
+        let lineHeight = synopsisLabel.font.lineHeight
+        let numberOfLines = Int(ceil(textHeight / lineHeight))
+        
+        toggleButton.isHidden = numberOfLines <= 4
     }
     
     @objc private func toggleButtonTapped() {
