@@ -31,6 +31,7 @@ class AiringAnimeCell: UICollectionViewCell {
         cleanDescription = cleanDescription.replacingOccurrences(of: "<br>", with: "")
         cleanDescription = cleanDescription.replacingOccurrences(of: "<i>", with: "")
         cleanDescription = cleanDescription.replacingOccurrences(of: "</i>", with: "")
+        cleanDescription = cleanDescription.replacingOccurrences(of: "<I>", with: "")
         
         descriptionLabel.text = cleanDescription
         

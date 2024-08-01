@@ -1,23 +1,27 @@
 //
-//  WatchNextViewController.swift
+//  HomeViewController.swift
 //  AnimeLounge
 //
 //  Created by Francesco on 21/06/24.
 //
 
 import UIKit
+import SwiftSoup
 
-class WatchNextViewController: UITableViewController {
+class HomeViewController: UITableViewController {
     
     @IBOutlet private weak var airingCollectionView: UICollectionView!
     @IBOutlet private weak var trendingCollectionView: UICollectionView!
     @IBOutlet private weak var seasonalCollectionView: UICollectionView!
+    @IBOutlet private weak var featuredCollectionView: UICollectionView!
     
     @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var selectedSourceLabel: UILabel!
     
     private var airingAnime: [Anime] = []
     private var trendingAnime: [Anime] = []
     private var seasonalAnime: [Anime] = []
+    private var featuredAnime: [AnimeItem] = []
     
     private let aniListServiceAiring = AnilistServiceAiringAnime()
     private let aniListServiceTrending = AnilistServiceTrendingAnime()
@@ -36,13 +40,14 @@ class WatchNextViewController: UITableViewController {
         
         setupCollectionViews()
         setupDateLabel()
+        setupSelectedSourceLabel()
         setupRefreshControl()
         fetchAnimeData()
     }
     
     func setupCollectionViews() {
-        let collectionViews = [airingCollectionView, trendingCollectionView, seasonalCollectionView]
-        let cellIdentifiers = ["AiringAnimeCell", "SlimmAnimeCell", "SlimmAnimeCell"]
+        let collectionViews = [airingCollectionView, trendingCollectionView, seasonalCollectionView, featuredCollectionView]
+        let cellIdentifiers = ["AiringAnimeCell", "SlimmAnimeCell", "SlimmAnimeCell", "SlimmAnimeCell"]
 
         for (collectionView, identifier) in zip(collectionViews, cellIdentifiers) {
             collectionView?.delegate = self
@@ -57,6 +62,11 @@ class WatchNextViewController: UITableViewController {
         dateFormatter.dateFormat = "EEEE, dd MMMM yyyy"
         let dateString = dateFormatter.string(from: currentDate)
         dateLabel.text = "on \(dateString)"
+    }
+    
+    func setupSelectedSourceLabel() {
+        let selectedSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
+        selectedSourceLabel.text = "on \(selectedSource)"
     }
     
     func setupRefreshControl() {
@@ -79,6 +89,9 @@ class WatchNextViewController: UITableViewController {
         
         dispatchGroup.enter()
         fetchAiringAnime { dispatchGroup.leave() }
+        
+        dispatchGroup.enter()
+        fetchFeaturedAnime { dispatchGroup.leave() }
         
         dispatchGroup.notify(queue: .main) {
             self.refreshUI()
@@ -152,12 +165,50 @@ class WatchNextViewController: UITableViewController {
         }
     }
     
+    private func fetchFeaturedAnime(completion: @escaping () -> Void) {
+        let selectedSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
+        let (sourceURL, parseStrategy) = getSourceInfo(for: selectedSource)
+
+        guard let urlString = sourceURL, let url = URL(string: urlString), let parse = parseStrategy else {
+            completion()
+            return
+        }
+
+        URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
+            guard let data = data, error == nil else {
+                DispatchQueue.main.async {
+                    completion()
+                }
+                return
+            }
+            
+            do {
+                let html = String(data: data, encoding: .utf8) ?? ""
+                let doc: Document = try SwiftSoup.parse(html)
+                
+                let animeItems = try parse(doc)
+                
+                DispatchQueue.main.async {
+                    self?.featuredAnime = animeItems
+                    completion()
+                }
+            } catch {
+                print("Error parsing HTML: \(error)")
+                DispatchQueue.main.async {
+                    completion()
+                }
+            }
+        }.resume()
+    }
+    
     func refreshUI() {
         DispatchQueue.main.async {
             self.airingCollectionView.reloadData()
             self.trendingCollectionView.reloadData()
             self.seasonalCollectionView.reloadData()
+            self.featuredCollectionView.reloadData()
             self.setupDateLabel()
+            self.setupSelectedSourceLabel()
         }
     }
     
@@ -166,7 +217,7 @@ class WatchNextViewController: UITableViewController {
     }
 }
 
-extension WatchNextViewController: UICollectionViewDataSource {
+extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView {
         case trendingCollectionView:
@@ -175,6 +226,8 @@ extension WatchNextViewController: UICollectionViewDataSource {
             return seasonalAnime.count
         case airingCollectionView:
             return airingAnime.count
+        case featuredCollectionView:
+            return featuredAnime.count
         default:
             return 0
         }
@@ -184,10 +237,10 @@ extension WatchNextViewController: UICollectionViewDataSource {
         let cell: UICollectionViewCell
         
         switch collectionView {
-        case trendingCollectionView, seasonalCollectionView:
+        case trendingCollectionView, seasonalCollectionView, featuredCollectionView:
             cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SlimmAnimeCell", for: indexPath)
-            if let trendingCell = cell as? SlimmAnimeCell {
-                configureTrendingCell(trendingCell, at: indexPath, for: collectionView)
+            if let slimmCell = cell as? SlimmAnimeCell {
+                configureSlimmCell(slimmCell, at: indexPath, for: collectionView)
             }
         case airingCollectionView:
             cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AiringAnimeCell", for: indexPath)
@@ -204,15 +257,23 @@ extension WatchNextViewController: UICollectionViewDataSource {
         return cell
     }
     
-    private func configureTrendingCell(_ cell: SlimmAnimeCell, at indexPath: IndexPath, for collectionView: UICollectionView) {
-        let anime: Anime
-        if collectionView == trendingCollectionView {
-            anime = trendingAnime[indexPath.item]
-        } else {
-            anime = seasonalAnime[indexPath.item]
+    private func configureSlimmCell(_ cell: SlimmAnimeCell, at indexPath: IndexPath, for collectionView: UICollectionView) {
+        switch collectionView {
+        case trendingCollectionView:
+            let anime = trendingAnime[indexPath.item]
+            let imageUrl = URL(string: anime.coverImage.large)
+            cell.configure(with: anime.title.romaji, imageUrl: imageUrl)
+        case seasonalCollectionView:
+            let anime = seasonalAnime[indexPath.item]
+            let imageUrl = URL(string: anime.coverImage.large)
+            cell.configure(with: anime.title.romaji, imageUrl: imageUrl)
+        case featuredCollectionView:
+            let anime = featuredAnime[indexPath.item]
+            let imageUrl = URL(string: anime.imageURL)
+            cell.configure(with: anime.title, imageUrl: imageUrl)
+        default:
+            break
         }
-        let imageUrl = URL(string: anime.coverImage.large)
-        cell.configure(with: anime.title.romaji, imageUrl: imageUrl)
     }
     
     private func configureAiringCell(_ cell: AiringAnimeCell, at indexPath: IndexPath) {
@@ -228,23 +289,24 @@ extension WatchNextViewController: UICollectionViewDataSource {
     }
 }
 
-extension WatchNextViewController: UICollectionViewDelegate {
+extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedAnime: Anime?
-        
         switch collectionView {
         case trendingCollectionView:
-            selectedAnime = trendingAnime[indexPath.item]
+            let anime = trendingAnime[indexPath.item]
+            navigateToAnimeDetail(for: anime)
         case seasonalCollectionView:
-            selectedAnime = seasonalAnime[indexPath.item]
+            let anime = seasonalAnime[indexPath.item]
+            navigateToAnimeDetail(for: anime)
         case airingCollectionView:
-            selectedAnime = airingAnime[indexPath.item]
+            let anime = airingAnime[indexPath.item]
+            navigateToAnimeDetail(for: anime)
+        case featuredCollectionView:
+            let anime = featuredAnime[indexPath.item]
+            navigateToAnimeDetail(title: anime.title, imageUrl: anime.imageURL, href: anime.href)
         default:
-            selectedAnime = nil
+            break
         }
-        
-        guard let anime = selectedAnime else { return }
-        navigateToAnimeDetail(for: anime)
     }
     
     private func navigateToAnimeDetail(for anime: Anime) {
@@ -254,9 +316,15 @@ extension WatchNextViewController: UICollectionViewDelegate {
             navigationController?.pushViewController(animeDetailVC, animated: true)
         }
     }
+    
+    private func navigateToAnimeDetail(title: String, imageUrl: String, href: String) {
+        let detailVC = AnimeDetailViewController()
+        detailVC.configure(title: title, imageUrl: imageUrl, href: href)
+        navigationController?.pushViewController(detailVC, animated: true)
+    }
 }
 
-extension WatchNextViewController: UIContextMenuInteractionDelegate {
+extension HomeViewController: UIContextMenuInteractionDelegate {
     func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
         guard let cell = interaction.view as? UICollectionViewCell,
               let indexPath = indexPathForCell(cell) else { return nil }
@@ -361,6 +429,21 @@ extension WatchNextViewController: UIContextMenuInteractionDelegate {
         present(alertController, animated: true, completion: nil)
     }
 }
+
+class AnimeItem: NSObject {
+    let title: String
+    let episode: String
+    let imageURL: String
+    let href: String
+    
+    init(title: String, episode: String, imageURL: String, href: String) {
+        self.title = title
+        self.episode = episode
+        self.imageURL = imageURL
+        self.href = href
+    }
+}
+
 
 struct Anime {
     let id: Int

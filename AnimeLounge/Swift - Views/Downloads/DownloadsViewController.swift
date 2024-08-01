@@ -18,20 +18,44 @@ class DownloadListViewController: UIViewController {
         return table
     }()
     
+    private let emptyStateLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        label.textColor = .secondaryLabel
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.isHidden = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     private var downloads: [URL] = []
     private let downloadManager = DownloadManager()
-    
     private let refreshControl = UIRefreshControl()
+    
+    private let emptyMessages = [
+        "Looks like a black hole has been here! No downloads found. Maybe they've been sucked into oblivion?",
+        "Nothing to see here! All downloads have mysteriously vanished.",
+        "The download list is emptier than space itself.",
+        "No downloads available. Did Thanos snap them away?",
+        "Oops, it's all gone! Like a magician's trick, the downloads disappeared!",
+        "No downloads. Perhaps they're hiding from us?",
+        "Looks like the downloads took a vacation. Check back later!",
+        "Downloads? What downloads? It's all an illusion!",
+        "Looks like the downloads decided to play hide and seek!",
+        "No downloads available. It’s like they’ve gone off to a secret party.",
+        "Nothing here. Maybe the downloads are waiting for a dramatic entrance."
+    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = .secondarySystemBackground
+        
         setupTableView()
+        setupEmptyStateLabel()
         loadDownloads()
         setupNavigationBar()
         setupRefreshControl()
-        updateTitle()
     }
     
     private func setupRefreshControl() {
@@ -61,6 +85,15 @@ class DownloadListViewController: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
+    
+    private func setupEmptyStateLabel() {
+        view.addSubview(emptyStateLabel)
+        NSLayoutConstraint.activate([
+            emptyStateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyStateLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            emptyStateLabel.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: -150)
         ])
     }
     
@@ -94,27 +127,11 @@ class DownloadListViewController: UIViewController {
             return url1.lastPathComponent.localizedStandardCompare(url2.lastPathComponent) == .orderedAscending
         }
         tableView.reloadData()
-        updateTitle()
-    }
-    
-    private func updateTitle() {
-        let totalSize = calculateTotalDownloadSize()
-        let formattedSize = ByteCountFormatter.string(fromByteCount: totalSize, countStyle: .file)
-        title = "Downloads - \(formattedSize)"
-    }
-    
-    private func calculateTotalDownloadSize() -> Int64 {
-        var totalSize: Int64 = 0
-        for download in downloads {
-            do {
-                let attributes = try FileManager.default.attributesOfItem(atPath: download.path)
-                let fileSize = attributes[.size] as? Int64 ?? 0
-                totalSize += fileSize
-            } catch {
-                print("Error getting file size: \(error.localizedDescription)")
-            }
+        emptyStateLabel.isHidden = !downloads.isEmpty
+        
+        if downloads.isEmpty {
+            emptyStateLabel.text = emptyMessages.randomElement()
         }
-        return totalSize
     }
     
     private func playDownload(url: URL) {
@@ -144,7 +161,6 @@ class DownloadListViewController: UIViewController {
             downloads.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
             loadDownloads()
-            updateTitle()
             
             NotificationCenter.default.post(name: .downloadListUpdated, object: nil)
         } catch {
@@ -194,8 +210,7 @@ extension DownloadListViewController: UITableViewDataSource, UITableViewDelegate
 extension DownloadListViewController: UIContextMenuInteractionDelegate {
     func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
         let locationInTableView = interaction.location(in: tableView)
-        guard let indexPath = tableView.indexPathForRow(at: locationInTableView),
-              let cell = tableView.cellForRow(at: indexPath) else {
+        guard let indexPath = tableView.indexPathForRow(at: locationInTableView) else {
             return nil
         }
         

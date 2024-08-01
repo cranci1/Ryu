@@ -1,5 +1,5 @@
 //
-//  Episode.swift
+//  EpisodeCell.swift
 //  AnimeLounge
 //
 //  Created by Francesco on 25/06/24.

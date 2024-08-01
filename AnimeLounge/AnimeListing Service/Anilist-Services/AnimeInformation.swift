@@ -472,6 +472,7 @@ class DescriptionView: UIView {
         cleanedDescription = cleanedDescription.replacingOccurrences(of: "<br>", with: "")
         cleanedDescription = cleanedDescription.replacingOccurrences(of: "<i>", with: "")
         cleanedDescription = cleanedDescription.replacingOccurrences(of: "</i>", with: "")
+        cleanedDescription = cleanedDescription.replacingOccurrences(of: "<I>", with: "")
         descriptionLabel.text = cleanedDescription
     }
 }
