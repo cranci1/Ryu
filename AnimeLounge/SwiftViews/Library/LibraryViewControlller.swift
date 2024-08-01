@@ -9,7 +9,6 @@ import UIKit
 
 class LibraryViewControlller: UIViewController {
     
-    @IBOutlet weak var favoriteCountLabel: UILabel!
     @IBOutlet weak var downloadCountLabel: UILabel!
     
     @IBOutlet var FavoritesBox: UIView!
@@ -20,10 +19,8 @@ class LibraryViewControlller: UIViewController {
         super.viewDidLoad()
         
         setupUI()
-        updateFavoriteCount()
         updateDownloadCount()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(favoritesChanged), name: FavoritesManager.favoritesChangedNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(downloadsChanged), name: .downloadListUpdated, object: nil)
     }
     
@@ -31,15 +28,6 @@ class LibraryViewControlller: UIViewController {
         FavoritesBox.layer.cornerRadius = 12
         RecentsBox.layer.cornerRadius = 12
         DownloadBox.layer.cornerRadius = 12
-    }
-    
-    func updateFavoriteCount() {
-        let count = FavoritesManager.shared.getFavorites().count
-        favoriteCountLabel.text = "\(count)"
-    }
-    
-    @objc func favoritesChanged() {
-        updateFavoriteCount()
     }
     
     @objc func downloadsChanged() {

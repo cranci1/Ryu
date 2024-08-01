@@ -36,6 +36,7 @@
 		139B164C2C270FAF007E3477 /* AiringAnimeCell-Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139B164A2C270FAF007E3477 /* AiringAnimeCell-Swift.swift */; };
 		139B164D2C270FAF007E3477 /* AiringAnimeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 139B164B2C270FAF007E3477 /* AiringAnimeCell.xib */; };
 		139B16502C272A55007E3477 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139B164F2C272A55007E3477 /* SettingsViewController.swift */; };
+		139DAE972C5B6E6A006CCCA8 /* FeaturedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139DAE962C5B6E6A006CCCA8 /* FeaturedViewController.swift */; };
 		139FD9CD2C553FDD00B07996 /* Kitsu-Trending.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139FD9CC2C553FDD00B07996 /* Kitsu-Trending.swift */; };
 		139FD9CF2C55414200B07996 /* Kitsu-Airing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139FD9CE2C55414200B07996 /* Kitsu-Airing.swift */; };
 		139FD9D12C55419300B07996 /* Kitsu-Sesonal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139FD9D02C55419300B07996 /* Kitsu-Sesonal.swift */; };
@@ -95,6 +96,7 @@
 		139B164A2C270FAF007E3477 /* AiringAnimeCell-Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AiringAnimeCell-Swift.swift"; sourceTree = "<group>"; };
 		139B164B2C270FAF007E3477 /* AiringAnimeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AiringAnimeCell.xib; sourceTree = "<group>"; };
 		139B164F2C272A55007E3477 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		139DAE962C5B6E6A006CCCA8 /* FeaturedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedViewController.swift; sourceTree = "<group>"; };
 		139FD9CC2C553FDD00B07996 /* Kitsu-Trending.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Kitsu-Trending.swift"; sourceTree = "<group>"; };
 		139FD9CE2C55414200B07996 /* Kitsu-Airing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Kitsu-Airing.swift"; sourceTree = "<group>"; };
 		139FD9D02C55419300B07996 /* Kitsu-Sesonal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Kitsu-Sesonal.swift"; sourceTree = "<group>"; };
@@ -264,6 +266,14 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
+		139DAE952C5B6D3E006CCCA8 /* Featured */ = {
+			isa = PBXGroup;
+			children = (
+				139DAE962C5B6E6A006CCCA8 /* FeaturedViewController.swift */,
+			);
+			path = Featured;
+			sourceTree = "<group>";
+		};
 		139FD9C92C553FB300B07996 /* AnimeListing Service */ = {
 			isa = PBXGroup;
 			children = (
@@ -419,6 +429,7 @@
 		13E446412C25AC25002B14E8 /* SwiftViews */ = {
 			isa = PBXGroup;
 			children = (
+				139DAE952C5B6D3E006CCCA8 /* Featured */,
 				131C06CF2C4661A8004ED5D9 /* Downloads */,
 				139B164E2C272A48007E3477 /* Settings */,
 				13CD3A812C26BA2700B046F9 /* Favorites */,
@@ -548,6 +559,7 @@
 				13CD3A6B2C2601E800B046F9 /* AniList-Trending.swift in Sources */,
 				13AE19DE2C2BF52A0012633D /* FavoriteManager.swift in Sources */,
 				13AE19E12C2BF71F0012633D /* FavoriteCell-Swift.swift in Sources */,
+				139DAE972C5B6E6A006CCCA8 /* FeaturedViewController.swift in Sources */,
 				139FD9DB2C55553B00B07996 /* Jakin-Airing.swift in Sources */,
 				13D486412C3535FE003ED471 /* ExternalVideoPlayer.swift in Sources */,
 				131C06D32C4661D6004ED5D9 /* DownloadCell.swift in Sources */,

@@ -81,7 +81,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="y8o-Na-PE2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-6388" y="1499"/>
+            <point key="canvasLocation" x="-6388" y="1498.2008995502249"/>
         </scene>
         <!--Library-->
         <scene sceneID="pt1-Aq-O9k">
@@ -161,8 +161,8 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="800" verticalCompressionResistancePriority="751" text="Favorites" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pvu-t5-nwh">
-                                        <rect key="frame" x="12" y="49" width="71.5" height="19.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="800" verticalCompressionResistancePriority="751" text="Featured" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pvu-t5-nwh">
+                                        <rect key="frame" x="12" y="49" width="70" height="19.5"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -171,28 +171,15 @@
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="isThemable" value="YES"/>
                                         </userDefinedRuntimeAttributes>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="253" horizontalCompressionResistancePriority="500" verticalCompressionResistancePriority="500" text="0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GSZ-aV-pga">
-                                        <rect key="frame" x="42" y="11" width="105" height="30"/>
-                                        <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="25"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isPrimaryText" value="YES"/>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isThemable" value="YES"/>
-                                        </userDefinedRuntimeAttributes>
-                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="quaternarySystemFillColor"/>
                                 <gestureRecognizers/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="GSZ-aV-pga" secondAttribute="trailing" constant="17.5" id="2mA-xV-Uyb"/>
                                     <constraint firstItem="iWj-w1-Px9" firstAttribute="leading" secondItem="pvu-t5-nwh" secondAttribute="leading" id="7o6-0t-mBf"/>
-                                    <constraint firstItem="iWj-w1-Px9" firstAttribute="centerY" secondItem="GSZ-aV-pga" secondAttribute="centerY" id="8vc-VX-oFc"/>
-                                    <constraint firstItem="pvu-t5-nwh" firstAttribute="top" secondItem="GSZ-aV-pga" secondAttribute="bottom" constant="8" id="9Si-2P-9CV"/>
-                                    <constraint firstItem="GSZ-aV-pga" firstAttribute="top" secondItem="0dG-mT-9uv" secondAttribute="top" constant="11" id="Flp-9t-5xn"/>
+                                    <constraint firstItem="iWj-w1-Px9" firstAttribute="top" secondItem="0dG-mT-9uv" secondAttribute="top" constant="13" id="COM-uN-xFH"/>
                                     <constraint firstItem="pvu-t5-nwh" firstAttribute="top" secondItem="iWj-w1-Px9" secondAttribute="bottom" constant="10" id="Ib8-2H-m75"/>
                                     <constraint firstItem="iWj-w1-Px9" firstAttribute="leading" secondItem="0dG-mT-9uv" secondAttribute="leading" constant="12" id="SO5-cq-oCZ"/>
-                                    <constraint firstItem="GSZ-aV-pga" firstAttribute="leading" secondItem="iWj-w1-Px9" secondAttribute="trailing" constant="4" id="b8L-sc-0Fa"/>
+                                    <constraint firstAttribute="bottom" secondItem="pvu-t5-nwh" secondAttribute="bottom" constant="11.5" id="fUC-48-S2F"/>
                                 </constraints>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="jRp-U8-0xf" appends="YES" id="9Vf-fJ-OB2"/>
@@ -287,12 +274,15 @@
                         <outlet property="FavoritesBox" destination="0dG-mT-9uv" id="ChM-jZ-e2H"/>
                         <outlet property="RecentsBox" destination="k3s-Y1-fap" id="Y5A-qC-p1i"/>
                         <outlet property="downloadCountLabel" destination="whC-V3-DAg" id="fAT-Jq-CNg"/>
-                        <outlet property="favoriteCountLabel" destination="GSZ-aV-pga" id="HAz-FZ-86b"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qGL-YY-bfp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="LbR-PN-yde" userLabel="recents"/>
-                <tapGestureRecognizer id="jRp-U8-0xf" userLabel="favorites"/>
+                <tapGestureRecognizer id="jRp-U8-0xf" userLabel="featured">
+                    <connections>
+                        <segue destination="cfK-U8-jqv" kind="show" id="1Mg-Qe-5Io"/>
+                    </connections>
+                </tapGestureRecognizer>
                 <tapGestureRecognizer id="akv-PI-rO3" userLabel="downloads">
                     <connections>
                         <segue destination="Yrt-vo-JgV" kind="show" id="ig6-Di-cen"/>
@@ -300,6 +290,37 @@
                 </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-5588" y="1497.3013493253375"/>
+        </scene>
+        <!--Featured-->
+        <scene sceneID="WBV-HU-MJv">
+            <objects>
+                <viewController id="cfK-U8-jqv" customClass="FeaturedViewController" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="h4t-qv-fHV">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="WTW-FQ-fQt">
+                                <rect key="frame" x="0.0" y="96" width="375" height="522"/>
+                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="sT5-Bx-9ms"/>
+                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="WTW-FQ-fQt" firstAttribute="leading" secondItem="sT5-Bx-9ms" secondAttribute="leading" id="07n-rG-pNn"/>
+                            <constraint firstItem="WTW-FQ-fQt" firstAttribute="bottom" secondItem="sT5-Bx-9ms" secondAttribute="bottom" id="9TZ-Sg-QAp"/>
+                            <constraint firstItem="WTW-FQ-fQt" firstAttribute="top" secondItem="sT5-Bx-9ms" secondAttribute="top" id="fMp-vz-nD0"/>
+                            <constraint firstItem="WTW-FQ-fQt" firstAttribute="centerX" secondItem="h4t-qv-fHV" secondAttribute="centerX" id="wdz-H7-6TM"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Featured" id="iva-cP-5Os"/>
+                    <connections>
+                        <outlet property="tableView" destination="WTW-FQ-fQt" id="ByY-uf-EgY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="73O-Se-5n3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-5588" y="2227.736131934033"/>
         </scene>
         <!--Search-->
         <scene sceneID="3jU-2O-voz">
@@ -669,7 +690,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Af5-Kj-0iD"/>
+        <segue reference="QUk-Rn-qDy"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.down.circle.fill" catalog="system" width="128" height="121"/>
