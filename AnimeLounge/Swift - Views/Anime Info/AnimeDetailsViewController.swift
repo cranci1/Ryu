@@ -55,7 +55,6 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         checkFavoriteStatus()
         setupCastButton()
         
-        FloatingManager.shared.setup(in: view)
         navigationController?.navigationBar.prefersLargeTitles = false
         
         for (index, episode) in episodes.enumerated() {
@@ -257,6 +256,8 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             baseUrl = "https://anitaku.pe"
         case "AnimeHeaven":
             baseUrl = "https://animeheaven.me"
+        case "Anix":
+            baseUrl = "https://anix.to"
         default:
             baseUrl = ""
         }
@@ -350,13 +351,22 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             baseURL = "https://animeheaven.me/"
             episodeId = episode.href
             fullURL = baseURL + episodeId
-            checkUserDefault(url: fullURL, cell: cell, fullURL: fullURL)
+            episodeTimeURL = episode.href
+            checkUserDefault(url: fullURL, cell: cell, fullURL: episodeTimeURL)
             return
         case "GoGoAnime":
             baseURL = "https://anitaku.pe/"
             episodeId = episode.href.components(separatedBy: "/").last ?? episode.href
             fullURL = baseURL + episodeId
-            checkUserDefault(url: fullURL, cell: cell, fullURL: fullURL)
+            episodeTimeURL = episode.href
+            checkUserDefault(url: fullURL, cell: cell, fullURL: episodeTimeURL)
+            return
+        case "Anix":
+            baseURL = "https://anix.to"
+            episodeId = episode.href
+            fullURL = baseURL + episodeId
+            episodeTimeURL = episode.href
+            checkUserDefault(url: fullURL, cell: cell, fullURL: episodeTimeURL)
             return
         default:
             baseURL = ""
@@ -745,42 +755,44 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         let isToDownload = UserDefaults.standard.bool(forKey: "isToDownload")
 
         if isToDownload {
-            UserDefaults.standard.set(false, forKey: "isToDownload")
-            
-            guard let episode = episodes.first(where: { $0.href == fullURL }) else {
-                print("Error: Could not find episode for URL \(fullURL)")
-                return
-            }
-            
-            DispatchQueue.main.async {
-                let downloadView = FloatingManager.shared.addDownload(
-                    title: "\(self.animeTitle ?? "Anime") - Ep. \(episode.number)",
-                    imageURL: self.imageUrl ?? ""
-                )
-
-                let downloader = MP4Downloader(url: sourceURL)
-                downloader.startDownload(progress: { progress in
-                    DispatchQueue.main.async {
-                        downloadView.updateProgress(Float(progress))
-                    }
-                    print("Download progress: \(progress * 100)%")
-                }) { result in
-                    DispatchQueue.main.async {
-                        FloatingManager.shared.removeDownload(downloadView)
-                        switch result {
-                        case .success:
-                            self.showAlert(title: "Download Completed!", message: "You can find your download in the Library -> Downloads.")
-                        case .failure(let error):
-                            print("Download failed with error: \(error.localizedDescription)")
-                            self.showAlert(title: "Download Failed", message: "\(error.localizedDescription)")
-                        }
-                    }
-                }
-            }
+            handleDownload(sourceURL: sourceURL, fullURL: fullURL)
         } else {
             DispatchQueue.main.async {
                 self.playVideoWithSelectedPlayer(player: selectedPlayer, sourceURL: sourceURL, cell: cell, fullURL: fullURL)
             }
+        }
+    }
+    
+    private func handleDownload(sourceURL: URL, fullURL: String) {
+        UserDefaults.standard.set(true, forKey: "activeDownloads")
+        UserDefaults.standard.set(false, forKey: "isToDownload")
+        
+        guard let episode = episodes.first(where: { $0.href == fullURL }) else {
+            print("Error: Could not find episode for URL \(fullURL)")
+            return
+        }
+        
+        let downloadManager = DownloadManager.shared
+        let title = "\(self.animeTitle ?? "Anime") - Ep. \(episode.number)"
+        
+        downloadManager.startDownload(url: sourceURL, title: title, progress: { progress in
+            print("Download progress: \(progress * 100)%")
+        }) { [weak self] result in
+            DispatchQueue.main.async {
+                UserDefaults.standard.set(false, forKey: "activeDownloads")
+                self?.handleDownloadResult(result)
+            }
+        }
+    }
+    
+    private func handleDownloadResult(_ result: Result<URL, Error>) {
+        switch result {
+        case .success(let url):
+            print("Download completed. File saved at: \(url)")
+            self.showAlert(title: "Download Completed!", message: "You can find your download in the Library -> Downloads.")
+        case .failure(let error):
+            print("Download failed with error: \(error.localizedDescription)")
+            self.showAlert(title: "Download Failed", message: error.localizedDescription)
         }
     }
 
@@ -792,33 +804,6 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             openInExternalPlayer(player: player, url: sourceURL)
         default:
             playVideoWithAVPlayer(sourceURL: sourceURL, cell: cell, fullURL: fullURL)
-        }
-    }
-
-    private func playVideoWithAVPlayer(sourceURL: URL, cell: EpisodeCell, fullURL: String) {
-        if GCKCastContext.sharedInstance().castState == .connected {
-            proceedWithCasting(videoURL: sourceURL)
-        } else {
-            player = AVPlayer(url: sourceURL)
-            
-            playerViewController = UserDefaults.standard.bool(forKey: "AlwaysLandscape") ? LandscapePlayer() : AVPlayerViewController()
-            playerViewController?.player = player
-            
-            let lastPlayedTime = UserDefaults.standard.double(forKey: "lastPlayedTime_\(fullURL)")
-            
-            present(playerViewController!, animated: true) {
-                if lastPlayedTime > 0 {
-                    let seekTime = CMTime(seconds: lastPlayedTime, preferredTimescale: 1)
-                    self.player?.seek(to: seekTime) { _ in
-                        self.player?.play()
-                    }
-                } else {
-                    self.player?.play()
-                }
-                self.addPeriodicTimeObserver(cell: cell, fullURL: fullURL)
-            }
-            
-            NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd), name: .AVPlayerItemDidPlayToEndTime, object: player?.currentItem)
         }
     }
     
@@ -846,6 +831,33 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         } else {
             print("\(player) app is not installed")
             showAlert(title: "\(player) Error", message: "\(player) app is not installed.")
+        }
+    }
+
+    private func playVideoWithAVPlayer(sourceURL: URL, cell: EpisodeCell, fullURL: String) {
+        if GCKCastContext.sharedInstance().castState == .connected {
+            proceedWithCasting(videoURL: sourceURL)
+        } else {
+            player = AVPlayer(url: sourceURL)
+            
+            playerViewController = UserDefaults.standard.bool(forKey: "AlwaysLandscape") ? LandscapePlayer() : AVPlayerViewController()
+            playerViewController?.player = player
+            
+            let lastPlayedTime = UserDefaults.standard.double(forKey: "lastPlayedTime_\(fullURL)")
+            
+            present(playerViewController!, animated: true) {
+                if lastPlayedTime > 0 {
+                    let seekTime = CMTime(seconds: lastPlayedTime, preferredTimescale: 1)
+                    self.player?.seek(to: seekTime) { _ in
+                        self.player?.play()
+                    }
+                } else {
+                    self.player?.play()
+                }
+                self.addPeriodicTimeObserver(cell: cell, fullURL: fullURL)
+            }
+            
+            NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd), name: .AVPlayerItemDidPlayToEndTime, object: player?.currentItem)
         }
     }
 

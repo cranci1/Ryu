@@ -12,6 +12,10 @@ extension Notification.Name {
 }
 
 class DownloadManager {
+    static let shared = DownloadManager()
+    
+    private var activeDownloads: [String: Float] = [:]
+    
     func fetchDownloadURLs() -> [URL] {
         let fileManager = FileManager.default
         guard let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
@@ -36,5 +40,30 @@ class DownloadManager {
             print("Error while enumerating files: \(error.localizedDescription)")
             return []
         }
+    }
+    
+    func startDownload(url: URL, title: String, progress: @escaping (Float) -> Void, completion: @escaping (Result<URL, Error>) -> Void) {
+        let downloader = MP4Downloader(url: url)
+        
+        downloader.startDownload(progress: { [weak self] progressValue in
+            DispatchQueue.main.async {
+                self?.activeDownloads[url.absoluteString] = Float(progressValue)
+                progress(Float(progressValue))
+            }
+        }) { [weak self] result in
+            DispatchQueue.main.async {
+                self?.activeDownloads.removeValue(forKey: url.absoluteString)
+                switch result {
+                case .success:
+                    completion(.success(url))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+        }
+    }
+    
+    func getActiveDownloads() -> [(title: String, progress: Float)] {
+        return activeDownloads.map { (title: $0.key, progress: $0.value) }
     }
 }

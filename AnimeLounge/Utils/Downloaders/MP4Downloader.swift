@@ -15,6 +15,7 @@ class MP4Downloader: NSObject, URLSessionDownloadDelegate {
     private let downloadURL: URL
     private var progressHandler: ((Float) -> Void)?
     private var completionHandler: ((Result<Void, Error>) -> Void)?
+    private var sessionCompletionHandler: (() -> Void)?
     
     init(url: URL) {
         self.downloadURL = url
@@ -104,6 +105,16 @@ class MP4Downloader: NSObject, URLSessionDownloadDelegate {
             if let error = error {
                 print("Notification error: \(error.localizedDescription)")
             }
+        }
+    }
+    
+    func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
+        self.sessionCompletionHandler = completionHandler
+    }
+    
+    func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
+        if let completionHandler = sessionCompletionHandler {
+            completionHandler()
         }
     }
 }

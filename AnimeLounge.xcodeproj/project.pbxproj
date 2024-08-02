@@ -38,12 +38,12 @@
 		139DAE9A2C5BB87C006CCCA8 /* FeaturedAnimeParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139DAE992C5BB87C006CCCA8 /* FeaturedAnimeParsing.swift */; };
 		139DAE9D2C5BC453006CCCA8 /* AnimeHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139DAE9C2C5BC453006CCCA8 /* AnimeHeaderCell.swift */; };
 		139DAE9F2C5BC47C006CCCA8 /* SynopsisCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139DAE9E2C5BC47C006CCCA8 /* SynopsisCell.swift */; };
+		139DAEA22C5BEC2C006CCCA8 /* ProgressDownloadCEll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139DAEA12C5BEC2C006CCCA8 /* ProgressDownloadCEll.swift */; };
+		139DAEA42C5BEC41006CCCA8 /* ActiveDownloadsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139DAEA32C5BEC41006CCCA8 /* ActiveDownloadsViewController.swift */; };
 		139FD9CD2C553FDD00B07996 /* Kitsu-Trending.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139FD9CC2C553FDD00B07996 /* Kitsu-Trending.swift */; };
 		139FD9CF2C55414200B07996 /* Kitsu-Airing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139FD9CE2C55414200B07996 /* Kitsu-Airing.swift */; };
 		139FD9D12C55419300B07996 /* Kitsu-Sesonal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139FD9D02C55419300B07996 /* Kitsu-Sesonal.swift */; };
 		139FD9D32C55422400B07996 /* SettingsAnimeListing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139FD9D22C55422400B07996 /* SettingsAnimeListing.swift */; };
-		139FD9D72C554D8300B07996 /* DownloadProgressFloatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139FD9D62C554D8300B07996 /* DownloadProgressFloatingView.swift */; };
-		139FD9D92C55538900B07996 /* FloatingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139FD9D82C55538900B07996 /* FloatingManager.swift */; };
 		139FD9DB2C55553B00B07996 /* Jakin-Airing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139FD9DA2C55553B00B07996 /* Jakin-Airing.swift */; };
 		139FD9DD2C55575800B07996 /* Jakin-Trending.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139FD9DC2C55575800B07996 /* Jakin-Trending.swift */; };
 		139FD9DF2C55576B00B07996 /* Jakin-Sesonal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139FD9DE2C55576B00B07996 /* Jakin-Sesonal.swift */; };
@@ -99,12 +99,12 @@
 		139DAE992C5BB87C006CCCA8 /* FeaturedAnimeParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedAnimeParsing.swift; sourceTree = "<group>"; };
 		139DAE9C2C5BC453006CCCA8 /* AnimeHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeHeaderCell.swift; sourceTree = "<group>"; };
 		139DAE9E2C5BC47C006CCCA8 /* SynopsisCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynopsisCell.swift; sourceTree = "<group>"; };
+		139DAEA12C5BEC2C006CCCA8 /* ProgressDownloadCEll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressDownloadCEll.swift; sourceTree = "<group>"; };
+		139DAEA32C5BEC41006CCCA8 /* ActiveDownloadsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveDownloadsViewController.swift; sourceTree = "<group>"; };
 		139FD9CC2C553FDD00B07996 /* Kitsu-Trending.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Kitsu-Trending.swift"; sourceTree = "<group>"; };
 		139FD9CE2C55414200B07996 /* Kitsu-Airing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Kitsu-Airing.swift"; sourceTree = "<group>"; };
 		139FD9D02C55419300B07996 /* Kitsu-Sesonal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Kitsu-Sesonal.swift"; sourceTree = "<group>"; };
 		139FD9D22C55422400B07996 /* SettingsAnimeListing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAnimeListing.swift; sourceTree = "<group>"; };
-		139FD9D62C554D8300B07996 /* DownloadProgressFloatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadProgressFloatingView.swift; sourceTree = "<group>"; };
-		139FD9D82C55538900B07996 /* FloatingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingManager.swift; sourceTree = "<group>"; };
 		139FD9DA2C55553B00B07996 /* Jakin-Airing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Jakin-Airing.swift"; sourceTree = "<group>"; };
 		139FD9DC2C55575800B07996 /* Jakin-Trending.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Jakin-Trending.swift"; sourceTree = "<group>"; };
 		139FD9DE2C55576B00B07996 /* Jakin-Sesonal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Jakin-Sesonal.swift"; sourceTree = "<group>"; };
@@ -173,7 +173,6 @@
 				1308F1792C328571004348A9 /* BackupManager.swift */,
 				13AE19DD2C2BF52A0012633D /* FavoriteManager.swift */,
 				131C06DE2C480174004ED5D9 /* DownloadManager.swift */,
-				139FD9D82C55538900B07996 /* FloatingManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -190,7 +189,7 @@
 		131C06CF2C4661A8004ED5D9 /* Downloads */ = {
 			isa = PBXGroup;
 			children = (
-				139FD9D62C554D8300B07996 /* DownloadProgressFloatingView.swift */,
+				139DAEA02C5BEC1C006CCCA8 /* Active Downloads */,
 				131C06D02C4661B9004ED5D9 /* DownloadsViewController.swift */,
 				131C06D22C4661D6004ED5D9 /* DownloadCell.swift */,
 			);
@@ -276,6 +275,15 @@
 				13AE19D92C2AF1130012633D /* EpisodeCell.swift */,
 			);
 			path = "Anime Info View";
+			sourceTree = "<group>";
+		};
+		139DAEA02C5BEC1C006CCCA8 /* Active Downloads */ = {
+			isa = PBXGroup;
+			children = (
+				139DAEA32C5BEC41006CCCA8 /* ActiveDownloadsViewController.swift */,
+				139DAEA12C5BEC2C006CCCA8 /* ProgressDownloadCEll.swift */,
+			);
+			path = "Active Downloads";
 			sourceTree = "<group>";
 		};
 		139FD9C92C553FB300B07996 /* AnimeListing Service */ = {
@@ -542,6 +550,7 @@
 				1354F64A2C426EE700E45682 /* SearchResultSourcesParsing.swift in Sources */,
 				131464012C382B6800F6AD8B /* UIImage.swift in Sources */,
 				137F4A352C255E9700B787CB /* SearchResultsViewController.swift in Sources */,
+				139DAEA42C5BEC41006CCCA8 /* ActiveDownloadsViewController.swift in Sources */,
 				139B16282C26F4A3007E3477 /* AnimeInformation.swift in Sources */,
 				135F85292C382ECE0024954D /* SourceMenu.swift in Sources */,
 				13BE7A112C42646B005EE2F7 /* SettingsGoGo.swift in Sources */,
@@ -560,13 +569,12 @@
 				13D486412C3535FE003ED471 /* ExternalVideoPlayer.swift in Sources */,
 				131C06D32C4661D6004ED5D9 /* DownloadCell.swift in Sources */,
 				139FD9DF2C55576B00B07996 /* Jakin-Sesonal.swift in Sources */,
+				139DAEA22C5BEC2C006CCCA8 /* ProgressDownloadCEll.swift in Sources */,
 				13E4464E2C25C38A002B14E8 /* HomeViewController.swift in Sources */,
 				139B16502C272A55007E3477 /* SettingsViewController.swift in Sources */,
 				131C06CB2C459DFB004ED5D9 /* M3U8Downloader.swift in Sources */,
-				139FD9D92C55538900B07996 /* FloatingManager.swift in Sources */,
 				13327B362C314E6F00CEE6AC /* LandScapePlayer.swift in Sources */,
 				131C06DF2C480174004ED5D9 /* DownloadManager.swift in Sources */,
-				139FD9D72C554D8300B07996 /* DownloadProgressFloatingView.swift in Sources */,
 				13CD3A802C26B25E00B046F9 /* AnimeDetailsViewController.swift in Sources */,
 				139DAE9D2C5BC453006CCCA8 /* AnimeHeaderCell.swift in Sources */,
 				131C06D92C47AEA8004ED5D9 /* MP4Downloader.swift in Sources */,
@@ -711,7 +719,7 @@
 				CODE_SIGN_ENTITLEMENTS = AnimeLounge/AnimeLounge.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = "4-5";
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 399LMK6Q2Y;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -725,6 +733,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportsDocumentBrowser = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -750,7 +759,7 @@
 				CODE_SIGN_ENTITLEMENTS = AnimeLounge/AnimeLounge.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = "4-5";
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 399LMK6Q2Y;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -764,6 +773,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportsDocumentBrowser = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

@@ -33,6 +33,8 @@ class AnimeDetailService {
             baseUrl = "https://anitaku.pe"
         case .animeheaven:
             baseUrl = "https://animeheaven.me/"
+        case .anix:
+            baseUrl = "https://anix.to"
         case .animefire, .kuramanime, .jkanime, .anime3rb:
             baseUrl = ""
         }
@@ -85,6 +87,11 @@ class AnimeDetailService {
                         synopsis = try document.select("p.leading-loose").text()
                         airdate = try document.select("td[title]").attr("title")
                         stars = try document.select("p.text-lg.leading-relaxed").first()?.text() ?? ""
+                    case .anix:
+                        aliases = try document.select("h1.ani-name").attr("data-jp")
+                        synopsis = try document.select("div.description div.full").text()
+                        airdate = "N/A"
+                        stars = "N/A"
                     }
                     
                     episodes = self.fetchEpisodes(document: document, for: selectedSource, href: href)
@@ -130,8 +137,20 @@ class AnimeDetailService {
             case .anime3rb:
                 episodeElements = try document.select("div.absolute.overflow-hidden div a.gap-3")
                 downloadUrlElement = ""
+            case .anix:
+                // Fetch the number of episodes text
+                guard let episodeCountText = try? document.select("div > div:contains(Episodes:) + span").first()?.text(),
+                      let episodeCount = Int(episodeCountText) else { return [] }
+                
+                // Create episodes based on the count
+                episodes = (1...episodeCount).map { episodeNumber in
+                    let formattedEpisode = "\(episodeNumber)"
+                    let episodeHref = "\(href)/ep-\(episodeNumber)"
+                    return Episode(number: formattedEpisode, href: episodeHref, downloadUrl: "")
+                }
+                return episodes
             }
-            
+
             switch source {
             case .gogoanime:
                 episodes = episodeElements.flatMap { element -> [Episode] in
@@ -144,27 +163,6 @@ class AnimeDetailService {
                         let downloadUrl = try? document.select(downloadUrlElement).attr("href")
                         
                         return Episode(number: formattedEpisode, href: episodeHref, downloadUrl: downloadUrl ?? "")
-                    }
-                }
-            case .kuramanime:
-                episodes = episodeElements.compactMap { element in
-                    guard let episodeText = try? element.text(),
-                          let href = try? element.attr("href") else { return nil }
-                    
-                    let episodeNumber = episodeText.replacingOccurrences(of: "Ep ", with: "")
-                    return Episode(number: episodeNumber, href: href, downloadUrl: "")
-                }
-            case .anime3rb:
-                episodes = episodeElements.compactMap { element in
-                    do {
-                        let episodeTitle = try element.select("div.video-metadata span").first()?.text() ?? ""
-                        let episodeNumber = episodeTitle.replacingOccurrences(of: "الحلقة ", with: "")
-                        let href = try element.attr("href")
-                        
-                        return Episode(number: episodeNumber, href: href, downloadUrl: "")
-                    } catch {
-                        print("Error parsing episode: \(error.localizedDescription)")
-                        return nil
                     }
                 }
             case .animeheaven:
@@ -182,6 +180,14 @@ class AnimeDetailService {
                         return nil
                     }
                 }
+            case .kuramanime:
+                episodes = episodeElements.compactMap { element in
+                    guard let episodeText = try? element.text(),
+                          let href = try? element.attr("href") else { return nil }
+                    
+                    let episodeNumber = episodeText.replacingOccurrences(of: "Ep ", with: "")
+                    return Episode(number: episodeNumber, href: href, downloadUrl: "")
+                }
             case .jkanime:
                 episodes = episodeElements.flatMap { element -> [Episode] in
                     guard let episodeText = try? element.text() else { return [] }
@@ -198,6 +204,19 @@ class AnimeDetailService {
                         let episodeHref = "\(href)\(formattedEpisode)"
                         
                         return Episode(number: formattedEpisode, href: episodeHref, downloadUrl: "")
+                    }
+                }
+            case .anime3rb:
+                episodes = episodeElements.compactMap { element in
+                    do {
+                        let episodeTitle = try element.select("div.video-metadata span").first()?.text() ?? ""
+                        let episodeNumber = episodeTitle.replacingOccurrences(of: "الحلقة ", with: "")
+                        let href = try element.attr("href")
+                        
+                        return Episode(number: episodeNumber, href: href, downloadUrl: "")
+                    } catch {
+                        print("Error parsing episode: \(error.localizedDescription)")
+                        return nil
                     }
                 }
             default:

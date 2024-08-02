@@ -69,6 +69,21 @@
             </objects>
             <point key="canvasLocation" x="-3490.4000000000001" y="723.68815592203907"/>
         </scene>
+        <!--ActiveDownloadsViewController-->
+        <scene sceneID="4af-f7-qYP">
+            <objects>
+                <viewController storyboardIdentifier="ActiveDownloadsViewController" title="ActiveDownloadsViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ADG-aJ-Jpr" customClass="ActiveDownloadsViewController" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="IZ2-hc-ym0">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="T8u-Pw-rD6"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="84f-Yq-c2v" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-6380" y="1498"/>
+        </scene>
         <!--Downloads-->
         <scene sceneID="tSA-64-xtt">
             <objects>
@@ -522,6 +537,9 @@
         </systemColor>
         <systemColor name="secondarySystemBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>
 </document>

@@ -383,13 +383,15 @@ extension HomeViewController: UIContextMenuInteractionDelegate {
             return seasonalAnime[indexPath.item]
         case 2:
             return airingAnime[indexPath.item]
+        case 3:
+            return nil
         default:
             return nil
         }
     }
     
     private func indexPathForCell(_ cell: UICollectionViewCell) -> IndexPath? {
-        let collectionViews = [trendingCollectionView, seasonalCollectionView, airingCollectionView]
+        let collectionViews = [trendingCollectionView, seasonalCollectionView, airingCollectionView, featuredCollectionView]
         
         for (section, collectionView) in collectionViews.enumerated() {
             if let indexPath = collectionView?.indexPath(for: cell) {
@@ -400,7 +402,7 @@ extension HomeViewController: UIContextMenuInteractionDelegate {
     }
     
     private func cellForIndexPath(_ indexPath: IndexPath) -> UICollectionViewCell? {
-         let collectionViews = [trendingCollectionView, seasonalCollectionView, airingCollectionView]
+         let collectionViews = [trendingCollectionView, seasonalCollectionView, airingCollectionView, featuredCollectionView]
          guard indexPath.section < collectionViews.count else { return nil }
          return collectionViews[indexPath.section]?.cellForItem(at: IndexPath(item: indexPath.item, section: 0))
      }

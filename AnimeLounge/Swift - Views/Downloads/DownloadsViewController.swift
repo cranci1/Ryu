@@ -79,6 +79,7 @@ class DownloadListViewController: UIViewController {
         tableView.delegate = self
         tableView.backgroundColor = .secondarySystemBackground
         tableView.register(DownloadCell.self, forCellReuseIdentifier: "DownloadCell")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "ActiveDownloadsCell")
         
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -171,15 +172,27 @@ class DownloadListViewController: UIViewController {
 
 extension DownloadListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return downloads.count
+        let activeDownloads = UserDefaults.standard.bool(forKey: "activeDownloads")
+        return downloads.count + (activeDownloads ? 1 : 0)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let activeDownloads = UserDefaults.standard.bool(forKey: "activeDownloads")
+        
+        if activeDownloads && indexPath.row == downloads.count {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ActiveDownloadsCell", for: indexPath)
+            cell.textLabel?.text = "Go to Active Downloads"
+            cell.textLabel?.textColor = .systemBlue
+            cell.accessoryType = .disclosureIndicator
+            return cell
+        }
+        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "DownloadCell", for: indexPath) as? DownloadCell else {
             return UITableViewCell()
         }
         
-        let download = downloads[indexPath.row]
+        let downloadIndex = activeDownloads ? indexPath.row : indexPath.row
+        let download = downloads[downloadIndex]
         cell.titleLabel.text = (download.lastPathComponent as NSString).deletingPathExtension
         
         do {
@@ -202,8 +215,16 @@ extension DownloadListViewController: UITableViewDataSource, UITableViewDelegate
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let download = downloads[indexPath.row]
-        playDownload(url: download)
+        let activeDownloads = UserDefaults.standard.bool(forKey: "activeDownloads")
+        
+        if activeDownloads && indexPath.row == downloads.count {
+            let activeDownloadsVC = storyboard?.instantiateViewController(withIdentifier: "ActiveDownloadsViewController") as! ActiveDownloadsViewController
+            navigationController?.pushViewController(activeDownloadsVC, animated: true)
+        } else {
+            let downloadIndex = activeDownloads ? indexPath.row : indexPath.row
+            let download = downloads[downloadIndex]
+            playDownload(url: download)
+        }
     }
 }
 

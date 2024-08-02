@@ -26,7 +26,8 @@ class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
     private var cell: EpisodeCell
     private var fullURL: String
     private weak var animeDetailsViewController: AnimeDetailViewController?
-
+    private var timeObserverToken: Any?
+    
     init(streamURL: String, cell: EpisodeCell, fullURL: String, animeDetailsViewController: AnimeDetailViewController) {
         self.streamURL = streamURL
         self.cell = cell
@@ -87,10 +88,8 @@ class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
     }
     
     private func updateProgress(progress: Float) {
-        
         self.progressView?.isHidden = false
         self.progressLabel?.isHidden = false
-        
         progressView?.progress = progress
         progressLabel?.text = "Downloaded \(Int(progress * 100))%"
     }
@@ -210,33 +209,29 @@ class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
             
             if UserDefaults.standard.bool(forKey: "isToDownload") {
                 UserDefaults.standard.set(false, forKey: "isToDownload")
-                let downloader = MP4Downloader(url: url)
+                UserDefaults.standard.set(true, forKey: "activeDownloads")
+                
                 self.dismiss(animated: true, completion: nil)
                 
+                let downloadManager = DownloadManager.shared
                 let title = self.animeDetailsViewController?.animeTitle ?? "Anime Download"
-                let imageURL = self.animeDetailsViewController?.imageUrl ?? ""
                 
-                let downloadView = FloatingManager.shared.addDownload(
-                    title: "\(title) - Downloading...",
-                    imageURL: imageURL
-                )
-                
-                downloader.startDownload(progress: { progress in
+                downloadManager.startDownload(url: url, title: title, progress: { progress in
                     DispatchQueue.main.async {
-                        downloadView.updateProgress(Float(progress))
                         print("Download progress: \(progress * 100)%")
                     }
-                }) { result in
+                }) { [weak self] result in
                     DispatchQueue.main.async {
-                        FloatingManager.shared.removeDownload(downloadView)
+                        UserDefaults.standard.set(false, forKey: "activeDownloads")
+                        
                         switch result {
-                        case .success:
-                            self.animeDetailsViewController?.showAlert(withTitle: "Download Completed!", message: "You can find your download in the Library -> Downloads.")
+                        case .success(let downloadURL):
+                            print("Download completed. File saved at: \(downloadURL)")
+                            self?.animeDetailsViewController?.showAlert(withTitle: "Download Completed!", message: "You can find your download in the Library -> Downloads.")
                         case .failure(let error):
                             print("Download failed with error: \(error.localizedDescription)")
-                            self.animeDetailsViewController?.showAlert(withTitle: "Download Failed", message: "\(error.localizedDescription)")
+                            self?.animeDetailsViewController?.showAlert(withTitle: "Download Failed", message: error.localizedDescription)
                         }
-                        self.dismiss(animated: true, completion: nil)
                     }
                 }
             } else {
@@ -260,13 +255,20 @@ class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
             playerViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             playerViewController.didMove(toParent: self)
             
+            let lastPlayedTime = UserDefaults.standard.double(forKey: "lastPlayedTime_\(self.fullURL)")
+            if lastPlayedTime > 0 {
+                player.seek(to: CMTime(seconds: lastPlayedTime, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
+            }
+            
             player.play()
             
             self.player = player
             self.playerViewController = playerViewController
+            
+            self.addPeriodicTimeObserver()
         }
     }
-
+    
     private func castVideoToGoogleCast(videoURL: URL) {
         DispatchQueue.main.async {
             let metadata = GCKMediaMetadata(metadataType: .movie)
@@ -303,6 +305,45 @@ class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
         }
     }
     
+    private func addPeriodicTimeObserver() {
+        let interval = CMTime(seconds: 1.0, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+        timeObserverToken = player?.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
+            guard let self = self,
+                  let currentItem = self.player?.currentItem,
+                  currentItem.duration.seconds.isFinite else {
+                return
+            }
+            
+            let currentTime = time.seconds
+            let duration = currentItem.duration.seconds
+            let progress = currentTime / duration
+            let remainingTime = duration - currentTime
+            
+            self.cell.updatePlaybackProgress(progress: Float(progress), remainingTime: remainingTime)
+            
+            UserDefaults.standard.set(currentTime, forKey: "lastPlayedTime_\(self.fullURL)")
+            UserDefaults.standard.set(duration, forKey: "totalTime_\(self.fullURL)")
+        }
+    }
+    
+    private func cleanup() {
+        player?.pause()
+        player = nil
+        
+        playerViewController?.willMove(toParent: nil)
+        playerViewController?.view.removeFromSuperview()
+        playerViewController?.removeFromParent()
+        playerViewController = nil
+        
+        if let timeObserverToken = timeObserverToken {
+            player?.removeTimeObserver(timeObserverToken)
+            self.timeObserverToken = nil
+        }
+        
+        webView?.stopLoading()
+        webView?.loadHTMLString("", baseURL: nil)
+    }
+    
     private func retryExtraction() {
         retryCount += 1
         if retryCount < maxRetries {
@@ -317,19 +358,6 @@ class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
                 self.activityIndicator?.stopAnimating()
             }
         }
-    }
-    
-    private func cleanup() {
-        player?.pause()
-        player = nil
-        
-        playerViewController?.willMove(toParent: nil)
-        playerViewController?.view.removeFromSuperview()
-        playerViewController?.removeFromParent()
-        playerViewController = nil
-        
-        webView?.stopLoading()
-        webView?.loadHTMLString("", baseURL: nil)
     }
 }
 

@@ -23,6 +23,8 @@ extension HomeViewController {
             return ("https://kuramanime.boo/quick/ongoing?order_by=updated", parseKuramanimeFeatured)
         case "JKanime":
             return ("https://jkanime.net/", parseJKAnimeFeatured)
+        case "Anix":
+            return ("https://anix.to/home", parseAnixFeatured)
         default:
             return (nil, nil)
         }
@@ -142,6 +144,26 @@ extension HomeViewController {
             
             var href = try item.select("a").attr("href")
             if let range = href.range(of: "/\\d+", options: .regularExpression) {
+                href.removeSubrange(range)
+            }
+            
+            return AnimeItem(title: title, episode: episode, imageURL: imageURL, href: href)
+        }
+    }
+    
+    func parseAnixFeatured(_ doc: Document) throws -> [AnimeItem] {
+        let animeItems = try doc.select("div.container section.s-content div.content-item div.piece")
+        return try animeItems.array().compactMap { item in
+            
+            let title = try item.select("div.ani-name a").text()
+            
+            let episodeText = try item.select("div.anime__sidebar__comment__item__text h6").text()
+            let episode = episodeText.replacingOccurrences(of: "Episodio ", with: "")
+            
+            let imageURL = try item.select("img").attr("src")
+            
+            var href = try item.select("div.ani-name a").attr("href")
+            if let range = href.range(of: "/ep-\\d+", options: .regularExpression) {
                 href.removeSubrange(range)
             }
             

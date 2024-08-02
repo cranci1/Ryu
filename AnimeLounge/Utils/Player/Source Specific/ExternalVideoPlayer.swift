@@ -24,6 +24,8 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
     private var cell: EpisodeCell
     private var fullURL: String
     private weak var animeDetailsViewController: AnimeDetailViewController?
+    private var player: AVPlayer?
+    private var timeObserverToken: Any?
 
     init(streamURL: String, cell: EpisodeCell, fullURL: String, animeDetailsViewController: AnimeDetailViewController) {
         self.streamURL = streamURL
@@ -386,50 +388,76 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
         let player = AVPlayer(url: url)
         let playerViewController = AVPlayerViewController()
         playerViewController.player = player
-
-        addChild(playerViewController)
-        view.addSubview(playerViewController.view)
-        playerViewController.view.frame = view.bounds
+        
+        self.addChild(playerViewController)
+        self.view.addSubview(playerViewController.view)
+        playerViewController.view.frame = self.view.bounds
+        playerViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         playerViewController.didMove(toParent: self)
-
-        self.playerViewController = playerViewController
-
+        
+        let lastPlayedTime = UserDefaults.standard.double(forKey: "lastPlayedTime_\(self.fullURL)")
+        if lastPlayedTime > 0 {
+            player.seek(to: CMTime(seconds: lastPlayedTime, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
+        }
+        
         player.play()
-        isVideoPlaying = true
+        
+        self.player = player
+        self.playerViewController = playerViewController
+        self.isVideoPlaying = true
+        
+        self.addPeriodicTimeObserver()
     }
 
-     override func viewDidDisappear(_ animated: Bool) {
-         super.viewDidDisappear(animated)
-         stopAndCleanUp()
-     }
+    private func addPeriodicTimeObserver() {
+        let interval = CMTime(seconds: 1.0, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+        timeObserverToken = player?.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
+            guard let self = self,
+                  let currentItem = self.player?.currentItem,
+                  currentItem.duration.seconds.isFinite else {
+                return
+            }
+            
+            let currentTime = time.seconds
+            let duration = currentItem.duration.seconds
+            let progress = currentTime / duration
+            let remainingTime = duration - currentTime
+            
+            self.cell.updatePlaybackProgress(progress: Float(progress), remainingTime: remainingTime)
+            
+            UserDefaults.standard.set(currentTime, forKey: "lastPlayedTime_\(self.fullURL)")
+            UserDefaults.standard.set(duration, forKey: "totalTime_\(self.fullURL)")
+        }
+    }
 
-     private func stopAndCleanUp() {
-         playerViewController?.player?.pause()
-         playerViewController?.player?.replaceCurrentItem(with: nil)
-         playerViewController?.player = nil
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        cleanup()
+    }
 
-         playerViewController?.willMove(toParent: nil)
-         playerViewController?.view.removeFromSuperview()
-         playerViewController?.removeFromParent()
-         playerViewController = nil
-         
-         stopMonitoringPlayState()
-         isVideoPlaying = false
+    private func cleanup() {
+        player?.pause()
+        player = nil
+        
+        playerViewController?.willMove(toParent: nil)
+        playerViewController?.view.removeFromSuperview()
+        playerViewController?.removeFromParent()
+        playerViewController = nil
+        
+        isVideoPlaying = false
+        stopMonitoringPlayState()
+        
+        if let timeObserverToken = timeObserverToken {
+            player?.removeTimeObserver(timeObserverToken)
+            self.timeObserverToken = nil
+        }
+        
+        webView?.stopLoading()
+        webView?.loadHTMLString("", baseURL: nil)
+    }
 
-         webView?.stopLoading()
-         webView?.loadHTMLString("", baseURL: nil)
-         webView?.configuration.userContentController.removeAllUserScripts()
-         webView?.configuration.userContentController.removeScriptMessageHandler(forName: "videoHandler")
-
-         webView?.removeFromSuperview()
-         webView = nil
-
-         loadingObserver?.invalidate()
-         loadingObserver = nil
-     }
-
-     deinit {
-         stopAndCleanUp()
-         loadingObserver?.invalidate()
-     }
- }
+    deinit {
+        cleanup()
+        loadingObserver?.invalidate()
+    }
+}
