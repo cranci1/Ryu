@@ -31,6 +31,7 @@ Yes it's a NineAnimator fork aimed to be more stable and to support more sources
 | Kuramanime                    | Indonesian   | ✅         |  ✅        |   ✅     | ✅        |
 | Anime3rb                      | Arab         | ✅         |  ✅        |   ✅     | ✅        | 
 | JKanime                       | Spanish      | ✅         |  ✅        |   ✅     | :x:       |
+| Anix                          | English      | ✅         |  ✅        |   ✅     | :x:       |
 
 > [!Note]
 > AnimeFire is region Blocked. Only Portugal and Brazil IP are allowed!

@@ -413,6 +413,8 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                 streamingVC = ExternalVideoPlayerKura(streamURL: url, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
             case VideoPlayerType.playerJK:
                 streamingVC = ExternalVideoPlayerJK(streamURL: url, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
+            case VideoPlayerType.playerAnix:
+                streamingVC = ExternalVideoPlayerAnix(streamURL: url, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
             default:
                 return
             }
@@ -476,6 +478,8 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                     srcURL = self.extractVideoSourceURL(from: htmlString)
                 case "Anime3rb", "Kuramanime", "JKanime":
                     srcURL = URL(string: fullURL)
+                case "Anix":
+                    srcURL = URL(string: url)
                 default:
                     srcURL = self.extractIframeSourceURL(from: htmlString)
                 }
@@ -501,6 +505,8 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                         self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, playerType: VideoPlayerType.playerKura, cell: cell, fullURL: fullURL)
                     case "JKanime":
                         self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, playerType: VideoPlayerType.playerJK, cell: cell, fullURL: fullURL)
+                    case "Anix":
+                        self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, playerType: VideoPlayerType.playerAnix, cell: cell, fullURL: fullURL)
                     default:
                         self.playVideo(sourceURL: finalSrcURL, cell: cell, fullURL: fullURL)
                     }
