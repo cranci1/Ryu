@@ -21,6 +21,7 @@ class ActiveDownloadsViewController: UIViewController {
         let label = UILabel()
         label.text = "No active downloads, you can start one if you click the button on the right of each episode."
         label.textAlignment = .center
+        label.numberOfLines = 0
         label.textColor = .secondaryLabel
         label.font = .systemFont(ofSize: 18, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -56,7 +57,8 @@ class ActiveDownloadsViewController: UIViewController {
         view.addSubview(emptyStateLabel)
         NSLayoutConstraint.activate([
             emptyStateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            emptyStateLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            emptyStateLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            emptyStateLabel.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: -150)
         ])
     }
     
