@@ -11,6 +11,22 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Downloaded-->
+        <scene sceneID="V9M-pa-m4u">
+            <objects>
+                <viewController id="IzY-lE-yqh" customClass="DownloadListViewController" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="dOf-RC-qHu">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="Gzo-y2-JZS"/>
+                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Downloaded" id="ZW7-bc-4Yt"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Rfo-lj-edq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-5354" y="2230"/>
+        </scene>
         <!--Downloads-->
         <scene sceneID="pPp-8P-5pq">
             <objects>
@@ -23,7 +39,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="Yrt-vo-JgV" kind="relationship" relationship="rootViewController" id="bMQ-Dq-cgd"/>
+                        <segue destination="WYU-RR-mta" kind="relationship" relationship="rootViewController" id="dPz-YL-39E"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JV4-35-1aq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -77,28 +93,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="T8u-Pw-rD6"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Downloading" id="DFf-sb-iq0"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="84f-Yq-c2v" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-6380" y="1498"/>
-        </scene>
-        <!--Downloads-->
-        <scene sceneID="tSA-64-xtt">
-            <objects>
-                <viewController id="Yrt-vo-JgV" customClass="DownloadListViewController" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8XU-33-PSj">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="8Xn-BK-u6a"/>
-                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Downloads" id="LUJ-JV-k8K"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="y8o-Na-PE2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-5588" y="1499"/>
+            <point key="canvasLocation" x="-6084" y="1498"/>
         </scene>
         <!--Search-->
         <scene sceneID="3jU-2O-voz">
@@ -520,6 +521,75 @@
             </objects>
             <point key="canvasLocation" x="-1804" y="-17.541229385307346"/>
         </scene>
+        <!--Downloads-->
+        <scene sceneID="0G9-sZ-jIA">
+            <objects>
+                <tableViewController id="WYU-RR-mta" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="We2-0T-lzk">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                        <sections>
+                            <tableViewSection id="YGk-GC-9we">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="lld-sI-Hgo">
+                                        <rect key="frame" x="16" y="18" width="343" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="lld-sI-Hgo" id="0Gj-gm-ySn">
+                                            <rect key="frame" x="0.0" y="0.0" width="318.5" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Active Downloads" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Q2-dI-XfY">
+                                                    <rect key="frame" x="15" y="13" width="122.5" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="4Q2-dI-XfY" firstAttribute="leading" secondItem="0Gj-gm-ySn" secondAttribute="leading" constant="15" id="RXe-0M-HA2"/>
+                                                <constraint firstItem="4Q2-dI-XfY" firstAttribute="centerY" secondItem="0Gj-gm-ySn" secondAttribute="centerY" id="pkN-ca-r0w"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" systemColor="quaternarySystemFillColor"/>
+                                        <connections>
+                                            <segue destination="ADG-aJ-Jpr" kind="show" id="Yek-Eh-ToO"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="WLZ-n4-k1U">
+                                        <rect key="frame" x="16" y="61.5" width="343" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="WLZ-n4-k1U" id="VY9-KK-wHr">
+                                            <rect key="frame" x="0.0" y="0.0" width="318.5" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Compleated Downloads" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wf1-Nj-8Ci">
+                                                    <rect key="frame" x="15" y="13" width="163" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Wf1-Nj-8Ci" firstAttribute="centerY" secondItem="VY9-KK-wHr" secondAttribute="centerY" id="R4j-Q9-SMB"/>
+                                                <constraint firstItem="Wf1-Nj-8Ci" firstAttribute="leading" secondItem="VY9-KK-wHr" secondAttribute="leading" constant="15" id="ZQ1-eZ-QEx"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" systemColor="quaternarySystemFillColor"/>
+                                        <connections>
+                                            <segue destination="IzY-lE-yqh" kind="show" id="0JJ-CE-C9V"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Downloads" id="TVc-TT-Dge"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="acR-yj-EfH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-5354" y="1499"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="Af5-Kj-0iD"/>
@@ -532,14 +602,14 @@
         <namedColor name="AccentColor">
             <color red="0.18823529411764706" green="0.69019607843137254" blue="0.7803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="quaternarySystemFillColor">
+            <color red="0.45490196078431372" green="0.45490196078431372" blue="0.50196078431372548" alpha="0.080000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="secondarySystemBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>
 </document>

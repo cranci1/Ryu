@@ -56,6 +56,7 @@ class DownloadListViewController: UIViewController {
         loadDownloads()
         setupNavigationBar()
         setupRefreshControl()
+        updateTitle()
     }
     
     private func setupRefreshControl() {
@@ -127,12 +128,34 @@ class DownloadListViewController: UIViewController {
         downloads = downloadManager.fetchDownloadURLs().sorted { (url1, url2) -> Bool in
             return url1.lastPathComponent.localizedStandardCompare(url2.lastPathComponent) == .orderedAscending
         }
+        
         tableView.reloadData()
         emptyStateLabel.isHidden = !downloads.isEmpty
+        updateTitle()
         
         if downloads.isEmpty {
             emptyStateLabel.text = emptyMessages.randomElement()
         }
+    }
+    
+    private func updateTitle() {
+        let totalSize = calculateTotalDownloadSize()
+        let formattedSize = ByteCountFormatter.string(fromByteCount: totalSize, countStyle: .file)
+        title = "Downloaded - \(formattedSize)"
+    }
+    
+    private func calculateTotalDownloadSize() -> Int64 {
+        var totalSize: Int64 = 0
+        for download in downloads {
+            do {
+                let attributes = try FileManager.default.attributesOfItem(atPath: download.path)
+                let fileSize = attributes[.size] as? Int64 ?? 0
+                totalSize += fileSize
+            } catch {
+                print("Error getting file size: \(error.localizedDescription)")
+            }
+        }
+        return totalSize
     }
     
     private func playDownload(url: URL) {
@@ -162,6 +185,7 @@ class DownloadListViewController: UIViewController {
             downloads.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
             loadDownloads()
+            updateTitle()
             
             NotificationCenter.default.post(name: .downloadListUpdated, object: nil)
         } catch {
@@ -172,27 +196,15 @@ class DownloadListViewController: UIViewController {
 
 extension DownloadListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let activeDownloads = UserDefaults.standard.bool(forKey: "activeDownloads")
-        return downloads.count + (activeDownloads ? 1 : 0)
+        return downloads.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let activeDownloads = UserDefaults.standard.bool(forKey: "activeDownloads")
-        
-        if activeDownloads && indexPath.row == downloads.count {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ActiveDownloadsCell", for: indexPath)
-            cell.textLabel?.text = "Go to Active Downloads"
-            cell.textLabel?.textColor = .systemBlue
-            cell.accessoryType = .disclosureIndicator
-            return cell
-        }
-        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "DownloadCell", for: indexPath) as? DownloadCell else {
             return UITableViewCell()
         }
         
-        let downloadIndex = activeDownloads ? indexPath.row : indexPath.row
-        let download = downloads[downloadIndex]
+        let download = downloads[indexPath.row]
         cell.titleLabel.text = (download.lastPathComponent as NSString).deletingPathExtension
         
         do {
@@ -215,16 +227,8 @@ extension DownloadListViewController: UITableViewDataSource, UITableViewDelegate
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let activeDownloads = UserDefaults.standard.bool(forKey: "activeDownloads")
-        
-        if activeDownloads && indexPath.row == downloads.count {
-            let activeDownloadsVC = storyboard?.instantiateViewController(withIdentifier: "ActiveDownloadsViewController") as! ActiveDownloadsViewController
-            navigationController?.pushViewController(activeDownloadsVC, animated: true)
-        } else {
-            let downloadIndex = activeDownloads ? indexPath.row : indexPath.row
-            let download = downloads[downloadIndex]
-            playDownload(url: download)
-        }
+        let download = downloads[indexPath.row]
+        playDownload(url: download)
     }
 }
 

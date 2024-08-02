@@ -38,7 +38,7 @@
 		139DAE9A2C5BB87C006CCCA8 /* FeaturedAnimeParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139DAE992C5BB87C006CCCA8 /* FeaturedAnimeParsing.swift */; };
 		139DAE9D2C5BC453006CCCA8 /* AnimeHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139DAE9C2C5BC453006CCCA8 /* AnimeHeaderCell.swift */; };
 		139DAE9F2C5BC47C006CCCA8 /* SynopsisCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139DAE9E2C5BC47C006CCCA8 /* SynopsisCell.swift */; };
-		139DAEA22C5BEC2C006CCCA8 /* ProgressDownloadCEll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139DAEA12C5BEC2C006CCCA8 /* ProgressDownloadCEll.swift */; };
+		139DAEA22C5BEC2C006CCCA8 /* ProgressDownloadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139DAEA12C5BEC2C006CCCA8 /* ProgressDownloadCell.swift */; };
 		139DAEA42C5BEC41006CCCA8 /* ActiveDownloadsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139DAEA32C5BEC41006CCCA8 /* ActiveDownloadsViewController.swift */; };
 		139FD9CD2C553FDD00B07996 /* Kitsu-Trending.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139FD9CC2C553FDD00B07996 /* Kitsu-Trending.swift */; };
 		139FD9CF2C55414200B07996 /* Kitsu-Airing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139FD9CE2C55414200B07996 /* Kitsu-Airing.swift */; };
@@ -99,7 +99,7 @@
 		139DAE992C5BB87C006CCCA8 /* FeaturedAnimeParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedAnimeParsing.swift; sourceTree = "<group>"; };
 		139DAE9C2C5BC453006CCCA8 /* AnimeHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeHeaderCell.swift; sourceTree = "<group>"; };
 		139DAE9E2C5BC47C006CCCA8 /* SynopsisCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynopsisCell.swift; sourceTree = "<group>"; };
-		139DAEA12C5BEC2C006CCCA8 /* ProgressDownloadCEll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressDownloadCEll.swift; sourceTree = "<group>"; };
+		139DAEA12C5BEC2C006CCCA8 /* ProgressDownloadCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressDownloadCell.swift; sourceTree = "<group>"; };
 		139DAEA32C5BEC41006CCCA8 /* ActiveDownloadsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveDownloadsViewController.swift; sourceTree = "<group>"; };
 		139FD9CC2C553FDD00B07996 /* Kitsu-Trending.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Kitsu-Trending.swift"; sourceTree = "<group>"; };
 		139FD9CE2C55414200B07996 /* Kitsu-Airing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Kitsu-Airing.swift"; sourceTree = "<group>"; };
@@ -280,7 +280,7 @@
 			isa = PBXGroup;
 			children = (
 				139DAEA32C5BEC41006CCCA8 /* ActiveDownloadsViewController.swift */,
-				139DAEA12C5BEC2C006CCCA8 /* ProgressDownloadCEll.swift */,
+				139DAEA12C5BEC2C006CCCA8 /* ProgressDownloadCell.swift */,
 			);
 			path = "Active Downloads";
 			sourceTree = "<group>";
@@ -568,7 +568,7 @@
 				13D486412C3535FE003ED471 /* ExternalVideoPlayer.swift in Sources */,
 				131C06D32C4661D6004ED5D9 /* DownloadCell.swift in Sources */,
 				139FD9DF2C55576B00B07996 /* Jakin-Sesonal.swift in Sources */,
-				139DAEA22C5BEC2C006CCCA8 /* ProgressDownloadCEll.swift in Sources */,
+				139DAEA22C5BEC2C006CCCA8 /* ProgressDownloadCell.swift in Sources */,
 				13E4464E2C25C38A002B14E8 /* HomeViewController.swift in Sources */,
 				139B16502C272A55007E3477 /* SettingsViewController.swift in Sources */,
 				131C06CB2C459DFB004ED5D9 /* M3U8Downloader.swift in Sources */,
