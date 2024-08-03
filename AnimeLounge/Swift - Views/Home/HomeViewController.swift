@@ -8,7 +8,7 @@
 import UIKit
 import SwiftSoup
 
-class HomeViewController: UITableViewController {
+class HomeViewController: UITableViewController, SourceSelectionDelegate {
     
     @IBOutlet private weak var airingCollectionView: UICollectionView!
     @IBOutlet private weak var trendingCollectionView: UICollectionView!
@@ -43,6 +43,8 @@ class HomeViewController: UITableViewController {
         setupSelectedSourceLabel()
         setupRefreshControl()
         fetchAnimeData()
+        
+        SourceMenu.delegate = self
     }
     
     func setupCollectionViews() {
@@ -214,6 +216,11 @@ class HomeViewController: UITableViewController {
     
     @IBAction func selectSourceButtonTapped(_ sender: UIButton) {
         SourceMenu.showSourceSelector(from: self, sourceView: sender)
+    }
+    
+    func didSelectNewSource() {
+        setupSelectedSourceLabel()
+        fetchAnimeData()
     }
 }
 

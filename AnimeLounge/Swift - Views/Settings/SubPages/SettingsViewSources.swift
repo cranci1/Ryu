@@ -52,4 +52,8 @@ class SettingsViewSources: UITableViewController {
         UserDefaults.standard.set(retries, forKey: "maxRetries")
         retryMethod.setTitle("\(retries) Tries", for: .normal)
     }
+    
+    @IBAction func closeButtonTapped() {
+        dismiss(animated: true, completion: nil)
+    }
 }

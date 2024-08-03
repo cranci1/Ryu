@@ -80,7 +80,6 @@ class DownloadListViewController: UIViewController {
         tableView.delegate = self
         tableView.backgroundColor = .secondarySystemBackground
         tableView.register(DownloadCell.self, forCellReuseIdentifier: "DownloadCell")
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "ActiveDownloadsCell")
         
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),

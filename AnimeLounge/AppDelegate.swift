@@ -40,9 +40,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserDefaults.standard.set("AniList", forKey: "AnimeListingService")
         }
         
+        if UserDefaults.standard.object(forKey: "maxRetries") == nil {
+            UserDefaults.standard.set(10, forKey: "maxRetries")
+        }
+        
         UserDefaults.standard.register(defaults: ["fullTitleCast": true])
         UserDefaults.standard.register(defaults: ["animeImageCast": true])
-        UserDefaults.standard.set(10, forKey: "maxRetries")
     }
     
     private func setupGoogleCast() {

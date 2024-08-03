@@ -191,7 +191,6 @@ class ExternalVideoPlayerAnix: UIViewController, GCKRemoteMediaClientListener {
             
             if UserDefaults.standard.bool(forKey: "isToDownload") {
                 UserDefaults.standard.set(false, forKey: "isToDownload")
-                UserDefaults.standard.set(true, forKey: "activeDownloads")
                 
                 self.dismiss(animated: true, completion: nil)
                 
@@ -204,8 +203,6 @@ class ExternalVideoPlayerAnix: UIViewController, GCKRemoteMediaClientListener {
                     }
                 }) { [weak self] result in
                     DispatchQueue.main.async {
-                        UserDefaults.standard.set(false, forKey: "activeDownloads")
-                        
                         switch result {
                         case .success(let downloadURL):
                             print("Download completed. File saved at: \(downloadURL)")

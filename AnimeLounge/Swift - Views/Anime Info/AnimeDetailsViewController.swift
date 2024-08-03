@@ -773,7 +773,6 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
     }
     
     private func handleDownload(sourceURL: URL, fullURL: String) {
-        UserDefaults.standard.set(true, forKey: "activeDownloads")
         UserDefaults.standard.set(false, forKey: "isToDownload")
         
         guard let episode = episodes.first(where: { $0.href == fullURL }) else {
@@ -788,7 +787,6 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             print("Download progress: \(progress * 100)%")
         }) { [weak self] result in
             DispatchQueue.main.async {
-                UserDefaults.standard.set(false, forKey: "activeDownloads")
                 self?.handleDownloadResult(result)
             }
         }

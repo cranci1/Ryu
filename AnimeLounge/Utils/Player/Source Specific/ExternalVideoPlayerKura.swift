@@ -143,8 +143,6 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
 
     private func handleDownload(url: URL) {
         UserDefaults.standard.set(false, forKey: "isToDownload")
-        UserDefaults.standard.set(true, forKey: "activeDownloads")
-        
         self.dismiss(animated: true, completion: nil)
         
         let downloadManager = DownloadManager.shared
@@ -156,8 +154,6 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
             }
         }) { [weak self] result in
             DispatchQueue.main.async {
-                UserDefaults.standard.set(false, forKey: "activeDownloads")
-                
                 switch result {
                 case .success(let downloadURL):
                     print("Download completed. File saved at: \(downloadURL)")

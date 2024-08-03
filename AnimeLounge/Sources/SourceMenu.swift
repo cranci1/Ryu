@@ -8,6 +8,8 @@
 import UIKit
 
 class SourceMenu {
+    static weak var delegate: SourceSelectionDelegate?
+
     static func showSourceSelector(from viewController: UIViewController, sourceView: UIView) {
         let sources: [(title: String, source: MediaSource)] = [
             ("AnimeWorld", .animeWorld),
@@ -25,6 +27,7 @@ class SourceMenu {
         for (title, source) in sources {
             let action = UIAlertAction(title: title, style: .default) { _ in
                 UserDefaults.standard.selectedMediaSource = source
+                delegate?.didSelectNewSource()
             }
             setSourceImage(for: action, named: title)
             alertController.addAction(action)
@@ -45,4 +48,8 @@ class SourceMenu {
         let resizedImage = originalImage.resized(to: CGSize(width: 35, height: 35))
         action.setValue(resizedImage.withRenderingMode(.alwaysOriginal), forKey: "image")
     }
+}
+
+protocol SourceSelectionDelegate: AnyObject {
+    func didSelectNewSource()
 }
