@@ -152,10 +152,10 @@
 		1308F1782C328563004348A9 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				13A0B6222C5EBB1D00BBAC5B /* Extensions */,
 				131C06CD2C45A273004ED5D9 /* Managers */,
 				131C06C92C459D5E004ED5D9 /* Downloaders */,
 				13327B342C314E6300CEE6AC /* Player */,
-				131464002C382B6800F6AD8B /* UIImage.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -332,6 +332,14 @@
 				139FD9DE2C55576B00B07996 /* Jakin-Sesonal.swift */,
 			);
 			path = Requests;
+			sourceTree = "<group>";
+		};
+		13A0B6222C5EBB1D00BBAC5B /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				131464002C382B6800F6AD8B /* UIImage.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		13AA29822C245EDD00C8CA8E = {
