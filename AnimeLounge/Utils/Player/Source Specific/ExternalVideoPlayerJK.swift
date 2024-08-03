@@ -102,6 +102,13 @@ class ExternalVideoPlayerJK: UIViewController, WKNavigationDelegate, GCKRemoteMe
     
     private func playVideo(urlString: String) {
         guard let url = URL(string: urlString) else { return }
+        
+        if let selectedPlayer = UserDefaults.standard.string(forKey: "mediaPlayerSelected") {
+            self.animeDetailsViewController?.openInExternalPlayer(player: selectedPlayer, url: url)
+            dismiss(animated: true, completion: nil)
+            return
+        }
+        
         let player = AVPlayer(url: url)
         playerViewController = AVPlayerViewController()
         playerViewController?.player = player
@@ -139,9 +146,16 @@ class ExternalVideoPlayerJK: UIViewController, WKNavigationDelegate, GCKRemoteMe
             }
             
             let builder = GCKMediaInformationBuilder(contentURL: videoURL)
-            builder.streamType = .buffered
             builder.contentType = "application/x-mpegURL"
             builder.metadata = metadata
+            
+            let streamTypeString = UserDefaults.standard.string(forKey: "castStreamingType") ?? "buffered"
+            switch streamTypeString {
+            case "live":
+                builder.streamType = .live
+            default:
+                builder.streamType = .buffered
+            }
             
             let mediaInformation = builder.build()
             

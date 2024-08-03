@@ -228,41 +228,38 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
                        let videoUrl = URL(string: videoUrlString) {
                         DispatchQueue.main.async { [weak self] in
                             guard let self = self else { return }
-                            
-                            if UserDefaults.standard.bool(forKey: "isToDownload") {
-                                UserDefaults.standard.set(false, forKey: "isToDownload")
-                                self.loadQualityOptions(from: videoUrl) { success, error in
-                                    if success {
-                                        self.showQualitySelection()
-                                    } else if let error = error {
-                                        print("Error loading quality options: \(error)")
-                                    }
-                                }
-                            } else {
-                                if GCKCastContext.sharedInstance().sessionManager.hasConnectedCastSession() {
-                                    self.castVideoToGoogleCast(videoURL: videoUrl)
-                                    self.dismiss(animated: true, completion: nil)
-                                } else {
-                                    let goGoAnimeMethod = UserDefaults.standard.string(forKey: "GoGoAnimeMethod") ?? "Stable"
-                                    
-                                    switch goGoAnimeMethod {
-                                    case "Stable":
-                                        self.playVideoInAVPlayer(url: videoUrl)
-                                    case "Experimental":
-                                        self.animeDetailsViewController?.playVideo(sourceURL: videoUrl, cell: self.cell, fullURL: self.fullURL)
-                                        self.dismiss(animated: true, completion: nil)
-                                    default:
-                                        self.animeDetailsViewController?.playVideo(sourceURL: videoUrl, cell: self.cell, fullURL: self.fullURL)
-                                        self.dismiss(animated: true, completion: nil)
-                                    }
-                                }
-                            }
+                            self.handleVideoURL(url: videoUrl)
                         }
                     }
                 } else if state == "pause" || state == "complete" || state == "error" {
                     isVideoPlaying = false
                     startMonitoringPlayState(interval: 2.0)
                 }
+            }
+        }
+    }
+
+    private func handleVideoURL(url: URL) {
+        if UserDefaults.standard.bool(forKey: "isToDownload") {
+            handleDownload(url: url)
+        } else if let selectedPlayer = UserDefaults.standard.string(forKey: "mediaPlayerSelected") {
+            self.animeDetailsViewController?.openInExternalPlayer(player: selectedPlayer, url: url)
+            dismiss(animated: true, completion: nil)
+        } else if GCKCastContext.sharedInstance().sessionManager.hasConnectedCastSession() {
+            castVideoToGoogleCast(videoURL: url)
+            dismiss(animated: true, completion: nil)
+        } else {
+            playVideoInAVPlayer(url: url)
+        }
+    }
+
+    private func handleDownload(url: URL) {
+        UserDefaults.standard.set(false, forKey: "isToDownload")
+        loadQualityOptions(from: url) { success, error in
+            if success {
+                self.showQualitySelection()
+            } else if let error = error {
+                print("Error loading quality options: \(error)")
             }
         }
     }
@@ -372,9 +369,16 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
             }
             
             let builder = GCKMediaInformationBuilder(contentURL: videoURL)
-            builder.streamType = .buffered
             builder.contentType = "application/x-mpegURL"
             builder.metadata = metadata
+            
+            let streamTypeString = UserDefaults.standard.string(forKey: "castStreamingType") ?? "buffered"
+            switch streamTypeString {
+            case "live":
+                builder.streamType = .live
+            default:
+                builder.streamType = .buffered
+            }
             
             let mediaInformation = builder.build()
             

@@ -19,6 +19,7 @@
 		1326E4D22C343DF80056A66E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1326E4D12C343DF80056A66E /* Main.storyboard */; };
 		1326E4D42C343E040056A66E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1326E4D32C343E040056A66E /* LaunchScreen.storyboard */; };
 		13327B362C314E6F00CEE6AC /* LandScapePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13327B352C314E6F00CEE6AC /* LandScapePlayer.swift */; };
+		1354A6A62C5E0A380018317D /* SettingsViewSources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1354A6A52C5E0A380018317D /* SettingsViewSources.swift */; };
 		1354F64A2C426EE700E45682 /* SearchResultSourcesParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1354F6492C426EE700E45682 /* SearchResultSourcesParsing.swift */; };
 		1354F64C2C42C49C00E45682 /* ExternalVideoPlayerJK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1354F64B2C42C49C00E45682 /* ExternalVideoPlayerJK.swift */; };
 		1354F6582C43C72100E45682 /* GoogleCastSDK-ios-no-bluetooth in Frameworks */ = {isa = PBXBuildFile; platformFilter = ios; productRef = 1354F6572C43C72100E45682 /* GoogleCastSDK-ios-no-bluetooth */; };
@@ -83,6 +84,7 @@
 		1326E4D12C343DF80056A66E /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		1326E4D32C343E040056A66E /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		13327B352C314E6F00CEE6AC /* LandScapePlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandScapePlayer.swift; sourceTree = "<group>"; };
+		1354A6A52C5E0A380018317D /* SettingsViewSources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewSources.swift; sourceTree = "<group>"; };
 		1354F6492C426EE700E45682 /* SearchResultSourcesParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultSourcesParsing.swift; sourceTree = "<group>"; };
 		1354F64B2C42C49C00E45682 /* ExternalVideoPlayerJK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalVideoPlayerJK.swift; sourceTree = "<group>"; };
 		135F85282C382ECE0024954D /* SourceMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceMenu.swift; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 				130645E02C295264004642B3 /* SettingsViewAbout.swift */,
 				139655D02C33FCE10098A679 /* SettingsViewCast.swift */,
 				139FD9D22C55422400B07996 /* SettingsAnimeListing.swift */,
+				1354A6A52C5E0A380018317D /* SettingsViewSources.swift */,
 			);
 			path = SubPages;
 			sourceTree = "<group>";
@@ -552,6 +555,7 @@
 				137F4A352C255E9700B787CB /* SearchResultsViewController.swift in Sources */,
 				139DAEA42C5BEC41006CCCA8 /* ActiveDownloadsViewController.swift in Sources */,
 				139B16282C26F4A3007E3477 /* AnimeInformation.swift in Sources */,
+				1354A6A62C5E0A380018317D /* SettingsViewSources.swift in Sources */,
 				135F85292C382ECE0024954D /* SourceMenu.swift in Sources */,
 				13CD3A6D2C26028500B046F9 /* AniList-Sesonal.swift in Sources */,
 				139FD9CF2C55414200B07996 /* Kitsu-Airing.swift in Sources */,

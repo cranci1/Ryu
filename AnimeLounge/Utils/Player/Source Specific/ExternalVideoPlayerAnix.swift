@@ -18,7 +18,7 @@ class ExternalVideoPlayerAnix: UIViewController, GCKRemoteMediaClientListener {
     private var activityIndicator: UIActivityIndicatorView?
     
     private var retryCount = 0
-    private let maxRetries = 10
+    private let maxRetries: Int
     
     private var cell: EpisodeCell
     private var fullURL: String
@@ -30,6 +30,10 @@ class ExternalVideoPlayerAnix: UIViewController, GCKRemoteMediaClientListener {
         self.cell = cell
         self.fullURL = fullURL
         self.animeDetailsViewController = animeDetailsViewController
+        
+        let userDefaultsRetries = UserDefaults.standard.integer(forKey: "maxRetries")
+        self.maxRetries = userDefaultsRetries > 0 ? userDefaultsRetries : 10
+
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -292,9 +296,16 @@ class ExternalVideoPlayerAnix: UIViewController, GCKRemoteMediaClientListener {
             }
             
             let builder = GCKMediaInformationBuilder(contentURL: videoURL)
-            builder.streamType = .buffered
             builder.contentType = "application/x-mpegURL"
             builder.metadata = metadata
+            
+            let streamTypeString = UserDefaults.standard.string(forKey: "castStreamingType") ?? "buffered"
+            switch streamTypeString {
+            case "live":
+                builder.streamType = .live
+            default:
+                builder.streamType = .buffered
+            }
             
             let mediaInformation = builder.build()
             

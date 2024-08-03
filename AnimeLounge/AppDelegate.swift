@@ -42,6 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UserDefaults.standard.register(defaults: ["fullTitleCast": true])
         UserDefaults.standard.register(defaults: ["animeImageCast": true])
+        UserDefaults.standard.set(10, forKey: "maxRetries")
     }
     
     private func setupGoogleCast() {

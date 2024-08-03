@@ -17,11 +17,8 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
     private var playerViewController: AVPlayerViewController?
     private var activityIndicator: UIActivityIndicatorView?
     
-    private var progressView: UIProgressView?
-    private var progressLabel: UILabel?
-    
     private var retryCount = 0
-    private let maxRetries = 10
+    private let maxRetries: Int
     
     private var cell: EpisodeCell
     private var fullURL: String
@@ -33,6 +30,10 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
         self.cell = cell
         self.fullURL = fullURL
         self.animeDetailsViewController = animeDetailsViewController
+        
+        let userDefaultsRetries = UserDefaults.standard.integer(forKey: "maxRetries")
+        self.maxRetries = userDefaultsRetries > 0 ? userDefaultsRetries : 10
+
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -55,45 +56,6 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
         view.backgroundColor = UIColor.secondarySystemBackground
         setupActivityIndicator()
         setupWebView()
-        setupProgressUI()
-        
-        self.progressView?.isHidden = true
-        self.progressLabel?.isHidden = true
-    }
-    
-    private func setupProgressUI() {
-        progressView = UIProgressView(progressViewStyle: .default)
-        progressView?.progress = 0.0
-        progressView?.trackTintColor = UIColor.gray
-        progressView?.progressTintColor = UIColor.systemTeal
-        progressView?.translatesAutoresizingMaskIntoConstraints = false
-        
-        progressLabel = UILabel()
-        progressLabel?.textColor = .label
-        progressLabel?.translatesAutoresizingMaskIntoConstraints = false
-
-        if let progressView = progressView, let progressLabel = progressLabel {
-            view.addSubview(progressView)
-            view.addSubview(progressLabel)
-            
-            NSLayoutConstraint.activate([
-                progressView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                progressView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-                progressView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.75),
-                
-                progressLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                progressLabel.topAnchor.constraint(equalTo: progressView.bottomAnchor, constant: 8)
-            ])
-        }
-    }
-    
-    private func updateProgress(progress: Float) {
-        
-        self.progressView?.isHidden = false
-        self.progressLabel?.isHidden = false
-        
-        progressView?.progress = progress
-        progressLabel?.text = "Downloaded \(Int(progress * 100))%"
     }
     
     private func setupActivityIndicator() {
@@ -131,7 +93,7 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
             
             if let videoURL = self.extractVideoSourceURL(from: htmlString) {
                 print("Video source URL found: \(videoURL.absoluteString)")
-                self.playVideo(url: videoURL)
+                self.handleVideoURL(url: videoURL)
             } else {
                 print("No video source found")
                 self.retryExtraction()
@@ -164,43 +126,50 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
         }
     }
     
-    private func playVideo(url: URL) {
+    private func handleVideoURL(url: URL) {
         DispatchQueue.main.async {
             self.activityIndicator?.stopAnimating()
             
             if UserDefaults.standard.bool(forKey: "isToDownload") {
-                UserDefaults.standard.set(false, forKey: "isToDownload")
-                UserDefaults.standard.set(true, forKey: "activeDownloads")
-                
+                self.handleDownload(url: url)
+            } else if let selectedPlayer = UserDefaults.standard.string(forKey: "mediaPlayerSelected") {
+                self.animeDetailsViewController?.openInExternalPlayer(player: selectedPlayer, url: url)
                 self.dismiss(animated: true, completion: nil)
-                
-                let downloadManager = DownloadManager.shared
-                let title = self.animeDetailsViewController?.animeTitle ?? "Anime Download"
-                
-                downloadManager.startDownload(url: url, title: title, progress: { progress in
-                    DispatchQueue.main.async {
-                        print("Download progress: \(progress * 100)%")
-                    }
-                }) { [weak self] result in
-                    DispatchQueue.main.async {
-                        UserDefaults.standard.set(false, forKey: "activeDownloads")
-                        
-                        switch result {
-                        case .success(let downloadURL):
-                            print("Download completed. File saved at: \(downloadURL)")
-                            self?.animeDetailsViewController?.showAlert(withTitle: "Download Completed!", message: "You can find your download in the Library -> Downloads.")
-                        case .failure(let error):
-                            print("Download failed with error: \(error.localizedDescription)")
-                            self?.animeDetailsViewController?.showAlert(withTitle: "Download Failed", message: error.localizedDescription)
-                        }
-                    }
-                }
             } else {
                 self.playOrCastVideo(url: url)
             }
         }
     }
 
+    private func handleDownload(url: URL) {
+        UserDefaults.standard.set(false, forKey: "isToDownload")
+        UserDefaults.standard.set(true, forKey: "activeDownloads")
+        
+        self.dismiss(animated: true, completion: nil)
+        
+        let downloadManager = DownloadManager.shared
+        let title = self.animeDetailsViewController?.animeTitle ?? "Anime Download"
+        
+        downloadManager.startDownload(url: url, title: title, progress: { progress in
+            DispatchQueue.main.async {
+                print("Download progress: \(progress * 100)%")
+            }
+        }) { [weak self] result in
+            DispatchQueue.main.async {
+                UserDefaults.standard.set(false, forKey: "activeDownloads")
+                
+                switch result {
+                case .success(let downloadURL):
+                    print("Download completed. File saved at: \(downloadURL)")
+                    self?.animeDetailsViewController?.showAlert(withTitle: "Download Completed!", message: "You can find your download in the Library -> Downloads.")
+                case .failure(let error):
+                    print("Download failed with error: \(error.localizedDescription)")
+                    self?.animeDetailsViewController?.showAlert(withTitle: "Download Failed", message: error.localizedDescription)
+                }
+            }
+        }
+    }
+    
     private func playOrCastVideo(url: URL) {
         if GCKCastContext.sharedInstance().sessionManager.currentCastSession != nil {
             self.castVideoToGoogleCast(videoURL: url)
@@ -275,9 +244,16 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
             }
             
             let builder = GCKMediaInformationBuilder(contentURL: videoURL)
-            builder.streamType = .buffered
             builder.contentType = "video/mp4"
             builder.metadata = metadata
+            
+            let streamTypeString = UserDefaults.standard.string(forKey: "castStreamingType") ?? "buffered"
+            switch streamTypeString {
+            case "live":
+                builder.streamType = .live
+            default:
+                builder.streamType = .buffered
+            }
             
             let mediaInformation = builder.build()
             

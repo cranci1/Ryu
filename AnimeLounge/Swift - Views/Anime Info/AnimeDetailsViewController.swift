@@ -562,22 +562,25 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             let builder = GCKMediaInformationBuilder(contentURL: videoURL)
             
             let contentType: String
-            let streamType: GCKMediaStreamType
             
             if videoURL.absoluteString.contains(".m3u8") {
                 contentType = "application/x-mpegurl"
-                streamType = .buffered
             } else if videoURL.absoluteString.contains(".mp4") {
                 contentType = "video/mp4"
-                streamType = .buffered
             } else {
                 contentType = "video/mp4"
-                streamType = .buffered
             }
             
             builder.contentType = contentType
-            builder.streamType = streamType
             builder.metadata = metadata
+            
+            let streamTypeString = UserDefaults.standard.string(forKey: "castStreamingType") ?? "buffered"
+            switch streamTypeString {
+            case "live":
+                builder.streamType = .live
+            default:
+                builder.streamType = .buffered
+            }
             
             let mediaInformation = builder.build()
             
@@ -813,7 +816,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         }
     }
     
-    private func openInExternalPlayer(player: String, url: URL) {
+    func openInExternalPlayer(player: String, url: URL) {
         var scheme: String
         switch player {
         case "Infuse":
