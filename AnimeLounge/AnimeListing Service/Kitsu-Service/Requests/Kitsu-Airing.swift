@@ -9,7 +9,6 @@ import Alamofire
 import Foundation
 
 class KitsuServiceAiringAnime {
-    
     func fetchAiringAnime(completion: @escaping ([Anime]?) -> Void) {
         let url = "https://kitsu.io/api/edge/anime?filter[status]=current"
         
@@ -26,17 +25,21 @@ class KitsuServiceAiringAnime {
                                   let attributes = item["attributes"] as? [String: Any],
                                   let titles = attributes["titles"] as? [String: String],
                                   let posterImage = attributes["posterImage"] as? [String: Any],
-                                  let originalImageUrl = posterImage["original"] as? String else {
+                                  let originalImageUrl = posterImage["original"] as? String,
+                                  let startDate = attributes["startDate"] as? String else {
                                 return nil
                             }
                             
                             let title = titles["en"] ?? titles["en_jp"] ?? "Title Not Available"
+                            let episodes = attributes["episodeCount"] as? Int
+                            let description = attributes["synopsis"] as? String
+                            
                             let anime = Anime(
                                 id: Int(id) ?? 0,
                                 title: Title(romaji: title, english: title, native: title),
                                 coverImage: CoverImage(large: originalImageUrl),
-                                episodes: nil,
-                                description: attributes["synopsis"] as? String,
+                                episodes: episodes,
+                                description: description,
                                 airingAt: nil
                             )
                             return anime

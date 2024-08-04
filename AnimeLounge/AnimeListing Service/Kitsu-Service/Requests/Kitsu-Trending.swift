@@ -9,7 +9,6 @@ import Alamofire
 import Foundation
 
 class KitsuServiceTrendingAnime {
-    
     func fetchTrendingAnime(completion: @escaping ([Anime]?) -> Void) {
         let url = "https://kitsu.io/api/edge/trending/anime?page"
         

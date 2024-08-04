@@ -9,7 +9,6 @@ import Alamofire
 import Foundation
 
 class JikanServiceSeasonalAnime {
-    
     func fetchSeasonalAnime(completion: @escaping ([Anime]?) -> Void) {
         let url = "https://api.jikan.moe/v4/seasons/now"
         

@@ -13,7 +13,7 @@
         <scene sceneID="PN2-dX-KkT">
             <objects>
                 <tableViewController id="pc2-lO-9Ci" customClass="SettingsViewController" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="pHY-2n-1Hq">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="pHY-2n-1Hq">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <sections>
@@ -118,7 +118,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="15o-5a-dFg" kind="show" id="H30-nd-jhA"/>
+                                            <segue destination="15o-5a-dFg" kind="show" id="cvq-qH-DJP"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="2PM-oB-io7">
@@ -141,7 +141,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="tJk-lL-JpK" kind="show" id="6gI-a3-V3L"/>
+                                            <segue destination="tJk-lL-JpK" kind="show" id="ZGx-Wo-jps"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>

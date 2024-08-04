@@ -317,11 +317,8 @@ extension HomeViewController: UICollectionViewDelegate {
     }
     
     private func navigateToAnimeDetail(for anime: Anime) {
-        let storyboard = UIStoryboard(name: "AnilistAnimeInformation", bundle: nil)
-        if let animeDetailVC = storyboard.instantiateViewController(withIdentifier: "AnimeInformation") as? AnimeInformation {
-            animeDetailVC.animeID = anime.id
-            navigationController?.pushViewController(animeDetailVC, animated: true)
-        }
+        let animeInfoVC = AnimeInformationViewController(animeID: anime.id)
+        navigationController?.pushViewController(animeInfoVC, animated: true)
     }
     
     private func navigateToAnimeDetail(title: String, imageUrl: String, href: String) {
@@ -367,14 +364,7 @@ extension HomeViewController: UIContextMenuInteractionDelegate {
     
     private func previewViewController(for indexPath: IndexPath) -> UIViewController? {
         guard let anime = animeForIndexPath(indexPath) else { return nil }
-        
-        let storyboard = UIStoryboard(name: "AnilistAnimeInformation", bundle: nil)
-        guard let animeDetailVC = storyboard.instantiateViewController(withIdentifier: "AnimeInformation") as? AnimeInformation else {
-            return nil
-        }
-        
-        animeDetailVC.animeID = anime.id
-        return animeDetailVC
+        return AnimeInformationViewController(animeID: anime.id)
     }
     
     private func openAnimeDetail(for indexPath: IndexPath) {

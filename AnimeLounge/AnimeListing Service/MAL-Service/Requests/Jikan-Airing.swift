@@ -1,5 +1,5 @@
 //
-//  Jakin-Trending.swift
+//  Jakin-Airing.swift
 //  AnimeLounge
 //
 //  Created by Francesco on 27/07/24.
@@ -8,10 +8,9 @@
 import Alamofire
 import Foundation
 
-class JikanServiceTrendingAnime {
-    
-    func fetchTrendingAnime(completion: @escaping ([Anime]?) -> Void) {
-        let url = "https://api.jikan.moe/v4/top/anime?filter=airing"
+class JikanServiceAiringAnime {
+    func fetchAiringAnime(completion: @escaping ([Anime]?) -> Void) {
+        let url = "https://api.jikan.moe/v4/schedules"
         
         AF.request(url)
             .validate()
@@ -21,12 +20,13 @@ class JikanServiceTrendingAnime {
                     if let json = value as? [String: Any],
                        let data = json["data"] as? [[String: Any]] {
                         
-                        let trendingAnime: [Anime] = data.compactMap { item in
+                        let airingAnime: [Anime] = data.compactMap { item in
                             guard let id = item["mal_id"] as? Int,
                                   let title = item["title"] as? String,
                                   let images = item["images"] as? [String: Any],
                                   let jpg = images["jpg"] as? [String: Any],
-                                  let imageUrl = jpg["large_image_url"] as? String else {
+                                  let imageUrl = jpg["large_image_url"] as? String,
+                                  let description = item["synopsis"] as? String else {
                                 return nil
                             }
                             
@@ -35,19 +35,19 @@ class JikanServiceTrendingAnime {
                                 title: Title(romaji: title, english: title, native: title),
                                 coverImage: CoverImage(large: imageUrl),
                                 episodes: nil,
-                                description: nil,
+                                description: description,
                                 airingAt: nil
                             )
                         }
                         
-                        completion(trendingAnime)
+                        completion(airingAnime)
                     } else {
                         print("Error parsing JSON or missing expected fields")
                         completion(nil)
                     }
                     
                 case .failure(let error):
-                    print("Error fetching trending anime: \(error.localizedDescription)")
+                    print("Error fetching airing anime: \(error.localizedDescription)")
                     completion(nil)
                 }
             }

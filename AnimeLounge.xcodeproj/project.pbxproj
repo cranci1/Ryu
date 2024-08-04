@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		130238EE2C5F811800260BF8 /* Jikan-Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130238ED2C5F811800260BF8 /* Jikan-Info.swift */; };
+		130238F02C5F814000260BF8 /* AniList-Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130238EF2C5F814000260BF8 /* AniList-Info.swift */; };
+		130238F22C5F817600260BF8 /* Kitsu-Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130238F12C5F817600260BF8 /* Kitsu-Info.swift */; };
 		130645DF2C28A27E004642B3 /* Sources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130645DE2C28A27E004642B3 /* Sources.swift */; };
 		130645E12C295264004642B3 /* SettingsViewAbout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130645E02C295264004642B3 /* SettingsViewAbout.swift */; };
 		1308F17A2C328571004348A9 /* BackupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1308F1792C328571004348A9 /* BackupManager.swift */; };
@@ -45,9 +48,9 @@
 		139FD9CF2C55414200B07996 /* Kitsu-Airing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139FD9CE2C55414200B07996 /* Kitsu-Airing.swift */; };
 		139FD9D12C55419300B07996 /* Kitsu-Sesonal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139FD9D02C55419300B07996 /* Kitsu-Sesonal.swift */; };
 		139FD9D32C55422400B07996 /* SettingsAnimeListing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139FD9D22C55422400B07996 /* SettingsAnimeListing.swift */; };
-		139FD9DB2C55553B00B07996 /* Jakin-Airing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139FD9DA2C55553B00B07996 /* Jakin-Airing.swift */; };
-		139FD9DD2C55575800B07996 /* Jakin-Trending.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139FD9DC2C55575800B07996 /* Jakin-Trending.swift */; };
-		139FD9DF2C55576B00B07996 /* Jakin-Sesonal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139FD9DE2C55576B00B07996 /* Jakin-Sesonal.swift */; };
+		139FD9DB2C55553B00B07996 /* Jikan-Airing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139FD9DA2C55553B00B07996 /* Jikan-Airing.swift */; };
+		139FD9DD2C55575800B07996 /* Jikan-Trending.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139FD9DC2C55575800B07996 /* Jikan-Trending.swift */; };
+		139FD9DF2C55576B00B07996 /* Jikan-Sesonal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139FD9DE2C55576B00B07996 /* Jikan-Sesonal.swift */; };
 		13AA298F2C245EDD00C8CA8E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AA298E2C245EDD00C8CA8E /* AppDelegate.swift */; };
 		13AA29912C245EDD00C8CA8E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AA29902C245EDD00C8CA8E /* SceneDelegate.swift */; };
 		13AA29982C245EDF00C8CA8E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13AA29972C245EDF00C8CA8E /* Assets.xcassets */; };
@@ -72,6 +75,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		130238ED2C5F811800260BF8 /* Jikan-Info.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Jikan-Info.swift"; sourceTree = "<group>"; };
+		130238EF2C5F814000260BF8 /* AniList-Info.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AniList-Info.swift"; sourceTree = "<group>"; };
+		130238F12C5F817600260BF8 /* Kitsu-Info.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Kitsu-Info.swift"; sourceTree = "<group>"; };
 		130645DE2C28A27E004642B3 /* Sources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sources.swift; sourceTree = "<group>"; };
 		130645E02C295264004642B3 /* SettingsViewAbout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewAbout.swift; sourceTree = "<group>"; };
 		1308F1792C328571004348A9 /* BackupManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupManager.swift; sourceTree = "<group>"; };
@@ -107,9 +113,9 @@
 		139FD9CE2C55414200B07996 /* Kitsu-Airing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Kitsu-Airing.swift"; sourceTree = "<group>"; };
 		139FD9D02C55419300B07996 /* Kitsu-Sesonal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Kitsu-Sesonal.swift"; sourceTree = "<group>"; };
 		139FD9D22C55422400B07996 /* SettingsAnimeListing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAnimeListing.swift; sourceTree = "<group>"; };
-		139FD9DA2C55553B00B07996 /* Jakin-Airing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Jakin-Airing.swift"; sourceTree = "<group>"; };
-		139FD9DC2C55575800B07996 /* Jakin-Trending.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Jakin-Trending.swift"; sourceTree = "<group>"; };
-		139FD9DE2C55576B00B07996 /* Jakin-Sesonal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Jakin-Sesonal.swift"; sourceTree = "<group>"; };
+		139FD9DA2C55553B00B07996 /* Jikan-Airing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Jikan-Airing.swift"; sourceTree = "<group>"; };
+		139FD9DC2C55575800B07996 /* Jikan-Trending.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Jikan-Trending.swift"; sourceTree = "<group>"; };
+		139FD9DE2C55576B00B07996 /* Jikan-Sesonal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Jikan-Sesonal.swift"; sourceTree = "<group>"; };
 		13AA298B2C245EDD00C8CA8E /* AnimeLounge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnimeLounge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13AA298E2C245EDD00C8CA8E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		13AA29902C245EDD00C8CA8E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -302,6 +308,7 @@
 			isa = PBXGroup;
 			children = (
 				139FD9CB2C553FCD00B07996 /* Requests */,
+				130238F12C5F817600260BF8 /* Kitsu-Info.swift */,
 			);
 			path = "Kitsu-Service";
 			sourceTree = "<group>";
@@ -320,6 +327,7 @@
 			isa = PBXGroup;
 			children = (
 				139FD9D52C55484200B07996 /* Requests */,
+				130238ED2C5F811800260BF8 /* Jikan-Info.swift */,
 			);
 			path = "MAL-Service";
 			sourceTree = "<group>";
@@ -327,9 +335,9 @@
 		139FD9D52C55484200B07996 /* Requests */ = {
 			isa = PBXGroup;
 			children = (
-				139FD9DA2C55553B00B07996 /* Jakin-Airing.swift */,
-				139FD9DC2C55575800B07996 /* Jakin-Trending.swift */,
-				139FD9DE2C55576B00B07996 /* Jakin-Sesonal.swift */,
+				139FD9DA2C55553B00B07996 /* Jikan-Airing.swift */,
+				139FD9DC2C55575800B07996 /* Jikan-Trending.swift */,
+				139FD9DE2C55576B00B07996 /* Jikan-Sesonal.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -408,6 +416,7 @@
 			isa = PBXGroup;
 			children = (
 				139B16482C270E07007E3477 /* Requests */,
+				130238EF2C5F814000260BF8 /* AniList-Info.swift */,
 				139B16272C26F4A3007E3477 /* AnimeInformation.swift */,
 			);
 			path = "Anilist-Services";
@@ -564,7 +573,9 @@
 				139DAEA42C5BEC41006CCCA8 /* ActiveDownloadsViewController.swift in Sources */,
 				139B16282C26F4A3007E3477 /* AnimeInformation.swift in Sources */,
 				1354A6A62C5E0A380018317D /* SettingsViewSources.swift in Sources */,
+				130238F22C5F817600260BF8 /* Kitsu-Info.swift in Sources */,
 				135F85292C382ECE0024954D /* SourceMenu.swift in Sources */,
+				130238F02C5F814000260BF8 /* AniList-Info.swift in Sources */,
 				13CD3A6D2C26028500B046F9 /* AniList-Sesonal.swift in Sources */,
 				139FD9CF2C55414200B07996 /* Kitsu-Airing.swift in Sources */,
 				139B16472C270D41007E3477 /* AniList-Airing.swift in Sources */,
@@ -576,10 +587,10 @@
 				13CD3A6B2C2601E800B046F9 /* AniList-Trending.swift in Sources */,
 				13AE19DE2C2BF52A0012633D /* FavoriteManager.swift in Sources */,
 				13AE19E12C2BF71F0012633D /* FavoriteCell-Swift.swift in Sources */,
-				139FD9DB2C55553B00B07996 /* Jakin-Airing.swift in Sources */,
+				139FD9DB2C55553B00B07996 /* Jikan-Airing.swift in Sources */,
 				13D486412C3535FE003ED471 /* ExternalVideoPlayer.swift in Sources */,
 				131C06D32C4661D6004ED5D9 /* DownloadCell.swift in Sources */,
-				139FD9DF2C55576B00B07996 /* Jakin-Sesonal.swift in Sources */,
+				139FD9DF2C55576B00B07996 /* Jikan-Sesonal.swift in Sources */,
 				139DAEA22C5BEC2C006CCCA8 /* ProgressDownloadCell.swift in Sources */,
 				13E4464E2C25C38A002B14E8 /* HomeViewController.swift in Sources */,
 				139B16502C272A55007E3477 /* SettingsViewController.swift in Sources */,
@@ -594,7 +605,8 @@
 				139FD9D32C55422400B07996 /* SettingsAnimeListing.swift in Sources */,
 				13AE19DC2C2AF1400012633D /* AnimeDetailService.swift in Sources */,
 				130645DF2C28A27E004642B3 /* Sources.swift in Sources */,
-				139FD9DD2C55575800B07996 /* Jakin-Trending.swift in Sources */,
+				130238EE2C5F811800260BF8 /* Jikan-Info.swift in Sources */,
+				139FD9DD2C55575800B07996 /* Jikan-Trending.swift in Sources */,
 				13E446542C25CBCA002B14E8 /* SlimmAnimeCell-Swift.swift in Sources */,
 				139FD9CD2C553FDD00B07996 /* Kitsu-Trending.swift in Sources */,
 				139FD9D12C55419300B07996 /* Kitsu-Sesonal.swift in Sources */,
