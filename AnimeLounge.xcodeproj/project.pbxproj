@@ -385,9 +385,9 @@
 		13F875B62C60DE99004C1978 /* Player */ = {
 			isa = PBXGroup;
 			children = (
+				13F875B92C60DE99004C1978 /* Source Specific */,
 				13F875B72C60DE99004C1978 /* VideoPlayerType.swift */,
 				13F875B82C60DE99004C1978 /* LandScapePlayer.swift */,
-				13F875B92C60DE99004C1978 /* Source Specific */,
 			);
 			path = Player;
 			sourceTree = "<group>";

@@ -271,6 +271,7 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
             print("Max retries reached. Unable to find video source.")
             DispatchQueue.main.async {
                 self.activityIndicator?.stopAnimating()
+                self.dismiss(animated: true)
             }
         }
     }

@@ -7,114 +7,79 @@
 
 import UIKit
 import Foundation
-import UserNotifications
 
-class MP4Downloader: NSObject, URLSessionDownloadDelegate {
-    private var downloadTask: URLSessionDownloadTask?
-    private var backgroundSession: URLSession!
-    private let downloadURL: URL
-    private var progressHandler: ((Float) -> Void)?
-    private var completionHandler: ((Result<Void, Error>) -> Void)?
-    private var sessionCompletionHandler: (() -> Void)?
+class MP4Downloader: NSObject, URLSessionDelegate, URLSessionDownloadDelegate {
+    private var progressHandler: ((Double) -> Void)?
+    private var completionHandler: ((Result<URL, Error>) -> Void)?
+    private var backgroundTask: UIBackgroundTaskIdentifier = .invalid
     
-    init(url: URL) {
-        self.downloadURL = url
-        super.init()
-        
-        let config = URLSessionConfiguration.background(withIdentifier: "me.cranci.animelounge.background")
-        backgroundSession = URLSession(configuration: config, delegate: self, delegateQueue: nil)
+    static func downloadFile(from urlString: String, completion: @escaping (Result<URL, Error>) -> Void, onProgress: @escaping (Double) -> Void) {
+        let downloader = MP4Downloader()
+        downloader.progressHandler = onProgress
+        downloader.completionHandler = completion
+        downloader.startDownload(from: urlString)
     }
     
-    func startDownload(progress: @escaping (Float) -> Void, completion: @escaping (Result<Void, Error>) -> Void) {
-        self.progressHandler = progress
-        self.completionHandler = completion
-        downloadTask = backgroundSession.downloadTask(with: downloadURL)
-        downloadTask?.resume()
-    }
-    
-    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
-        guard let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
-            print("Could not access app's documents directory")
-            completionHandler?(.failure(NSError(domain: "MP4Downloader", code: 1, userInfo: [NSLocalizedDescriptionKey: "Could not access app's documents directory"])))
+    private func startDownload(from urlString: String) {
+        guard let url = URL(string: urlString) else {
+            completionHandler?(.failure(NSError(domain: "Invalid URL", code: 0, userInfo: nil)))
             return
         }
         
-        let downloadsPath = documentsPath.appendingPathComponent("Downloads")
-        
-        do {
-            if !FileManager.default.fileExists(atPath: downloadsPath.path) {
-                try FileManager.default.createDirectory(at: downloadsPath, withIntermediateDirectories: true, attributes: nil)
-            }
-            
-            let destinationURL = downloadsPath.appendingPathComponent(downloadTask.originalRequest?.url?.lastPathComponent ?? "downloadedAnimeVideo.mp4")
-            
-            if FileManager.default.fileExists(atPath: destinationURL.path) {
-                try FileManager.default.removeItem(at: destinationURL)
-            }
-            try FileManager.default.moveItem(at: location, to: destinationURL)
-            print("File saved successfully at: \(destinationURL.path)")
-            sendSuccessNotification()
-            completionHandler?(.success(()))
-        } catch {
-            print("Error saving file: \(error.localizedDescription)")
-            sendErrorNotification(error: error)
-            completionHandler?(.failure(error))
+        backgroundTask = UIApplication.shared.beginBackgroundTask {
+            UIApplication.shared.endBackgroundTask(self.backgroundTask)
+            self.backgroundTask = .invalid
         }
+        
+        let sessionConfig = URLSessionConfiguration.background(withIdentifier: "me.cranci.animelounge.background")
+        sessionConfig.isDiscretionary = true
+        sessionConfig.sessionSendsLaunchEvents = true
+        let session = URLSession(configuration: sessionConfig, delegate: self, delegateQueue: nil)
+        
+        let downloadTask = session.downloadTask(with: url)
+        downloadTask.resume()
     }
     
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
-        let progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite)
+        let progress = totalBytesExpectedToWrite > 0 ? Double(totalBytesWritten) / Double(totalBytesExpectedToWrite) : 0
         DispatchQueue.main.async {
             self.progressHandler?(progress)
         }
     }
     
-    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        if let error = error {
-            print("Download failed with error: \(error.localizedDescription)")
-            sendErrorNotification(error: error)
-            completionHandler?(.failure(error))
-        } else {
-            print("Download completed successfully")
-        }
-    }
-    
-    func sendSuccessNotification() {
-        let content = UNMutableNotificationContent()
-        content.title = "Download Complete"
-        content.body = "Your Episode has been downloaded. You can find it in Library -> Downloads"
-        content.sound = .default
+    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
+        let documentsDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let destinationFileUrl = documentsDirectoryURL.appendingPathComponent("Downloads").appendingPathComponent(downloadTask.response?.suggestedFilename ?? "file")
         
-        sendNotification(content: content)
-    }
-    
-    func sendErrorNotification(error: Error) {
-        let content = UNMutableNotificationContent()
-        content.title = "Download Failed"
-        content.body = "An error occurred: \(error.localizedDescription)"
-        content.sound = .default
-        
-        sendNotification(content: content)
-    }
-    
-    private func sendNotification(content: UNMutableNotificationContent) {
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-        
-        UNUserNotificationCenter.current().add(request) { error in
-            if let error = error {
-                print("Notification error: \(error.localizedDescription)")
+        do {
+            if !FileManager.default.fileExists(atPath: destinationFileUrl.deletingLastPathComponent().path) {
+                try FileManager.default.createDirectory(at: destinationFileUrl.deletingLastPathComponent(), withIntermediateDirectories: true, attributes: nil)
+            }
+            if FileManager.default.fileExists(atPath: destinationFileUrl.path) {
+                try FileManager.default.removeItem(at: destinationFileUrl)
+            }
+            try FileManager.default.copyItem(at: location, to: destinationFileUrl)
+            DispatchQueue.main.async {
+                self.completionHandler?(.success(destinationFileUrl))
+            }
+        } catch {
+            DispatchQueue.main.async {
+                self.completionHandler?(.failure(error))
             }
         }
+        
+        UIApplication.shared.endBackgroundTask(backgroundTask)
+        backgroundTask = .invalid
     }
     
-    func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
-        self.sessionCompletionHandler = completionHandler
-    }
-    
-    func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
-        if let completionHandler = sessionCompletionHandler {
-            completionHandler()
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        if let error = error {
+            DispatchQueue.main.async {
+                self.completionHandler?(.failure(error))
+            }
         }
+        
+        UIApplication.shared.endBackgroundTask(backgroundTask)
+        backgroundTask = .invalid
     }
 }
