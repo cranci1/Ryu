@@ -48,13 +48,18 @@ class MP4Downloader: NSObject, URLSessionDelegate, URLSessionDownloadDelegate {
     }
     
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
+        guard let response = downloadTask.response,
+              let url = response.url else {
+            DispatchQueue.main.async {
+                self.completionHandler?(.failure(NSError(domain: "Invalid response", code: 0, userInfo: nil)))
+            }
+            return
+        }
+        
         let documentsDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let destinationFileUrl = documentsDirectoryURL.appendingPathComponent("Downloads").appendingPathComponent(downloadTask.response?.suggestedFilename ?? "episode.mp4")
+        let destinationFileUrl = documentsDirectoryURL.appendingPathComponent(url.lastPathComponent)
         
         do {
-            if !FileManager.default.fileExists(atPath: destinationFileUrl.deletingLastPathComponent().path) {
-                try FileManager.default.createDirectory(at: destinationFileUrl.deletingLastPathComponent(), withIntermediateDirectories: true, attributes: nil)
-            }
             if FileManager.default.fileExists(atPath: destinationFileUrl.path) {
                 try FileManager.default.removeItem(at: destinationFileUrl)
             }
