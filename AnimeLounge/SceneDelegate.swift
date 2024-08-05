@@ -2,7 +2,7 @@
 //  SceneDelegate.swift
 //  AnimeLounge
 //
-//  Created by Francesco on 05/08/24.
+//  Created by Francesco on 20/06/24.
 //
 
 import UIKit
@@ -49,4 +49,3 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
 }
-
