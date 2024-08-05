@@ -31,7 +31,7 @@ class DownloadManager {
             }
             
             let fileURLs = try fileManager.contentsOfDirectory(at: downloadsURL, includingPropertiesForKeys: nil)
-            let downloadURLs = fileURLs.filter { $0.pathExtension.lowercased() == "mpeg" || $0.pathExtension.lowercased() == "mp4" }
+            let downloadURLs = fileURLs.filter { $0.pathExtension.lowercased() == "mp4" }
             
             NotificationCenter.default.post(name: .downloadListUpdated, object: nil)
             

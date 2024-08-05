@@ -8,18 +8,23 @@
 import UIKit
 
 class ActiveDownloadsViewController: UIViewController {
-
-    private let tableView: UITableView = {
-        let table = UITableView(frame: .zero, style: .insetGrouped)
-        table.backgroundColor = .secondarySystemBackground
-        table.translatesAutoresizingMaskIntoConstraints = false
-        return table
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
     }()
-    
-    private var downloads: [(title: String, progress: Float)] = []
+
+    private let stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 16
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+
     private let emptyStateLabel: UILabel = {
         let label = UILabel()
-        label.text = "No active downloads, you can start one if you click the button on the right of each episode."
+        label.text = "No active downloads. You can start one by clicking the download button next to each episode."
         label.textAlignment = .center
         label.numberOfLines = 0
         label.textColor = .secondaryLabel
@@ -27,91 +32,80 @@ class ActiveDownloadsViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
+    private var downloads: [(title: String, progress: Float)] = []
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .secondarySystemBackground
-        
-        setupTableView()
-        setupEmptyStateLabel()
+        setupViews()
         loadDownloads()
         startProgressUpdateTimer()
     }
-    
-    private func setupTableView() {
-        view.addSubview(tableView)
-        tableView.backgroundColor = .secondarySystemBackground
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.register(ProgressDownloadCell.self, forCellReuseIdentifier: "ProgressDownloadCell")
-        
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-    }
-    
-    private func setupEmptyStateLabel() {
+
+    private func setupViews() {
+        view.addSubview(scrollView)
+        scrollView.addSubview(stackView)
         view.addSubview(emptyStateLabel)
+
         NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+
+            stackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 16),
+            stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16),
+            stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
+            stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -16),
+            stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -32),
+
             emptyStateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             emptyStateLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            emptyStateLabel.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: -150)
+            emptyStateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
+            emptyStateLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32)
         ])
     }
-    
+
     private func loadDownloads() {
         downloads = DownloadManager.shared.getActiveDownloads()
-        tableView.reloadData()
+        updateDownloadViews()
+    }
+
+    private func updateDownloadViews() {
+        stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+
+        for download in downloads {
+            let downloadView = ProgressDownloadCell()
+            downloadView.configure(with: download.title, progress: download.progress)
+            stackView.addArrangedSubview(downloadView)
+        }
+
         updateEmptyState()
     }
-    
+
     private func updateEmptyState() {
         emptyStateLabel.isHidden = !downloads.isEmpty
-        tableView.isHidden = downloads.isEmpty
+        scrollView.isHidden = downloads.isEmpty
     }
-    
+
     private func startProgressUpdateTimer() {
-        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
             self?.updateProgress()
         }
     }
-    
+
     private func updateProgress() {
         downloads = DownloadManager.shared.getActiveDownloads()
+        
         for (index, download) in downloads.enumerated() {
-            if let cell = tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? ProgressDownloadCell {
-                let progressText = String(format: "%.0f%%", download.progress * 100)
-                cell.configure(with: download.title, progress: download.progress, progressText: progressText)
+            if let downloadView = stackView.arrangedSubviews[index] as? ProgressDownloadCell {
+                downloadView.updateProgress(download.progress)
             }
         }
-    }
-}
 
-extension ActiveDownloadsViewController: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return downloads.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ProgressDownloadCell", for: indexPath) as? ProgressDownloadCell else {
-            return UITableViewCell()
+        if downloads.count != stackView.arrangedSubviews.count {
+            updateDownloadViews()
         }
-        
-        let download = downloads[indexPath.row]
-        let progressText = String(format: "%.0f%%", download.progress * 100)
-        cell.configure(with: download.title, progress: download.progress, progressText: progressText)
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80.0
     }
 }

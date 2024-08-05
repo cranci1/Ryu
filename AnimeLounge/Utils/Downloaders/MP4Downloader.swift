@@ -49,7 +49,7 @@ class MP4Downloader: NSObject, URLSessionDelegate, URLSessionDownloadDelegate {
     
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
         let documentsDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let destinationFileUrl = documentsDirectoryURL.appendingPathComponent("Downloads").appendingPathComponent(downloadTask.response?.suggestedFilename ?? "file")
+        let destinationFileUrl = documentsDirectoryURL.appendingPathComponent("Downloads").appendingPathComponent(downloadTask.response?.suggestedFilename ?? "episode.mp4")
         
         do {
             if !FileManager.default.fileExists(atPath: destinationFileUrl.deletingLastPathComponent().path) {
