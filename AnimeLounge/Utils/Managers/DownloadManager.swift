@@ -45,7 +45,7 @@ class DownloadManager {
     func startDownload(url: URL, title: String, progress: @escaping (Float) -> Void, completion: @escaping (Result<URL, Error>) -> Void) {
         activeDownloads[url.absoluteString] = 0.0
         
-        FileDownloader.downloadFile(from: url.absoluteString, progress: { [weak self] progressValue in
+        MP4Downloader.downloadFile(from: url.absoluteString, progressHandler: { [weak self] progressValue in
             DispatchQueue.main.async {
                 self?.activeDownloads[url.absoluteString] = Float(progressValue)
                 progress(Float(progressValue))

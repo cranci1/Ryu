@@ -5,107 +5,35 @@
 //  Created by Francesco on 17/07/24.
 //
 
-import UIKit
 import Foundation
 
-class MP4Downloader: NSObject, URLSessionDelegate, URLSessionDownloadDelegate {
-    private var progressHandler: ((Double) -> Void)?
-    private var completionHandler: ((Result<URL, Error>) -> Void)?
-    private var backgroundTask: UIBackgroundTaskIdentifier = .invalid
-    
-    static func downloadFile(from urlString: String, completion: @escaping (Result<URL, Error>) -> Void, onProgress: @escaping (Double) -> Void) {
-        let downloader = MP4Downloader()
-        downloader.progressHandler = onProgress
-        downloader.completionHandler = completion
-        downloader.startDownload(from: urlString)
-    }
-    
-    private func startDownload(from urlString: String) {
-        guard let url = URL(string: urlString) else {
-            completionHandler?(.failure(NSError(domain: "Invalid URL", code: 0, userInfo: nil)))
-            return
-        }
-        
-        backgroundTask = UIApplication.shared.beginBackgroundTask {
-            UIApplication.shared.endBackgroundTask(self.backgroundTask)
-            self.backgroundTask = .invalid
-        }
-        
-        let sessionConfig = URLSessionConfiguration.background(withIdentifier: "me.cranci.animelounge.background")
-        sessionConfig.isDiscretionary = true
-        sessionConfig.sessionSendsLaunchEvents = true
-        let session = URLSession(configuration: sessionConfig, delegate: self, delegateQueue: nil)
-        
-        let downloadTask = session.downloadTask(with: url)
-        downloadTask.resume()
-    }
-    
-    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
-        let progress = totalBytesExpectedToWrite > 0 ? Double(totalBytesWritten) / Double(totalBytesExpectedToWrite) : 0
-        DispatchQueue.main.async {
-            self.progressHandler?(progress)
-        }
-    }
-    
-    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
-        guard let response = downloadTask.response,
-              let url = response.url else {
-            DispatchQueue.main.async {
-                self.completionHandler?(.failure(NSError(domain: "Invalid response", code: 0, userInfo: nil)))
-            }
-            return
-        }
-        
-        let documentsDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let destinationFileUrl = documentsDirectoryURL.appendingPathComponent(url.lastPathComponent)
-        
-        do {
-            if FileManager.default.fileExists(atPath: destinationFileUrl.path) {
-                try FileManager.default.removeItem(at: destinationFileUrl)
-            }
-            try FileManager.default.copyItem(at: location, to: destinationFileUrl)
-            DispatchQueue.main.async {
-                self.completionHandler?(.success(destinationFileUrl))
-            }
-        } catch {
-            DispatchQueue.main.async {
-                self.completionHandler?(.failure(error))
-            }
-        }
-        
-        UIApplication.shared.endBackgroundTask(backgroundTask)
-        backgroundTask = .invalid
-    }
-    
-    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        if let error = error {
-            DispatchQueue.main.async {
-                self.completionHandler?(.failure(error))
-            }
-        }
-        
-        UIApplication.shared.endBackgroundTask(backgroundTask)
-        backgroundTask = .invalid
-    }
-}
-
-
-class FileDownloader {
-    
-    static func downloadFile(from urlString: String, progress: @escaping (Float) -> Void, completion: @escaping (Result<URL, Error>) -> Void) {
+class MP4Downloader {
+    static func downloadFile(from urlString: String, progressHandler: @escaping (Float) -> Void, completion: @escaping (Result<URL, Error>) -> Void) {
         guard let url = URL(string: urlString) else {
             completion(.failure(NSError(domain: "Invalid URL", code: 0, userInfo: nil)))
             return
         }
         
-        let task = URLSession.shared.downloadTask(with: url) { (tempLocalUrl, response, error) in
+        let configuration = URLSessionConfiguration.default
+        configuration.waitsForConnectivity = true
+        configuration.timeoutIntervalForResource = 300 // 5 minutes timeout
+        
+        let session = URLSession(configuration: configuration)
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.cachePolicy = .reloadIgnoringLocalCacheData
+        
+        let task = session.downloadTask(with: request) { (tempLocalUrl, response, error) in
             if let error = error {
                 completion(.failure(error))
                 return
             }
             
-            guard let tempLocalUrl = tempLocalUrl else {
-                completion(.failure(NSError(domain: "No data received", code: 0, userInfo: nil)))
+            guard let tempLocalUrl = tempLocalUrl,
+                  let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
+                completion(.failure(NSError(domain: "Invalid response or no data received", code: 0, userInfo: nil)))
                 return
             }
             
@@ -123,19 +51,19 @@ class FileDownloader {
             }
         }
         
-        // Adding dataTask to track progress
-        let observation = task.progress.observe(\.fractionCompleted) { progressObj, _ in
+        task.resume()
+        
+        let progressObserver = task.progress.observe(\.fractionCompleted, options: [.new]) { progress, _ in
             DispatchQueue.main.async {
-                progress(Float(progressObj.fractionCompleted))
+                progressHandler(Float(progress.fractionCompleted))
             }
         }
         
-        task.resume()
-        
-        // When the task completes, remove the observation
-        task.observe(\.state, options: [.new]) { task, change in
-            if task.state == .completed {
-                observation.invalidate()
+        var stateObserver: NSKeyValueObservation?
+        stateObserver = task.observe(\.state, options: [.new]) { task, _ in
+            if task.state == .completed || task.state == .canceling {
+                progressObserver.invalidate()
+                stateObserver?.invalidate()
             }
         }
     }

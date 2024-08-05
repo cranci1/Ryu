@@ -73,5 +73,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationWillTerminate(_ application: UIApplication) {
         UserDefaults.standard.set(false, forKey: "isToDownload")
+        deleteTemporaryDirectory()
+    }
+    
+    func deleteTemporaryDirectory() {
+        let fileManager = FileManager.default
+        let tmpURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+        
+        do {
+            let tmpContents = try fileManager.contentsOfDirectory(at: tmpURL, includingPropertiesForKeys: nil, options: [])
+            
+            for fileURL in tmpContents {
+                try fileManager.removeItem(at: fileURL)
+            }
+        } catch {
+            print("Error clearing tmp folder: \(error.localizedDescription)")
+        }
     }
 }
