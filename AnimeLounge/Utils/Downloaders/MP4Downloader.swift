@@ -88,3 +88,55 @@ class MP4Downloader: NSObject, URLSessionDelegate, URLSessionDownloadDelegate {
         backgroundTask = .invalid
     }
 }
+
+
+class FileDownloader {
+    
+    static func downloadFile(from urlString: String, progress: @escaping (Float) -> Void, completion: @escaping (Result<URL, Error>) -> Void) {
+        guard let url = URL(string: urlString) else {
+            completion(.failure(NSError(domain: "Invalid URL", code: 0, userInfo: nil)))
+            return
+        }
+        
+        let task = URLSession.shared.downloadTask(with: url) { (tempLocalUrl, response, error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let tempLocalUrl = tempLocalUrl else {
+                completion(.failure(NSError(domain: "No data received", code: 0, userInfo: nil)))
+                return
+            }
+            
+            let documentsDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+            let destinationFileUrl = documentsDirectoryURL.appendingPathComponent(url.lastPathComponent)
+            
+            do {
+                if FileManager.default.fileExists(atPath: destinationFileUrl.path) {
+                    try FileManager.default.removeItem(at: destinationFileUrl)
+                }
+                try FileManager.default.copyItem(at: tempLocalUrl, to: destinationFileUrl)
+                completion(.success(destinationFileUrl))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+        
+        // Adding dataTask to track progress
+        let observation = task.progress.observe(\.fractionCompleted) { progressObj, _ in
+            DispatchQueue.main.async {
+                progress(Float(progressObj.fractionCompleted))
+            }
+        }
+        
+        task.resume()
+        
+        // When the task completes, remove the observation
+        task.observe(\.state, options: [.new]) { task, change in
+            if task.state == .completed {
+                observation.invalidate()
+            }
+        }
+    }
+}
