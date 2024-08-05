@@ -33,9 +33,26 @@ class MP4Downloader: NSObject, URLSessionDownloadDelegate {
     }
     
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
+        guard let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            print("Could not access app's documents directory")
+            completionHandler?(.failure(NSError(domain: "MP4Downloader", code: 1, userInfo: [NSLocalizedDescriptionKey: "Could not access app's documents directory"])))
+            return
+        }
+        
+        let downloadsPath = documentsPath.appendingPathComponent("Downloads")
+        
         do {
-            try createFile(from: location, for: downloadTask)
-            print("File saved successfully")
+            if !FileManager.default.fileExists(atPath: downloadsPath.path) {
+                try FileManager.default.createDirectory(at: downloadsPath, withIntermediateDirectories: true, attributes: nil)
+            }
+            
+            let destinationURL = downloadsPath.appendingPathComponent(downloadTask.originalRequest?.url?.lastPathComponent ?? "downloadedAnimeVideo.mp4")
+            
+            if FileManager.default.fileExists(atPath: destinationURL.path) {
+                try FileManager.default.removeItem(at: destinationURL)
+            }
+            try FileManager.default.moveItem(at: location, to: destinationURL)
+            print("File saved successfully at: \(destinationURL.path)")
             sendSuccessNotification()
             completionHandler?(.success(()))
         } catch {
@@ -43,25 +60,6 @@ class MP4Downloader: NSObject, URLSessionDownloadDelegate {
             sendErrorNotification(error: error)
             completionHandler?(.failure(error))
         }
-    }
-    
-    private func createFile(from location: URL, for task: URLSessionDownloadTask) throws {
-        let fileManager = FileManager.default
-        
-        let documentsURL = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-        let downloadsURL = documentsURL.appendingPathComponent("Downloads", isDirectory: true)
-        
-        try fileManager.createDirectory(at: downloadsURL, withIntermediateDirectories: true, attributes: nil)
-        
-        let destinationURL = downloadsURL.appendingPathComponent(task.originalRequest?.url?.lastPathComponent ?? "downloadedAnimeVideo.mp4")
-        
-        if fileManager.fileExists(atPath: destinationURL.path) {
-            try fileManager.removeItem(at: destinationURL)
-        }
-        
-        try fileManager.moveItem(at: location, to: destinationURL)
-        
-        print("File saved successfully at: \(destinationURL.path)")
     }
     
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
