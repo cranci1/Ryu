@@ -16,7 +16,6 @@ class MP4Downloader {
         
         let configuration = URLSessionConfiguration.default
         configuration.waitsForConnectivity = true
-        configuration.timeoutIntervalForResource = 300 // 5 minutes timeout
         
         let session = URLSession(configuration: configuration)
         
@@ -38,12 +37,10 @@ class MP4Downloader {
             }
             
             let documentsDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-            let destinationFileUrl = documentsDirectoryURL.appendingPathComponent(url.lastPathComponent)
+            let originalFileName = url.lastPathComponent
+            let destinationFileUrl = Self.getUniqueFileURL(for: originalFileName, in: documentsDirectoryURL)
             
             do {
-                if FileManager.default.fileExists(atPath: destinationFileUrl.path) {
-                    try FileManager.default.removeItem(at: destinationFileUrl)
-                }
                 try FileManager.default.copyItem(at: tempLocalUrl, to: destinationFileUrl)
                 completion(.success(destinationFileUrl))
             } catch {
@@ -66,5 +63,22 @@ class MP4Downloader {
                 stateObserver?.invalidate()
             }
         }
+    }
+    
+    private static func getUniqueFileURL(for fileName: String, in directory: URL) -> URL {
+        let fileURL = URL(fileURLWithPath: fileName)
+        let fileNameWithoutExtension = fileURL.deletingPathExtension().lastPathComponent
+        let fileExtension = fileURL.pathExtension
+        var newFileName = fileName
+        var counter = 1
+        
+        var uniqueFileURL = directory.appendingPathComponent(newFileName)
+        while FileManager.default.fileExists(atPath: uniqueFileURL.path) {
+            counter += 1
+            newFileName = "\(fileNameWithoutExtension)-\(counter).\(fileExtension)"
+            uniqueFileURL = directory.appendingPathComponent(newFileName)
+        }
+        
+        return uniqueFileURL
     }
 }

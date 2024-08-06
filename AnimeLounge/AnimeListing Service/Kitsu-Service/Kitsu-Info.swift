@@ -34,10 +34,8 @@ class KitsuService {
                    let animeData = json["data"] as? [String: Any],
                    let attributes = animeData["attributes"] as? [String: Any] {
                     
-                    // Process the animeData to match the expected format
                     var processedData: [String: Any] = [:]
                     
-                    // Title
                     if let titles = attributes["titles"] as? [String: String] {
                         processedData["title"] = [
                             "romaji": titles["en_jp"] ?? "",
@@ -45,24 +43,19 @@ class KitsuService {
                         ]
                     }
                     
-                    // Description
                     processedData["description"] = attributes["synopsis"] as? String
                     
-                    // Cover Image
                     if let posterImage = attributes["posterImage"] as? [String: Any],
                        let originalImageURL = posterImage["original"] as? String {
                         processedData["coverImage"] = ["extraLarge": originalImageURL]
                     }
                     
-                    // Episodes
                     processedData["episodes"] = attributes["episodeCount"] as? Int
                     
-                    // Status
                     if let status = attributes["status"] as? String {
                         processedData["status"] = status.capitalized
                     }
                     
-                    // Start Date
                     if let startDate = attributes["startDate"] as? String {
                         let dateFormatter = DateFormatter()
                         dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -77,7 +70,6 @@ class KitsuService {
                         }
                     }
                     
-                    // Genres (Note: Kitsu API doesn't provide genres in this endpoint, you might need an additional API call)
                     processedData["genres"] = []
                     
                     completion(.success(processedData))

@@ -68,44 +68,58 @@ class ActiveDownloadsViewController: UIViewController {
     }
 
     private func loadDownloads() {
-        downloads = DownloadManager.shared.getActiveDownloads()
+        let activeDownloads = DownloadManager.shared.getActiveDownloads()
+        downloads = activeDownloads.map { (title: $0.key, progress: $0.value) }
         updateDownloadViews()
     }
 
     private func updateDownloadViews() {
-        stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
+            self.stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
 
-        for download in downloads {
-            let downloadView = ProgressDownloadCell()
-            downloadView.configure(with: download.title, progress: download.progress)
-            stackView.addArrangedSubview(downloadView)
+            for download in self.downloads {
+                let downloadView = ProgressDownloadCell()
+                downloadView.configure(with: download.title, progress: download.progress)
+                self.stackView.addArrangedSubview(downloadView)
+            }
+
+            self.updateEmptyState()
         }
-
-        updateEmptyState()
     }
 
     private func updateEmptyState() {
         emptyStateLabel.isHidden = !downloads.isEmpty
         scrollView.isHidden = downloads.isEmpty
     }
+    
+    private func updateProgress() {
+        let activeDownloads = DownloadManager.shared.getActiveDownloads()
+        let newDownloads = activeDownloads.map { (title: $0.key, progress: $0.value) }
+        
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
+            for (index, download) in newDownloads.enumerated() {
+                if index < self.stackView.arrangedSubviews.count,
+                   let downloadView = self.stackView.arrangedSubviews[index] as? ProgressDownloadCell {
+                    downloadView.updateProgress(download.progress)
+                }
+            }
+            
+            if newDownloads.count != self.stackView.arrangedSubviews.count {
+                self.downloads = newDownloads
+                self.updateDownloadViews()
+            } else {
+                self.downloads = newDownloads
+            }
+        }
+    }
 
     private func startProgressUpdateTimer() {
         Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
             self?.updateProgress()
-        }
-    }
-
-    private func updateProgress() {
-        downloads = DownloadManager.shared.getActiveDownloads()
-        
-        for (index, download) in downloads.enumerated() {
-            if let downloadView = stackView.arrangedSubviews[index] as? ProgressDownloadCell {
-                downloadView.updateProgress(download.progress)
-            }
-        }
-
-        if downloads.count != stackView.arrangedSubviews.count {
-            updateDownloadViews()
         }
     }
 }

@@ -23,14 +23,8 @@ class DownloadManager {
             return []
         }
         
-        let downloadsURL = documentsURL.appendingPathComponent("Downloads")
-        
         do {
-            if !fileManager.fileExists(atPath: downloadsURL.path) {
-                try fileManager.createDirectory(at: downloadsURL, withIntermediateDirectories: true, attributes: nil)
-            }
-            
-            let fileURLs = try fileManager.contentsOfDirectory(at: downloadsURL, includingPropertiesForKeys: nil)
+            let fileURLs = try fileManager.contentsOfDirectory(at: documentsURL, includingPropertiesForKeys: nil)
             let downloadURLs = fileURLs.filter { $0.pathExtension.lowercased() == "mp4" }
             
             NotificationCenter.default.post(name: .downloadListUpdated, object: nil)
@@ -43,7 +37,9 @@ class DownloadManager {
     }
     
     func startDownload(url: URL, title: String, progress: @escaping (Float) -> Void, completion: @escaping (Result<URL, Error>) -> Void) {
-        activeDownloads[url.absoluteString] = 0.0
+        DispatchQueue.main.async { [weak self] in
+            self?.activeDownloads[url.absoluteString] = 0.0
+        }
         
         MP4Downloader.downloadFile(from: url.absoluteString, progressHandler: { [weak self] progressValue in
             DispatchQueue.main.async {
@@ -58,7 +54,7 @@ class DownloadManager {
         })
     }
     
-    func getActiveDownloads() -> [(title: String, progress: Float)] {
-        return activeDownloads.map { (title: $0.key, progress: $0.value) }
+    func getActiveDownloads() -> [String: Float] {
+        return activeDownloads
     }
 }

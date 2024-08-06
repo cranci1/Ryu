@@ -8,6 +8,14 @@
 import UIKit
 
 class ProgressDownloadCell: UIView {
+    private let backgroundContentView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .quaternarySystemFill
+        view.layer.cornerRadius = 12
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16, weight: .medium)
@@ -44,24 +52,30 @@ class ProgressDownloadCell: UIView {
         layer.cornerRadius = 12
         layer.masksToBounds = true
 
-        addSubview(titleLabel)
-        addSubview(progressView)
-        addSubview(percentageLabel)
+        addSubview(backgroundContentView)
+        backgroundContentView.addSubview(titleLabel)
+        backgroundContentView.addSubview(progressView)
+        backgroundContentView.addSubview(percentageLabel)
 
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 12),
-            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
-            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),
+            backgroundContentView.topAnchor.constraint(equalTo: topAnchor, constant: 4),
+            backgroundContentView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 4),
+            backgroundContentView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -4),
+            backgroundContentView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -4),
+
+            titleLabel.topAnchor.constraint(equalTo: backgroundContentView.topAnchor, constant: 12),
+            titleLabel.leadingAnchor.constraint(equalTo: backgroundContentView.leadingAnchor, constant: 12),
+            titleLabel.trailingAnchor.constraint(equalTo: backgroundContentView.trailingAnchor, constant: -12),
 
             progressView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
-            progressView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
-            progressView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),
+            progressView.leadingAnchor.constraint(equalTo: backgroundContentView.leadingAnchor, constant: 12),
+            progressView.trailingAnchor.constraint(equalTo: backgroundContentView.trailingAnchor, constant: -12),
 
             percentageLabel.topAnchor.constraint(equalTo: progressView.bottomAnchor, constant: 8),
-            percentageLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),
-            percentageLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12),
+            percentageLabel.trailingAnchor.constraint(equalTo: backgroundContentView.trailingAnchor, constant: -12),
+            percentageLabel.bottomAnchor.constraint(equalTo: backgroundContentView.bottomAnchor, constant: -12),
 
-            heightAnchor.constraint(greaterThanOrEqualToConstant: 80)
+            heightAnchor.constraint(greaterThanOrEqualToConstant: 88)
         ])
     }
 

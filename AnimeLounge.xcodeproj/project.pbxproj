@@ -176,11 +176,11 @@
 			children = (
 				13F875BF2C60DE99004C1978 /* AnimeListing Service */,
 				13F8757C2C60DE98004C1978 /* Sources */,
-				13F8759D2C60DE98004C1978 /* StoryBoard - Views */,
-				13F8757F2C60DE98004C1978 /* Swift - Views */,
 				13F875AC2C60DE98004C1978 /* Utils */,
-				13F875682C60DE7A004C1978 /* AppDelegate.swift */,
+				13F8757F2C60DE98004C1978 /* Swift - Views */,
+				13F8759D2C60DE98004C1978 /* StoryBoard - Views */,
 				13F8756A2C60DE7A004C1978 /* SceneDelegate.swift */,
+				13F875682C60DE7A004C1978 /* AppDelegate.swift */,
 				13F875762C60DE7C004C1978 /* Info.plist */,
 				13F875D32C60DE99004C1978 /* Assets.xcassets */,
 			);
@@ -298,8 +298,8 @@
 		13F8759D2C60DE98004C1978 /* StoryBoard - Views */ = {
 			isa = PBXGroup;
 			children = (
-				13F8759E2C60DE98004C1978 /* LaunchScreen.storyboard */,
 				13F8759F2C60DE98004C1978 /* CustomCells */,
+				13F8759E2C60DE98004C1978 /* LaunchScreen.storyboard */,
 				13F875A92C60DE98004C1978 /* Main.storyboard */,
 				13F875AA2C60DE98004C1978 /* AnilistAnimeInformation.storyboard */,
 				13F875AB2C60DE98004C1978 /* Settings.storyboard */,
@@ -407,8 +407,8 @@
 		13F875BF2C60DE99004C1978 /* AnimeListing Service */ = {
 			isa = PBXGroup;
 			children = (
-				13F875C02C60DE99004C1978 /* MAL-Service */,
 				13F875C62C60DE99004C1978 /* Anilist-Services */,
+				13F875C02C60DE99004C1978 /* MAL-Service */,
 				13F875CC2C60DE99004C1978 /* Kitsu-Service */,
 				13F875D22C60DE99004C1978 /* AnimeInformation.swift */,
 			);

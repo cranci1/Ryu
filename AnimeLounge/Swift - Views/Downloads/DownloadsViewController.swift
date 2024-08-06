@@ -104,8 +104,7 @@ class DownloadListViewController: UIViewController {
             return
         }
         
-        let downloadsURL = documentsURL.appendingPathComponent("Downloads")
-        let urlString = downloadsURL.absoluteString.replacingOccurrences(of: "file://", with: "shareddocuments://")
+        let urlString = documentsURL.absoluteString.replacingOccurrences(of: "file://", with: "shareddocuments://")
         
         guard let url = URL(string: urlString) else {
             print("Invalid URL")
