@@ -29,10 +29,8 @@ class MALService {
             do {
                 if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
                    let animeData = json["data"] as? [String: Any] {
-                    // Process the animeData to match the expected format
                     var processedData: [String: Any] = [:]
                     
-                    // Title
                     if let titles = animeData["titles"] as? [[String: String]] {
                         var titleData: [String: String] = [:]
                         for title in titles {
@@ -50,23 +48,18 @@ class MALService {
                         processedData["title"] = titleData
                     }
                     
-                    // Description
                     processedData["description"] = animeData["synopsis"] as? String
                     
-                    // Cover Image
                     if let images = animeData["images"] as? [String: Any],
                        let jpgImages = images["jpg"] as? [String: String],
                        let largeImageURL = jpgImages["large_image_url"] {
                         processedData["coverImage"] = ["extraLarge": largeImageURL]
                     }
                     
-                    // Episodes
                     processedData["episodes"] = animeData["episodes"] as? Int
                     
-                    // Status
                     processedData["status"] = animeData["status"] as? String
                     
-                    // Start Date
                     if let aired = animeData["aired"] as? [String: Any],
                        let from = aired["from"] as? String {
                         let dateFormatter = DateFormatter()
@@ -82,7 +75,6 @@ class MALService {
                         }
                     }
                     
-                    // Genres
                     if let genres = animeData["genres"] as? [[String: Any]] {
                         processedData["genres"] = genres.compactMap { $0["name"] as? String }
                     }

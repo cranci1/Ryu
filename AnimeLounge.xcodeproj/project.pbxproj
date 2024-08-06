@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		13D412A52C6260D600510461 /* AnilistAnimeInformation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13D412A42C6260D600510461 /* AnilistAnimeInformation.storyboard */; };
 		13F875692C60DE7A004C1978 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F875682C60DE7A004C1978 /* AppDelegate.swift */; };
 		13F8756B2C60DE7A004C1978 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F8756A2C60DE7A004C1978 /* SceneDelegate.swift */; };
 		13F875D42C60DE99004C1978 /* Sources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F8757D2C60DE98004C1978 /* Sources.swift */; };
@@ -39,7 +40,6 @@
 		13F875EF2C60DE99004C1978 /* AiringAnimeCell-Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F875A72C60DE98004C1978 /* AiringAnimeCell-Swift.swift */; };
 		13F875F02C60DE99004C1978 /* AiringAnimeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13F875A82C60DE98004C1978 /* AiringAnimeCell.xib */; };
 		13F875F12C60DE99004C1978 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13F875A92C60DE98004C1978 /* Main.storyboard */; };
-		13F875F22C60DE99004C1978 /* AnilistAnimeInformation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13F875AA2C60DE98004C1978 /* AnilistAnimeInformation.storyboard */; };
 		13F875F32C60DE99004C1978 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13F875AB2C60DE98004C1978 /* Settings.storyboard */; };
 		13F875F42C60DE99004C1978 /* FavoriteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F875AE2C60DE98004C1978 /* FavoriteManager.swift */; };
 		13F875F52C60DE99004C1978 /* BackupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F875AF2C60DE98004C1978 /* BackupManager.swift */; };
@@ -75,6 +75,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		13D412A42C6260D600510461 /* AnilistAnimeInformation.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AnilistAnimeInformation.storyboard; sourceTree = "<group>"; };
 		13F875652C60DE7A004C1978 /* AnimeLounge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnimeLounge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13F875682C60DE7A004C1978 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		13F8756A2C60DE7A004C1978 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -109,7 +110,6 @@
 		13F875A72C60DE98004C1978 /* AiringAnimeCell-Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AiringAnimeCell-Swift.swift"; sourceTree = "<group>"; };
 		13F875A82C60DE98004C1978 /* AiringAnimeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AiringAnimeCell.xib; sourceTree = "<group>"; };
 		13F875A92C60DE98004C1978 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		13F875AA2C60DE98004C1978 /* AnilistAnimeInformation.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AnilistAnimeInformation.storyboard; sourceTree = "<group>"; };
 		13F875AB2C60DE98004C1978 /* Settings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		13F875AE2C60DE98004C1978 /* FavoriteManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteManager.swift; sourceTree = "<group>"; };
 		13F875AF2C60DE98004C1978 /* BackupManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackupManager.swift; sourceTree = "<group>"; };
@@ -241,9 +241,9 @@
 		13F8758A2C60DE98004C1978 /* Anime Info */ = {
 			isa = PBXGroup;
 			children = (
+				13F8758D2C60DE98004C1978 /* Anime Info View */,
 				13F8758B2C60DE98004C1978 /* AnimeDetailService.swift */,
 				13F8758C2C60DE98004C1978 /* AnimeDetailsViewController.swift */,
-				13F8758D2C60DE98004C1978 /* Anime Info View */,
 			);
 			path = "Anime Info";
 			sourceTree = "<group>";
@@ -299,9 +299,9 @@
 			isa = PBXGroup;
 			children = (
 				13F8759F2C60DE98004C1978 /* CustomCells */,
-				13F8759E2C60DE98004C1978 /* LaunchScreen.storyboard */,
 				13F875A92C60DE98004C1978 /* Main.storyboard */,
-				13F875AA2C60DE98004C1978 /* AnilistAnimeInformation.storyboard */,
+				13F8759E2C60DE98004C1978 /* LaunchScreen.storyboard */,
+				13D412A42C6260D600510461 /* AnilistAnimeInformation.storyboard */,
 				13F875AB2C60DE98004C1978 /* Settings.storyboard */,
 			);
 			path = "StoryBoard - Views";
@@ -407,10 +407,10 @@
 		13F875BF2C60DE99004C1978 /* AnimeListing Service */ = {
 			isa = PBXGroup;
 			children = (
+				13F875D22C60DE99004C1978 /* AnimeInformation.swift */,
 				13F875C62C60DE99004C1978 /* Anilist-Services */,
 				13F875C02C60DE99004C1978 /* MAL-Service */,
 				13F875CC2C60DE99004C1978 /* Kitsu-Service */,
-				13F875D22C60DE99004C1978 /* AnimeInformation.swift */,
 			);
 			path = "AnimeListing Service";
 			sourceTree = "<group>";
@@ -543,11 +543,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				13F875F02C60DE99004C1978 /* AiringAnimeCell.xib in Resources */,
+				13D412A52C6260D600510461 /* AnilistAnimeInformation.storyboard in Resources */,
 				13F875F12C60DE99004C1978 /* Main.storyboard in Resources */,
 				13F875EA2C60DE99004C1978 /* LaunchScreen.storyboard in Resources */,
 				13F875EC2C60DE99004C1978 /* FavoriteCell.xib in Resources */,
 				13F875EE2C60DE99004C1978 /* SlimmAnimeCell.xib in Resources */,
-				13F875F22C60DE99004C1978 /* AnilistAnimeInformation.storyboard in Resources */,
 				13F8760E2C60DE9A004C1978 /* Assets.xcassets in Resources */,
 				13F875F32C60DE99004C1978 /* Settings.storyboard in Resources */,
 			);
@@ -741,16 +741,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 399LMK6Q2Y;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AnimeLounge/Info.plist;
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "AnimeLounge needs this to cast episodes using the Google Cast service";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportsDocumentBrowser = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -771,16 +773,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 399LMK6Q2Y;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AnimeLounge/Info.plist;
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "AnimeLounge needs this to cast episodes using the Google Cast service";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportsDocumentBrowser = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

@@ -27,14 +27,6 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
     private let aniListServiceTrending = AnilistServiceTrendingAnime()
     private let aniListServiceSeasonal = AnilistServiceSeasonalAnime()
     
-    private let kitsuServiceAiring = KitsuServiceAiringAnime()
-    private let kitsuServiceTrending = KitsuServiceTrendingAnime()
-    private let kitsuServiceSeasonal = KitsuServiceSeasonalAnime()
-    
-    private let malServiceAiring = JikanServiceAiringAnime()
-    private let malServiceTrending = JikanServiceTrendingAnime()
-    private let malServiceSeasonal = JikanServiceSeasonalAnime()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -102,68 +94,23 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
     }
     
     func fetchTrendingAnime(completion: @escaping () -> Void) {
-        let animeListingService = UserDefaults.standard.string(forKey: "AnimeListingService") ?? "AniList"
-        
-        switch animeListingService {
-        case "Kitsu":
-            kitsuServiceTrending.fetchTrendingAnime { [weak self] animeList in
-                self?.trendingAnime = animeList ?? []
-                completion()
-            }
-        case "MAL":
-            malServiceTrending.fetchTrendingAnime { [weak self] animeList in
-                self?.trendingAnime = animeList ?? []
-                completion()
-            }
-        default:
-            aniListServiceTrending.fetchTrendingAnime { [weak self] animeList in
-                self?.trendingAnime = animeList ?? []
-                completion()
-            }
+        aniListServiceTrending.fetchTrendingAnime { [weak self] animeList in
+            self?.trendingAnime = animeList ?? []
+            completion()
         }
     }
     
     func fetchSeasonalAnime(completion: @escaping () -> Void) {
-        let animeListingService = UserDefaults.standard.string(forKey: "AnimeListingService") ?? "AniList"
-        
-        switch animeListingService {
-        case "Kitsu":
-            kitsuServiceSeasonal.fetchSeasonalAnime { [weak self] animeList in
-                self?.seasonalAnime = animeList ?? []
-                completion()
-            }
-        case "MAL":
-            malServiceSeasonal.fetchSeasonalAnime { [weak self] animeList in
-                self?.seasonalAnime = animeList ?? []
-                completion()
-            }
-        default:
-            aniListServiceSeasonal.fetchSeasonalAnime { [weak self] animeList in
-                self?.seasonalAnime = animeList ?? []
-                completion()
-            }
+        aniListServiceSeasonal.fetchSeasonalAnime { [weak self] animeList in
+            self?.seasonalAnime = animeList ?? []
+            completion()
         }
     }
     
     func fetchAiringAnime(completion: @escaping () -> Void) {
-        let animeListingService = UserDefaults.standard.string(forKey: "AnimeListingService") ?? "AniList"
-        
-        switch animeListingService {
-        case "Kitsu":
-            kitsuServiceAiring.fetchAiringAnime { [weak self] animeList in
-                self?.airingAnime = animeList ?? []
-                completion()
-            }
-        case "MAL":
-            malServiceAiring.fetchAiringAnime { [weak self] animeList in
-                self?.airingAnime = animeList ?? []
-                completion()
-            }
-        default:
-            aniListServiceAiring.fetchAiringAnime { [weak self] animeList in
-                self?.airingAnime = animeList ?? []
-                completion()
-            }
+        aniListServiceAiring.fetchAiringAnime { [weak self] animeList in
+            self?.airingAnime = animeList ?? []
+            completion()
         }
     }
     
@@ -317,8 +264,11 @@ extension HomeViewController: UICollectionViewDelegate {
     }
     
     private func navigateToAnimeDetail(for anime: Anime) {
-        let animeInfoVC = AnimeInformationViewController(animeID: anime.id)
-        navigationController?.pushViewController(animeInfoVC, animated: true)
+        let storyboard = UIStoryboard(name: "AnilistAnimeInformation", bundle: nil)
+        if let animeDetailVC = storyboard.instantiateViewController(withIdentifier: "AnimeInformation") as? AnimeInformation {
+            animeDetailVC.animeID = anime.id
+            navigationController?.pushViewController(animeDetailVC, animated: true)
+        }
     }
     
     private func navigateToAnimeDetail(title: String, imageUrl: String, href: String) {
@@ -364,7 +314,14 @@ extension HomeViewController: UIContextMenuInteractionDelegate {
     
     private func previewViewController(for indexPath: IndexPath) -> UIViewController? {
         guard let anime = animeForIndexPath(indexPath) else { return nil }
-        return AnimeInformationViewController(animeID: anime.id)
+        
+        let storyboard = UIStoryboard(name: "AnilistAnimeInformation", bundle: nil)
+        guard let animeDetailVC = storyboard.instantiateViewController(withIdentifier: "AnimeInformation") as? AnimeInformation else {
+            return nil
+        }
+        
+        animeDetailVC.animeID = anime.id
+        return animeDetailVC
     }
     
     private func openAnimeDetail(for indexPath: IndexPath) {

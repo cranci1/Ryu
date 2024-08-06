@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UISupportsDocumentBrowser</key>
-	<true/>
-	<key>NSLocalNetworkUsageDescription</key>
-	<string>AnimeLounge needs this to cast episodes using the Google Cast service</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
@@ -19,40 +15,16 @@
 			</array>
 		</dict>
 	</array>
-	<key>UTExportedTypeDeclarations</key>
-	<array>
-		<dict>
-			<key>UTTypeConformsTo</key>
-			<array>
-				<string>public.data</string>
-			</array>
-			<key>UTTypeDescription</key>
-			<string>AL Backup File</string>
-			<key>UTTypeIdentifier</key>
-			<string>me.cranci.albackup</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<array>
-					<string>albackup</string>
-				</array>
-				<key>public.mime-type</key>
-				<array>
-					<string>application/x-albackup</string>
-				</array>
-			</dict>
-		</dict>
-	</array>
-	<key>NSBonjourServices</key>
-	<array>
-		<string>_googlecast._tcp</string>
-		<string>_CC1AD845._googlecast._tcp</string>
-	</array>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>outplayer</string>
 		<string>infuse</string>
 		<string>vlc</string>
+	</array>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_googlecast._tcp</string>
+		<string>_CC1AD845._googlecast._tcp</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
@@ -79,6 +51,30 @@
 		<string>fetch</string>
 		<string>processing</string>
 		<string>remote-notification</string>
+	</array>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>AL Backup File</string>
+			<key>UTTypeIdentifier</key>
+			<string>me.cranci.albackup</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>albackup</string>
+				</array>
+				<key>public.mime-type</key>
+				<array>
+					<string>application/x-albackup</string>
+				</array>
+			</dict>
+		</dict>
 	</array>
 </dict>
 </plist>

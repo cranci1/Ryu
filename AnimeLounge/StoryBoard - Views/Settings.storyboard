@@ -121,35 +121,12 @@
                                             <segue destination="15o-5a-dFg" kind="show" id="cvq-qH-DJP"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="2PM-oB-io7">
-                                        <rect key="frame" x="20" y="264.5" width="374" height="43.5"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="2PM-oB-io7" id="7Um-vk-QXB">
-                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Anime Service Preferences" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Cc-Ez-fGK">
-                                                    <rect key="frame" x="15" y="13" width="184.5" height="18"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="2Cc-Ez-fGK" firstAttribute="centerY" secondItem="7Um-vk-QXB" secondAttribute="centerY" id="7DJ-EU-81G"/>
-                                                <constraint firstItem="2Cc-Ez-fGK" firstAttribute="leading" secondItem="7Um-vk-QXB" secondAttribute="leading" constant="15" id="b8b-Xr-jYc"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="tJk-lL-JpK" kind="show" id="ZGx-Wo-jps"/>
-                                        </connections>
-                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="Player" footerTitle="You must have the VLC/Infuse/Outplayer app installed to be able to use the external Media Player." id="Ao9-xv-dJB">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="p2W-Y0-0VQ">
-                                        <rect key="frame" x="20" y="365.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="322" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="p2W-Y0-0VQ" id="6eF-kO-gnu">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -178,7 +155,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="pZ8-Bd-ctw">
-                                        <rect key="frame" x="20" y="409" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="365.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="pZ8-Bd-ctw" id="n9K-6T-tka">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -207,7 +184,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="YcD-pQ-iyV">
-                                        <rect key="frame" x="20" y="452.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="409" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="YcD-pQ-iyV" id="MxW-95-5nY">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -236,7 +213,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="gfO-ze-BcA">
-                                        <rect key="frame" x="20" y="496" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="452.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gfO-ze-BcA" id="dwo-ud-ay0">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -268,7 +245,7 @@
                             <tableViewSection headerTitle="Downloads" id="0VC-nq-gAL">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="12v-VD-7Aa">
-                                        <rect key="frame" x="20" y="612" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="568.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="12v-VD-7Aa" id="Ttn-kI-r5O">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -301,7 +278,7 @@
                             <tableViewSection headerTitle="Home Configuration" id="NpK-mw-Ph6">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="GOv-Nu-HBP">
-                                        <rect key="frame" x="20" y="705.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="662" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="GOv-Nu-HBP" id="cZi-Uj-rTb">
                                             <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
@@ -328,7 +305,7 @@
                             <tableViewSection headerTitle="Datas" id="y8g-0P-qDQ">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="hfE-We-1uZ">
-                                        <rect key="frame" x="20" y="799" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="755.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hfE-We-1uZ" id="xJ2-Ge-9P0">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -352,7 +329,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="MCd-19-KYt">
-                                        <rect key="frame" x="20" y="842.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="799" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="MCd-19-KYt" id="q9N-QI-RRZ">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -376,7 +353,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="mQq-1t-gtR">
-                                        <rect key="frame" x="20" y="886" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="842.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mQq-1t-gtR" id="tiP-rb-fIJ">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -400,7 +377,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="HUR-n8-Rbx">
-                                        <rect key="frame" x="20" y="929.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="886" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HUR-n8-Rbx" id="bHB-r2-4FI">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -424,13 +401,13 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="nUw-b7-C1T">
-                                        <rect key="frame" x="20" y="973" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="929.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="nUw-b7-C1T" id="zBm-wD-CZR">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Reset app" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8V1-Vb-S8x">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reset app" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8V1-Vb-S8x">
                                                     <rect key="frame" x="15" y="13" width="69" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" systemColor="systemRedColor"/>
@@ -967,7 +944,7 @@ The Streaming type is the method to stream the episode, can be 'buffered' that w
                             <tableViewSection headerTitle="AniList" footerTitle="AnimeLounge is not affiliated with AniList.co" id="aA9-OL-lkL">
                                 <cells>
                                     <tableViewCell opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="102" id="ohD-CI-YwA">
-                                        <rect key="frame" x="20" y="32" width="374" height="102"/>
+                                        <rect key="frame" x="20" y="49.5" width="374" height="102"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ohD-CI-YwA" id="JMj-T6-2NE">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="102"/>
@@ -998,7 +975,7 @@ The Streaming type is the method to stream the episode, can be 'buffered' that w
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="L3Y-Vy-gOs">
-                                        <rect key="frame" x="20" y="134" width="374" height="44.5"/>
+                                        <rect key="frame" x="20" y="151.5" width="374" height="44.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="L3Y-Vy-gOs" id="IM4-hh-Ll4">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="44.5"/>
@@ -1033,7 +1010,7 @@ The Streaming type is the method to stream the episode, can be 'buffered' that w
                             <tableViewSection headerTitle="MyAnimeList" footerTitle="AnimeLounge is not affiliated with MyAnimeList.net" id="a2T-Xx-VMp">
                                 <cells>
                                     <tableViewCell opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="102" id="IxC-4V-BE7">
-                                        <rect key="frame" x="20" y="244.5" width="374" height="102"/>
+                                        <rect key="frame" x="20" y="262" width="374" height="102"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="IxC-4V-BE7" id="5n8-8e-3sY">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="102"/>
@@ -1064,7 +1041,7 @@ The Streaming type is the method to stream the episode, can be 'buffered' that w
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="7ON-22-df4">
-                                        <rect key="frame" x="20" y="346.5" width="374" height="44.5"/>
+                                        <rect key="frame" x="20" y="364" width="374" height="44.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="7ON-22-df4" id="yaB-nQ-vkW">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="44.5"/>
@@ -1099,7 +1076,7 @@ The Streaming type is the method to stream the episode, can be 'buffered' that w
                             <tableViewSection headerTitle="Kitsu" footerTitle="AnimeLounge is not affiliated with Kitsu.io" id="71N-vx-dyS">
                                 <cells>
                                     <tableViewCell opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="102" id="4tb-BE-bSd">
-                                        <rect key="frame" x="20" y="457" width="374" height="102"/>
+                                        <rect key="frame" x="20" y="474.5" width="374" height="102"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="4tb-BE-bSd" id="MbO-Ex-fVN">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="102"/>
@@ -1130,7 +1107,7 @@ The Streaming type is the method to stream the episode, can be 'buffered' that w
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="6Y1-8q-cHz">
-                                        <rect key="frame" x="20" y="559" width="374" height="44.5"/>
+                                        <rect key="frame" x="20" y="576.5" width="374" height="44.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="6Y1-8q-cHz" id="7ki-U3-BP8">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="44.5"/>
