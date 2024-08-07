@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1339EDF52C63AD940026B8C2 /* ContinueWatchingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1339EDF42C63AD940026B8C2 /* ContinueWatchingManager.swift */; };
 		13D412A52C6260D600510461 /* AnilistAnimeInformation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13D412A42C6260D600510461 /* AnilistAnimeInformation.storyboard */; };
 		13EB72B42C63781E008EA184 /* SettingsViewDoneButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EB72B32C63781E008EA184 /* SettingsViewDoneButton.swift */; };
 		13F875692C60DE7A004C1978 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F875682C60DE7A004C1978 /* AppDelegate.swift */; };
@@ -76,6 +77,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1339EDF42C63AD940026B8C2 /* ContinueWatchingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinueWatchingManager.swift; sourceTree = "<group>"; };
 		13D412A42C6260D600510461 /* AnilistAnimeInformation.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AnilistAnimeInformation.storyboard; sourceTree = "<group>"; };
 		13EB72B32C63781E008EA184 /* SettingsViewDoneButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewDoneButton.swift; sourceTree = "<group>"; };
 		13F875652C60DE7A004C1978 /* AnimeLounge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnimeLounge.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -245,8 +247,8 @@
 			isa = PBXGroup;
 			children = (
 				13F8758D2C60DE98004C1978 /* Anime Info View */,
-				13F8758B2C60DE98004C1978 /* AnimeDetailService.swift */,
 				13F8758C2C60DE98004C1978 /* AnimeDetailsViewController.swift */,
+				13F8758B2C60DE98004C1978 /* AnimeDetailService.swift */,
 			);
 			path = "Anime Info";
 			sourceTree = "<group>";
@@ -255,8 +257,8 @@
 			isa = PBXGroup;
 			children = (
 				13F8758E2C60DE98004C1978 /* AnimeHeaderCell.swift */,
-				13F8758F2C60DE98004C1978 /* EpisodeCell.swift */,
 				13F875902C60DE98004C1978 /* SynopsisCell.swift */,
+				13F8758F2C60DE98004C1978 /* EpisodeCell.swift */,
 			);
 			path = "Anime Info View";
 			sourceTree = "<group>";
@@ -364,6 +366,7 @@
 				13F875AE2C60DE98004C1978 /* FavoriteManager.swift */,
 				13F875AF2C60DE98004C1978 /* BackupManager.swift */,
 				13F875B02C60DE98004C1978 /* DownloadManager.swift */,
+				1339EDF42C63AD940026B8C2 /* ContinueWatchingManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -584,6 +587,7 @@
 				13F875E72C60DE99004C1978 /* ProgressDownloadCell.swift in Sources */,
 				13F875E92C60DE99004C1978 /* DownloadCell.swift in Sources */,
 				13F875D42C60DE99004C1978 /* Sources.swift in Sources */,
+				1339EDF52C63AD940026B8C2 /* ContinueWatchingManager.swift in Sources */,
 				13F8760A2C60DE99004C1978 /* Kitsu-Sesonal.swift in Sources */,
 				13F876002C60DE99004C1978 /* ExternalVideoPlayer3rb.swift in Sources */,
 				13F875ED2C60DE99004C1978 /* SlimmAnimeCell-Swift.swift in Sources */,

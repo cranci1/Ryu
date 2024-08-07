@@ -330,7 +330,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         }
     }
 
-    private func episodeSelected(episode: Episode, cell: EpisodeCell) {
+    func episodeSelected(episode: Episode, cell: EpisodeCell) {
         let selectedSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
         currentEpisodeIndex = episodes.firstIndex(where: { $0.href == episode.href }) ?? 0
         
@@ -886,6 +886,17 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             
             UserDefaults.standard.set(currentTime, forKey: "lastPlayedTime_\(fullURL)")
             UserDefaults.standard.set(duration, forKey: "totalTime_\(fullURL)")
+            
+            let continueWatchingItem = ContinueWatchingItem(
+                animeTitle: self.animeTitle ?? "Unknown Anime",
+                episodeTitle: "Ep. \(cell.episodeNumber)",
+                episodeNumber: Int(cell.episodeNumber) ?? 0,
+                imageURL: self.imageUrl ?? "",
+                fullURL: fullURL,
+                lastPlayedTime: currentTime,
+                totalTime: duration
+            )
+            ContinueWatchingManager.shared.saveItem(continueWatchingItem)
         }
     }
     
@@ -926,5 +937,89 @@ extension AnimeDetailViewController: SynopsisCellDelegate {
     func synopsisCellDidToggleExpansion(_ cell: SynopsisCell) {
         isSynopsisExpanded.toggle()
         tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
+    }
+}
+
+class ContinueWatchingCell: UICollectionViewCell {
+    private let imageView = UIImageView()
+    private let titleLabel = UILabel()
+    private let episodeLabel = UILabel()
+    private let progressView = UIProgressView()
+    private let blurEffectView: UIVisualEffectView = {
+        let effect = UIBlurEffect(style: .dark)
+        let blurEffectView = UIVisualEffectView(effect: effect)
+        blurEffectView.alpha = 0.5
+        return blurEffectView
+    }()
+    
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupViews() {
+        contentView.addSubview(imageView)
+        contentView.addSubview(titleLabel)
+        imageView.addSubview(blurEffectView)
+        imageView.addSubview(progressView)
+        imageView.addSubview(episodeLabel)
+
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 8
+        
+        titleLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        titleLabel.numberOfLines = 3
+        
+        episodeLabel.font = UIFont.systemFont(ofSize: 12)
+        episodeLabel.textColor = .white
+        episodeLabel.textAlignment = .center
+        
+        progressView.progressTintColor = .systemTeal
+
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        episodeLabel.translatesAutoresizingMaskIntoConstraints = false
+        progressView.translatesAutoresizingMaskIntoConstraints = false
+        blurEffectView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1.5),
+            
+            blurEffectView.leadingAnchor.constraint(equalTo: imageView.leadingAnchor),
+            blurEffectView.trailingAnchor.constraint(equalTo: imageView.trailingAnchor),
+            blurEffectView.topAnchor.constraint(equalTo: imageView.topAnchor),
+            blurEffectView.bottomAnchor.constraint(equalTo: imageView.bottomAnchor),
+            
+            episodeLabel.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
+            episodeLabel.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -8),
+            episodeLabel.widthAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 0.9),
+            
+            progressView.leadingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: 8),
+            progressView.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -8),
+            progressView.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -4),
+            
+            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 4),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+        ])
+    }
+    
+    func configure(with item: ContinueWatchingItem) {
+        titleLabel.text = item.animeTitle
+        episodeLabel.text = "Ep. \(item.episodeNumber)"
+        progressView.progress = Float(item.lastPlayedTime / item.totalTime)
+        
+        if let url = URL(string: item.imageURL) {
+            imageView.kf.setImage(with: url, placeholder: UIImage(named: "placeholder"))
+        }
     }
 }

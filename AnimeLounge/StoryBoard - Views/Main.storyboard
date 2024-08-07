@@ -328,10 +328,54 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection id="n4F-AG-ypi">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="next.standard" rowHeight="285" id="sZ4-F0-Blc" customClass="DiscoveryStandardTableViewCell" customModule="AnimeLounge" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="378.5" width="375" height="285"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sZ4-F0-Blc" id="vFA-gU-2KE">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="285"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Continue Watching" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7lM-QB-pA1">
+                                                    <rect key="frame" x="16" y="11" width="190.5" height="26.5"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" keyboardDismissMode="onDrag" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="kom-cT-Wne">
+                                                    <rect key="frame" x="0.0" y="42.5" width="375" height="226.5"/>
+                                                    <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                                    <inset key="scrollIndicatorInsets" minX="18" minY="0.0" maxX="18" maxY="0.0"/>
+                                                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="25" minimumInteritemSpacing="10" sectionInsetReference="layoutMargins" id="UZI-uA-bOg">
+                                                        <size key="itemSize" width="101" height="200"/>
+                                                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                    </collectionViewFlowLayout>
+                                                    <cells/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="isThemable" value="YES"/>
+                                                    </userDefinedRuntimeAttributes>
+                                                </collectionView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottomMargin" secondItem="kom-cT-Wne" secondAttribute="bottom" constant="5" id="Bp4-7f-Pi5"/>
+                                                <constraint firstItem="7lM-QB-pA1" firstAttribute="top" secondItem="vFA-gU-2KE" secondAttribute="topMargin" id="FTN-C0-OaO"/>
+                                                <constraint firstItem="kom-cT-Wne" firstAttribute="centerX" secondItem="vFA-gU-2KE" secondAttribute="centerX" id="L90-OJ-B9D"/>
+                                                <constraint firstItem="kom-cT-Wne" firstAttribute="leading" secondItem="vFA-gU-2KE" secondAttribute="leading" id="Utd-aA-tsc"/>
+                                                <constraint firstItem="kom-cT-Wne" firstAttribute="top" secondItem="7lM-QB-pA1" secondAttribute="bottom" constant="5" id="iwy-yV-87b"/>
+                                                <constraint firstItem="7lM-QB-pA1" firstAttribute="leading" secondItem="vFA-gU-2KE" secondAttribute="leadingMargin" id="tFz-7g-c3E"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                             <tableViewSection id="2d3-ZF-fda">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="next.standard" rowHeight="285" id="L9w-Md-3BC" customClass="DiscoveryStandardTableViewCell" customModule="AnimeLounge" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="378.5" width="375" height="285"/>
+                                        <rect key="frame" x="0.0" y="730.5" width="375" height="285"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="L9w-Md-3BC" id="anR-OQ-CWx">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="285"/>
@@ -383,7 +427,7 @@
                             <tableViewSection id="jtp-2z-3nH">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="next.standard" rowHeight="285" id="dlF-Ae-6QH" customClass="DiscoveryStandardTableViewCell" customModule="AnimeLounge" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="730.5" width="375" height="285"/>
+                                        <rect key="frame" x="0.0" y="1082.5" width="375" height="285"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dlF-Ae-6QH" id="riW-Tj-Se6">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="285"/>
@@ -435,7 +479,7 @@
                             <tableViewSection id="7Xc-XD-94i">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="next.standard" rowHeight="285" id="Rjk-gX-FSs" customClass="DiscoveryStandardTableViewCell" customModule="AnimeLounge" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="1082.5" width="375" height="285"/>
+                                        <rect key="frame" x="0.0" y="1434.5" width="375" height="285"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Rjk-gX-FSs" id="S42-Hj-6MZ">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="285"/>
@@ -510,6 +554,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="airingCollectionView" destination="ehn-iZ-v4H" id="1Ic-6R-wjh"/>
+                        <outlet property="continueWatchingCollectionView" destination="kom-cT-Wne" id="csU-pm-lDV"/>
                         <outlet property="dateLabel" destination="vTh-bi-IJD" id="TQ3-7p-iQe"/>
                         <outlet property="featuredCollectionView" destination="Udz-fP-c6G" id="Eq6-qg-GXh"/>
                         <outlet property="seasonalCollectionView" destination="S4e-tD-YKq" id="AQY-Tx-PMp"/>

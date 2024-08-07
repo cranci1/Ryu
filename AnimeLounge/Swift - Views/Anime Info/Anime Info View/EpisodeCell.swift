@@ -20,7 +20,7 @@ class EpisodeCell: UITableViewCell {
     let playbackProgressView = UIProgressView(progressViewStyle: .default)
     let remainingTimeLabel = UILabel()
     
-    private var episodeNumber: String = ""
+    var episodeNumber: String = ""
     
     var episode: Episode?
     weak var delegate: AnimeDetailViewController?
