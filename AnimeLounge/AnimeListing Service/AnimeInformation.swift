@@ -189,18 +189,15 @@ class AnimeInformation: UIViewController, UITableViewDataSource {
 
         var bannerImageUrl: URL?
         
-        // Set the title
         if let titleDict = animeData["title"] as? [String: String] {
             titleLabel.text = titleDict["english"] ?? titleDict["romaji"]
         }
         
-        // Set the cover image
         if let coverImage = (animeData["coverImage"] as? [String: String])?["extraLarge"],
            let coverImageUrl = URL(string: coverImage) {
             coverImageView.kf.setImage(with: coverImageUrl)
         }
         
-        // Set the banner image, fallback to cover image if banner is unavailable
         if let bannerImage = animeData["bannerImage"] as? String {
             bannerImageUrl = URL(string: bannerImage)
         }
@@ -211,17 +208,14 @@ class AnimeInformation: UIViewController, UITableViewDataSource {
             bannerImageView.kf.setImage(with: bannerUrl)
         }
 
-        // Set genres
         if let genres = animeData["genres"] as? [String] {
             genresView.setGenres(genres)
         }
         
-        // Set description
         descriptionView.configure(with: animeData["description"] as? String)
         infoView.configure(with: animeData)
         statsView.configure(with: animeData["stats"] as? [String: Any])
 
-        // Set characters view visibility
         if let characters = animeData["characters"] as? [String: Any], !characters.isEmpty {
             charactersView.isHidden = false
             charactersView.configure(with: characters)
@@ -229,7 +223,6 @@ class AnimeInformation: UIViewController, UITableViewDataSource {
             charactersView.isHidden = true
         }
         
-        // Set relations view visibility
         if let relations = animeData["relations"] as? [String: Any],
            let edges = relations["edges"] as? [Any], !edges.isEmpty {
             relationsView.isHidden = false

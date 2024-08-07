@@ -199,12 +199,12 @@
 		13F8757F2C60DE98004C1978 /* Swift - Views */ = {
 			isa = PBXGroup;
 			children = (
-				13F875802C60DE98004C1978 /* Settings */,
 				13F875872C60DE98004C1978 /* Home */,
-				13F8758A2C60DE98004C1978 /* Anime Info */,
 				13F875912C60DE98004C1978 /* Favorites */,
-				13F875932C60DE98004C1978 /* Search */,
 				13F875972C60DE98004C1978 /* Downloads */,
+				13F875932C60DE98004C1978 /* Search */,
+				13F8758A2C60DE98004C1978 /* Anime Info */,
+				13F875802C60DE98004C1978 /* Settings */,
 			);
 			path = "Swift - Views";
 			sourceTree = "<group>";
