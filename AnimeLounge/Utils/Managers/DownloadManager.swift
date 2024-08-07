@@ -41,10 +41,10 @@ class DownloadManager {
             self?.activeDownloads[url.absoluteString] = 0.0
         }
         
-        MP4Downloader.shared.downloadFile(from: url.absoluteString, progressHandler: { [weak self] progressValue in
+        MP4Downloader.downloadFile(from: url.absoluteString, progressHandler: { [weak self] progressValue in
             DispatchQueue.main.async {
-                self?.activeDownloads[url.absoluteString] = progressValue
-                progress(progressValue)
+                self?.activeDownloads[url.absoluteString] = Float(progressValue)
+                progress(Float(progressValue))
             }
         }, completion: { [weak self] result in
             DispatchQueue.main.async {
