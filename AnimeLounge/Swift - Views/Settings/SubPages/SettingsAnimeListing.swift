@@ -10,11 +10,15 @@ import UIKit
 class SettingsAnimeListing: UITableViewController {
     
     @IBOutlet weak var statusLabel: UILabel!
-
+    @IBOutlet weak var loginLogoutLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         updateUserStatus()
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(loginLogoutLabelTapped))
+        loginLogoutLabel.isUserInteractionEnabled = true
+        loginLogoutLabel.addGestureRecognizer(tapGesture)
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleAuthorizationCode(_:)), name: Notification.Name("AuthorizationCodeReceived"), object: nil)
     }
@@ -23,8 +27,30 @@ class SettingsAnimeListing: UITableViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func startAuthenticationTapped() {
-        AniListLogin.authenticate()
+    @IBAction func loginLogoutLabelTapped() {
+        if let _ = UserDefaults.standard.string(forKey: "accessToken") {
+            showLogoutConfirmation()
+        } else {
+            statusLabel.text = "Starting authentication..."
+            AniListLogin.authenticate()
+        }
+    }
+    
+    func showLogoutConfirmation() {
+        let alert = UIAlertController(title: "Log Out", message: "Are you sure you want to log out?", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Log Out", style: .destructive) { _ in
+            self.logout()
+        })
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func logout() {
+        UserDefaults.standard.removeObject(forKey: "accessToken")
+        statusLabel.text = "You are not logged in"
+        updateLoginLogoutLabelText()
     }
     
     @objc func handleAuthorizationCode(_ notification: Notification) {
@@ -34,15 +60,32 @@ class SettingsAnimeListing: UITableViewController {
             return
         }
         print("Authorization code received: \(code)")
-        AniListToken.exchangeAuthorizationCodeForToken(code: code)
+        updateStatusForTokenExchange()
+        AniListToken.exchangeAuthorizationCodeForToken(code: code) { [weak self] success in
+            DispatchQueue.main.async {
+                if success {
+                    self?.statusLabel.text = "Login successful! Updating user info..."
+                    self?.updateUserStatus()
+                } else {
+                    self?.statusLabel.text = "Login failed. Please try again."
+                }
+            }
+        }
+    }
+    
+    func updateStatusForTokenExchange() {
+        DispatchQueue.main.async {
+            self.statusLabel.text = "Exchanging code for token..."
+        }
     }
     
     func updateUserStatus() {
         if let token = UserDefaults.standard.string(forKey: "accessToken") {
             fetchUserInfo(token: token)
         } else {
-            statusLabel.text = "You are not loggede in"
+            statusLabel.text = "You are not logged in"
         }
+        updateLoginLogoutLabelText()
     }
     
     func fetchUserInfo(token: String) {
@@ -148,5 +191,11 @@ class SettingsAnimeListing: UITableViewController {
         default:
             return UIColor.label
         }
+    }
+    
+    func updateLoginLogoutLabelText() {
+        let isLoggedIn = UserDefaults.standard.string(forKey: "accessToken") != nil
+        let labelText = isLoggedIn ? "Log Out from AniList.co" : "Log In with AniList.co"
+        loginLogoutLabel.text = labelText
     }
 }

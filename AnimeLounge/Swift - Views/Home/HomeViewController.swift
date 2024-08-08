@@ -14,6 +14,7 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
     @IBOutlet private weak var trendingCollectionView: UICollectionView!
     @IBOutlet private weak var seasonalCollectionView: UICollectionView!
     @IBOutlet private weak var featuredCollectionView: UICollectionView!
+    @IBOutlet private weak var continueWatchingCollectionView: UICollectionView!
     
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var selectedSourceLabel: UILabel!
@@ -22,6 +23,7 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
     private var trendingAnime: [Anime] = []
     private var seasonalAnime: [Anime] = []
     private var featuredAnime: [AnimeItem] = []
+    private var continueWatchingItems: [ContinueWatchingItem] = []
     
     private let aniListServiceAiring = AnilistServiceAiringAnime()
     private let aniListServiceTrending = AnilistServiceTrendingAnime()
@@ -39,14 +41,33 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
         SourceMenu.delegate = self
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadContinueWatchingItems()
+    }
+    
+    func loadContinueWatchingItems() {
+        continueWatchingItems = ContinueWatchingManager.shared.getItems()
+        continueWatchingCollectionView.reloadData()
+    }
+    
     func setupCollectionViews() {
-        let collectionViews = [airingCollectionView, trendingCollectionView, seasonalCollectionView, featuredCollectionView]
-        let cellIdentifiers = ["AiringAnimeCell", "SlimmAnimeCell", "SlimmAnimeCell", "SlimmAnimeCell"]
+        let collectionViews = [continueWatchingCollectionView, airingCollectionView, trendingCollectionView, seasonalCollectionView, featuredCollectionView]
+        let cellIdentifiers = ["ContinueWatchingCell", "AiringAnimeCell", "SlimmAnimeCell", "SlimmAnimeCell", "SlimmAnimeCell"]
+        let cellClasses = [ContinueWatchingCell.self, UICollectionViewCell.self, UICollectionViewCell.self, UICollectionViewCell.self, UICollectionViewCell.self]
 
-        for (collectionView, identifier) in zip(collectionViews, cellIdentifiers) {
+        for (index, collectionView) in collectionViews.enumerated() {
             collectionView?.delegate = self
             collectionView?.dataSource = self
-            collectionView?.register(UINib(nibName: identifier, bundle: nil), forCellWithReuseIdentifier: identifier)
+            
+            let identifier = cellIdentifiers[index]
+            let cellClass = cellClasses[index]
+            
+            if identifier == "ContinueWatchingCell" {
+                collectionView?.register(cellClass, forCellWithReuseIdentifier: identifier)
+            } else {
+                collectionView?.register(UINib(nibName: identifier, bundle: nil), forCellWithReuseIdentifier: identifier)
+            }
         }
     }
     
@@ -152,6 +173,7 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
     
     func refreshUI() {
         DispatchQueue.main.async {
+            self.continueWatchingCollectionView.reloadData()
             self.airingCollectionView.reloadData()
             self.trendingCollectionView.reloadData()
             self.seasonalCollectionView.reloadData()
@@ -174,6 +196,8 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
 extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView {
+        case continueWatchingCollectionView:
+            return continueWatchingItems.count
         case trendingCollectionView:
             return trendingAnime.count
         case seasonalCollectionView:
@@ -188,27 +212,27 @@ extension HomeViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell: UICollectionViewCell
-        
         switch collectionView {
+        case continueWatchingCollectionView:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ContinueWatchingCell", for: indexPath) as! ContinueWatchingCell
+            let item = continueWatchingItems[indexPath.item]
+            cell.configure(with: item)
+            return cell
         case trendingCollectionView, seasonalCollectionView, featuredCollectionView:
-            cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SlimmAnimeCell", for: indexPath)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SlimmAnimeCell", for: indexPath)
             if let slimmCell = cell as? SlimmAnimeCell {
                 configureSlimmCell(slimmCell, at: indexPath, for: collectionView)
             }
+            return cell
         case airingCollectionView:
-            cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AiringAnimeCell", for: indexPath)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AiringAnimeCell", for: indexPath)
             if let airingCell = cell as? AiringAnimeCell {
                 configureAiringCell(airingCell, at: indexPath)
             }
+            return cell
         default:
             fatalError("Unexpected collection view")
         }
-        
-        let interaction = UIContextMenuInteraction(delegate: self)
-        cell.addInteraction(interaction)
-        
-        return cell
     }
     
     private func configureSlimmCell(_ cell: SlimmAnimeCell, at indexPath: IndexPath, for collectionView: UICollectionView) {
@@ -246,6 +270,9 @@ extension HomeViewController: UICollectionViewDataSource {
 extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch collectionView {
+        case continueWatchingCollectionView:
+            let item = continueWatchingItems[indexPath.item]
+            resumeWatching(item: item)
         case trendingCollectionView:
             let anime = trendingAnime[indexPath.item]
             navigateToAnimeDetail(for: anime)
@@ -261,6 +288,20 @@ extension HomeViewController: UICollectionViewDelegate {
         default:
             break
         }
+    }
+
+    private func resumeWatching(item: ContinueWatchingItem) {
+        let detailVC = AnimeDetailViewController()
+        detailVC.configure(title: item.animeTitle, imageUrl: item.imageURL, href: item.fullURL)
+        
+        let episode = Episode(number: String(item.episodeNumber), href: item.fullURL, downloadUrl: "")
+        
+        let dummyCell = EpisodeCell()
+        dummyCell.episodeNumber = String(item.episodeNumber)
+        
+        detailVC.episodeSelected(episode: episode, cell: dummyCell)
+        
+        navigationController?.pushViewController(detailVC, animated: true)
     }
     
     private func navigateToAnimeDetail(for anime: Anime) {

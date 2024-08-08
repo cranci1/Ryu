@@ -32,11 +32,13 @@ class ContinueWatchingManager {
     
     func saveItem(_ item: ContinueWatchingItem) {
         var items = getItems()
+        
         if let index = items.firstIndex(where: { $0.fullURL == item.fullURL }) {
-            items[index] = item
-        } else {
-            items.append(item)
+            items.remove(at: index)
         }
+        
+        items.insert(item, at: 0)
+        
         userDefaults.set(try? JSONEncoder().encode(items), forKey: continueWatchingKey)
     }
     

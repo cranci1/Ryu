@@ -33,7 +33,7 @@ class AniListLogin {
         }
     }
     
-    func handleRedirect(url: URL) {
+    static func handleRedirect(url: URL) {
         print("Redirect URL: \(url)")
         
         guard let code = url.queryParameters?["code"] else {
@@ -42,7 +42,13 @@ class AniListLogin {
         }
         
         print("Authorization code received: \(code)")
-        AniListToken.exchangeAuthorizationCodeForToken(code: code)
+        AniListToken.exchangeAuthorizationCodeForToken(code: code) { success in
+            if success {
+                print("Token exchange successful")
+            } else {
+                print("Token exchange failed")
+            }
+        }
     }
 }
 

@@ -929,12 +929,25 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             UserDefaults.standard.set(currentTime, forKey: "lastPlayedTime_\(fullURL)")
             UserDefaults.standard.set(duration, forKey: "totalTime_\(fullURL)")
             
+            let episodeNumber = Int(cell.episodeNumber) ?? 0
+            
+            let continueWatchingItem = ContinueWatchingItem(
+                animeTitle: self.animeTitle ?? "Unknown Anime",
+                episodeTitle: "Ep. \(episodeNumber)",
+                episodeNumber: episodeNumber,
+                imageURL: self.imageUrl ?? "",
+                fullURL: fullURL,
+                lastPlayedTime: currentTime,
+                totalTime: duration
+            )
+            ContinueWatchingManager.shared.saveItem(continueWatchingItem)
+            
             if remainingTime < 90 && !self.hasSentUpdate {
                 let cleanedTitle = self.cleanTitle(self.animeTitle ?? "Unknown Anime")
                 
                 self.fetchAnimeID(title: cleanedTitle) { animeID in
                     let aniListMutation = AniListMutation()
-                    aniListMutation.updateAnimeProgress(animeId: animeID, episodeNumber: Int(cell.episodeNumber) ?? 0) { result in
+                    aniListMutation.updateAnimeProgress(animeId: animeID, episodeNumber: episodeNumber) { result in
                         switch result {
                         case .success():
                             print("Successfully updated anime progress.")
@@ -1003,12 +1016,11 @@ extension AnimeDetailViewController: SynopsisCellDelegate {
 class ContinueWatchingCell: UICollectionViewCell {
     private let imageView = UIImageView()
     private let titleLabel = UILabel()
-    private let episodeLabel = UILabel()
     private let progressView = UIProgressView()
     private let blurEffectView: UIVisualEffectView = {
         let effect = UIBlurEffect(style: .dark)
         let blurEffectView = UIVisualEffectView(effect: effect)
-        blurEffectView.alpha = 0.5
+        blurEffectView.alpha = 0.7
         return blurEffectView
     }()
     
@@ -1027,59 +1039,127 @@ class ContinueWatchingCell: UICollectionViewCell {
         contentView.addSubview(titleLabel)
         imageView.addSubview(blurEffectView)
         imageView.addSubview(progressView)
-        imageView.addSubview(episodeLabel)
 
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 8
         
-        titleLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
-        titleLabel.numberOfLines = 3
-        
-        episodeLabel.font = UIFont.systemFont(ofSize: 12)
-        episodeLabel.textColor = .white
-        episodeLabel.textAlignment = .center
+        titleLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        titleLabel.numberOfLines = 2
+        titleLabel.textColor = .white
+        titleLabel.textAlignment = .left
         
         progressView.progressTintColor = .systemTeal
 
         imageView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        episodeLabel.translatesAutoresizingMaskIntoConstraints = false
         progressView.translatesAutoresizingMaskIntoConstraints = false
         blurEffectView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
+            contentView.widthAnchor.constraint(equalToConstant: 300),
+            contentView.heightAnchor.constraint(equalToConstant: 120),
+            
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1.5),
+            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 0.6),
             
             blurEffectView.leadingAnchor.constraint(equalTo: imageView.leadingAnchor),
             blurEffectView.trailingAnchor.constraint(equalTo: imageView.trailingAnchor),
-            blurEffectView.topAnchor.constraint(equalTo: imageView.topAnchor),
+            blurEffectView.topAnchor.constraint(equalTo: titleLabel.topAnchor),
             blurEffectView.bottomAnchor.constraint(equalTo: imageView.bottomAnchor),
-            
-            episodeLabel.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
-            episodeLabel.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -8),
-            episodeLabel.widthAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 0.9),
             
             progressView.leadingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: 8),
             progressView.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -8),
             progressView.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -4),
+            progressView.heightAnchor.constraint(equalToConstant: 6),
             
-            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 4),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            titleLabel.bottomAnchor.constraint(equalTo: progressView.topAnchor, constant: -4),
+            titleLabel.trailingAnchor.constraint(equalTo: progressView.trailingAnchor),
+            titleLabel.widthAnchor.constraint(equalTo: progressView.widthAnchor)
         ])
     }
     
     func configure(with item: ContinueWatchingItem) {
-        titleLabel.text = item.animeTitle
-        episodeLabel.text = "Ep. \(item.episodeNumber)"
+        titleLabel.text = "\(item.animeTitle), Ep. \(item.episodeNumber)"
         progressView.progress = Float(item.lastPlayedTime / item.totalTime)
         
-        if let url = URL(string: item.imageURL) {
-            imageView.kf.setImage(with: url, placeholder: UIImage(named: "placeholder"))
+        AnimeThumbnailFetcher.fetchAnimeThumbnails(for: item.animeTitle, episodeNumber: item.episodeNumber) { [weak self] imageURL in
+            guard let self = self, let imageURL = imageURL else {
+                return
+            }
+            
+            if let url = URL(string: imageURL) {
+                self.imageView.kf.setImage(with: url, placeholder: UIImage(named: "placeholder"))
+            }
         }
+    }
+}
+
+class AnimeThumbnailFetcher {
+    static let apiUrl = "https://api.ani.zip/mappings?anilist_id="
+    
+    static func fetchAnimeThumbnails(for title: String, episodeNumber: Int, completion: @escaping (String?) -> Void) {
+        fetchAnimeID(for: cleanTitle(title: title)) { anilistId in
+            guard let anilistId = anilistId else {
+                completion(nil)
+                return
+            }
+            
+            let url = URL(string: "\(self.apiUrl)\(anilistId)")!
+            let task = URLSession.shared.dataTask(with: url) { data, _, error in
+                if let error = error {
+                    print("Error fetching anime thumbnails: \(error)")
+                    completion(nil)
+                    return
+                }
+                
+                guard let data = data else {
+                    completion(nil)
+                    return
+                }
+                
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: [])
+                    if let jsonDict = json as? [String: Any],
+                       let episodes = jsonDict["episodes"] as? [String: Any],
+                       let episodeInfo = episodes["\(episodeNumber)"] as? [String: Any],
+                       let imageUrl = episodeInfo["image"] as? String {
+                        completion(imageUrl)
+                    } else {
+                        completion(nil)
+                    }
+                } catch {
+                    print("Error parsing JSON: \(error)")
+                    completion(nil)
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    static func fetchAnimeID(for title: String, completion: @escaping (Int?) -> Void) {
+        AnimeService.fetchAnimeID(byTitle: cleanTitle(title: title)) { result in
+            switch result {
+            case .success(let id):
+                completion(id)
+            case .failure(let error):
+                print("Error fetching anime ID: \(error.localizedDescription)")
+                completion(nil)
+            }
+        }
+    }
+    
+    static func cleanTitle(title: String) -> String {
+        let unwantedStrings = ["(ITA)", "(Dub)", "(Dub ID)", "(Dublado)"]
+        var cleanedTitle = title
+        
+        for unwanted in unwantedStrings {
+            cleanedTitle = cleanedTitle.replacingOccurrences(of: unwanted, with: "")
+        }
+        
+        cleanedTitle = cleanedTitle.replacingOccurrences(of: "\"", with: "")
+        return cleanedTitle.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 }

@@ -1064,13 +1064,14 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="loginLogoutLabel" destination="vVV-Wb-M3z" id="AUd-n3-uTR"/>
                         <outlet property="statusLabel" destination="yEL-IM-x2e" id="2GU-8C-cnG"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b8m-rs-Y5q" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="ads-21-fg5" userLabel="anilist setup">
                     <connections>
-                        <action selector="startAuthenticationTapped" destination="tJk-lL-JpK" id="IuK-wE-NOY"/>
+                        <action selector="loginLogoutLabelTapped" destination="tJk-lL-JpK" id="cgc-AG-6Yk"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>

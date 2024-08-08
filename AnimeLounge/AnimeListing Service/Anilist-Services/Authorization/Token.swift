@@ -8,18 +8,18 @@
 import UIKit
 
 class AniListToken {
-    
     static let clientID = "19551"
     static let clientSecret = "fk8EgkyFbXk95TbPwLYQLaiMaNIryMpDBwJsPXoX"
     static let redirectURI = "animelounge://anilist"
     
     static let tokenEndpoint = "https://anilist.co/api/v2/oauth/token"
     
-    static func exchangeAuthorizationCodeForToken(code: String) {
+    static func exchangeAuthorizationCodeForToken(code: String, completion: @escaping (Bool) -> Void) {
         print("Exchanging authorization code for access token...")
         
         guard let url = URL(string: tokenEndpoint) else {
             print("Invalid token endpoint URL")
+            completion(false)
             return
         }
         
@@ -33,11 +33,13 @@ class AniListToken {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 print("Error: \(error.localizedDescription)")
+                completion(false)
                 return
             }
             
             guard let data = data else {
                 print("No data received")
+                completion(false)
                 return
             }
             
@@ -46,12 +48,15 @@ class AniListToken {
                     if let accessToken = json["access_token"] as? String {
                         print("Access Token: \(accessToken)")
                         UserDefaults.standard.set(accessToken, forKey: "accessToken")
+                        completion(true)
                     } else {
                         print("Unexpected response: \(json)")
+                        completion(false)
                     }
                 }
             } catch {
                 print("Failed to parse JSON: \(error.localizedDescription)")
+                completion(false)
             }
         }
         
