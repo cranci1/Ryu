@@ -41,7 +41,7 @@ class SettingsAnimeListing: UITableViewController {
         if let token = UserDefaults.standard.string(forKey: "accessToken") {
             fetchUserInfo(token: token)
         } else {
-            statusLabel.text = "User not logged in"
+            statusLabel.text = "You are not loggede in"
         }
     }
     
@@ -57,7 +57,9 @@ class SettingsAnimeListing: UITableViewController {
             Viewer {
                 id
                 name
-                siteUrl
+                options {
+                    profileColor
+                }
             }
         }
         """
@@ -93,9 +95,20 @@ class SettingsAnimeListing: UITableViewController {
                 if let dict = json as? [String: Any],
                    let viewer = dict["data"] as? [String: Any],
                    let user = viewer["Viewer"] as? [String: Any],
-                   let username = user["name"] as? String {
+                   let username = user["name"] as? String,
+                   let options = user["options"] as? [String: Any],
+                   let profileColorName = options["profileColor"] as? String {
+                    
+                    let color = self.colorFromName(profileColorName)
+                    
                     DispatchQueue.main.async {
-                        self.statusLabel.text = "Logged in as \(username)"
+                        let fullText = "Logged in as \(username)"
+                        let attributedText = NSMutableAttributedString(string: fullText)
+                        
+                        let usernameRange = (fullText as NSString).range(of: username)
+                        attributedText.addAttribute(.foregroundColor, value: color, range: usernameRange)
+                        
+                        self.statusLabel.attributedText = attributedText
                     }
                 } else {
                     DispatchQueue.main.async {
@@ -110,5 +123,30 @@ class SettingsAnimeListing: UITableViewController {
         }
 
         task.resume()
+    }
+    
+    func colorFromName(_ name: String) -> UIColor {
+        switch name.lowercased() {
+        case "blue":
+            return UIColor.systemBlue
+        case "purple":
+            return UIColor.systemPurple
+        case "pink":
+            return UIColor.systemPink
+        case "orange":
+            return UIColor.systemOrange
+        case "red":
+            return UIColor.systemRed
+        case "green":
+            return UIColor.systemGreen
+        case "gray":
+            return UIColor.systemGray
+        case "teal":
+            return UIColor.systemTeal
+        case "yellow":
+            return UIColor.systemYellow
+        default:
+            return UIColor.label
+        }
     }
 }
