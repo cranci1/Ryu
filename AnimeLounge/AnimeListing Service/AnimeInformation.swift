@@ -33,7 +33,7 @@ class AnimeInformation: UIViewController, UITableViewDataSource {
         button.addTarget(self, action: #selector(searchEpisodesButtonTapped), for: .touchUpInside)
         button.backgroundColor = .systemTeal
         button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         button.layer.cornerRadius = 15
         button.clipsToBounds = true
         return button
@@ -118,7 +118,7 @@ class AnimeInformation: UIViewController, UITableViewDataSource {
         bannerImageView.contentMode = .scaleAspectFill
         bannerImageView.clipsToBounds = true
         
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 24)
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
         titleLabel.numberOfLines = 2
         titleLabel.textColor = .label
     }

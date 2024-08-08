@@ -431,6 +431,24 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
             
             UserDefaults.standard.set(currentTime, forKey: "lastPlayedTime_\(self.fullURL)")
             UserDefaults.standard.set(duration, forKey: "totalTime_\(self.fullURL)")
+            
+            if remainingTime < 90 && !(self.animeDetailsViewController!.hasSentUpdate) {
+                let cleanedTitle = self.animeDetailsViewController?.cleanTitle(self.animeDetailsViewController?.animeTitle ?? "Unknown Anime")
+                
+                self.animeDetailsViewController?.fetchAnimeID(title: cleanedTitle ?? "Title") { animeID in
+                    let aniListMutation = AniListMutation()
+                    aniListMutation.updateAnimeProgress(animeId: animeID, episodeNumber: Int(self.cell.episodeNumber) ?? 0) { result in
+                        switch result {
+                        case .success():
+                            print("Successfully updated anime progress.")
+                        case .failure(let error):
+                            print("Failed to update anime progress: \(error.localizedDescription)")
+                        }
+                    }
+                    
+                    self.animeDetailsViewController?.hasSentUpdate = true
+                }
+            }
         }
     }
 

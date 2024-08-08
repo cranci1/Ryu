@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class AnimeHeaderCell: UITableViewCell {
     private let animeImageView = UIImageView()
@@ -20,6 +21,7 @@ class AnimeHeaderCell: UITableViewCell {
     
     var favoriteButtonTapped: (() -> Void)?
     var showOptionsMenu: (() -> Void)?
+    var fetchAndNavigateToAnime: ((String) -> Void)?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -131,12 +133,43 @@ class AnimeHeaderCell: UITableViewCell {
         ])
     }
     
+
     @objc private func favoriteButtonPressed() {
         favoriteButtonTapped?()
     }
-    
+
     @objc private func optionsButtonTapped() {
         showOptionsMenu?()
+    }
+
+    private func fetchAnimeID(byTitle title: String, completion: @escaping (Result<Int, Error>) -> Void) {
+        let query = """
+        query {
+            Media(search: "\(title)", type: ANIME) {
+                id
+            }
+        }
+        """
+
+        let parameters: [String: Any] = ["query": query]
+
+        AF.request("https://graphql.anilist.co", method: .post, parameters: parameters, encoding: JSONEncoding.default)
+            .responseJSON { response in
+                switch response.result {
+                case .success(let value):
+                    if let json = value as? [String: Any],
+                       let data = json["data"] as? [String: Any],
+                       let media = data["Media"] as? [String: Any],
+                       let id = media["id"] as? Int {
+                        completion(.success(id))
+                    } else {
+                        let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid response"])
+                        completion(.failure(error))
+                    }
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
     }
     
     func configure(title: String?, imageUrl: String?, aliases: String, isFavorite: Bool, airdate: String, stars: String, href: String?) {

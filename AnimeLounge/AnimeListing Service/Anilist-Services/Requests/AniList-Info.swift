@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Alamofire
 
 class AnimeService {
     static func fetchAnimeDetails(animeID: Int, completion: @escaping (Result<[String: Any], Error>) -> Void) {
@@ -131,5 +132,35 @@ class AnimeService {
                 completion(.failure(error))
             }
         }.resume()
+    }
+    
+    static func fetchAnimeID(byTitle title: String, completion: @escaping (Result<Int, Error>) -> Void) {
+        let query = """
+        query {
+            Media(search: "\(title)", type: ANIME) {
+                id
+            }
+        }
+        """
+
+        let parameters: [String: Any] = ["query": query]
+
+        AF.request("https://graphql.anilist.co", method: .post, parameters: parameters, encoding: JSONEncoding.default)
+            .responseJSON { response in
+                switch response.result {
+                case .success(let value):
+                    if let json = value as? [String: Any],
+                       let data = json["data"] as? [String: Any],
+                       let media = data["Media"] as? [String: Any],
+                       let id = media["id"] as? Int {
+                        completion(.success(id))
+                    } else {
+                        let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid response"])
+                        completion(.failure(error))
+                    }
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
     }
 }

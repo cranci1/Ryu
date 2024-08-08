@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		1339EDF52C63AD940026B8C2 /* ContinueWatchingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1339EDF42C63AD940026B8C2 /* ContinueWatchingManager.swift */; };
+		138683AC2C64B58500236EDB /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138683AB2C64B58500236EDB /* Login.swift */; };
+		138683AE2C64B5D700236EDB /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138683AD2C64B5D700236EDB /* Token.swift */; };
+		138683B12C64BAAC00236EDB /* Mutation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138683B02C64BAAC00236EDB /* Mutation.swift */; };
 		13D412A52C6260D600510461 /* AnilistAnimeInformation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13D412A42C6260D600510461 /* AnilistAnimeInformation.storyboard */; };
 		13EB72B42C63781E008EA184 /* SettingsViewDoneButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EB72B32C63781E008EA184 /* SettingsViewDoneButton.swift */; };
 		13F875692C60DE7A004C1978 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F875682C60DE7A004C1978 /* AppDelegate.swift */; };
@@ -78,6 +81,9 @@
 
 /* Begin PBXFileReference section */
 		1339EDF42C63AD940026B8C2 /* ContinueWatchingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinueWatchingManager.swift; sourceTree = "<group>"; };
+		138683AB2C64B58500236EDB /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
+		138683AD2C64B5D700236EDB /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
+		138683B02C64BAAC00236EDB /* Mutation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mutation.swift; sourceTree = "<group>"; };
 		13D412A42C6260D600510461 /* AnilistAnimeInformation.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AnilistAnimeInformation.storyboard; sourceTree = "<group>"; };
 		13EB72B32C63781E008EA184 /* SettingsViewDoneButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewDoneButton.swift; sourceTree = "<group>"; };
 		13F875652C60DE7A004C1978 /* AnimeLounge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnimeLounge.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -159,6 +165,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		138683AA2C64B56D00236EDB /* Authorization */ = {
+			isa = PBXGroup;
+			children = (
+				138683AB2C64B58500236EDB /* Login.swift */,
+				138683AD2C64B5D700236EDB /* Token.swift */,
+			);
+			path = Authorization;
+			sourceTree = "<group>";
+		};
+		138683AF2C64BA9B00236EDB /* Mutations */ = {
+			isa = PBXGroup;
+			children = (
+				138683B02C64BAAC00236EDB /* Mutation.swift */,
+			);
+			path = Mutations;
+			sourceTree = "<group>";
+		};
 		13F8755C2C60DE7A004C1978 = {
 			isa = PBXGroup;
 			children = (
@@ -401,11 +424,11 @@
 		13F875B92C60DE99004C1978 /* Source Specific */ = {
 			isa = PBXGroup;
 			children = (
-				13F875BA2C60DE99004C1978 /* ExternalVideoPlayerJK.swift */,
-				13F875BB2C60DE99004C1978 /* ExternalVideoPlayerKura.swift */,
 				13F875BC2C60DE99004C1978 /* ExternalVideoPlayer.swift */,
-				13F875BD2C60DE99004C1978 /* ExternalVideoPlayerAnix.swift */,
+				13F875BB2C60DE99004C1978 /* ExternalVideoPlayerKura.swift */,
+				13F875BA2C60DE99004C1978 /* ExternalVideoPlayerJK.swift */,
 				13F875BE2C60DE99004C1978 /* ExternalVideoPlayer3rb.swift */,
+				13F875BD2C60DE99004C1978 /* ExternalVideoPlayerAnix.swift */,
 			);
 			path = "Source Specific";
 			sourceTree = "<group>";
@@ -443,8 +466,9 @@
 		13F875C62C60DE99004C1978 /* Anilist-Services */ = {
 			isa = PBXGroup;
 			children = (
+				138683AF2C64BA9B00236EDB /* Mutations */,
+				138683AA2C64B56D00236EDB /* Authorization */,
 				13F875C72C60DE99004C1978 /* Requests */,
-				13F875CB2C60DE99004C1978 /* AniList-Info.swift */,
 			);
 			path = "Anilist-Services";
 			sourceTree = "<group>";
@@ -452,6 +476,7 @@
 		13F875C72C60DE99004C1978 /* Requests */ = {
 			isa = PBXGroup;
 			children = (
+				13F875CB2C60DE99004C1978 /* AniList-Info.swift */,
 				13F875C82C60DE99004C1978 /* AniList-Airing.swift */,
 				13F875C92C60DE99004C1978 /* AniList-Trending.swift */,
 				13F875CA2C60DE99004C1978 /* AniList-Sesonal.swift */,
@@ -573,6 +598,7 @@
 				13F875F62C60DE99004C1978 /* DownloadManager.swift in Sources */,
 				13F875E62C60DE99004C1978 /* ActiveDownloadsViewController.swift in Sources */,
 				13F876072C60DE99004C1978 /* AniList-Sesonal.swift in Sources */,
+				138683AC2C64B58500236EDB /* Login.swift in Sources */,
 				13F876042C60DE99004C1978 /* Jikan-Airing.swift in Sources */,
 				13F876052C60DE99004C1978 /* AniList-Airing.swift in Sources */,
 				13F876092C60DE99004C1978 /* Kitsu-Trending.swift in Sources */,
@@ -580,6 +606,7 @@
 				13F875DD2C60DE99004C1978 /* AnimeDetailService.swift in Sources */,
 				13F875D92C60DE99004C1978 /* SettingsViewCast.swift in Sources */,
 				13F875F72C60DE99004C1978 /* MP4Downloader.swift in Sources */,
+				138683AE2C64B5D700236EDB /* Token.swift in Sources */,
 				13F876022C60DE99004C1978 /* Jikan-Sesonal.swift in Sources */,
 				13F875FE2C60DE99004C1978 /* ExternalVideoPlayer.swift in Sources */,
 				13F876062C60DE99004C1978 /* AniList-Trending.swift in Sources */,
@@ -612,6 +639,7 @@
 				13F8760C2C60DE99004C1978 /* Kitsu-Info.swift in Sources */,
 				13F876032C60DE99004C1978 /* Jikan-Trending.swift in Sources */,
 				13F8760B2C60DE99004C1978 /* Kitsu-Airing.swift in Sources */,
+				138683B12C64BAAC00236EDB /* Mutation.swift in Sources */,
 				13F875E32C60DE99004C1978 /* SearchViewController.swift in Sources */,
 				13F875D82C60DE99004C1978 /* SettingsViewSources.swift in Sources */,
 				13F875FC2C60DE99004C1978 /* ExternalVideoPlayerJK.swift in Sources */,

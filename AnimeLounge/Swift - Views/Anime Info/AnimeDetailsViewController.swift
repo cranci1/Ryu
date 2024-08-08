@@ -40,6 +40,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
     private var isSynopsisExpanded = false
     
     var availableQualities: [String] = []
+    var hasSentUpdate = false
 
     func configure(title: String, imageUrl: String, href: String) {
         self.animeTitle = title
@@ -215,6 +216,14 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
     private func showOptionsMenu() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
+        let fetchIDAction = UIAlertAction(title: "AniList Info", style: .default) { [weak self] _ in
+            guard let self = self else { return }
+            let cleanedTitle = self.cleanTitle(self.animeTitle ?? "Title")
+            self.fetchAndNavigateToAnime(title: cleanedTitle)
+        }
+        fetchIDAction.setValue(UIImage(systemName: "info.circle"), forKey: "image")
+        alertController.addAction(fetchIDAction)
+        
         let openOnWebAction = UIAlertAction(title: "Open on Web", style: .default) { [weak self] _ in
             self?.openAnimeOnWeb()
         }
@@ -237,6 +246,37 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         }
         
         present(alertController, animated: true, completion: nil)
+    }
+    
+    func cleanTitle(_ title: String) -> String {
+        let unwantedStrings = ["(ITA)", "(Dub)", "(Dub ID)", "(Dublado)"]
+        var cleanedTitle = title
+        
+        for unwanted in unwantedStrings {
+            cleanedTitle = cleanedTitle.replacingOccurrences(of: unwanted, with: "")
+        }
+        
+        cleanedTitle = cleanedTitle.replacingOccurrences(of: "\"", with: "")
+        return cleanedTitle.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    private func fetchAndNavigateToAnime(title: String) {
+        AnimeService.fetchAnimeID(byTitle: title) { [weak self] result in
+            switch result {
+            case .success(let id):
+                self?.navigateToAnimeDetail(for: id)
+            case .failure(let error):
+                print("Error fetching anime ID: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    private func navigateToAnimeDetail(for animeID: Int) {
+        let storyboard = UIStoryboard(name: "AnilistAnimeInformation", bundle: nil)
+        if let animeDetailVC = storyboard.instantiateViewController(withIdentifier: "AnimeInformation") as? AnimeInformation {
+            animeDetailVC.animeID = animeID
+            navigationController?.pushViewController(animeDetailVC, animated: true)
+        }
     }
     
     private func openAnimeOnWeb() {
@@ -442,6 +482,8 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
     }
 
     func playEpisode(url: String, cell: EpisodeCell, fullURL: String) {
+        hasSentUpdate = false
+        
         guard let videoURL = URL(string: url) else {
             print("Invalid URL: \(url)")
             return
@@ -887,16 +929,34 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             UserDefaults.standard.set(currentTime, forKey: "lastPlayedTime_\(fullURL)")
             UserDefaults.standard.set(duration, forKey: "totalTime_\(fullURL)")
             
-            let continueWatchingItem = ContinueWatchingItem(
-                animeTitle: self.animeTitle ?? "Unknown Anime",
-                episodeTitle: "Ep. \(cell.episodeNumber)",
-                episodeNumber: Int(cell.episodeNumber) ?? 0,
-                imageURL: self.imageUrl ?? "",
-                fullURL: fullURL,
-                lastPlayedTime: currentTime,
-                totalTime: duration
-            )
-            ContinueWatchingManager.shared.saveItem(continueWatchingItem)
+            if remainingTime < 90 && !self.hasSentUpdate {
+                let cleanedTitle = self.cleanTitle(self.animeTitle ?? "Unknown Anime")
+                
+                self.fetchAnimeID(title: cleanedTitle) { animeID in
+                    let aniListMutation = AniListMutation()
+                    aniListMutation.updateAnimeProgress(animeId: animeID, episodeNumber: Int(cell.episodeNumber) ?? 0) { result in
+                        switch result {
+                        case .success():
+                            print("Successfully updated anime progress.")
+                        case .failure(let error):
+                            print("Failed to update anime progress: \(error.localizedDescription)")
+                        }
+                    }
+                    
+                    self.hasSentUpdate = true
+                }
+            }
+        }
+    }
+
+    func fetchAnimeID(title: String, completion: @escaping (Int) -> Void) {
+        AnimeService.fetchAnimeID(byTitle: title) { [weak self] result in
+            switch result {
+            case .success(let id):
+                completion(id)
+            case .failure(let error):
+                print("Error fetching anime ID: \(error.localizedDescription)")
+            }
         }
     }
     

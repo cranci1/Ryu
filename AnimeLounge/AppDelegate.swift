@@ -53,6 +53,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GCKCastContext.setSharedInstanceWith(options)
     }
     
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        if url.scheme == "animelounge" {
+            if let queryParams = url.queryParameters, let code = queryParams["code"] {
+                NotificationCenter.default.post(name: Notification.Name("AuthorizationCodeReceived"), object: nil, userInfo: ["code": code])
+            }
+        }
+        return true
+    }
+    
     // MARK: UISceneSession Lifecycle
     
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
