@@ -62,6 +62,10 @@
                                                 <constraint firstItem="mfn-kK-Wvh" firstAttribute="centerY" secondItem="sbr-Pt-vRR" secondAttribute="centerY" id="YNA-qq-Xb6"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="NKT-O0-ES7" appends="YES" id="9DI-HA-yPW"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -265,43 +269,10 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Downloads" id="0VC-nq-gAL">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="12v-VD-7Aa">
-                                        <rect key="frame" x="20" y="612" width="374" height="43.5"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="12v-VD-7Aa" id="Ttn-kI-r5O">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notification when finished" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jvr-UF-HWf">
-                                                    <rect key="frame" x="15" y="13" width="178" height="18"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wjq-ay-YLS">
-                                                    <rect key="frame" x="310" y="6.5" width="51" height="31"/>
-                                                    <color key="onTintColor" name="AccentColor"/>
-                                                    <connections>
-                                                        <action selector="notificationToggle:" destination="pc2-lO-9Ci" eventType="valueChanged" id="Hr2-HW-lP2"/>
-                                                    </connections>
-                                                </switch>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="wjq-ay-YLS" firstAttribute="centerY" secondItem="Ttn-kI-r5O" secondAttribute="centerY" id="8at-nn-Twz"/>
-                                                <constraint firstItem="jvr-UF-HWf" firstAttribute="centerY" secondItem="Ttn-kI-r5O" secondAttribute="centerY" id="LXv-ys-Teu"/>
-                                                <constraint firstItem="wjq-ay-YLS" firstAttribute="trailing" secondItem="Ttn-kI-r5O" secondAttribute="trailing" constant="-15" id="MU2-aW-UIK"/>
-                                                <constraint firstItem="jvr-UF-HWf" firstAttribute="leading" secondItem="Ttn-kI-r5O" secondAttribute="leading" constant="15" id="lPg-Ah-9U6"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
                             <tableViewSection headerTitle="Home Configuration" id="NpK-mw-Ph6">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="GOv-Nu-HBP">
-                                        <rect key="frame" x="20" y="705.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="612" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="GOv-Nu-HBP" id="cZi-Uj-rTb">
                                             <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
@@ -328,7 +299,7 @@
                             <tableViewSection headerTitle="Datas" id="y8g-0P-qDQ">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="hfE-We-1uZ">
-                                        <rect key="frame" x="20" y="799" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="705.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hfE-We-1uZ" id="xJ2-Ge-9P0">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -352,7 +323,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="MCd-19-KYt">
-                                        <rect key="frame" x="20" y="842.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="749" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="MCd-19-KYt" id="q9N-QI-RRZ">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -376,7 +347,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="mQq-1t-gtR">
-                                        <rect key="frame" x="20" y="886" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="792.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mQq-1t-gtR" id="tiP-rb-fIJ">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -400,7 +371,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="HUR-n8-Rbx">
-                                        <rect key="frame" x="20" y="929.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="836" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HUR-n8-Rbx" id="bHB-r2-4FI">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -424,13 +395,13 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="nUw-b7-C1T">
-                                        <rect key="frame" x="20" y="973" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="879.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="nUw-b7-C1T" id="zBm-wD-CZR">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Reset app" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8V1-Vb-S8x">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reset app" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8V1-Vb-S8x">
                                                     <rect key="frame" x="15" y="13" width="69" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" systemColor="systemRedColor"/>
@@ -467,7 +438,6 @@
                         <outlet property="autoPlaySwitch" destination="xtA-Zv-yy8" id="Wzy-AC-GdI"/>
                         <outlet property="browserPlayerSwitch" destination="2jM-8Y-fd7" id="iLv-e3-heq"/>
                         <outlet property="landScapeSwitch" destination="apH-8D-ZHY" id="GwO-YD-2iP"/>
-                        <outlet property="notificationSwitch" destination="wjq-ay-YLS" id="epj-gO-u0W"/>
                         <outlet property="playerButton" destination="L8H-Zg-guy" id="0Q4-Tt-FwK"/>
                         <outlet property="sourceButton" destination="W9H-Zl-VGT" id="UpL-9A-z5g"/>
                     </connections>
@@ -498,6 +468,11 @@
                         <action selector="resetAppTapped:" destination="pc2-lO-9Ci" id="Q5G-TZ-ODl"/>
                     </connections>
                 </tapGestureRecognizer>
+                <tapGestureRecognizer id="NKT-O0-ES7" userLabel="github">
+                    <connections>
+                        <action selector="githubTapped:" destination="pc2-lO-9Ci" id="GvN-3B-oEb"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="464" y="217"/>
         </scene>
@@ -512,7 +487,7 @@
                             <tableViewSection headerTitle="About AnimeLounge" id="12i-Tl-sd4">
                                 <string key="footerTitle">AnimeLounge is a free, open source iOS app, developed by cranci. The app is under the GNU General Public License version 3. 
 
-AnimeLounge is also not made to promote piracy. Its just a steaming app.</string>
+AnimeLounge is also not made to promote piracy. Its just a streaming app.</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="tq6-ws-kMz">
                                         <rect key="frame" x="20" y="32" width="374" height="43.5"/>
@@ -594,8 +569,32 @@ AnimeLounge is also not made to promote piracy. Its just a steaming app.</string
                                             <outletCollection property="gestureRecognizers" destination="0qe-B8-dQ2" appends="YES" id="xcP-Eu-EXD"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Fgy-G7-OYD">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="hnH-hg-ggD">
                                         <rect key="frame" x="20" y="162.5" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hnH-hg-ggD" id="33a-sB-LaZ">
+                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Discord Server" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kEb-Sz-w8z">
+                                                    <rect key="frame" x="16" y="13" width="101.5" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="kEb-Sz-w8z" firstAttribute="leading" secondItem="33a-sB-LaZ" secondAttribute="leading" constant="16" id="XK7-xS-egc"/>
+                                                <constraint firstItem="kEb-Sz-w8z" firstAttribute="centerY" secondItem="33a-sB-LaZ" secondAttribute="centerY" id="xWQ-gY-AvU"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="9yg-eA-erD" appends="YES" id="tc1-MG-ATy"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Fgy-G7-OYD">
+                                        <rect key="frame" x="20" y="206" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Fgy-G7-OYD" id="ANt-qn-9fI">
                                             <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
@@ -624,7 +623,7 @@ AnimeLounge is also not made to promote piracy. Its just a steaming app.</string
                                 <string key="footerTitle">AnimeLounge prioritizes user privacy and does not store any personal data. All generated images are not retained by the app. If a user chooses to download an episode, it will only be stored locally in their device storage or on the Downloads Page in the app. We are committed to ensuring a secure and private experience for our users.</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="b3t-fq-I03">
-                                        <rect key="frame" x="20" y="342" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="385.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="b3t-fq-I03" id="hGD-gI-TTN">
                                             <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
@@ -644,7 +643,7 @@ AnimeLounge is also not made to promote piracy. Its just a steaming app.</string
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="oBQ-XV-Yb3">
-                                        <rect key="frame" x="20" y="385.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="429" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oBQ-XV-Yb3" id="iwq-sG-PiT">
                                             <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
@@ -679,7 +678,7 @@ AnimeLounge is distributed in the hope that it will be useful, but WITHOUT ANY W
 You should have received a copy of the GNU General Public License along with AnimeLounge. If not, see &lt;https://www.gnu.org/licenses/&gt;.</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="HkG-T8-RWQ">
-                                        <rect key="frame" x="20" y="565" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="392" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HkG-T8-RWQ" id="w93-1l-591">
                                             <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
@@ -705,7 +704,7 @@ You should have received a copy of the GNU General Public License along with Ani
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="Credits" id="Mkr-5S-bqG">
-                                <string key="footerTitle">SwiftSoup 
+                                <mutableString key="footerTitle">SwiftSoup 
 
 Copyright (c) 2016 Nabil Chatbi
 
@@ -730,7 +729,6 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
 
 KingFisher 
  The MIT License (MIT)
-
 Copyright (c) 2019 Wei Wang
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -742,15 +740,27 @@ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
 
 
 
+NineAnimator - GPL v3.0
+
+Copyright © 2018-2020 Marcus Zhou. All rights reserved.
+
+NineAnimator is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+NineAnimator is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with NineAnimator.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+
+
+
 Google Cast
 
-https://developers.google.com/terms/</string>
+https://developers.google.com/terms/</mutableString>
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="w4T-NN-0Re">
-                                        <rect key="frame" x="20" y="884.5" width="374" height="43.5"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="w4T-NN-0Re">
+                                        <rect key="frame" x="20" y="928" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="w4T-NN-0Re" id="94Y-a6-fSO">
-                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Credits" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X8M-ek-yai">
@@ -809,6 +819,11 @@ https://developers.google.com/terms/</string>
                 <tapGestureRecognizer id="37h-4f-79A" userLabel="review code">
                     <connections>
                         <action selector="reviewCodeTapped:" destination="RUG-Sz-sjD" id="fl7-Xt-a1U"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="9yg-eA-erD" userLabel="discord">
+                    <connections>
+                        <action selector="discordTapped:" destination="RUG-Sz-sjD" id="ZQq-Tv-p2N"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
@@ -1279,7 +1294,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="English" id="fYe-E8-Rgs">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" changesSelectionAsPrimaryAction="YES" id="chI-hZ-RLg">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="chI-hZ-RLg">
                             <color key="tintColor" name="AccentColor"/>
                             <connections>
                                 <action selector="closeButtonTapped" destination="cJV-32-Gdf" id="NYF-L8-HMq"/>
@@ -1510,7 +1525,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Arabic" id="EC9-m5-M4g">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" changesSelectionAsPrimaryAction="YES" id="Zyy-X6-pjU">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="Zyy-X6-pjU">
                             <color key="tintColor" name="AccentColor"/>
                             <connections>
                                 <action selector="closeButtonTapped" destination="SBo-tV-e5l" id="7p1-ct-NGM"/>
@@ -1572,7 +1587,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Spanish" id="L4k-27-phZ">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" changesSelectionAsPrimaryAction="YES" id="6BO-Ya-3ds">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="6BO-Ya-3ds">
                             <color key="tintColor" name="AccentColor"/>
                             <connections>
                                 <action selector="closeButtonTapped" destination="aWZ-9I-A7W" id="lqb-UD-ljX"/>
@@ -1634,7 +1649,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Portuguese" id="AG7-nX-7Z3">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" changesSelectionAsPrimaryAction="YES" id="CK4-lz-KET">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="CK4-lz-KET">
                             <color key="tintColor" name="AccentColor"/>
                             <connections>
                                 <action selector="closeButtonTapped" destination="u9E-La-n8l" id="345-yf-MCg"/>
@@ -1696,7 +1711,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Italian" id="U2W-zz-5HZ">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" changesSelectionAsPrimaryAction="YES" id="NQE-lA-7Bd">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="NQE-lA-7Bd">
                             <color key="tintColor" name="AccentColor"/>
                             <connections>
                                 <action selector="closeButtonTapped" destination="eAZ-FQ-auX" id="HOo-eg-On5"/>
@@ -1758,7 +1773,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Indonesian" id="cSZ-ND-Nil">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" changesSelectionAsPrimaryAction="YES" id="LLf-zf-g3s">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="LLf-zf-g3s">
                             <color key="tintColor" name="AccentColor"/>
                             <connections>
                                 <action selector="closeButtonTapped" destination="rWP-Br-aGm" id="Et9-ur-Z2J"/>

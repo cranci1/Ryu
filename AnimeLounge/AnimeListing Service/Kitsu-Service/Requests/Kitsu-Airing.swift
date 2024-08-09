@@ -25,8 +25,7 @@ class KitsuServiceAiringAnime {
                                   let attributes = item["attributes"] as? [String: Any],
                                   let titles = attributes["titles"] as? [String: String],
                                   let posterImage = attributes["posterImage"] as? [String: Any],
-                                  let originalImageUrl = posterImage["original"] as? String,
-                                  let startDate = attributes["startDate"] as? String else {
+                                  let originalImageUrl = posterImage["original"] as? String else {
                                 return nil
                             }
                             

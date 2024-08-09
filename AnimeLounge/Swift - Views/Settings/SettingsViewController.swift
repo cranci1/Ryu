@@ -13,10 +13,11 @@ class SettingsViewController: UITableViewController {
     @IBOutlet var autoPlaySwitch: UISwitch!
     @IBOutlet var landScapeSwitch: UISwitch!
     @IBOutlet var browserPlayerSwitch: UISwitch!
-    @IBOutlet var notificationSwitch: UISwitch!
     
     @IBOutlet weak var playerButton: UIButton!
     @IBOutlet weak var sourceButton: UIButton!
+    
+    let githubURL = "https://github.com/cranci1/AnimeLounge/"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +26,16 @@ class SettingsViewController: UITableViewController {
         
         if let selectedOption = UserDefaults.standard.string(forKey: "selectedMediaSource") {
             sourceButton.setTitle(selectedOption, for: .normal)
+        }
+    }
+    
+    @IBAction func githubTapped(_ sender: UITapGestureRecognizer) {
+        openURL(githubURL)
+    }
+    
+    func openURL(_ urlString: String) {
+        if let url = URL(string: urlString) {
+            UIApplication.shared.open(url)
         }
     }
     
@@ -77,7 +88,6 @@ class SettingsViewController: UITableViewController {
         autoPlaySwitch.isOn = UserDefaults.standard.bool(forKey: "AutoPlay")
         landScapeSwitch.isOn = UserDefaults.standard.bool(forKey: "AlwaysLandscape")
         browserPlayerSwitch.isOn = UserDefaults.standard.bool(forKey: "browserPlayer")
-        notificationSwitch.isOn = UserDefaults.standard.bool(forKey: "notificationOnDownload")
     }
     
     @IBAction func clearCache(_ sender: Any) {
@@ -114,34 +124,6 @@ class SettingsViewController: UITableViewController {
     
     @IBAction func clearSearchHistory(_ sender: Any) {
         clearSearchHistory()
-    }
-    
-    @IBAction func notificationToggle(_ sender: UISwitch) {
-        UserDefaults.standard.set(sender.isOn, forKey: "notificationOnDownload")
-        if sender.isOn {
-            requestNotificationPermission()
-        }
-    }
-    
-    private func requestNotificationPermission() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
-            if let error = error {
-                print("Notification permission error: \(error.localizedDescription)")
-                DispatchQueue.main.async {
-                    self.notificationSwitch.isOn = false
-                    UserDefaults.standard.set(false, forKey: "notificationOnDownload")
-                }
-                return
-            }
-            
-            DispatchQueue.main.async {
-                if !granted {
-                    self.notificationSwitch.isOn = false
-                    UserDefaults.standard.set(false, forKey: "notificationOnDownload")
-                    self.showAlert(message: "Notification permissions were not granted.")
-                }
-            }
-        }
     }
     
     private func clearSearchHistory() {

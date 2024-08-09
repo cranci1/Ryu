@@ -963,7 +963,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
     }
 
     func fetchAnimeID(title: String, completion: @escaping (Int) -> Void) {
-        AnimeService.fetchAnimeID(byTitle: title) { [weak self] result in
+        AnimeService.fetchAnimeID(byTitle: title) { result in
             switch result {
             case .success(let id):
                 completion(id)

@@ -107,8 +107,8 @@ class AnimeInformation: UIViewController, UITableViewDataSource {
             
             searchEpisodesButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
             searchEpisodesButton.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            searchEpisodesButton.widthAnchor.constraint(equalToConstant: 160),
-            searchEpisodesButton.heightAnchor.constraint(equalToConstant: 36)
+            searchEpisodesButton.widthAnchor.constraint(equalToConstant: 140),
+            searchEpisodesButton.heightAnchor.constraint(equalToConstant: 33)
         ])
         
         coverImageView.layer.cornerRadius = 8

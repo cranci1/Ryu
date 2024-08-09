@@ -29,6 +29,27 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
     private let aniListServiceTrending = AnilistServiceTrendingAnime()
     private let aniListServiceSeasonal = AnilistServiceSeasonalAnime()
     
+    private let funnyTexts: [String] = [
+        "No shows here... did you just break the internet?",
+        "Oops, looks like you finished everything! Try something fresh.",
+        "You've watched it all! Time to rewatch or explore!",
+        "Nothing left to watch... for now!",
+        "All clear! Ready to start a new watch marathon?",
+        "Your watchlist is taking a nap... Wake it up with something new!",
+        "Nothing to continue here... maybe it's snack time?",
+        "Looks empty... Wanna start a new adventure?",
+        "All caught up! What’s next on the list?"
+    ]
+    
+    private let emptyContinueWatchingLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .gray
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.isUserInteractionEnabled = true
+        return label
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -36,6 +57,7 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
         setupDateLabel()
         setupSelectedSourceLabel()
         setupRefreshControl()
+        setupEmptyContinueWatchingLabel()
         fetchAnimeData()
         
         SourceMenu.delegate = self
@@ -46,9 +68,22 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
         loadContinueWatchingItems()
     }
     
+    private func setupEmptyContinueWatchingLabel() {
+        emptyContinueWatchingLabel.frame = continueWatchingCollectionView.bounds
+        continueWatchingCollectionView.backgroundView = emptyContinueWatchingLabel
+    }
+
     func loadContinueWatchingItems() {
         continueWatchingItems = ContinueWatchingManager.shared.getItems()
         continueWatchingCollectionView.reloadData()
+        
+        if continueWatchingItems.isEmpty {
+            let randomText = funnyTexts.randomElement() ?? "No anime here!"
+            emptyContinueWatchingLabel.text = randomText
+            emptyContinueWatchingLabel.isHidden = false
+        } else {
+            emptyContinueWatchingLabel.isHidden = true
+        }
     }
     
     func setupCollectionViews() {
@@ -173,6 +208,7 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
     
     func refreshUI() {
         DispatchQueue.main.async {
+            self.loadContinueWatchingItems()
             self.continueWatchingCollectionView.reloadData()
             self.airingCollectionView.reloadData()
             self.trendingCollectionView.reloadData()

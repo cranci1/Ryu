@@ -16,6 +16,7 @@ class SettingsViewAbout: UITableViewController {
     
     let githubURL = "https://github.com/cranci1/AnimeLounge/"
     let reportIssueURL = "https://github.com/cranci1/AnimeLounge/issues"
+    let disocrdURL = "https://discord.gg/mxfZTxatzp"
     let reviewCodeURL = "https://github.com/cranci1/AnimeLounge/tree/main"
     let fullLicenseURL = "https://github.com/cranci1/AnimeLounge/blob/main/LICENSE"
     
@@ -51,6 +52,10 @@ class SettingsViewAbout: UITableViewController {
     
     @IBAction func reportIssueTapped(_ sender: UITapGestureRecognizer) {
         openURL(reportIssueURL)
+    }
+    
+    @IBAction func discordTapped(_ sender: UITapGestureRecognizer) {
+        openURL(disocrdURL)
     }
     
     @IBAction func reviewCodeTapped(_ sender: UITapGestureRecognizer) {

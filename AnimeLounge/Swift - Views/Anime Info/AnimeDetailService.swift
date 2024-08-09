@@ -138,11 +138,9 @@ class AnimeDetailService {
                 episodeElements = try document.select("div.absolute.overflow-hidden div a.gap-3")
                 downloadUrlElement = ""
             case .anix:
-                // Fetch the number of episodes text
                 guard let episodeCountText = try? document.select("div > div:contains(Episodes:) + span").first()?.text(),
                       let episodeCount = Int(episodeCountText) else { return [] }
                 
-                // Create episodes based on the count
                 episodes = (1...episodeCount).map { episodeNumber in
                     let formattedEpisode = "\(episodeNumber)"
                     let episodeHref = "\(href)/ep-\(episodeNumber)"
@@ -179,6 +177,30 @@ class AnimeDetailService {
                     } else {
                         return nil
                     }
+                }
+            case .animefire:
+                var filmCount = 0
+                episodes = episodeElements.compactMap { element in
+                    do {
+                        let episodeTitle = try element.text()
+                        let href = try element.attr("href")
+                        
+                        if episodeTitle.contains("Filme") {
+                            filmCount += 1
+                            let episodeNumber = "\(filmCount)"
+                            return Episode(number: episodeNumber, href: href, downloadUrl: "")
+                        }
+                        
+                        let episodeNumber = episodeTitle.components(separatedBy: "Episódio ")
+                            .last?.components(separatedBy: " - ").first?.trimmingCharacters(in: .whitespacesAndNewlines)
+                        
+                        if let episodeNumber = episodeNumber {
+                            return Episode(number: episodeNumber, href: href, downloadUrl: "")
+                        }
+                    } catch {
+                        print("Error parsing episode: \(error.localizedDescription)")
+                    }
+                    return nil
                 }
             case .kuramanime:
                 episodes = episodeElements.compactMap { element in
