@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1339EDF52C63AD940026B8C2 /* ContinueWatchingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1339EDF42C63AD940026B8C2 /* ContinueWatchingManager.swift */; };
-		134F1D292C664CC100C35889 /* UpdateChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134F1D282C664CC100C35889 /* UpdateChecker.swift */; };
 		138683AC2C64B58500236EDB /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138683AB2C64B58500236EDB /* Login.swift */; };
 		138683AE2C64B5D700236EDB /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138683AD2C64B5D700236EDB /* Token.swift */; };
 		138683B12C64BAAC00236EDB /* Mutation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138683B02C64BAAC00236EDB /* Mutation.swift */; };
@@ -82,7 +81,6 @@
 
 /* Begin PBXFileReference section */
 		1339EDF42C63AD940026B8C2 /* ContinueWatchingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinueWatchingManager.swift; sourceTree = "<group>"; };
-		134F1D282C664CC100C35889 /* UpdateChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateChecker.swift; sourceTree = "<group>"; };
 		138683AB2C64B58500236EDB /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		138683AD2C64B5D700236EDB /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		138683B02C64BAAC00236EDB /* Mutation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mutation.swift; sourceTree = "<group>"; };
@@ -167,14 +165,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		134F1D272C664CB400C35889 /* Update Checker */ = {
-			isa = PBXGroup;
-			children = (
-				134F1D282C664CC100C35889 /* UpdateChecker.swift */,
-			);
-			path = "Update Checker";
-			sourceTree = "<group>";
-		};
 		138683AA2C64B56D00236EDB /* Authorization */ = {
 			isa = PBXGroup;
 			children = (
@@ -385,7 +375,6 @@
 		13F875AC2C60DE98004C1978 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				134F1D272C664CB400C35889 /* Update Checker */,
 				13F875AD2C60DE98004C1978 /* Managers */,
 				13F875B12C60DE98004C1978 /* Downloaders */,
 				13F875B42C60DE98004C1978 /* Extensions */,
@@ -635,7 +624,6 @@
 				13F875D52C60DE99004C1978 /* SourceMenu.swift in Sources */,
 				13F875E12C60DE99004C1978 /* SynopsisCell.swift in Sources */,
 				13EB72B42C63781E008EA184 /* SettingsViewDoneButton.swift in Sources */,
-				134F1D292C664CC100C35889 /* UpdateChecker.swift in Sources */,
 				13F875FD2C60DE99004C1978 /* ExternalVideoPlayerKura.swift in Sources */,
 				13F875E02C60DE99004C1978 /* EpisodeCell.swift in Sources */,
 				13F875692C60DE7A004C1978 /* AppDelegate.swift in Sources */,
