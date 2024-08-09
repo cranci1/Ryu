@@ -2,7 +2,9 @@
 
 Still in Development
 
-Yes it's a NineAnimator fork aimed to be more stable and to support more sources. I will try to add atleast 2 sources per language if possible
+Yes it's a NineAnimator fork aimed to be more stable and to support more sources. I will try to add atleast 2 sources per language if possible.
+
+Now on [TestFlight](https://testflight.apple.com/join/Sxyg9JXF)
 
 ## Features
 

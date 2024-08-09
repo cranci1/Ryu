@@ -825,6 +825,8 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         let downloadManager = DownloadManager.shared
         let title = "\(self.animeTitle ?? "Anime") - Ep. \(episode.number)"
         
+        self.showAlert(title: "Download", message: "Your download has started!")
+        
         downloadManager.startDownload(url: sourceURL, title: title, progress: { progress in
             print("Download progress: \(progress * 100)%")
         }) { [weak self] result in
@@ -838,10 +840,8 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         switch result {
         case .success(let url):
             print("Download completed. File saved at: \(url)")
-            self.showAlert(title: "Download Completed!", message: "You can find your download in the Library -> Downloads.")
         case .failure(let error):
             print("Download failed with error: \(error.localizedDescription)")
-            self.showAlert(title: "Download Failed", message: error.localizedDescription)
         }
     }
 

@@ -10,37 +10,44 @@ import UIKit
 class SourceMenu {
     static weak var delegate: SourceSelectionDelegate?
 
-    static func showSourceSelector(from viewController: UIViewController, sourceView: UIView) {
-        let sources: [(title: String, source: MediaSource)] = [
-            ("AnimeWorld", .animeWorld),
-            ("GoGoAnime", .gogoanime),
-            ("AnimeHeaven", .animeheaven),
-            ("AnimeFire", .animefire),
-            ("Kuramanime", .kuramanime),
-            ("JKanime", .jkanime),
-            ("Anime3rb", .anime3rb),
-            ("Anix", .anix)
-        ]
-        
-        let alertController = UIAlertController(title: "Select Source", message: "Choose your preferred source for AnimeLounge.", preferredStyle: .actionSheet)
-        
-        for (title, source) in sources {
-            let action = UIAlertAction(title: title, style: .default) { _ in
-                UserDefaults.standard.selectedMediaSource = source
-                delegate?.didSelectNewSource()
+    static func showSourceSelector(from viewController: UIViewController, sourceView: UIView?) {
+        DispatchQueue.main.async {
+            let sources: [(title: String, source: MediaSource)] = [
+                ("AnimeWorld", .animeWorld),
+                ("GoGoAnime", .gogoanime),
+                ("AnimeHeaven", .animeheaven),
+                ("AnimeFire", .animefire),
+                ("Kuramanime", .kuramanime),
+                ("JKanime", .jkanime),
+                ("Anime3rb", .anime3rb),
+                ("Anix", .anix)
+            ]
+            
+            let alertController = UIAlertController(title: "Select Source", message: "Choose your preferred source for AnimeLounge.", preferredStyle: .actionSheet)
+            
+            for (title, source) in sources {
+                let action = UIAlertAction(title: title, style: .default) { _ in
+                    UserDefaults.standard.selectedMediaSource = source
+                    delegate?.didSelectNewSource()
+                }
+                setSourceImage(for: action, named: title)
+                alertController.addAction(action)
             }
-            setSourceImage(for: action, named: title)
-            alertController.addAction(action)
+            
+            alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+            
+            if let popoverController = alertController.popoverPresentationController {
+                if let sourceView = sourceView, sourceView.window != nil {
+                    popoverController.sourceView = sourceView
+                    popoverController.sourceRect = sourceView.bounds
+                } else {
+                    popoverController.sourceView = viewController.view
+                    popoverController.sourceRect = viewController.view.bounds
+                }
+            }
+            
+            viewController.present(alertController, animated: true)
         }
-        
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        
-        if let popoverController = alertController.popoverPresentationController {
-            popoverController.sourceView = sourceView
-            popoverController.sourceRect = sourceView.bounds
-        }
-        
-        viewController.present(alertController, animated: true)
     }
     
     private static func setSourceImage(for action: UIAlertAction, named imageName: String) {
