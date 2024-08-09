@@ -1,0 +1,7 @@
+{
+    "version": "1.0.0",
+    "buildNumber": 7,
+    "forceUpdate": false,
+    "updateMessage": "New version with many fixes and features added."
+    "releaseUrl": "https://github.com/yourusername/yourrepo/releases/tag/v1.2.0"
+}

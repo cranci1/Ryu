@@ -59,6 +59,7 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
         setupRefreshControl()
         setupEmptyContinueWatchingLabel()
         fetchAnimeData()
+        updateCheck()
         
         SourceMenu.delegate = self
     }
@@ -226,6 +227,14 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
     func didSelectNewSource() {
         setupSelectedSourceLabel()
         fetchAnimeData()
+    }
+    
+    func updateCheck() {
+        UpdateChecker.shared.checkForUpdates { updateAvailable, appVersion in
+            if updateAvailable, let version = appVersion {
+                UpdateChecker.shared.showUpdateAlert(appVersion: version)
+            }
+        }
     }
 }
 
