@@ -220,15 +220,7 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
     }
     
     @IBAction func selectSourceButtonTapped(_ sender: UIButton) {
-        if isViewLoaded && view.window != nil {
-            SourceMenu.showSourceSelector(from: self, sourceView: sender) { success in
-                if !success {
-                    print("Failed to present source selector")
-                }
-            }
-        } else {
-            print("View not ready for presentation")
-        }
+        SourceMenu.showSourceSelector(from: self, sourceView: sender)
     }
     
     func didSelectNewSource() {
