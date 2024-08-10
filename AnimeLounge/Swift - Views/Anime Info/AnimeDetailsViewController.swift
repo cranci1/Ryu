@@ -101,7 +101,9 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
               let contentURL = URL(string: href ?? "") else {
             return nil
         }
-        return FavoriteItem(title: title, imageURL: imageURL, contentURL: contentURL)
+        let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
+        
+        return FavoriteItem(title: title, imageURL: imageURL, contentURL: contentURL, source: selectedMediaSource)
     }
     
     private func checkFavoriteStatus() {
@@ -930,6 +932,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             UserDefaults.standard.set(duration, forKey: "totalTime_\(fullURL)")
             
             let episodeNumber = Int(cell.episodeNumber) ?? 0
+            let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
             
             let continueWatchingItem = ContinueWatchingItem(
                 animeTitle: self.animeTitle ?? "Unknown Anime",
@@ -938,11 +941,12 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                 imageURL: self.imageUrl ?? "",
                 fullURL: fullURL,
                 lastPlayedTime: currentTime,
-                totalTime: duration
+                totalTime: duration,
+                source: selectedMediaSource
             )
             ContinueWatchingManager.shared.saveItem(continueWatchingItem)
             
-            if remainingTime < 90 && !self.hasSentUpdate {
+            if remainingTime < 120 && !self.hasSentUpdate {
                 let cleanedTitle = self.cleanTitle(self.animeTitle ?? "Unknown Anime")
                 
                 self.fetchAnimeID(title: cleanedTitle) { animeID in

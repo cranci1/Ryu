@@ -60,6 +60,9 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
         setupEmptyContinueWatchingLabel()
         fetchAnimeData()
         
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+        continueWatchingCollectionView.addGestureRecognizer(longPressGesture)
+        
         SourceMenu.delegate = self
     }
     
@@ -220,12 +223,55 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
     }
     
     @IBAction func selectSourceButtonTapped(_ sender: UIButton) {
-        SourceMenu.showSourceSelector(from: self, sourceView: sender)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            let alertController = UIAlertController(title: "Change Source",  message: "Please change the source via Settings.", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            
+            alertController.addAction(okAction)
+            
+            self.present(alertController, animated: true, completion: nil)
+        } else {
+            SourceMenu.showSourceSelector(from: self, sourceView: sender)
+        }
     }
     
     func didSelectNewSource() {
         setupSelectedSourceLabel()
         fetchAnimeData()
+    }
+    
+    @objc func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
+        if gestureRecognizer.state == .began {
+            let point = gestureRecognizer.location(in: continueWatchingCollectionView)
+            if let indexPath = continueWatchingCollectionView.indexPathForItem(at: point) {
+                showRemoveAlert(for: indexPath)
+            }
+        }
+    }
+    
+    func showRemoveAlert(for indexPath: IndexPath) {
+        let item = continueWatchingItems[indexPath.item]
+        let alert = UIAlertController(title: "Remove Item", message: "Do you want to remove '\(item.animeTitle)' from continue watching?", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Remove", style: .destructive, handler: { [weak self] _ in
+            self?.removeContinueWatchingItem(at: indexPath)
+        }))
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func removeContinueWatchingItem(at indexPath: IndexPath) {
+        let item = continueWatchingItems[indexPath.item]
+        ContinueWatchingManager.shared.clearItem(fullURL: item.fullURL)
+        continueWatchingItems.remove(at: indexPath.item)
+        continueWatchingCollectionView.deleteItems(at: [indexPath])
+        
+        if continueWatchingItems.isEmpty {
+            let randomText = funnyTexts.randomElement() ?? "No anime here!"
+            emptyContinueWatchingLabel.text = randomText
+            emptyContinueWatchingLabel.isHidden = false
+        }
     }
 }
 
@@ -331,9 +377,10 @@ extension HomeViewController: UICollectionViewDelegate {
         detailVC.configure(title: item.animeTitle, imageUrl: item.imageURL, href: item.fullURL)
         
         let episode = Episode(number: String(item.episodeNumber), href: item.fullURL, downloadUrl: "")
-        
         let dummyCell = EpisodeCell()
         dummyCell.episodeNumber = String(item.episodeNumber)
+        
+        UserDefaults.standard.set(item.source, forKey: "selectedMediaSource")
         
         detailVC.episodeSelected(episode: episode, cell: dummyCell)
         

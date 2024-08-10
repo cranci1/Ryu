@@ -12,6 +12,7 @@ struct FavoriteItem: Codable, Hashable {
     let title: String
     let imageURL: URL
     let contentURL: URL
+    let source: String
 }
 
 enum SortOption: String, CaseIterable {
@@ -196,13 +197,25 @@ class FavoritesViewController: UIViewController {
     }
     
     @IBAction func selectSourceButtonTapped(_ sender: UIButton) {
-        SourceMenu.showSourceSelector(from: self, sourceView: sender)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            let alertController = UIAlertController(title: "Change Source",  message: "Please change the source via Settings.", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            
+            alertController.addAction(okAction)
+            
+            self.present(alertController, animated: true, completion: nil)
+        } else {
+            SourceMenu.showSourceSelector(from: self, sourceView: sender)
+        }
     }
 }
 
 extension FavoritesViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard !isEditingMode, let item = dataSource.itemIdentifier(for: indexPath) else { return }
+        
+        UserDefaults.standard.set(item.source, forKey: "selectedMediaSource")
+        
         navigateToAnimeDetail(title: item.title, imageUrl: item.imageURL.absoluteString, href: item.contentURL.absoluteString)
     }
     

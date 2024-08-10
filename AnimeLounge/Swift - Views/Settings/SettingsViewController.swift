@@ -13,6 +13,7 @@ class SettingsViewController: UITableViewController {
     @IBOutlet var autoPlaySwitch: UISwitch!
     @IBOutlet var landScapeSwitch: UISwitch!
     @IBOutlet var browserPlayerSwitch: UISwitch!
+    @IBOutlet var mergeActivitySwitch: UISwitch!
     
     @IBOutlet weak var playerButton: UIButton!
     @IBOutlet weak var sourceButton: UIButton!
@@ -88,6 +89,7 @@ class SettingsViewController: UITableViewController {
         autoPlaySwitch.isOn = UserDefaults.standard.bool(forKey: "AutoPlay")
         landScapeSwitch.isOn = UserDefaults.standard.bool(forKey: "AlwaysLandscape")
         browserPlayerSwitch.isOn = UserDefaults.standard.bool(forKey: "browserPlayer")
+        mergeActivitySwitch.isOn = UserDefaults.standard.bool(forKey: "mergeWatching")
     }
     
     @IBAction func clearCache(_ sender: Any) {
@@ -104,6 +106,10 @@ class SettingsViewController: UITableViewController {
     
     @IBAction func browserPlayerToggle(_ sender: UISwitch) {
         UserDefaults.standard.set(sender.isOn, forKey: "browserPlayer")
+    }
+    
+    @IBAction func mergeActivtyToggle(_ sender: UISwitch) {
+        UserDefaults.standard.set(sender.isOn, forKey: "mergeWatching")
     }
     
     @IBAction func createBackup(_ sender: Any) {

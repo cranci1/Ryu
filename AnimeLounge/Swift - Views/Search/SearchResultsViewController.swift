@@ -450,7 +450,9 @@ extension SearchResultsViewController: UIContextMenuInteractionDelegate {
               let contentURL = URL(string: result.href) else {
             return nil
         }
-        return FavoriteItem(title: result.title, imageURL: imageURL, contentURL: contentURL)
+        let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
+        
+        return FavoriteItem(title: result.title, imageURL: imageURL, contentURL: contentURL, source: selectedMediaSource)
     }
 }
 

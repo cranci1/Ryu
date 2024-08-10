@@ -267,7 +267,22 @@ class ExternalVideoPlayerAnix: UIViewController, GCKRemoteMediaClientListener {
             UserDefaults.standard.set(currentTime, forKey: "lastPlayedTime_\(self.fullURL)")
             UserDefaults.standard.set(duration, forKey: "totalTime_\(self.fullURL)")
             
-            if remainingTime < 90 && !(self.animeDetailsViewController!.hasSentUpdate) {
+            let episodeNumber = Int(self.cell.episodeNumber) ?? 0
+            let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
+            
+            let continueWatchingItem = ContinueWatchingItem(
+                animeTitle: self.animeDetailsViewController?.animeTitle ?? "Unknown Anime",
+                episodeTitle: "Ep. \(episodeNumber)",
+                episodeNumber: episodeNumber,
+                imageURL: self.animeDetailsViewController?.imageUrl ?? "",
+                fullURL: self.fullURL,
+                lastPlayedTime: currentTime,
+                totalTime: duration,
+                source: selectedMediaSource
+            )
+            ContinueWatchingManager.shared.saveItem(continueWatchingItem)
+            
+            if remainingTime < 120 && !(self.animeDetailsViewController!.hasSentUpdate) {
                 let cleanedTitle = self.animeDetailsViewController?.cleanTitle(self.animeDetailsViewController?.animeTitle ?? "Unknown Anime")
                 
                 self.animeDetailsViewController?.fetchAnimeID(title: cleanedTitle ?? "Title") { animeID in

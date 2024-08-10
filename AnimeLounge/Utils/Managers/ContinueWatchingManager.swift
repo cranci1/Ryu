@@ -15,10 +15,11 @@ struct ContinueWatchingItem: Codable {
     let fullURL: String
     let lastPlayedTime: Double
     let totalTime: Double
+    let source: String
     
     var shouldDisplay: Bool {
         let remainingTime = totalTime - lastPlayedTime
-        return remainingTime > 90
+        return remainingTime > 120
     }
 }
 
@@ -27,6 +28,7 @@ class ContinueWatchingManager {
     
     private let userDefaults = UserDefaults.standard
     private let continueWatchingKey = "continueWatchingItems"
+    private let mergeWatchingKey = "mergeWatching"
     
     private init() {}
     
@@ -37,7 +39,19 @@ class ContinueWatchingManager {
             items.remove(at: index)
         }
         
-        items.insert(item, at: 0)
+        if userDefaults.bool(forKey: mergeWatchingKey) {
+            if let existingIndex = items.firstIndex(where: { $0.animeTitle == item.animeTitle }) {
+                let existingItem = items[existingIndex]
+                if item.episodeNumber > existingItem.episodeNumber {
+                    items.remove(at: existingIndex)
+                    items.insert(item, at: 0)
+                }
+            } else {
+                items.insert(item, at: 0)
+            }
+        } else {
+            items.insert(item, at: 0)
+        }
         
         userDefaults.set(try? JSONEncoder().encode(items), forKey: continueWatchingKey)
     }
@@ -54,5 +68,13 @@ class ContinueWatchingManager {
         var items = getItems()
         items.removeAll { $0.fullURL == fullURL }
         userDefaults.set(try? JSONEncoder().encode(items), forKey: continueWatchingKey)
+    }
+    
+    func setMergeWatching(_ value: Bool) {
+        userDefaults.set(value, forKey: mergeWatchingKey)
+    }
+    
+    func getMergeWatching() -> Bool {
+        return userDefaults.bool(forKey: mergeWatchingKey)
     }
 }
