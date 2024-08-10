@@ -10,7 +10,7 @@ import UIKit
 class SourceMenu {
     static weak var delegate: SourceSelectionDelegate?
 
-    static func showSourceSelector(from viewController: UIViewController, sourceView: UIView?) {
+    static func showSourceSelector(from viewController: UIViewController, sourceView: UIView?, completion: ((Bool) -> Void)? = nil) {
         DispatchQueue.main.async {
             let sources: [(title: String, source: MediaSource)] = [
                 ("AnimeWorld", .animeWorld),
@@ -40,13 +40,19 @@ class SourceMenu {
                 if let sourceView = sourceView, sourceView.window != nil {
                     popoverController.sourceView = sourceView
                     popoverController.sourceRect = sourceView.bounds
+                } else if let vcView = viewController.view, vcView.window != nil {
+                    popoverController.sourceView = vcView
+                    popoverController.sourceRect = vcView.bounds
                 } else {
-                    popoverController.sourceView = viewController.view
-                    popoverController.sourceRect = viewController.view.bounds
+                    print("Warning: No valid view available for popover presentation")
+                    completion?(false)
+                    return
                 }
             }
             
-            viewController.present(alertController, animated: true)
+            viewController.present(alertController, animated: true) {
+                completion?(true)
+            }
         }
     }
     
