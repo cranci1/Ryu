@@ -11,6 +11,7 @@ import WebKit
 import SwiftSoup
 import GoogleCast
 import Foundation
+import Kingfisher
 import MediaPlayer
 
 extension String {
@@ -1030,6 +1031,10 @@ class ContinueWatchingCell: UICollectionViewCell {
         return blurEffectView
     }()
     
+    private var imageLoadTask: DownloadTask?
+    private var currentAnimeTitle: String?
+    private var currentEpisodeNumber: Int?
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -1038,6 +1043,16 @@ class ContinueWatchingCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageLoadTask?.cancel()
+        imageView.image = nil
+        titleLabel.text = nil
+        progressView.progress = 0
+        currentAnimeTitle = nil
+        currentEpisodeNumber = nil
     }
     
     private func setupViews() {
@@ -1087,17 +1102,48 @@ class ContinueWatchingCell: UICollectionViewCell {
         ])
     }
     
+    private func getPlaceholderImage() -> UIImage {
+        UIImage(systemName: "photo.fill")?.withTintColor(.gray, renderingMode: .alwaysOriginal) ?? UIImage()
+    }
+    
+    private func getErrorPlaceholderImage() -> UIImage {
+        UIImage(systemName: "exclamationmark.triangle.fill")?.withTintColor(.red, renderingMode: .alwaysOriginal) ?? UIImage()
+    }
+    
     func configure(with item: ContinueWatchingItem) {
         titleLabel.text = "\(item.animeTitle), Ep. \(item.episodeNumber)"
         progressView.progress = Float(item.lastPlayedTime / item.totalTime)
         
+        currentAnimeTitle = item.animeTitle
+        currentEpisodeNumber = item.episodeNumber
+        
+        imageView.image = getPlaceholderImage()
+        
         AnimeThumbnailFetcher.fetchAnimeThumbnails(for: item.animeTitle, episodeNumber: item.episodeNumber) { [weak self] imageURL in
-            guard let self = self, let imageURL = imageURL else {
+            guard let self = self,
+                  let imageURL = imageURL,
+                  self.currentAnimeTitle == item.animeTitle,
+                  self.currentEpisodeNumber == item.episodeNumber else {
                 return
             }
             
             if let url = URL(string: imageURL) {
-                self.imageView.kf.setImage(with: url, placeholder: UIImage(named: "placeholder"))
+                self.imageLoadTask = self.imageView.kf.setImage(
+                    with: url,
+                    placeholder: self.getPlaceholderImage(),
+                    options: [
+                        .transition(.fade(0.2)),
+                        .cacheOriginalImage
+                    ]
+                ) { result in
+                    switch result {
+                    case .success(_):
+                        break
+                    case .failure(let error):
+                        print("Error loading image: \(error)")
+                        self.imageView.image = self.getErrorPlaceholderImage()
+                    }
+                }
             }
         }
     }
