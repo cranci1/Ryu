@@ -984,11 +984,13 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             if let cell = tableView.cellForRow(at: IndexPath(row: currentEpisodeIndex, section: 2)) as? EpisodeCell {
                 episodeSelected(episode: nextEpisode, cell: cell)
             }
+        } else {
+            currentEpisodeIndex = episodes.count - 1
         }
     }
     
     @objc func playerItemDidReachEnd(notification: Notification) {
-        if UserDefaults.standard.bool(forKey: "AutoPlay") {
+        if UserDefaults.standard.bool(forKey: "AutoPlay") && currentEpisodeIndex < episodes.count - 1 {
             playerViewController?.dismiss(animated: true) { [weak self] in
                 self?.playNextEpisode()
             }
