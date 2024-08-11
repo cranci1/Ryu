@@ -137,6 +137,21 @@ extension SearchResultsViewController {
                 let title = try item.select("div.ani-name a").text()
                 let imageUrl = try item.select("img").attr("src")
                 let href = try item.select("a.poster").first()?.attr("href") ?? ""
+                return (title: title, imageUrl: imageUrl, href: href)
+            }
+        } catch {
+            print("Error parsing Anix: \(error.localizedDescription)")
+            return []
+        }
+    }
+    
+    func parseHiAnime(_ document: Document) -> [(title: String, imageUrl: String, href: String)] {
+        do {
+            let items = try document.select("div.film_list-wrap div.flw-item")
+            return try items.map { item -> (title: String, imageUrl: String, href: String) in
+                let title = try item.select("h3.film-name a.dynamic-name").text()
+                let imageUrl = try item.select("div.film-poster img").attr("data-src")
+                let href = try item.select("div.film-poster a").first()?.attr("href") ?? ""
                 print("\(href)")
                 return (title: title, imageUrl: imageUrl, href: href)
             }

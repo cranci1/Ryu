@@ -217,8 +217,8 @@
 		13F8757C2C60DE98004C1978 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				13F8757D2C60DE98004C1978 /* Sources.swift */,
 				13F8757E2C60DE98004C1978 /* SourceMenu.swift */,
+				13F8757D2C60DE98004C1978 /* Sources.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";

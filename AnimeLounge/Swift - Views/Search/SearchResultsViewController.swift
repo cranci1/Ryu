@@ -275,6 +275,9 @@ class SearchResultsViewController: UIViewController {
         case "Anix":
             url = "https://anix.to/filter"
             parameters["keyword"] = query
+        case "HiAnime":
+            url = "https://hianime.to/search"
+            parameters["keyword"] = query
         default:
             return nil
         }
@@ -320,6 +323,8 @@ class SearchResultsViewController: UIViewController {
             return parseAnime3rb(document)
         case .anix:
             return parseAnix(document)
+        case .hianime:
+            return parseHiAnime(document)
         }
     }
 

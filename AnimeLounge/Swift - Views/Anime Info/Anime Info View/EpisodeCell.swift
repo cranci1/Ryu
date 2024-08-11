@@ -21,6 +21,7 @@ class EpisodeCell: UITableViewCell {
     let remainingTimeLabel = UILabel()
     
     var episodeNumber: String = ""
+    let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
     
     var episode: Episode?
     weak var delegate: AnimeDetailViewController?
@@ -132,10 +133,21 @@ class EpisodeCell: UITableViewCell {
         self.delegate = delegate
         self.episodeNumber = episode.number
         updateEpisodeLabel()
+        updateDownloadButtonVisibility()
     }
     
     private func updateEpisodeLabel() {
         episodeLabel.text = "Episode \(episodeNumber)"
+    }
+    
+    private func updateDownloadButtonVisibility() {
+        if selectedMediaSource == "GoGoAnime" || selectedMediaSource == "JKAnime" {
+            downloadButton.isHidden = true
+            downloadButton.isEnabled = false
+        } else {
+            downloadButton.isHidden = false
+            downloadButton.isEnabled = true
+        }
     }
     
     @objc private func downloadButtonTapped() {
