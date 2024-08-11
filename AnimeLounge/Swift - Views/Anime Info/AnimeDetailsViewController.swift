@@ -10,9 +10,7 @@ import AVKit
 import WebKit
 import SwiftSoup
 import GoogleCast
-import Foundation
 import Kingfisher
-import MediaPlayer
 
 extension String {
     var nilIfEmpty: String? {
@@ -807,6 +805,8 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
     func playVideo(sourceURL: URL, cell: EpisodeCell, fullURL: String) {
         let selectedPlayer = UserDefaults.standard.string(forKey: "mediaPlayerSelected") ?? "Default"
         let isToDownload = UserDefaults.standard.bool(forKey: "isToDownload")
+        
+        setupAudioSession()
 
         if isToDownload {
             handleDownload(sourceURL: sourceURL, fullURL: fullURL)
@@ -910,6 +910,15 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             }
             
             NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd), name: .AVPlayerItemDidPlayToEndTime, object: player?.currentItem)
+        }
+    }
+    
+    private func setupAudioSession() {
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .moviePlayback)
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch {
+            print("Failed to set up AVAudioSession: \(error)")
         }
     }
 

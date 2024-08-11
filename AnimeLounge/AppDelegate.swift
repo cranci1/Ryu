@@ -15,20 +15,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var backgroundCompletionHandler: (() -> Void)?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        setupAudioSession()
         setupDefaultUserPreferences()
         setupGoogleCast()
         
         return true
-    }
-    
-    private func setupAudioSession() {
-        do {
-            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [])
-            try AVAudioSession.sharedInstance().setActive(true)
-        } catch {
-            print("Failed to set up AVAudioSession: \(error)")
-        }
     }
     
     private func setupDefaultUserPreferences() {
