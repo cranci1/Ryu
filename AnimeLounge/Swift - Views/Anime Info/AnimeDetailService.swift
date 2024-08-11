@@ -35,8 +35,6 @@ class AnimeDetailService {
             baseUrl = "https://animeheaven.me/"
         case .anix:
             baseUrl = "https://anix.to"
-        case .hianime:
-            baseUrl = "https://hianime.to"
         case .animefire, .kuramanime, .jkanime, .anime3rb:
             baseUrl = ""
         }
@@ -94,11 +92,6 @@ class AnimeDetailService {
                         synopsis = try document.select("div.description div.full").text()
                         airdate = "N/A"
                         stars = "N/A"
-                    case .hianime:
-                        aliases = try document.select("h1.ani-name").attr("data-jp")
-                        synopsis = try document.select("div.film-description div.text").text()
-                        airdate = "N/A"
-                        stars = "N/A"
                     }
                     
                     episodes = self.fetchEpisodes(document: document, for: selectedSource, href: href)
@@ -151,20 +144,6 @@ class AnimeDetailService {
                 episodes = (1...episodeCount).map { episodeNumber in
                     let formattedEpisode = "\(episodeNumber)"
                     let episodeHref = "\(href)/ep-\(episodeNumber)"
-                    return Episode(number: formattedEpisode, href: episodeHref, downloadUrl: "")
-                }
-                return episodes
-            case .hianime:
-                guard let episodeCountElement = try? document.select("div.tick-item.tick-sub").first(),
-                      let episodeCountText = try? episodeCountElement.text(),
-                      let episodeCount = Int(episodeCountText.replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)) else {
-                    return []
-                }
-                
-                episodes = (1...episodeCount).map { episodeNumber in
-                    let formattedEpisode = "\(episodeNumber)"
-                    let episodeHref = "\(href)"
-                    print(href)
                     return Episode(number: formattedEpisode, href: episodeHref, downloadUrl: "")
                 }
                 return episodes
