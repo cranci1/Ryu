@@ -10,19 +10,22 @@ import WebKit
 import GoogleCast
 
 class ExternalVideoPlayerJK: UIViewController, WKNavigationDelegate, GCKRemoteMediaClientListener {
-    
-    private var webView: WKWebView!
-    private var activityIndicator: UIActivityIndicatorView!
-    private var videoURL: String?
+    private let streamURL: String
+    private var webView: WKWebView?
+    private var player: AVPlayer?
     private var playerViewController: AVPlayerViewController?
+    private var activityIndicator: UIActivityIndicatorView?
+    
+    private var retryCount = 0
+    private let maxRetries = 10
     
     private var cell: EpisodeCell
     private var fullURL: String
     private weak var animeDetailsViewController: AnimeDetailViewController?
     private var timeObserverToken: Any?
-
+    
     init(streamURL: String, cell: EpisodeCell, fullURL: String, animeDetailsViewController: AnimeDetailViewController) {
-        self.videoURL = streamURL
+        self.streamURL = streamURL
         self.cell = cell
         self.fullURL = fullURL
         self.animeDetailsViewController = animeDetailsViewController
@@ -35,42 +38,44 @@ class ExternalVideoPlayerJK: UIViewController, WKNavigationDelegate, GCKRemoteMe
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
+        loadInitialURL()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        cleanup()
+    }
+    
+    private func setupUI() {
         view.backgroundColor = UIColor.secondarySystemBackground
-        
-        webView = WKWebView()
-        webView.navigationDelegate = self
-        webView.isHidden = true
-        view.addSubview(webView)
-        
+        setupActivityIndicator()
+        setupWebView()
+    }
+    
+    private func setupActivityIndicator() {
         activityIndicator = UIActivityIndicatorView(style: .large)
-        activityIndicator.color = .label
-        activityIndicator.center = view.center
-        activityIndicator.startAnimating()
-        view.addSubview(activityIndicator)
-        
-        let closeButton = UIButton(type: .system)
-        closeButton.setTitle("Close", for: .normal)
-        closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
-        view.addSubview(closeButton)
-        
-        webView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            webView.topAnchor.constraint(equalTo: view.topAnchor),
-            webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            webView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-        
-        closeButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            closeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            closeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10)
-        ])
-        
-        if let urlString = videoURL, let url = URL(string: urlString) {
-            let request = URLRequest(url: url)
-            webView.load(request)
+        activityIndicator?.color = .label
+        activityIndicator?.startAnimating()
+        activityIndicator?.center = view.center
+        if let activityIndicator = activityIndicator {
+            view.addSubview(activityIndicator)
         }
+    }
+    
+    private func setupWebView() {
+        let configuration = WKWebViewConfiguration()
+        webView = WKWebView(frame: .zero, configuration: configuration)
+        webView?.navigationDelegate = self
+    }
+    
+    private func loadInitialURL() {
+        guard let url = URL(string: streamURL) else {
+            print("Invalid stream URL")
+            return
+        }
+        let request = URLRequest(url: url)
+        webView?.load(request)
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
@@ -90,36 +95,56 @@ class ExternalVideoPlayerJK: UIViewController, WKNavigationDelegate, GCKRemoteMe
         videoElement.getAttribute('src');
         """
         
-        webView.evaluateJavaScript(jsCode) { [weak self] result, error in
-            self?.activityIndicator.stopAnimating()
-            self?.webView.isHidden = true
+        webView?.evaluateJavaScript(jsCode) { [weak self] result, error in
+            self?.activityIndicator?.stopAnimating()
             if let videoSrc = result as? String, error == nil {
-                self?.playVideo(urlString: videoSrc)
+                self?.handleVideoURL(url: URL(string: videoSrc)!)
             } else {
                 print("Error: \(error?.localizedDescription ?? "Unknown error")")
+                self?.retryExtraction()
             }
         }
     }
     
-    private func playVideo(urlString: String) {
-        guard let url = URL(string: urlString) else { return }
-        
-        if let selectedPlayer = UserDefaults.standard.string(forKey: "mediaPlayerSelected") {
-            self.animeDetailsViewController?.openInExternalPlayer(player: selectedPlayer, url: url)
-            dismiss(animated: true, completion: nil)
-            return
+    private func handleVideoURL(url: URL) {
+        DispatchQueue.main.async {
+            self.activityIndicator?.stopAnimating()
+            
+            if let selectedPlayer = UserDefaults.standard.string(forKey: "mediaPlayerSelected") {
+                self.animeDetailsViewController?.openInExternalPlayer(player: selectedPlayer, url: url)
+                self.dismiss(animated: true, completion: nil)
+            } else {
+                self.playOrCastVideo(url: url)
+            }
         }
-        
-        let player = AVPlayer(url: url)
-        playerViewController = AVPlayerViewController()
-        playerViewController?.player = player
-        
+    }
+    
+    private func playOrCastVideo(url: URL) {
         if GCKCastContext.sharedInstance().sessionManager.currentCastSession != nil {
-            castVideoToGoogleCast(videoURL: url)
-            dismiss(animated: true, completion: nil)
+            self.castVideoToGoogleCast(videoURL: url)
+            self.dismiss(animated: true, completion: nil)
         } else {
+            let player = AVPlayer(url: url)
+            let playerViewController = AVPlayerViewController()
+            playerViewController.player = player
+            
+            self.addChild(playerViewController)
+            self.view.addSubview(playerViewController.view)
+            playerViewController.view.frame = self.view.bounds
+            playerViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            playerViewController.didMove(toParent: self)
+            
+            let lastPlayedTime = UserDefaults.standard.double(forKey: "lastPlayedTime_\(self.fullURL)")
+            if lastPlayedTime > 0 {
+                player.seek(to: CMTime(seconds: lastPlayedTime, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
+            }
+            
             player.play()
-            present(playerViewController!, animated: true, completion: nil)
+            
+            self.player = player
+            self.playerViewController = playerViewController
+            
+            self.addPeriodicTimeObserver()
         }
     }
     
@@ -166,19 +191,92 @@ class ExternalVideoPlayerJK: UIViewController, WKNavigationDelegate, GCKRemoteMe
         }
     }
     
-    @objc private func closeButtonTapped() {
-        dismiss(animated: true, completion: nil)
+    private func addPeriodicTimeObserver() {
+        let interval = CMTime(seconds: 1.0, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+        timeObserverToken = player?.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
+            guard let self = self,
+                  let currentItem = self.player?.currentItem,
+                  currentItem.duration.seconds.isFinite else {
+                return
+            }
+            
+            let currentTime = time.seconds
+            let duration = currentItem.duration.seconds
+            let progress = currentTime / duration
+            let remainingTime = duration - currentTime
+            
+            self.cell.updatePlaybackProgress(progress: Float(progress), remainingTime: remainingTime)
+            
+            UserDefaults.standard.set(currentTime, forKey: "lastPlayedTime_\(self.fullURL)")
+            UserDefaults.standard.set(duration, forKey: "totalTime_\(self.fullURL)")
+            
+            let episodeNumber = Int(self.cell.episodeNumber) ?? 0
+            let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "JKAnime"
+            
+            let continueWatchingItem = ContinueWatchingItem(
+                animeTitle: self.animeDetailsViewController?.animeTitle ?? "Unknown Anime",
+                episodeTitle: "Ep. \(episodeNumber)",
+                episodeNumber: episodeNumber,
+                imageURL: self.animeDetailsViewController?.imageUrl ?? "",
+                fullURL: self.fullURL,
+                lastPlayedTime: currentTime,
+                totalTime: duration,
+                source: selectedMediaSource
+            )
+            ContinueWatchingManager.shared.saveItem(continueWatchingItem)
+            
+            if remainingTime < 120 && !(self.animeDetailsViewController?.hasSentUpdate ?? false) {
+                let cleanedTitle = self.animeDetailsViewController?.cleanTitle(self.animeDetailsViewController?.animeTitle ?? "Unknown Anime")
+                
+                self.animeDetailsViewController?.fetchAnimeID(title: cleanedTitle ?? "Title") { animeID in
+                    let aniListMutation = AniListMutation()
+                    aniListMutation.updateAnimeProgress(animeId: animeID, episodeNumber: Int(self.cell.episodeNumber) ?? 0) { result in
+                        switch result {
+                        case .success():
+                            print("Successfully updated anime progress.")
+                        case .failure(let error):
+                            print("Failed to update anime progress: \(error.localizedDescription)")
+                        }
+                    }
+                    
+                    self.animeDetailsViewController?.hasSentUpdate = true
+                }
+            }
+        }
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        stopContent()
-    }
-    
-    private func stopContent() {
-        playerViewController?.player?.pause()
+    private func cleanup() {
+        player?.pause()
+        player = nil
+        
+        playerViewController?.willMove(toParent: nil)
+        playerViewController?.view.removeFromSuperview()
+        playerViewController?.removeFromParent()
         playerViewController = nil
+        
+        if let timeObserverToken = timeObserverToken {
+            player?.removeTimeObserver(timeObserverToken)
+            self.timeObserverToken = nil
+        }
+        
         webView?.stopLoading()
-        webView = nil
+        webView?.loadHTMLString("", baseURL: nil)
+    }
+    
+    private func retryExtraction() {
+        retryCount += 1
+        if retryCount < maxRetries {
+            print("Retrying extraction (Attempt \(retryCount + 1))")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+                guard let self = self else { return }
+                self.loadInitialURL()
+            }
+        } else {
+            print("Max retries reached. Unable to find video source.")
+            DispatchQueue.main.async {
+                self.activityIndicator?.stopAnimating()
+                self.dismiss(animated: true)
+            }
+        }
     }
 }

@@ -411,7 +411,6 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             episodeTimeURL = episode.href
             checkUserDefault(url: fullURL, cell: cell, fullURL: episodeTimeURL)
             return
-            return
         default:
             baseURL = ""
             episodeId = episode.href
