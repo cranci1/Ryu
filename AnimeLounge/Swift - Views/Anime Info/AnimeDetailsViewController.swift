@@ -53,6 +53,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         updateUI()
         setupNotifications()
         checkFavoriteStatus()
+        setupAudioSession()
         setupCastButton()
         
         navigationController?.navigationBar.prefersLargeTitles = false
@@ -807,8 +808,6 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         let selectedPlayer = UserDefaults.standard.string(forKey: "mediaPlayerSelected") ?? "Default"
         let isToDownload = UserDefaults.standard.bool(forKey: "isToDownload")
         
-        setupAudioSession()
-
         if isToDownload {
             handleDownload(sourceURL: sourceURL, fullURL: fullURL)
         } else {
