@@ -22,7 +22,7 @@ class SourceMenu {
                 ("Anime3rb", .anime3rb)
             ]
             
-            let alertController = UIAlertController(title: "Select Source", message: "Choose your preferred source for AnimeLounge.", preferredStyle: .actionSheet)
+            let alertController = UIAlertController(title: "Select Source", message: "Choose your preferred source.", preferredStyle: .actionSheet)
             
             for (title, source) in sources {
                 let action = UIAlertAction(title: title, style: .default) { _ in

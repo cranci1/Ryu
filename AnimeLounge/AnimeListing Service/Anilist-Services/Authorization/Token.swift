@@ -10,7 +10,7 @@ import UIKit
 class AniListToken {
     static let clientID = "19551"
     static let clientSecret = "fk8EgkyFbXk95TbPwLYQLaiMaNIryMpDBwJsPXoX"
-    static let redirectURI = "animelounge://anilist"
+    static let redirectURI = "ryu://anilist"
     
     static let tokenEndpoint = "https://anilist.co/api/v2/oauth/token"
     

@@ -30,7 +30,7 @@
 			<string>me.cranci.scheme</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>animelounge</string>
+				<string>ryu</string>
 			</array>
 		</dict>
 	</array>
