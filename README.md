@@ -10,10 +10,10 @@ Now on [TestFlight](https://testflight.apple.com/join/Sxyg9JXF)
 
 - [x] Ads Free and no logins
 - [x] Streaming support
-- [x] Download support (needs some improvements)
-- [x] Third-party anime services push updates (Only AniList.co)
+- [x] Download support
+- [x] Third-party anime services push updates (AniList.co)
 - [x] Background playback
-- [x] PiP support on iOS/iPadOS 14+ (Still needs improvements)
+- [x] PiP support on iOS/iPadOS 14+
 - [x] Favorite system
 - [ ] Notification on new episode
 - [x] MultiSources support for Streaming and Download

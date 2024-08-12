@@ -18,7 +18,7 @@ extension String {
     }
 }
 
-class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GCKRemoteMediaClientListener {
+class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GCKRemoteMediaClientListener, AVPlayerViewControllerDelegate {
     var animeTitle: String?
     var imageUrl: String?
     private var href: String?
@@ -885,7 +885,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             showAlert(title: "\(player) Error", message: "\(player) app is not installed.")
         }
     }
-
+    
     private func playVideoWithAVPlayer(sourceURL: URL, cell: EpisodeCell, fullURL: String) {
         if GCKCastContext.sharedInstance().castState == .connected {
             proceedWithCasting(videoURL: sourceURL)
@@ -894,9 +894,13 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             
             playerViewController = UserDefaults.standard.bool(forKey: "AlwaysLandscape") ? LandscapePlayer() : AVPlayerViewController()
             playerViewController?.player = player
+            playerViewController?.delegate = self
+            playerViewController?.entersFullScreenWhenPlaybackBegins = true
+            playerViewController?.showsPlaybackControls = true
             
             let lastPlayedTime = UserDefaults.standard.double(forKey: "lastPlayedTime_\(fullURL)")
             
+            playerViewController?.modalPresentationStyle = .fullScreen
             present(playerViewController!, animated: true) {
                 if lastPlayedTime > 0 {
                     let seekTime = CMTime(seconds: lastPlayedTime, preferredTimescale: 1)
@@ -913,10 +917,24 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         }
     }
     
+    func playerViewController(_ playerViewController: AVPlayerViewController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void) {
+        if self.presentedViewController == nil {
+            playerViewController.modalPresentationStyle = .fullScreen
+            present(playerViewController, animated: true) {
+                completionHandler(true)
+            }
+        } else {
+            completionHandler(true)
+        }
+    }
+    
     private func setupAudioSession() {
         do {
-            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .moviePlayback)
-            try AVAudioSession.sharedInstance().setActive(true)
+            let audioSession = AVAudioSession.sharedInstance()
+            try audioSession.setCategory(.playback, mode: .moviePlayback, options: .mixWithOthers)
+            try audioSession.setActive(true)
+            
+            try audioSession.overrideOutputAudioPort(.speaker)
         } catch {
             print("Failed to set up AVAudioSession: \(error)")
         }
