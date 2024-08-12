@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ActiveDownloadsViewController: UIViewController {
+class ActiveDownloadsViewController: UIViewController, ProgressDownloadCellDelegate {
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -82,6 +82,7 @@ class ActiveDownloadsViewController: UIViewController {
             for download in self.downloads {
                 let downloadView = ProgressDownloadCell()
                 downloadView.configure(with: download.title, progress: download.progress)
+                downloadView.delegate = self
                 self.stackView.addArrangedSubview(downloadView)
             }
 
@@ -121,5 +122,15 @@ class ActiveDownloadsViewController: UIViewController {
         Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
             self?.updateProgress()
         }
+    }
+    
+    func cancelDownload(for cell: ProgressDownloadCell) {
+        guard let index = stackView.arrangedSubviews.firstIndex(of: cell) else { return }
+        let download = downloads[index]
+        
+        DownloadManager.shared.cancelDownload(for: download.title)
+        
+        downloads.remove(at: index)
+        updateDownloadViews()
     }
 }

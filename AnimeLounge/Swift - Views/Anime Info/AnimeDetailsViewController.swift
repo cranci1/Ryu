@@ -268,6 +268,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                 self?.navigateToAnimeDetail(for: id)
             case .failure(let error):
                 print("Error fetching anime ID: \(error.localizedDescription)")
+                self?.showAlert(title: "Error", message: "Ryu is not able to find the anime ID from AniList")
             }
         }
     }

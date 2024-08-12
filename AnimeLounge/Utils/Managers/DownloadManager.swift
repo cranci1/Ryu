@@ -5,6 +5,7 @@
 //  Created by Francesco on 17/07/24.
 //
 
+import UIKit
 import Foundation
 
 extension Notification.Name {
@@ -15,6 +16,8 @@ class DownloadManager {
     static let shared = DownloadManager()
     
     private var activeDownloads: [String: Float] = [:]
+    private var downloadTasks: [String: URLSessionDownloadTask] = [:]
+    private var backgroundTask: UIBackgroundTaskIdentifier = .invalid // Declare the backgroundTask
     
     func fetchDownloadURLs() -> [URL] {
         let fileManager = FileManager.default
@@ -40,18 +43,56 @@ class DownloadManager {
         DispatchQueue.main.async { [weak self] in
             self?.activeDownloads[url.absoluteString] = 0.0
         }
+        MP4Downloader.requestNotificationAuthorization()
         
-        MP4Downloader.downloadFile(from: url.absoluteString, progressHandler: { [weak self] progressValue in
+        let configuration = URLSessionConfiguration.background(withIdentifier: "me.cranci.downloader.\(UUID().uuidString)")
+        configuration.waitsForConnectivity = true
+        let session = URLSession(configuration: configuration, delegate: BackgroundSessionDelegate.shared, delegateQueue: nil)
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.cachePolicy = .reloadIgnoringLocalCacheData
+        
+        let task = session.downloadTask(with: request)
+        
+        downloadTasks[url.absoluteString] = task
+        
+        let progressObserver = task.progress.observe(\.fractionCompleted, options: [.new]) { [weak self] taskProgress, _ in
             DispatchQueue.main.async {
-                self?.activeDownloads[url.absoluteString] = Float(progressValue)
-                progress(Float(progressValue))
+                self?.activeDownloads[url.absoluteString] = Float(taskProgress.fractionCompleted)
+                progress(Float(taskProgress.fractionCompleted))
             }
-        }, completion: { [weak self] result in
+        }
+        
+        var stateObserver: NSKeyValueObservation?
+        stateObserver = task.observe(\.state, options: [.new]) { task, _ in
+            if task.state == .completed || task.state == .canceling {
+                progressObserver.invalidate()
+                stateObserver?.invalidate()
+            }
+        }
+        
+        backgroundTask = UIApplication.shared.beginBackgroundTask {
+            UIApplication.shared.endBackgroundTask(self.backgroundTask)
+            self.backgroundTask = .invalid
+        }
+        
+        BackgroundSessionDelegate.shared.downloadCompletionHandler = { [weak self] result in
             DispatchQueue.main.async {
+                self?.downloadTasks.removeValue(forKey: url.absoluteString)
                 self?.activeDownloads.removeValue(forKey: url.absoluteString)
                 completion(result)
+                MP4Downloader.handleDownloadResult(result)
             }
-        })
+        }
+        task.resume()
+    }
+    
+    func cancelDownload(for title: String) {
+        guard let task = downloadTasks[title] else { return }
+        task.cancel()
+        downloadTasks.removeValue(forKey: title)
+        activeDownloads.removeValue(forKey: title)
     }
     
     func getActiveDownloads() -> [String: Float] {

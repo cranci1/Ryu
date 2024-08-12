@@ -10,57 +10,9 @@ import Foundation
 import UserNotifications
 
 class MP4Downloader {
-    private static var backgroundTask: UIBackgroundTaskIdentifier = .invalid
+    static var backgroundTask: UIBackgroundTaskIdentifier = .invalid
     
-    static func downloadFile(from urlString: String, progressHandler: @escaping (Float) -> Void, completion: @escaping (Result<URL, Error>) -> Void) {
-        guard let url = URL(string: urlString) else {
-            completion(.failure(NSError(domain: "Invalid URL", code: 0, userInfo: nil)))
-            return
-        }
-        
-        requestNotificationAuthorization()
-        
-        let configuration = URLSessionConfiguration.background(withIdentifier: "me.cranci.downloader")
-        configuration.waitsForConnectivity = true
-        
-        let session = URLSession(configuration: configuration, delegate: BackgroundSessionDelegate.shared, delegateQueue: nil)
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.cachePolicy = .reloadIgnoringLocalCacheData
-        
-        let task = session.downloadTask(with: request)
-        
-        let progressObserver = task.progress.observe(\.fractionCompleted, options: [.new]) { progress, _ in
-            DispatchQueue.main.async {
-                progressHandler(Float(progress.fractionCompleted))
-            }
-        }
-        
-        var stateObserver: NSKeyValueObservation?
-        stateObserver = task.observe(\.state, options: [.new]) { task, _ in
-            if task.state == .completed || task.state == .canceling {
-                progressObserver.invalidate()
-                stateObserver?.invalidate()
-            }
-        }
-        
-        backgroundTask = UIApplication.shared.beginBackgroundTask {
-            UIApplication.shared.endBackgroundTask(backgroundTask)
-            backgroundTask = .invalid
-        }
-        
-        BackgroundSessionDelegate.shared.downloadCompletionHandler = { result in
-            DispatchQueue.main.async {
-                completion(result)
-                handleDownloadResult(result)
-            }
-        }
-        
-        task.resume()
-    }
-    
-    private static func requestNotificationAuthorization() {
+    static func requestNotificationAuthorization() {
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options: [.alert, .sound]) { granted, error in
             if let error = error {
@@ -71,7 +23,7 @@ class MP4Downloader {
         }
     }
     
-    private static func handleDownloadResult(_ result: Result<URL, Error>) {
+    static func handleDownloadResult(_ result: Result<URL, Error>) {
         let content = UNMutableNotificationContent()
         switch result {
         case .success:
