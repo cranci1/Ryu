@@ -40,7 +40,7 @@ A simple way to enjoy and watch anime on iOS devices
 | AnimeHeaven | English    | ✅     | ✅        | ✅        | ✅       |
 | AnimeFire   | Portuguese | ✅     | ✅        | ✅        | ✅       |
 | Kuramanime  | Indonesian | ✅     | ✅        | ✅        | ✅       |
-| Anime3rb    | Arab       | ✅     | ✅        | ✅        | ✅       |
+| Anime3rb    | Arabic     | ✅     | ✅        | ✅        | ✅       |
 | JKanime     | Spanish    | ✅     | ✅        | ✅        | :x:      |
 
 > [!Note]
