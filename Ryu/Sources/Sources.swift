@@ -1,6 +1,6 @@
 //
 //  Sources.swift
-//  AnimeLounge
+//  Ryu
 //
 //  Created by Francesco on 23/06/24.
 //

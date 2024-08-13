@@ -1,6 +1,6 @@
 //
 //  SettingsViewAbout.swift
-//  AnimeLounge
+//  Ryu
 //
 //  Created by Francesco on 24/06/24.
 //
@@ -14,11 +14,11 @@ class SettingsViewAbout: UITableViewController {
     @IBOutlet weak var privacyLabel: UILabel!
     @IBOutlet weak var licenseLabel: UILabel!
     
-    let githubURL = "https://github.com/cranci1/AnimeLounge/"
-    let reportIssueURL = "https://github.com/cranci1/AnimeLounge/issues"
+    let githubURL = "https://github.com/cranci1/Ryu/"
+    let reportIssueURL = "https://github.com/cranci1/Ryu/issues"
     let disocrdURL = "https://discord.gg/mxfZTxatzp"
-    let reviewCodeURL = "https://github.com/cranci1/AnimeLounge/tree/main"
-    let fullLicenseURL = "https://github.com/cranci1/AnimeLounge/blob/main/LICENSE"
+    let reviewCodeURL = "https://github.com/cranci1/Ryu/tree/main"
+    let fullLicenseURL = "https://github.com/cranci1/Ryu/blob/main/LICENSE"
     
     override func viewDidLoad() {
         super.viewDidLoad()

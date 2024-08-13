@@ -1,6 +1,6 @@
 //
 //  M3U8Downloader.swift
-//  AnimeLounge
+//  Ryu
 //
 //  Created by Francesco on 15/07/24.
 //

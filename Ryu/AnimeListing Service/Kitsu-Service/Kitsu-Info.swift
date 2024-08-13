@@ -1,6 +1,6 @@
 //
 //  Kitsu-Info.swift
-//  AnimeLounge
+//  Ryu
 //
 //  Created by Francesco on 04/08/24.
 //

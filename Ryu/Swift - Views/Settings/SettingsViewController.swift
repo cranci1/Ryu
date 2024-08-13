@@ -1,6 +1,6 @@
 //
 //  SettingsViewController.swift
-//  AnimeLounge
+//  Ryu
 //
 //  Created by Francesco on 22/06/24.
 //
@@ -18,7 +18,7 @@ class SettingsViewController: UITableViewController {
     @IBOutlet weak var playerButton: UIButton!
     @IBOutlet weak var sourceButton: UIButton!
     
-    let githubURL = "https://github.com/cranci1/AnimeLounge/"
+    let githubURL = "https://github.com/cranci1/Ryu/"
     
     override func viewDidLoad() {
         super.viewDidLoad()

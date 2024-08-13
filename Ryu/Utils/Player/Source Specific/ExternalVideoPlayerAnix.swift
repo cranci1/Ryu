@@ -1,6 +1,6 @@
 //
 //  ExternalVideoPlayerAnix.swift
-//  AnimeLounge
+//  Ryu
 //
 //  Created by Francesco on 02/08/24.
 //

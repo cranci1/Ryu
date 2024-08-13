@@ -14,7 +14,7 @@
         <!--Downloaded-->
         <scene sceneID="V9M-pa-m4u">
             <objects>
-                <viewController id="IzY-lE-yqh" customClass="DownloadListViewController" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="IzY-lE-yqh" customClass="DownloadListViewController" customModule="Ryu" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dOf-RC-qHu">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -88,7 +88,7 @@
         <!--ActiveDownloadsViewController-->
         <scene sceneID="4af-f7-qYP">
             <objects>
-                <viewController storyboardIdentifier="ActiveDownloadsViewController" title="ActiveDownloadsViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ADG-aJ-Jpr" customClass="ActiveDownloadsViewController" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ActiveDownloadsViewController" title="ActiveDownloadsViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ADG-aJ-Jpr" customClass="ActiveDownloadsViewController" customModule="Ryu" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="IZ2-hc-ym0">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -104,7 +104,7 @@
         <!--Search-->
         <scene sceneID="3jU-2O-voz">
             <objects>
-                <tableViewController title="Search" id="Y70-mk-R3V" customClass="SearchViewController" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Search" id="Y70-mk-R3V" customClass="SearchViewController" customModule="Ryu" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="xbx-GI-YdK">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -144,7 +144,7 @@
         <!--Results-->
         <scene sceneID="vZd-Ht-s9Z">
             <objects>
-                <viewController storyboardIdentifier="SearchResultsViewController" id="ro8-Cj-YLu" customClass="SearchResultsViewController" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SearchResultsViewController" id="ro8-Cj-YLu" customClass="SearchResultsViewController" customModule="Ryu" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="yXd-Tk-AwV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -194,7 +194,7 @@
         <!--Favorites-->
         <scene sceneID="JNZ-TQ-x2k">
             <objects>
-                <viewController id="IWM-mT-B3l" customClass="FavoritesViewController" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="IWM-mT-B3l" customClass="FavoritesViewController" customModule="Ryu" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="TOP-3B-jqm">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -263,7 +263,7 @@
         <!--Discovery-->
         <scene sceneID="liQ-ub-vt0">
             <objects>
-                <tableViewController id="Ct9-Gw-fYc" userLabel="Discovery" customClass="HomeViewController" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="Ct9-Gw-fYc" userLabel="Discovery" customClass="HomeViewController" customModule="Ryu" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Af9-of-1Ni">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -381,7 +381,7 @@
                             </tableViewSection>
                             <tableViewSection id="2d3-ZF-fda">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="next.standard" rowHeight="285" id="L9w-Md-3BC" customClass="DiscoveryStandardTableViewCell" customModule="AnimeLounge" customModuleProvider="target">
+                                    <tableViewCell contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="next.standard" rowHeight="285" id="L9w-Md-3BC" customClass="DiscoveryStandardTableViewCell" customModule="Ryu" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="705.5" width="375" height="285"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="L9w-Md-3BC" id="anR-OQ-CWx">
@@ -433,7 +433,7 @@
                             </tableViewSection>
                             <tableViewSection id="jtp-2z-3nH">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="next.standard" rowHeight="285" id="dlF-Ae-6QH" customClass="DiscoveryStandardTableViewCell" customModule="AnimeLounge" customModuleProvider="target">
+                                    <tableViewCell contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="next.standard" rowHeight="285" id="dlF-Ae-6QH" customClass="DiscoveryStandardTableViewCell" customModule="Ryu" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="1057.5" width="375" height="285"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dlF-Ae-6QH" id="riW-Tj-Se6">
@@ -485,7 +485,7 @@
                             </tableViewSection>
                             <tableViewSection id="7Xc-XD-94i">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="next.standard" rowHeight="285" id="Rjk-gX-FSs" customClass="DiscoveryStandardTableViewCell" customModule="AnimeLounge" customModuleProvider="target">
+                                    <tableViewCell contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="next.standard" rowHeight="285" id="Rjk-gX-FSs" customClass="DiscoveryStandardTableViewCell" customModule="Ryu" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="1409.5" width="375" height="285"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Rjk-gX-FSs" id="S42-Hj-6MZ">

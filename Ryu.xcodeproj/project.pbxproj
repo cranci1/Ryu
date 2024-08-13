@@ -203,10 +203,10 @@
 		136524B32C6B5B4000210A98 /* AnimeListing Service */ = {
 			isa = PBXGroup;
 			children = (
-				136524B42C6B5B4000210A98 /* MAL-Service */,
-				136524BA2C6B5B4000210A98 /* Anilist-Services */,
-				136524C52C6B5B4000210A98 /* Kitsu-Service */,
 				136524CB2C6B5B4000210A98 /* AnimeInformation.swift */,
+				136524BA2C6B5B4000210A98 /* Anilist-Services */,
+				136524B42C6B5B4000210A98 /* MAL-Service */,
+				136524C52C6B5B4000210A98 /* Kitsu-Service */,
 			);
 			path = "AnimeListing Service";
 			sourceTree = "<group>";
@@ -233,9 +233,9 @@
 		136524BA2C6B5B4000210A98 /* Anilist-Services */ = {
 			isa = PBXGroup;
 			children = (
+				136524C22C6B5B4000210A98 /* Authorization */,
 				136524BB2C6B5B4000210A98 /* Mutations */,
 				136524BD2C6B5B4000210A98 /* Requests */,
-				136524C22C6B5B4000210A98 /* Authorization */,
 			);
 			path = "Anilist-Services";
 			sourceTree = "<group>";
@@ -290,8 +290,8 @@
 		136524CD2C6B5B4000210A98 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				136524CE2C6B5B4000210A98 /* Sources.swift */,
 				136524CF2C6B5B4000210A98 /* SourceMenu.swift */,
+				136524CE2C6B5B4000210A98 /* Sources.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -299,9 +299,9 @@
 		136524D02C6B5B4000210A98 /* StoryBoard - Views */ = {
 			isa = PBXGroup;
 			children = (
-				136524D12C6B5B4000210A98 /* LaunchScreen.storyboard */,
 				136524D22C6B5B4000210A98 /* CustomCells */,
 				136524DC2C6B5B4000210A98 /* Main.storyboard */,
+				136524D12C6B5B4000210A98 /* LaunchScreen.storyboard */,
 				136524DD2C6B5B4000210A98 /* AnilistAnimeInformation.storyboard */,
 				136524DE2C6B5B4000210A98 /* Settings.storyboard */,
 			);
@@ -311,9 +311,9 @@
 		136524D22C6B5B4000210A98 /* CustomCells */ = {
 			isa = PBXGroup;
 			children = (
+				136524D92C6B5B4000210A98 /* AiringAnimeCell */,
 				136524D32C6B5B4000210A98 /* Favorite Cell */,
 				136524D62C6B5B4000210A98 /* SlimmAnimeCell */,
-				136524D92C6B5B4000210A98 /* AiringAnimeCell */,
 			);
 			path = CustomCells;
 			sourceTree = "<group>";
@@ -348,12 +348,12 @@
 		136524E12C6B5B4000210A98 /* Swift - Views */ = {
 			isa = PBXGroup;
 			children = (
-				136524E22C6B5B4000210A98 /* Settings */,
 				136524EA2C6B5B4000210A98 /* Home */,
-				136524ED2C6B5B4000210A98 /* Anime Info */,
 				136524F42C6B5B4000210A98 /* Favorites */,
-				136524F62C6B5B4000210A98 /* Search */,
 				136524FA2C6B5B4000210A98 /* Downloads */,
+				136524F62C6B5B4000210A98 /* Search */,
+				136524E22C6B5B4000210A98 /* Settings */,
+				136524ED2C6B5B4000210A98 /* Anime Info */,
 			);
 			path = "Swift - Views";
 			sourceTree = "<group>";

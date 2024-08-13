@@ -1,6 +1,6 @@
 //
 //  Kitsu-Airing.swift
-//  AnimeLounge
+//  Ryu
 //
 //  Created by Francesco on 27/07/24.
 //

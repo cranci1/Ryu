@@ -1,6 +1,6 @@
 //
 //  LandScapePlayer.swift
-//  AnimeLounge
+//  Ryu
 //
 //  Created by Francesco on 30/06/24.
 //

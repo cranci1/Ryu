@@ -1,6 +1,6 @@
 //
 //  HomeViewController.swift
-//  AnimeLounge
+//  Ryu
 //
 //  Created by Francesco on 21/06/24.
 //
@@ -38,7 +38,8 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
         "Your watchlist is taking a nap... Wake it up with something new!",
         "Nothing to continue here... maybe it's snack time?",
         "Looks empty... Wanna start a new adventure?",
-        "All caught up! What’s next on the list?"
+        "All caught up! What’s next on the list?",
+        "Did you know that by holding on most cells you can get some hidden features?"
     ]
     
     private let emptyContinueWatchingLabel: UILabel = {

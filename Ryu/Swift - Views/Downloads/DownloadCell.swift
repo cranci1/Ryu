@@ -1,6 +1,6 @@
 //
 //  DownloadCell.swift
-//  AnimeLounge
+//  Ryu
 //
 //  Created by Francesco on 16/07/24.
 //

@@ -1,6 +1,6 @@
 //
 //  Token.swift
-//  AnimeLounge
+//  Ryu
 //
 //  Created by Francesco on 08/08/24.
 //

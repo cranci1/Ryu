@@ -1,6 +1,6 @@
 //
 //  ExternalVideoPlayerKura.swift
-//  AnimeLounge
+//  Ryu
 //
 //  Created by Francesco on 09/07/24.
 //

@@ -12,7 +12,7 @@
         <!--Anime Information-->
         <scene sceneID="55h-2T-nbf">
             <objects>
-                <viewController storyboardIdentifier="AnimeInformation" id="hcN-sf-alk" customClass="AnimeInformation" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AnimeInformation" id="hcN-sf-alk" customClass="AnimeInformation" customModule="Ryu" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="00T-nf-9M7">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

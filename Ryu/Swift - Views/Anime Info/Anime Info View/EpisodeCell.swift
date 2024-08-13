@@ -1,6 +1,6 @@
 //
 //  EpisodeCell.swift
-//  AnimeLounge
+//  Ryu
 //
 //  Created by Francesco on 25/06/24.
 //

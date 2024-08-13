@@ -1,6 +1,6 @@
 //
 //  FavoriteCell-Swift.swift
-//  AnimeLounge
+//  Ryu
 //
 //  Created by Francesco on 26/06/24.
 //

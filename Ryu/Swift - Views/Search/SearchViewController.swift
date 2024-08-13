@@ -1,6 +1,6 @@
 //
 //  SearchViewController.swift
-//  AnimeLounge
+//  Ryu
 //
 //  Created by Francesco on 21/06/24.
 //
