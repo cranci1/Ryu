@@ -12,12 +12,6 @@ import SwiftSoup
 import GoogleCast
 import Kingfisher
 
-extension String {
-    var nilIfEmpty: String? {
-        return self.isEmpty ? nil : self
-    }
-}
-
 class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GCKRemoteMediaClientListener, AVPlayerViewControllerDelegate {
     var animeTitle: String?
     var imageUrl: String?

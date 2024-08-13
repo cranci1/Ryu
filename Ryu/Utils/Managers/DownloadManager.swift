@@ -8,10 +8,6 @@
 import UIKit
 import Foundation
 
-extension Notification.Name {
-    static let downloadListUpdated = Notification.Name("DownloadListUpdated")
-}
-
 class DownloadManager {
     static let shared = DownloadManager()
     
