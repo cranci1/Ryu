@@ -17,6 +17,6 @@ extension URL {
         for item in queryItems {
             params[item.name] = item.value
         }
+        return params
     }
 }
-

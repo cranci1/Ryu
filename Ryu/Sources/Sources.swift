@@ -17,17 +17,3 @@ enum MediaSource: String {
     case anime3rb = "Anime3rb"
     case anix = "Anix"
 }
-
-extension UserDefaults {
-    var selectedMediaSource: MediaSource? {
-        get {
-            if let source = string(forKey: "selectedMediaSource") {
-                return MediaSource(rawValue: source)
-            }
-            return nil
-        }
-        set {
-            set(newValue?.rawValue, forKey: "selectedMediaSource")
-        }
-    }
-}

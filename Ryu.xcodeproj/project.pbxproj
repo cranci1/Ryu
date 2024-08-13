@@ -80,7 +80,7 @@
 		136525682C6B5BCE00210A98 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 136525672C6B5BCE00210A98 /* SwiftSoup */; };
 		13921B3F2C6B8ED9004E8BDC /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13921B3E2C6B8ED9004E8BDC /* String.swift */; };
 		13921B412C6B8F71004E8BDC /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13921B402C6B8F71004E8BDC /* URL.swift */; };
-		13921B432C6B8F87004E8BDC /* Notification.Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13921B422C6B8F87004E8BDC /* Notification.Name.swift */; };
+		13921B432C6B8F87004E8BDC /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13921B422C6B8F87004E8BDC /* Notification.swift */; };
 		13921B452C6B8FC1004E8BDC /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13921B442C6B8FC1004E8BDC /* UserDefaults.swift */; };
 /* End PBXBuildFile section */
 
@@ -156,7 +156,7 @@
 		136525152C6B5B4100210A98 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		13921B3E2C6B8ED9004E8BDC /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		13921B402C6B8F71004E8BDC /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
-		13921B422C6B8F87004E8BDC /* Notification.Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.Name.swift; sourceTree = "<group>"; };
+		13921B422C6B8F87004E8BDC /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		13921B442C6B8FC1004E8BDC /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -487,7 +487,7 @@
 		136525092C6B5B4000210A98 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				13921B422C6B8F87004E8BDC /* Notification.Name.swift */,
+				13921B422C6B8F87004E8BDC /* Notification.swift */,
 				13921B442C6B8FC1004E8BDC /* UserDefaults.swift */,
 				1365250A2C6B5B4000210A98 /* UIImage.swift */,
 				13921B3E2C6B8ED9004E8BDC /* String.swift */,
@@ -623,7 +623,7 @@
 				1365253B2C6B5B4100210A98 /* HomeViewController.swift in Sources */,
 				1365251B2C6B5B4100210A98 /* AniList-Airing.swift in Sources */,
 				136525202C6B5B4100210A98 /* Token.swift in Sources */,
-				13921B432C6B8F87004E8BDC /* Notification.Name.swift in Sources */,
+				13921B432C6B8F87004E8BDC /* Notification.swift in Sources */,
 				136525592C6B5B4100210A98 /* SceneDelegate.swift in Sources */,
 				136525382C6B5B4100210A98 /* SettingsViewCast.swift in Sources */,
 				136525242C6B5B4100210A98 /* Kitsu-Info.swift in Sources */,
