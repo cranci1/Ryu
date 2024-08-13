@@ -389,6 +389,8 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
     }
     
     private func playVideoInAVPlayer(url: URL) {
+        cleanup()
+        
         let player = AVPlayer(url: url)
         let playerViewController = AVPlayerViewController()
         playerViewController.player = player
@@ -466,7 +468,7 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
             }
         }
     }
-
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         cleanup()

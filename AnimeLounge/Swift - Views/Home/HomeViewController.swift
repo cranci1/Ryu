@@ -237,7 +237,16 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
     
     func didSelectNewSource() {
         setupSelectedSourceLabel()
-        fetchAnimeData()
+        fetchFeaturedAnime { [weak self] in
+            self?.refreshFeaturedUI()
+        }
+    }
+    
+    func refreshFeaturedUI() {
+        DispatchQueue.main.async {
+            self.featuredCollectionView.reloadData()
+            self.setupSelectedSourceLabel()
+        }
     }
     
     @objc func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {

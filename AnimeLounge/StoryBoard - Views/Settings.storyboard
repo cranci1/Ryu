@@ -12,12 +12,12 @@
         <!--Settings-->
         <scene sceneID="PN2-dX-KkT">
             <objects>
-                <tableViewController id="pc2-lO-9Ci" customClass="SettingsViewController" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="pc2-lO-9Ci" customClass="SettingsViewController" customModule="AnimeGen" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="pHY-2n-1Hq">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <sections>
-                            <tableViewSection headerTitle="About AnimeLounge" footerTitle="Find some Information about AnimeLounge" id="PtL-kS-yFQ">
+                            <tableViewSection headerTitle="About Ryu" footerTitle="Find some Information about Ryu" id="PtL-kS-yFQ">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="Gne-PG-d7D">
                                         <rect key="frame" x="20" y="32" width="374" height="43.5"/>
@@ -514,21 +514,21 @@
         <!--About-->
         <scene sceneID="jyj-y0-bE4">
             <objects>
-                <tableViewController id="RUG-Sz-sjD" customClass="SettingsViewAbout" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="RUG-Sz-sjD" customClass="SettingsViewAbout" customModule="AnimeGen" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="tcc-6g-ZdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <sections>
-                            <tableViewSection headerTitle="About AnimeLounge" id="12i-Tl-sd4">
-                                <string key="footerTitle">AnimeLounge is a free, open source iOS app, developed by cranci. The app is under the GNU General Public License version 3. 
+                            <tableViewSection headerTitle="About Ryu" id="12i-Tl-sd4">
+                                <string key="footerTitle">Ryu is a free, open source iOS app, developed by cranci. The app is under the GNU General Public License version 3. 
 
-AnimeLounge is also not made to promote piracy. Its just a streaming app.</string>
+Ryu is also not made to promote piracy. Its just a streaming app.</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="tq6-ws-kMz">
-                                        <rect key="frame" x="20" y="32" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="32" width="374" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="tq6-ws-kMz" id="cII-Cg-Sqo">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="N/A" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yxN-nY-MRO">
@@ -553,10 +553,10 @@ AnimeLounge is also not made to promote piracy. Its just a streaming app.</strin
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="jAG-3C-jat">
-                                        <rect key="frame" x="20" y="75.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="76" width="374" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jAG-3C-jat" id="Gdq-C6-xzx">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="N/A" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bnx-Qa-LHS">
@@ -581,10 +581,10 @@ AnimeLounge is also not made to promote piracy. Its just a streaming app.</strin
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="qVD-qi-mRG">
-                                        <rect key="frame" x="20" y="119" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="120" width="374" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qVD-qi-mRG" id="uPt-gv-rql">
-                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Github Repository" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Slg-s4-b48">
@@ -605,10 +605,10 @@ AnimeLounge is also not made to promote piracy. Its just a streaming app.</strin
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="hnH-hg-ggD">
-                                        <rect key="frame" x="20" y="162.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="164" width="374" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hnH-hg-ggD" id="33a-sB-LaZ">
-                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Discord Server" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kEb-Sz-w8z">
@@ -629,10 +629,10 @@ AnimeLounge is also not made to promote piracy. Its just a streaming app.</strin
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Fgy-G7-OYD">
-                                        <rect key="frame" x="20" y="206" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="208" width="374" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Fgy-G7-OYD" id="ANt-qn-9fI">
-                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Report an Issue" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y74-eG-IA4">
@@ -655,10 +655,10 @@ AnimeLounge is also not made to promote piracy. Its just a streaming app.</strin
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="Privacy" id="I1e-zt-hkV">
-                                <string key="footerTitle">AnimeLounge prioritizes user privacy and does not store any personal data. All generated images are not retained by the app. If a user chooses to download an episode, it will only be stored locally in their device storage or on the Downloads Page in the app. We are committed to ensuring a secure and private experience for our users.</string>
+                                <string key="footerTitle">Ryu prioritizes user privacy and does not store any personal data. All generated images are not retained by the app. If a user chooses to download an episode, it will only be stored locally in their device storage or on the Downloads Page in the app. We are committed to ensuring a secure and private experience for our users.</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="b3t-fq-I03">
-                                        <rect key="frame" x="20" y="385.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="388" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="b3t-fq-I03" id="hGD-gI-TTN">
                                             <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
@@ -678,7 +678,7 @@ AnimeLounge is also not made to promote piracy. Its just a streaming app.</strin
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="oBQ-XV-Yb3">
-                                        <rect key="frame" x="20" y="429" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="431.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oBQ-XV-Yb3" id="iwq-sG-PiT">
                                             <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
@@ -704,16 +704,16 @@ AnimeLounge is also not made to promote piracy. Its just a streaming app.</strin
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="GNU General Public License version 3" id="OMu-tZ-KaQ">
-                                <string key="footerTitle">Copyright © 2024 cranci. All rights reserved.
+                                <mutableString key="footerTitle">Copyright © 2024 cranci. All rights reserved.
 
-AnimeLounge is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License.
+Ryu is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License.
 
-AnimeLounge is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+Ryu is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along with AnimeLounge. If not, see &lt;https://www.gnu.org/licenses/&gt;.</string>
+You should have received a copy of the GNU General Public License along with Ryu. If not, see &lt;https://www.gnu.org/licenses/&gt;.</mutableString>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="HkG-T8-RWQ">
-                                        <rect key="frame" x="20" y="608.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="611" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HkG-T8-RWQ" id="w93-1l-591">
                                             <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
@@ -792,7 +792,7 @@ Google Cast
 https://developers.google.com/terms/</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="w4T-NN-0Re">
-                                        <rect key="frame" x="20" y="928" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="930.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="w4T-NN-0Re" id="94Y-a6-fSO">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -883,7 +883,7 @@ https://developers.google.com/terms/</string>
         <!--Google Cast-->
         <scene sceneID="tXw-Hz-fll">
             <objects>
-                <tableViewController id="iYA-2R-889" customClass="SettingsViewCast" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="iYA-2R-889" customClass="SettingsViewCast" customModule="AnimeGen" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="Kp8-Hz-TyM">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1009,13 +1009,13 @@ The Streaming type is the method to stream the episode, can be 'buffered' that w
         <!--Anime Listing-->
         <scene sceneID="T48-1u-vRM">
             <objects>
-                <tableViewController id="tJk-lL-JpK" customClass="SettingsAnimeListing" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="tJk-lL-JpK" customClass="SettingsAnimeListing" customModule="AnimeGen" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="NuS-KO-JrX">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <sections>
                             <tableViewSection headerTitle="AniList" id="aA9-OL-lkL">
-                                <string key="footerTitle">AnimeLounge is not affiliated with AniList.co
+                                <string key="footerTitle">Ryu is not affiliated with AniList.co
 
 Note that push updates might occasionally be inaccurate due to differences between the anime's name and its title on AniList.</string>
                                 <cells>
@@ -1130,13 +1130,13 @@ Note that push updates might occasionally be inaccurate due to differences betwe
         <!--Sources-->
         <scene sceneID="gf3-v8-igA">
             <objects>
-                <tableViewController id="15o-5a-dFg" customClass="SettingsViewSources" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="15o-5a-dFg" customClass="SettingsViewSources" customModule="AnimeGen" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="InW-2z-WIy">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <sections>
                             <tableViewSection headerTitle="General" id="8Uf-JF-cy1">
-                                <string key="footerTitle">This method defines how AnimeLounge attempts to fetch episodes. Increasing the number of retries allows for more attempts to load a video, which can be useful if a video fails to load initially. However, note that a higher number of retries may increase the wait time.</string>
+                                <string key="footerTitle">This method defines how Ryu attempts to fetch episodes. Increasing the number of retries allows for more attempts to load a video, which can be useful if a video fails to load initially. However, note that a higher number of retries may increase the wait time.</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="v3l-Ui-fOK">
                                         <rect key="frame" x="20" y="32" width="374" height="43.5"/>
@@ -1220,7 +1220,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
         <!--English-->
         <scene sceneID="mrV-4X-QeD">
             <objects>
-                <tableViewController id="cJV-32-Gdf" customClass="SettingsViewDoneButton" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="cJV-32-Gdf" customClass="SettingsViewDoneButton" customModule="AnimeGen" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="eCE-jP-9tG">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1289,37 +1289,6 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="M9Z-bm-Gyl">
-                                        <rect key="frame" x="20" y="218" width="374" height="100"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="M9Z-bm-Gyl" id="oBB-Ls-Aql">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Anix" translatesAutoresizingMaskIntoConstraints="NO" id="phg-YI-DMZ">
-                                                    <rect key="frame" x="20" y="11" width="78" height="78"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="78" id="BEF-hZ-atg"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Anix is a English streaming service that provides SUB anime. Downloads are not working." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dTd-kq-cFh">
-                                                    <rect key="frame" x="106" y="11" width="248" height="78"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="dTd-kq-cFh" firstAttribute="trailing" secondItem="oBB-Ls-Aql" secondAttribute="trailingMargin" id="6oE-OG-x10"/>
-                                                <constraint firstItem="phg-YI-DMZ" firstAttribute="bottom" secondItem="oBB-Ls-Aql" secondAttribute="bottomMargin" id="NHx-qn-Ese"/>
-                                                <constraint firstItem="dTd-kq-cFh" firstAttribute="leading" secondItem="phg-YI-DMZ" secondAttribute="trailing" constant="8" id="Ste-8T-FdF"/>
-                                                <constraint firstItem="phg-YI-DMZ" firstAttribute="leading" secondItem="oBB-Ls-Aql" secondAttribute="leadingMargin" id="Zbv-mw-O6J"/>
-                                                <constraint firstItem="phg-YI-DMZ" firstAttribute="bottom" secondItem="dTd-kq-cFh" secondAttribute="bottom" id="h3d-NC-XaO"/>
-                                                <constraint firstItem="phg-YI-DMZ" firstAttribute="top" secondItem="oBB-Ls-Aql" secondAttribute="topMargin" id="oQh-0t-ebz"/>
-                                                <constraint firstItem="phg-YI-DMZ" firstAttribute="top" secondItem="dTd-kq-cFh" secondAttribute="top" id="qa9-PY-eOF"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -1344,7 +1313,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
         <!--Sources Info-->
         <scene sceneID="vIA-OG-Ar1">
             <objects>
-                <tableViewController id="kWN-L7-bee" customClass="SettingsViewDoneButton" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="kWN-L7-bee" customClass="SettingsViewDoneButton" customModule="AnimeGen" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="dcr-DP-Thz">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1513,7 +1482,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
         <!--Arabic-->
         <scene sceneID="c7l-zM-kiz">
             <objects>
-                <tableViewController id="SBo-tV-e5l" customClass="SettingsViewDoneButton" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="SBo-tV-e5l" customClass="SettingsViewDoneButton" customModule="AnimeGen" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="Fhz-8P-fS6">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1533,7 +1502,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                                                         <constraint firstAttribute="width" constant="78" id="utr-DJ-cOi"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Anime3rb is an Arabic streaming service that provides SUB anime. AnimeLounge has good support for AnimeWorld." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lEa-7I-Y92">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Anime3rb is an Arabic streaming service that provides SUB anime. Ryu has good support for AnimeWorld." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lEa-7I-Y92">
                                                     <rect key="frame" x="106" y="11" width="248" height="78"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" systemColor="secondaryLabelColor"/>
@@ -1575,7 +1544,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
         <!--Spanish-->
         <scene sceneID="tM1-RU-DgW">
             <objects>
-                <tableViewController id="aWZ-9I-A7W" customClass="SettingsViewDoneButton" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="aWZ-9I-A7W" customClass="SettingsViewDoneButton" customModule="AnimeGen" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="nNH-Yv-K19">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1595,7 +1564,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                                                         <constraint firstAttribute="width" constant="78" id="q28-pj-rzw"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="JKAnime is a Spanish streaming service that provides SUB anime. AnimeLounge has good support for JKAnime." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6tT-Ic-PWv">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="JKAnime is a Spanish streaming service that provides SUB anime. Ryu has good support for JKAnime." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6tT-Ic-PWv">
                                                     <rect key="frame" x="106" y="11" width="248" height="78"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" systemColor="secondaryLabelColor"/>
@@ -1637,7 +1606,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
         <!--Portuguese-->
         <scene sceneID="gYm-NM-nYP">
             <objects>
-                <tableViewController id="u9E-La-n8l" customClass="SettingsViewDoneButton" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="u9E-La-n8l" customClass="SettingsViewDoneButton" customModule="AnimeGen" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="3Dq-U7-Mk4">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1699,7 +1668,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
         <!--Italian-->
         <scene sceneID="xMp-04-k4g">
             <objects>
-                <tableViewController id="eAZ-FQ-auX" customClass="SettingsViewDoneButton" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="eAZ-FQ-auX" customClass="SettingsViewDoneButton" customModule="AnimeGen" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="683-ZP-32H">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1719,7 +1688,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                                                         <constraint firstAttribute="width" constant="78" id="Gxg-gf-uaT"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AnimeWorld is an Italian streaming service that provides both DUB and SUB. AnimeLounge has great support for AnimeWorld." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="31y-3O-fR1">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AnimeWorld is an Italian streaming service that provides both DUB and SUB. Ryu has great support for AnimeWorld." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="31y-3O-fR1">
                                                     <rect key="frame" x="106" y="11" width="248" height="78"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" systemColor="secondaryLabelColor"/>
@@ -1761,7 +1730,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
         <!--Indonesian-->
         <scene sceneID="PHE-Zl-BaB">
             <objects>
-                <tableViewController id="rWP-Br-aGm" customClass="SettingsViewDoneButton" customModule="AnimeLounge" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="rWP-Br-aGm" customClass="SettingsViewDoneButton" customModule="AnimeGen" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="wAR-MY-sgC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1781,7 +1750,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                                                         <constraint firstAttribute="width" constant="78" id="chm-fW-Xh5"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kuramanime is an Indonesian streaming service that provides both DUB and SUB. AnimeLounge has great support for Kuramanime." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xfO-X5-m8O">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kuramanime is an Indonesian streaming service that provides both DUB and SUB. Ryu has great support for Kuramanime." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xfO-X5-m8O">
                                                     <rect key="frame" x="106" y="11" width="248" height="78"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" systemColor="secondaryLabelColor"/>
@@ -1827,7 +1796,6 @@ Note that push updates might occasionally be inaccurate due to differences betwe
         <image name="AnimeFire" width="192" height="192"/>
         <image name="AnimeHeaven" width="105" height="105"/>
         <image name="AnimeWorld" width="226" height="223"/>
-        <image name="Anix" width="512" height="512"/>
         <image name="GoGoAnime" width="225" height="225"/>
         <image name="JKanime" width="92" height="92"/>
         <image name="Kuramanime" width="150" height="150"/>
