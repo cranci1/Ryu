@@ -73,7 +73,6 @@
 		136525552C6B5B4100210A98 /* ExternalVideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136525112C6B5B4000210A98 /* ExternalVideoPlayer.swift */; };
 		136525562C6B5B4100210A98 /* ExternalVideoPlayerAnix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136525122C6B5B4000210A98 /* ExternalVideoPlayerAnix.swift */; };
 		136525572C6B5B4100210A98 /* ExternalVideoPlayer3rb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136525132C6B5B4000210A98 /* ExternalVideoPlayer3rb.swift */; };
-		136525582C6B5B4100210A98 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 136525142C6B5B4000210A98 /* Info.plist */; };
 		136525592C6B5B4100210A98 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136525152C6B5B4100210A98 /* SceneDelegate.swift */; };
 		1365255C2C6B5B5C00210A98 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 1365255B2C6B5B5C00210A98 /* Kingfisher */; };
 		1365255F2C6B5B6B00210A98 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 1365255E2C6B5B6B00210A98 /* Alamofire */; };
@@ -585,7 +584,6 @@
 				1365252D2C6B5B4100210A98 /* SlimmAnimeCell.xib in Resources */,
 				136525312C6B5B4100210A98 /* AnilistAnimeInformation.storyboard in Resources */,
 				136525332C6B5B4100210A98 /* Assets.xcassets in Resources */,
-				136525582C6B5B4100210A98 /* Info.plist in Resources */,
 				136525322C6B5B4100210A98 /* Settings.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
