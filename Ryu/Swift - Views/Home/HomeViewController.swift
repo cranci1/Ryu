@@ -25,6 +25,16 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
     private var featuredAnime: [AnimeItem] = []
     private var continueWatchingItems: [ContinueWatchingItem] = []
     
+    private let airingErrorLabel = UILabel()
+    private let trendingErrorLabel = UILabel()
+    private let seasonalErrorLabel = UILabel()
+    private let featuredErrorLabel = UILabel()
+    
+    private let airingActivityIndicator = UIActivityIndicatorView(style: .medium)
+    private let trendingActivityIndicator = UIActivityIndicatorView(style: .medium)
+    private let seasonalActivityIndicator = UIActivityIndicatorView(style: .medium)
+    private let featuredActivityIndicator = UIActivityIndicatorView(style: .medium)
+    
     private let aniListServiceAiring = AnilistServiceAiringAnime()
     private let aniListServiceTrending = AnilistServiceTrendingAnime()
     private let aniListServiceSeasonal = AnilistServiceSeasonalAnime()
@@ -59,6 +69,7 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
         setupSelectedSourceLabel()
         setupRefreshControl()
         setupEmptyContinueWatchingLabel()
+        setupErrorLabelsAndActivityIndicators()
         fetchAnimeData()
         
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
@@ -110,6 +121,27 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
         }
     }
     
+    private func setupErrorLabelsAndActivityIndicators() {
+        let errorLabels = [airingErrorLabel, trendingErrorLabel, seasonalErrorLabel, featuredErrorLabel]
+        let collectionViews = [airingCollectionView, trendingCollectionView, seasonalCollectionView, featuredCollectionView]
+        let activityIndicators = [airingActivityIndicator, trendingActivityIndicator, seasonalActivityIndicator, featuredActivityIndicator]
+        
+        for (index, label) in errorLabels.enumerated() {
+            label.textColor = .gray
+            label.textAlignment = .center
+            label.numberOfLines = 0
+            label.isHidden = true
+            
+            let collectionView = collectionViews[index]
+            collectionView?.backgroundView = label
+            
+            let activityIndicator = activityIndicators[index]
+            activityIndicator.hidesWhenStopped = true
+            collectionView?.addSubview(activityIndicator)
+            activityIndicator.center = collectionView?.center ?? .zero
+        }
+    }
+    
     func setupDateLabel() {
         let currentDate = Date()
         let dateFormatter = DateFormatter()
@@ -135,6 +167,8 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
     func fetchAnimeData() {
         let dispatchGroup = DispatchGroup()
         
+        [airingActivityIndicator, trendingActivityIndicator, seasonalActivityIndicator, featuredActivityIndicator].forEach { $0.startAnimating() }
+        
         dispatchGroup.enter()
         fetchTrendingAnime { dispatchGroup.leave() }
         
@@ -150,42 +184,67 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
         dispatchGroup.notify(queue: .main) {
             self.refreshUI()
             self.refreshControl?.endRefreshing()
+            [self.airingActivityIndicator, self.trendingActivityIndicator, self.seasonalActivityIndicator, self.featuredActivityIndicator].forEach { $0.stopAnimating() }
         }
     }
     
     func fetchTrendingAnime(completion: @escaping () -> Void) {
         aniListServiceTrending.fetchTrendingAnime { [weak self] animeList in
-            self?.trendingAnime = animeList ?? []
+            if let animeList = animeList, !animeList.isEmpty {
+                self?.trendingAnime = animeList
+                self?.trendingErrorLabel.isHidden = true
+            } else {
+                self?.trendingErrorLabel.text = "Unable to load trending anime. Make sure to check your connection"
+                self?.trendingErrorLabel.isHidden = false
+            }
             completion()
         }
     }
-    
+
     func fetchSeasonalAnime(completion: @escaping () -> Void) {
         aniListServiceSeasonal.fetchSeasonalAnime { [weak self] animeList in
-            self?.seasonalAnime = animeList ?? []
+            if let animeList = animeList, !animeList.isEmpty {
+                self?.seasonalAnime = animeList
+                self?.seasonalErrorLabel.isHidden = true
+            } else {
+                self?.seasonalErrorLabel.text = "Unable to load seasonal anime. Make sure to check your connection"
+                self?.seasonalErrorLabel.isHidden = false
+            }
             completion()
         }
     }
-    
+
     func fetchAiringAnime(completion: @escaping () -> Void) {
         aniListServiceAiring.fetchAiringAnime { [weak self] animeList in
-            self?.airingAnime = animeList ?? []
+            if let animeList = animeList, !animeList.isEmpty {
+                self?.airingAnime = animeList
+                self?.airingErrorLabel.isHidden = true
+            } else {
+                self?.airingErrorLabel.text = "Unable to load airing anime. Make sure to check your connection"
+                self?.airingErrorLabel.isHidden = false
+            }
             completion()
         }
     }
-    
+
     private func fetchFeaturedAnime(completion: @escaping () -> Void) {
         let selectedSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
         let (sourceURL, parseStrategy) = getSourceInfo(for: selectedSource)
 
         guard let urlString = sourceURL, let url = URL(string: urlString), let parse = parseStrategy else {
-            completion()
+            DispatchQueue.main.async {
+                self.featuredErrorLabel.text = "Unable to load featured anime. Make sure to check your connection"
+                self.featuredErrorLabel.isHidden = false
+                completion()
+            }
             return
         }
 
         URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
             guard let data = data, error == nil else {
                 DispatchQueue.main.async {
+                    self?.featuredErrorLabel.text = "Error loading featured anime"
+                    self?.featuredErrorLabel.isHidden = false
                     completion()
                 }
                 return
@@ -198,12 +257,20 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
                 let animeItems = try parse(doc)
                 
                 DispatchQueue.main.async {
-                    self?.featuredAnime = animeItems
+                    if !animeItems.isEmpty {
+                        self?.featuredAnime = animeItems
+                        self?.featuredErrorLabel.isHidden = true
+                    } else {
+                        self?.featuredErrorLabel.text = "No featured anime found"
+                        self?.featuredErrorLabel.isHidden = false
+                    }
                     completion()
                 }
             } catch {
                 print("Error parsing HTML: \(error)")
                 DispatchQueue.main.async {
+                    self?.featuredErrorLabel.text = "Error parsing featured anime"
+                    self?.featuredErrorLabel.isHidden = false
                     completion()
                 }
             }

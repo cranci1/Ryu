@@ -391,9 +391,9 @@
 		136524ED2C6B5B4000210A98 /* Anime Info */ = {
 			isa = PBXGroup;
 			children = (
+				136524F02C6B5B4000210A98 /* Anime Info View */,
 				136524EE2C6B5B4000210A98 /* AnimeDetailService.swift */,
 				136524EF2C6B5B4000210A98 /* AnimeDetailsViewController.swift */,
-				136524F02C6B5B4000210A98 /* Anime Info View */,
 			);
 			path = "Anime Info";
 			sourceTree = "<group>";
@@ -402,8 +402,8 @@
 			isa = PBXGroup;
 			children = (
 				136524F12C6B5B4000210A98 /* AnimeHeaderCell.swift */,
-				136524F22C6B5B4000210A98 /* EpisodeCell.swift */,
 				136524F32C6B5B4000210A98 /* SynopsisCell.swift */,
+				136524F22C6B5B4000210A98 /* EpisodeCell.swift */,
 			);
 			path = "Anime Info View";
 			sourceTree = "<group>";
@@ -579,12 +579,12 @@
 				1365252F2C6B5B4100210A98 /* AiringAnimeCell.xib in Resources */,
 				136525302C6B5B4100210A98 /* Main.storyboard in Resources */,
 				136525292C6B5B4100210A98 /* LaunchScreen.storyboard in Resources */,
-				136525342C6B5B4100210A98 /* PrivacyInfo.xcprivacy in Resources */,
 				1365252B2C6B5B4100210A98 /* FavoriteCell.xib in Resources */,
 				1365252D2C6B5B4100210A98 /* SlimmAnimeCell.xib in Resources */,
 				136525312C6B5B4100210A98 /* AnilistAnimeInformation.storyboard in Resources */,
-				136525332C6B5B4100210A98 /* Assets.xcassets in Resources */,
 				136525322C6B5B4100210A98 /* Settings.storyboard in Resources */,
+				136525342C6B5B4100210A98 /* PrivacyInfo.xcprivacy in Resources */,
+				136525332C6B5B4100210A98 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
