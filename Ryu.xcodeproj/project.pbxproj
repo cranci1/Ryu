@@ -86,7 +86,7 @@
 		138683B02C64BAAC00236EDB /* Mutation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mutation.swift; sourceTree = "<group>"; };
 		13D412A42C6260D600510461 /* AnilistAnimeInformation.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AnilistAnimeInformation.storyboard; sourceTree = "<group>"; };
 		13EB72B32C63781E008EA184 /* SettingsViewDoneButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewDoneButton.swift; sourceTree = "<group>"; };
-		13F875652C60DE7A004C1978 /* AnimeLounge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnimeLounge.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13F875652C60DE7A004C1978 /* Ryu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ryu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13F875682C60DE7A004C1978 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		13F8756A2C60DE7A004C1978 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		13F875762C60DE7C004C1978 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -185,7 +185,7 @@
 		13F8755C2C60DE7A004C1978 = {
 			isa = PBXGroup;
 			children = (
-				13F875672C60DE7A004C1978 /* AnimeLounge */,
+				13F875672C60DE7A004C1978 /* Ryu */,
 				13F875662C60DE7A004C1978 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -193,12 +193,12 @@
 		13F875662C60DE7A004C1978 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13F875652C60DE7A004C1978 /* AnimeLounge.app */,
+				13F875652C60DE7A004C1978 /* Ryu.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		13F875672C60DE7A004C1978 /* AnimeLounge */ = {
+		13F875672C60DE7A004C1978 /* Ryu */ = {
 			isa = PBXGroup;
 			children = (
 				13F875BF2C60DE99004C1978 /* AnimeListing Service */,
@@ -211,7 +211,7 @@
 				13F875762C60DE7C004C1978 /* Info.plist */,
 				13F875D32C60DE99004C1978 /* Assets.xcassets */,
 			);
-			path = AnimeLounge;
+			path = Ryu;
 			sourceTree = "<group>";
 		};
 		13F8757C2C60DE98004C1978 /* Sources */ = {
@@ -506,9 +506,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		13F875642C60DE7A004C1978 /* AnimeLounge */ = {
+		13F875642C60DE7A004C1978 /* Ryu */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13F875792C60DE7C004C1978 /* Build configuration list for PBXNativeTarget "AnimeLounge" */;
+			buildConfigurationList = 13F875792C60DE7C004C1978 /* Build configuration list for PBXNativeTarget "Ryu" */;
 			buildPhases = (
 				13F875612C60DE7A004C1978 /* Sources */,
 				13F875622C60DE7A004C1978 /* Frameworks */,
@@ -518,7 +518,7 @@
 			);
 			dependencies = (
 			);
-			name = AnimeLounge;
+			name = Ryu;
 			packageProductDependencies = (
 				13F876102C60DEB3004C1978 /* GoogleCastSDK-ios-no-bluetooth */,
 				13F876132C60DEC3004C1978 /* Alamofire */,
@@ -526,7 +526,7 @@
 				13F876192C60DF51004C1978 /* SwiftSoup */,
 			);
 			productName = AnimeLounge;
-			productReference = 13F875652C60DE7A004C1978 /* AnimeLounge.app */;
+			productReference = 13F875652C60DE7A004C1978 /* Ryu.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -544,7 +544,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 13F875602C60DE7A004C1978 /* Build configuration list for PBXProject "AnimeLounge" */;
+			buildConfigurationList = 13F875602C60DE7A004C1978 /* Build configuration list for PBXProject "Ryu" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -563,7 +563,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13F875642C60DE7A004C1978 /* AnimeLounge */,
+				13F875642C60DE7A004C1978 /* Ryu */,
 			);
 		};
 /* End PBXProject section */
@@ -777,7 +777,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = 399LMK6Q2Y;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AnimeLounge/Info.plist;
@@ -796,7 +796,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = me.cranci.animelounge;
+				PRODUCT_BUNDLE_IDENTIFIER = me.cranci.ryu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -810,7 +810,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = 399LMK6Q2Y;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AnimeLounge/Info.plist;
@@ -829,7 +829,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = me.cranci.animelounge;
+				PRODUCT_BUNDLE_IDENTIFIER = me.cranci.ryu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -840,7 +840,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		13F875602C60DE7A004C1978 /* Build configuration list for PBXProject "AnimeLounge" */ = {
+		13F875602C60DE7A004C1978 /* Build configuration list for PBXProject "Ryu" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13F875772C60DE7C004C1978 /* Debug */,
@@ -849,7 +849,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		13F875792C60DE7C004C1978 /* Build configuration list for PBXNativeTarget "AnimeLounge" */ = {
+		13F875792C60DE7C004C1978 /* Build configuration list for PBXNativeTarget "Ryu" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13F8757A2C60DE7C004C1978 /* Debug */,

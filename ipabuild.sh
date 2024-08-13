@@ -5,7 +5,7 @@ set -e
 cd "$(dirname "$0")"
 
 WORKING_LOCATION="$(pwd)"
-APPLICATION_NAME=AnimeLounge
+APPLICATION_NAME=Ryu
 
 if [ ! -d "build" ]; then
     mkdir build
@@ -35,8 +35,8 @@ fi
 
 
 mkdir Payload
-cp -r AnimeLounge.app Payload/AnimeLounge.app
-strip Payload/AnimeLounge.app/AnimeLounge
-zip -vr AnimeLounge.ipa Payload
-rm -rf AnimeLounge.app
+cp -r Ryu.app Payload/Ryu.app
+strip Payload/Ryu.app/Ryu
+zip -vr Ryu.ipa Payload
+rm -rf Ryu.app
 rm -rf Payload
