@@ -272,9 +272,6 @@ class SearchResultsViewController: UIViewController {
         case "Anime3rb":
             url = "https://anime3rb.com/search"
             parameters["q"] = query
-        case "Anix":
-            url = "https://anix.to/filter"
-            parameters["keyword"] = query
         default:
             return nil
         }
@@ -318,8 +315,6 @@ class SearchResultsViewController: UIViewController {
             return parseJKanime(document)
         case .anime3rb:
             return parseAnime3rb(document)
-        case .anix:
-            return parseAnix(document)
         }
     }
 
@@ -398,8 +393,7 @@ extension SearchResultsViewController: UIContextMenuInteractionDelegate {
             baseUrl = "https://anitaku.pe"
         case "AnimeHeaven":
             baseUrl = "https://animeheaven.me/"
-        case "Anix":
-            baseUrl = "https://anix.to"
+
         default:
             baseUrl = ""
         }

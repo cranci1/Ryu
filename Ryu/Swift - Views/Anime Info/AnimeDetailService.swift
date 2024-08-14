@@ -33,8 +33,6 @@ class AnimeDetailService {
             baseUrl = "https://anitaku.pe"
         case .animeheaven:
             baseUrl = "https://animeheaven.me/"
-        case .anix:
-            baseUrl = "https://anix.to"
         case .animefire, .kuramanime, .jkanime, .anime3rb:
             baseUrl = ""
         }
@@ -87,11 +85,6 @@ class AnimeDetailService {
                         synopsis = try document.select("p.leading-loose").text()
                         airdate = try document.select("td[title]").attr("title")
                         stars = try document.select("p.text-lg.leading-relaxed").first()?.text() ?? ""
-                    case .anix:
-                        aliases = try document.select("h1.ani-name").attr("data-jp")
-                        synopsis = try document.select("div.description div.full").text()
-                        airdate = "N/A"
-                        stars = "N/A"
                     }
                     
                     episodes = self.fetchEpisodes(document: document, for: selectedSource, href: href)
@@ -137,16 +130,6 @@ class AnimeDetailService {
             case .anime3rb:
                 episodeElements = try document.select("div.absolute.overflow-hidden div a.gap-3")
                 downloadUrlElement = ""
-            case .anix:
-                guard let episodeCountText = try? document.select("div > div:contains(Episodes:) + span").first()?.text(),
-                      let episodeCount = Int(episodeCountText) else { return [] }
-                
-                episodes = (1...episodeCount).map { episodeNumber in
-                    let formattedEpisode = "\(episodeNumber)"
-                    let episodeHref = "\(href)/ep-\(episodeNumber)"
-                    return Episode(number: formattedEpisode, href: episodeHref, downloadUrl: "")
-                }
-                return episodes
             }
 
             switch source {

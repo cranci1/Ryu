@@ -71,7 +71,6 @@
 		136525532C6B5B4100210A98 /* ExternalVideoPlayerJK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1365250F2C6B5B4000210A98 /* ExternalVideoPlayerJK.swift */; };
 		136525542C6B5B4100210A98 /* ExternalVideoPlayerKura.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136525102C6B5B4000210A98 /* ExternalVideoPlayerKura.swift */; };
 		136525552C6B5B4100210A98 /* ExternalVideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136525112C6B5B4000210A98 /* ExternalVideoPlayer.swift */; };
-		136525562C6B5B4100210A98 /* ExternalVideoPlayerAnix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136525122C6B5B4000210A98 /* ExternalVideoPlayerAnix.swift */; };
 		136525572C6B5B4100210A98 /* ExternalVideoPlayer3rb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136525132C6B5B4000210A98 /* ExternalVideoPlayer3rb.swift */; };
 		136525592C6B5B4100210A98 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136525152C6B5B4100210A98 /* SceneDelegate.swift */; };
 		1365255C2C6B5B5C00210A98 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 1365255B2C6B5B5C00210A98 /* Kingfisher */; };
@@ -150,7 +149,6 @@
 		1365250F2C6B5B4000210A98 /* ExternalVideoPlayerJK.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExternalVideoPlayerJK.swift; sourceTree = "<group>"; };
 		136525102C6B5B4000210A98 /* ExternalVideoPlayerKura.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExternalVideoPlayerKura.swift; sourceTree = "<group>"; };
 		136525112C6B5B4000210A98 /* ExternalVideoPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExternalVideoPlayer.swift; sourceTree = "<group>"; };
-		136525122C6B5B4000210A98 /* ExternalVideoPlayerAnix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExternalVideoPlayerAnix.swift; sourceTree = "<group>"; };
 		136525132C6B5B4000210A98 /* ExternalVideoPlayer3rb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExternalVideoPlayer3rb.swift; sourceTree = "<group>"; };
 		136525142C6B5B4000210A98 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		136525152C6B5B4100210A98 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -478,8 +476,8 @@
 		136525062C6B5B4000210A98 /* Downloaders */ = {
 			isa = PBXGroup;
 			children = (
-				136525072C6B5B4000210A98 /* MP4Downloader.swift */,
 				136525082C6B5B4000210A98 /* M3U8Downloader.swift */,
+				136525072C6B5B4000210A98 /* MP4Downloader.swift */,
 			);
 			path = Downloaders;
 			sourceTree = "<group>";
@@ -499,23 +497,22 @@
 		1365250B2C6B5B4000210A98 /* Player */ = {
 			isa = PBXGroup;
 			children = (
+				1365250E2C6B5B4000210A98 /* Sources */,
 				1365250C2C6B5B4000210A98 /* VideoPlayerType.swift */,
 				1365250D2C6B5B4000210A98 /* LandScapePlayer.swift */,
-				1365250E2C6B5B4000210A98 /* Source Specific */,
 			);
 			path = Player;
 			sourceTree = "<group>";
 		};
-		1365250E2C6B5B4000210A98 /* Source Specific */ = {
+		1365250E2C6B5B4000210A98 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				136525112C6B5B4000210A98 /* ExternalVideoPlayer.swift */,
 				1365250F2C6B5B4000210A98 /* ExternalVideoPlayerJK.swift */,
 				136525102C6B5B4000210A98 /* ExternalVideoPlayerKura.swift */,
-				136525112C6B5B4000210A98 /* ExternalVideoPlayer.swift */,
-				136525122C6B5B4000210A98 /* ExternalVideoPlayerAnix.swift */,
 				136525132C6B5B4000210A98 /* ExternalVideoPlayer3rb.swift */,
 			);
-			path = "Source Specific";
+			path = Sources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -628,7 +625,6 @@
 				136525382C6B5B4100210A98 /* SettingsViewCast.swift in Sources */,
 				136525242C6B5B4100210A98 /* Kitsu-Info.swift in Sources */,
 				1365251C2C6B5B4100210A98 /* AniList-Info.swift in Sources */,
-				136525562C6B5B4100210A98 /* ExternalVideoPlayerAnix.swift in Sources */,
 				136525372C6B5B4100210A98 /* SettingsViewSources.swift in Sources */,
 				136525492C6B5B4100210A98 /* DownloadCell.swift in Sources */,
 				136525232C6B5B4100210A98 /* Kitsu-Airing.swift in Sources */,
@@ -806,12 +802,13 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportsDocumentBrowser = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.cranci.Ryu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -835,12 +832,13 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportsDocumentBrowser = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.cranci.Ryu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
