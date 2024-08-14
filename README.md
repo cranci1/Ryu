@@ -12,16 +12,16 @@ A simple way to enjoy and watch anime on iOS devices
 
 ## Table of Contents
 
-- [Ryu](#ryu)
- - [Table of Contents](#table-of-contents)
- - [Features](#features)
- - [Sources](#sources)
- - [Installation](#installation)
- - [Compatibility](#compatibility)
- - [Frequently Asked Questions](#frequently-asked-questions)
- - [Acknowledgements](#acknowledgements)
- - [Contributing](#contributing)
- - [License](#license)
+- [Table of Contents](#table-of-contents)
+- [Features](#features)
+- [Sources](#sources)
+- [Installation](#installation)
+- [Compatibility](#compatibility)
+- [Frequently Asked Questions](#frequently-asked-questions)
+- [Acknowledgements](#acknowledgements)
+- [Contributing](#contributing)
+- [Localization](#localization)
+- [License](#license)
 
 ## Features
 
@@ -108,6 +108,16 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 3. Make sure that the app is not crashing and fully working
 4. Commit your changes + Push the changes to your forked repo
 5. Open a Pull Request describing what changed
+
+## Localization
+
+If you want to translate the app in your native language its pretty simple to do:
+
+1. Fork the repository on the [Localization](https://github.com/cranci1/Ryu/tree/Localization) branch
+2. Change the Localizations File
+3. Translate the Strings in your language but make sure to not translate the sources name
+4. Commit your changes + Push the changes to your forked repo
+5. Open a Pull Request with title "Language Localization added"
 
 ## License
 
