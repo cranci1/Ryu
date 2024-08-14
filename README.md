@@ -64,6 +64,8 @@ A simple way to enjoy and watch anime on iOS devices
    - Esign
    - Any other IPA installation tool
 
+You can find the dev ipa file on [nightly.link](https://nightly.link/cranci1/Ryu/workflows/build/main) or the stable ipa on [releases](https://github.com/cranci1/Ryu/releases)
+
 ## Compatibility
 
 - iOS/iPadOS 14.0 or later
