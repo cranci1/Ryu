@@ -17,6 +17,7 @@
 		133F8EB22C6CA23C00BECB6D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 133F8EA52C6CA23B00BECB6D /* LaunchScreen.storyboard */; };
 		133F8EB32C6CA23C00BECB6D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 133F8EA72C6CA23B00BECB6D /* Main.storyboard */; };
 		133F8EB42C6CA23C00BECB6D /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 133F8EA92C6CA23B00BECB6D /* Settings.storyboard */; };
+		1357B4AF2C6CE9D0000A2C9B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1357B4B12C6CE9D0000A2C9B /* Localizable.strings */; };
 		136525162C6B5B4100210A98 /* Jikan-Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136524B52C6B5B4000210A98 /* Jikan-Info.swift */; };
 		136525172C6B5B4100210A98 /* Jikan-Sesonal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136524B72C6B5B4000210A98 /* Jikan-Sesonal.swift */; };
 		136525182C6B5B4100210A98 /* Jikan-Trending.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136524B82C6B5B4000210A98 /* Jikan-Trending.swift */; };
@@ -94,6 +95,7 @@
 		133F8EA62C6CA23B00BECB6D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Ryu/Base.lproj/LaunchScreen.storyboard; sourceTree = SOURCE_ROOT; };
 		133F8EA82C6CA23B00BECB6D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Ryu/Base.lproj/Main.storyboard; sourceTree = SOURCE_ROOT; };
 		133F8EAA2C6CA23B00BECB6D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Ryu/Base.lproj/Settings.storyboard; sourceTree = SOURCE_ROOT; };
+		1357B4B02C6CE9D0000A2C9B /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1365249C2C6B5B2F00210A98 /* Ryu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ryu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		136524B52C6B5B4000210A98 /* Jikan-Info.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Jikan-Info.swift"; sourceTree = "<group>"; };
 		136524B72C6B5B4000210A98 /* Jikan-Sesonal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Jikan-Sesonal.swift"; sourceTree = "<group>"; };
@@ -200,9 +202,9 @@
 		133F8E9B2C6CA23B00BECB6D /* CustomCells */ = {
 			isa = PBXGroup;
 			children = (
+				133F8EA22C6CA23B00BECB6D /* AiringAnimeCell */,
 				133F8E9C2C6CA23B00BECB6D /* Favorite Cell */,
 				133F8E9F2C6CA23B00BECB6D /* SlimmAnimeCell */,
-				133F8EA22C6CA23B00BECB6D /* AiringAnimeCell */,
 			);
 			name = CustomCells;
 			path = Ryu/Base.lproj/CustomCells;
@@ -235,6 +237,14 @@
 			path = AiringAnimeCell;
 			sourceTree = "<group>";
 		};
+		1357B4A52C6CE8F8000A2C9B /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				1357B4B12C6CE9D0000A2C9B /* Localizable.strings */,
+			);
+			path = Localization;
+			sourceTree = "<group>";
+		};
 		136524932C6B5B2F00210A98 = {
 			isa = PBXGroup;
 			children = (
@@ -254,6 +264,7 @@
 		1365249E2C6B5B2F00210A98 /* Ryu */ = {
 			isa = PBXGroup;
 			children = (
+				1357B4A52C6CE8F8000A2C9B /* Localization */,
 				133F8E982C6CA23400BECB6D /* StoryBoard - Views */,
 				136524B32C6B5B4000210A98 /* AnimeListing Service */,
 				136524CD2C6B5B4000210A98 /* Sources */,
@@ -606,6 +617,7 @@
 				133F8EB12C6CA23C00BECB6D /* AiringAnimeCell.xib in Resources */,
 				133F8EB32C6CA23C00BECB6D /* Main.storyboard in Resources */,
 				133F8EAD2C6CA23C00BECB6D /* FavoriteCell.xib in Resources */,
+				1357B4AF2C6CE9D0000A2C9B /* Localizable.strings in Resources */,
 				133F8EB22C6CA23C00BECB6D /* LaunchScreen.storyboard in Resources */,
 				133F8EB42C6CA23C00BECB6D /* Settings.storyboard in Resources */,
 				136525332C6B5B4100210A98 /* Assets.xcassets in Resources */,
@@ -729,6 +741,14 @@
 				138C736E2C6CA3B800D96246 /* es */,
 			);
 			name = Settings.storyboard;
+			sourceTree = "<group>";
+		};
+		1357B4B12C6CE9D0000A2C9B /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1357B4B02C6CE9D0000A2C9B /* it */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
