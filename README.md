@@ -1,4 +1,8 @@
-# Ryu
+# Ryu - Localization 
+
+- Italian: cranci
+- Arabic: ibh-rad
+- Spanish: mmmmatheito
 
 <div align="center">
 
@@ -13,15 +17,15 @@ A simple way to enjoy and watch anime on iOS devices
 ## Table of Contents
 
 - [Ryu](#ryu)
-  - [Table of Contents](#table-of-contents)
-  - [Features](#features)
-  - [Sources](#sources)
-  - [Installation](#installation)
-  - [Compatibility](#compatibility)
-  - [Frequently Asked Questions](#frequently-asked-questions)
-  - [Acknowledgements](#acknowledgements)
-  - [Contributing](#contributing)
-  - [License](#license)
+ - [Table of Contents](#table-of-contents)
+ - [Features](#features)
+ - [Sources](#sources)
+ - [Installation](#installation)
+ - [Compatibility](#compatibility)
+ - [Frequently Asked Questions](#frequently-asked-questions)
+ - [Acknowledgements](#acknowledgements)
+ - [Contributing](#contributing)
+ - [License](#license)
 
 ## Features
 
