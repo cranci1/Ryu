@@ -39,7 +39,7 @@
 "8V1-Vb-S8x.text" = "Resetta l'app";
 
 /* Class = "UILabel"; text = "AutoPlay next Episode"; ObjectID = "8a8-PH-leA"; */
-"8a8-PH-leA.text" = "Riproduzione automatica dell'episodio succesivo";
+"8a8-PH-leA.text" = "Riproduzione automatica episodi";
 
 /* Class = "UILabel"; text = "Sources Preferences"; ObjectID = "8aA-4U-uUX"; */
 "8aA-4U-uUX.text" = "Preferenze delle Fonti";
@@ -280,3 +280,12 @@
 
 /* Class = "UILabel"; text = "N/A"; ObjectID = "yxN-nY-MRO"; */
 "yxN-nY-MRO.text" = "N/A";
+
+/* Class = "UILabel"; text = "Episode Sorting"; ObjectID = "1Rq-lD-p6p"; */
+"1Rq-lD-p6p.text" = "Ordine Episodi";
+
+/* Class = "UISegmentedControl"; QgB-fb-Dni.segmentTitles[0] = "Ordered"; ObjectID = "QgB-fb-Dni"; */
+"QgB-fb-Dni.segmentTitles[0]" = "1-99";
+
+/* Class = "UISegmentedControl"; QgB-fb-Dni.segmentTitles[1] = "Reversed"; ObjectID = "QgB-fb-Dni"; */
+"QgB-fb-Dni.segmentTitles[1]" = "99-1";
