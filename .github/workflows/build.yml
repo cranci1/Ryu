@@ -1,9 +1,9 @@
-name: Build and Release IPA
+name: Localization - Build and Release IPA
 
 on:
   push:
     branches:
-      - main
+      - Localization
 
 jobs:
   build:
