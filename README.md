@@ -2,11 +2,13 @@
 
 <div align="center">
 
+<img src="https://raw.githubusercontent.com/cranci1/Ryu/main/Ryu/Assets.xcassets/AppIcon.appiconset/1024.jpg" width="240px">
+
 [![Build and Release IPA](https://github.com/cranci1/Ryu/actions/workflows/build.yml/badge.svg)](https://github.com/cranci1/Ryu/actions/workflows/build.yml) [![Platform](https://img.shields.io/badge/Platform-iOS%20%7C%20iPadOS%2014.0%2B-orange?logo=apple&logoColor=white)](https://img.shields.io/badge/Platform-iOS%20%7C%20iPadOS%2014.0%2B-red?logo=apple&logoColor=white) [![Commit](https://custom-icon-badges.demolab.com/github/last-commit/cranci1/Ryu)](https://custom-icon-badges.demolab.com/github/last-commit/cranci1/Ryu) [![Version](https://custom-icon-badges.demolab.com/github/v/release/cranci1/Ryu)](https://custom-icon-badges.demolab.com/github/v/release/cranci1/Ryu) [![Testflight](https://img.shields.io/badge/Join-Testflight-008080)](https://testflight.apple.com/join/Sxyg9JXF) [![Discord](https://img.shields.io/discord/1260315262272536698.svg?logo=discord&color=blue)](https://discord.gg/vjSTWbpeHa)
 
-</div>
-
 A simple way to enjoy and watch anime on iOS devices
+
+</div>
 
 ## Table of Contents
 
