@@ -31,6 +31,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
     
     private var isFavorite: Bool = false
     private var isSynopsisExpanded = false
+    private var isReverseSorted = false
     
     var availableQualities: [String] = []
     var hasSentUpdate = false
@@ -49,6 +50,10 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         checkFavoriteStatus()
         setupAudioSession()
         setupCastButton()
+        
+        isReverseSorted = UserDefaults.standard.bool(forKey: "isEpisodeReverseSorted")
+        setupUserDefaultsObserver()
+        sortEpisodes()
         
         navigationController?.navigationBar.prefersLargeTitles = false
         
@@ -70,6 +75,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.removeObserver(self, name: UserDefaults.didChangeNotification, object: nil)
         
         if let castSession = GCKCastContext.sharedInstance().sessionManager.currentCastSession,
            let remoteMediaClient = castSession.remoteMediaClient {
@@ -149,6 +155,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                     self?.airdate = details.airdate
                     self?.stars = details.stars
                     self?.episodes = details.episodes
+                    self?.sortEpisodes()
                     DispatchQueue.main.async {
                         self?.tableView.reloadData()
                     }
@@ -156,6 +163,23 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                     self?.showAlert(title: "Error", message: error.localizedDescription)
                 }
             }
+        }
+    }
+    
+    private func sortEpisodes() {
+        episodes = isReverseSorted ? episodes.sorted(by: { $0.episodeNumber > $1.episodeNumber }) : episodes.sorted(by: { $0.episodeNumber < $1.episodeNumber })
+    }
+    
+    private func setupUserDefaultsObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(userDefaultsChanged), name: UserDefaults.didChangeNotification, object: nil)
+    }
+    
+    @objc private func userDefaultsChanged() {
+        let newIsReverseSorted = UserDefaults.standard.bool(forKey: "isEpisodeReverseSorted")
+        if newIsReverseSorted != isReverseSorted {
+            isReverseSorted = newIsReverseSorted
+            sortEpisodes()
+            tableView.reloadSections(IndexSet(integer: 2), with: .automatic)
         }
     }
     
@@ -395,7 +419,6 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             fullURL = baseURL + episodeId
             episodeTimeURL = episode.href
             checkUserDefault(url: fullURL, cell: cell, fullURL: episodeTimeURL)
-            return
             return
         default:
             baseURL = ""

@@ -18,6 +18,8 @@ class SettingsViewController: UITableViewController {
     @IBOutlet weak var playerButton: UIButton!
     @IBOutlet weak var sourceButton: UIButton!
     
+    @IBOutlet weak var episodeSortingSegmentedControl: UISegmentedControl!
+    
     let githubURL = "https://github.com/cranci1/Ryu/"
     
     override func viewDidLoad() {
@@ -28,6 +30,14 @@ class SettingsViewController: UITableViewController {
         if let selectedOption = UserDefaults.standard.string(forKey: "selectedMediaSource") {
             sourceButton.setTitle(selectedOption, for: .normal)
         }
+        
+        let isReverseSorted = UserDefaults.standard.bool(forKey: "isEpisodeReverseSorted")
+        episodeSortingSegmentedControl.selectedSegmentIndex = isReverseSorted ? 1 : 0
+    }
+    
+    @IBAction func episodeSortingChanged(_ sender: UISegmentedControl) {
+        let isReverseSorted = sender.selectedSegmentIndex == 1
+        UserDefaults.standard.set(isReverseSorted, forKey: "isEpisodeReverseSorted")
     }
     
     @IBAction func githubTapped(_ sender: UITapGestureRecognizer) {

@@ -11,6 +11,10 @@ struct Episode {
     let number: String
     let href: String
     let downloadUrl: String
+    
+    var episodeNumber: Int {
+        return Int(number.replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)) ?? 0
+    }
 }
 
 class EpisodeCell: UITableViewCell {

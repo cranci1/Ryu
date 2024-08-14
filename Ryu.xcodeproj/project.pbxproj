@@ -398,8 +398,8 @@
 			isa = PBXGroup;
 			children = (
 				136524F02C6B5B4000210A98 /* Anime Info View */,
-				136524EE2C6B5B4000210A98 /* AnimeDetailService.swift */,
 				136524EF2C6B5B4000210A98 /* AnimeDetailsViewController.swift */,
+				136524EE2C6B5B4000210A98 /* AnimeDetailService.swift */,
 			);
 			path = "Anime Info";
 			sourceTree = "<group>";
