@@ -1,8 +1,4 @@
-# Ryu - Localization 
-
-- Italian: cranci
-- Arabic: ibh-rad
-- Spanish: mmmmatheito
+# Ryu
 
 <div align="center">
 
