@@ -1,6 +1,6 @@
 
 /* Class = "UITableViewSection"; footerTitle = "\"Display Full Title\" When enabled will show the full anime title. When disabled, it will only show the episode number, such as \"Episode 1\".\n\n\n\"Use Anime Image\" will simply load the anime image as the cast image.\n\nThe Streaming type is the method to stream the episode, can be 'buffered' that will preload some portion of the video or 'live' that wont preload anything."; ObjectID = "0eE-6U-hDr"; */
-"0eE-6U-hDr.footerTitle" = "\"Visualizza titolo completo\" Se abilitato mostrerà il titolo completo dell'anime. Quando disabilitato, mostrerà solo il numero dell'episodio, come \"Episodio 1\".\n\n\n\"Usa immagine anime\" caricherà semplicemente l'immagine dell'anime come immagine del cast.\n\nIl tipo di streaming è il metodo per eseguire lo streaming dell'episodio, può essere 'buffered' che precaricherà alcune parti del video o 'live' che non precaricherà nulla.";
+"0eE-6U-hDr.footerTitle" = "\"Visualizza titolo completo\" Se abilitato mostrerà il titolo completo dell'anime. Quando disabilitato, mostrerà solo il numero dell'episodio, come 'Episodio 1'.\n\n\n\"Usa immagine anime\" caricherà semplicemente l'immagine dell'anime come immagine del cast.\n\nIl tipo di streaming è il metodo per eseguire lo streaming dell'episodio, può essere 'buffered' che precaricherà alcune parti del video o 'live' che non precaricherà nulla.";
 
 /* Class = "UITableViewSection"; headerTitle = "General"; ObjectID = "0eE-6U-hDr"; */
 "0eE-6U-hDr.headerTitle" = "Generali";
@@ -39,7 +39,7 @@
 "8V1-Vb-S8x.text" = "Resetta l'app";
 
 /* Class = "UILabel"; text = "AutoPlay next Episode"; ObjectID = "8a8-PH-leA"; */
-"8a8-PH-leA.text" = "Riproduzione automatica dell'episodio succesivo";
+"8a8-PH-leA.text" = "Riproduzione automatica episdodi";
 
 /* Class = "UILabel"; text = "Sources Preferences"; ObjectID = "8aA-4U-uUX"; */
 "8aA-4U-uUX.text" = "Preferenze delle Fonti";
@@ -270,7 +270,7 @@
 "xfO-X5-m8O.text" = "Kuramanime è un servizio di streaming Indonesiano che contiene sia DUB che SUB. Ryu ha un buon support per Kuramanime";
 
 /* Class = "UILabel"; text = "Report an Issue"; ObjectID = "y74-eG-IA4"; */
-"y74-eG-IA4.text" = "Reporta un Problema";
+"y74-eG-IA4.text" = "Segnala un problema";
 
 /* Class = "UITableViewSection"; headerTitle = "Datas"; ObjectID = "y8g-0P-qDQ"; */
 "y8g-0P-qDQ.headerTitle" = "Dati";
