@@ -22,12 +22,12 @@ class AiringAnimeCell: UICollectionViewCell {
         animeImageView.kf.setImage(with: imageUrl, placeholder: UIImage(named: "no_image"), options: [.transition(.fade(0.2))])
         
         if let episodes = episodes {
-            episodesLabel.text = "Ep. \(episodes)"
+            episodesLabel.text = String(format: NSLocalizedString("Ep. %d", comment: "Episode number format"), episodes)
         } else {
-            episodesLabel.text = "Ep. N/A"
+            episodesLabel.text = NSLocalizedString("Ep. N/A", comment: "No episode available")
         }
         
-        var cleanDescription = description ?? "Description not available"
+        var cleanDescription = description ?? NSLocalizedString("Description not available", comment: "No description available")
         cleanDescription = cleanDescription.replacingOccurrences(of: "<br>", with: "")
         cleanDescription = cleanDescription.replacingOccurrences(of: "<i>", with: "")
         cleanDescription = cleanDescription.replacingOccurrences(of: "</i>", with: "")
@@ -54,16 +54,16 @@ class AiringAnimeCell: UICollectionViewCell {
             
             let dayText: String
             if airingDate == today {
-                dayText = "Today, \(timeFormatter.string(from: date))"
+                dayText = String(format: NSLocalizedString("Today, %@", comment: "Airing today"), timeFormatter.string(from: date))
             } else if airingDate == tomorrow {
-                dayText = "Tomorrow, \(timeFormatter.string(from: date))"
+                dayText = String(format: NSLocalizedString("Tomorrow, %@", comment: "Airing tomorrow"), timeFormatter.string(from: date))
             } else {
                 dayText = dateFormatter.string(from: date)
             }
             
             airingAtLabel.text = dayText
         } else {
-            airingAtLabel.text = "Airing date: N/A"
+            airingAtLabel.text = NSLocalizedString("Airing date: N/A", comment: "No airing date available")
         }
     }
 }

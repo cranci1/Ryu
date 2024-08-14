@@ -3,7 +3,7 @@
 "1CL-Ex-tXm.title" = "Seleziona Fonte";
 
 /* Class = "UILabel"; text = "Trending"; ObjectID = "3ty-fm-ARL"; */
-"3ty-fm-ARL.text" = "Tendenza";
+"3ty-fm-ARL.text" = "Di Tendenza";
 
 /* Class = "UILabel"; text = "Active Downloads"; ObjectID = "4Q2-dI-XfY"; */
 "4Q2-dI-XfY.text" = "Download Attivi";
@@ -18,7 +18,7 @@
 "Csl-Ih-bpo.text" = "su AnimeWorld";
 
 /* Class = "UINavigationItem"; title = "Downloading"; ObjectID = "DFf-sb-iq0"; */
-"DFf-sb-iq0.title" = "Scaricando";
+"DFf-sb-iq0.title" = "In Download";
 
 /* Class = "UISearchBar"; placeholder = "Find your Anime"; ObjectID = "K3f-Dc-Cgq"; */
 "K3f-Dc-Cgq.placeholder" = "Trova il tuo Anime";
@@ -63,7 +63,7 @@
 "sIr-SL-AbL.title" = "Risultati";
 
 /* Class = "UITabBarItem"; title = "Downloads"; ObjectID = "sN6-pb-xdG"; */
-"sN6-pb-xdG.title" = "Scaricati";
+"sN6-pb-xdG.title" = "Downloads";
 
 /* Class = "UILabel"; text = "on Friday, 21 June 2024"; ObjectID = "vTh-bi-IJD"; */
 "vTh-bi-IJD.text" = "Venerdì 21 giugno 2024";

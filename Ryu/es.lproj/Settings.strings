@@ -17,6 +17,9 @@
 /* Class = "UILabel"; text = "Numbers of Retries"; ObjectID = "1JG-my-ZeB"; */
 "1JG-my-ZeB.text" = "Numbers of Retries";
 
+/* Class = "UILabel"; text = "Episode Sorting"; ObjectID = "1Rq-lD-p6p"; */
+"1Rq-lD-p6p.text" = "Episode Sorting";
+
 /* Class = "UITableViewSection"; headerTitle = "Sources"; ObjectID = "2Ds-cg-lq5"; */
 "2Ds-cg-lq5.headerTitle" = "Sources";
 
@@ -124,6 +127,12 @@
 
 /* Class = "UILabel"; text = "Clear Caches"; ObjectID = "Qbf-58-ZPz"; */
 "Qbf-58-ZPz.text" = "Clear Caches";
+
+/* Class = "UISegmentedControl"; QgB-fb-Dni.segmentTitles[0] = "Ordered"; ObjectID = "QgB-fb-Dni"; */
+"QgB-fb-Dni.segmentTitles[0]" = "Ordered";
+
+/* Class = "UISegmentedControl"; QgB-fb-Dni.segmentTitles[1] = "Reversed"; ObjectID = "QgB-fb-Dni"; */
+"QgB-fb-Dni.segmentTitles[1]" = "Reversed";
 
 /* Class = "UINavigationItem"; title = "Settings"; ObjectID = "SAe-EI-ZI4"; */
 "SAe-EI-ZI4.title" = "Settings";
