@@ -1,6 +1,6 @@
 
-/* Class = "UITableViewSection"; footerTitle = "\"Display Full Title\"  عندما يكون مفعل سوف يضهر اسم الانمي الكامل . عندما يكون مطفأ سوف فقط يضهر رقم الحلقه،مثل \"Episode 1\".\n\n\n\"Use Anime Image\" will simply load the anime image as the cast image.\n\nThe Streaming type is the method to stream the episode, can be 'buffered' that will preload some portion of the video or 'live' that wont preload anything."; ObjectID = "0eE-6U-hDr"; */
-"0eE-6U-hDr.footerTitle" = "\"Display Full Title\" When enabled will show the full anime title. When disabled, it will only show the episode number, such as \"Episode 1\".\n\n\n\"Use Anime Image\" will simply load the anime image as the cast image.\n\nThe Streaming type is the method to stream the episode, can be 'buffered' that will preload some portion of the video or 'live' that wont preload anything.";
+/* Class = "UITableViewSection"; footerTitle = "\"Display Full Title\"  عندما يكون مفعل سوف يضهر اسم الانمي الكامل . عندما يكون مطفأ سوف فقط يضهر رقم الحلقه،مثل \"Episode 1\".\n\n\n\"Use Anime Image\" \n\n سوف يظهر صورة الانمي ك صورة العرض. \n\n نوع البث الذي يستعمل لاظهار الحلقه،يمكن ان يكون "buffered" الذي سوف يحمل جزء من الحلقة مسبقا او ال"live" الذي لم يحمل اي جزء مسبقاًً"; */
+"0eE-6U-hDr.footerTitle" = "\"Display Full Title\" عندما يكون مفعل سوف يضهر اسم الانمي الكامل . عندما يكون مطفأ سوف فقط يضهر رقم الحلقه،مثل \"Episode 1\".\n\n\n\"Use Anime Image\" \n\n سوف يظهر صورة الانمي ك صورة العرض. \n\n نوع البث الذي يستعمل لاظهار الحلقه،يمكن ان يكون 'buffered' الذي سوف يحمل جزء من الحلقة مسبقا او ال'live' الذي لم يحمل اي جزء مسبقاً";
 
 /* Class = "UITableViewSection"; headerTitle = "عام"; ObjectID = "0eE-6U-hDr"; */
 "0eE-6U-hDr.headerTitle" = "عام";
@@ -12,7 +12,7 @@
 "12i-Tl-sd4.headerTitle" = "معلومات حول Ryu";
 
 /* Class = "UILabel"; text = "AnimeHeaven هي خدمه بث توفر انمي مترجم،Ryu لديه دعم جيد. لAnimeHeaven"; ObjectID = "1Fi-Nb-SYa"; */
-"1Fi-Nb-SYa.text" = "AnimeHeaven هي خدمه بث توفر انمي مترجم،Ryu لديه دعم   جيد. لAnimeHeaven";
+"1Fi-Nb-SYa.text" = "AnimeHeaven هي خدمه بث توفر انمي مترجم،Ryu لديه دعم جيد. لAnimeHeaven";
 
 /* Class = "UILabel"; text = "عدد المحاولات"; ObjectID = "1JG-my-ZeB"; */
 "1JG-my-ZeB.text" = "عدد المحاولات";
@@ -29,8 +29,8 @@
 /* Class = "UILabel"; text = "JKAnime هو موقع بث انمي  اسباني يوفر انمي المترجم،Ryu لديه دعم جيد لJKAnime"; ObjectID = "6tT-Ic-PWv"; */
 "6tT-Ic-PWv.text" = "JKAnime هو موقع بث انمي  اسباني يوفر انمي المترجم،Ryu لديه دعم جيد لJKAnime";
 
-/* Class = "UITableViewSection"; footerTitle = "This method defines how Ryu attempts to fetch episodes. Increasing the number of retries allows for more attempts to load a video, which can be useful if a video fails to load initially. However, note that a higher number of retries may increase the wait time."; ObjectID = "8Uf-JF-cy1"; */
-"8Uf-JF-cy1.footerTitle" = "This method defines how Ryu attempts to fetch episodes. Increasing the number of retries allows for more attempts to load a video, which can be useful if a video fails to load initially. However, note that a higher number of retries may increase the wait time.";
+/* Class = "UITableViewSection"; footerTitle = "هذه الطريقة تحدد كم محاولة Ryu سوف يستعمل لمحاولة اظهار الحلقه،زيادة كميات المحاولات سوف يزيد نسبة النجاح لتحميل الحلقة ولكن بعض الاحيان يزداد الوقت المطلوب لتشغيل الحلقة"; ObjectID = "8Uf-JF-cy1"; */
+"8Uf-JF-cy1.footerTitle" = "هذا الطريقة تحدد كم محاولة Ryu سوف يستعمل لمحاولة اظهار الحلقه،زيادة كميات المحاولات سوف يزيد نسبة النجاح لتحميل الحلقة ولكن بعض الاحيان يزداد الوقت المطلوب لتشغيل الحلقة";
 
 /* Class = "UITableViewSection"; headerTitle = "عام"; ObjectID = "8Uf-JF-cy1"; */
 "8Uf-JF-cy1.headerTitle" = "عام";
@@ -74,8 +74,8 @@
 /* Class = "UILabel"; text = "استعمال تخزين احتياطي"; ObjectID = "HSv-07-1Gt"; */
 "HSv-07-1Gt.text" = "استعمال تخزين احتياطي";
 
-/* Class = "UITableViewSection"; footerTitle = "Ryu prioritizes user privacy and does not store any personal data. All generated images are not retained by the app. If a user chooses to download an episode, it will only be stored locally in their device storage or on the Downloads Page in the app. We are committed to ensuring a secure and private experience for our users."; ObjectID = "I1e-zt-hkV"; */
-"I1e-zt-hkV.footerTitle" = "Ryu prioritizes user privacy and does not store any personal data. All generated images are not retained by the app. If a user chooses to download an episode, it will only be stored locally in their device storage or on the Downloads Page in the app. We are committed to ensuring a secure and private experience for our users.";
+/* Class = "UITableViewSection"; footerTitle = "Ryu يحدد الاوليه على خصوصية المستخدم حيث لم يخزن اي معلومات شخصية عن المستخدم، كل الصور ولدت في التطبيق لم يتم حفظها،اذا اراد المستخدم تحميل حلقة سوف تنحفظ في ملفات الجهاز او في صفحة التحميلات ،نحن معهودين ب الحفاظ على تجربةامنة وخاضة لمستخدمينا. "; ObjectID = "I1e-zt-hkV"; */
+"I1e-zt-hkV.footerTitle" = "Ryu يحدد الاوليه على خصوصية المستخدم حيث لم يخزن اي معلومات شخصية عن المستخدم، كل الصور ولدت في التطبيق لم يتم حفظها،اذا اراد المستخدم تحميل حلقة سوف تنحفظ في ملفات الجهاز او في صفحة التحميلات ،نحن معهودين ب الحفاظ على تجربةامنة وخاضة لمستخدمينا.";
 
 /* Class = "UITableViewSection"; headerTitle = "خصوصيه"; ObjectID = "I1e-zt-hkV"; */
 "I1e-zt-hkV.headerTitle" = "خصوصيه";
@@ -161,8 +161,8 @@
 /* Class = "UILabel"; text = "بحث سجل البحث"; ObjectID = "ZNc-C1-eRY"; */
 "ZNc-C1-eRY.text" = "مسح سجل البحث";
 
-/* Class = "UITableViewSection"; footerTitle = "Ryu is not affiliated with AniList.co\n\nNote that push updates might occasionally be inaccurate due to differences between the anime's name and its title on AniList."; ObjectID = "aA9-OL-lkL"; */
-"aA9-OL-lkL.footerTitle" = "Ryu is not affiliated with AniList.co\n\nNote that push updates might occasionally be inaccurate due to differences between the anime's name and its title on AniList.";
+/* Class = "UITableViewSection"; footerTitle = "Ryu ليس منتمي او متربط ب anilist.co \n\n ملاحضه لم يكن دفع التحديثات الى anilist.co صحيحاً 100% بسبب الفرق بين اسم الحلقة على موقع البث وعلى anilist.co"; ObjectID = "aA9-OL-lkL"; */
+"aA9-OL-lkL.footerTitle" = "Ryu ليس منتمي او متربط ب anilist.co \n\n ملاحضه لم يكن دفع التحديثات الى anilist.co صحيحاً 100% بسبب الفرق بين اسم الحلقة على موقع البث وعلى anilist.co";
 
 /* Class = "UITableViewSection"; headerTitle = "AniList"; ObjectID = "aA9-OL-lkL"; */
 "aA9-OL-lkL.headerTitle" = "AniList";
@@ -260,8 +260,7 @@
 /* Class = "UILabel"; text = " دمج تكمله المشاهده"; ObjectID = "vri-ao-JGb"; */
 "vri-ao-JGb.text" = "دمج تكمله المشاهده";
 
-/* Class = "UILabel"; text = "Force Landscape Player"; ObjectID = "wTl-bp-g16"; */
-"wTl-bp-g16.text" = "Force Landscape Player";
+/* Class = "UILabel"; text = "جبر الوضع الافقي في مشغل الوسائط"g16.text" = "جبر الوضع الافقي في مشغل الوسائط";
 
 /* Class = "UILabel"; text = "معلومات حول الخصوصيه"; ObjectID = "x2u-DE-D60"; */
 "x2u-DE-D60.text" = "معلومات حول الخصوصيه";
