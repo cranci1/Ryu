@@ -129,19 +129,4 @@ extension SearchResultsViewController {
             return []
         }
     }
-    
-    func parseAnix(_ document: Document) -> [(title: String, imageUrl: String, href: String)] {
-        do {
-            let items = try document.select("div.content-item div.piece")
-            return try items.map { item -> (title: String, imageUrl: String, href: String) in
-                let title = try item.select("div.ani-name a").text()
-                let imageUrl = try item.select("img").attr("src")
-                let href = try item.select("a.poster").first()?.attr("href") ?? ""
-                return (title: title, imageUrl: imageUrl, href: href)
-            }
-        } catch {
-            print("Error parsing Anix: \(error.localizedDescription)")
-            return []
-        }
-    }
 }
