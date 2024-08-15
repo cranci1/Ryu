@@ -145,4 +145,4 @@ along with Ryu. If not, see <https://www.gnu.org/licenses/>.
 
 ## Legal
 
-The content available is not affiliated with the developer, all contents are scraped by non-affiliated sources. Ryu doesn't store anything server side
+The content available is not affiliated with the developer, all contents are obtained by non-affiliated sources. Ryu doesn't store anything server side
