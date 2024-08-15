@@ -258,6 +258,7 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
         loadQualityOptions(from: url) { success, error in
             if success {
                 self.showQualitySelection()
+                self.cleanup()
             } else if let error = error {
                 print("Error loading quality options: \(error)")
             }

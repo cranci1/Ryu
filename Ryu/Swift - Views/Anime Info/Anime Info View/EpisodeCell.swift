@@ -152,7 +152,7 @@ class EpisodeCell: UITableViewCell {
     }
     
     private func updateDownloadButtonVisibility() {
-        if selectedMediaSource == "GoGoAnime" || selectedMediaSource == "JKAnime" {
+        if selectedMediaSource == "JKAnime" {
             downloadButton.isHidden = true
             downloadButton.isEnabled = false
         } else {

@@ -13,7 +13,7 @@ class DownloadManager {
     
     private var activeDownloads: [String: Float] = [:]
     private var downloadTasks: [String: URLSessionDownloadTask] = [:]
-    private var backgroundTask: UIBackgroundTaskIdentifier = .invalid // Declare the backgroundTask
+    private var backgroundTask: UIBackgroundTaskIdentifier = .invalid
     
     func fetchDownloadURLs() -> [URL] {
         let fileManager = FileManager.default

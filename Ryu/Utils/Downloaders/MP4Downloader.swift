@@ -28,12 +28,12 @@ class MP4Downloader {
         switch result {
         case .success:
             content.title = "Download Complete"
-            content.body = "Your Episode has compleated, you can now start watching it!"
+            content.body = "Your Episode download has compleated, you can now start watching it!"
             content.sound = .default
         case .failure:
             content.title = "Download Failed"
             content.body = "There was an error downloading the episode :("
-            content.sound = .default
+            content.sound = .defaultCritical
         }
         
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)

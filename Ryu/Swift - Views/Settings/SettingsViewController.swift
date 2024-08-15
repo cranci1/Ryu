@@ -20,10 +20,14 @@ class SettingsViewController: UITableViewController {
     
     @IBOutlet weak var episodeSortingSegmentedControl: UISegmentedControl!
     
+    @IBOutlet weak var holdSpeedSteppper: UIStepper!
+    @IBOutlet weak var holdSpeeedLabel: UILabel!
+    
     let githubURL = "https://github.com/cranci1/Ryu/"
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupHoldSpeedStepper()
         loadUserDefaults()
         setupMenu()
         
@@ -33,6 +37,26 @@ class SettingsViewController: UITableViewController {
         
         let isReverseSorted = UserDefaults.standard.bool(forKey: "isEpisodeReverseSorted")
         episodeSortingSegmentedControl.selectedSegmentIndex = isReverseSorted ? 1 : 0
+    }
+    
+    private func setupHoldSpeedStepper() {
+        let holdSpeed = UserDefaults.standard.float(forKey: "holdSpeedPlayer")
+        holdSpeedSteppper.value = Double(holdSpeed)
+        holdSpeedSteppper.minimumValue = 0.50
+        holdSpeedSteppper.maximumValue = 5.0
+        holdSpeedSteppper.stepValue = 0.25
+        updateHoldSpeedLabel()
+    }
+    
+    @IBAction func holdSpeedStepperValueChanged(_ sender: UIStepper) {
+        let holdSpeed = Float(sender.value)
+        UserDefaults.standard.set(holdSpeed, forKey: "holdSpeedPlayer")
+        updateHoldSpeedLabel()
+    }
+    
+    private func updateHoldSpeedLabel() {
+        let holdSpeeed = UserDefaults.standard.float(forKey: "holdSpeedPlayer")
+        holdSpeeedLabel.text = String(format: "Hold Speed player: %.2fx", holdSpeeed)
     }
     
     @IBAction func episodeSortingChanged(_ sender: UISegmentedControl) {
@@ -100,6 +124,9 @@ class SettingsViewController: UITableViewController {
         landScapeSwitch.isOn = UserDefaults.standard.bool(forKey: "AlwaysLandscape")
         browserPlayerSwitch.isOn = UserDefaults.standard.bool(forKey: "browserPlayer")
         mergeActivitySwitch.isOn = UserDefaults.standard.bool(forKey: "mergeWatching")
+        
+        let holdSpeeed = UserDefaults.standard.float(forKey: "holdSpeedPlayer")
+        holdSpeeedLabel.text = String(format: "Hold Speed player: %.2fx", holdSpeeed)
     }
     
     @IBAction func clearCache(_ sender: Any) {

@@ -1,28 +1,16 @@
 //
-//  LandScapePlayer.swift
+//  NormalPlayer.swift
 //  Ryu
 //
-//  Created by Francesco on 30/06/24.
+//  Created by Francesco on 15/08/24.
 //
 
 import UIKit
 import AVKit
 
-class LandscapePlayer: AVPlayerViewController {
+class NormalPlayer: AVPlayerViewController {
     private var originalRate: Float = 1.0
     private var holdGesture: UILongPressGestureRecognizer?
-    
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return .landscape
-    }
-    
-    override var shouldAutorotate: Bool {
-        return true
-    }
-    
-    override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {
-        return .landscapeRight
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

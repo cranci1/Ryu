@@ -895,7 +895,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         } else {
             player = AVPlayer(url: sourceURL)
             
-            playerViewController = UserDefaults.standard.bool(forKey: "AlwaysLandscape") ? LandscapePlayer() : AVPlayerViewController()
+            playerViewController = UserDefaults.standard.bool(forKey: "AlwaysLandscape") ? LandscapePlayer() : NormalPlayer()
             playerViewController?.player = player
             playerViewController?.delegate = self
             playerViewController?.entersFullScreenWhenPlaybackBegins = true

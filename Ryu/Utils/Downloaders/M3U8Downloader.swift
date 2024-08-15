@@ -5,8 +5,9 @@
 //  Created by Francesco on 15/07/24.
 //
 
-import Combine
 import UIKit
+import Combine
+import UserNotifications
 
 class M3U8Downloader: ObservableObject {
     @Published var downloadProgress: Double = 0.0
@@ -15,6 +16,10 @@ class M3U8Downloader: ObservableObject {
     
     private var cancellables = Set<AnyCancellable>()
     private var downloadTask: AnyCancellable?
+    
+    init() {
+        requestNotificationPermission()
+    }
     
     func downloadAndCombineM3U8(url: URL, outputFileName: String) {
         isDownloading = true
@@ -30,6 +35,9 @@ class M3U8Downloader: ObservableObject {
                 self.isDownloading = false
                 if case .failure(let error) = completion {
                     self.downloadError = error.localizedDescription
+                    self.sendNotification(title: "Download Failed", body: "here was an error downloading the episode :( \(error.localizedDescription)")
+                } else {
+                    self.sendNotification(title: "Download Complete", body: "Your Episode download has compleated, you can now start watching it!")
                 }
             }, receiveValue: { _ in })
     }
@@ -105,5 +113,28 @@ class M3U8Downloader: ObservableObject {
     
     private func createOutputFileURL(withName fileName: String) -> URL {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent(fileName)
+    }
+    
+    private func requestNotificationPermission() {
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert, .sound]) { granted, error in
+            if let error = error {
+                print("Notification permission error: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    private func sendNotification(title: String, body: String) {
+        let content = UNMutableNotificationContent()
+        content.title = title
+        content.body = body
+        content.sound = .default
+
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("Failed to send notification: \(error.localizedDescription)")
+            }
+        }
     }
 }
