@@ -94,7 +94,6 @@ extension HomeViewController {
         return try animeItems.array().compactMap { item in
             
             var title = try item.select("h3.animeTitle").text()
-            
             if let range = title.range(of: "- Episódio \\d+", options: .regularExpression) {
                 title.removeSubrange(range)
             }
@@ -102,8 +101,17 @@ extension HomeViewController {
             let episodeText = try item.select("span.numEp").text()
             let episode = episodeText.replacingOccurrences(of: "Episódio ", with: "")
             
-            let imageURL = try item.select("article.card img").attr("src")
-            let href = try item.select("article.card a").attr("href")
+            var imageURL = try item.select("article.card img").attr("src")
+            
+            if imageURL.isEmpty {
+                imageURL = "https://s4.anilist.co/file/anilistcdn/character/large/default.jpg"
+            }
+            
+            var href = try item.select("article.card a").attr("href")
+            
+            if let range = href.range(of: "/\\d+$", options: .regularExpression) {
+                href.replaceSubrange(range, with: "-todos-os-episodios")
+            }
             
             return AnimeItem(title: title, episode: episode, imageURL: imageURL, href: href)
         }
