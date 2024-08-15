@@ -1009,21 +1009,38 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
     }
     
     func playNextEpisode() {
-        currentEpisodeIndex += 1
-        if currentEpisodeIndex < episodes.count {
-            let nextEpisode = episodes[currentEpisodeIndex]
-            if let cell = tableView.cellForRow(at: IndexPath(row: currentEpisodeIndex, section: 2)) as? EpisodeCell {
-                episodeSelected(episode: nextEpisode, cell: cell)
+        if isReverseSorted {
+            currentEpisodeIndex -= 1
+            if currentEpisodeIndex >= 0 {
+                let nextEpisode = episodes[currentEpisodeIndex]
+                if let cell = tableView.cellForRow(at: IndexPath(row: currentEpisodeIndex, section: 2)) as? EpisodeCell {
+                    episodeSelected(episode: nextEpisode, cell: cell)
+                }
+            } else {
+                currentEpisodeIndex = 0
             }
         } else {
-            currentEpisodeIndex = episodes.count - 1
+            currentEpisodeIndex += 1
+            if currentEpisodeIndex < episodes.count {
+                let nextEpisode = episodes[currentEpisodeIndex]
+                if let cell = tableView.cellForRow(at: IndexPath(row: currentEpisodeIndex, section: 2)) as? EpisodeCell {
+                    episodeSelected(episode: nextEpisode, cell: cell)
+                }
+            } else {
+                currentEpisodeIndex = episodes.count - 1
+            }
         }
     }
     
     @objc func playerItemDidReachEnd(notification: Notification) {
-        if UserDefaults.standard.bool(forKey: "AutoPlay") && currentEpisodeIndex < episodes.count - 1 {
-            playerViewController?.dismiss(animated: true) { [weak self] in
-                self?.playNextEpisode()
+        if UserDefaults.standard.bool(forKey: "AutoPlay") {
+            let hasNextEpisode = isReverseSorted ? (currentEpisodeIndex > 0) : (currentEpisodeIndex < episodes.count - 1)
+            if hasNextEpisode {
+                playerViewController?.dismiss(animated: true) { [weak self] in
+                    self?.playNextEpisode()
+                }
+            } else {
+                playerViewController?.dismiss(animated: true, completion: nil)
             }
         } else {
             playerViewController?.dismiss(animated: true, completion: nil)

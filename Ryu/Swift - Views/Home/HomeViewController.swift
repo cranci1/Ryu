@@ -233,21 +233,31 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
     private func fetchFeaturedAnime(completion: @escaping () -> Void) {
         let selectedSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
         let (sourceURL, parseStrategy) = getSourceInfo(for: selectedSource)
-
+        
         guard let urlString = sourceURL, let url = URL(string: urlString), let parse = parseStrategy else {
             DispatchQueue.main.async {
+                self.featuredAnime = []
                 self.featuredErrorLabel.text = "Unable to load featured anime. Make sure to check your connection"
                 self.featuredErrorLabel.isHidden = false
+                self.featuredActivityIndicator.stopAnimating()
                 completion()
             }
             return
         }
-
+        
+        DispatchQueue.main.async {
+            self.featuredAnime = []
+            self.featuredCollectionView.reloadData()
+            self.featuredActivityIndicator.startAnimating()
+            self.featuredErrorLabel.isHidden = true
+        }
+        
         URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
             guard let data = data, error == nil else {
                 DispatchQueue.main.async {
                     self?.featuredErrorLabel.text = "Error loading featured anime"
                     self?.featuredErrorLabel.isHidden = false
+                    self?.featuredActivityIndicator.stopAnimating()
                     completion()
                 }
                 return
@@ -260,6 +270,7 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
                 let animeItems = try parse(doc)
                 
                 DispatchQueue.main.async {
+                    self?.featuredActivityIndicator.stopAnimating()
                     if !animeItems.isEmpty {
                         self?.featuredAnime = animeItems
                         self?.featuredErrorLabel.isHidden = true
@@ -267,6 +278,7 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
                         self?.featuredErrorLabel.text = "No featured anime found"
                         self?.featuredErrorLabel.isHidden = false
                     }
+                    self?.featuredCollectionView.reloadData()
                     completion()
                 }
             } catch {
@@ -274,6 +286,7 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
                 DispatchQueue.main.async {
                     self?.featuredErrorLabel.text = "Error parsing featured anime"
                     self?.featuredErrorLabel.isHidden = false
+                    self?.featuredActivityIndicator.stopAnimating()
                     completion()
                 }
             }

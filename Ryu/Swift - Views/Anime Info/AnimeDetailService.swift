@@ -131,7 +131,7 @@ class AnimeDetailService {
                 episodeElements = try document.select("div.absolute.overflow-hidden div a.gap-3")
                 downloadUrlElement = ""
             }
-
+            
             switch source {
             case .gogoanime:
                 episodes = episodeElements.flatMap { element -> [Episode] in
@@ -205,8 +205,8 @@ class AnimeDetailService {
                     }
                     
                     return (max(1, start)...end).map { episodeNumber in
-                        let formattedEpisode = String(format: "%02d", episodeNumber)
-                        let episodeHref = "\(href)\(formattedEpisode)"
+                        let formattedEpisode = String(episodeNumber)
+                        let episodeHref = "\(href)\(String(format: "%02d", episodeNumber))"
                         
                         return Episode(number: formattedEpisode, href: episodeHref, downloadUrl: "")
                     }
