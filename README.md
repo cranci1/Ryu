@@ -22,6 +22,7 @@ A simple way to enjoy and watch anime on iOS devices
 - [Contributing](#contributing)
 - [Localization](#localization)
 - [License](#license)
+- [Legal](#legal)
 
 ## Features
 
@@ -141,3 +142,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Ryu. If not, see <https://www.gnu.org/licenses/>.
 ```
+
+## Legal
+
+The content available is not affiliated with the developer, all contents are scraped by non-affiliated sources. Ryu doesn't store anything server side
