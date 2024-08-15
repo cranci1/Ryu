@@ -82,9 +82,9 @@ class EpisodeCell: UITableViewCell {
             
             playbackProgressView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             playbackProgressView.centerYAnchor.constraint(equalTo: startnowLabel.centerYAnchor),
-            playbackProgressView.widthAnchor.constraint(equalToConstant: 150),
+            playbackProgressView.widthAnchor.constraint(equalToConstant: 130),
             
-            remainingTimeLabel.trailingAnchor.constraint(equalTo: downloadButton.leadingAnchor, constant: -8),
+            remainingTimeLabel.leadingAnchor.constraint(equalTo: playbackProgressView.trailingAnchor, constant: 8),
             remainingTimeLabel.centerYAnchor.constraint(equalTo: startnowLabel.centerYAnchor),
             
             contentView.bottomAnchor.constraint(equalTo: startnowLabel.bottomAnchor, constant: 10)
@@ -96,7 +96,12 @@ class EpisodeCell: UITableViewCell {
         startnowLabel.isHidden = true
         remainingTimeLabel.isHidden = false
         playbackProgressView.progress = progress
-        remainingTimeLabel.text = formatRemainingTime(remainingTime)
+        
+        if remainingTime < 120 {
+            remainingTimeLabel.text = "Finished"
+        } else {
+            remainingTimeLabel.text = formatRemainingTime(remainingTime)
+        }
     }
     
     func resetPlaybackProgress() {
@@ -112,7 +117,9 @@ class EpisodeCell: UITableViewCell {
         let minutes = (Int(time) % 3600) / 60
         let seconds = Int(time) % 60
         
-        if hours > 0 {
+        if time < 120 {
+            return "Finished"
+        } else if hours > 0 {
             return String(format: "%d:%02d:%02d left", hours, minutes, seconds)
         } else {
             return String(format: "%02d:%02d left", minutes, seconds)
