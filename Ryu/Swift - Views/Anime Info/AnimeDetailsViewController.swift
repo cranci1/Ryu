@@ -531,13 +531,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                         }
                         
                         DispatchQueue.main.async {
-                            self.startStreamingButtonTapped(
-                                withURL: sourceURL.absoluteString,
-                                captionURL: captionURL!.absoluteString,
-                                playerType: VideoPlayerType.playerWeb,
-                                cell: cell,
-                                fullURL: fullURL
-                            )
+                            self.startStreamingButtonTapped(withURL: sourceURL.absoluteString, captionURL: captionURL!.absoluteString, playerType: VideoPlayerType.playerWeb, cell: cell, fullURL: fullURL)
                         }
                     }
                 case "GoGoAnime":
@@ -565,7 +559,6 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                         self.fetchVideoDataAndChooseQuality(from: finalSrcURL.absoluteString) { selectedURL in
                             guard let selectedURL = selectedURL else { return }
                             self.playVideo(sourceURL: selectedURL, cell: cell, fullURL: fullURL)
-                            print("\(selectedURL)")
                         }
                     case "Anime3rb":
                         self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.player3rb, cell: cell, fullURL: fullURL)
@@ -580,7 +573,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             }.resume()
         }
     }
-
+    
     private func fetchHiAnimeData(from fullURL: String, completion: @escaping (URL?, URL?) -> Void) {
         guard let url = URL(string: fullURL) else {
             print("Invalid URL for HiAnime: \(fullURL)")
@@ -603,18 +596,12 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             
             do {
                 if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-                    var englishCaptionURL: URL?
-                    var firstCaptionURL: URL?
+                    var captionURLs: [String: URL] = [:]
                     
                     if let tracks = json["tracks"] as? [[String: Any]] {
                         for track in tracks {
-                            if let file = track["file"] as? String, let label = track["label"] as? String {
-                                if label.lowercased() == "english" {
-                                    englishCaptionURL = URL(string: file)
-                                }
-                                if firstCaptionURL == nil {
-                                    firstCaptionURL = URL(string: file)
-                                }
+                            if let file = track["file"] as? String, let label = track["label"] as? String, track["kind"] as? String == "captions" {
+                                captionURLs[label] = URL(string: file)
                             }
                         }
                     }
@@ -626,7 +613,30 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                         }
                     }
                     
-                    completion(sourceURL, englishCaptionURL ?? firstCaptionURL)
+                    DispatchQueue.main.async {
+                        if captionURLs.count > 1 {
+                            let alert = UIAlertController(title: "Select Caption Language", message: nil, preferredStyle: .actionSheet)
+                            
+                            for (label, url) in captionURLs {
+                                alert.addAction(UIAlertAction(title: label, style: .default, handler: { _ in
+                                    completion(sourceURL, url)
+                                }))
+                            }
+                            
+                            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
+                                completion(sourceURL, nil)
+                            }))
+                            
+                            if let topController = UIApplication.shared.connectedScenes
+                                .compactMap({ ($0 as? UIWindowScene)?.windows.first })
+                                .compactMap({ $0.rootViewController })
+                                .first {
+                                topController.present(alert, animated: true, completion: nil)
+                            }
+                        } else {
+                            completion(sourceURL, captionURLs.values.first)
+                        }
+                    }
                 }
             } catch {
                 print("Error parsing HiAnime JSON: \(error.localizedDescription)")
