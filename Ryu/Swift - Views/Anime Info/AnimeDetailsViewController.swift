@@ -448,12 +448,12 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         }
     }
     
-    @objc func startStreamingButtonTapped(withURL url: String, playerType: String, cell: EpisodeCell, fullURL: String) {
+    @objc func startStreamingButtonTapped(withURL url: String, captionURL: String, playerType: String, cell: EpisodeCell, fullURL: String) {
         deleteWebKitFolder()
-        presentStreamingView(withURL: url, playerType: playerType, cell: cell, fullURL: fullURL)
+        presentStreamingView(withURL: url, captionURL: captionURL, playerType: playerType, cell: cell, fullURL: fullURL)
     }
 
-    func presentStreamingView(withURL url: String, playerType: String, cell: EpisodeCell, fullURL: String) {
+    func presentStreamingView(withURL url: String, captionURL: String, playerType: String, cell: EpisodeCell, fullURL: String) {
         DispatchQueue.main.async {
             var streamingVC: UIViewController
             switch playerType {
@@ -465,6 +465,8 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                 streamingVC = ExternalVideoPlayerKura(streamURL: url, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
             case VideoPlayerType.playerJK:
                 streamingVC = ExternalVideoPlayerJK(streamURL: url, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
+            case VideoPlayerType.playerWeb:
+                streamingVC = HiAnimeWebPlayer(streamURL: url, captionURL: captionURL, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
             default:
                 return
             }
@@ -512,8 +514,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                     return
                 }
                 
-                guard let data = data,
-                      let htmlString = String(data: data, encoding: .utf8) else {
+                guard let data = data, let htmlString = String(data: data, encoding: .utf8) else {
                     print("Error parsing video data")
                     return
                 }
@@ -522,6 +523,23 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                 var srcURL: URL?
                 
                 switch selectedMediaSource {
+                case "HiAnime":
+                    self.fetchHiAnimeData(from: fullURL) { sourceURL, captionURL in
+                        guard let sourceURL = sourceURL else {
+                            print("Error extracting source URL")
+                            return
+                        }
+                        
+                        DispatchQueue.main.async {
+                            self.startStreamingButtonTapped(
+                                withURL: sourceURL.absoluteString,
+                                captionURL: captionURL!.absoluteString,
+                                playerType: VideoPlayerType.playerWeb,
+                                cell: cell,
+                                fullURL: fullURL
+                            )
+                        }
+                    }
                 case "GoGoAnime":
                     srcURL = self.extractIframeSourceURL(from: htmlString)
                 case "AnimeFire":
@@ -542,7 +560,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                 DispatchQueue.main.async {
                     switch selectedMediaSource {
                     case "GoGoAnime":
-                        self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, playerType: VideoPlayerType.standard, cell: cell, fullURL: fullURL)
+                        self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.standard, cell: cell, fullURL: fullURL)
                     case "AnimeFire":
                         self.fetchVideoDataAndChooseQuality(from: finalSrcURL.absoluteString) { selectedURL in
                             guard let selectedURL = selectedURL else { return }
@@ -550,17 +568,71 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                             print("\(selectedURL)")
                         }
                     case "Anime3rb":
-                        self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, playerType: VideoPlayerType.player3rb, cell: cell, fullURL: fullURL)
+                        self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.player3rb, cell: cell, fullURL: fullURL)
                     case "Kuramanime":
-                        self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, playerType: VideoPlayerType.playerKura, cell: cell, fullURL: fullURL)
+                        self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.playerKura, cell: cell, fullURL: fullURL)
                     case "JKanime":
-                        self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, playerType: VideoPlayerType.playerJK, cell: cell, fullURL: fullURL)
+                        self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.playerJK, cell: cell, fullURL: fullURL)
                     default:
                         self.playVideo(sourceURL: finalSrcURL, cell: cell, fullURL: fullURL)
                     }
                 }
             }.resume()
         }
+    }
+
+    private func fetchHiAnimeData(from fullURL: String, completion: @escaping (URL?, URL?) -> Void) {
+        guard let url = URL(string: fullURL) else {
+            print("Invalid URL for HiAnime: \(fullURL)")
+            completion(nil, nil)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            if let error = error {
+                print("Error fetching HiAnime data: \(error.localizedDescription)")
+                completion(nil, nil)
+                return
+            }
+            
+            guard let data = data else {
+                print("Error: No data received from HiAnime")
+                completion(nil, nil)
+                return
+            }
+            
+            do {
+                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                    var englishCaptionURL: URL?
+                    var firstCaptionURL: URL?
+                    
+                    if let tracks = json["tracks"] as? [[String: Any]] {
+                        for track in tracks {
+                            if let file = track["file"] as? String, let label = track["label"] as? String {
+                                if label.lowercased() == "english" {
+                                    englishCaptionURL = URL(string: file)
+                                }
+                                if firstCaptionURL == nil {
+                                    firstCaptionURL = URL(string: file)
+                                }
+                            }
+                        }
+                    }
+                    
+                    var sourceURL: URL?
+                    if let sources = json["sources"] as? [[String: Any]] {
+                        if let source = sources.first, let urlString = source["url"] as? String {
+                            sourceURL = URL(string: urlString)
+                        }
+                    }
+                    
+                    completion(sourceURL, englishCaptionURL ?? firstCaptionURL)
+                }
+            } catch {
+                print("Error parsing HiAnime JSON: \(error.localizedDescription)")
+                completion(nil, nil)
+            }
+        }.resume()
     }
     
     private func fetchHTMLContent(from url: String, completion: @escaping (Result<String, Error>) -> Void) {
@@ -1074,7 +1146,7 @@ class ContinueWatchingCell: UICollectionViewCell {
     private let blurEffectView: UIVisualEffectView = {
         let effect = UIBlurEffect(style: .dark)
         let blurEffectView = UIVisualEffectView(effect: effect)
-        blurEffectView.alpha = 0.7
+        blurEffectView.alpha = 0.75
         return blurEffectView
     }()
     

@@ -78,6 +78,7 @@
 		136525572C6B5B4100210A98 /* ExternalVideoPlayer3rb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136525132C6B5B4000210A98 /* ExternalVideoPlayer3rb.swift */; };
 		136525592C6B5B4100210A98 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136525152C6B5B4100210A98 /* SceneDelegate.swift */; };
 		13765C9C2C6E44A8000070A5 /* NormalPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13765C9B2C6E44A8000070A5 /* NormalPlayer.swift */; };
+		138669D42C6F6266009ABA6F /* HiAnime-WebPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138669D32C6F6266009ABA6F /* HiAnime-WebPlayer.swift */; };
 		13921B3F2C6B8ED9004E8BDC /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13921B3E2C6B8ED9004E8BDC /* String.swift */; };
 		13921B412C6B8F71004E8BDC /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13921B402C6B8F71004E8BDC /* URL.swift */; };
 		13921B432C6B8F87004E8BDC /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13921B422C6B8F87004E8BDC /* Notification.swift */; };
@@ -154,6 +155,7 @@
 		136525142C6B5B4000210A98 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		136525152C6B5B4100210A98 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		13765C9B2C6E44A8000070A5 /* NormalPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalPlayer.swift; sourceTree = "<group>"; };
+		138669D32C6F6266009ABA6F /* HiAnime-WebPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HiAnime-WebPlayer.swift"; sourceTree = "<group>"; };
 		13921B3E2C6B8ED9004E8BDC /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		13921B402C6B8F71004E8BDC /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 		13921B422C6B8F87004E8BDC /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
@@ -500,6 +502,7 @@
 		1365250B2C6B5B4000210A98 /* Player */ = {
 			isa = PBXGroup;
 			children = (
+				138669D22C6F6242009ABA6F /* WebView Player */,
 				1365250E2C6B5B4000210A98 /* Sources */,
 				1365250C2C6B5B4000210A98 /* VideoPlayerType.swift */,
 				13765C9B2C6E44A8000070A5 /* NormalPlayer.swift */,
@@ -517,6 +520,14 @@
 				136525132C6B5B4000210A98 /* ExternalVideoPlayer3rb.swift */,
 			);
 			path = Sources;
+			sourceTree = "<group>";
+		};
+		138669D22C6F6242009ABA6F /* WebView Player */ = {
+			isa = PBXGroup;
+			children = (
+				138669D32C6F6266009ABA6F /* HiAnime-WebPlayer.swift */,
+			);
+			path = "WebView Player";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -637,6 +648,7 @@
 				136525222C6B5B4100210A98 /* Kitsu-Sesonal.swift in Sources */,
 				1365254E2C6B5B4100210A98 /* MP4Downloader.swift in Sources */,
 				136525172C6B5B4100210A98 /* Jikan-Sesonal.swift in Sources */,
+				138669D42C6F6266009ABA6F /* HiAnime-WebPlayer.swift in Sources */,
 				136525482C6B5B4100210A98 /* DownloadsViewController.swift in Sources */,
 				1365251A2C6B5B4100210A98 /* Mutation.swift in Sources */,
 				136525262C6B5B4100210A98 /* AppDelegate.swift in Sources */,

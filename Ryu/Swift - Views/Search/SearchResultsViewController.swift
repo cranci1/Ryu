@@ -272,6 +272,9 @@ class SearchResultsViewController: UIViewController {
         case "Anime3rb":
             url = "https://anime3rb.com/search"
             parameters["q"] = query
+        case "HiAnime":
+            url = "https://aniwatch.cranci.xyz/anime/search"
+            parameters["q"] = query
         default:
             return nil
         }
@@ -290,31 +293,46 @@ class SearchResultsViewController: UIViewController {
     }
 
     func parseHTML(html: String, for source: MediaSource) -> [(title: String, imageUrl: String, href: String)] {
-        do {
-            let document = try SwiftSoup.parse(html)
-            return parseDocument(document, for: source)
-        } catch {
-            print("Error parsing HTML: \(error.localizedDescription)")
-            return []
+        switch source {
+        case .hianime:
+            return parseDocument(nil, jsonString: html, for: source)
+        default:
+            do {
+                let document = try SwiftSoup.parse(html)
+                return parseDocument(document, jsonString: nil, for: source)
+            } catch {
+                print("Error parsing HTML: \(error.localizedDescription)")
+                return []
+            }
         }
     }
 
-    private func parseDocument(_ document: Document, for source: MediaSource) -> [(title: String, imageUrl: String, href: String)] {
+    private func parseDocument(_ document: Document?, jsonString: String?, for source: MediaSource) -> [(title: String, imageUrl: String, href: String)] {
         switch source {
         case .animeWorld:
+            guard let document = document else { return [] }
             return parseAnimeWorld(document)
         case .gogoanime:
+            guard let document = document else { return [] }
             return parseGoGoAnime(document)
         case .animeheaven:
+            guard let document = document else { return [] }
             return parseAnimeHeaven(document)
         case .animefire:
+            guard let document = document else { return [] }
             return parseAnimeFire(document)
         case .kuramanime:
+            guard let document = document else { return [] }
             return parseKuramanime(document)
         case .jkanime:
+            guard let document = document else { return [] }
             return parseJKanime(document)
         case .anime3rb:
+            guard let document = document else { return [] }
             return parseAnime3rb(document)
+        case .hianime:
+            guard let jsonString = jsonString else { return [] }
+            return parseHiAnime(jsonString)
         }
     }
 
@@ -393,7 +411,6 @@ extension SearchResultsViewController: UIContextMenuInteractionDelegate {
             baseUrl = "https://anitaku.pe"
         case "AnimeHeaven":
             baseUrl = "https://animeheaven.me/"
-
         default:
             baseUrl = ""
         }

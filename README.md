@@ -49,6 +49,7 @@ A simple way to enjoy and watch anime on iOS devices
 | Kuramanime  | Indonesian | ✅     | ✅        | ✅        | ✅       |
 | Anime3rb    | Arabic     | ✅     | ✅        | ✅        | ✅       |
 | JKanime     | Spanish    | ✅     | ✅        | ✅        | :x:      |
+| HiAnime     | English    | ✅     | ✅        | ✅        | :x:      |
 
 > [!Note]
 > AnimeFire is region Blocked. Only Portugal and Brazil IP are allowed!

@@ -18,7 +18,6 @@ struct AnimeDetail {
 }
 
 class AnimeDetailService {
-    
     static func fetchAnimeDetails(from href: String, completion: @escaping (Result<AnimeDetail, Error>) -> Void) {
         guard let selectedSource = UserDefaults.standard.selectedMediaSource else {
             completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "No media source selected."])))
@@ -33,67 +32,151 @@ class AnimeDetailService {
             baseUrl = "https://anitaku.pe"
         case .animeheaven:
             baseUrl = "https://animeheaven.me/"
+        case .hianime:
+            baseUrl = "https://aniwatch.cranci.xyz/anime/info?id="
         case .animefire, .kuramanime, .jkanime, .anime3rb:
             baseUrl = ""
         }
         
         let fullUrl = baseUrl + href
-        AF.request(fullUrl).responseString { response in
-            switch response.result {
-            case .success(let html):
-                do {
-                    let document = try SwiftSoup.parse(html)
-                    let aliases: String
-                    let synopsis: String
-                    let airdate: String
-                    let stars: String
-                    let episodes: [Episode]
-                    
-                    switch selectedSource {
-                    case .animeWorld:
-                        aliases = try document.select("div.widget-title h1").attr("data-jtitle")
-                        synopsis = try document.select("div.info div.desc").text()
-                        airdate = try document.select("div.row dl.meta dt:contains(Data di Uscita) + dd").first()?.text() ?? ""
-                        stars = try document.select("dd.rating span").text()
-                    case .gogoanime:
-                        aliases = try document.select("div.anime_info_body_bg p.other-name a").text()
-                        synopsis = try document.select("div.anime_info_body_bg div.description").text()
-                        airdate = try document.select("p.type:contains(Released:)").first()?.text().replacingOccurrences(of: "Released: ", with: "") ?? ""
-                        stars =  ""
-                    case .animeheaven:
-                        aliases = try document.select("div.infodiv div.infotitlejp").text()
-                        synopsis = try document.select("div.infodiv div.infodes").text()
-                        airdate = try document.select("div.infoyear div.c2").eq(1).text()
-                        stars = try document.select("div.infoyear div.c2").last()?.text() ?? ""
-                    case .animefire:
-                        aliases = try document.select("div.mr-2 h6.text-gray").text()
-                        synopsis = try document.select("div.divSinopse span.spanAnimeInfo").text()
-                        airdate = try document.select("div.divAnimePageInfo div.animeInfo span.spanAnimeInfo").last()?.text() ?? ""
-                        stars = try document.select("div.div_anime_score h4.text-white").text()
-                    case .kuramanime:
-                        aliases = try document.select("div.anime__details__title span").last()?.text() ?? ""
-                        synopsis = try document.select("div.anime__details__text p").text()
-                        airdate = try document.select("div.anime__details__widget ul li div.col-9").eq(3).text()
-                        stars = try document.select("div.anime__details__widget div.row div.col-lg-6 ul li").select("div:contains(Skor:) ~ div.col-9").text()
-                    case .jkanime:
-                        aliases = try document.select("div.anime__details__title span").text()
-                        synopsis = try document.select("p.tab.sinopsis").text()
-                        airdate = try document.select("li:contains(Emitido:)").first()?.text().replacingOccurrences(of: "Emitido: ", with: "") ?? ""
-                        stars = ""
-                    case .anime3rb:
-                        aliases = ""
-                        synopsis = try document.select("p.leading-loose").text()
-                        airdate = try document.select("td[title]").attr("title")
-                        stars = try document.select("p.text-lg.leading-relaxed").first()?.text() ?? ""
+        
+        if selectedSource == .hianime {
+            AF.request(fullUrl).responseJSON { response in
+                switch response.result {
+                case .success(let json):
+                    guard
+                        let jsonDict = json as? [String: Any],
+                        let animeInfo = jsonDict["anime"] as? [String: Any],
+                        let moreInfo = animeInfo["moreInfo"] as? [String: Any] else {
+                            completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid JSON format."])))
+                            return
                     }
                     
-                    episodes = self.fetchEpisodes(document: document, for: selectedSource, href: href)
+                    let description = (animeInfo["info"] as? [String: Any])?["description"] as? String ?? ""
+                    let name = (animeInfo["info"] as? [String: Any])?["name"] as? String ?? ""
+                    let premiered = moreInfo["premiered"] as? String ?? ""
+                    let malscore = moreInfo["malscore"] as? String ?? ""
                     
-                    let details = AnimeDetail(aliases: aliases, synopsis: synopsis, airdate: airdate, stars: stars, episodes: episodes)
-                    completion(.success(details))
-                } catch {
+                    let aliases = name
+                    let airdate = premiered
+                    let stars = malscore
+                    
+                    fetchHiAnimeEpisodes(from: href) { result in
+                        switch result {
+                        case .success(let episodes):
+                            let details = AnimeDetail(aliases: aliases, synopsis: description, airdate: airdate, stars: stars, episodes: episodes)
+                            completion(.success(details))
+                        case .failure(let error):
+                            completion(.failure(error))
+                        }
+                    }
+                    
+                case .failure(let error):
                     completion(.failure(error))
                 }
+            }
+        } else {
+            AF.request(fullUrl).responseString { response in
+                switch response.result {
+                case .success(let html):
+                    do {
+                        let document = try SwiftSoup.parse(html)
+                        let aliases: String
+                        let synopsis: String
+                        let airdate: String
+                        let stars: String
+                        let episodes: [Episode]
+                        
+                        switch selectedSource {
+                        case .animeWorld:
+                            aliases = try document.select("div.widget-title h1").attr("data-jtitle")
+                            synopsis = try document.select("div.info div.desc").text()
+                            airdate = try document.select("div.row dl.meta dt:contains(Data di Uscita) + dd").first()?.text() ?? ""
+                            stars = try document.select("dd.rating span").text()
+                        case .gogoanime:
+                            aliases = try document.select("div.anime_info_body_bg p.other-name a").text()
+                            synopsis = try document.select("div.anime_info_body_bg div.description").text()
+                            airdate = try document.select("p.type:contains(Released:)").first()?.text().replacingOccurrences(of: "Released: ", with: "") ?? ""
+                            stars = ""
+                        case .animeheaven:
+                            aliases = try document.select("div.infodiv div.infotitlejp").text()
+                            synopsis = try document.select("div.infodiv div.infodes").text()
+                            airdate = try document.select("div.infoyear div.c2").eq(1).text()
+                            stars = try document.select("div.infoyear div.c2").last()?.text() ?? ""
+                        case .animefire:
+                            aliases = try document.select("div.mr-2 h6.text-gray").text()
+                            synopsis = try document.select("div.divSinopse span.spanAnimeInfo").text()
+                            airdate = try document.select("div.divAnimePageInfo div.animeInfo span.spanAnimeInfo").last()?.text() ?? ""
+                            stars = try document.select("div.div_anime_score h4.text-white").text()
+                        case .kuramanime:
+                            aliases = try document.select("div.anime__details__title span").last()?.text() ?? ""
+                            synopsis = try document.select("div.anime__details__text p").text()
+                            airdate = try document.select("div.anime__details__widget ul li div.col-9").eq(3).text()
+                            stars = try document.select("div.anime__details__widget div.row div.col-lg-6 ul li").select("div:contains(Skor:) ~ div.col-9").text()
+                        case .jkanime:
+                            aliases = try document.select("div.anime__details__title span").text()
+                            synopsis = try document.select("p.tab.sinopsis").text()
+                            airdate = try document.select("li:contains(Emitido:)").first()?.text().replacingOccurrences(of: "Emitido: ", with: "") ?? ""
+                            stars = ""
+                        case .anime3rb:
+                            aliases = ""
+                            synopsis = try document.select("p.leading-loose").text()
+                            airdate = try document.select("td[title]").attr("title")
+                            stars = try document.select("p.text-lg.leading-relaxed").first()?.text() ?? ""
+                        case .hianime:
+                            aliases = ""
+                            synopsis = ""
+                            airdate = ""
+                            stars = ""
+                        }
+                        
+                        episodes = self.fetchEpisodes(document: document, for: selectedSource, href: href)
+                        
+                        let details = AnimeDetail(aliases: aliases, synopsis: synopsis, airdate: airdate, stars: stars, episodes: episodes)
+                        completion(.success(details))
+                    } catch {
+                        completion(.failure(error))
+                    }
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+        }
+    }
+    
+    static func fetchHiAnimeEpisodes(from href: String, completion: @escaping (Result<[Episode], Error>) -> Void) {
+        let baseUrl = "https://aniwatch.cranci.xyz/anime/episodes/"
+        let fullUrl = baseUrl + href
+        
+        AF.request(fullUrl).responseJSON { response in
+            switch response.result {
+            case .success(let json):
+                guard
+                    let jsonDict = json as? [String: Any],
+                    let episodesArray = jsonDict["episodes"] as? [[String: Any]]
+                else {
+                    completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid JSON format."])))
+                    return
+                }
+                
+                let episodes = episodesArray.compactMap { episodeDict -> Episode? in
+                    guard
+                        let episodeId = episodeDict["episodeId"] as? String,
+                        let number = episodeDict["number"] as? Int
+                    else {
+                        return nil
+                    }
+                    
+                    let episodeNumber = "\(number)"
+                    let hrefID = episodeId
+                    let href = "https://aniwatch.cranci.xyz/anime/episode-srcs?id=" + hrefID
+                    print(href)
+                    
+                    return Episode(number: episodeNumber, href: href, downloadUrl: "")
+                }
+                
+                completion(.success(episodes))
+                
             case .failure(let error):
                 completion(.failure(error))
             }
@@ -129,6 +212,9 @@ class AnimeDetailService {
                 downloadUrlElement = ""
             case .anime3rb:
                 episodeElements = try document.select("div.absolute.overflow-hidden div a.gap-3")
+                downloadUrlElement = ""
+            case .hianime:
+                episodeElements = try document.select("")
                 downloadUrlElement = ""
             }
             
