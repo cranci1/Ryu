@@ -25,6 +25,8 @@ extension HomeViewController {
             return ("https://jkanime.net/", parseJKAnimeFeatured)
         case "Anime3rb":
             return ("https://anime3rb.com/titles/list?status[0]=upcomming&status[1]=finished&sort_by=addition_date", parseAnime3rbFeatured)
+        case "HiAnime":
+            return ("https://hianime.to/home", parseHiAnimeFeatured)
         default:
             return (nil, nil)
         }
@@ -172,6 +174,26 @@ extension HomeViewController {
             let href = try item.select("a").attr("href")
             
             return AnimeItem(title: title, episode: episode, imageURL: imageURL, href: href)
+        }
+    }
+    
+    func parseHiAnimeFeatured(_ doc: Document) throws -> [AnimeItem] {
+        let animeItems = try doc.select("section.block_area.block_area_home div.film_list-wrap div.flw-item")
+        return try animeItems.array().compactMap { item in
+            
+            let title = try item.select("h3.film-name a").text()
+            
+            let imageURL = try item.select("img").attr("data-src")
+            
+            var href = try item.select("a.film-poster-ahref").attr("href")
+            if href.hasPrefix("/watch/") {
+                href.removeFirst("/watch/".count)
+            }
+            if let queryIndex = href.firstIndex(of: "?") {
+                href = String(href[..<queryIndex])
+            }
+            
+            return AnimeItem(title: title, episode: "", imageURL: imageURL, href: href)
         }
     }
 }
