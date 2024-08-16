@@ -211,7 +211,7 @@ class ExternalVideoPlayerJK: UIViewController, WKNavigationDelegate, GCKRemoteMe
             UserDefaults.standard.set(duration, forKey: "totalTime_\(self.fullURL)")
             
             let episodeNumber = Int(self.cell.episodeNumber) ?? 0
-            let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "JKAnime"
+            let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "JKanime"
             
             let continueWatchingItem = ContinueWatchingItem(
                 animeTitle: self.animeDetailsViewController?.animeTitle ?? "Unknown Anime",
