@@ -501,76 +501,205 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             return
         }
         
-        if url.contains(".mp4") || url.contains(".m3u8") || url.contains("animeheaven.me/video.mp4") {
+        let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? ""
+        
+        if selectedMediaSource == "HiAnime" {
+            handleHiAnimeSource(url: url, cell: cell, fullURL: fullURL)
+        } else if url.contains(".mp4") || url.contains(".m3u8") || url.contains("animeheaven.me/video.mp4") {
             DispatchQueue.main.async {
                 self.playVideo(sourceURL: videoURL, cell: cell, fullURL: fullURL)
             }
         } else {
-            URLSession.shared.dataTask(with: videoURL) { [weak self] (data, response, error) in
-                guard let self = self else { return }
-                
-                if let error = error {
-                    print("Error fetching video data: \(error.localizedDescription)")
+            handleSources(url: url, cell: cell, fullURL: fullURL)
+        }
+    }
+
+    private func handleHiAnimeSource(url: String, cell: EpisodeCell, fullURL: String) {
+        guard let episodeId = extractEpisodeId(from: url) else {
+            print("Could not extract episodeId from URL")
+            return
+        }
+        
+        fetchEpisodeOptions(episodeId: episodeId) { [weak self] options in
+            guard let self = self else { return }
+            
+            if options.isEmpty {
+                print("No options available for this episode")
+                return
+            }
+            
+            self.presentDubSubSelection(options: options) { category in
+                guard let servers = options[category], !servers.isEmpty else {
+                    print("No servers available for selected category")
                     return
                 }
                 
-                guard let data = data, let htmlString = String(data: data, encoding: .utf8) else {
-                    print("Error parsing video data")
-                    return
-                }
-                
-                let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? ""
-                var srcURL: URL?
-                
-                switch selectedMediaSource {
-                case "HiAnime":
-                    self.fetchHiAnimeData(from: fullURL) { sourceURL, captionURL in
+                self.presentServerSelection(servers: servers) { server in
+                    let finalURL = "https://aniwatch.cranci.xyz/anime/episode-srcs?id=\(episodeId)&category=\(category)&server=\(server)"
+                    print(finalURL)
+                    
+                    self.fetchHiAnimeData(from: finalURL) { sourceURL, captionURL in
                         guard let sourceURL = sourceURL else {
                             print("Error extracting source URL")
                             return
                         }
                         
                         DispatchQueue.main.async {
-                            self.startStreamingButtonTapped(withURL: sourceURL.absoluteString, captionURL: captionURL!.absoluteString, playerType: VideoPlayerType.playerWeb, cell: cell, fullURL: fullURL)
+                            self.startStreamingButtonTapped(withURL: sourceURL.absoluteString, captionURL: captionURL?.absoluteString ?? "", playerType: VideoPlayerType.playerWeb, cell: cell, fullURL: fullURL)
                         }
                     }
+                }
+            }
+        }
+    }
+
+    private func handleSources(url: String, cell: EpisodeCell, fullURL: String) {
+        URLSession.shared.dataTask(with: URL(string: url)!) { [weak self] (data, response, error) in
+            guard let self = self else { return }
+            
+            if let error = error {
+                print("Error fetching video data: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let data = data, let htmlString = String(data: data, encoding: .utf8) else {
+                print("Error parsing video data")
+                return
+            }
+            
+            let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? ""
+            var srcURL: URL?
+            
+            switch selectedMediaSource {
+            case "GoGoAnime":
+                srcURL = self.extractIframeSourceURL(from: htmlString)
+            case "AnimeFire":
+                srcURL = self.extractDataVideoSrcURL(from: htmlString)
+            case "AnimeWorld", "AnimeHeaven":
+                srcURL = self.extractVideoSourceURL(from: htmlString)
+            case "Anime3rb", "Kuramanime", "JKanime":
+                srcURL = URL(string: fullURL)
+            default:
+                srcURL = self.extractIframeSourceURL(from: htmlString)
+            }
+            
+            guard let finalSrcURL = srcURL else {
+                print("Error extracting source URL")
+                return
+            }
+            
+            DispatchQueue.main.async {
+                switch selectedMediaSource {
                 case "GoGoAnime":
-                    srcURL = self.extractIframeSourceURL(from: htmlString)
+                    self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.standard, cell: cell, fullURL: fullURL)
                 case "AnimeFire":
-                    srcURL = self.extractDataVideoSrcURL(from: htmlString)
-                case "AnimeWorld", "AnimeHeaven":
-                    srcURL = self.extractVideoSourceURL(from: htmlString)
-                case "Anime3rb", "Kuramanime", "JKanime":
-                    srcURL = URL(string: fullURL)
-                default:
-                    srcURL = self.extractIframeSourceURL(from: htmlString)
-                }
-                
-                guard let finalSrcURL = srcURL else {
-                    print("Error extracting source URL")
-                    return
-                }
-                
-                DispatchQueue.main.async {
-                    switch selectedMediaSource {
-                    case "GoGoAnime":
-                        self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.standard, cell: cell, fullURL: fullURL)
-                    case "AnimeFire":
-                        self.fetchVideoDataAndChooseQuality(from: finalSrcURL.absoluteString) { selectedURL in
-                            guard let selectedURL = selectedURL else { return }
-                            self.playVideo(sourceURL: selectedURL, cell: cell, fullURL: fullURL)
-                        }
-                    case "Anime3rb":
-                        self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.player3rb, cell: cell, fullURL: fullURL)
-                    case "Kuramanime":
-                        self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.playerKura, cell: cell, fullURL: fullURL)
-                    case "JKanime":
-                        self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.playerJK, cell: cell, fullURL: fullURL)
-                    default:
-                        self.playVideo(sourceURL: finalSrcURL, cell: cell, fullURL: fullURL)
+                    self.fetchVideoDataAndChooseQuality(from: finalSrcURL.absoluteString) { selectedURL in
+                        guard let selectedURL = selectedURL else { return }
+                        self.playVideo(sourceURL: selectedURL, cell: cell, fullURL: fullURL)
                     }
+                case "Anime3rb":
+                    self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.player3rb, cell: cell, fullURL: fullURL)
+                case "Kuramanime":
+                    self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.playerKura, cell: cell, fullURL: fullURL)
+                case "JKanime":
+                    self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.playerJK, cell: cell, fullURL: fullURL)
+                default:
+                    self.playVideo(sourceURL: finalSrcURL, cell: cell, fullURL: fullURL)
                 }
-            }.resume()
+            }
+        }.resume()
+    }
+    
+    func extractEpisodeId(from url: String) -> String? {
+        let components = url.components(separatedBy: "?")
+        guard components.count >= 2 else { return nil }
+        let episodeId = components[1].components(separatedBy: "&").first
+        guard let ep = components.last else { return nil }
+        
+        return episodeId.flatMap { "\($0)?\(ep)" }
+    }
+    
+    func fetchEpisodeOptions(episodeId: String, completion: @escaping ([String: [[String: Any]]]) -> Void) {
+        let url = URL(string: "https://aniwatch.cranci.xyz/anime/servers?episodeId=\(episodeId)")!
+        print(url)
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data else {
+                print("Error fetching episode options: \(error?.localizedDescription ?? "Unknown error")")
+                completion([:])
+                return
+            }
+            
+            do {
+                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                   let sub = json["sub"] as? [[String: Any]],
+                   let dub = json["dub"] as? [[String: Any]] {
+                    completion(["sub": sub, "dub": dub])
+                } else {
+                    completion([:])
+                }
+            } catch {
+                print("Error parsing episode options: \(error.localizedDescription)")
+                completion([:])
+            }
+        }.resume()
+    }
+
+    func presentDubSubSelection(options: [String: [[String: Any]]], completion: @escaping (String) -> Void) {
+        DispatchQueue.main.async {
+            let subOptions = options["sub"]
+            let dubOptions = options["dub"]
+            
+            if subOptions?.isEmpty == true, let dubOptions = dubOptions, !dubOptions.isEmpty {
+                completion("dub")
+                return
+            } else if dubOptions?.isEmpty == true, let subOptions = subOptions, !subOptions.isEmpty {
+                completion("sub")
+                return
+            }
+            
+            let alert = UIAlertController(title: "Select Audio", message: nil, preferredStyle: .actionSheet)
+            
+            if let subOptions = subOptions, !subOptions.isEmpty {
+                alert.addAction(UIAlertAction(title: "Subtitled", style: .default) { _ in
+                    completion("sub")
+                })
+            }
+            
+            if let dubOptions = dubOptions, !dubOptions.isEmpty {
+                alert.addAction(UIAlertAction(title: "Dubbed", style: .default) { _ in
+                    completion("dub")
+                })
+            }
+            
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            
+            if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let topController = scene.windows.first?.rootViewController {
+                topController.present(alert, animated: true, completion: nil)
+            } else {
+                print("Could not find top view controller to present alert")
+            }
+        }
+    }
+
+    func presentServerSelection(servers: [[String: Any]], completion: @escaping (String) -> Void) {
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: "Select Server", message: nil, preferredStyle: .actionSheet)
+            
+            for server in servers {
+                if let serverName = server["serverName"] as? String {
+                    alert.addAction(UIAlertAction(title: serverName, style: .default) { _ in
+                        completion(serverName)
+                    })
+                }
+            }
+            
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            
+            if let topController = UIApplication.shared.windows.first?.rootViewController {
+                topController.present(alert, animated: true, completion: nil)
+            }
         }
     }
     
