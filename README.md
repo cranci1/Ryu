@@ -101,6 +101,7 @@ Ryu contains code from the following open-source projects:
 - [KingFisher](https://github.com/onevcat/Kingfisher) - MIT License
 - [Alamofire](https://github.com/Alamofire/Alamofire) - MIT License
 - [GoogleCastSDK-ios-no-bluetooth](https://github.com/onevcat/Kingfisher) - Google Developer Terms
+- [AniWatch-api](https://github.com/ghoshritesh12/aniwatch-api) - MIT License
 
 ## Contributing
 
