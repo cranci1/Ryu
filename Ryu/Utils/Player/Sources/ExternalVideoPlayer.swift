@@ -240,20 +240,18 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
     }
 
     private func handleVideoURL(url: URL) {
-        if UserDefaults.standard.bool(forKey: "isToDownload") {
-            handleDownload(url: url)
-        } else if let selectedPlayer = UserDefaults.standard.string(forKey: "mediaPlayerSelected") {
+        if let selectedPlayer = UserDefaults.standard.string(forKey: "mediaPlayerSelected") {
             self.animeDetailsViewController?.openInExternalPlayer(player: selectedPlayer, url: url)
             dismiss(animated: true, completion: nil)
         } else if GCKCastContext.sharedInstance().sessionManager.hasConnectedCastSession() {
             castVideoToGoogleCast(videoURL: url)
             dismiss(animated: true, completion: nil)
         } else {
-            playVideoInAVPlayer(url: url)
+            handleDownloadorPlayback(url: url)
         }
     }
 
-    private func handleDownload(url: URL) {
+    private func handleDownloadorPlayback(url: URL) {
         UserDefaults.standard.set(false, forKey: "isToDownload")
         loadQualityOptions(from: url) { success, error in
             if success {
@@ -277,13 +275,19 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
         for option in qualityOptions {
             alert.addAction(UIAlertAction(title: option.name, style: .default, handler: { _ in
                 if let url = URL(string: option.fileName) {
-                    let outputFileName = "\(baseFileName)_\(option.name)"
                     
-                    self.downloader.downloadAndCombineM3U8(url: url, outputFileName: outputFileName)
-                    self.dismiss(animated: true, completion: nil)
+                    let isToDownload = UserDefaults.standard.bool(forKey: "isToDownload")
                     
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                        self.animeDetailsViewController?.showAlert(title: "Download Started", message: "Check your notifications and also the folder in the Files app to see when your episode is downloaded")
+                    if isToDownload {
+                        let outputFileName = "\(baseFileName)_\(option.name)"
+                        self.downloader.downloadAndCombineM3U8(url: url, outputFileName: outputFileName)
+                        self.dismiss(animated: true, completion: nil)
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                            self.animeDetailsViewController?.showAlert(title: "Download Started", message: "Check your notifications and also the folder in the Files app to see when your episode is downloaded")
+                        }
+                    } else {
+                        self.playVideoInAVPlayer(url: url)
                     }
                 } else {
                     print("Invalid URL for quality option: \(option.fileName)")

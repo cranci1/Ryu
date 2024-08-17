@@ -170,7 +170,6 @@ class AnimeDetailService {
                     let episodeNumber = "\(number)"
                     let hrefID = episodeId
                     let href = "https://aniwatch.cranci.xyz/anime/episode-srcs?id=" + hrefID
-                    print(href)
                     
                     return Episode(number: episodeNumber, href: href, downloadUrl: "")
                 }

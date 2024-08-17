@@ -1259,7 +1259,6 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
     }
     
     func downloadMedia(for episode: Episode) {
-        print("Downloading episode: \(episode.number)")
         guard let cell = tableView.cellForRow(at: IndexPath(row: episodes.firstIndex(where: { $0.href == episode.href }) ?? 0, section: 2)) as? EpisodeCell else {
             print("Error: Could not get cell for episode \(episode.number)")
             return
