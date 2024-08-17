@@ -720,28 +720,8 @@ Ryu is also not made to promote piracy. Its just a streaming app.</string>
                             <tableViewSection headerTitle="Privacy" id="I1e-zt-hkV">
                                 <string key="footerTitle">Ryu prioritizes user privacy and does not store any personal data. All generated images are not retained by the app. If a user chooses to download an episode, it will only be stored locally in their device storage or on the Downloads Page in the app. We are committed to ensuring a secure and private experience for our users.</string>
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="b3t-fq-I03">
-                                        <rect key="frame" x="20" y="385.5" width="374" height="43.5"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="b3t-fq-I03" id="hGD-gI-TTN">
-                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Privacy Info" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x2u-DE-D60">
-                                                    <rect key="frame" x="16" y="13" width="80" height="18"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="x2u-DE-D60" firstAttribute="centerY" secondItem="hGD-gI-TTN" secondAttribute="centerY" id="Cse-JQ-Blv"/>
-                                                <constraint firstItem="x2u-DE-D60" firstAttribute="leading" secondItem="hGD-gI-TTN" secondAttribute="leading" constant="16" id="Yxc-oN-wrj"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="oBQ-XV-Yb3">
-                                        <rect key="frame" x="20" y="429" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="385.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oBQ-XV-Yb3" id="iwq-sG-PiT">
                                             <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
@@ -776,7 +756,7 @@ Ryu is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
 You should have received a copy of the GNU General Public License along with Ryu. If not, see &lt;https://www.gnu.org/licenses/&gt;.</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="HkG-T8-RWQ">
-                                        <rect key="frame" x="20" y="608.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="565" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HkG-T8-RWQ" id="w93-1l-591">
                                             <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
@@ -855,7 +835,7 @@ Google Cast
 https://developers.google.com/terms/</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="w4T-NN-0Re">
-                                        <rect key="frame" x="20" y="928" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="884.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="w4T-NN-0Re" id="94Y-a6-fSO">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -894,7 +874,6 @@ https://developers.google.com/terms/</string>
                     <connections>
                         <outlet property="buildLabel" destination="bnx-Qa-LHS" id="c88-U0-WXE"/>
                         <outlet property="licenseLabel" destination="iPe-aW-DeN" id="Ecx-cF-Pzy"/>
-                        <outlet property="privacyLabel" destination="x2u-DE-D60" id="osT-un-ECM"/>
                         <outlet property="versionLabel" destination="yxN-nY-MRO" id="Rjb-S9-Bv4"/>
                     </connections>
                 </tableViewController>

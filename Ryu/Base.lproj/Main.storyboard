@@ -225,22 +225,13 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Favorites" id="BBu-Lh-qnt">
-                        <leftBarButtonItems>
-                            <barButtonItem id="2ET-QB-yVC">
-                                <imageReference key="image" image="gearshape" catalog="system" symbolScale="large"/>
-                                <color key="tintColor" name="AccentColor"/>
-                                <connections>
-                                    <segue destination="tkJ-qb-Pci" kind="show" id="A4S-3U-V1x"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem id="end-2d-NSa">
-                                <imageReference key="image" image="network" catalog="system" symbolScale="large"/>
-                                <color key="tintColor" name="AccentColor"/>
-                                <connections>
-                                    <action selector="selectSourceButtonTapped:" destination="IWM-mT-B3l" id="QCY-jW-MT7"/>
-                                </connections>
-                            </barButtonItem>
-                        </leftBarButtonItems>
+                        <barButtonItem key="leftBarButtonItem" id="2ET-QB-yVC">
+                            <imageReference key="image" image="gearshape" catalog="system" symbolScale="large"/>
+                            <color key="tintColor" name="AccentColor"/>
+                            <connections>
+                                <segue destination="tkJ-qb-Pci" kind="show" id="A4S-3U-V1x"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="RC6-7K-ADf" id="IPD-HB-lUf"/>
@@ -644,13 +635,12 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Af5-Kj-0iD"/>
+        <segue reference="X14-oT-TJn"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.down.circle.fill" catalog="system" width="128" height="121"/>
         <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="house.fill" catalog="system" width="128" height="106"/>
-        <image name="network" catalog="system" width="128" height="121"/>
         <namedColor name="AccentColor">
             <color red="0.18823529411764706" green="0.69019607843137254" blue="0.7803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

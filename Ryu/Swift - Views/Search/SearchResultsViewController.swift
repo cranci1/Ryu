@@ -177,6 +177,36 @@ class SearchResultsViewController: UIViewController {
         tableView.reloadData()
     }
     
+    private func showSourceSelector() {
+        let alertController = UIAlertController(title: "Select Source", message: "Please select a source to search from.", preferredStyle: .actionSheet)
+        
+        let sources = ["AnimeWorld", "GoGoAnime", "AnimeHeaven", "AnimeFire", "Kuramanime", "JKanime", "Anime3rb", "HiAnime"]
+        
+        for source in sources {
+            let action = UIAlertAction(title: source, style: .default) { [weak self] _ in
+                UserDefaults.standard.set(source, forKey: "selectedMediaSource")
+                self?.selectedSource = source
+                self?.refreshResults()
+            }
+            alertController.addAction(action)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        if let popoverController = alertController.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    func refreshResults() {
+        fetchResults()
+    }
+    
     private func fetchResults() {
         loadingIndicator.startAnimating()
         tableView.isHidden = true
@@ -184,7 +214,8 @@ class SearchResultsViewController: UIViewController {
         noResultsLabel.isHidden = true
 
         guard let selectedSource = UserDefaults.standard.string(forKey: "selectedMediaSource") else {
-            showError("No media source selected.")
+            loadingIndicator.stopAnimating()
+            showSourceSelector()
             return
         }
 
