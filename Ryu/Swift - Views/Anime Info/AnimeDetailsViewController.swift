@@ -688,7 +688,8 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             let alert = UIAlertController(title: "Select Server", message: nil, preferredStyle: .actionSheet)
             
             for server in servers {
-                if let serverName = server["serverName"] as? String {
+                if let serverName = server["serverName"] as? String,
+                   serverName != "streamtape" && serverName != "streamsb" {
                     alert.addAction(UIAlertAction(title: serverName, style: .default) { _ in
                         completion(serverName)
                     })
