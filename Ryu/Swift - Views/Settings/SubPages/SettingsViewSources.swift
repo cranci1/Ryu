@@ -11,10 +11,16 @@ import UIKit
 class SettingsViewSources: UITableViewController {
     
     @IBOutlet weak var retryMethod: UIButton!
+    @IBOutlet weak var qualityPrefered: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupRetryMenu()
+        setupMenu()
+        
+        if let selectedOption = UserDefaults.standard.string(forKey: "preferredQuality") {
+            qualityPrefered.setTitle(selectedOption, for: .normal)
+        }
     }
     
     func setupRetryMenu() {
@@ -51,6 +57,34 @@ class SettingsViewSources: UITableViewController {
     private func setRetries(_ retries: Int) {
         UserDefaults.standard.set(retries, forKey: "maxRetries")
         retryMethod.setTitle("\(retries) Tries", for: .normal)
+    }
+    
+    func setupMenu() {
+        let action1 = UIAction(title: "320p", handler: { [weak self] _ in
+            UserDefaults.standard.set("320p", forKey: "preferredQuality")
+            self?.qualityPrefered.setTitle("320p", for: .normal)
+        })
+        let action2 = UIAction(title: "480p", handler: { [weak self] _ in
+            UserDefaults.standard.set("480p", forKey: "preferredQuality")
+            self?.qualityPrefered.setTitle("480p", for: .normal)
+        })
+        let action3 = UIAction(title: "720p", handler: { [weak self] _ in
+            UserDefaults.standard.set("720p", forKey: "preferredQuality")
+            self?.qualityPrefered.setTitle("720p", for: .normal)
+        })
+        let action4 = UIAction(title: "1080p", handler: { [weak self] _ in
+            UserDefaults.standard.set("1080p", forKey: "preferredQuality")
+            self?.qualityPrefered.setTitle("1080p", for: .normal)
+        })
+
+        let menu = UIMenu(title: "Select Prefered Quality", children: [action1, action2, action3, action4])
+        
+        qualityPrefered.menu = menu
+        qualityPrefered.showsMenuAsPrimaryAction = true
+        
+        if let selectedOption = UserDefaults.standard.string(forKey: "preferredQuality") {
+            qualityPrefered.setTitle(selectedOption, for: .normal)
+        }
     }
     
     @IBAction func closeButtonTapped() {

@@ -1177,11 +1177,43 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <sections>
+                            <tableViewSection headerTitle="Quality" footerTitle="Select your favorite quality. Note that if it is not available then it will play the closest quality." id="ebO-eO-XI8">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="XeR-HT-Ldq">
+                                        <rect key="frame" x="20" y="32" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XeR-HT-Ldq" id="pJN-57-FBE">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Prefered Quality" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U3m-hq-BaW">
+                                                    <rect key="frame" x="15" y="13" width="111" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Al-V9-xiO">
+                                                    <rect key="frame" x="304" y="6.5" width="65" height="31"/>
+                                                    <color key="tintColor" name="AccentColor"/>
+                                                    <state key="normal" title="Button"/>
+                                                    <buttonConfiguration key="configuration" style="plain" title="1080p"/>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="5Al-V9-xiO" firstAttribute="trailing" secondItem="pJN-57-FBE" secondAttribute="trailing" constant="-5" id="2Ox-ue-ZTY"/>
+                                                <constraint firstItem="U3m-hq-BaW" firstAttribute="centerY" secondItem="pJN-57-FBE" secondAttribute="centerY" id="2SU-RO-0TZ"/>
+                                                <constraint firstItem="U3m-hq-BaW" firstAttribute="leading" secondItem="pJN-57-FBE" secondAttribute="leading" constant="15" id="CPE-C3-14A"/>
+                                                <constraint firstItem="5Al-V9-xiO" firstAttribute="centerY" secondItem="pJN-57-FBE" secondAttribute="centerY" id="J3X-Ub-oDf"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                             <tableViewSection headerTitle="General" id="8Uf-JF-cy1">
                                 <string key="footerTitle">This method defines how Ryu attempts to fetch episodes. Increasing the number of retries allows for more attempts to load a video, which can be useful if a video fails to load initially. However, note that a higher number of retries may increase the wait time.</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="v3l-Ui-fOK">
-                                        <rect key="frame" x="20" y="32" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="155.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="v3l-Ui-fOK" id="zN2-dF-dq6">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -1213,7 +1245,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                             <tableViewSection headerTitle="Informations" footerTitle="Find some informations about each source" id="fYK-Yn-lEn">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="m1a-0k-gXI">
-                                        <rect key="frame" x="20" y="197.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="321" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="m1a-0k-gXI" id="Gc0-9A-Dxt">
                                             <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
@@ -1252,6 +1284,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="qualityPrefered" destination="5Al-V9-xiO" id="kwd-cH-FFf"/>
                         <outlet property="retryMethod" destination="bTS-4X-xtJ" id="2iX-Ch-zBc"/>
                     </connections>
                 </tableViewController>

@@ -174,10 +174,16 @@ class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
         DispatchQueue.main.async {
             self.activityIndicator?.stopAnimating()
             
-            if UserDefaults.standard.bool(forKey: "isToDownload") {
-                self.handleDownload(url: url)
-            } else if let selectedPlayer = UserDefaults.standard.string(forKey: "mediaPlayerSelected") {
-                self.animeDetailsViewController?.openInExternalPlayer(player: selectedPlayer, url: url)
+            if let selectedPlayer = UserDefaults.standard.string(forKey: "mediaPlayerSelected") {
+                if selectedPlayer == "VLC" || selectedPlayer == "Infuse" || selectedPlayer == "OutPlayer" {
+                    self.animeDetailsViewController?.openInExternalPlayer(player: selectedPlayer, url: url)
+                    self.dismiss(animated: true, completion: nil)
+                    return
+                }
+            }
+            
+            if GCKCastContext.sharedInstance().sessionManager.hasConnectedCastSession() {
+                self.castVideoToGoogleCast(videoURL: url)
                 self.dismiss(animated: true, completion: nil)
             } else {
                 self.playOrCastVideo(url: url)
@@ -212,32 +218,27 @@ class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
     }
     
     private func playOrCastVideo(url: URL) {
-        if GCKCastContext.sharedInstance().sessionManager.currentCastSession != nil {
-            self.castVideoToGoogleCast(videoURL: url)
-            self.dismiss(animated: true, completion: nil)
-        } else {
-            let player = AVPlayer(url: url)
-            let playerViewController = AVPlayerViewController()
-            playerViewController.player = player
-            
-            self.addChild(playerViewController)
-            self.view.addSubview(playerViewController.view)
-            playerViewController.view.frame = self.view.bounds
-            playerViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            playerViewController.didMove(toParent: self)
-            
-            let lastPlayedTime = UserDefaults.standard.double(forKey: "lastPlayedTime_\(self.fullURL)")
-            if lastPlayedTime > 0 {
+        let player = AVPlayer(url: url)
+        let playerViewController = AVPlayerViewController()
+        playerViewController.player = player
+        self.addChild(playerViewController)
+        self.view.addSubview(playerViewController.view)
+        
+        playerViewController.view.frame = self.view.bounds
+        playerViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        playerViewController.didMove(toParent: self)
+        
+        let lastPlayedTime = UserDefaults.standard.double(forKey: "lastPlayedTime_\(self.fullURL)")
+        
+        if lastPlayedTime > 0 {
                 player.seek(to: CMTime(seconds: lastPlayedTime, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
-            }
-            
-            player.play()
-            
-            self.player = player
-            self.playerViewController = playerViewController
-            
-            self.addPeriodicTimeObserver()
         }
+        
+        player.play()
+        
+        self.player = player
+        self.playerViewController = playerViewController
+        self.addPeriodicTimeObserver()
     }
     
     private func castVideoToGoogleCast(videoURL: URL) {

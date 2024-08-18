@@ -241,9 +241,14 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
 
     private func handleVideoURL(url: URL) {
         if let selectedPlayer = UserDefaults.standard.string(forKey: "mediaPlayerSelected") {
-            self.animeDetailsViewController?.openInExternalPlayer(player: selectedPlayer, url: url)
-            dismiss(animated: true, completion: nil)
-        } else if GCKCastContext.sharedInstance().sessionManager.hasConnectedCastSession() {
+            if selectedPlayer == "VLC" || selectedPlayer == "Infuse" || selectedPlayer == "OutPlayer" {
+                self.animeDetailsViewController?.openInExternalPlayer(player: selectedPlayer, url: url)
+                dismiss(animated: true, completion: nil)
+                return
+            }
+        }
+        
+        if GCKCastContext.sharedInstance().sessionManager.hasConnectedCastSession() {
             castVideoToGoogleCast(videoURL: url)
             dismiss(animated: true, completion: nil)
         } else {
@@ -264,6 +269,45 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
     }
     
     func showQualitySelection() {
+        let preferredQuality = UserDefaults.standard.string(forKey: "preferredQuality")
+        
+        if let preferredQuality = preferredQuality {
+            if let exactMatch = qualityOptions.first(where: { $0.name == preferredQuality }) {
+                handleQualitySelection(option: exactMatch)
+                return
+            }
+            let closestMatch = findClosestQuality(to: preferredQuality)
+            if let closestMatch = closestMatch {
+                handleQualitySelection(option: closestMatch)
+                return
+            }
+        }
+        
+        presentQualityPicker()
+    }
+
+    private func findClosestQuality(to preferredQuality: String) -> (name: String, fileName: String)? {
+        let preferredValue = extractQualityValue(from: preferredQuality)
+        var closestOption: (name: String, fileName: String)?
+        var smallestDifference = Int.max
+        
+        for option in qualityOptions {
+            let optionValue = extractQualityValue(from: option.name)
+            let difference = abs(preferredValue - optionValue)
+            if difference < smallestDifference {
+                smallestDifference = difference
+                closestOption = option
+            }
+        }
+        
+        return closestOption
+    }
+
+    private func extractQualityValue(from qualityString: String) -> Int {
+        return Int(qualityString.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()) ?? 0
+    }
+
+    private func presentQualityPicker() {
         let alert = UIAlertController(title: "Select Quality", message: nil, preferredStyle: .actionSheet)
         
         let animeTitle = self.animeDetailsViewController?.animeTitle ?? "Anime"
@@ -274,31 +318,41 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
         
         for option in qualityOptions {
             alert.addAction(UIAlertAction(title: option.name, style: .default, handler: { _ in
-                if let url = URL(string: option.fileName) {
-                    
-                    let isToDownload = UserDefaults.standard.bool(forKey: "isToDownload")
-                    
-                    if isToDownload {
-                        let outputFileName = "\(baseFileName)_\(option.name)"
-                        self.downloader.downloadAndCombineM3U8(url: url, outputFileName: outputFileName)
-                        self.dismiss(animated: true, completion: nil)
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                            self.animeDetailsViewController?.showAlert(title: "Download Started", message: "Check your notifications and also the folder in the Files app to see when your episode is downloaded")
-                        }
-                    } else {
-                        self.playVideoInAVPlayer(url: url)
-                    }
-                } else {
-                    print("Invalid URL for quality option: \(option.fileName)")
-                    self.dismiss(animated: true, completion: nil)
-                }
+                self.handleQualitySelection(option: option)
             }))
         }
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
         self.present(alert, animated: true, completion: nil)
+    }
+
+    private func handleQualitySelection(option: (name: String, fileName: String)) {
+        print("Selected quality: \(option.name), URL: \(option.fileName)")
+        if let url = URL(string: option.fileName) {
+            let isToDownload = UserDefaults.standard.bool(forKey: "isToDownload")
+            
+            if isToDownload {
+                let animeTitle = self.animeDetailsViewController?.animeTitle ?? "Anime"
+                let episodeNumber = (self.animeDetailsViewController?.currentEpisodeIndex ?? 0) + 1
+                let safeAnimeTitle = animeTitle.replacingOccurrences(of: "[^a-zA-Z0-9]", with: "_", options: .regularExpression)
+                let baseFileName = "\(safeAnimeTitle)_Episode_\(episodeNumber)"
+                let outputFileName = "\(baseFileName)_\(option.name)"
+                self.downloader.downloadAndCombineM3U8(url: url, outputFileName: outputFileName)
+                self.dismiss(animated: true, completion: nil)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    self.animeDetailsViewController?.showAlert(title: "Download Started", message: "Check your notifications and also the folder in the Files app to see when your episode is downloaded")
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.playVideoInAVPlayer(url: url)
+                }
+            }
+        } else {
+            print("Invalid URL for quality option: \(option.fileName)")
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
     func loadQualityOptions(from url: URL, completion: @escaping (Bool, Error?) -> Void) {
@@ -415,13 +469,13 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
             player.seek(to: CMTime(seconds: lastPlayedTime, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
         }
         
-        player.play()
-        
         self.player = player
         self.playerViewController = playerViewController
         self.isVideoPlaying = true
         
         self.addPeriodicTimeObserver()
+        
+        player.play()
     }
 
     private func addPeriodicTimeObserver() {
