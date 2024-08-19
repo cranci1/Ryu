@@ -513,7 +513,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             handleSources(url: url, cell: cell, fullURL: fullURL)
         }
     }
-
+    
     private func handleHiAnimeSource(url: String, cell: EpisodeCell, fullURL: String) {
         guard let episodeId = extractEpisodeId(from: url) else {
             print("Could not extract episodeId from URL")
@@ -528,31 +528,93 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                 return
             }
             
-            self.presentDubSubSelection(options: options) { category in
+            let preferredAudio = UserDefaults.standard.string(forKey: "audioHiPrefe") ?? ""
+            let preferredServer = UserDefaults.standard.string(forKey: "serverHiPrefe") ?? "hd-1"
+            
+            self.selectAudioCategory(options: options, preferredAudio: preferredAudio) { category in
                 guard let servers = options[category], !servers.isEmpty else {
                     print("No servers available for selected category")
                     return
                 }
                 
-                self.presentServerSelection(servers: servers) { server in
+                self.selectServer(servers: servers, preferredServer: preferredServer) { server in
                     let finalURL = "https://aniwatch.cranci.xyz/anime/episode-srcs?id=\(episodeId)&category=\(category)&server=\(server)"
                     print(finalURL)
                     
-                    self.fetchHiAnimeData(from: finalURL) { sourceURL, captionURL in
+                    self.fetchHiAnimeData(from: finalURL) { sourceURL, captionURLs in
                         guard let sourceURL = sourceURL else {
                             print("Error extracting source URL")
                             return
                         }
                         
-                        DispatchQueue.main.async {
-                            self.startStreamingButtonTapped(withURL: sourceURL.absoluteString, captionURL: captionURL?.absoluteString ?? "", playerType: VideoPlayerType.playerWeb, cell: cell, fullURL: fullURL)
+                        self.selectSubtitles(captionURLs: captionURLs) { selectedCaptionURL in
+                            DispatchQueue.main.async {
+                                self.startStreamingButtonTapped(withURL: sourceURL.absoluteString, captionURL: selectedCaptionURL?.absoluteString ?? "", playerType: VideoPlayerType.playerWeb, cell: cell, fullURL: fullURL)
+                            }
                         }
                     }
                 }
             }
         }
     }
+    
+    private func selectAudioCategory(options: [String: [[String: Any]]], preferredAudio: String, completion: @escaping (String) -> Void) {
+        if options[preferredAudio] != nil {
+            completion(preferredAudio)
+        } else {
+            DispatchQueue.main.async {
+                self.presentDubSubSelection(options: options, completion: completion)
+            }
+        }
+    }
 
+    private func selectServer(servers: [[String: Any]], preferredServer: String, completion: @escaping (String) -> Void) {
+        if let server = servers.first(where: { ($0["serverName"] as? String) == preferredServer }) {
+            completion(server["serverName"] as? String ?? "")
+        } else {
+            DispatchQueue.main.async {
+                self.presentServerSelection(servers: servers, completion: completion)
+            }
+        }
+    }
+    
+    private func selectSubtitles(captionURLs: [String: URL]?, completion: @escaping (URL?) -> Void) {
+        guard let captionURLs = captionURLs, !captionURLs.isEmpty else {
+            completion(nil)
+            return
+        }
+        
+        let preferredSubtitles = UserDefaults.standard.string(forKey: "subtitleHiPrefe") ?? "English"
+        
+        if let preferredURL = captionURLs[preferredSubtitles] {
+            completion(preferredURL)
+        } else {
+            DispatchQueue.main.async {
+                self.presentSubtitleSelection(captionURLs: captionURLs, completion: completion)
+            }
+        }
+    }
+    
+    private func presentSubtitleSelection(captionURLs: [String: URL], completion: @escaping (URL?) -> Void) {
+        let alert = UIAlertController(title: "Select Subtitle Language", message: nil, preferredStyle: .actionSheet)
+        
+        for (label, url) in captionURLs {
+            alert.addAction(UIAlertAction(title: label, style: .default) { _ in
+                completion(url)
+            })
+        }
+        
+        alert.addAction(UIAlertAction(title: "No Subtitles", style: .default) { _ in
+            completion(nil)
+        })
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        if let topController = UIApplication.shared.windows.first?.rootViewController {
+            topController.present(alert, animated: true, completion: nil)
+        }
+    }
+    
     private func handleSources(url: String, cell: EpisodeCell, fullURL: String) {
         URLSession.shared.dataTask(with: URL(string: url)!) { [weak self] (data, response, error) in
             guard let self = self else { return }
@@ -704,7 +766,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         }
     }
     
-    private func fetchHiAnimeData(from fullURL: String, completion: @escaping (URL?, URL?) -> Void) {
+    private func fetchHiAnimeData(from fullURL: String, completion: @escaping (URL?, [String: URL]?) -> Void) {
         guard let url = URL(string: fullURL) else {
             print("Invalid URL for HiAnime: \(fullURL)")
             completion(nil, nil)
@@ -743,30 +805,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                         }
                     }
                     
-                    DispatchQueue.main.async {
-                        if captionURLs.count > 1 {
-                            let alert = UIAlertController(title: "Select Caption Language", message: nil, preferredStyle: .actionSheet)
-                            
-                            for (label, url) in captionURLs {
-                                alert.addAction(UIAlertAction(title: label, style: .default, handler: { _ in
-                                    completion(sourceURL, url)
-                                }))
-                            }
-                            
-                            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
-                                completion(sourceURL, nil)
-                            }))
-                            
-                            if let topController = UIApplication.shared.connectedScenes
-                                .compactMap({ ($0 as? UIWindowScene)?.windows.first })
-                                .compactMap({ $0.rootViewController })
-                                .first {
-                                topController.present(alert, animated: true, completion: nil)
-                            }
-                        } else {
-                            completion(sourceURL, captionURLs.values.first)
-                        }
-                    }
+                    completion(sourceURL, captionURLs)
                 }
             } catch {
                 print("Error parsing HiAnime JSON: \(error.localizedDescription)")

@@ -34,6 +34,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserDefaults.standard.set(10, forKey: "maxRetries")
         }
         
+        if UserDefaults.standard.object(forKey: "preferredQuality") == nil {
+            UserDefaults.standard.set("1080p", forKey: "preferredQuality")
+        }
+        
         UserDefaults.standard.register(defaults: ["fullTitleCast": true])
         UserDefaults.standard.register(defaults: ["animeImageCast": true])
     }

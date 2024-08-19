@@ -19,7 +19,7 @@ struct Episode {
 
 class EpisodeCell: UITableViewCell {
     let episodeLabel = UILabel()
-    let downloadButton = UIButton(type: .system)
+    let downloadButton = UIImageView()
     let startnowLabel = UILabel()
     let playbackProgressView = UIProgressView(progressViewStyle: .default)
     let remainingTimeLabel = UILabel()
@@ -57,12 +57,16 @@ class EpisodeCell: UITableViewCell {
         episodeLabel.font = UIFont.systemFont(ofSize: 16)
         
         startnowLabel.font = UIFont.systemFont(ofSize: 13)
-        startnowLabel.text = "Watch Now"
+        startnowLabel.text = "Start Watching"
         startnowLabel.textColor = .secondaryLabel
         
-        downloadButton.setImage(UIImage(systemName: "icloud.and.arrow.down"), for: .normal)
+        downloadButton.image = UIImage(systemName: "icloud.and.arrow.down")
         downloadButton.tintColor = .systemTeal
-        downloadButton.addTarget(self, action: #selector(downloadButtonTapped), for: .touchUpInside)
+        downloadButton.contentMode = .scaleAspectFit
+        downloadButton.isUserInteractionEnabled = true
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(downloadButtonTapped))
+        downloadButton.addGestureRecognizer(tapGesture)
         
         remainingTimeLabel.font = UIFont.systemFont(ofSize: 12)
         remainingTimeLabel.textColor = .secondaryLabel
@@ -77,8 +81,8 @@ class EpisodeCell: UITableViewCell {
             
             downloadButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
             downloadButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            downloadButton.widthAnchor.constraint(equalToConstant: 50),
-            downloadButton.heightAnchor.constraint(equalToConstant: 50),
+            downloadButton.widthAnchor.constraint(equalToConstant: 30),
+            downloadButton.heightAnchor.constraint(equalToConstant: 30),
             
             playbackProgressView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             playbackProgressView.centerYAnchor.constraint(equalTo: startnowLabel.centerYAnchor),
@@ -154,10 +158,8 @@ class EpisodeCell: UITableViewCell {
     private func updateDownloadButtonVisibility() {
         if selectedMediaSource == "JKanime" || selectedMediaSource == "HiAnime" {
             downloadButton.isHidden = true
-            downloadButton.isEnabled = false
         } else {
             downloadButton.isHidden = false
-            downloadButton.isEnabled = true
         }
     }
     

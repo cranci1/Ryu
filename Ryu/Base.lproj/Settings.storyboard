@@ -1242,10 +1242,98 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection headerTitle="HiAnime" footerTitle="Note that if something not available then it will prompt with the choise menu." id="2Fh-c7-PC3">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Eq3-tl-NMl">
+                                        <rect key="frame" x="20" y="321" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Eq3-tl-NMl" id="Kyx-5H-JU5">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Prefered Audio" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WFU-jx-37n">
+                                                    <rect key="frame" x="15" y="13" width="102" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ew1-sf-bu3">
+                                                    <rect key="frame" x="293.5" y="6.5" width="75.5" height="31"/>
+                                                    <color key="tintColor" name="AccentColor"/>
+                                                    <state key="normal" title="Button"/>
+                                                    <buttonConfiguration key="configuration" style="plain" title="Dubbed"/>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="WFU-jx-37n" firstAttribute="leading" secondItem="Kyx-5H-JU5" secondAttribute="leading" constant="15" id="Fol-ef-u5u"/>
+                                                <constraint firstItem="WFU-jx-37n" firstAttribute="centerY" secondItem="Kyx-5H-JU5" secondAttribute="centerY" id="aNF-mh-ahI"/>
+                                                <constraint firstItem="ew1-sf-bu3" firstAttribute="centerY" secondItem="Kyx-5H-JU5" secondAttribute="centerY" id="bLf-3F-9VR"/>
+                                                <constraint firstItem="ew1-sf-bu3" firstAttribute="trailing" secondItem="Kyx-5H-JU5" secondAttribute="trailing" constant="-5" id="zcI-0r-TAH"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="sqb-Ta-47H">
+                                        <rect key="frame" x="20" y="364.5" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sqb-Ta-47H" id="t38-9O-80H">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Prefered Server" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hcu-t4-Mrw">
+                                                    <rect key="frame" x="15" y="13" width="107.5" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JUh-bG-hKS">
+                                                    <rect key="frame" x="315.5" y="6.5" width="53.5" height="31"/>
+                                                    <color key="tintColor" name="AccentColor"/>
+                                                    <state key="normal" title="Button"/>
+                                                    <buttonConfiguration key="configuration" style="plain" title="hd-1"/>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="hcu-t4-Mrw" firstAttribute="leading" secondItem="t38-9O-80H" secondAttribute="leading" constant="15" id="VbX-ak-vKz"/>
+                                                <constraint firstItem="hcu-t4-Mrw" firstAttribute="centerY" secondItem="t38-9O-80H" secondAttribute="centerY" id="f7t-1e-8g7"/>
+                                                <constraint firstItem="JUh-bG-hKS" firstAttribute="centerY" secondItem="t38-9O-80H" secondAttribute="centerY" id="fDc-3N-Vj7"/>
+                                                <constraint firstItem="JUh-bG-hKS" firstAttribute="trailing" secondItem="t38-9O-80H" secondAttribute="trailing" constant="-5" id="hs8-rU-LAn"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="DP4-qX-oXL">
+                                        <rect key="frame" x="20" y="408" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="DP4-qX-oXL" id="OyZ-KE-JAP">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Subtitles Language" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BfK-BG-50h">
+                                                    <rect key="frame" x="15" y="13" width="132" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Znu-md-X7E">
+                                                    <rect key="frame" x="298" y="6.5" width="71" height="31"/>
+                                                    <color key="tintColor" name="AccentColor"/>
+                                                    <state key="normal" title="Button"/>
+                                                    <buttonConfiguration key="configuration" style="plain" title="English"/>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="BfK-BG-50h" firstAttribute="centerY" secondItem="OyZ-KE-JAP" secondAttribute="centerY" id="Bv3-sL-dB7"/>
+                                                <constraint firstItem="Znu-md-X7E" firstAttribute="trailing" secondItem="OyZ-KE-JAP" secondAttribute="trailing" constant="-5" id="Cnn-7B-QzA"/>
+                                                <constraint firstItem="BfK-BG-50h" firstAttribute="leading" secondItem="OyZ-KE-JAP" secondAttribute="leading" constant="15" id="eV9-w7-Vun"/>
+                                                <constraint firstItem="Znu-md-X7E" firstAttribute="centerY" secondItem="OyZ-KE-JAP" secondAttribute="centerY" id="veP-XS-86B"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                             <tableViewSection headerTitle="Informations" footerTitle="Find some informations about each source" id="fYK-Yn-lEn">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="m1a-0k-gXI">
-                                        <rect key="frame" x="20" y="321" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="531.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="m1a-0k-gXI" id="Gc0-9A-Dxt">
                                             <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
@@ -1284,8 +1372,11 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="audioButton" destination="ew1-sf-bu3" id="uYv-W7-Rgd"/>
                         <outlet property="qualityPrefered" destination="5Al-V9-xiO" id="kwd-cH-FFf"/>
                         <outlet property="retryMethod" destination="bTS-4X-xtJ" id="2iX-Ch-zBc"/>
+                        <outlet property="serverButton" destination="JUh-bG-hKS" id="Uzf-Q4-FmV"/>
+                        <outlet property="subtitlesButton" destination="Znu-md-X7E" id="BXm-zv-U6N"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="arJ-kS-wV5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

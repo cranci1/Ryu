@@ -13,10 +13,17 @@ class SettingsViewSources: UITableViewController {
     @IBOutlet weak var retryMethod: UIButton!
     @IBOutlet weak var qualityPrefered: UIButton!
     
+    @IBOutlet weak var audioButton: UIButton!
+    @IBOutlet weak var serverButton: UIButton!
+    @IBOutlet weak var subtitlesButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupRetryMenu()
         setupMenu()
+        setupAudioMenu()
+        setupServerMenu()
+        setupSubtitlesMenu()
         
         if let selectedOption = UserDefaults.standard.string(forKey: "preferredQuality") {
             qualityPrefered.setTitle(selectedOption, for: .normal)
@@ -84,6 +91,82 @@ class SettingsViewSources: UITableViewController {
         
         if let selectedOption = UserDefaults.standard.string(forKey: "preferredQuality") {
             qualityPrefered.setTitle(selectedOption, for: .normal)
+        }
+    }
+    
+    func setupAudioMenu() {
+        let action1 = UIAction(title: "Sub", handler: { [weak self] _ in
+            UserDefaults.standard.set("sub", forKey: "audioHiPrefe")
+            self?.audioButton.setTitle("Sub", for: .normal)
+        })
+        let action2 = UIAction(title: "Dub", handler: { [weak self] _ in
+            UserDefaults.standard.set("dub", forKey: "audioHiPrefe")
+            self?.audioButton.setTitle("Dub", for: .normal)
+        })
+
+        let menu = UIMenu(title: "Select Prefered Audio", children: [action1, action2])
+        
+        audioButton.menu = menu
+        audioButton.showsMenuAsPrimaryAction = true
+        
+        if let selectedOption = UserDefaults.standard.string(forKey: "audioHiPrefe") {
+            audioButton.setTitle(selectedOption, for: .normal)
+        }
+    }
+    
+    func setupServerMenu() {
+        let action1 = UIAction(title: "hd-1", handler: { [weak self] _ in
+            UserDefaults.standard.set("hd-1", forKey: "serverHiPrefe")
+            self?.serverButton.setTitle("hd-1", for: .normal)
+        })
+        let action2 = UIAction(title: "hd-2", handler: { [weak self] _ in
+            UserDefaults.standard.set("hd-2", forKey: "serverHiPrefe")
+            self?.serverButton.setTitle("hd-2", for: .normal)
+        })
+
+        let menu = UIMenu(title: "Select Prefered Server", children: [action1, action2])
+        
+        serverButton.menu = menu
+        serverButton.showsMenuAsPrimaryAction = true
+        
+        if let selectedOption = UserDefaults.standard.string(forKey: "serverHiPrefe") {
+            serverButton.setTitle(selectedOption, for: .normal)
+        }
+    }
+    
+    func setupSubtitlesMenu() {
+        let action1 = UIAction(title: "English", handler: { [weak self] _ in
+            UserDefaults.standard.set("English", forKey: "subtitleHiPrefe")
+            self?.subtitlesButton.setTitle("English", for: .normal)
+        })
+        let action2 = UIAction(title: "Spanish", handler: { [weak self] _ in
+            UserDefaults.standard.set("Spanish", forKey: "subtitleHiPrefe")
+            self?.subtitlesButton.setTitle("Spanish", for: .normal)
+        })
+        let action3 = UIAction(title: "Portuguese", handler: { [weak self] _ in
+            UserDefaults.standard.set("Portuguese", forKey: "subtitleHiPrefe")
+            self?.subtitlesButton.setTitle("Portuguese", for: .normal)
+        })
+        let action4 = UIAction(title: "Thai", handler: { [weak self] _ in
+            UserDefaults.standard.set("Thai", forKey: "subtitleHiPrefe")
+            self?.subtitlesButton.setTitle("Thai", for: .normal)
+        })
+        let action5 = UIAction(title: "French", handler: { [weak self] _ in
+            UserDefaults.standard.set("French", forKey: "subtitleHiPrefe")
+            self?.subtitlesButton.setTitle("French", for: .normal)
+        })
+        let action6 = UIAction(title: "Always Ask", handler: { [weak self] _ in
+            UserDefaults.standard.set("Always Ask", forKey: "subtitleHiPrefe")
+            self?.subtitlesButton.setTitle("Always Ask", for: .normal)
+        })
+
+        let menu = UIMenu(title: "Select Captions Language", children: [action1, action2, action3, action4, action5, action6])
+        
+        subtitlesButton.menu = menu
+        subtitlesButton.showsMenuAsPrimaryAction = true
+        
+        if let selectedOption = UserDefaults.standard.string(forKey: "subtitleHiPrefe") {
+            subtitlesButton.setTitle(selectedOption, for: .normal)
         }
     }
     
