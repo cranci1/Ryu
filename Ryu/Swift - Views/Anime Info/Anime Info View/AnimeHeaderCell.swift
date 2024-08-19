@@ -13,7 +13,7 @@ class AnimeHeaderCell: UITableViewCell {
     private let titleLabel = UILabel()
     private let aliasLabel = UILabel()
     private let favoriteButton = UIButton()
-    private let optionsButton = UIButton()
+    private let optionsButton = UIImageView()
     private let starLabel = UILabel()
     private let airDateLabel = UILabel()
     private let starIconImageView = UIImageView()
@@ -69,13 +69,15 @@ class AnimeHeaderCell: UITableViewCell {
 
         favoriteButton.setTitle("FAVORITE", for: .normal)
         favoriteButton.setTitleColor(.black, for: .normal)
-        favoriteButton.backgroundColor = UIColor.systemTeal
+        favoriteButton.backgroundColor = .systemTeal
         favoriteButton.layer.cornerRadius = 14
         favoriteButton.addTarget(self, action: #selector(favoriteButtonPressed), for: .touchUpInside)
         
-        optionsButton.setImage(UIImage(systemName: "ellipsis.circle.fill"), for: .normal)
+        optionsButton.image = UIImage(systemName: "ellipsis.circle.fill")
         optionsButton.tintColor = .systemTeal
-        optionsButton.addTarget(self, action: #selector(optionsButtonTapped), for: .touchUpInside)
+        optionsButton.isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(optionsButtonTapped))
+        optionsButton.addGestureRecognizer(tapGesture)
         
         starLabel.font = UIFont.boldSystemFont(ofSize: 15)
         starLabel.textColor = .secondaryLabel
@@ -141,36 +143,6 @@ class AnimeHeaderCell: UITableViewCell {
     @objc private func optionsButtonTapped() {
         showOptionsMenu?()
     }
-
-    private func fetchAnimeID(byTitle title: String, completion: @escaping (Result<Int, Error>) -> Void) {
-        let query = """
-        query {
-            Media(search: "\(title)", type: ANIME) {
-                id
-            }
-        }
-        """
-
-        let parameters: [String: Any] = ["query": query]
-
-        AF.request("https://graphql.anilist.co", method: .post, parameters: parameters, encoding: JSONEncoding.default)
-            .responseJSON { response in
-                switch response.result {
-                case .success(let value):
-                    if let json = value as? [String: Any],
-                       let data = json["data"] as? [String: Any],
-                       let media = data["Media"] as? [String: Any],
-                       let id = media["id"] as? Int {
-                        completion(.success(id))
-                    } else {
-                        let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid response"])
-                        completion(.failure(error))
-                    }
-                case .failure(let error):
-                    completion(.failure(error))
-                }
-            }
-    }
     
     func configure(title: String?, imageUrl: String?, aliases: String, isFavorite: Bool, airdate: String, stars: String, href: String?) {
         titleLabel.text = title
@@ -195,7 +167,7 @@ class AnimeHeaderCell: UITableViewCell {
         }
         updateFavoriteButtonState(isFavorite: isFavorite)
         
-        optionsButton.isEnabled = href != nil
+        optionsButton.isUserInteractionEnabled = href != nil
     }
     
     private func updateFavoriteButtonState(isFavorite: Bool) {
