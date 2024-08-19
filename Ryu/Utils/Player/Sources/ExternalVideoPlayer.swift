@@ -44,6 +44,14 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
         setupLoadingView()
         openWebView(fullURL: streamURL)
     }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        if UserDefaults.standard.bool(forKey: "AlwaysLandscape") {
+            return .landscape
+        } else {
+            return .all
+        }
+    }
 
     private func setupLoadingView() {
         view.backgroundColor = .secondarySystemBackground
