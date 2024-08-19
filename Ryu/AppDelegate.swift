@@ -33,6 +33,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if UserDefaults.standard.object(forKey: "maxRetries") == nil {
             UserDefaults.standard.set(10, forKey: "maxRetries")
         }
+        if UserDefaults.standard.object(forKey: "holdSpeedPlayer") == nil {
+            UserDefaults.standard.set(2, forKey: "holdSpeedPlayer")
+        }
         
         if UserDefaults.standard.object(forKey: "preferredQuality") == nil {
             UserDefaults.standard.set("1080p", forKey: "preferredQuality")
