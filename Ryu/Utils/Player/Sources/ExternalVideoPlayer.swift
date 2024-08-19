@@ -317,12 +317,6 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
     private func presentQualityPicker() {
         let alert = UIAlertController(title: "Select Quality", message: nil, preferredStyle: .actionSheet)
         
-        let animeTitle = self.animeDetailsViewController?.animeTitle ?? "Anime"
-        let episodeNumber = (self.animeDetailsViewController?.currentEpisodeIndex ?? 0) + 1
-        
-        let safeAnimeTitle = animeTitle.replacingOccurrences(of: "[^a-zA-Z0-9]", with: "_", options: .regularExpression)
-        let baseFileName = "\(safeAnimeTitle)_Episode_\(episodeNumber)"
-        
         for option in qualityOptions {
             alert.addAction(UIAlertAction(title: option.name, style: .default, handler: { _ in
                 self.handleQualitySelection(option: option)
