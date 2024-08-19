@@ -316,7 +316,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         case "GoGoAnime":
             baseUrl = "https://anitaku.pe"
         case "AnimeHeaven":
-            baseUrl = "https://animeheaven.me"
+            baseUrl = "https://animeheaven.me/"
         default:
             baseUrl = ""
         }

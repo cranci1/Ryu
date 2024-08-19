@@ -257,6 +257,7 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
             }
         }
     }
+    
     private func castVideoToGoogleCast(videoURL: URL) {
         DispatchQueue.main.async {
             let metadata = GCKMediaMetadata(metadataType: .movie)
