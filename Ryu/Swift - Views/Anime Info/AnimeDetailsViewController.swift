@@ -430,7 +430,9 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
     }
     
     private func checkUserDefault(url: String, cell: EpisodeCell, fullURL: String) {
-        if UserDefaults.standard.bool(forKey: "browserPlayer") {
+        if UserDefaults.standard.bool(forKey: "isToDownload") {
+            playEpisode(url: url, cell: cell, fullURL: fullURL)
+        } else if UserDefaults.standard.bool(forKey: "browserPlayer") {
             openWebView(fullURL: url)
         } else {
             playEpisode(url: url, cell: cell, fullURL: fullURL)

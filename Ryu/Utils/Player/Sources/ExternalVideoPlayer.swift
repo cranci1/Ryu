@@ -265,7 +265,6 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
     }
 
     private func handleDownloadorPlayback(url: URL) {
-        UserDefaults.standard.set(false, forKey: "isToDownload")
         loadQualityOptions(from: url) { success, error in
             if success {
                 self.showQualitySelection()
@@ -348,6 +347,7 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
                 let outputFileName = "\(baseFileName)_\(option.name)"
                 self.downloader.downloadAndCombineM3U8(url: url, outputFileName: outputFileName)
                 self.dismiss(animated: true, completion: nil)
+                UserDefaults.standard.set(false, forKey: "isToDownload")
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                     self.animeDetailsViewController?.showAlert(title: "Download Started", message: "Check your notifications and also the folder in the Files app to see when your episode is downloaded")

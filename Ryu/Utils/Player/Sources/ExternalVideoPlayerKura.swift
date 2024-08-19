@@ -149,6 +149,8 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
             if GCKCastContext.sharedInstance().sessionManager.hasConnectedCastSession() {
                 self.castVideoToGoogleCast(videoURL: url)
                 self.dismiss(animated: true, completion: nil)
+            } else if UserDefaults.standard.bool(forKey: "isToDownload") {
+                self.handleDownload(url: url)
             } else {
                 self.playOrCastVideo(url: url)
             }
