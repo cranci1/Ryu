@@ -438,9 +438,18 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
     }
     
     private func openWebView(fullURL: String) {
-        let webView = WKWebView(frame: view.bounds)
+        let webView = WKWebView()
         webView.navigationDelegate = self
         view.addSubview(webView)
+        
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            webView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            webView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            webView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            webView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
         
         if let url = URL(string: fullURL) {
             let request = URLRequest(url: url)

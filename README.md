@@ -71,6 +71,7 @@ You can find the dev ipa file on [nightly.link](https://nightly.link/cranci1/Ryu
 ## Compatibility
 
 - iOS/iPadOS 14.0 or later
+- M-series Macs via TestFlight
 
 ## Frequently Asked Questions
 
