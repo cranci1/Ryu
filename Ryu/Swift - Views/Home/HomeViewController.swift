@@ -481,6 +481,7 @@ extension HomeViewController: UICollectionViewDelegate {
         dummyCell.episodeNumber = String(item.episodeNumber)
         
         UserDefaults.standard.set(item.source, forKey: "selectedMediaSource")
+        self.didSelectNewSource()
         
         detailVC.episodeSelected(episode: episode, cell: dummyCell)
         
