@@ -622,6 +622,14 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
         if let topController = UIApplication.shared.windows.first?.rootViewController {
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                alert.modalPresentationStyle = .popover
+                if let popover = alert.popoverPresentationController {
+                    popover.sourceView = topController.view
+                    popover.sourceRect = CGRect(x: topController.view.bounds.midX, y: topController.view.bounds.midY, width: 0, height: 0)
+                    popover.permittedArrowDirections = []
+                }
+            }
             topController.present(alert, animated: true, completion: nil)
         }
     }
@@ -717,7 +725,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             }
         }.resume()
     }
-
+    
     func presentDubSubSelection(options: [String: [[String: Any]]], completion: @escaping (String) -> Void) {
         DispatchQueue.main.async {
             let subOptions = options["sub"]
@@ -755,25 +763,31 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             }
         }
     }
-
+    
     func presentServerSelection(servers: [[String: Any]], completion: @escaping (String) -> Void) {
-        DispatchQueue.main.async {
-            let alert = UIAlertController(title: "Select Server", message: nil, preferredStyle: .actionSheet)
-            
-            for server in servers {
-                if let serverName = server["serverName"] as? String,
-                   serverName != "streamtape" && serverName != "streamsb" {
-                    alert.addAction(UIAlertAction(title: serverName, style: .default) { _ in
-                        completion(serverName)
-                    })
+        let alert = UIAlertController(title: "Select Server", message: nil, preferredStyle: .actionSheet)
+        
+        for server in servers {
+            if let serverName = server["serverName"] as? String,
+               serverName != "streamtape" && serverName != "streamsb" {
+                alert.addAction(UIAlertAction(title: serverName, style: .default) { _ in
+                    completion(serverName)
+                })
+            }
+        }
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        if let topController = UIApplication.shared.windows.first?.rootViewController {
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                alert.modalPresentationStyle = .popover
+                if let popover = alert.popoverPresentationController {
+                    popover.sourceView = topController.view
+                    popover.sourceRect = CGRect(x: topController.view.bounds.midX, y: topController.view.bounds.midY, width: 0, height: 0)
+                    popover.permittedArrowDirections = []
                 }
             }
-            
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-            
-            if let topController = UIApplication.shared.windows.first?.rootViewController {
-                topController.present(alert, animated: true, completion: nil)
-            }
+            topController.present(alert, animated: true, completion: nil)
         }
     }
     
