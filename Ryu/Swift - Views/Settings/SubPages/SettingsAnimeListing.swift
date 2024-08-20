@@ -6,11 +6,15 @@
 //
 
 import UIKit
+import Security
 
 class SettingsAnimeListing: UITableViewController {
     
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var loginLogoutLabel: UILabel!
+    
+    let serviceName = "me.ryu.AniListToken"
+    let accountName = "AniListAccessToken"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +32,7 @@ class SettingsAnimeListing: UITableViewController {
     }
     
     @IBAction func loginLogoutLabelTapped() {
-        if let _ = UserDefaults.standard.string(forKey: "accessToken") {
+        if let _ = getTokenFromKeychain() {
             showLogoutConfirmation()
         } else {
             statusLabel.text = "Starting authentication..."
@@ -48,7 +52,7 @@ class SettingsAnimeListing: UITableViewController {
     }
     
     func logout() {
-        UserDefaults.standard.removeObject(forKey: "accessToken")
+        removeTokenFromKeychain()
         statusLabel.text = "You are not logged in"
         updateLoginLogoutLabelText()
     }
@@ -80,7 +84,7 @@ class SettingsAnimeListing: UITableViewController {
     }
     
     func updateUserStatus() {
-        if let token = UserDefaults.standard.string(forKey: "accessToken") {
+        if let token = getTokenFromKeychain() {
             fetchUserInfo(token: token)
         } else {
             statusLabel.text = "You are not logged in"
@@ -174,28 +178,52 @@ class SettingsAnimeListing: UITableViewController {
             return UIColor.systemBlue
         case "purple":
             return UIColor.systemPurple
-        case "pink":
-            return UIColor.systemPink
+        case "green":
+            return UIColor.systemGreen
         case "orange":
             return UIColor.systemOrange
         case "red":
             return UIColor.systemRed
-        case "green":
-            return UIColor.systemGreen
+        case "pink":
+            return UIColor.systemPink
         case "gray":
             return UIColor.systemGray
-        case "teal":
-            return UIColor.systemTeal
-        case "yellow":
-            return UIColor.systemYellow
         default:
             return UIColor.label
         }
     }
     
     func updateLoginLogoutLabelText() {
-        let isLoggedIn = UserDefaults.standard.string(forKey: "accessToken") != nil
+        let isLoggedIn = getTokenFromKeychain() != nil
         let labelText = isLoggedIn ? "Log Out from AniList.co" : "Log In with AniList.co"
         loginLogoutLabel.text = labelText
     }
-}
+    
+    func getTokenFromKeychain() -> String? {
+         let query: [String: Any] = [
+             kSecClass as String: kSecClassGenericPassword,
+             kSecAttrService as String: serviceName,
+             kSecAttrAccount as String: accountName,
+             kSecReturnData as String: kCFBooleanTrue!,
+             kSecMatchLimit as String: kSecMatchLimitOne
+         ]
+         
+         var item: CFTypeRef?
+         let status = SecItemCopyMatching(query as CFDictionary, &item)
+         
+         guard status == errSecSuccess, let tokenData = item as? Data else {
+             return nil
+         }
+         
+         return String(data: tokenData, encoding: .utf8)
+     }
+
+     func removeTokenFromKeychain() {
+         let deleteQuery: [String: Any] = [
+             kSecClass as String: kSecClassGenericPassword,
+             kSecAttrService as String: serviceName,
+             kSecAttrAccount as String: accountName
+         ]
+         SecItemDelete(deleteQuery as CFDictionary)
+     }
+ }

@@ -252,6 +252,8 @@ class SettingsViewController: UITableViewController {
         if let domain = Bundle.main.bundleIdentifier {
             UserDefaults.standard.removePersistentDomain(forName: domain)
             UserDefaults.standard.synchronize()
+            
+            NotificationCenter.default.post(name: .appDataReset, object: nil)
         }
     }
 }

@@ -6,12 +6,35 @@
 //
 
 import UIKit
+import Security
 
 class AniListMutation {
     let apiURL = URL(string: "https://graphql.anilist.co")!
     
+    func getTokenFromKeychain() -> String? {
+        let serviceName = "me.ryu.AniListToken"
+        let accountName = "AniListAccessToken"
+        
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: serviceName,
+            kSecAttrAccount as String: accountName,
+            kSecReturnData as String: kCFBooleanTrue!,
+            kSecMatchLimit as String: kSecMatchLimitOne
+        ]
+        
+        var item: CFTypeRef?
+        let status = SecItemCopyMatching(query as CFDictionary, &item)
+        
+        guard status == errSecSuccess, let tokenData = item as? Data else {
+            return nil
+        }
+        
+        return String(data: tokenData, encoding: .utf8)
+    }
+    
     func updateAnimeProgress(animeId: Int, episodeNumber: Int, completion: @escaping (Result<Void, Error>) -> Void) {
-        guard let userToken = UserDefaults.standard.string(forKey: "accessToken") else {
+        guard let userToken = getTokenFromKeychain() else {
             completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Access token not found"])))
             return
         }

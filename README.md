@@ -35,6 +35,7 @@ A simple way to enjoy and watch anime on iOS devices
 - [x] Google Cast support
 - [x] Backup system (import, export)
 - [x] Offline mode (with ongoing improvements)
+- [x] Apple KeyChain support for the AniList Token
 - [ ] Notifications for new episodes (coming soon)
 - [ ] macOS support
 
@@ -43,7 +44,7 @@ A simple way to enjoy and watch anime on iOS devices
 | Sources     | Language   | Search | AnimeInfo | Streaming | Download |
 | ----------- | ---------- | ------ | --------- | --------- | -------- |
 | AnimeWorld  | Italian    | ✅     | ✅        | ✅        | ✅       |
-| GoGoAnime   | English    | ✅     | ✅        | ✅        | ⚠️        |
+| GoGoAnime   | English    | ✅     | ✅        | ✅        | ⚠️       |
 | AnimeHeaven | English    | ✅     | ✅        | ✅        | ✅       |
 | AnimeFire   | Portuguese | ✅     | ✅        | ✅        | ✅       |
 | Kuramanime  | Indonesian | ✅     | ✅        | ✅        | ✅       |
@@ -101,8 +102,8 @@ Ryu contains code from the following open-source projects:
 - [SwiftSoup](https://github.com/scinfu/SwiftSoup) - MIT License
 - [KingFisher](https://github.com/onevcat/Kingfisher) - MIT License
 - [Alamofire](https://github.com/Alamofire/Alamofire) - MIT License
-- [GoogleCastSDK-ios-no-bluetooth](https://github.com/onevcat/Kingfisher) - Google Developer Terms
 - [AniWatch-api](https://github.com/ghoshritesh12/aniwatch-api) - MIT License
+- [GoogleCastSDK-ios-no-bluetooth](https://github.com/onevcat/Kingfisher) - Google Developer Terms
 
 ## Contributing
 

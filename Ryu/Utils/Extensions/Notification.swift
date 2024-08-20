@@ -9,4 +9,5 @@ import Foundation
 
 extension Notification.Name {
     static let downloadListUpdated = Notification.Name("DownloadListUpdated")
+    static let appDataReset = Notification.Name("appDataResetNotification")
 }

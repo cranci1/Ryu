@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Security
 
 class AniListToken {
     static let clientID = "19551"
@@ -13,6 +14,29 @@ class AniListToken {
     static let redirectURI = "ryu://anilist"
     
     static let tokenEndpoint = "https://anilist.co/api/v2/oauth/token"
+    static let serviceName = "me.ryu.AniListToken"
+    static let accountName = "AniListAccessToken"
+    
+    static func saveTokenToKeychain(token: String) -> Bool {
+        let tokenData = token.data(using: .utf8)!
+        
+        let deleteQuery: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: serviceName,
+            kSecAttrAccount as String: accountName
+        ]
+        SecItemDelete(deleteQuery as CFDictionary)
+        
+        let addQuery: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: serviceName,
+            kSecAttrAccount as String: accountName,
+            kSecValueData as String: tokenData
+        ]
+        
+        let status = SecItemAdd(addQuery as CFDictionary, nil)
+        return status == errSecSuccess
+    }
     
     static func exchangeAuthorizationCodeForToken(code: String, completion: @escaping (Bool) -> Void) {
         print("Exchanging authorization code for access token...")
@@ -46,9 +70,8 @@ class AniListToken {
             do {
                 if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any] {
                     if let accessToken = json["access_token"] as? String {
-                        print("Access Token: \(accessToken)")
-                        UserDefaults.standard.set(accessToken, forKey: "accessToken")
-                        completion(true)
+                        let success = saveTokenToKeychain(token: accessToken)
+                        completion(success)
                     } else {
                         print("Unexpected response: \(json)")
                         completion(false)

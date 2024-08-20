@@ -76,6 +76,12 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
         continueWatchingCollectionView.addGestureRecognizer(longPressGesture)
         
         SourceMenu.delegate = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleAppDataReset), name: .appDataReset, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -371,6 +377,13 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
             let randomText = funnyTexts.randomElement() ?? "No anime here!"
             emptyContinueWatchingLabel.text = randomText
             emptyContinueWatchingLabel.isHidden = false
+        }
+    }
+    
+    @objc func handleAppDataReset() {
+        DispatchQueue.main.async {
+            self.fetchAnimeData()
+            self.refreshUI()
         }
     }
 }
