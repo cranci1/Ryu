@@ -19,7 +19,7 @@ class NormalPlayer: AVPlayerViewController {
     
     private func setupHoldGesture() {
         holdGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleHoldGesture(_:)))
-        holdGesture?.minimumPressDuration = 0.1
+        holdGesture?.minimumPressDuration = 0.7
         if let holdGesture = holdGesture {
             view.addGestureRecognizer(holdGesture)
         }

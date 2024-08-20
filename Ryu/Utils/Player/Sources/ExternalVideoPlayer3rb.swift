@@ -63,6 +63,14 @@ class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
         }
     }
     
+    override var prefersHomeIndicatorAutoHidden: Bool {
+        return true
+    }
+
+    override var childForHomeIndicatorAutoHidden: UIViewController? {
+        return playerViewController
+    }
+    
     private func setupUI() {
         view.backgroundColor = UIColor.secondarySystemBackground
         setupActivityIndicator()

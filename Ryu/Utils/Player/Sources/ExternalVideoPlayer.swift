@@ -52,6 +52,14 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
             return .all
         }
     }
+    
+    override var prefersHomeIndicatorAutoHidden: Bool {
+        return true
+    }
+
+    override var childForHomeIndicatorAutoHidden: UIViewController? {
+        return playerViewController
+    }
 
     private func setupLoadingView() {
         view.backgroundColor = .secondarySystemBackground
