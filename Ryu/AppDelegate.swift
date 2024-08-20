@@ -41,6 +41,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserDefaults.standard.set("1080p", forKey: "preferredQuality")
         }
         
+        if UserDefaults.standard.object(forKey: "hideWebPlayer") == nil {
+            UserDefaults.standard.set(true, forKey: "hideWebPlayer")
+        }
+        
+        if UserDefaults.standard.object(forKey: "subtitleHiPrefe") == nil {
+            UserDefaults.standard.set("English", forKey: "subtitleHiPrefe")
+        }
+        
+        if UserDefaults.standard.object(forKey: "serverHiPrefe") == nil {
+            UserDefaults.standard.set("hd-1", forKey: "serverHiPrefe")
+        }
+        
+        if UserDefaults.standard.object(forKey: "audioHiPrefe") == nil {
+            UserDefaults.standard.set("dub", forKey: "audioHiPrefe")
+        }
+        
         UserDefaults.standard.register(defaults: ["fullTitleCast": true])
         UserDefaults.standard.register(defaults: ["animeImageCast": true])
     }

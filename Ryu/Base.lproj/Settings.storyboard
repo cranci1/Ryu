@@ -1193,14 +1193,14 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Al-V9-xiO">
-                                                    <rect key="frame" x="304" y="6.5" width="65" height="31"/>
+                                                    <rect key="frame" x="299" y="6.5" width="65" height="31"/>
                                                     <color key="tintColor" name="AccentColor"/>
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain" title="1080p"/>
                                                 </button>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="5Al-V9-xiO" firstAttribute="trailing" secondItem="pJN-57-FBE" secondAttribute="trailing" constant="-5" id="2Ox-ue-ZTY"/>
+                                                <constraint firstItem="5Al-V9-xiO" firstAttribute="trailing" secondItem="pJN-57-FBE" secondAttribute="trailing" constant="-10" id="2Ox-ue-ZTY"/>
                                                 <constraint firstItem="U3m-hq-BaW" firstAttribute="centerY" secondItem="pJN-57-FBE" secondAttribute="centerY" id="2SU-RO-0TZ"/>
                                                 <constraint firstItem="U3m-hq-BaW" firstAttribute="leading" secondItem="pJN-57-FBE" secondAttribute="leading" constant="15" id="CPE-C3-14A"/>
                                                 <constraint firstItem="5Al-V9-xiO" firstAttribute="centerY" secondItem="pJN-57-FBE" secondAttribute="centerY" id="J3X-Ub-oDf"/>
@@ -1226,7 +1226,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bTS-4X-xtJ">
-                                                    <rect key="frame" x="329.5" y="6.5" width="39.5" height="31"/>
+                                                    <rect key="frame" x="324.5" y="6.5" width="39.5" height="31"/>
                                                     <color key="tintColor" name="AccentColor"/>
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain" title="10"/>
@@ -1234,7 +1234,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="1JG-my-ZeB" firstAttribute="leading" secondItem="zN2-dF-dq6" secondAttribute="leading" constant="15" id="7OZ-AI-tpk"/>
-                                                <constraint firstItem="bTS-4X-xtJ" firstAttribute="trailing" secondItem="zN2-dF-dq6" secondAttribute="trailing" constant="-5" id="AuE-ig-DEK"/>
+                                                <constraint firstItem="bTS-4X-xtJ" firstAttribute="trailing" secondItem="zN2-dF-dq6" secondAttribute="trailing" constant="-10" id="AuE-ig-DEK"/>
                                                 <constraint firstItem="1JG-my-ZeB" firstAttribute="centerY" secondItem="zN2-dF-dq6" secondAttribute="centerY" id="fbT-p5-xTX"/>
                                                 <constraint firstItem="bTS-4X-xtJ" firstAttribute="centerY" secondItem="zN2-dF-dq6" secondAttribute="centerY" id="o6b-PO-W7x"/>
                                             </constraints>
@@ -1258,17 +1258,17 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ew1-sf-bu3">
-                                                    <rect key="frame" x="293.5" y="6.5" width="75.5" height="31"/>
+                                                    <rect key="frame" x="313.5" y="6.5" width="50.5" height="31"/>
                                                     <color key="tintColor" name="AccentColor"/>
                                                     <state key="normal" title="Button"/>
-                                                    <buttonConfiguration key="configuration" style="plain" title="Dubbed"/>
+                                                    <buttonConfiguration key="configuration" style="plain" title="Dub"/>
                                                 </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="WFU-jx-37n" firstAttribute="leading" secondItem="Kyx-5H-JU5" secondAttribute="leading" constant="15" id="Fol-ef-u5u"/>
                                                 <constraint firstItem="WFU-jx-37n" firstAttribute="centerY" secondItem="Kyx-5H-JU5" secondAttribute="centerY" id="aNF-mh-ahI"/>
                                                 <constraint firstItem="ew1-sf-bu3" firstAttribute="centerY" secondItem="Kyx-5H-JU5" secondAttribute="centerY" id="bLf-3F-9VR"/>
-                                                <constraint firstItem="ew1-sf-bu3" firstAttribute="trailing" secondItem="Kyx-5H-JU5" secondAttribute="trailing" constant="-5" id="zcI-0r-TAH"/>
+                                                <constraint firstItem="ew1-sf-bu3" firstAttribute="trailing" secondItem="Kyx-5H-JU5" secondAttribute="trailing" constant="-10" id="zcI-0r-TAH"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -1286,7 +1286,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JUh-bG-hKS">
-                                                    <rect key="frame" x="315.5" y="6.5" width="53.5" height="31"/>
+                                                    <rect key="frame" x="310.5" y="6.5" width="53.5" height="31"/>
                                                     <color key="tintColor" name="AccentColor"/>
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain" title="hd-1"/>
@@ -1296,7 +1296,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                                                 <constraint firstItem="hcu-t4-Mrw" firstAttribute="leading" secondItem="t38-9O-80H" secondAttribute="leading" constant="15" id="VbX-ak-vKz"/>
                                                 <constraint firstItem="hcu-t4-Mrw" firstAttribute="centerY" secondItem="t38-9O-80H" secondAttribute="centerY" id="f7t-1e-8g7"/>
                                                 <constraint firstItem="JUh-bG-hKS" firstAttribute="centerY" secondItem="t38-9O-80H" secondAttribute="centerY" id="fDc-3N-Vj7"/>
-                                                <constraint firstItem="JUh-bG-hKS" firstAttribute="trailing" secondItem="t38-9O-80H" secondAttribute="trailing" constant="-5" id="hs8-rU-LAn"/>
+                                                <constraint firstItem="JUh-bG-hKS" firstAttribute="trailing" secondItem="t38-9O-80H" secondAttribute="trailing" constant="-10" id="hs8-rU-LAn"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -1314,7 +1314,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Znu-md-X7E">
-                                                    <rect key="frame" x="298" y="6.5" width="71" height="31"/>
+                                                    <rect key="frame" x="293" y="6.5" width="71" height="31"/>
                                                     <color key="tintColor" name="AccentColor"/>
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain" title="English"/>
@@ -1322,9 +1322,37 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="BfK-BG-50h" firstAttribute="centerY" secondItem="OyZ-KE-JAP" secondAttribute="centerY" id="Bv3-sL-dB7"/>
-                                                <constraint firstItem="Znu-md-X7E" firstAttribute="trailing" secondItem="OyZ-KE-JAP" secondAttribute="trailing" constant="-5" id="Cnn-7B-QzA"/>
+                                                <constraint firstItem="Znu-md-X7E" firstAttribute="trailing" secondItem="OyZ-KE-JAP" secondAttribute="trailing" constant="-10" id="Cnn-7B-QzA"/>
                                                 <constraint firstItem="BfK-BG-50h" firstAttribute="leading" secondItem="OyZ-KE-JAP" secondAttribute="leading" constant="15" id="eV9-w7-Vun"/>
                                                 <constraint firstItem="Znu-md-X7E" firstAttribute="centerY" secondItem="OyZ-KE-JAP" secondAttribute="centerY" id="veP-XS-86B"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="9Tg-Ks-ZhD">
+                                        <rect key="frame" x="20" y="451.5" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9Tg-Ks-ZhD" id="NhP-7n-phX">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hide Web Player" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lkf-xc-xII">
+                                                    <rect key="frame" x="15" y="13" width="113" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0oL-GO-Paj">
+                                                    <rect key="frame" x="317" y="6.5" width="47" height="31"/>
+                                                    <color key="tintColor" name="AccentColor"/>
+                                                    <state key="normal" title="Button"/>
+                                                    <buttonConfiguration key="configuration" style="plain" title="Yes"/>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="0oL-GO-Paj" firstAttribute="centerY" secondItem="NhP-7n-phX" secondAttribute="centerY" id="2yt-GW-Wwb"/>
+                                                <constraint firstItem="lkf-xc-xII" firstAttribute="leading" secondItem="NhP-7n-phX" secondAttribute="leading" constant="15" id="CkL-0B-XwD"/>
+                                                <constraint firstItem="lkf-xc-xII" firstAttribute="centerY" secondItem="NhP-7n-phX" secondAttribute="centerY" id="J4R-eD-dfj"/>
+                                                <constraint firstItem="0oL-GO-Paj" firstAttribute="trailing" secondItem="NhP-7n-phX" secondAttribute="trailing" constant="-10" id="yCO-Gl-hLH"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -1333,7 +1361,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                             <tableViewSection headerTitle="Informations" footerTitle="Find some informations about each source" id="fYK-Yn-lEn">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="m1a-0k-gXI">
-                                        <rect key="frame" x="20" y="531.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="575" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="m1a-0k-gXI" id="Gc0-9A-Dxt">
                                             <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
@@ -1373,6 +1401,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                     </navigationItem>
                     <connections>
                         <outlet property="audioButton" destination="ew1-sf-bu3" id="uYv-W7-Rgd"/>
+                        <outlet property="hideButton" destination="0oL-GO-Paj" id="Van-Jw-eR1"/>
                         <outlet property="qualityPrefered" destination="5Al-V9-xiO" id="kwd-cH-FFf"/>
                         <outlet property="retryMethod" destination="bTS-4X-xtJ" id="2iX-Ch-zBc"/>
                         <outlet property="serverButton" destination="JUh-bG-hKS" id="Uzf-Q4-FmV"/>

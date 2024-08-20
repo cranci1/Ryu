@@ -19,8 +19,8 @@ class HiAnimeWebPlayer: UIViewController {
         let configuration = WKWebViewConfiguration()
         configuration.allowsInlineMediaPlayback = true
         configuration.mediaTypesRequiringUserActionForPlayback = []
-        let webView = WKWebView(frame: view.bounds, configuration: configuration)
-        webView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        let webView = WKWebView(frame: .zero, configuration: configuration)
+        webView.translatesAutoresizingMaskIntoConstraints = false
         webView.navigationDelegate = self
         return webView
     }()
@@ -63,6 +63,11 @@ class HiAnimeWebPlayer: UIViewController {
         view.addSubview(closeButton)
         
         NSLayoutConstraint.activate([
+            webView.topAnchor.constraint(equalTo: view.topAnchor),
+            webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            webView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             
@@ -72,7 +77,7 @@ class HiAnimeWebPlayer: UIViewController {
         
         let htmlContent = generateHTMLContent(videoURL: streamURL, captionsURL: captionURL)
         webView.loadHTMLString(htmlContent, baseURL: nil)
-        webView.isHidden = true
+        webView.isHidden = UserDefaults.standard.bool(forKey: "hideWebPlayer")
         
         activityIndicator.startAnimating()
     }
