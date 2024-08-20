@@ -621,7 +621,8 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
-        if let topController = UIApplication.shared.windows.first?.rootViewController {
+        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let topController = scene.windows.first?.rootViewController {
             if UIDevice.current.userInterfaceIdiom == .pad {
                 alert.modalPresentationStyle = .popover
                 if let popover = alert.popoverPresentationController {
@@ -757,6 +758,14 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             
             if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                let topController = scene.windows.first?.rootViewController {
+                if UIDevice.current.userInterfaceIdiom == .pad {
+                    alert.modalPresentationStyle = .popover
+                    if let popover = alert.popoverPresentationController {
+                        popover.sourceView = topController.view
+                        popover.sourceRect = CGRect(x: topController.view.bounds.midX, y: topController.view.bounds.midY, width: 0, height: 0)
+                        popover.permittedArrowDirections = []
+                    }
+                }
                 topController.present(alert, animated: true, completion: nil)
             } else {
                 print("Could not find top view controller to present alert")
@@ -778,7 +787,8 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
-        if let topController = UIApplication.shared.windows.first?.rootViewController {
+        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let topController = scene.windows.first?.rootViewController {
             if UIDevice.current.userInterfaceIdiom == .pad {
                 alert.modalPresentationStyle = .popover
                 if let popover = alert.popoverPresentationController {
