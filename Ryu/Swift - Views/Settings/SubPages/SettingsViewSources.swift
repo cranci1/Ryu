@@ -174,11 +174,11 @@ class SettingsViewSources: UITableViewController {
     
     func setupHideMenu() {
         let action1 = UIAction(title: "Yes", handler: { [weak self] _ in
-            UserDefaults.standard.set(false, forKey: "hideWebPlayer")
+            UserDefaults.standard.set(true, forKey: "hideWebPlayer")
             self?.hideButton.setTitle("Yes", for: .normal)
         })
         let action2 = UIAction(title: "No", handler: { [weak self] _ in
-            UserDefaults.standard.set(true, forKey: "hideWebPlayer")
+            UserDefaults.standard.set(false, forKey: "hideWebPlayer")
             self?.hideButton.setTitle("No", for: .normal)
         })
         
@@ -188,7 +188,7 @@ class SettingsViewSources: UITableViewController {
         hideButton.showsMenuAsPrimaryAction = true
         
         if let selectedOption = UserDefaults.standard.value(forKey: "hideWebPlayer") as? Bool {
-            hideButton.setTitle(selectedOption ? "No" : "Yes", for: .normal)
+            hideButton.setTitle(selectedOption ? "Yes" : "No", for: .normal)
         }
     }
     
