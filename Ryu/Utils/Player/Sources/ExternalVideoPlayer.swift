@@ -26,6 +26,9 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
     private weak var animeDetailsViewController: AnimeDetailViewController?
     private var player: AVPlayer?
     private var timeObserverToken: Any?
+    
+    private var originalRate: Float = 1.0
+    private var holdGesture: UILongPressGestureRecognizer?
 
     init(streamURL: String, cell: EpisodeCell, fullURL: String, animeDetailsViewController: AnimeDetailViewController) {
         self.streamURL = streamURL
@@ -43,6 +46,7 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
         super.viewDidLoad()
         setupLoadingView()
         openWebView(fullURL: streamURL)
+        setupHoldGesture()
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
@@ -59,6 +63,36 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
 
     override var childForHomeIndicatorAutoHidden: UIViewController? {
         return playerViewController
+    }
+    
+    private func setupHoldGesture() {
+        holdGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleHoldGesture(_:)))
+        holdGesture?.minimumPressDuration = 0.5
+        if let holdGesture = holdGesture {
+            view.addGestureRecognizer(holdGesture)
+        }
+    }
+    
+    @objc private func handleHoldGesture(_ gesture: UILongPressGestureRecognizer) {
+        switch gesture.state {
+        case .began:
+            beginHoldSpeed()
+        case .ended, .cancelled:
+            endHoldSpeed()
+        default:
+            break
+        }
+    }
+    
+    private func beginHoldSpeed() {
+        guard let player = player else { return }
+        originalRate = player.rate
+        let holdSpeed = UserDefaults.standard.float(forKey: "holdSpeedPlayer")
+        player.rate = holdSpeed
+    }
+    
+    private func endHoldSpeed() {
+        player?.rate = originalRate
     }
 
     private func setupLoadingView() {

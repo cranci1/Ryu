@@ -515,8 +515,8 @@
 			isa = PBXGroup;
 			children = (
 				136525112C6B5B4000210A98 /* ExternalVideoPlayer.swift */,
-				1365250F2C6B5B4000210A98 /* ExternalVideoPlayerJK.swift */,
 				136525102C6B5B4000210A98 /* ExternalVideoPlayerKura.swift */,
+				1365250F2C6B5B4000210A98 /* ExternalVideoPlayerJK.swift */,
 				136525132C6B5B4000210A98 /* ExternalVideoPlayer3rb.swift */,
 			);
 			path = Sources;

@@ -5,7 +5,6 @@
 //  Created by Francesco on 15/08/24.
 //
 
-import UIKit
 import AVKit
 
 class NormalPlayer: AVPlayerViewController {
