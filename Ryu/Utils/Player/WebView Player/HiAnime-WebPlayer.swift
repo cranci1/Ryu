@@ -122,7 +122,7 @@ class HiAnimeWebPlayer: UIViewController {
                 <video controls autoplay>
                     <source src="\(videoURL)" type="application/x-mpegURL">
                     <track kind="captions" src="\(captionsURL)" srclang="en" label="English" default>
-                    Your browser does not support the video tag.
+                    Your browser does not support the video tag. (fr tho)
                 </video>
                 <script>
                     var video = document.querySelector('video');
@@ -137,7 +137,19 @@ class HiAnimeWebPlayer: UIViewController {
     }
 
     @objc private func closeButtonTapped() {
+        stopAndCleanUpWebView()
         self.dismiss(animated: true)
+    }
+
+    private func stopAndCleanUpWebView() {
+        webView.evaluateJavaScript("document.querySelector('video').pause();", completionHandler: nil)
+        webView.stopLoading()
+        webView.navigationDelegate = nil
+        webView.removeFromSuperview()
+    }
+
+    deinit {
+        stopAndCleanUpWebView()
     }
 }
 
@@ -149,6 +161,7 @@ extension HiAnimeWebPlayer: WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         activityIndicator.stopAnimating()
+        stopAndCleanUpWebView()
         self.dismiss(animated: true)
     }
 }
