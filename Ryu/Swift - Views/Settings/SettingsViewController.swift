@@ -256,6 +256,38 @@ class SettingsViewController: UITableViewController {
             NotificationCenter.default.post(name: .appDataReset, object: nil)
         }
     }
+    
+    @IBAction func deleteAllDonloads(_ sender: UIButton) {
+        let alertController = UIAlertController(title: "Confirm Deletion", message: "Are you sure you want to delete all downloads? This action cannot be undone.", preferredStyle: .alert)
+        
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
+            self?.performDeletion()
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alertController.addAction(deleteAction)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
+
+    private func performDeletion() {
+        let fileManager = FileManager.default
+        do {
+            let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            
+            let fileURLs = try fileManager.contentsOfDirectory(at: documentsURL, includingPropertiesForKeys: nil)
+            for fileURL in fileURLs {
+                try fileManager.removeItem(at: fileURL)
+            }
+            
+            showAlert(message: "All Downloads have been deleted successfully.")
+        } catch {
+            showAlert(message: "Failed to delete all downloads: \(error.localizedDescription)")
+        }
+    }
+
 }
 
 extension SettingsViewController: UIDocumentPickerDelegate {
