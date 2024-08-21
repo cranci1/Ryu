@@ -65,6 +65,14 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
         return playerViewController
     }
     
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+
+    override var childForStatusBarHidden: UIViewController? {
+        return playerViewController
+    }
+    
     private func setupHoldGesture() {
         holdGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleHoldGesture(_:)))
         holdGesture?.minimumPressDuration = 0.5

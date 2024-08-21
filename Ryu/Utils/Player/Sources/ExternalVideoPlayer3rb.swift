@@ -75,6 +75,14 @@ class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
         return playerViewController
     }
     
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+
+    override var childForStatusBarHidden: UIViewController? {
+        return playerViewController
+    }
+    
     private func setupUI() {
         view.backgroundColor = UIColor.secondarySystemBackground
         setupActivityIndicator()
