@@ -180,7 +180,7 @@ class SearchResultsViewController: UIViewController {
     private func showSourceSelector() {
         let alertController = UIAlertController(title: "Select Source", message: "Please select a source to search from.", preferredStyle: .actionSheet)
         
-        let sources = ["AnimeWorld", "GoGoAnime", "AnimeHeaven", "AnimeFire", "Kuramanime", "JKanime", "Anime3rb", "HiAnime"]
+        let sources = ["AnimeWorld", "GoGoAnime", "AnimeHeaven", "AnimeFire", "Kuramanime", "JKanime", "Anime3rb", "HiAnime", "ZoroTv"]
         
         for source in sources {
             let action = UIAlertAction(title: source, style: .default) { [weak self] _ in
@@ -306,6 +306,9 @@ class SearchResultsViewController: UIViewController {
         case "HiAnime":
             url = "https://aniwatch.cranci.xyz/anime/search"
             parameters["q"] = query
+        case "ZoroTv":
+            url = "https://zorotv.com.in/"
+            parameters["s"] = query
         default:
             return nil
         }
@@ -364,6 +367,9 @@ class SearchResultsViewController: UIViewController {
         case .hianime:
             guard let jsonString = jsonString else { return [] }
             return parseHiAnime(jsonString)
+        case .zorotv:
+            guard let document = document else { return [] }
+            return parseZoroTv(document)
         }
     }
 

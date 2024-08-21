@@ -16,4 +16,5 @@ enum MediaSource: String {
     case jkanime = "JKanime"
     case anime3rb = "Anime3rb"
     case hianime = "HiAnime"
+    case zorotv = "ZoroTv"
 }

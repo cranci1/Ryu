@@ -636,7 +636,12 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
     }
     
     private func handleSources(url: String, cell: EpisodeCell, fullURL: String) {
-        URLSession.shared.dataTask(with: URL(string: url)!) { [weak self] (data, response, error) in
+        guard let requestURL = URL(string: url) else {
+            print("Invalid URL: \(url)")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: requestURL) { [weak self] (data, response, error) in
             guard let self = self else { return }
             
             if let error = error {
@@ -655,6 +660,16 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             switch selectedMediaSource {
             case "GoGoAnime":
                 srcURL = self.extractIframeSourceURL(from: htmlString)
+            case "ZoroTv":
+                self.extractIframeAndGetM3U8URL(from: htmlString) { [weak self] result in
+                    guard let self = self else { return }
+                    guard let m3u8URL = result else {
+                        print("Error extracting m3u8 URL")
+                        return
+                    }
+                    self.playVideo(sourceURL: m3u8URL, cell: cell, fullURL: fullURL)
+                }
+                return
             case "AnimeFire":
                 srcURL = self.extractDataVideoSrcURL(from: htmlString)
             case "AnimeWorld", "AnimeHeaven":
@@ -671,25 +686,74 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             }
             
             DispatchQueue.main.async {
-                switch selectedMediaSource {
-                case "GoGoAnime":
-                    self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.standard, cell: cell, fullURL: fullURL)
-                case "AnimeFire":
-                    self.fetchVideoDataAndChooseQuality(from: finalSrcURL.absoluteString) { selectedURL in
-                        guard let selectedURL = selectedURL else { return }
-                        self.playVideo(sourceURL: selectedURL, cell: cell, fullURL: fullURL)
+                 switch selectedMediaSource {
+                 case "GoGoAnime":
+                     self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.standard, cell: cell, fullURL: fullURL)
+                 case "AnimeFire":
+                     self.fetchVideoDataAndChooseQuality(from: finalSrcURL.absoluteString) { selectedURL in
+                         guard let selectedURL = selectedURL else { return }
+                         self.playVideo(sourceURL: selectedURL, cell: cell, fullURL: fullURL)
+                     }
+                 case "Anime3rb":
+                     self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.player3rb, cell: cell, fullURL: fullURL)
+                 case "Kuramanime":
+                     self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.playerKura, cell: cell, fullURL: fullURL)
+                 case "JKanime":
+                     self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.playerJK, cell: cell, fullURL: fullURL)
+                 default:
+                     self.playVideo(sourceURL: finalSrcURL, cell: cell, fullURL: fullURL)
+                 }
+             }
+         }.resume()
+     }
+    
+    func extractIframeAndGetM3U8URL(from htmlString: String, completion: @escaping (URL?) -> Void) {
+        do {
+            let doc = try SwiftSoup.parse(htmlString)
+            
+            guard let iframeElement = try doc.select("iframe").first() else {
+                print("No iframe element found in the HTML.")
+                completion(nil)
+                return
+            }
+            
+            guard let sourceURLString = try iframeElement.attr("src").nilIfEmpty else {
+                print("Iframe src attribute not found.")
+                completion(nil)
+                return
+            }
+            
+            var sourceURL = URL(string: sourceURLString)
+            if sourceURL?.scheme != "https" {
+                sourceURL = URL(string: "https:\(sourceURLString)")
+            }
+            
+            guard let sourceURL = sourceURL else {
+                completion(nil)
+                return
+            }
+            
+            let task = URLSession.shared.dataTask(with: sourceURL) { (data, response, error) in
+                if let httpResponse = response as? HTTPURLResponse, (200..<300).contains(httpResponse.statusCode) {
+                    if let m3u8URLString = String(data: data ?? Data(), encoding: .utf8)?
+                        .components(separatedBy: "\"")
+                        .first(where: { $0.contains(".m3u8") }) {
+                        if let m3u8URL = URL(string: m3u8URLString.replacingOccurrences(of: "\\", with: "")) {
+                            completion(m3u8URL)
+                        } else {
+                            completion(nil)
+                        }
+                    } else {
+                        completion(nil)
                     }
-                case "Anime3rb":
-                    self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.player3rb, cell: cell, fullURL: fullURL)
-                case "Kuramanime":
-                    self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.playerKura, cell: cell, fullURL: fullURL)
-                case "JKanime":
-                    self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.playerJK, cell: cell, fullURL: fullURL)
-                default:
-                    self.playVideo(sourceURL: finalSrcURL, cell: cell, fullURL: fullURL)
+                } else {
+                    completion(nil)
                 }
             }
-        }.resume()
+            task.resume()
+        } catch {
+            completion(nil)
+        }
     }
     
     func extractEpisodeId(from url: String) -> String? {

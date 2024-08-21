@@ -34,7 +34,7 @@ class AnimeDetailService {
             baseUrl = "https://animeheaven.me/"
         case .hianime:
             baseUrl = "https://aniwatch.cranci.xyz/anime/info?id="
-        case .animefire, .kuramanime, .jkanime, .anime3rb:
+        case .animefire, .kuramanime, .jkanime, .anime3rb, .zorotv:
             baseUrl = ""
         }
         
@@ -128,6 +128,11 @@ class AnimeDetailService {
                             synopsis = ""
                             airdate = ""
                             stars = ""
+                        case .zorotv:
+                            aliases = try document.select("span.alter").text()
+                            synopsis = try document.select("div.entry-content p").text()
+                            airdate = try document.select("span.split:contains('Released on:') + time").attr("datetime")
+                            stars = try document.select("span.split:contains('Director:') + span").text()
                         }
                         
                         episodes = self.fetchEpisodes(document: document, for: selectedSource, href: href)
@@ -215,6 +220,21 @@ class AnimeDetailService {
             case .hianime:
                 episodeElements = try document.select("")
                 downloadUrlElement = ""
+            case .zorotv:
+                 episodeElements = try document.select("div.eplister ul li a")
+                 downloadUrlElement = ""
+                 
+                 episodes = episodeElements.compactMap { element in
+                     do {
+                         let episodeNumber = try element.select("div.epl-num").text()
+                         let episodeHref = try element.attr("href")
+                         
+                         return Episode(number: episodeNumber, href: episodeHref, downloadUrl: "")
+                     } catch {
+                         print("Error parsing Zoro episode: \(error.localizedDescription)")
+                         return nil
+                     }
+                 }
             }
             
             switch source {
