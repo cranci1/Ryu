@@ -1,6 +1,6 @@
 # Ryu
 
-<div align="center">
+<div align="center"> 
 
 <img src="https://raw.githubusercontent.com/cranci1/Ryu/main/Ryu/Assets.xcassets/AppIcon.appiconset/1024.jpg" width="240px">
 
