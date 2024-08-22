@@ -34,6 +34,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
     private var isReverseSorted = false
     
     var availableQualities: [String] = []
+    var qualityOptions: [(name: String, fileName: String)] = []
     var hasSentUpdate = false
 
     func configure(title: String, imageUrl: String, href: String) {
@@ -733,13 +734,26 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                 return
             }
             
-            let task = URLSession.shared.dataTask(with: sourceURL) { (data, response, error) in
+            let task = URLSession.shared.dataTask(with: sourceURL) { [weak self] (data, response, error) in
+                guard let self = self else { return }
+                
                 if let httpResponse = response as? HTTPURLResponse, (200..<300).contains(httpResponse.statusCode) {
                     if let m3u8URLString = String(data: data ?? Data(), encoding: .utf8)?
                         .components(separatedBy: "\"")
                         .first(where: { $0.contains(".m3u8") }) {
                         if let m3u8URL = URL(string: m3u8URLString.replacingOccurrences(of: "\\", with: "")) {
-                            completion(m3u8URL)
+                            self.loadQualityOptions(from: m3u8URL) { success, error in
+                                if success {
+                                    DispatchQueue.main.async {
+                                        self.showQualitySelection { selectedURL in
+                                            completion(selectedURL)
+                                        }
+                                    }
+                                } else {
+                                    print("Failed to load quality options: \(error?.localizedDescription ?? "Unknown error")")
+                                    completion(nil)
+                                }
+                            }
                         } else {
                             completion(nil)
                         }
@@ -754,6 +768,130 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         } catch {
             completion(nil)
         }
+    }
+    
+    func loadQualityOptions(from url: URL, completion: @escaping (Bool, Error?) -> Void) {
+        let task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            guard let self = self else { return }
+            
+            if let error = error {
+                print("Error downloading m3u8 file: \(error)")
+                DispatchQueue.main.async {
+                    completion(false, error)
+                }
+                return
+            }
+            
+            guard let data = data,
+                  let m3u8Content = String(data: data, encoding: .utf8) else {
+                print("Failed to decode m3u8 file content")
+                let error = NSError(domain: "M3U8ErrorDomain", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to parse m3u8 file"])
+                DispatchQueue.main.async {
+                    completion(false, error)
+                }
+                return
+            }
+            
+            print("m3u8 file content:\n\(m3u8Content)")
+            
+            let lines = m3u8Content.components(separatedBy: .newlines)
+            var currentName: String?
+            var newQualityOptions: [(name: String, fileName: String)] = []
+            
+            for line in lines {
+                if line.hasPrefix("#EXT-X-STREAM-INF") {
+                    if let nameRange = line.range(of: "NAME=\"") {
+                        let nameStartIndex = line.index(nameRange.upperBound, offsetBy: 0)
+                        if let nameEndIndex = line[nameStartIndex...].firstIndex(of: "\"") {
+                            currentName = String(line[nameStartIndex..<nameEndIndex])
+                        }
+                    }
+                } else if line.hasSuffix(".m3u8"), let name = currentName {
+                    let fullURL = URL(string: line, relativeTo: url)?.absoluteString ?? line
+                    newQualityOptions.append((name: name, fileName: fullURL))
+                    currentName = nil
+                }
+            }
+            
+            self.qualityOptions = newQualityOptions
+            print("Parsed quality options: \(self.qualityOptions)")
+            
+            DispatchQueue.main.async {
+                completion(true, nil)
+            }
+        }
+        task.resume()
+    }
+    
+    func showQualitySelection(completion: @escaping (URL?) -> Void) {
+        let preferredQuality = UserDefaults.standard.string(forKey: "preferredQuality")
+        
+        if let preferredQuality = preferredQuality {
+            if let exactMatch = qualityOptions.first(where: { $0.name == preferredQuality }) {
+                handleQualitySelection(option: exactMatch, completion: completion)
+                return
+            }
+            let closestMatch = findClosestQuality(to: preferredQuality)
+            if let closestMatch = closestMatch {
+                handleQualitySelection(option: closestMatch, completion: completion)
+                return
+            }
+        }
+        
+        presentQualityPicker(completion: completion)
+    }
+
+    private func findClosestQuality(to preferredQuality: String) -> (name: String, fileName: String)? {
+        let preferredValue = extractQualityValue(from: preferredQuality)
+        var closestOption: (name: String, fileName: String)?
+        var smallestDifference = Int.max
+        
+        for option in qualityOptions {
+            let optionValue = extractQualityValue(from: option.name)
+            let difference = abs(preferredValue - optionValue)
+            if difference < smallestDifference {
+                smallestDifference = difference
+                closestOption = option
+            }
+        }
+        
+        return closestOption
+    }
+
+    private func extractQualityValue(from qualityString: String) -> Int {
+        return Int(qualityString.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()) ?? 0
+    }
+
+    private func handleQualitySelection(option: (name: String, fileName: String), completion: @escaping (URL?) -> Void) {
+        if let url = URL(string: option.fileName) {
+            completion(url)
+        } else {
+            completion(nil)
+        }
+    }
+
+    private func presentQualityPicker(completion: @escaping (URL?) -> Void) {
+        let alert = UIAlertController(title: "Select Quality", message: nil, preferredStyle: .actionSheet)
+        
+        for option in qualityOptions {
+            alert.addAction(UIAlertAction(title: option.name, style: .default, handler: { _ in
+                self.handleQualitySelection(option: option, completion: completion)
+            }))
+        }
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
+            completion(nil)
+        }))
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            if let popoverController = alert.popoverPresentationController {
+                popoverController.sourceView = self.view
+                popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+                popoverController.permittedArrowDirections = []
+            }
+        }
+        
+        self.present(alert, animated: true, completion: nil)
     }
     
     func extractEpisodeId(from url: String) -> String? {
