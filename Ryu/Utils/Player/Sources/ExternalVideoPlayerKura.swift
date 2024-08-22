@@ -149,11 +149,14 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
                 return
             }
             
-            if let videoURL = self.extractVideoSourceURL(from: htmlString) {
-                print("Video source URL found: \(videoURL.absoluteString)")
-                self.handleVideoURL(url: videoURL)
+            let qualityOptions = self.extractQualityOptions(from: htmlString)
+            
+            if !qualityOptions.isEmpty {
+                DispatchQueue.main.async {
+                    self.selectPreferredQuality(options: qualityOptions)
+                }
             } else {
-                print("No video source found")
+                print("No quality options found")
                 self.retryExtraction()
             }
         }
@@ -182,6 +185,68 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
             let urlString = String(htmlString[urlRange])
             return URL(string: urlString)
         }
+    }
+    
+    private func extractQualityOptions(from htmlString: String) -> [(String, URL)] {
+        do {
+            let doc: Document = try SwiftSoup.parse(htmlString)
+            let qualityButtons = try doc.select("button[data-plyr='quality']")
+            
+            var qualityOptions: [(String, URL)] = []
+            
+            for button in qualityButtons {
+                var quality = try button.attr("value")
+                quality = quality.replacingOccurrences(of: "HD", with: "").replacingOccurrences(of: "SD", with: "").trimmingCharacters(in: .whitespaces)
+                if let sourceElement = try doc.select("source[size='\(quality)']").first(),
+                   let sourceURL = URL(string: try sourceElement.attr("src")) {
+                    qualityOptions.append((quality, sourceURL))
+                }
+            }
+
+            return qualityOptions
+        } catch {
+            print("Error parsing HTML for quality options: \(error)")
+            return []
+        }
+    }
+    
+    private func selectPreferredQuality(options: [(String, URL)]) {
+        let preferredQuality = UserDefaults.standard.string(forKey: "preferredQuality") ?? "1080p"
+        
+        var selectedOption: (String, URL)? = nil
+        var closestOption: (String, URL)? = nil
+        
+        for option in options {
+            let availableQuality = option.0
+            if availableQuality == preferredQuality {
+                selectedOption = option
+                break
+            } else if closestOption == nil || abs(preferredQuality.compare(availableQuality).rawValue) < abs(preferredQuality.compare(closestOption!.0).rawValue) {
+                closestOption = option
+            }
+        }
+        
+        if let selectedOption = selectedOption {
+            self.handleVideoURL(url: selectedOption.1)
+        } else if let closestOption = closestOption {
+            self.handleVideoURL(url: closestOption.1)
+        } else {
+            print("No suitable quality option found")
+            retryExtraction()
+        }
+    }
+    
+    private func presentQualityOptionsMenu(options: [(String, URL)]) {
+        let alertController = UIAlertController(title: "Select Quality", message: nil, preferredStyle: .actionSheet)
+        
+        for (label, url) in options {
+            let action = UIAlertAction(title: label, style: .default) { [weak self] _ in
+                self?.handleVideoURL(url: url)
+            }
+            alertController.addAction(action)
+        }
+        
+        self.present(alertController, animated: true, completion: nil)
     }
     
     private func handleVideoURL(url: URL) {

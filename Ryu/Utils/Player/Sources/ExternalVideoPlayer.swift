@@ -373,8 +373,6 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
             }))
         }
         
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        
         if UIDevice.current.userInterfaceIdiom == .pad {
             if let popoverController = alert.popoverPresentationController {
                 popoverController.sourceView = self.view

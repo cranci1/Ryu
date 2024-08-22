@@ -879,10 +879,6 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             }))
         }
         
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
-            completion(nil)
-        }))
-        
         if UIDevice.current.userInterfaceIdiom == .pad {
             if let popoverController = alert.popoverPresentationController {
                 popoverController.sourceView = self.view
@@ -1245,17 +1241,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                     }
                     
                     DispatchQueue.main.async {
-                        self.showQualityPicker(qualities: self.availableQualities) { selectedQuality in
-                            guard let selectedQuality = selectedQuality,
-                                  let selectedVideoData = videoDataArray.first(where: { $0["label"] as? String == selectedQuality }),
-                                  let selectedURLString = selectedVideoData["src"] as? String,
-                                  let selectedURL = URL(string: selectedURLString) else {
-                                completion(nil)
-                                return
-                            }
-                            
-                            completion(selectedURL)
-                        }
+                        self.choosePreferredQuality(availableQualities: self.availableQualities, videoDataArray: videoDataArray, completion: completion)
                     }
                     
                 } else {
@@ -1271,6 +1257,34 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         task.resume()
     }
     
+    private func choosePreferredQuality(availableQualities: [String], videoDataArray: [[String: Any]], completion: @escaping (URL?) -> Void) {
+        let preferredQuality = UserDefaults.standard.string(forKey: "preferredQuality") ?? "1080p"
+        
+        var selectedQuality: String? = nil
+        var closestQuality: String? = nil
+        
+        for quality in availableQualities {
+            if quality == preferredQuality {
+                selectedQuality = quality
+                break
+            } else if closestQuality == nil || abs(preferredQuality.compare(quality).rawValue) < abs(preferredQuality.compare(closestQuality!).rawValue) {
+                closestQuality = quality
+            }
+        }
+        
+        let finalSelectedQuality = selectedQuality ?? closestQuality
+        
+        if let finalQuality = finalSelectedQuality,
+           let selectedVideoData = videoDataArray.first(where: { $0["label"] as? String == finalQuality }),
+           let selectedURLString = selectedVideoData["src"] as? String,
+           let selectedURL = URL(string: selectedURLString) {
+            completion(selectedURL)
+        } else {
+            print("No suitable quality option found")
+            completion(nil)
+        }
+    }
+    
     private func showQualityPicker(qualities: [String], completion: @escaping (String?) -> Void) {
         let alertController = UIAlertController(title: "Choose Video Quality", message: nil, preferredStyle: .actionSheet)
         
@@ -1280,11 +1294,6 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             }
             alertController.addAction(action)
         }
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
-            completion(nil)
-        }
-        alertController.addAction(cancelAction)
         
         if let popoverController = alertController.popoverPresentationController {
             popoverController.sourceView = view
