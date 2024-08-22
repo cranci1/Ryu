@@ -223,18 +223,6 @@ class AnimeDetailService {
             case .zorotv:
                  episodeElements = try document.select("div.eplister ul li a")
                  downloadUrlElement = ""
-                 
-                 episodes = episodeElements.compactMap { element in
-                     do {
-                         let episodeNumber = try element.select("div.epl-num").text()
-                         let episodeHref = try element.attr("href")
-                         
-                         return Episode(number: episodeNumber, href: episodeHref, downloadUrl: "")
-                     } catch {
-                         print("Error parsing Zoro episode: \(error.localizedDescription)")
-                         return nil
-                     }
-                 }
             }
             
             switch source {
@@ -326,6 +314,18 @@ class AnimeDetailService {
                         return Episode(number: episodeNumber, href: href, downloadUrl: "")
                     } catch {
                         print("Error parsing episode: \(error.localizedDescription)")
+                        return nil
+                    }
+                }
+            case .zorotv:
+                episodes = episodeElements.compactMap { element in
+                    do {
+                        let episodeNumber = try element.select("div.epl-num").text()
+                        let episodeHref = try element.attr("href")
+                        
+                        return Episode(number: episodeNumber, href: episodeHref, downloadUrl: "")
+                    } catch {
+                        print("Error parsing Zoro episode: \(error.localizedDescription)")
                         return nil
                     }
                 }
