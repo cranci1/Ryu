@@ -51,7 +51,7 @@ A simple way to enjoy and watch anime on iOS devices
 | Anime3rb    | Arabic     | ✅     | ✅        | ✅        | ✅       |
 | JKanime     | Spanish    | ✅     | ✅        | ✅        | :x:      |
 | HiAnime     | English    | ✅     | ✅        | ✅        | :x:      |
-| ZoroTv      | English    | ✅     | ✅        | ⚠️        | :x:      |
+| ZoroTv      | English    | ✅     | ✅        | ✅        | :x:      |
 
 > [!Note]
 > AnimeFire is region Blocked. Only Portugal and Brazil IP are allowed!

@@ -156,7 +156,7 @@ class EpisodeCell: UITableViewCell {
     }
     
     private func updateDownloadButtonVisibility() {
-        if selectedMediaSource == "JKanime" || selectedMediaSource == "HiAnime" {
+        if selectedMediaSource == "JKanime" || selectedMediaSource == "HiAnime" || selectedMediaSource == "ZoroTv" {
             downloadButton.isHidden = true
         } else {
             downloadButton.isHidden = false
