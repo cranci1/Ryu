@@ -16,23 +16,23 @@ import SafariServices
 class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GCKRemoteMediaClientListener, AVPlayerViewControllerDelegate {
     var animeTitle: String?
     var imageUrl: String?
-    private var href: String?
+    var href: String?
     
-    private var episodes: [Episode] = []
-    private var synopsis: String = ""
-    private var aliases: String = ""
-    private var airdate: String = ""
-    private var stars: String = ""
+    var episodes: [Episode] = []
+    var synopsis: String = ""
+    var aliases: String = ""
+    var airdate: String = ""
+    var stars: String = ""
     
-    private var player: AVPlayer?
-    private var playerViewController: AVPlayerViewController?
+    var player: AVPlayer?
+    var playerViewController: AVPlayerViewController?
     
     var currentEpisodeIndex: Int = 0
     var timeObserverToken: Any?
     
-    private var isFavorite: Bool = false
-    private var isSynopsisExpanded = false
-    private var isReverseSorted = false
+    var isFavorite: Bool = false
+    var isSynopsisExpanded = false
+    var isReverseSorted = false
     
     var availableQualities: [String] = []
     var qualityOptions: [(name: String, fileName: String)] = []

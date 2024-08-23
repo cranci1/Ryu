@@ -49,6 +49,11 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
         setupUI()
         loadInitialURL()
         setupHoldGesture()
+        setupNotificationObserver()
+    }
+    
+    private func setupNotificationObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd), name: .AVPlayerItemDidPlayToEndTime, object: player?.currentItem)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -435,6 +440,10 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
         }
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     private func cleanup() {
         player?.pause()
         player = nil
@@ -451,6 +460,60 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
         
         webView?.stopLoading()
         webView?.loadHTMLString("", baseURL: nil)
+    }
+    
+    func playNextEpisode() {
+        guard let animeDetailsViewController = self.animeDetailsViewController else {
+            print("Error: animeDetailsViewController is nil")
+            return
+        }
+        
+        if animeDetailsViewController.isReverseSorted {
+            animeDetailsViewController.currentEpisodeIndex -= 1
+            if animeDetailsViewController.currentEpisodeIndex >= 0 {
+                playEpisode(at: animeDetailsViewController.currentEpisodeIndex)
+            } else {
+                animeDetailsViewController.currentEpisodeIndex = 0
+            }
+        } else {
+            animeDetailsViewController.currentEpisodeIndex += 1
+            if animeDetailsViewController.currentEpisodeIndex < animeDetailsViewController.episodes.count {
+                playEpisode(at: animeDetailsViewController.currentEpisodeIndex)
+            } else {
+                animeDetailsViewController.currentEpisodeIndex = animeDetailsViewController.episodes.count - 1
+            }
+        }
+    }
+    
+    private func playEpisode(at index: Int) {
+        guard let animeDetailsViewController = self.animeDetailsViewController,
+              index >= 0 && index < animeDetailsViewController.episodes.count else {
+            return
+        }
+
+        let nextEpisode = animeDetailsViewController.episodes[index]
+        if let cell = animeDetailsViewController.tableView.cellForRow(at: IndexPath(row: index, section: 2)) as? EpisodeCell {
+            animeDetailsViewController.episodeSelected(episode: nextEpisode, cell: cell)
+        }
+    }
+    
+    @objc func playerItemDidReachEnd(notification: Notification) {
+        if UserDefaults.standard.bool(forKey: "AutoPlay") {
+            guard let animeDetailsViewController = self.animeDetailsViewController else { return }
+            let hasNextEpisode = animeDetailsViewController.isReverseSorted ?
+                (animeDetailsViewController.currentEpisodeIndex > 0) :
+                (animeDetailsViewController.currentEpisodeIndex < animeDetailsViewController.episodes.count - 1)
+            
+            if hasNextEpisode {
+                self.dismiss(animated: true) { [weak self] in
+                    self?.playNextEpisode()
+                }
+            } else {
+                self.dismiss(animated: true, completion: nil)
+            }
+        } else {
+            self.dismiss(animated: true, completion: nil)
+        }
     }
 }
 
