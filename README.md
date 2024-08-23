@@ -36,6 +36,7 @@ A simple way to enjoy and watch anime on iOS devices
 - [x] Backup system (import, export)
 - [x] Offline mode (with ongoing improvements)
 - [x] Apple KeyChain support for the AniList Token
+- [x] External Media Player support (VLC, Infuse, OutPlayer)
 - [ ] Notifications for new episodes (coming soon)
 - [ ] macOS support
 

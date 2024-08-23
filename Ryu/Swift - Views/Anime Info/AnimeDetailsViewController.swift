@@ -1352,7 +1352,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         switch player {
         case "Default":
             playVideoWithAVPlayer(sourceURL: sourceURL, cell: cell, fullURL: fullURL)
-        case "Infuse", "VLC", "Outplayer":
+        case "Infuse", "VLC", "OutPlayer":
             openInExternalPlayer(player: player, url: sourceURL)
         default:
             playVideoWithAVPlayer(sourceURL: sourceURL, cell: cell, fullURL: fullURL)
@@ -1366,7 +1366,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             scheme = "infuse://x-callback-url/play?url="
         case "VLC":
             scheme = "vlc://"
-        case "Outplayer":
+        case "OutPlayer":
             scheme = "outplayer://"
         default:
             print("Unsupported player")

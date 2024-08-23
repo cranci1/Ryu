@@ -100,9 +100,9 @@ class SettingsViewController: UITableViewController {
             UserDefaults.standard.set("Infuse", forKey: "mediaPlayerSelected")
             self?.playerButton.setTitle("Infuse", for: .normal)
         })
-        let action4 = UIAction(title: "Outplayer", image: outplayerIcon, handler: { [weak self] _ in
-            UserDefaults.standard.set("Outplayer", forKey: "mediaPlayerSelected")
-            self?.playerButton.setTitle("Outplayer", for: .normal)
+        let action4 = UIAction(title: "OutPlayer", image: outplayerIcon, handler: { [weak self] _ in
+            UserDefaults.standard.set("OutPlayer", forKey: "mediaPlayerSelected")
+            self?.playerButton.setTitle("OutPlayer", for: .normal)
         })
 
         let menu = UIMenu(title: "Select Media Player", children: [action1, action2, action3, action4])
