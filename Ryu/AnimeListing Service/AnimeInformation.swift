@@ -7,6 +7,7 @@
 
 import UIKit
 import Kingfisher
+import SafariServices
 
 class AnimeInformation: UIViewController, UITableViewDataSource {
     var animeID: Int = 0
@@ -63,7 +64,8 @@ class AnimeInformation: UIViewController, UITableViewDataSource {
             showError(message: "Unable to open AniList page.")
             return
         }
-        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        let safariViewController = SFSafariViewController(url: url)
+        present(safariViewController, animated: true, completion: nil)
     }
     
     private func setupScrollView() {

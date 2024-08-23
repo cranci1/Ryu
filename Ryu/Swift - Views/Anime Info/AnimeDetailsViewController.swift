@@ -11,6 +11,7 @@ import WebKit
 import SwiftSoup
 import GoogleCast
 import Kingfisher
+import SafariServices
 
 class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GCKRemoteMediaClientListener, AVPlayerViewControllerDelegate {
     var animeTitle: String?
@@ -245,7 +246,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         fetchIDAction.setValue(UIImage(systemName: "info.circle"), forKey: "image")
         alertController.addAction(fetchIDAction)
         
-        let openOnWebAction = UIAlertAction(title: "Open on Web", style: .default) { [weak self] _ in
+        let openOnWebAction = UIAlertAction(title: "Open in Web", style: .default) { [weak self] _ in
             self?.openAnimeOnWeb()
         }
         openOnWebAction.setValue(UIImage(systemName: "safari"), forKey: "image")
@@ -434,30 +435,19 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         if UserDefaults.standard.bool(forKey: "isToDownload") {
             playEpisode(url: url, cell: cell, fullURL: fullURL)
         } else if UserDefaults.standard.bool(forKey: "browserPlayer") {
-            openWebView(fullURL: url)
+            openInWeb(fullURL: url)
         } else {
             playEpisode(url: url, cell: cell, fullURL: fullURL)
         }
     }
     
-    private func openWebView(fullURL: String) {
-        let webView = WKWebView()
-        webView.navigationDelegate = self
-        view.addSubview(webView)
-        
-        webView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            webView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            webView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            webView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            webView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
-        
-        if let url = URL(string: fullURL) {
-            let request = URLRequest(url: url)
-            webView.load(request)
+    @objc private func openInWeb(fullURL: String) {
+        guard let url = URL(string: fullURL) else {
+            showAlert(title: "Error", message: "Unable to open the webpage")
+            return
         }
+        let safariViewController = SFSafariViewController(url: url)
+        present(safariViewController, animated: true, completion: nil)
     }
     
     @objc func startStreamingButtonTapped(withURL url: String, captionURL: String, playerType: String, cell: EpisodeCell, fullURL: String) {
