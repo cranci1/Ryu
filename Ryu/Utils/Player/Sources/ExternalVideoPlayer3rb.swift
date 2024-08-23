@@ -30,6 +30,7 @@ class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
     
     private var originalRate: Float = 1.0
     private var holdGesture: UILongPressGestureRecognizer?
+    private var qualityOptions: [(label: String, url: URL)] = []
     
     init(streamURL: String, cell: EpisodeCell, fullURL: String, animeDetailsViewController: AnimeDetailViewController) {
         self.streamURL = streamURL
@@ -178,14 +179,88 @@ class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
                 return
             }
             
-            if let videoURL = self.extractVideoSourceURL(from: htmlString) {
-                print("Video source URL found: \(videoURL.absoluteString)")
-                self.handleVideoURL(url: videoURL)
+            if let qualityOptions = self.extractQualityOptions(from: htmlString) {
+                self.qualityOptions = qualityOptions
+                DispatchQueue.main.async {
+                    self.selectQuality()
+                }
             } else {
                 print("No video source found in iframe content")
                 self.retryExtraction()
             }
         }
+    }
+    
+    private func extractQualityOptions(from htmlString: String) -> [(label: String, url: URL)]? {
+        let pattern = #"var\s+videos\s*=\s*\[(.*?)\]"#
+        guard let regex = try? NSRegularExpression(pattern: pattern, options: [.dotMatchesLineSeparators]),
+              let match = regex.firstMatch(in: htmlString, range: NSRange(htmlString.startIndex..., in: htmlString)),
+              let videosArrayRange = Range(match.range(at: 1), in: htmlString) else {
+            return nil
+        }
+        
+        let videosArrayString = String(htmlString[videosArrayRange])
+        let videoObjects = videosArrayString.components(separatedBy: "}, {")
+        
+        var options: [(label: String, url: URL)] = []
+        
+        for videoObject in videoObjects {
+            let labelPattern = #"label:\s*'(\d+p)'"#
+            let srcPattern = #"src:\s*'([^']*)'"#
+            
+            guard let labelRegex = try? NSRegularExpression(pattern: labelPattern, options: []),
+                  let srcRegex = try? NSRegularExpression(pattern: srcPattern, options: []),
+                  let labelMatch = labelRegex.firstMatch(in: videoObject, range: NSRange(videoObject.startIndex..., in: videoObject)),
+                  let srcMatch = srcRegex.firstMatch(in: videoObject, range: NSRange(videoObject.startIndex..., in: videoObject)),
+                  let labelRange = Range(labelMatch.range(at: 1), in: videoObject),
+                  let srcRange = Range(srcMatch.range(at: 1), in: videoObject) else {
+                continue
+            }
+            
+            let label = String(videoObject[labelRange])
+            let srcString = String(videoObject[srcRange])
+            
+            if let url = URL(string: srcString) {
+                options.append((label: label, url: url))
+            }
+        }
+        
+        return options.isEmpty ? nil : options.sorted { $0.label > $1.label }
+    }
+    
+    private func selectQuality() {
+        let preferredQuality = UserDefaults.standard.string(forKey: "preferredQuality") ?? "720p"
+        
+        if let matchingQuality = qualityOptions.first(where: { $0.label == preferredQuality }) {
+            handleVideoURL(url: matchingQuality.url)
+        } else if let nearestQuality = findNearestQuality(preferred: preferredQuality) {
+            handleVideoURL(url: nearestQuality.url)
+        } else {
+            showQualityPicker()
+        }
+    }
+    
+    private func findNearestQuality(preferred: String) -> (label: String, url: URL)? {
+        let preferredValue = Int(preferred.replacingOccurrences(of: "p", with: "")) ?? 0
+        let sortedQualities = qualityOptions.sorted { quality1, quality2 in
+            let diff1 = abs(Int(quality1.label.replacingOccurrences(of: "p", with: ""))! - preferredValue)
+            let diff2 = abs(Int(quality2.label.replacingOccurrences(of: "p", with: ""))! - preferredValue)
+            return diff1 < diff2
+        }
+        return sortedQualities.first
+    }
+    
+    private func showQualityPicker() {
+        let alertController = UIAlertController(title: "Select Prefered Quality", message: nil, preferredStyle: .actionSheet)
+        
+        for option in qualityOptions {
+            let action = UIAlertAction(title: option.label, style: .default) { [weak self] _ in
+                self?.handleVideoURL(url: option.url)
+            }
+            alertController.addAction(action)
+        }
+        
+        present(alertController, animated: true, completion: nil)
     }
     
     private func extractIframeSourceURL(from htmlString: String) -> URL? {
@@ -451,3 +526,4 @@ extension ExternalVideoPlayer3rb: WKNavigationDelegate {
         retryExtraction()
     }
 }
+
