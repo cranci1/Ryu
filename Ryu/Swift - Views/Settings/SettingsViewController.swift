@@ -86,7 +86,7 @@ class SettingsViewController: UITableViewController {
         let defaultIcon = UIImage(systemName: "play.rectangle.fill")
         let infuseIcon = UIImage(systemName: "flame")
         let vlcIcon = UIImage(systemName: "film")
-        let outIcon = UIImage(systemName: "play.circle.fill")
+        let outplayerIcon = UIImage(systemName: "play.circle.fill")
 
         let action1 = UIAction(title: "Default", image: defaultIcon, handler: { [weak self] _ in
             UserDefaults.standard.set("Default", forKey: "mediaPlayerSelected")
@@ -100,7 +100,7 @@ class SettingsViewController: UITableViewController {
             UserDefaults.standard.set("Infuse", forKey: "mediaPlayerSelected")
             self?.playerButton.setTitle("Infuse", for: .normal)
         })
-        let action4 = UIAction(title: "Outplayer", image: outIcon, handler: { [weak self] _ in
+        let action4 = UIAction(title: "Outplayer", image: outplayerIcon, handler: { [weak self] _ in
             UserDefaults.standard.set("Outplayer", forKey: "mediaPlayerSelected")
             self?.playerButton.setTitle("Outplayer", for: .normal)
         })
