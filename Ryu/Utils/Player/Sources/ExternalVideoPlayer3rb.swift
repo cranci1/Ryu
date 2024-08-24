@@ -40,7 +40,7 @@ class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
         
         let userDefaultsRetries = UserDefaults.standard.integer(forKey: "maxRetries")
         self.maxRetries = userDefaultsRetries > 0 ? userDefaultsRetries : 10
-
+        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -76,7 +76,7 @@ class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
     override var prefersHomeIndicatorAutoHidden: Bool {
         return true
     }
-
+    
     override var childForHomeIndicatorAutoHidden: UIViewController? {
         return playerViewController
     }
@@ -84,7 +84,7 @@ class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
     override var prefersStatusBarHidden: Bool {
         return true
     }
-
+    
     override var childForStatusBarHidden: UIViewController? {
         return playerViewController
     }
@@ -201,8 +201,8 @@ class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
         guard let regex = try? NSRegularExpression(pattern: pattern, options: [.dotMatchesLineSeparators]),
               let match = regex.firstMatch(in: htmlString, range: NSRange(htmlString.startIndex..., in: htmlString)),
               let videosArrayRange = Range(match.range(at: 1), in: htmlString) else {
-            return nil
-        }
+                  return nil
+              }
         
         let videosArrayString = String(htmlString[videosArrayRange])
         let videoObjects = videosArrayString.components(separatedBy: "}, {")
@@ -219,8 +219,8 @@ class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
                   let srcMatch = srcRegex.firstMatch(in: videoObject, range: NSRange(videoObject.startIndex..., in: videoObject)),
                   let labelRange = Range(labelMatch.range(at: 1), in: videoObject),
                   let srcRange = Range(srcMatch.range(at: 1), in: videoObject) else {
-                continue
-            }
+                      continue
+                  }
             
             let label = String(videoObject[labelRange])
             let srcString = String(videoObject[srcRange])
@@ -274,8 +274,8 @@ class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
             guard let iframeElement = try doc.select("iframe").first(),
                   let sourceURLString = try iframeElement.attr("src").nilIfEmpty,
                   let sourceURL = URL(string: sourceURLString) else {
-                return nil
-            }
+                      return nil
+                  }
             return sourceURL
         } catch {
             print("Error parsing HTML with SwiftSoup: \(error)")
@@ -289,8 +289,8 @@ class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
             guard let videoElement = try doc.select("video").first(),
                   let sourceURLString = try videoElement.attr("src").nilIfEmpty,
                   let sourceURL = URL(string: sourceURLString) else {
-                return nil
-            }
+                      return nil
+                  }
             return sourceURL
         } catch {
             print("Error parsing HTML with SwiftSoup: \(error)")
@@ -300,8 +300,8 @@ class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
             guard let regex = try? NSRegularExpression(pattern: pattern, options: []),
                   let match = regex.firstMatch(in: htmlString, range: NSRange(htmlString.startIndex..., in: htmlString)),
                   let urlRange = Range(match.range(at: 1), in: htmlString) else {
-                return nil
-            }
+                      return nil
+                  }
             
             let urlString = String(htmlString[urlRange])
             return URL(string: urlString)
@@ -330,7 +330,7 @@ class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
             }
         }
     }
-
+    
     private func handleDownload(url: URL) {
         UserDefaults.standard.set(false, forKey: "isToDownload")
         
@@ -371,7 +371,7 @@ class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
         let lastPlayedTime = UserDefaults.standard.double(forKey: "lastPlayedTime_\(self.fullURL)")
         
         if lastPlayedTime > 0 {
-                player.seek(to: CMTime(seconds: lastPlayedTime, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
+            player.seek(to: CMTime(seconds: lastPlayedTime, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
         }
         
         player.play()
@@ -430,8 +430,8 @@ class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
             guard let self = self,
                   let currentItem = self.player?.currentItem,
                   currentItem.duration.seconds.isFinite else {
-                return
-            }
+                      return
+                  }
             
             let currentTime = time.seconds
             let duration = currentItem.duration.seconds
@@ -543,9 +543,9 @@ class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
     private func playEpisode(at index: Int) {
         guard let animeDetailsViewController = self.animeDetailsViewController,
               index >= 0 && index < animeDetailsViewController.episodes.count else {
-            return
-        }
-
+                  return
+              }
+        
         let nextEpisode = animeDetailsViewController.episodes[index]
         if let cell = animeDetailsViewController.tableView.cellForRow(at: IndexPath(row: index, section: 2)) as? EpisodeCell {
             animeDetailsViewController.episodeSelected(episode: nextEpisode, cell: cell)
@@ -556,8 +556,8 @@ class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
         if UserDefaults.standard.bool(forKey: "AutoPlay") {
             guard let animeDetailsViewController = self.animeDetailsViewController else { return }
             let hasNextEpisode = animeDetailsViewController.isReverseSorted ?
-                (animeDetailsViewController.currentEpisodeIndex > 0) :
-                (animeDetailsViewController.currentEpisodeIndex < animeDetailsViewController.episodes.count - 1)
+            (animeDetailsViewController.currentEpisodeIndex > 0) :
+            (animeDetailsViewController.currentEpisodeIndex < animeDetailsViewController.episodes.count - 1)
             
             if hasNextEpisode {
                 self.dismiss(animated: true) { [weak self] in

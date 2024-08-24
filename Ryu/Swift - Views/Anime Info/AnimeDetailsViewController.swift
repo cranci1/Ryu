@@ -37,7 +37,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
     var availableQualities: [String] = []
     var qualityOptions: [(name: String, fileName: String)] = []
     var hasSentUpdate = false
-
+    
     func configure(title: String, imageUrl: String, href: String) {
         self.animeTitle = title
         self.imageUrl = imageUrl
@@ -66,8 +66,8 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         }
         
         if let firstEpisodeHref = episodes.first?.href {
-             currentEpisodeIndex = episodes.firstIndex(where: { $0.href == firstEpisodeHref }) ?? 0
-         }
+            currentEpisodeIndex = episodes.firstIndex(where: { $0.href == firstEpisodeHref }) ?? 0
+        }
     }
     
     private func setupCastButton() {
@@ -101,8 +101,8 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         guard let title = animeTitle,
               let imageURL = URL(string: imageUrl ?? ""),
               let contentURL = URL(string: href ?? "") else {
-            return nil
-        }
+                  return nil
+              }
         let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
         
         return FavoriteItem(title: title, imageURL: imageURL, contentURL: contentURL, source: selectedMediaSource)
@@ -120,17 +120,17 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         tableView.register(SynopsisCell.self, forCellReuseIdentifier: "SynopsisCell")
         tableView.register(EpisodeCell.self, forCellReuseIdentifier: "EpisodeCell")
     }
-
+    
     private func setupNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleInterruption), name: AVAudioSession.interruptionNotification, object: AVAudioSession.sharedInstance())
     }
-
+    
     @objc private func handleInterruption(notification: Notification) {
         guard let userInfo = notification.userInfo,
               let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
               let type = AVAudioSession.InterruptionType(rawValue: typeValue) else {
-            return
-        }
+                  return
+              }
         
         switch type {
         case .began:
@@ -146,7 +146,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             break
         }
     }
-
+    
     private func updateUI() {
         if let href = href {
             AnimeDetailService.fetchAnimeDetails(from: href) { [weak self] (result) in
@@ -281,7 +281,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         cleanedTitle = cleanedTitle.replacingOccurrences(of: "\"", with: "")
         return cleanedTitle.trimmingCharacters(in: .whitespacesAndNewlines)
     }
-
+    
     private func fetchAndNavigateToAnime(title: String) {
         AnimeService.fetchAnimeID(byTitle: title) { [weak self] result in
             switch result {
@@ -338,12 +338,12 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             }
         }
     }
-
+    
     private func refreshAnimeDetails() {
         let loadingIndicator = UIActivityIndicatorView(style: .medium)
         loadingIndicator.startAnimating()
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: loadingIndicator)
-            
+        
         if let href = href {
             AnimeDetailService.fetchAnimeDetails(from: href) { [weak self] result in
                 DispatchQueue.main.async {
@@ -363,7 +363,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             showAlert(withTitle: "Error", message: "Unable to refresh. No valid URL found.")
         }
     }
-
+    
     private func updateAnimeDetails(with details: AnimeDetail) {
         aliases = details.aliases
         synopsis = details.synopsis
@@ -390,7 +390,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             }
         }
     }
-
+    
     func episodeSelected(episode: Episode, cell: EpisodeCell) {
         let selectedSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
         currentEpisodeIndex = episodes.firstIndex(where: { $0.href == episode.href }) ?? 0
@@ -454,7 +454,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         deleteWebKitFolder()
         presentStreamingView(withURL: url, captionURL: captionURL, playerType: playerType, cell: cell, fullURL: fullURL)
     }
-
+    
     func presentStreamingView(withURL url: String, captionURL: String, playerType: String, cell: EpisodeCell, fullURL: String) {
         DispatchQueue.main.async {
             var streamingVC: UIViewController
@@ -494,7 +494,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             print("Could not find the Library directory.")
         }
     }
-
+    
     func playEpisode(url: String, cell: EpisodeCell, fullURL: String) {
         hasSentUpdate = false
         
@@ -569,7 +569,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             }
         }
     }
-
+    
     private func selectServer(servers: [[String: Any]], preferredServer: String, completion: @escaping (String) -> Void) {
         if let server = servers.first(where: { ($0["serverName"] as? String) == preferredServer }) {
             completion(server["serverName"] as? String ?? "")
@@ -677,26 +677,26 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             }
             
             DispatchQueue.main.async {
-                 switch selectedMediaSource {
-                 case "GoGoAnime":
-                     self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.standard, cell: cell, fullURL: fullURL)
-                 case "AnimeFire":
-                     self.fetchVideoDataAndChooseQuality(from: finalSrcURL.absoluteString) { selectedURL in
-                         guard let selectedURL = selectedURL else { return }
-                         self.playVideo(sourceURL: selectedURL, cell: cell, fullURL: fullURL)
-                     }
-                 case "Anime3rb":
-                     self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.player3rb, cell: cell, fullURL: fullURL)
-                 case "Kuramanime":
-                     self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.playerKura, cell: cell, fullURL: fullURL)
-                 case "JKanime":
-                     self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.playerJK, cell: cell, fullURL: fullURL)
-                 default:
-                     self.playVideo(sourceURL: finalSrcURL, cell: cell, fullURL: fullURL)
-                 }
-             }
-         }.resume()
-     }
+                switch selectedMediaSource {
+                case "GoGoAnime":
+                    self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.standard, cell: cell, fullURL: fullURL)
+                case "AnimeFire":
+                    self.fetchVideoDataAndChooseQuality(from: finalSrcURL.absoluteString) { selectedURL in
+                        guard let selectedURL = selectedURL else { return }
+                        self.playVideo(sourceURL: selectedURL, cell: cell, fullURL: fullURL)
+                    }
+                case "Anime3rb":
+                    self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.player3rb, cell: cell, fullURL: fullURL)
+                case "Kuramanime":
+                    self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.playerKura, cell: cell, fullURL: fullURL)
+                case "JKanime":
+                    self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.playerJK, cell: cell, fullURL: fullURL)
+                default:
+                    self.playVideo(sourceURL: finalSrcURL, cell: cell, fullURL: fullURL)
+                }
+            }
+        }.resume()
+    }
     
     func extractIframeAndGetM3U8URL(from htmlString: String, completion: @escaping (URL?) -> Void) {
         do {
@@ -774,13 +774,13 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             
             guard let data = data,
                   let m3u8Content = String(data: data, encoding: .utf8) else {
-                print("Failed to decode m3u8 file content")
-                let error = NSError(domain: "M3U8ErrorDomain", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to parse m3u8 file"])
-                DispatchQueue.main.async {
-                    completion(false, error)
-                }
-                return
-            }
+                      print("Failed to decode m3u8 file content")
+                      let error = NSError(domain: "M3U8ErrorDomain", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to parse m3u8 file"])
+                      DispatchQueue.main.async {
+                          completion(false, error)
+                      }
+                      return
+                  }
             
             print("m3u8 file content:\n\(m3u8Content)")
             
@@ -830,7 +830,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         
         presentQualityPicker(completion: completion)
     }
-
+    
     private func findClosestQuality(to preferredQuality: String) -> (name: String, fileName: String)? {
         let preferredValue = extractQualityValue(from: preferredQuality)
         var closestOption: (name: String, fileName: String)?
@@ -847,11 +847,11 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         
         return closestOption
     }
-
+    
     private func extractQualityValue(from qualityString: String) -> Int {
         return Int(qualityString.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()) ?? 0
     }
-
+    
     private func handleQualitySelection(option: (name: String, fileName: String), completion: @escaping (URL?) -> Void) {
         if let url = URL(string: option.fileName) {
             completion(url)
@@ -859,7 +859,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             completion(nil)
         }
     }
-
+    
     private func presentQualityPicker(completion: @escaping (URL?) -> Void) {
         let alert = UIAlertController(title: "Select Quality", message: nil, preferredStyle: .actionSheet)
         
@@ -1137,8 +1137,8 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                   let sourceElement = try videoElement.select("source").first(),
                   let sourceURLString = try sourceElement.attr("src").nilIfEmpty,
                   let sourceURL = URL(string: sourceURLString) else {
-                return nil
-            }
+                      return nil
+                  }
             return sourceURL
         } catch {
             print("Error parsing HTML with SwiftSoup: \(error)")
@@ -1159,8 +1159,8 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         guard let regex = try? NSRegularExpression(pattern: pattern, options: []),
               let match = regex.firstMatch(in: htmlString, range: NSRange(htmlString.startIndex..., in: htmlString)),
               let urlRange = Range(match.range(at: 1), in: htmlString) else {
-            return nil
-        }
+                  return nil
+              }
         
         let urlString = String(htmlString[urlRange])
         return URL(string: urlString)
@@ -1172,8 +1172,8 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             guard let iframeElement = try doc.select("iframe").first(),
                   let sourceURLString = try iframeElement.attr("src").nilIfEmpty,
                   let sourceURL = URL(string: sourceURLString) else {
-                return nil
-            }
+                      return nil
+                  }
             print("Iframe src URL: \(sourceURL.absoluteString)")
             return sourceURL
         } catch {
@@ -1188,8 +1188,8 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             guard let element = try doc.select("[data-video-src]").first(),
                   let sourceURLString = try element.attr("data-video-src").nilIfEmpty,
                   let sourceURL = URL(string: sourceURLString) else {
-                return nil
-            }
+                      return nil
+                  }
             print("Data-video-src URL: \(sourceURL.absoluteString)")
             return sourceURL
         } catch {
@@ -1293,7 +1293,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         
         present(alertController, animated: true, completion: nil)
     }
-
+    
     func playVideo(sourceURL: URL, cell: EpisodeCell, fullURL: String) {
         let selectedPlayer = UserDefaults.standard.string(forKey: "mediaPlayerSelected") ?? "Default"
         let isToDownload = UserDefaults.standard.bool(forKey: "isToDownload")
@@ -1337,13 +1337,16 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             print("Download failed with error: \(error.localizedDescription)")
         }
     }
-
+    
     private func playVideoWithSelectedPlayer(player: String, sourceURL: URL, cell: EpisodeCell, fullURL: String) {
         switch player {
-        case "Default":
-            playVideoWithAVPlayer(sourceURL: sourceURL, cell: cell, fullURL: fullURL)
         case "Infuse", "VLC", "OutPlayer":
             openInExternalPlayer(player: player, url: sourceURL)
+        case "Experimental":
+            let videoTitle = animeTitle
+            let viewController = CustomPlayerView(videoTitle: videoTitle ?? "", videoURL: sourceURL)
+            viewController.modalPresentationStyle = .fullScreen
+            self.present(viewController, animated: true, completion: nil)
         default:
             playVideoWithAVPlayer(sourceURL: sourceURL, cell: cell, fullURL: fullURL)
         }
@@ -1429,15 +1432,15 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             print("Failed to set up AVAudioSession: \(error)")
         }
     }
-
+    
     private func addPeriodicTimeObserver(cell: EpisodeCell, fullURL: String) {
         let interval = CMTime(seconds: 1.0, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         timeObserverToken = player?.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
             guard let self = self,
                   let currentItem = self.player?.currentItem,
                   currentItem.duration.seconds.isFinite else {
-                return
-            }
+                      return
+                  }
             
             let currentTime = time.seconds
             let duration = currentItem.duration.seconds
@@ -1483,7 +1486,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             }
         }
     }
-
+    
     func fetchAnimeID(title: String, completion: @escaping (Int) -> Void) {
         AnimeService.fetchAnimeID(byTitle: title) { result in
             switch result {
@@ -1593,7 +1596,7 @@ class ContinueWatchingCell: UICollectionViewCell {
         contentView.addSubview(titleLabel)
         imageView.addSubview(blurEffectView)
         imageView.addSubview(progressView)
-
+        
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 8
@@ -1604,7 +1607,7 @@ class ContinueWatchingCell: UICollectionViewCell {
         titleLabel.textAlignment = .left
         
         progressView.progressTintColor = .systemTeal
-
+        
         imageView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         progressView.translatesAutoresizingMaskIntoConstraints = false
@@ -1657,8 +1660,8 @@ class ContinueWatchingCell: UICollectionViewCell {
                   let imageURL = imageURL,
                   self.currentAnimeTitle == item.animeTitle,
                   self.currentEpisodeNumber == item.episodeNumber else {
-                return
-            }
+                      return
+                  }
             
             if let url = URL(string: imageURL) {
                 self.imageLoadTask = self.imageView.kf.setImage(

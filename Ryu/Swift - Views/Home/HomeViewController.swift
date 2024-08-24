@@ -93,7 +93,7 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
         emptyContinueWatchingLabel.frame = continueWatchingCollectionView.bounds
         continueWatchingCollectionView.backgroundView = emptyContinueWatchingLabel
     }
-
+    
     func loadContinueWatchingItems() {
         continueWatchingItems = ContinueWatchingManager.shared.getItems()
         continueWatchingCollectionView.reloadData()
@@ -111,7 +111,7 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
         let collectionViews = [continueWatchingCollectionView, airingCollectionView, trendingCollectionView, seasonalCollectionView, featuredCollectionView]
         let cellIdentifiers = ["ContinueWatchingCell", "AiringAnimeCell", "SlimmAnimeCell", "SlimmAnimeCell", "SlimmAnimeCell"]
         let cellClasses = [ContinueWatchingCell.self, UICollectionViewCell.self, UICollectionViewCell.self, UICollectionViewCell.self, UICollectionViewCell.self]
-
+        
         for (index, collectionView) in collectionViews.enumerated() {
             collectionView?.delegate = self
             collectionView?.dataSource = self
@@ -209,7 +209,7 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
             completion()
         }
     }
-
+    
     func fetchSeasonalAnime(completion: @escaping () -> Void) {
         aniListServiceSeasonal.fetchSeasonalAnime { [weak self] animeList in
             if let animeList = animeList, !animeList.isEmpty {
@@ -222,7 +222,7 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
             completion()
         }
     }
-
+    
     func fetchAiringAnime(completion: @escaping () -> Void) {
         aniListServiceAiring.fetchAiringAnime { [weak self] animeList in
             if let animeList = animeList, !animeList.isEmpty {
@@ -235,7 +235,7 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
             completion()
         }
     }
-
+    
     private func fetchFeaturedAnime(completion: @escaping () -> Void) {
         let selectedSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
         let (sourceURL, parseStrategy) = getSourceInfo(for: selectedSource)
@@ -484,7 +484,7 @@ extension HomeViewController: UICollectionViewDelegate {
             break
         }
     }
-
+    
     private func resumeWatching(item: ContinueWatchingItem) {
         let detailVC = AnimeDetailViewController()
         detailVC.configure(title: item.animeTitle, imageUrl: item.imageURL, href: item.fullURL)
@@ -541,8 +541,8 @@ extension HomeViewController: UIContextMenuInteractionDelegate {
     func contextMenuInteraction(_ interaction: UIContextMenuInteraction, previewForHighlightingMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
         guard let indexPath = configuration.identifier as? IndexPath,
               let cell = cellForIndexPath(indexPath) else {
-            return nil
-        }
+                  return nil
+              }
         
         let parameters = UIPreviewParameters()
         parameters.backgroundColor = .clear
@@ -594,11 +594,11 @@ extension HomeViewController: UIContextMenuInteractionDelegate {
     }
     
     private func cellForIndexPath(_ indexPath: IndexPath) -> UICollectionViewCell? {
-         let collectionViews = [trendingCollectionView, seasonalCollectionView, airingCollectionView, featuredCollectionView]
-         guard indexPath.section < collectionViews.count else { return nil }
-         return collectionViews[indexPath.section]?.cellForItem(at: IndexPath(item: indexPath.item, section: 0))
-     }
-
+        let collectionViews = [trendingCollectionView, seasonalCollectionView, airingCollectionView, featuredCollectionView]
+        guard indexPath.section < collectionViews.count else { return nil }
+        return collectionViews[indexPath.section]?.cellForItem(at: IndexPath(item: indexPath.item, section: 0))
+    }
+    
     private func searchEpisodes(for indexPath: IndexPath) {
         guard let anime = animeForIndexPath(indexPath) else { return }
         

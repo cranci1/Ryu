@@ -83,6 +83,8 @@
 		13921B412C6B8F71004E8BDC /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13921B402C6B8F71004E8BDC /* URL.swift */; };
 		13921B432C6B8F87004E8BDC /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13921B422C6B8F87004E8BDC /* Notification.swift */; };
 		13921B452C6B8FC1004E8BDC /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13921B442C6B8FC1004E8BDC /* UserDefaults.swift */; };
+		13A888B22C7A305500D6C597 /* CustomPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A888B12C7A305500D6C597 /* CustomPlayer.swift */; };
+		13A888B42C7A322600D6C597 /* CustomPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A888B32C7A322600D6C597 /* CustomPlayerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -160,6 +162,8 @@
 		13921B402C6B8F71004E8BDC /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 		13921B422C6B8F87004E8BDC /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		13921B442C6B8FC1004E8BDC /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		13A888B12C7A305500D6C597 /* CustomPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPlayer.swift; sourceTree = "<group>"; };
+		13A888B32C7A322600D6C597 /* CustomPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlayerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -507,6 +511,8 @@
 				1365250C2C6B5B4000210A98 /* VideoPlayerType.swift */,
 				13765C9B2C6E44A8000070A5 /* NormalPlayer.swift */,
 				1365250D2C6B5B4000210A98 /* LandScapePlayer.swift */,
+				13A888B12C7A305500D6C597 /* CustomPlayer.swift */,
+				13A888B32C7A322600D6C597 /* CustomPlayerView.swift */,
 			);
 			path = Player;
 			sourceTree = "<group>";
@@ -640,6 +646,7 @@
 				136525382C6B5B4100210A98 /* SettingsViewCast.swift in Sources */,
 				13765C9C2C6E44A8000070A5 /* NormalPlayer.swift in Sources */,
 				136525242C6B5B4100210A98 /* Kitsu-Info.swift in Sources */,
+				13A888B22C7A305500D6C597 /* CustomPlayer.swift in Sources */,
 				1365251C2C6B5B4100210A98 /* AniList-Info.swift in Sources */,
 				136525372C6B5B4100210A98 /* SettingsViewSources.swift in Sources */,
 				136525492C6B5B4100210A98 /* DownloadCell.swift in Sources */,
@@ -657,6 +664,7 @@
 				13921B412C6B8F71004E8BDC /* URL.swift in Sources */,
 				1365251E2C6B5B4100210A98 /* AniList-Sesonal.swift in Sources */,
 				1357B5062C6D0965000A2C9B /* SlimmAnimeCell-Swift.swift in Sources */,
+				13A888B42C7A322600D6C597 /* CustomPlayerView.swift in Sources */,
 				1365254A2C6B5B4100210A98 /* FavoriteManager.swift in Sources */,
 				1365253E2C6B5B4100210A98 /* AnimeDetailsViewController.swift in Sources */,
 				1357B5042C6D0965000A2C9B /* FavoriteCell-Swift.swift in Sources */,
