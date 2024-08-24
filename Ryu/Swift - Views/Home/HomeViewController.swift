@@ -70,8 +70,10 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
         setupRefreshControl()
         setupEmptyContinueWatchingLabel()
         setupErrorLabelsAndActivityIndicators()
-        setupContextMenus()
         fetchAnimeData()
+        
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+        continueWatchingCollectionView.addGestureRecognizer(longPressGesture)
         
         SourceMenu.delegate = self
         
@@ -165,15 +167,6 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
     func setupRefreshControl() {
         refreshControl = UIRefreshControl()
         refreshControl?.addTarget(self, action: #selector(refreshData), for: .valueChanged)
-    }
-    
-    private func setupContextMenus() {
-        let collectionViews = [continueWatchingCollectionView, trendingCollectionView, seasonalCollectionView, airingCollectionView, featuredCollectionView]
-        
-        for collectionView in collectionViews {
-            let interaction = UIContextMenuInteraction(delegate: self)
-            collectionView?.addInteraction(interaction)
-        }
     }
     
     @objc func refreshData() {
@@ -346,6 +339,34 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
         }
     }
     
+    @objc func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
+        if gestureRecognizer.state == .began {
+            let point = gestureRecognizer.location(in: continueWatchingCollectionView)
+            if let indexPath = continueWatchingCollectionView.indexPathForItem(at: point) {
+                showRemoveAlert(for: indexPath)
+            }
+        }
+    }
+    
+    func showRemoveAlert(for indexPath: IndexPath) {
+        let item = continueWatchingItems[indexPath.item]
+        
+        let alertTitle = NSLocalizedString("Remove Item", comment: "Title for remove item alert")
+        let alertMessage = String(format: NSLocalizedString("Do you want to remove '%@' from continue watching?", comment: "Message for remove item alert"), item.animeTitle)
+        
+        let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
+        
+        let cancelActionTitle = NSLocalizedString("Cancel", comment: "Cancel action title")
+        let removeActionTitle = NSLocalizedString("Remove", comment: "Remove action title")
+        
+        alert.addAction(UIAlertAction(title: cancelActionTitle, style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: removeActionTitle, style: .destructive, handler: { [weak self] _ in
+            self?.removeContinueWatchingItem(at: indexPath)
+        }))
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
     func removeContinueWatchingItem(at indexPath: IndexPath) {
         let item = continueWatchingItems[indexPath.item]
         ContinueWatchingManager.shared.clearItem(fullURL: item.fullURL)
@@ -497,104 +518,97 @@ extension HomeViewController: UICollectionViewDelegate {
 
 extension HomeViewController: UIContextMenuInteractionDelegate {
     func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
-        guard let collectionView = interaction.view as? UICollectionView,
-              let indexPath = collectionView.indexPathForItem(at: location) else { return nil }
+        guard let cell = interaction.view as? UICollectionViewCell,
+              let indexPath = indexPathForCell(cell) else { return nil }
         
         return UIContextMenuConfiguration(identifier: indexPath as NSCopying, previewProvider: { [weak self] in
-            self?.previewViewController(for: indexPath, in: collectionView)
+            self?.previewViewController(for: indexPath)
         }, actionProvider: { [weak self] _ in
             guard let self = self else { return nil }
             
-            if collectionView == self.continueWatchingCollectionView {
-                return self.continueWatchingContextMenu(for: indexPath)
-            } else {
-                return self.animeContextMenu(for: indexPath, in: collectionView)
+            let openAction = UIAction(title: "Open", image: UIImage(systemName: "eye")) { _ in
+                self.openAnimeDetail(for: indexPath)
             }
+            
+            let searchAction = UIAction(title: "Search Episodes", image: UIImage(systemName: "magnifyingglass")) { _ in
+                self.searchEpisodes(for: indexPath)
+            }
+            
+            return UIMenu(title: "", children: [openAction, searchAction])
         })
     }
     
-    private func continueWatchingContextMenu(for indexPath: IndexPath) -> UIMenu {
-        let item = continueWatchingItems[indexPath.item]
-        
-        let resumeAction = UIAction(title: "Resume", image: UIImage(systemName: "play.fill")) { [weak self] _ in
-            self?.resumeWatching(item: item)
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, previewForHighlightingMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
+        guard let indexPath = configuration.identifier as? IndexPath,
+              let cell = cellForIndexPath(indexPath) else {
+            return nil
         }
         
-        let removeAction = UIAction(title: "Remove", image: UIImage(systemName: "trash"), attributes: .destructive) { [weak self] _ in
-            self?.removeContinueWatchingItem(at: indexPath)
+        let parameters = UIPreviewParameters()
+        parameters.backgroundColor = .clear
+        
+        return UITargetedPreview(view: cell, parameters: parameters)
+    }
+    
+    private func previewViewController(for indexPath: IndexPath) -> UIViewController? {
+        guard let anime = animeForIndexPath(indexPath) else { return nil }
+        
+        let storyboard = UIStoryboard(name: "AnilistAnimeInformation", bundle: nil)
+        guard let animeDetailVC = storyboard.instantiateViewController(withIdentifier: "AnimeInformation") as? AnimeInformation else {
+            return nil
         }
         
-        return UIMenu(title: "", children: [resumeAction, removeAction])
+        animeDetailVC.animeID = anime.id
+        return animeDetailVC
     }
     
-    private func animeContextMenu(for indexPath: IndexPath, in collectionView: UICollectionView) -> UIMenu {
-        let openAction = UIAction(title: "Open", image: UIImage(systemName: "eye")) { [weak self] _ in
-            self?.openAnimeDetail(for: indexPath, in: collectionView)
-        }
-        
-        let searchAction = UIAction(title: "Search Episodes", image: UIImage(systemName: "magnifyingglass")) { [weak self] _ in
-            self?.searchEpisodes(for: indexPath, in: collectionView)
-        }
-        
-        return UIMenu(title: "", children: [openAction, searchAction])
+    private func openAnimeDetail(for indexPath: IndexPath) {
+        guard let anime = animeForIndexPath(indexPath) else { return }
+        navigateToAnimeDetail(for: anime)
     }
     
-    private func previewViewController(for indexPath: IndexPath, in collectionView: UICollectionView) -> UIViewController? {
-        if collectionView == continueWatchingCollectionView {
-            let item = continueWatchingItems[indexPath.item]
-            let detailVC = AnimeDetailViewController()
-            detailVC.configure(title: item.animeTitle, imageUrl: item.imageURL, href: item.fullURL)
-            return detailVC
-        } else {
-            guard let anime = animeForIndexPath(indexPath, in: collectionView) else { return nil }
-            
-            let storyboard = UIStoryboard(name: "AnilistAnimeInformation", bundle: nil)
-            guard let animeDetailVC = storyboard.instantiateViewController(withIdentifier: "AnimeInformation") as? AnimeInformation else {
-                return nil
-            }
-            
-            animeDetailVC.animeID = anime.id
-            return animeDetailVC
-        }
-    }
-    
-    private func openAnimeDetail(for indexPath: IndexPath, in collectionView: UICollectionView) {
-        if collectionView == continueWatchingCollectionView {
-            let item = continueWatchingItems[indexPath.item]
-            resumeWatching(item: item)
-        } else if let anime = animeForIndexPath(indexPath, in: collectionView) {
-            navigateToAnimeDetail(for: anime)
-        } else if collectionView == featuredCollectionView {
-            let anime = featuredAnime[indexPath.item]
-            navigateToAnimeDetail(title: anime.title, imageUrl: anime.imageURL, href: anime.href)
-        }
-    }
-    
-    private func searchEpisodes(for indexPath: IndexPath, in collectionView: UICollectionView) {
-        if let anime = animeForIndexPath(indexPath, in: collectionView) {
-            let query = anime.title.romaji
-            guard !query.isEmpty else {
-                showError(message: "Could not find anime title.")
-                return
-            }
-            searchMedia(query: query)
-        } else if collectionView == featuredCollectionView {
-            let anime = featuredAnime[indexPath.item]
-            searchMedia(query: anime.title)
-        }
-    }
-    
-    private func animeForIndexPath(_ indexPath: IndexPath, in collectionView: UICollectionView) -> Anime? {
-        switch collectionView {
-        case trendingCollectionView:
+    private func animeForIndexPath(_ indexPath: IndexPath) -> Anime? {
+        switch indexPath.section {
+        case 0:
             return trendingAnime[indexPath.item]
-        case seasonalCollectionView:
+        case 1:
             return seasonalAnime[indexPath.item]
-        case airingCollectionView:
+        case 2:
             return airingAnime[indexPath.item]
+        case 3:
+            return nil
         default:
             return nil
         }
+    }
+    
+    private func indexPathForCell(_ cell: UICollectionViewCell) -> IndexPath? {
+        let collectionViews = [trendingCollectionView, seasonalCollectionView, airingCollectionView, featuredCollectionView]
+        
+        for (section, collectionView) in collectionViews.enumerated() {
+            if let indexPath = collectionView?.indexPath(for: cell) {
+                return IndexPath(item: indexPath.item, section: section)
+            }
+        }
+        return nil
+    }
+    
+    private func cellForIndexPath(_ indexPath: IndexPath) -> UICollectionViewCell? {
+         let collectionViews = [trendingCollectionView, seasonalCollectionView, airingCollectionView, featuredCollectionView]
+         guard indexPath.section < collectionViews.count else { return nil }
+         return collectionViews[indexPath.section]?.cellForItem(at: IndexPath(item: indexPath.item, section: 0))
+     }
+
+    private func searchEpisodes(for indexPath: IndexPath) {
+        guard let anime = animeForIndexPath(indexPath) else { return }
+        
+        let query = anime.title.romaji
+        guard !query.isEmpty else {
+            showError(message: "Could not find anime title.")
+            return
+        }
+        
+        searchMedia(query: query)
     }
     
     private func searchMedia(query: String) {
