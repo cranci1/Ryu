@@ -561,8 +561,9 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
     
     @objc private func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
         if gesture.state == .began {
-            player?.rate = 2.0
-            speedIndicatorLabel.text = "2x Speed"
+            let holdSpeed = UserDefaults.standard.float(forKey: "holdSpeedPlayer")
+            player?.rate = holdSpeed
+            speedIndicatorLabel.text = String(format: "%.2fx Speed", holdSpeed)
             speedIndicatorLabel.isHidden = false
             speedIndicatorBackgroundView.isHidden = false
         } else if gesture.state == .ended {
