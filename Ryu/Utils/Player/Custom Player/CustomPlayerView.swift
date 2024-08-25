@@ -14,11 +14,13 @@ class CustomPlayerView: UIViewController {
     
     private var videoTitle: String?
     private var videoURL: URL?
+    private var subURL: URL?
     weak var delegate: CustomPlayerViewDelegate?
     
-    init(videoTitle: String, videoURL: URL) {
+    init(videoTitle: String, videoURL: URL, subURL: URL? = nil) {
         self.videoTitle = videoTitle
         self.videoURL = videoURL
+        self.subURL = subURL
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -45,7 +47,7 @@ class CustomPlayerView: UIViewController {
         ])
         
         if let videoURL = videoURL {
-            playerView.setVideo(url: videoURL, title: videoTitle ?? "")
+            playerView.setVideo(url: videoURL, title: videoTitle ?? "", subURL: subURL)
         }
     }
     

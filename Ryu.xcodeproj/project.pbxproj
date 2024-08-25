@@ -79,6 +79,7 @@
 		136525592C6B5B4100210A98 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136525152C6B5B4100210A98 /* SceneDelegate.swift */; };
 		13765C9C2C6E44A8000070A5 /* NormalPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13765C9B2C6E44A8000070A5 /* NormalPlayer.swift */; };
 		138669D42C6F6266009ABA6F /* HiAnime-WebPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138669D32C6F6266009ABA6F /* HiAnime-WebPlayer.swift */; };
+		13902BAC2C7B689F00596A2C /* SubtitlesLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13902BAB2C7B689F00596A2C /* SubtitlesLoader.swift */; };
 		13921B3F2C6B8ED9004E8BDC /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13921B3E2C6B8ED9004E8BDC /* String.swift */; };
 		13921B412C6B8F71004E8BDC /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13921B402C6B8F71004E8BDC /* URL.swift */; };
 		13921B432C6B8F87004E8BDC /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13921B422C6B8F87004E8BDC /* Notification.swift */; };
@@ -158,6 +159,7 @@
 		136525152C6B5B4100210A98 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		13765C9B2C6E44A8000070A5 /* NormalPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalPlayer.swift; sourceTree = "<group>"; };
 		138669D32C6F6266009ABA6F /* HiAnime-WebPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HiAnime-WebPlayer.swift"; sourceTree = "<group>"; };
+		13902BAB2C7B689F00596A2C /* SubtitlesLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtitlesLoader.swift; sourceTree = "<group>"; };
 		13921B3E2C6B8ED9004E8BDC /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		13921B402C6B8F71004E8BDC /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 		13921B422C6B8F87004E8BDC /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
@@ -506,13 +508,12 @@
 		1365250B2C6B5B4000210A98 /* Player */ = {
 			isa = PBXGroup;
 			children = (
+				13902BA92C7B67E300596A2C /* Custom Player */,
 				138669D22C6F6242009ABA6F /* WebView Player */,
 				1365250E2C6B5B4000210A98 /* Sources */,
 				1365250C2C6B5B4000210A98 /* VideoPlayerType.swift */,
 				13765C9B2C6E44A8000070A5 /* NormalPlayer.swift */,
 				1365250D2C6B5B4000210A98 /* LandScapePlayer.swift */,
-				13A888B12C7A305500D6C597 /* CustomPlayer.swift */,
-				13A888B32C7A322600D6C597 /* CustomPlayerView.swift */,
 			);
 			path = Player;
 			sourceTree = "<group>";
@@ -534,6 +535,24 @@
 				138669D32C6F6266009ABA6F /* HiAnime-WebPlayer.swift */,
 			);
 			path = "WebView Player";
+			sourceTree = "<group>";
+		};
+		13902BA92C7B67E300596A2C /* Custom Player */ = {
+			isa = PBXGroup;
+			children = (
+				13902BAA2C7B689400596A2C /* Subtitles */,
+				13A888B12C7A305500D6C597 /* CustomPlayer.swift */,
+				13A888B32C7A322600D6C597 /* CustomPlayerView.swift */,
+			);
+			path = "Custom Player";
+			sourceTree = "<group>";
+		};
+		13902BAA2C7B689400596A2C /* Subtitles */ = {
+			isa = PBXGroup;
+			children = (
+				13902BAB2C7B689F00596A2C /* SubtitlesLoader.swift */,
+			);
+			path = Subtitles;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -683,6 +702,7 @@
 				13921B452C6B8FC1004E8BDC /* UserDefaults.swift in Sources */,
 				136525422C6B5B4100210A98 /* FavoritesViewController.swift in Sources */,
 				136525532C6B5B4100210A98 /* ExternalVideoPlayerJK.swift in Sources */,
+				13902BAC2C7B689F00596A2C /* SubtitlesLoader.swift in Sources */,
 				1365251F2C6B5B4100210A98 /* Login.swift in Sources */,
 				136525272C6B5B4100210A98 /* Sources.swift in Sources */,
 				136525362C6B5B4100210A98 /* SettingsAnimeListing.swift in Sources */,

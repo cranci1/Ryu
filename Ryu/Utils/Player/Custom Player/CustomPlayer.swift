@@ -24,8 +24,17 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
     private var pipController: AVPictureInPictureController?
     private var isSpeedIndicatorVisible = false
     private var videoTitle: String = ""
+    private var subtitlesURL: URL?
     private var originalBrightness: CGFloat = UIScreen.main.brightness
     private var isFullBrightness = false
+    
+    private var subtitles: [SubtitleCue] = []
+    private var subtitleTimer: Timer?
+    private var subtitleFontSize: CGFloat = 18
+    private var subtitleColor: UIColor = .white
+    private var subtitleBorderWidth: CGFloat = 1
+    private var subtitleBorderColor: UIColor = .black
+    private var areSubtitlesHidden = false
     
     private lazy var playPauseButton: UIImageView = {
         let imageView = UIImageView()
@@ -148,11 +157,26 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         return imageView
     }()
     
+    private lazy var subtitlesLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = subtitleColor
+        label.font = UIFont.systemFont(ofSize: subtitleFontSize, weight: .bold)
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.layer.shadowColor = subtitleBorderColor.cgColor
+        label.layer.shadowOffset = CGSize(width: 0, height: 0)
+        label.layer.shadowOpacity = 1
+        label.layer.shadowRadius = subtitleBorderWidth
+        label.layer.masksToBounds = false
+        return label
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupPlayer()
         setupUI()
         setupGestures()
+        updateSubtitleAppearance()
     }
     
     required init?(coder: NSCoder) {
@@ -190,6 +214,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         addSubview(speedIndicatorBackgroundView)
         addSubview(speedIndicatorLabel)
         addSubview(controlsContainerView)
+        addSubview(subtitlesLabel)
         controlsContainerView.addSubview(playPauseButton)
         controlsContainerView.addSubview(rewindButton)
         controlsContainerView.addSubview(forwardButton)
@@ -215,6 +240,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         settingsButton.translatesAutoresizingMaskIntoConstraints = false
         dismissButton.translatesAutoresizingMaskIntoConstraints = false
         pipButton.translatesAutoresizingMaskIntoConstraints = false
+        subtitlesLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             speedIndicatorLabel.topAnchor.constraint(equalTo: topAnchor, constant: 10),
@@ -275,7 +301,17 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             pipButton.leadingAnchor.constraint(equalTo: dismissButton.trailingAnchor, constant: 10),
             pipButton.widthAnchor.constraint(equalToConstant: 35),
             pipButton.heightAnchor.constraint(equalToConstant: 30),
+            
+            subtitlesLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            subtitlesLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
+    }
+    
+    private func updateSubtitleAppearance() {
+        subtitlesLabel.font = UIFont.systemFont(ofSize: subtitleFontSize, weight: .bold)
+        subtitlesLabel.textColor = subtitleColor
+        subtitlesLabel.layer.shadowColor = subtitleBorderColor.cgColor
+        subtitlesLabel.layer.shadowRadius = subtitleBorderWidth
     }
     
     private func setupGestures() {
@@ -291,10 +327,11 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         playerLayer?.frame = self.bounds
     }
     
-    func setVideo(url: URL, title: String) {
+    func setVideo(url: URL, title: String, subURL: URL? = nil) {
         self.videoTitle = title
         titleLabel.text = title
         self.baseURL = url.deletingLastPathComponent()
+        self.subtitlesURL = subURL
         
         if url.pathExtension == "m3u8" {
             parseM3U8(url: url) { [weak self] in
@@ -311,6 +348,17 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             player?.replaceCurrentItem(with: playerItem)
             qualities.removeAll()
             updateSettingsMenu()
+        }
+        
+        if let subtitlesURL = subtitlesURL {
+            loadSubtitles(from: subtitlesURL)
+            subtitleTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(updateSubtitle), userInfo: nil, repeats: true)
+            subtitlesLabel.isHidden = false
+        } else {
+            subtitles.removeAll()
+            subtitlesLabel.isHidden = true
+            subtitleTimer?.invalidate()
+            subtitleTimer = nil
         }
     }
     
@@ -513,9 +561,8 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
     
     @objc private func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
         if gesture.state == .began {
-            let holdSpeed = UserDefaults.standard.float(forKey: "holdSpeedPlayer")
-            player?.rate = holdSpeed
-            speedIndicatorLabel.text = String(format: "%.2fx Speed", holdSpeed)
+            player?.rate = 2.0
+            speedIndicatorLabel.text = "2x Speed"
             speedIndicatorLabel.isHidden = false
             speedIndicatorBackgroundView.isHidden = false
         } else if gesture.state == .ended {
@@ -558,6 +605,52 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             menuItems.append(qualitySubmenu)
         }
         
+        if !subtitles.isEmpty {
+            let fontSizeOptions: [CGFloat] = [14, 16, 18, 20, 22, 24]
+            let fontSizeItems = fontSizeOptions.map { size in
+                UIAction(title: "\(Int(size))pt", state: subtitleFontSize == size ? .on : .off) { [weak self] _ in
+                    self?.subtitleFontSize = size
+                    self?.updateSubtitleAppearance()
+                    self?.updateSettingsMenu()
+                }
+            }
+            let fontSizeSubmenu = UIMenu(title: "Font Size", children: fontSizeItems)
+            
+            let colorOptions: [(String, UIColor)] = [
+                ("Yellow", .yellow), ("White", .white), ("Green", .green), ("Red", .red), ("Blue", .blue), ("Black", .black)
+            ]
+            let colorItems = colorOptions.map { (name, color) in
+                UIAction(title: name, state: subtitleColor == color ? .on : .off) { [weak self] _ in
+                    self?.subtitleColor = color
+                    self?.updateSubtitleAppearance()
+                    self?.updateSettingsMenu()
+                }
+            }
+            let colorSubmenu = UIMenu(title: "Color", children: colorItems)
+            
+            let borderWidthOptions: [CGFloat] = [0, 1, 2, 3, 4, 5]
+            let borderWidthItems = borderWidthOptions.map { width in
+                UIAction(title: "\(Int(width))pt", state: subtitleBorderWidth == width ? .on : .off) { [weak self] _ in
+                    self?.subtitleBorderWidth = width
+                    self?.updateSubtitleAppearance()
+                    self?.updateSettingsMenu()
+                }
+            }
+            let borderWidthSubmenu = UIMenu(title: "Shadow Intensity", children: borderWidthItems)
+            
+            let hideSubtitlesAction = UIAction(title: "Hide Subtitles", state: areSubtitlesHidden ? .on : .off) { [weak self] _ in
+                self?.toggleSubtitles()
+            }
+            
+            let subtitleSettingsSubmenu = UIMenu(title: "Subtitle Settings", image: UIImage(systemName: "captions.bubble"), children: [
+                hideSubtitlesAction,
+                fontSizeSubmenu,
+                colorSubmenu,
+                borderWidthSubmenu
+            ])
+            menuItems.append(subtitleSettingsSubmenu)
+        }
+        
         let aspectRatioOptions = ["Fit", "Fill"]
         let currentGravity = playerLayer?.videoGravity ?? .resizeAspect
         let aspectRatioItems = aspectRatioOptions.map { option in
@@ -576,6 +669,12 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         
         let mainMenu = UIMenu(title: "Settings", children: menuItems)
         settingsButton.menu = mainMenu
+    }
+    
+    private func toggleSubtitles() {
+        areSubtitlesHidden.toggle()
+        subtitlesLabel.isHidden = areSubtitlesHidden
+        updateSettingsMenu()
     }
     
     private func toggleFullBrightness() {
@@ -619,6 +718,28 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
                 pipController.startPictureInPicture()
             }
         }
+    }
+    
+    private func loadSubtitles(from url: URL) {
+        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            guard let self = self, let data = data else { return }
+            self.subtitles = SubtitlesLoader.parseVTT(data: data)
+        }.resume()
+    }
+    
+    @objc private func updateSubtitle() {
+        guard !areSubtitlesHidden, let player = player, let playerItem = player.currentItem else { return }
+        
+        let currentTime = player.currentTime()
+        
+        for cue in subtitles {
+            if CMTimeCompare(currentTime, cue.startTime) >= 0 && CMTimeCompare(currentTime, cue.endTime) <= 0 {
+                subtitlesLabel.text = cue.text
+                return
+            }
+        }
+        
+        subtitlesLabel.text = nil
     }
 }
 

@@ -551,7 +551,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                         
                         self.selectSubtitles(captionURLs: captionURLs) { selectedCaptionURL in
                             DispatchQueue.main.async {
-                                self.startStreamingButtonTapped(withURL: sourceURL.absoluteString, captionURL: selectedCaptionURL?.absoluteString ?? "", playerType: VideoPlayerType.playerWeb, cell: cell, fullURL: fullURL)
+                                self.openHiAnimeExperimental(url: sourceURL, subURL: selectedCaptionURL!)
                             }
                         }
                     }
@@ -1396,6 +1396,13 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             print("\(player) app is not installed")
             showAlert(title: "\(player) Error", message: "\(player) app is not installed.")
         }
+    }
+    
+    func openHiAnimeExperimental(url: URL, subURL: URL) {
+        let videoTitle = animeTitle
+        let viewController = CustomPlayerView(videoTitle: videoTitle ?? "", videoURL: url, subURL: subURL)
+        viewController.modalPresentationStyle = .fullScreen
+        self.present(viewController, animated: true, completion: nil)
     }
     
     private func playVideoWithAVPlayer(sourceURL: URL, cell: EpisodeCell, fullURL: String) {
