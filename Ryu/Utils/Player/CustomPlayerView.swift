@@ -68,6 +68,14 @@ class CustomPlayerView: UIViewController {
         return true
     }
     
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        if UserDefaults.standard.bool(forKey: "AlwaysLandscape") {
+            return .landscape
+        } else {
+            return .all
+        }
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         playerView.play()
