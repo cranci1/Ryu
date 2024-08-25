@@ -734,17 +734,25 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                         .components(separatedBy: "\"")
                         .first(where: { $0.contains(".m3u8") }) {
                         if let m3u8URL = URL(string: m3u8URLString.replacingOccurrences(of: "\\", with: "")) {
-                            self.loadQualityOptions(from: m3u8URL) { success, error in
-                                if success {
-                                    DispatchQueue.main.async {
-                                        self.showQualitySelection { selectedURL in
-                                            completion(selectedURL)
+                            let selectedPlayer = UserDefaults.standard.string(forKey: "mediaPlayerSelected") ?? "Default"
+                            
+                            if selectedPlayer == "Experimental" {
+                                DispatchQueue.main.async {
+                                    self.openVideo(url: m3u8URL)
+                                }
+                            } else {
+                                self.loadQualityOptions(from: m3u8URL) { success, error in
+                                    if success {
+                                        DispatchQueue.main.async {
+                                            self.showQualitySelection { selectedURL in
+                                                completion(selectedURL)
+                                            }
                                         }
+                                    } else {
+                                        print("Failed to load quality options: \(error?.localizedDescription ?? "Unknown error")")
+                                        self.showAlert(title: "Error", message: "Failed to load quality options")
+                                        completion(nil)
                                     }
-                                } else {
-                                    print("Failed to load quality options: \(error?.localizedDescription ?? "Unknown error")")
-                                    self.showAlert(title: "Error", message: "Failed to load quality options")
-                                    completion(nil)
                                 }
                             }
                         } else {
@@ -761,6 +769,13 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
         } catch {
             completion(nil)
         }
+    }
+    
+    func openVideo(url: URL) {
+        let videoTitle = animeTitle
+        let viewController = CustomPlayerView(videoTitle: videoTitle ?? "", videoURL: url)
+        viewController.modalPresentationStyle = .fullScreen
+        self.present(viewController, animated: true, completion: nil)
     }
     
     func loadQualityOptions(from url: URL, completion: @escaping (Bool, Error?) -> Void) {

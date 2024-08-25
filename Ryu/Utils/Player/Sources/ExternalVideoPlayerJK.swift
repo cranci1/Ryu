@@ -173,17 +173,18 @@ class ExternalVideoPlayerJK: UIViewController, WKNavigationDelegate, GCKRemoteMe
         DispatchQueue.main.async {
             self.activityIndicator?.stopAnimating()
             
-            if let selectedPlayer = UserDefaults.standard.string(forKey: "mediaPlayerSelected") {
-                if selectedPlayer == "VLC" || selectedPlayer == "Infuse" || selectedPlayer == "OutPlayer" {
-                    self.animeDetailsViewController?.openInExternalPlayer(player: selectedPlayer, url: url)
-                    self.dismiss(animated: true, completion: nil)
-                    return
-                }
-            }
+            let selectedPlayer = UserDefaults.standard.string(forKey: "mediaPlayerSelected")
             
-            if GCKCastContext.sharedInstance().sessionManager.hasConnectedCastSession() {
+            if selectedPlayer == "VLC" || selectedPlayer == "Infuse" || selectedPlayer == "OutPlayer" {
+                self.animeDetailsViewController?.openInExternalPlayer(player: selectedPlayer!, url: url)
+            } else if selectedPlayer == "Experimental" {
+                let videoTitle = self.animeDetailsViewController?.animeTitle ?? "Anime"
+                let customPlayerVC = CustomPlayerView(videoTitle: videoTitle, videoURL: url)
+                customPlayerVC.modalPresentationStyle = .fullScreen
+                customPlayerVC.delegate = self
+                self.present(customPlayerVC, animated: true, completion: nil)
+            } else if GCKCastContext.sharedInstance().sessionManager.hasConnectedCastSession() {
                 self.castVideoToGoogleCast(videoURL: url)
-                self.dismiss(animated: true, completion: nil)
             } else {
                 self.playOrCastVideo(url: url)
             }
@@ -402,5 +403,11 @@ class ExternalVideoPlayerJK: UIViewController, WKNavigationDelegate, GCKRemoteMe
                 self.dismiss(animated: true)
             }
         }
+    }
+}
+
+extension ExternalVideoPlayerJK: CustomPlayerViewDelegate {
+    func customPlayerViewDidDismiss() {
+        self.dismiss(animated: true, completion: nil)
     }
 }

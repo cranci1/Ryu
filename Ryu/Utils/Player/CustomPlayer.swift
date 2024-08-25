@@ -122,15 +122,6 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         return button
     }()
     
-    private lazy var nextButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(UIImage(systemName: "forward.end"), for: .normal)
-        button.tintColor = .white
-        button.showsMenuAsPrimaryAction = true
-        button.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
@@ -207,7 +198,6 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         controlsContainerView.addSubview(totalTimeLabel)
         controlsContainerView.addSubview(settingsButton)
         controlsContainerView.addSubview(speedButton)
-        controlsContainerView.addSubview(nextButton)
         controlsContainerView.addSubview(titleLabel)
         controlsContainerView.addSubview(dismissButton)
         controlsContainerView.addSubview(pipButton)
@@ -223,7 +213,6 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         currentTimeLabel.translatesAutoresizingMaskIntoConstraints = false
         totalTimeLabel.translatesAutoresizingMaskIntoConstraints = false
         settingsButton.translatesAutoresizingMaskIntoConstraints = false
-        nextButton.translatesAutoresizingMaskIntoConstraints = false
         dismissButton.translatesAutoresizingMaskIntoConstraints = false
         pipButton.translatesAutoresizingMaskIntoConstraints = false
         
@@ -272,13 +261,10 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             totalTimeLabel.bottomAnchor.constraint(equalTo: controlsContainerView.bottomAnchor, constant: -10),
             
             settingsButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
-            settingsButton.trailingAnchor.constraint(equalTo: nextButton.leadingAnchor, constant: -5),
+            settingsButton.trailingAnchor.constraint(equalTo: totalTimeLabel.trailingAnchor),
             
             speedButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
             speedButton.trailingAnchor.constraint(equalTo: settingsButton.leadingAnchor, constant: -5),
-            
-            nextButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
-            nextButton.trailingAnchor.constraint(equalTo: totalTimeLabel.trailingAnchor),
             
             dismissButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 10),
             dismissButton.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
@@ -527,8 +513,9 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
     
     @objc private func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
         if gesture.state == .began {
-            player?.rate = 2.0
-            speedIndicatorLabel.text = "2x Speed"
+            let holdSpeed = UserDefaults.standard.float(forKey: "holdSpeedPlayer")
+            player?.rate = holdSpeed
+            speedIndicatorLabel.text = String(format: "%.2fx Speed", holdSpeed)
             speedIndicatorLabel.isHidden = false
             speedIndicatorBackgroundView.isHidden = false
         } else if gesture.state == .ended {
@@ -538,9 +525,6 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         }
         
         updateSpeedMenu()
-    }
-    
-    @objc private func nextButtonTapped() {
     }
     
     private func updateSpeedMenu() {

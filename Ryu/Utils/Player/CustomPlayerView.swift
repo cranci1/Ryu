@@ -14,6 +14,7 @@ class CustomPlayerView: UIViewController {
     
     private var videoTitle: String?
     private var videoURL: URL?
+    weak var delegate: CustomPlayerViewDelegate?
     
     init(videoTitle: String, videoURL: URL) {
         self.videoTitle = videoTitle
@@ -71,4 +72,13 @@ class CustomPlayerView: UIViewController {
         super.viewDidAppear(animated)
         playerView.play()
     }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        delegate?.customPlayerViewDidDismiss()
+    }
+}
+
+protocol CustomPlayerViewDelegate: AnyObject {
+    func customPlayerViewDidDismiss()
 }
