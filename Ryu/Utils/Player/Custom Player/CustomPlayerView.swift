@@ -85,6 +85,7 @@ class CustomPlayerView: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        playerView.pause()
         delegate?.customPlayerViewDidDismiss()
     }
 }
