@@ -58,6 +58,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserDefaults.standard.set("dub", forKey: "audioHiPrefe")
         }
         
+        if (UserDefaults.standard.object(forKey: "accessToken") != nil) {
+            UserDefaults.standard.removeObject(forKey: "accessToken")
+        }
+        
         UserDefaults.standard.register(defaults: ["fullTitleCast": true])
         UserDefaults.standard.register(defaults: ["animeImageCast": true])
     }

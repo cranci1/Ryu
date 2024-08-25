@@ -131,8 +131,8 @@ class AnimeDetailService {
                         case .zorotv:
                             aliases = try document.select("span.alter").text()
                             synopsis = try document.select("div.entry-content p").text()
-                            airdate = try document.select("span.split:contains('Released on:') + time").attr("datetime")
-                            stars = try document.select("span.split:contains('Director:') + span").text()
+                            airdate = "N/A"
+                            stars = ""
                         }
                         
                         episodes = self.fetchEpisodes(document: document, for: selectedSource, href: href)
