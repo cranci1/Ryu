@@ -656,6 +656,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                     guard let self = self else { return }
                     guard let m3u8URL = result else {
                         print("Error extracting m3u8 URL")
+                        self.showAlert(title: "Error", message: "Error extracting the m3u8 URL")
                         return
                     }
                     self.playVideo(sourceURL: m3u8URL, cell: cell, fullURL: fullURL)
@@ -673,6 +674,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             
             guard let finalSrcURL = srcURL else {
                 print("Error extracting source URL")
+                self.showAlert(title: "Error", message: "Error extracting source URL")
                 return
             }
             
@@ -741,6 +743,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                                     }
                                 } else {
                                     print("Failed to load quality options: \(error?.localizedDescription ?? "Unknown error")")
+                                    self.showAlert(title: "Error", message: "Failed to load quality options")
                                     completion(nil)
                                 }
                             }
@@ -1363,6 +1366,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             scheme = "outplayer://"
         default:
             print("Unsupported player")
+            showAlert(title: "Error", message: "Unsupported player")
             return
         }
         
@@ -1451,6 +1455,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             
             UserDefaults.standard.set(currentTime, forKey: "lastPlayedTime_\(fullURL)")
             UserDefaults.standard.set(duration, forKey: "totalTime_\(fullURL)")
+            print(fullURL)
             
             let episodeNumber = Int(cell.episodeNumber) ?? 0
             let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"

@@ -26,7 +26,7 @@ class ExternalVideoPlayerJK: UIViewController, WKNavigationDelegate, GCKRemoteMe
     
     private var originalRate: Float = 1.0
     private var holdGesture: UILongPressGestureRecognizer?
-
+    
     init(streamURL: String, cell: EpisodeCell, fullURL: String, animeDetailsViewController: AnimeDetailViewController) {
         self.streamURL = streamURL
         self.cell = cell
@@ -67,7 +67,7 @@ class ExternalVideoPlayerJK: UIViewController, WKNavigationDelegate, GCKRemoteMe
     override var prefersHomeIndicatorAutoHidden: Bool {
         return true
     }
-
+    
     override var childForHomeIndicatorAutoHidden: UIViewController? {
         return playerViewController
     }
@@ -75,7 +75,7 @@ class ExternalVideoPlayerJK: UIViewController, WKNavigationDelegate, GCKRemoteMe
     override var prefersStatusBarHidden: Bool {
         return true
     }
-
+    
     override var childForStatusBarHidden: UIViewController? {
         return playerViewController
     }
@@ -263,8 +263,8 @@ class ExternalVideoPlayerJK: UIViewController, WKNavigationDelegate, GCKRemoteMe
             guard let self = self,
                   let currentItem = self.player?.currentItem,
                   currentItem.duration.seconds.isFinite else {
-                return
-            }
+                      return
+                  }
             
             let currentTime = time.seconds
             let duration = currentItem.duration.seconds
@@ -337,9 +337,9 @@ class ExternalVideoPlayerJK: UIViewController, WKNavigationDelegate, GCKRemoteMe
     private func playEpisode(at index: Int) {
         guard let animeDetailsViewController = self.animeDetailsViewController,
               index >= 0 && index < animeDetailsViewController.episodes.count else {
-            return
-        }
-
+                  return
+              }
+        
         let nextEpisode = animeDetailsViewController.episodes[index]
         if let cell = animeDetailsViewController.tableView.cellForRow(at: IndexPath(row: index, section: 2)) as? EpisodeCell {
             animeDetailsViewController.episodeSelected(episode: nextEpisode, cell: cell)
@@ -350,8 +350,8 @@ class ExternalVideoPlayerJK: UIViewController, WKNavigationDelegate, GCKRemoteMe
         if UserDefaults.standard.bool(forKey: "AutoPlay") {
             guard let animeDetailsViewController = self.animeDetailsViewController else { return }
             let hasNextEpisode = animeDetailsViewController.isReverseSorted ?
-                (animeDetailsViewController.currentEpisodeIndex > 0) :
-                (animeDetailsViewController.currentEpisodeIndex < animeDetailsViewController.episodes.count - 1)
+            (animeDetailsViewController.currentEpisodeIndex > 0) :
+            (animeDetailsViewController.currentEpisodeIndex < animeDetailsViewController.episodes.count - 1)
             
             if hasNextEpisode {
                 self.dismiss(animated: true) { [weak self] in

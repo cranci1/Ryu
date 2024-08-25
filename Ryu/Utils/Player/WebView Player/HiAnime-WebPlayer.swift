@@ -14,7 +14,7 @@ class HiAnimeWebPlayer: UIViewController {
     var cell: EpisodeCell
     var fullURL: String
     weak var animeDetailsViewController: AnimeDetailViewController?
-
+    
     private lazy var webView: WKWebView = {
         let configuration = WKWebViewConfiguration()
         configuration.allowsInlineMediaPlayback = true
@@ -24,13 +24,13 @@ class HiAnimeWebPlayer: UIViewController {
         webView.navigationDelegate = self
         return webView
     }()
-
+    
     private let activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .large)
         indicator.translatesAutoresizingMaskIntoConstraints = false
         return indicator
     }()
-
+    
     private lazy var closeButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Close", for: .normal)
@@ -39,7 +39,7 @@ class HiAnimeWebPlayer: UIViewController {
         button.isHidden = true
         return button
     }()
-
+    
     init(streamURL: String, captionURL: String, cell: EpisodeCell, fullURL: String, animeDetailsViewController: AnimeDetailViewController) {
         self.streamURL = streamURL
         self.captionURL = captionURL
@@ -48,11 +48,11 @@ class HiAnimeWebPlayer: UIViewController {
         self.animeDetailsViewController = animeDetailsViewController
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -135,19 +135,19 @@ class HiAnimeWebPlayer: UIViewController {
         </html>
         """
     }
-
+    
     @objc private func closeButtonTapped() {
         stopAndCleanUpWebView()
         self.dismiss(animated: true)
     }
-
+    
     private func stopAndCleanUpWebView() {
         webView.evaluateJavaScript("document.querySelector('video').pause();", completionHandler: nil)
         webView.stopLoading()
         webView.navigationDelegate = nil
         webView.removeFromSuperview()
     }
-
+    
     deinit {
         stopAndCleanUpWebView()
     }

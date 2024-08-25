@@ -24,6 +24,8 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
     private var pipController: AVPictureInPictureController?
     private var isSpeedIndicatorVisible = false
     private var videoTitle: String = ""
+    private var originalBrightness: CGFloat = UIScreen.main.brightness
+    private var isFullBrightness = false
     
     private lazy var playPauseButton: UIImageView = {
         let imageView = UIImageView()
@@ -86,7 +88,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         return view
     }()
     
-    private lazy var qualityButton: UIButton = {
+    private lazy var settingsButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "gear"), for: .normal)
         button.tintColor = .white
@@ -115,6 +117,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "speedometer"), for: .normal)
         button.tintColor = .white
+        button.showsMenuAsPrimaryAction = true
         button.addTarget(self, action: #selector(speedButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -202,7 +205,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         controlsContainerView.addSubview(playerProgress)
         controlsContainerView.addSubview(currentTimeLabel)
         controlsContainerView.addSubview(totalTimeLabel)
-        controlsContainerView.addSubview(qualityButton)
+        controlsContainerView.addSubview(settingsButton)
         controlsContainerView.addSubview(speedButton)
         controlsContainerView.addSubview(nextButton)
         controlsContainerView.addSubview(titleLabel)
@@ -219,7 +222,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         playerProgress.translatesAutoresizingMaskIntoConstraints = false
         currentTimeLabel.translatesAutoresizingMaskIntoConstraints = false
         totalTimeLabel.translatesAutoresizingMaskIntoConstraints = false
-        qualityButton.translatesAutoresizingMaskIntoConstraints = false
+        settingsButton.translatesAutoresizingMaskIntoConstraints = false
         nextButton.translatesAutoresizingMaskIntoConstraints = false
         dismissButton.translatesAutoresizingMaskIntoConstraints = false
         pipButton.translatesAutoresizingMaskIntoConstraints = false
@@ -260,7 +263,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             playerProgress.leadingAnchor.constraint(equalTo: controlsContainerView.leadingAnchor, constant: 20),
             playerProgress.trailingAnchor.constraint(equalTo: controlsContainerView.trailingAnchor, constant: -20),
             playerProgress.bottomAnchor.constraint(equalTo: currentTimeLabel.topAnchor, constant: -5),
-            playerProgress.heightAnchor.constraint(equalToConstant: 6),
+            playerProgress.heightAnchor.constraint(equalToConstant: 8),
             
             currentTimeLabel.leadingAnchor.constraint(equalTo: playerProgress.leadingAnchor),
             currentTimeLabel.bottomAnchor.constraint(equalTo: controlsContainerView.bottomAnchor, constant: -10),
@@ -268,11 +271,11 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             totalTimeLabel.trailingAnchor.constraint(equalTo: playerProgress.trailingAnchor),
             totalTimeLabel.bottomAnchor.constraint(equalTo: controlsContainerView.bottomAnchor, constant: -10),
             
-            qualityButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
-            qualityButton.trailingAnchor.constraint(equalTo: nextButton.leadingAnchor, constant: -5),
+            settingsButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+            settingsButton.trailingAnchor.constraint(equalTo: nextButton.leadingAnchor, constant: -5),
             
             speedButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
-            speedButton.trailingAnchor.constraint(equalTo: qualityButton.leadingAnchor, constant: -5),
+            speedButton.trailingAnchor.constraint(equalTo: settingsButton.leadingAnchor, constant: -5),
             
             nextButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
             nextButton.trailingAnchor.constraint(equalTo: totalTimeLabel.trailingAnchor),
@@ -315,11 +318,13 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
                     self.setQuality(index: highestQualityIndex)
                 }
                 
-                self.updateQualityMenu()
+                self.updateSettingsMenu()
             }
         } else {
             let playerItem = AVPlayerItem(url: url)
             player?.replaceCurrentItem(with: playerItem)
+            qualities.removeAll()
+            updateSettingsMenu()
         }
     }
     
@@ -345,13 +350,18 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             
             for (index, line) in lines.enumerated() {
                 if line.contains("#EXT-X-STREAM-INF") {
-                    let namePart = line.components(separatedBy: "NAME=\"").last?.components(separatedBy: "\"").first
-                    if let name = namePart, index + 1 < lines.count {
+                    if let resolutionPart = line.components(separatedBy: "RESOLUTION=").last?.components(separatedBy: ",").first,
+                       let height = resolutionPart.components(separatedBy: "x").last,
+                       let qualityNumber = ["1080", "720", "480", "360"].first(where: { height.hasPrefix($0) }),
+                       index + 1 < lines.count {
                         let filename = lines[index + 1].trimmingCharacters(in: .whitespacesAndNewlines)
-                        qualities.append((name, filename))
+                        let qualityWithP = "\(qualityNumber)p"
+                        qualities.append((qualityWithP, filename))
                     }
                 }
             }
+            
+            qualities.sort { $0.0 > $1.0 }
             
             DispatchQueue.main.async {
                 self?.qualities = qualities
@@ -388,7 +398,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             
             self?.updateTimeLabels()
             self?.updatePlayPauseButton()
-            self?.updateQualityMenu()
+            self?.updateSettingsMenu()
         }
     }
     
@@ -397,19 +407,9 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             if playerItem.status == .readyToPlay {
                 isSeekingAllowed = true
                 playerItem.removeObserver(self, forKeyPath: "status")
+                updateSettingsMenu()
             }
         }
-    }
-    
-    private func updateQualityMenu() {
-        guard !qualities.isEmpty else { return }
-        
-        let menuItems = qualities.enumerated().map { (index, quality) in
-            UIAction(title: quality.0, state: index == currentQualityIndex ? .on : .off) { [weak self] _ in
-                self?.setQuality(index: index)
-            }
-        }
-        qualityButton.menu = UIMenu(title: "Select Quality", children: menuItems)
     }
     
     private func updatePlayPauseButton() {
@@ -523,7 +523,6 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
     
     @objc private func speedButtonTapped() {
         updateSpeedMenu()
-        speedButton.showsMenuAsPrimaryAction = true
     }
     
     @objc private func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
@@ -545,7 +544,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
     }
     
     private func updateSpeedMenu() {
-        let speedOptions: [Float] = [0.5, 1.0, 1.5, 2.0]
+        let speedOptions: [Float] = [0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0]
         let currentRate = player?.rate ?? 1.0
         
         let speedMenuItems = speedOptions.map { speed in
@@ -562,10 +561,66 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         speedButton.menu = speedMenu
     }
     
+    private func updateSettingsMenu() {
+        var menuItems: [UIMenuElement] = []
+        
+        if !qualities.isEmpty {
+            let qualityItems = qualities.enumerated().map { (index, quality) in
+                UIAction(title: quality.0, state: index == currentQualityIndex ? .on : .off) { [weak self] _ in
+                    self?.setQuality(index: index)
+                }
+            }
+            let qualitySubmenu = UIMenu(title: "Quality", image: UIImage(systemName: "rectangle.3.offgrid"), children: qualityItems)
+            menuItems.append(qualitySubmenu)
+        }
+        
+        let aspectRatioOptions = ["Fit", "Fill"]
+        let currentGravity = playerLayer?.videoGravity ?? .resizeAspect
+        let aspectRatioItems = aspectRatioOptions.map { option in
+            UIAction(title: option, state: (option == "Fit" && currentGravity == .resizeAspect) || (option == "Fill" && currentGravity == .resizeAspectFill) ? .on : .off) { [weak self] _ in
+                self?.playerLayer?.videoGravity = option == "Fit" ? .resizeAspect : .resizeAspectFill
+                self?.updateSettingsMenu()
+            }
+        }
+        let aspectRatioSubmenu = UIMenu(title: "Aspect Ratio", image: UIImage(systemName: "rectangle.arrowtriangle.2.outward"), children: aspectRatioItems)
+        menuItems.append(aspectRatioSubmenu)
+        
+        let brightnessAction = UIAction(title: "Full Brightness", image: UIImage(systemName: "sun.max"), state: isFullBrightness ? .on : .off) { [weak self] _ in
+            self?.toggleFullBrightness()
+        }
+        menuItems.append(brightnessAction)
+        
+        let mainMenu = UIMenu(title: "Settings", children: menuItems)
+        settingsButton.menu = mainMenu
+    }
+    
+    private func toggleFullBrightness() {
+        isFullBrightness.toggle()
+        if isFullBrightness {
+            originalBrightness = UIScreen.main.brightness
+            UIScreen.main.brightness = 1.0
+        } else {
+            UIScreen.main.brightness = originalBrightness
+        }
+        updateSettingsMenu()
+    }
+    
+    private func updateSpeedIndicator(speed: Float) {
+        speedIndicatorLabel.text = "\(speed)x Speed"
+        speedIndicatorLabel.isHidden = (speed == 1.0)
+        speedIndicatorBackgroundView.isHidden = (speed == 1.0)
+    }
+    
     @objc private func playerItemDidReachEnd(notification: Notification) {
         player?.seek(to: .zero)
         player?.pause()
         updatePlayPauseButton()
+        
+        if isFullBrightness {
+            UIScreen.main.brightness = originalBrightness
+            isFullBrightness = false
+            updateSettingsMenu()
+        }
     }
     
     @objc private func dismissButtonTapped() {
