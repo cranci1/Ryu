@@ -225,7 +225,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         pipButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            speedIndicatorLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 10),
+            speedIndicatorLabel.topAnchor.constraint(equalTo: topAnchor, constant: 10),
             speedIndicatorLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             
             speedIndicatorBackgroundView.centerXAnchor.constraint(equalTo: speedIndicatorLabel.centerXAnchor),
@@ -279,13 +279,13 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             
             dismissButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 10),
             dismissButton.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            dismissButton.widthAnchor.constraint(equalToConstant: 25),
-            dismissButton.heightAnchor.constraint(equalToConstant: 25),
+            dismissButton.widthAnchor.constraint(equalToConstant: 30),
+            dismissButton.heightAnchor.constraint(equalToConstant: 30),
             
             pipButton.centerYAnchor.constraint(equalTo: dismissButton.centerYAnchor),
             pipButton.leadingAnchor.constraint(equalTo: dismissButton.trailingAnchor, constant: 10),
-            pipButton.widthAnchor.constraint(equalToConstant: 30),
-            pipButton.heightAnchor.constraint(equalToConstant: 25),
+            pipButton.widthAnchor.constraint(equalToConstant: 35),
+            pipButton.heightAnchor.constraint(equalToConstant: 30),
         ])
     }
     

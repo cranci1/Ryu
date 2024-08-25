@@ -511,8 +511,8 @@
 				1365250C2C6B5B4000210A98 /* VideoPlayerType.swift */,
 				13765C9B2C6E44A8000070A5 /* NormalPlayer.swift */,
 				1365250D2C6B5B4000210A98 /* LandScapePlayer.swift */,
-				13A888B12C7A305500D6C597 /* CustomPlayer.swift */,
 				13A888B32C7A322600D6C597 /* CustomPlayerView.swift */,
+				13A888B12C7A305500D6C597 /* CustomPlayer.swift */,
 			);
 			path = Player;
 			sourceTree = "<group>";
