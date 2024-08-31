@@ -519,6 +519,9 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
     private func handleHiAnimeSource(url: String, cell: EpisodeCell, fullURL: String) {
         guard let episodeId = extractEpisodeId(from: url) else {
             print("Could not extract episodeId from URL")
+            DispatchQueue.main.async {
+                self.showAlert(title: "Error", message: "Could not extract episodeId from URL")
+            }
             return
         }
         
@@ -527,6 +530,9 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             
             if options.isEmpty {
                 print("No options available for this episode")
+                DispatchQueue.main.async {
+                    self.showAlert(title: "Error", message: "No options available for this episode")
+                }
                 return
             }
             
@@ -536,6 +542,9 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             self.selectAudioCategory(options: options, preferredAudio: preferredAudio) { category in
                 guard let servers = options[category], !servers.isEmpty else {
                     print("No servers available for selected category")
+                    DispatchQueue.main.async {
+                        self.showAlert(title: "Error", message: "No server available")
+                    }
                     return
                 }
                 
@@ -544,14 +553,19 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                     print(finalURL)
                     
                     self.fetchHiAnimeData(from: finalURL) { sourceURL, captionURLs in
-                        guard let sourceURL = sourceURL else {
-                            print("Error extracting source URL")
-                            return
-                        }
-                        
-                        self.selectSubtitles(captionURLs: captionURLs) { selectedCaptionURL in
-                            DispatchQueue.main.async {
-                                self.openHiAnimeExperimental(url: sourceURL, subURL: selectedCaptionURL!)
+                        DispatchQueue.main.async {
+                            guard let sourceURL = sourceURL else {
+                                print("Error extracting source URL")
+                                self.showAlert(title: "Error", message: "Error extracting source URL")
+                                return
+                            }
+                            
+                            self.selectSubtitles(captionURLs: captionURLs) { selectedCaptionURL in
+                                guard let selectedCaptionURL = selectedCaptionURL else {
+                                    print("No caption URL selected")
+                                    return
+                                }
+                                self.openHiAnimeExperimental(url: sourceURL, subURL: selectedCaptionURL)
                             }
                         }
                     }
@@ -628,73 +642,77 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
     
     private func handleSources(url: String, cell: EpisodeCell, fullURL: String) {
         guard let requestURL = URL(string: url) else {
-            print("Invalid URL: \(url)")
+            DispatchQueue.main.async {
+                self.showAlert(title: "Error", message: "Invalid URL: \(url)")
+            }
             return
         }
         
         URLSession.shared.dataTask(with: requestURL) { [weak self] (data, response, error) in
             guard let self = self else { return }
             
-            if let error = error {
-                print("Error fetching video data: \(error.localizedDescription)")
-                return
-            }
-            
-            guard let data = data, let htmlString = String(data: data, encoding: .utf8) else {
-                print("Error parsing video data")
-                return
-            }
-            
-            let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? ""
-            var srcURL: URL?
-            
-            switch selectedMediaSource {
-            case "GoGoAnime":
-                srcURL = self.extractIframeSourceURL(from: htmlString)
-            case "ZoroTv":
-                self.extractIframeAndGetM3U8URL(from: htmlString) { [weak self] result in
-                    guard let self = self else { return }
-                    guard let m3u8URL = result else {
-                        print("Error extracting m3u8 URL")
-                        self.showAlert(title: "Error", message: "Error extracting the m3u8 URL")
-                        return
-                    }
-                    self.playVideo(sourceURL: m3u8URL, cell: cell, fullURL: fullURL)
-                }
-                return
-            case "AnimeFire":
-                srcURL = self.extractDataVideoSrcURL(from: htmlString)
-            case "AnimeWorld", "AnimeHeaven":
-                srcURL = self.extractVideoSourceURL(from: htmlString)
-            case "Anime3rb", "Kuramanime", "JKanime":
-                srcURL = URL(string: fullURL)
-            default:
-                srcURL = self.extractIframeSourceURL(from: htmlString)
-            }
-            
-            guard let finalSrcURL = srcURL else {
-                print("Error extracting source URL")
-                self.showAlert(title: "Error", message: "Error extracting source URL")
-                return
-            }
-            
             DispatchQueue.main.async {
+                if let error = error {
+                    self.showAlert(title: "Error", message: "Error fetching video data: \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let data = data, let htmlString = String(data: data, encoding: .utf8) else {
+                    self.showAlert(title: "Error", message: "Error parsing video data")
+                    return
+                }
+                
+                let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? ""
+                var srcURL: URL?
+                
                 switch selectedMediaSource {
                 case "GoGoAnime":
-                    self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.standard, cell: cell, fullURL: fullURL)
-                case "AnimeFire":
-                    self.fetchVideoDataAndChooseQuality(from: finalSrcURL.absoluteString) { selectedURL in
-                        guard let selectedURL = selectedURL else { return }
-                        self.playVideo(sourceURL: selectedURL, cell: cell, fullURL: fullURL)
+                    srcURL = self.extractIframeSourceURL(from: htmlString)
+                case "ZoroTv":
+                    self.extractIframeAndGetM3U8URL(from: htmlString) { [weak self] result in
+                        guard let self = self else { return }
+                        guard let m3u8URL = result else {
+                            print("Error extracting m3u8 URL")
+                            self.showAlert(title: "Error", message: "Error extracting the m3u8 URL")
+                            return
+                        }
+                        self.playVideo(sourceURL: m3u8URL, cell: cell, fullURL: fullURL)
                     }
-                case "Anime3rb":
-                    self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.player3rb, cell: cell, fullURL: fullURL)
-                case "Kuramanime":
-                    self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.playerKura, cell: cell, fullURL: fullURL)
-                case "JKanime":
-                    self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.playerJK, cell: cell, fullURL: fullURL)
+                    return
+                case "AnimeFire":
+                    srcURL = self.extractDataVideoSrcURL(from: htmlString)
+                case "AnimeWorld", "AnimeHeaven":
+                    srcURL = self.extractVideoSourceURL(from: htmlString)
+                case "Anime3rb", "Kuramanime", "JKanime":
+                    srcURL = URL(string: fullURL)
                 default:
-                    self.playVideo(sourceURL: finalSrcURL, cell: cell, fullURL: fullURL)
+                    srcURL = self.extractIframeSourceURL(from: htmlString)
+                }
+                
+                guard let finalSrcURL = srcURL else {
+                    print("Error extracting source URL")
+                    self.showAlert(title: "Error", message: "Error extracting source URL")
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    switch selectedMediaSource {
+                    case "GoGoAnime":
+                        self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.standard, cell: cell, fullURL: fullURL)
+                    case "AnimeFire":
+                        self.fetchVideoDataAndChooseQuality(from: finalSrcURL.absoluteString) { selectedURL in
+                            guard let selectedURL = selectedURL else { return }
+                            self.playVideo(sourceURL: selectedURL, cell: cell, fullURL: fullURL)
+                        }
+                    case "Anime3rb":
+                        self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.player3rb, cell: cell, fullURL: fullURL)
+                    case "Kuramanime":
+                        self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.playerKura, cell: cell, fullURL: fullURL)
+                    case "JKanime":
+                        self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.playerJK, cell: cell, fullURL: fullURL)
+                    default:
+                        self.playVideo(sourceURL: finalSrcURL, cell: cell, fullURL: fullURL)
+                    }
                 }
             }
         }.resume()
@@ -750,7 +768,9 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                                         }
                                     } else {
                                         print("Failed to load quality options: \(error?.localizedDescription ?? "Unknown error")")
-                                        self.showAlert(title: "Error", message: "Failed to load quality options")
+                                        DispatchQueue.main.async {
+                                            self.showAlert(title: "Error", message: "Failed to load quality options")
+                                        }
                                         completion(nil)
                                     }
                                 }

@@ -236,6 +236,7 @@ class AnimeDetailService {
                         let episodeHref = "\(href)-episode-\(episodeNumber)"
                         let downloadUrl = try? document.select(downloadUrlElement).attr("href")
                         
+                        print(episodeHref)
                         return Episode(number: formattedEpisode, href: episodeHref, downloadUrl: downloadUrl ?? "")
                     }
                 }
