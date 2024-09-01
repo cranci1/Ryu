@@ -75,10 +75,17 @@ class SettingsViewController: UITableViewController {
     }
     
     @IBAction func selectSourceButtonTapped(_ sender: UIButton) {
-        SourceMenu.showSourceSelector(from: self, sourceView: sender)
-        
-        if let selectedOption = UserDefaults.standard.string(forKey: "selectedMediaSource") {
-            sourceButton.setTitle(selectedOption, for: .normal)
+        SourceMenu.showSourceSelector(from: self, sourceView: sender) { [weak self] in
+            self?.updateSourceButtonTitle()
+        }
+    }
+
+    private func updateSourceButtonTitle() {
+        if let selectedSourceRawValue = UserDefaults.standard.string(forKey: "selectedMediaSource"),
+           let selectedSource = MediaSource(rawValue: selectedSourceRawValue) {
+            sourceButton.setTitle(selectedSource.displayName, for: .normal)
+        } else {
+            sourceButton.setTitle("Select Source", for: .normal)
         }
     }
     
@@ -292,7 +299,6 @@ class SettingsViewController: UITableViewController {
             showAlert(message: "Failed to delete all downloads: \(error.localizedDescription)")
         }
     }
-
 }
 
 extension SettingsViewController: UIDocumentPickerDelegate {

@@ -18,3 +18,19 @@ enum MediaSource: String {
     case hianime = "HiAnime"
     case zorotv = "ZoroTv"
 }
+
+extension MediaSource {
+    var displayName: String {
+        switch self {
+        case .animeWorld: return "AnimeWorld"
+        case .gogoanime: return "GoGoAnime"
+        case .animeheaven: return "AnimeHeaven"
+        case .animefire: return "AnimeFire"
+        case .kuramanime: return "Kuramanime"
+        case .jkanime: return "JKanime"
+        case .anime3rb: return "Anime3rb"
+        case .hianime: return "HiAnime"
+        case .zorotv: return "ZoroTv"
+        }
+    }
+}

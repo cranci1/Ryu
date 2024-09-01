@@ -10,7 +10,7 @@ import UIKit
 class SourceMenu {
     static weak var delegate: SourceSelectionDelegate?
 
-    static func showSourceSelector(from viewController: UIViewController, sourceView: UIView?) {
+    static func showSourceSelector(from viewController: UIViewController, sourceView: UIView?, completion: (() -> Void)? = nil) {
         DispatchQueue.main.async {
             let sources: [(title: String, source: MediaSource)] = [
                 ("AnimeWorld", .animeWorld),
@@ -29,6 +29,7 @@ class SourceMenu {
             for (title, source) in sources {
                 let action = UIAlertAction(title: title, style: .default) { _ in
                     UserDefaults.standard.selectedMediaSource = source
+                    completion?()
                     delegate?.didSelectNewSource()
                 }
                 setSourceImage(for: action, named: title)

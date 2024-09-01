@@ -173,19 +173,24 @@ class ExternalVideoPlayerJK: UIViewController, WKNavigationDelegate, GCKRemoteMe
         DispatchQueue.main.async {
             self.activityIndicator?.stopAnimating()
             
-            let selectedPlayer = UserDefaults.standard.string(forKey: "mediaPlayerSelected")
-            
-            if selectedPlayer == "VLC" || selectedPlayer == "Infuse" || selectedPlayer == "OutPlayer" {
-                self.animeDetailsViewController?.openInExternalPlayer(player: selectedPlayer!, url: url)
-            } else if selectedPlayer == "Experimental" {
-                let videoTitle = self.animeDetailsViewController?.animeTitle ?? "Anime"
-                let customPlayerVC = CustomPlayerView(videoTitle: videoTitle, videoURL: url)
-                customPlayerVC.modalPresentationStyle = .fullScreen
-                customPlayerVC.delegate = self
-                self.present(customPlayerVC, animated: true, completion: nil)
-            } else if GCKCastContext.sharedInstance().sessionManager.hasConnectedCastSession() {
+            if GCKCastContext.sharedInstance().sessionManager.hasConnectedCastSession() {
                 self.castVideoToGoogleCast(videoURL: url)
-            } else {
+                self.dismiss(animated: true, completion: nil)
+            }
+            else if let selectedPlayer = UserDefaults.standard.string(forKey: "mediaPlayerSelected") {
+                if selectedPlayer == "VLC" || selectedPlayer == "Infuse" || selectedPlayer == "OutPlayer" {
+                    self.animeDetailsViewController?.openInExternalPlayer(player: selectedPlayer, url: url)
+                } else if selectedPlayer == "Experimental" {
+                    let videoTitle = self.animeDetailsViewController?.animeTitle ?? "Anime"
+                    let customPlayerVC = CustomPlayerView(videoTitle: videoTitle, videoURL: url)
+                    customPlayerVC.modalPresentationStyle = .fullScreen
+                    customPlayerVC.delegate = self
+                    self.present(customPlayerVC, animated: true, completion: nil)
+                } else {
+                    self.playOrCastVideo(url: url)
+                }
+            }
+            else {
                 self.playOrCastVideo(url: url)
             }
         }
@@ -253,8 +258,68 @@ class ExternalVideoPlayerJK: UIViewController, WKNavigationDelegate, GCKRemoteMe
             let mediaInformation = builder.build()
             
             if let remoteMediaClient = GCKCastContext.sharedInstance().sessionManager.currentCastSession?.remoteMediaClient {
-                remoteMediaClient.loadMedia(mediaInformation)
+                remoteMediaClient.add(self)
+                
+                let lastPlayedTime = UserDefaults.standard.double(forKey: "lastPlayedTime_\(self.fullURL)")
+                if lastPlayedTime > 0 {
+                    let options = GCKMediaLoadOptions()
+                    options.playPosition = lastPlayedTime
+                    remoteMediaClient.loadMedia(mediaInformation, with: options)
+                } else {
+                    remoteMediaClient.loadMedia(mediaInformation)
+                }
             }
+        }
+    }
+    
+    func remoteMediaClient(_ client: GCKRemoteMediaClient, didUpdate mediaStatus: GCKMediaStatus?) {
+        guard let mediaStatus = mediaStatus else { return }
+        
+        let currentTime = mediaStatus.streamPosition
+        let duration = mediaStatus.mediaInformation?.streamDuration ?? 0
+        
+        UserDefaults.standard.set(currentTime, forKey: "lastPlayedTime_\(self.fullURL)")
+        UserDefaults.standard.set(duration, forKey: "totalTime_\(self.fullURL)")
+        
+        let progress = Float(currentTime / duration)
+        let remainingTime = duration - currentTime
+        self.cell.updatePlaybackProgress(progress: progress, remainingTime: remainingTime)
+        
+        let episodeNumber = Int(self.cell.episodeNumber) ?? 0
+        let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "JKanime"
+        
+        let continueWatchingItem = ContinueWatchingItem(
+            animeTitle: self.animeDetailsViewController?.animeTitle ?? "Unknown Anime",
+            episodeTitle: "Ep. \(episodeNumber)",
+            episodeNumber: episodeNumber,
+            imageURL: self.animeDetailsViewController?.imageUrl ?? "",
+            fullURL: self.fullURL,
+            lastPlayedTime: currentTime,
+            totalTime: duration,
+            source: selectedMediaSource
+        )
+        ContinueWatchingManager.shared.saveItem(continueWatchingItem)
+        
+        if remainingTime < 120 && !(self.animeDetailsViewController?.hasSentUpdate ?? false) {
+            updateAniListProgress()
+        }
+    }
+    
+    private func updateAniListProgress() {
+        let cleanedTitle = self.animeDetailsViewController?.cleanTitle(self.animeDetailsViewController?.animeTitle ?? "Unknown Anime")
+        
+        self.animeDetailsViewController?.fetchAnimeID(title: cleanedTitle ?? "Title") { animeID in
+            let aniListMutation = AniListMutation()
+            aniListMutation.updateAnimeProgress(animeId: animeID, episodeNumber: Int(self.cell.episodeNumber) ?? 0) { result in
+                switch result {
+                case .success():
+                    print("Successfully updated anime progress.")
+                case .failure(let error):
+                    print("Failed to update anime progress: \(error.localizedDescription)")
+                }
+            }
+            
+            self.animeDetailsViewController?.hasSentUpdate = true
         }
     }
     
