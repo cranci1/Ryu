@@ -537,7 +537,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             }
             
             let preferredAudio = UserDefaults.standard.string(forKey: "audioHiPrefe") ?? ""
-            let preferredServer = UserDefaults.standard.string(forKey: "serverHiPrefe") ?? "hd-1"
+            let preferredServer = UserDefaults.standard.string(forKey: "serverHiPrefe") ?? ""
             
             self.selectAudioCategory(options: options, preferredAudio: preferredAudio) { category in
                 guard let servers = options[category], !servers.isEmpty else {
@@ -575,7 +575,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
     }
     
     private func selectAudioCategory(options: [String: [[String: Any]]], preferredAudio: String, completion: @escaping (String) -> Void) {
-        if options[preferredAudio] != nil {
+        if let audioOptions = options[preferredAudio], !audioOptions.isEmpty {
             completion(preferredAudio)
         } else {
             DispatchQueue.main.async {
@@ -958,43 +958,38 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             let subOptions = options["sub"]
             let dubOptions = options["dub"]
             
-            if subOptions?.isEmpty == true, let dubOptions = dubOptions, !dubOptions.isEmpty {
-                completion("dub")
-                return
-            } else if dubOptions?.isEmpty == true, let subOptions = subOptions, !subOptions.isEmpty {
-                completion("sub")
-                return
-            }
-            
-            let alert = UIAlertController(title: "Select Audio", message: nil, preferredStyle: .actionSheet)
-            
-            if let subOptions = subOptions, !subOptions.isEmpty {
+            if let subOptions = subOptions, !subOptions.isEmpty, let dubOptions = dubOptions, !dubOptions.isEmpty {
+                let alert = UIAlertController(title: "Select Audio", message: nil, preferredStyle: .actionSheet)
+                
                 alert.addAction(UIAlertAction(title: "Subtitled", style: .default) { _ in
                     completion("sub")
                 })
-            }
-            
-            if let dubOptions = dubOptions, !dubOptions.isEmpty {
+                
                 alert.addAction(UIAlertAction(title: "Dubbed", style: .default) { _ in
                     completion("dub")
                 })
-            }
-            
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-            
-            if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-               let topController = scene.windows.first?.rootViewController {
-                if UIDevice.current.userInterfaceIdiom == .pad {
-                    alert.modalPresentationStyle = .popover
-                    if let popover = alert.popoverPresentationController {
-                        popover.sourceView = topController.view
-                        popover.sourceRect = CGRect(x: topController.view.bounds.midX, y: topController.view.bounds.midY, width: 0, height: 0)
-                        popover.permittedArrowDirections = []
+                
+                if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                   let topController = scene.windows.first?.rootViewController {
+                    if UIDevice.current.userInterfaceIdiom == .pad {
+                        alert.modalPresentationStyle = .popover
+                        if let popover = alert.popoverPresentationController {
+                            popover.sourceView = topController.view
+                            popover.sourceRect = CGRect(x: topController.view.bounds.midX, y: topController.view.bounds.midY, width: 0, height: 0)
+                            popover.permittedArrowDirections = []
+                        }
                     }
+                    topController.present(alert, animated: true, completion: nil)
+                } else {
+                    print("Could not find top view controller to present alert")
                 }
-                topController.present(alert, animated: true, completion: nil)
+            } else if let subOptions = subOptions, !subOptions.isEmpty {
+                completion("sub")
+            } else if let dubOptions = dubOptions, !dubOptions.isEmpty {
+                completion("dub")
             } else {
-                print("Could not find top view controller to present alert")
+                print("No audio options available")
+                self.showAlert(title: "Error", message: "No audio options available")
             }
         }
     }
