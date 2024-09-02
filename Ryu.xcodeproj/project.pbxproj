@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		131283A92C85B8E900A74AC0 /* ExternalVideoPlayerLat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131283A82C85B8E900A74AC0 /* ExternalVideoPlayerLat.swift */; };
 		131546D52C6DE6CC002DC3CC /* GoogleCastSDK-ios-no-bluetooth in Frameworks */ = {isa = PBXBuildFile; productRef = 131546D42C6DE6CC002DC3CC /* GoogleCastSDK-ios-no-bluetooth */; };
 		131546D82C6DE6D9002DC3CC /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 131546D72C6DE6D9002DC3CC /* Kingfisher */; };
 		131546DE2C6DE6F2002DC3CC /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 131546DD2C6DE6F2002DC3CC /* Alamofire */; };
@@ -90,7 +89,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		131283A82C85B8E900A74AC0 /* ExternalVideoPlayerLat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalVideoPlayerLat.swift; sourceTree = "<group>"; };
 		1357B4F22C6D0965000A2C9B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Ryu/Base.lproj/Settings.storyboard; sourceTree = SOURCE_ROOT; };
 		1357B4F52C6D0965000A2C9B /* FavoriteCell-Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FavoriteCell-Swift.swift"; sourceTree = "<group>"; };
 		1357B4F62C6D0965000A2C9B /* FavoriteCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FavoriteCell.xib; sourceTree = "<group>"; };
@@ -527,7 +525,6 @@
 				136525102C6B5B4000210A98 /* ExternalVideoPlayerKura.swift */,
 				1365250F2C6B5B4000210A98 /* ExternalVideoPlayerJK.swift */,
 				136525132C6B5B4000210A98 /* ExternalVideoPlayer3rb.swift */,
-				131283A82C85B8E900A74AC0 /* ExternalVideoPlayerLat.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -687,7 +684,6 @@
 				1365251E2C6B5B4100210A98 /* AniList-Sesonal.swift in Sources */,
 				1357B5062C6D0965000A2C9B /* SlimmAnimeCell-Swift.swift in Sources */,
 				13A888B42C7A322600D6C597 /* CustomPlayerView.swift in Sources */,
-				131283A92C85B8E900A74AC0 /* ExternalVideoPlayerLat.swift in Sources */,
 				1365254A2C6B5B4100210A98 /* FavoriteManager.swift in Sources */,
 				1365253E2C6B5B4100210A98 /* AnimeDetailsViewController.swift in Sources */,
 				1357B5042C6D0965000A2C9B /* FavoriteCell-Swift.swift in Sources */,
