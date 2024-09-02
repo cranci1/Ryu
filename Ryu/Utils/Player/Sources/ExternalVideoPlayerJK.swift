@@ -186,7 +186,7 @@ class ExternalVideoPlayerJK: UIViewController, WKNavigationDelegate, GCKRemoteMe
                     self.animeDetailsViewController?.openInExternalPlayer(player: selectedPlayer, url: url)
                 } else if selectedPlayer == "Experimental" {
                     let videoTitle = self.animeDetailsViewController?.animeTitle ?? "Anime"
-                    let customPlayerVC = CustomPlayerView(videoTitle: videoTitle, videoURL: url)
+                    let customPlayerVC = CustomPlayerView(videoTitle: videoTitle, videoURL: url, cell: self.cell, fullURL: self.fullURL)
                     customPlayerVC.modalPresentationStyle = .fullScreen
                     customPlayerVC.delegate = self
                     self.present(customPlayerVC, animated: true, completion: nil)
