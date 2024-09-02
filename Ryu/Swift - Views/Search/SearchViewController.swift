@@ -10,7 +10,7 @@ import Alamofire
 import SwiftSoup
 
 class SearchViewController: UIViewController {
-
+    
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var historyTableView: UITableView!
     
@@ -36,7 +36,7 @@ class SearchViewController: UIViewController {
         searchHistory.insert(query, at: 0)
         saveSearchHistory()
         historyTableView.reloadData()
-
+        
         let resultsVC = SearchResultsViewController()
         resultsVC.query = query
         navigationController?.pushViewController(resultsVC, animated: true)
@@ -53,8 +53,8 @@ class SearchViewController: UIViewController {
     @objc func deleteButtonTapped(_ sender: UIButton) {
         guard let cell = sender.superview?.superview as? HistoryTableViewCell,
               let indexPath = historyTableView.indexPath(for: cell) else {
-            return
-        }
+                  return
+              }
         
         searchHistory.remove(at: indexPath.row)
         saveSearchHistory()

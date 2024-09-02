@@ -11,27 +11,27 @@ import Alamofire
 import SwiftSoup
 
 class SearchResultsViewController: UIViewController {
-
+    
     private lazy var tableView: UITableView = {
         let table = UITableView()
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }()
-
+    
     private let loadingIndicator = UIActivityIndicatorView(style: .large)
     private let errorLabel = UILabel()
     private let noResultsLabel = UILabel()
-
+    
     var searchResults: [(title: String, imageUrl: String, href: String)] = []
     var filteredResults: [(title: String, imageUrl: String, href: String)] = []
     var query: String = ""
     var selectedSource: String = ""
-
+    
     private lazy var sortButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: UIImage(systemName: "arrow.up.arrow.down"), style: .plain, target: self, action: #selector(sortButtonTapped))
         return button
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .secondarySystemBackground
@@ -39,10 +39,10 @@ class SearchResultsViewController: UIViewController {
         setupUI()
         fetchResults()
     }
-
+    
     private func setupUI() {
         navigationItem.largeTitleDisplayMode = .never
-
+        
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -50,7 +50,7 @@ class SearchResultsViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
-
+        
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = .secondarySystemBackground
@@ -65,7 +65,7 @@ class SearchResultsViewController: UIViewController {
             navigationItem.rightBarButtonItem = sortButton
         }
     }
-
+    
     private func setupLoadingIndicator() {
         loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(loadingIndicator)
@@ -74,7 +74,7 @@ class SearchResultsViewController: UIViewController {
             loadingIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
-
+    
     private func setupErrorLabel() {
         errorLabel.translatesAutoresizingMaskIntoConstraints = false
         errorLabel.textAlignment = .center
@@ -88,7 +88,7 @@ class SearchResultsViewController: UIViewController {
             errorLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
     }
-
+    
     private func setupNoResultsLabel() {
         noResultsLabel.translatesAutoresizingMaskIntoConstraints = false
         noResultsLabel.textAlignment = .center
@@ -100,7 +100,7 @@ class SearchResultsViewController: UIViewController {
             noResultsLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
-
+    
     @objc private func sortButtonTapped() {
         let alertController = UIAlertController(title: "Sort Anime", message: nil, preferredStyle: .actionSheet)
         
@@ -212,22 +212,22 @@ class SearchResultsViewController: UIViewController {
         tableView.isHidden = true
         errorLabel.isHidden = true
         noResultsLabel.isHidden = true
-
+        
         guard let selectedSource = UserDefaults.standard.string(forKey: "selectedMediaSource") else {
             loadingIndicator.stopAnimating()
             showSourceSelector()
             return
         }
-
+        
         guard let urlParameters = getUrlAndParameters(for: selectedSource) else {
             showError("Unsupported media source.")
             return
         }
-
+        
         AF.request(urlParameters.url, method: .get, parameters: urlParameters.parameters).responseString { [weak self] response in
             guard let self = self else { return }
             self.loadingIndicator.stopAnimating()
-
+            
             switch response.result {
             case .success(let value):
                 let results = self.parseHTML(html: value, for: MediaSource(rawValue: selectedSource) ?? .animeWorld)
@@ -276,11 +276,11 @@ class SearchResultsViewController: UIViewController {
             }
         }
     }
-
+    
     private func getUrlAndParameters(for source: String) -> (url: String, parameters: Parameters)? {
         let url: String
         var parameters: Parameters = [:]
-
+        
         switch source {
         case "AnimeWorld":
             url = "https://animeworld.so/search"
@@ -315,17 +315,17 @@ class SearchResultsViewController: UIViewController {
         
         return (url, parameters)
     }
-
+    
     private func showError(_ message: String) {
         loadingIndicator.stopAnimating()
         errorLabel.text = message
         errorLabel.isHidden = false
     }
-
+    
     private func showNoResults() {
         noResultsLabel.isHidden = false
     }
-
+    
     func parseHTML(html: String, for source: MediaSource) -> [(title: String, imageUrl: String, href: String)] {
         switch source {
         case .hianime:
@@ -340,7 +340,7 @@ class SearchResultsViewController: UIViewController {
             }
         }
     }
-
+    
     private func parseDocument(_ document: Document?, jsonString: String?, for source: MediaSource) -> [(title: String, imageUrl: String, href: String)] {
         switch source {
         case .animeWorld:
@@ -372,7 +372,7 @@ class SearchResultsViewController: UIViewController {
             return parseZoroTv(document)
         }
     }
-
+    
     private func navigateToAnimeDetail(title: String, imageUrl: String, href: String) {
         let detailVC = AnimeDetailViewController()
         detailVC.configure(title: title, imageUrl: imageUrl, href: href)
@@ -384,7 +384,7 @@ extension SearchResultsViewController: UITableViewDataSource, UITableViewDelegat
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return filteredResults.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "resultCell", for: indexPath) as! SearchResultCell
         let result = filteredResults[indexPath.row]
@@ -397,7 +397,7 @@ extension SearchResultsViewController: UITableViewDataSource, UITableViewDelegat
         
         let interaction = UIContextMenuInteraction(delegate: self)
         cell.addInteraction(interaction)
-
+        
         return cell
     }
     
@@ -411,8 +411,8 @@ extension SearchResultsViewController: UIContextMenuInteractionDelegate {
     func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
         guard let cell = interaction.view as? UITableViewCell,
               let indexPath = tableView.indexPath(for: cell) else {
-            return nil
-        }
+                  return nil
+              }
         
         let result = searchResults[indexPath.row]
         
@@ -496,8 +496,8 @@ extension SearchResultsViewController: UIContextMenuInteractionDelegate {
     private func createFavoriteAnime(from result: (title: String, imageUrl: String, href: String)) -> FavoriteItem? {
         guard let imageURL = URL(string: result.imageUrl),
               let contentURL = URL(string: result.href) else {
-            return nil
-        }
+                  return nil
+              }
         let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
         
         return FavoriteItem(title: result.title, imageURL: imageURL, contentURL: contentURL, source: selectedMediaSource)
@@ -508,7 +508,7 @@ class SearchResultCell: UITableViewCell {
     let animeImageView = UIImageView()
     let titleLabel = UILabel()
     let disclosureIndicatorImageView = UIImageView()
-
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
@@ -525,7 +525,7 @@ class SearchResultCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     private func setupViews() {
         animeImageView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false

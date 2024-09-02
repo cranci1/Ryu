@@ -31,13 +31,13 @@ extension SearchResultsViewController {
                 guard let linkElement = try item.select("a").first(),
                       let href = try? linkElement.attr("href"),
                       let imageUrl = try? linkElement.select("img").attr("src") else {
-                    return nil
-                }
+                          return nil
+                      }
                 
                 var title = (try? linkElement.attr("title")).flatMap { $0.isEmpty ? nil : $0 }
-                    ?? (try? linkElement.select("img").attr("alt")).flatMap { $0.isEmpty ? nil : $0 }
-                    ?? (try? item.select("p.name > a").text()).flatMap { $0.isEmpty ? nil : $0 }
-                    ?? ""
+                ?? (try? linkElement.select("img").attr("alt")).flatMap { $0.isEmpty ? nil : $0 }
+                ?? (try? item.select("p.name > a").text()).flatMap { $0.isEmpty ? nil : $0 }
+                ?? ""
                 
                 title = title.trimmingCharacters(in: CharacterSet(charactersIn: "\""))
                 

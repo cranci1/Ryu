@@ -1464,7 +1464,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                                                         <constraint firstAttribute="width" constant="78" id="JiK-Qp-J3P"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GoGoAnime is a English streaming service that provides both DUB and SUB. Ryu has great support fro GoGoAnime" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sta-te-bmv">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GoGoAnime is an English streaming service that provides both DUB and SUB. Ryu has great support for GoGoAnime" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sta-te-bmv">
                                                     <rect key="frame" x="106" y="11" width="248" height="78"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" systemColor="secondaryLabelColor"/>
@@ -1495,7 +1495,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                                                         <constraint firstAttribute="width" constant="78" id="3Wt-2F-Wjn"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AnimeHeaven is a English streaming service that provides SUB anime. Ryu has great support for AnimeHeaven." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Fi-Nb-SYa">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AnimeHeaven is an English streaming service that provides SUB anime. Ryu has great support for AnimeHeaven." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Fi-Nb-SYa">
                                                     <rect key="frame" x="106" y="11" width="248" height="78"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" systemColor="secondaryLabelColor"/>
@@ -1526,7 +1526,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                                                         <constraint firstAttribute="width" constant="78" id="dTB-74-NiR"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="HiAnime is a English streaming service that provides both DUB and SUB. Casting and Download are currently not working" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MDZ-Im-TjN">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="HiAnime is an English streaming service that provides both DUB and SUB. Casting and Download are currently not working" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MDZ-Im-TjN">
                                                     <rect key="frame" x="106" y="11" width="248" height="78"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" systemColor="secondaryLabelColor"/>
@@ -1557,7 +1557,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                                                         <constraint firstAttribute="width" constant="78" id="wpL-9S-4wT"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ZoroTv is a English streaming service that provides both DUB and SUB. Downloads are not working." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aun-Zb-3Rf">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ZoroTv is an English streaming service that provides both DUB and SUB. Downloads are not working." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aun-Zb-3Rf">
                                                     <rect key="frame" x="106" y="11" width="248" height="78"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" systemColor="secondaryLabelColor"/>
@@ -1865,6 +1865,37 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                                                 <constraint firstItem="oDe-y3-eLK" firstAttribute="bottom" secondItem="IeW-Fs-yvZ" secondAttribute="bottomMargin" id="bw1-8h-9K2"/>
                                                 <constraint firstItem="oDe-y3-eLK" firstAttribute="leading" secondItem="IeW-Fs-yvZ" secondAttribute="leadingMargin" id="tSw-Qp-9uf"/>
                                                 <constraint firstItem="oDe-y3-eLK" firstAttribute="top" secondItem="IeW-Fs-yvZ" secondAttribute="topMargin" id="xbH-o0-tyT"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="4v7-fp-l3l">
+                                        <rect key="frame" x="20" y="118" width="374" height="100"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="4v7-fp-l3l" id="hep-mr-rCi">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="JKanime" translatesAutoresizingMaskIntoConstraints="NO" id="33w-S1-Nbb">
+                                                    <rect key="frame" x="20" y="11" width="78" height="78"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="78" id="Z4P-aY-OOY"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LatAnime is a Spanish streaming service that provides SUB anime. Ryu has good support for LatAnime." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pjU-zf-U53">
+                                                    <rect key="frame" x="106" y="11" width="248" height="78"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="pjU-zf-U53" firstAttribute="leading" secondItem="33w-S1-Nbb" secondAttribute="trailing" constant="8" id="GVJ-VF-YRf"/>
+                                                <constraint firstItem="33w-S1-Nbb" firstAttribute="bottom" secondItem="pjU-zf-U53" secondAttribute="bottom" id="acR-7u-YFh"/>
+                                                <constraint firstItem="33w-S1-Nbb" firstAttribute="top" secondItem="pjU-zf-U53" secondAttribute="top" id="dPG-GS-Rak"/>
+                                                <constraint firstItem="pjU-zf-U53" firstAttribute="trailing" secondItem="hep-mr-rCi" secondAttribute="trailingMargin" id="eG2-QV-lh8"/>
+                                                <constraint firstItem="33w-S1-Nbb" firstAttribute="bottom" secondItem="hep-mr-rCi" secondAttribute="bottomMargin" id="mmD-Rr-7ay"/>
+                                                <constraint firstItem="33w-S1-Nbb" firstAttribute="top" secondItem="hep-mr-rCi" secondAttribute="topMargin" id="utA-X0-uWy"/>
+                                                <constraint firstItem="33w-S1-Nbb" firstAttribute="leading" secondItem="hep-mr-rCi" secondAttribute="leadingMargin" id="xYh-vy-rtG"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
