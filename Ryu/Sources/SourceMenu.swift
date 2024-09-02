@@ -12,22 +12,23 @@ class SourceMenu {
 
     static func showSourceSelector(from viewController: UIViewController, sourceView: UIView?, completion: (() -> Void)? = nil) {
         DispatchQueue.main.async {
-            let sources: [(title: String, source: MediaSource)] = [
-                ("AnimeWorld", .animeWorld),
-                ("GoGoAnime", .gogoanime),
-                ("AnimeHeaven", .animeheaven),
-                ("AnimeFire", .animefire),
-                ("Kuramanime", .kuramanime),
-                ("JKanime", .jkanime),
-                ("Anime3rb", .anime3rb),
-                ("HiAnime", .hianime),
-                ("ZoroTv", .zorotv)
+            let sources: [(title: String, source: MediaSource, language: String)] = [
+                ("AnimeWorld", .animeWorld, "🇮🇹"),
+                ("GoGoAnime", .gogoanime, "🇺🇸"),
+                ("AnimeHeaven", .animeheaven, "🇺🇸"),
+                ("AnimeFire", .animefire, "🇵🇹"),
+                ("Kuramanime", .kuramanime, "🇮🇩"),
+                ("JKanime", .jkanime, "🇪🇸"),
+                ("Anime3rb", .anime3rb, "🇸🇦"),
+                ("HiAnime", .hianime, "🇺🇸"),
+                ("ZoroTv", .zorotv, "🇺🇸")
             ]
             
             let alertController = UIAlertController(title: "Select Source", message: "Choose your preferred source.", preferredStyle: .actionSheet)
             
-            for (title, source) in sources {
-                let action = UIAlertAction(title: title, style: .default) { _ in
+            for (title, source, language) in sources {
+                let actionTitle = "\(title) \(language)"
+                let action = UIAlertAction(title: actionTitle, style: .default) { _ in
                     UserDefaults.standard.selectedMediaSource = source
                     completion?()
                     delegate?.didSelectNewSource()
