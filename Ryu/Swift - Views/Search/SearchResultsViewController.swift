@@ -61,7 +61,7 @@ class SearchResultsViewController: UIViewController {
         setupNoResultsLabel()
         
         selectedSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? ""
-        if ["AnimeWorld", "GoGoAnime", "Kuramanime", "AnimeFire"].contains(selectedSource) {
+        if ["AnimeWorld", "GoGoAnime", "Kuramanime", "AnimeFire", "Latanime"].contains(selectedSource) {
             navigationItem.rightBarButtonItem = sortButton
         }
     }
@@ -102,7 +102,7 @@ class SearchResultsViewController: UIViewController {
     }
     
     @objc private func sortButtonTapped() {
-        let alertController = UIAlertController(title: "Sort Anime", message: nil, preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: "Sort Results", message: nil, preferredStyle: .actionSheet)
         
         let allAction = UIAlertAction(title: "All", style: .default) { [weak self] _ in
             self?.filterResults(option: .all)
@@ -133,6 +133,15 @@ class SearchResultsViewController: UIViewController {
                 self?.filterResults(option: .dub)
             }
             alertController.addAction(dubAction)
+        case "Latanime":
+            let dubAction = UIAlertAction(title: "High Resolution", style: .default) { [weak self] _ in
+                self?.filterResults(option: .resulotion1080p)
+            }
+            let subAction = UIAlertAction(title: "Latino Dub", style: .default) { [weak self] _ in
+                self?.filterResults(option: .latinoDub)
+            }
+            alertController.addAction(dubAction)
+            alertController.addAction(subAction)
         default:
             break
         }
@@ -150,7 +159,7 @@ class SearchResultsViewController: UIViewController {
     }
     
     private enum FilterOption {
-        case all, dub, sub, ita
+        case all, dub, sub, ita, resulotion1080p, latinoDub
     }
     
     private func filterResults(option: FilterOption) {
@@ -172,6 +181,10 @@ class SearchResultsViewController: UIViewController {
             filteredResults = searchResults.filter { !$0.title.lowercased().contains("(dub)") }
         case .ita:
             filteredResults = searchResults.filter { $0.title.contains("ITA") }
+        case .resulotion1080p:
+            filteredResults = searchResults.filter { $0.title.contains("1080p") }
+        case .latinoDub:
+            filteredResults = searchResults.filter { $0.title.contains("Latino") }
         }
         
         tableView.reloadData()
@@ -309,6 +322,9 @@ class SearchResultsViewController: UIViewController {
         case "ZoroTv":
             url = "https://zorotv.com.in/"
             parameters["s"] = query
+        case "Latanime":
+            url = "https://latanime.org/buscar"
+            parameters["q"] = query
         default:
             return nil
         }
@@ -370,6 +386,9 @@ class SearchResultsViewController: UIViewController {
         case .zorotv:
             guard let document = document else { return [] }
             return parseZoroTv(document)
+        case .latanime:
+            guard let document = document else { return [] }
+            return parseLatanime(document)
         }
     }
     

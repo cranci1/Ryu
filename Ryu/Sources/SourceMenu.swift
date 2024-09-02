@@ -21,7 +21,8 @@ class SourceMenu {
                 ("JKanime", .jkanime),
                 ("Anime3rb", .anime3rb),
                 ("HiAnime", .hianime),
-                ("ZoroTv", .zorotv)
+                ("ZoroTv", .zorotv),
+                ("Latanime", .latanime)
             ]
             
             let alertController = UIAlertController(title: "Select Source", message: "Choose your preferred source.", preferredStyle: .actionSheet)

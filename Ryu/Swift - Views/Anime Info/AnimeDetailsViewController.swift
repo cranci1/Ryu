@@ -271,7 +271,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
     }
     
     func cleanTitle(_ title: String) -> String {
-        let unwantedStrings = ["(ITA)", "(Dub)", "(Dub ID)", "(Dublado)"]
+        let unwantedStrings = ["(ITA)", "(Dub)", "(Dub ID)", "(Dublado)", "1080p", "Latino"]
         var cleanedTitle = title
         
         for unwanted in unwantedStrings {
@@ -469,6 +469,8 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                 streamingVC = ExternalVideoPlayerJK(streamURL: url, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
             case VideoPlayerType.playerWeb:
                 streamingVC = HiAnimeWebPlayer(streamURL: url, captionURL: captionURL, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
+            case VideoPlayerType.playerLat:
+                streamingVC = ExternalVideoPlayerLat(streamURL: url, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
             default:
                 return
             }
@@ -683,7 +685,7 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                     srcURL = self.extractDataVideoSrcURL(from: htmlString)
                 case "AnimeWorld", "AnimeHeaven":
                     srcURL = self.extractVideoSourceURL(from: htmlString)
-                case "Anime3rb", "Kuramanime", "JKanime":
+                case "Anime3rb", "Kuramanime", "JKanime", "Latanime":
                     srcURL = URL(string: fullURL)
                 default:
                     srcURL = self.extractIframeSourceURL(from: htmlString)
@@ -710,6 +712,8 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
                         self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.playerKura, cell: cell, fullURL: fullURL)
                     case "JKanime":
                         self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.playerJK, cell: cell, fullURL: fullURL)
+                    case "Latanime":
+                        self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.playerLat, cell: cell, fullURL: fullURL)
                     default:
                         self.playVideo(sourceURL: finalSrcURL, cell: cell, fullURL: fullURL)
                     }
@@ -1782,7 +1786,7 @@ class AnimeThumbnailFetcher {
     }
     
     static func cleanTitle(title: String) -> String {
-        let unwantedStrings = ["(ITA)", "(Dub)", "(Dub ID)", "(Dublado)"]
+        let unwantedStrings = ["(ITA)", "(Dub)", "(Dub ID)", "(Dublado)", "1080p", "Latino"]
         var cleanedTitle = title
         
         for unwanted in unwantedStrings {

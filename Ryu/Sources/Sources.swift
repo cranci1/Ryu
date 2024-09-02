@@ -17,6 +17,7 @@ enum MediaSource: String {
     case anime3rb = "Anime3rb"
     case hianime = "HiAnime"
     case zorotv = "ZoroTv"
+    case latanime = "Latanime"
 }
 
 extension MediaSource {
@@ -31,6 +32,7 @@ extension MediaSource {
         case .anime3rb: return "Anime3rb"
         case .hianime: return "HiAnime"
         case .zorotv: return "ZoroTv"
+        case .latanime: return "Latanime"
         }
     }
 }

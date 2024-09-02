@@ -171,4 +171,19 @@ extension SearchResultsViewController {
             return []
         }
     }
+    
+    func parseLatanime(_ document: Document) -> [(title: String, imageUrl: String, href: String)] {
+        do {
+            let items = try document.select("div.row div.col-md-4")
+            return try items.map { item -> (title: String, imageUrl: String, href: String) in
+                let title = try item.select("div.series div.seriedetails h3.my-1").text()
+                let imageUrl = try item.select("div.series div.serieimg img").attr("src")
+                let href = try item.select("a").attr("href")
+                return (title: title, imageUrl: imageUrl, href: href)
+            }
+        } catch {
+            print("Error parsing LatAnime: \(error.localizedDescription)")
+            return []
+        }
+    }
 }

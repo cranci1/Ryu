@@ -34,7 +34,7 @@ class AnimeDetailService {
             baseUrl = "https://animeheaven.me/"
         case .hianime:
             baseUrl = "https://aniwatch.cranci.xyz/anime/info?id="
-        case .animefire, .kuramanime, .jkanime, .anime3rb, .zorotv:
+        case .animefire, .kuramanime, .jkanime, .anime3rb, .zorotv, .latanime:
             baseUrl = ""
         }
         
@@ -133,6 +133,11 @@ class AnimeDetailService {
                             synopsis = try document.select("div.entry-content p").text()
                             airdate = "N/A"
                             stars = ""
+                        case .latanime:
+                            aliases = try document.select("div.col-md-8 h3.fs-6").last()?.text() ?? ""
+                            synopsis = try document.select("div.col-md-8 p").last()?.text() ?? ""
+                            airdate = try document.select("div.col-md-8 div.my-2 span").last()?.text().replacingOccurrences(of: "Estreno: ", with: "") ?? ""
+                            stars = "N/A"
                         }
                         
                         episodes = self.fetchEpisodes(document: document, for: selectedSource, href: href)
@@ -223,6 +228,9 @@ class AnimeDetailService {
             case .zorotv:
                  episodeElements = try document.select("div.eplister ul li a")
                  downloadUrlElement = ""
+            case .latanime:
+                episodeElements = try document.select("div.col-lg-9.col-md-8 div.row div a")
+                downloadUrlElement = ""
             }
             
             switch source {
@@ -328,6 +336,27 @@ class AnimeDetailService {
                         print("Error parsing Zoro episode: \(error.localizedDescription)")
                         return nil
                     }
+                }
+            case .latanime:
+                episodes = episodeElements.compactMap { element in
+                    do {
+                        let episodeTitle = try element.text()
+                        let href = try element.attr("href")
+                        
+                        let regex = try NSRegularExpression(pattern: "\\b[0-9]+\\b", options: [])
+                        let range = NSRange(location: 0, length: episodeTitle.utf16.count)
+                        
+                        if let match = regex.firstMatch(in: episodeTitle, options: [], range: range) {
+                            if let range = Range(match.range, in: episodeTitle) {
+                                let episodeNumber = String(episodeTitle[range])
+                                print(href)
+                                return Episode(number: episodeNumber, href: href, downloadUrl: "")
+                            }
+                        }
+                    } catch {
+                        print("Error parsing latanime episode: \(error.localizedDescription)")
+                    }
+                    return nil
                 }
             default:
                 episodes = episodeElements.compactMap { element in
