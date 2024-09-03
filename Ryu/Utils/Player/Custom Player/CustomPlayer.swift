@@ -287,10 +287,10 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             playerProgress.heightAnchor.constraint(equalToConstant: 8),
             
             currentTimeLabel.leadingAnchor.constraint(equalTo: playerProgress.leadingAnchor),
-            currentTimeLabel.bottomAnchor.constraint(equalTo: controlsContainerView.bottomAnchor, constant: -10),
+            currentTimeLabel.bottomAnchor.constraint(equalTo: controlsContainerView.bottomAnchor, constant: 10),
             
             totalTimeLabel.trailingAnchor.constraint(equalTo: playerProgress.trailingAnchor),
-            totalTimeLabel.bottomAnchor.constraint(equalTo: controlsContainerView.bottomAnchor, constant: -10),
+            totalTimeLabel.bottomAnchor.constraint(equalTo: controlsContainerView.bottomAnchor, constant: 10),
             
             settingsButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
             settingsButton.trailingAnchor.constraint(equalTo: totalTimeLabel.trailingAnchor),
@@ -575,7 +575,9 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         let duration = CMTimeGetSeconds(currentItem.duration)
         
         currentTimeLabel.text = timeString(from: currentTime)
-        totalTimeLabel.text = timeString(from: duration)
+        
+        let remainingTime = duration - currentTime
+        totalTimeLabel.text = timeString(from: remainingTime)
         
         if duration > 0 {
             playerProgress.progress = Float(max(0, min(currentTime / duration, 1)))
@@ -635,9 +637,16 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         let progress = location.x / playerProgress.bounds.width
         
         switch gesture.state {
-        case .began, .changed:
+        case .began:
+            UIView.animate(withDuration: 0.2) {
+                self.playerProgress.transform = CGAffineTransform(scaleX: 1.0, y: 1.5)
+            }
+        case .changed:
             playerProgress.progress = Float(progress)
         case .ended:
+            UIView.animate(withDuration: 0.2) {
+                self.playerProgress.transform = CGAffineTransform.identity
+            }
             guard let duration = player?.currentItem?.duration else { return }
             let seekTime = CMTime(seconds: Double(progress) * CMTimeGetSeconds(duration), preferredTimescale: 1)
             player?.seek(to: seekTime)
