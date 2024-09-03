@@ -268,8 +268,8 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             
             playPauseButton.centerXAnchor.constraint(equalTo: centerXAnchor),
             playPauseButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-            playPauseButton.widthAnchor.constraint(equalToConstant: 45),
-            playPauseButton.heightAnchor.constraint(equalToConstant: 50),
+            playPauseButton.widthAnchor.constraint(equalToConstant: 55),
+            playPauseButton.heightAnchor.constraint(equalToConstant: 60),
             
             rewindButton.trailingAnchor.constraint(equalTo: playPauseButton.leadingAnchor, constant: -20),
             rewindButton.centerYAnchor.constraint(equalTo: playPauseButton.centerYAnchor),
@@ -287,10 +287,10 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             playerProgress.heightAnchor.constraint(equalToConstant: 8),
             
             currentTimeLabel.leadingAnchor.constraint(equalTo: playerProgress.leadingAnchor),
-            currentTimeLabel.bottomAnchor.constraint(equalTo: controlsContainerView.bottomAnchor, constant: -20),
+            currentTimeLabel.bottomAnchor.constraint(equalTo: controlsContainerView.bottomAnchor, constant: -30),
             
             totalTimeLabel.trailingAnchor.constraint(equalTo: playerProgress.trailingAnchor),
-            totalTimeLabel.bottomAnchor.constraint(equalTo: controlsContainerView.bottomAnchor, constant: -20),
+            totalTimeLabel.bottomAnchor.constraint(equalTo: controlsContainerView.bottomAnchor, constant: -30),
             
             settingsButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
             settingsButton.trailingAnchor.constraint(equalTo: totalTimeLabel.trailingAnchor),
@@ -298,8 +298,8 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             speedButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
             speedButton.trailingAnchor.constraint(equalTo: settingsButton.leadingAnchor, constant: -5),
             
-            dismissButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 10),
-            dismissButton.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            dismissButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 15),
+            dismissButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 10),
             dismissButton.widthAnchor.constraint(equalToConstant: 30),
             dismissButton.heightAnchor.constraint(equalToConstant: 30),
             
@@ -577,7 +577,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         currentTimeLabel.text = timeString(from: currentTime)
         
         let remainingTime = duration - currentTime
-        totalTimeLabel.text = timeString(from: remainingTime)
+        totalTimeLabel.text = "-" + timeString(from: remainingTime)
         
         if duration > 0 {
             playerProgress.progress = Float(max(0, min(currentTime / duration, 1)))
