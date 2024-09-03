@@ -29,6 +29,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
     private var isFullBrightness = false
     private var cell: EpisodeCell
     private var fullURL: String
+    private var hasSentUpdate = false
     private var animeDetailsViewController: AnimeDetailViewController?
     
     private var subtitles: [SubtitleCue] = []
@@ -174,9 +175,9 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         return label
     }()
     
-    override init(frame: CGRect) {
-        self.cell = EpisodeCell()
-        self.fullURL = ""
+    init(frame: CGRect, cell: EpisodeCell, fullURL: String) {
+        self.cell = cell
+        self.fullURL = fullURL
         super.init(frame: frame)
         setupPlayer()
         setupUI()
@@ -185,13 +186,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
     }
     
     required init?(coder: NSCoder) {
-        self.cell = EpisodeCell()
-        self.fullURL = ""
-        super.init(coder: coder)
-        setupPlayer()
-        setupUI()
-        setupGestures()
-        updateSubtitleAppearance()
+        fatalError("init(coder:) has not been implemented")
     }
     
     deinit {
@@ -343,6 +338,10 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         titleLabel.text = title
         self.baseURL = url.deletingLastPathComponent()
         self.subtitlesURL = subURL
+        self.cell = cell
+        self.fullURL = fullURL
+        
+        let lastPlayedTime = UserDefaults.standard.double(forKey: "lastPlayedTime_\(fullURL)")
         
         if url.pathExtension == "m3u8" {
             parseM3U8(url: url) { [weak self] in
@@ -350,6 +349,12 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
                 
                 if let highestQualityIndex = self.qualities.indices.last {
                     self.setQuality(index: highestQualityIndex)
+                    
+                    if lastPlayedTime > 0 {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            self.player?.seek(to: CMTime(seconds: lastPlayedTime, preferredTimescale: 1))
+                        }
+                    }
                 }
                 
                 self.updateSettingsMenu()
@@ -359,6 +364,10 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             player?.replaceCurrentItem(with: playerItem)
             qualities.removeAll()
             updateSettingsMenu()
+            
+            if lastPlayedTime > 0 {
+                player?.seek(to: CMTime(seconds: lastPlayedTime, preferredTimescale: 1))
+            }
         }
         
         if let subtitlesURL = subtitlesURL {
@@ -372,7 +381,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             subtitleTimer = nil
         }
         
-        addPeriodicTimeObserver()
+        addPeriodicTimeObserver(fullURL: fullURL, cell: cell)
     }
     
     func play() {
@@ -459,7 +468,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         }
     }
     
-    private func addPeriodicTimeObserver() {
+    private func addPeriodicTimeObserver(fullURL: String, cell: EpisodeCell) {
         let interval = CMTime(seconds: 1.0, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         timeObserverToken = player?.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
             guard let self = self,
@@ -475,28 +484,28 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             
             self.cell.updatePlaybackProgress(progress: Float(progress), remainingTime: remainingTime)
             
-            UserDefaults.standard.set(currentTime, forKey: "lastPlayedTime_\(self.fullURL)")
-            UserDefaults.standard.set(duration, forKey: "totalTime_\(self.fullURL)")
+            UserDefaults.standard.set(currentTime, forKey: "lastPlayedTime_\(fullURL)")
+            UserDefaults.standard.set(duration, forKey: "totalTime_\(fullURL)")
             
             let episodeNumber = Int(self.cell.episodeNumber) ?? 0
             let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
             
             let continueWatchingItem = ContinueWatchingItem(
-                animeTitle: self.animeDetailsViewController?.animeTitle ?? "Unknown Anime",
+                animeTitle: self.videoTitle,
                 episodeTitle: "Ep. \(episodeNumber)",
                 episodeNumber: episodeNumber,
-                imageURL: self.animeDetailsViewController?.imageUrl ?? "",
-                fullURL: self.fullURL,
+                imageURL: self.animeDetailsViewController?.imageUrl ?? "https://s4.anilist.co/file/anilistcdn/character/large/default.jpg",
+                fullURL: fullURL,
                 lastPlayedTime: currentTime,
                 totalTime: duration,
                 source: selectedMediaSource
             )
             ContinueWatchingManager.shared.saveItem(continueWatchingItem)
             
-            if remainingTime < 120 && !(self.animeDetailsViewController!.hasSentUpdate) {
-                let cleanedTitle = self.animeDetailsViewController?.cleanTitle(self.animeDetailsViewController?.animeTitle ?? "Unknown Anime")
+            if remainingTime < 120 && !(self.hasSentUpdate) {
+                let cleanedTitle = self.cleanTitle(self.videoTitle)
                 
-                self.animeDetailsViewController?.fetchAnimeID(title: cleanedTitle ?? "Title") { animeID in
+                self.fetchAnimeID(title: cleanedTitle) { animeID in
                     let aniListMutation = AniListMutation()
                     aniListMutation.updateAnimeProgress(animeId: animeID, episodeNumber: Int(self.cell.episodeNumber) ?? 0) { result in
                         switch result {
@@ -507,10 +516,33 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
                         }
                     }
                     
-                    self.animeDetailsViewController?.hasSentUpdate = true
+                    self.hasSentUpdate = true
                 }
             }
         }
+    }
+    
+    func fetchAnimeID(title: String, completion: @escaping (Int) -> Void) {
+        AnimeService.fetchAnimeID(byTitle: title) { result in
+            switch result {
+            case .success(let id):
+                completion(id)
+            case .failure(let error):
+                print("Error fetching anime ID: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func cleanTitle(_ title: String) -> String {
+        let unwantedStrings = ["(ITA)", "(Dub)", "(Dub ID)", "(Dublado)"]
+        var cleanedTitle = title
+        
+        for unwanted in unwantedStrings {
+            cleanedTitle = cleanedTitle.replacingOccurrences(of: unwanted, with: "")
+        }
+        
+        cleanedTitle = cleanedTitle.replacingOccurrences(of: "\"", with: "")
+        return cleanedTitle.trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
     private func updatePlayPauseButton() {
@@ -775,6 +807,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
     }
     
     @objc private func dismissButtonTapped() {
+        self.hasSentUpdate = false
         findViewController()?.dismiss(animated: true, completion: nil)
     }
     

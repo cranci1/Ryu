@@ -12,8 +12,8 @@ class CustomPlayerView: UIViewController {
     
     private var playerView: CustomVideoPlayerView!
     
-    private var videoTitle: String?
-    private var videoURL: URL?
+    private var videoTitle: String
+    private var videoURL: URL
     private var subURL: URL?
     private var cell: EpisodeCell
     private var fullURL: String
@@ -30,9 +30,7 @@ class CustomPlayerView: UIViewController {
     }
     
     required init?(coder: NSCoder) {
-        self.cell = EpisodeCell()
-        self.fullURL = ""
-        super.init(coder: coder)
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
@@ -42,7 +40,7 @@ class CustomPlayerView: UIViewController {
         
         setupAudioSession()
         
-        playerView = CustomVideoPlayerView(frame: view.bounds)
+        playerView = CustomVideoPlayerView(frame: view.bounds, cell: cell, fullURL: fullURL)
         view.addSubview(playerView)
         
         playerView.translatesAutoresizingMaskIntoConstraints = false
@@ -53,9 +51,7 @@ class CustomPlayerView: UIViewController {
             playerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         
-        if let videoURL = videoURL {
-            playerView.setVideo(url: videoURL, title: videoTitle ?? "", subURL: subURL, cell: cell, fullURL: fullURL)
-        }
+        playerView.setVideo(url: videoURL, title: videoTitle, subURL: subURL, cell: cell, fullURL: fullURL)
     }
     
     private func setupAudioSession() {
