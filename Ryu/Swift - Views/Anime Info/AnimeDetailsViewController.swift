@@ -319,6 +319,8 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             baseUrl = "https://anitaku.pe"
         case "AnimeHeaven":
             baseUrl = "https://animeheaven.me/"
+        case "HiAnime":
+            baseUrl = "https://hianime.to/watch/"
         default:
             baseUrl = ""
         }
@@ -331,12 +333,8 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
             return
         }
         
-        UIApplication.shared.open(url, options: [:]) { success in
-            if !success {
-                print("Failed to open URL: \(url)")
-                self.showAlert(withTitle: "Error", message: "Failed to open the URL.")
-            }
-        }
+        let safariViewController = SFSafariViewController(url: url)
+        present(safariViewController, animated: true, completion: nil)
     }
     
     private func refreshAnimeDetails() {
@@ -442,7 +440,23 @@ class AnimeDetailViewController: UITableViewController, WKNavigationDelegate, GC
     }
     
     @objc private func openInWeb(fullURL: String) {
-        guard let url = URL(string: fullURL) else {
+        let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource")
+        
+        if selectedMediaSource == "HiAnime" {
+            if let extractedID = extractEpisodeId(from: fullURL) {
+                let hiAnimeURL = "https://hianime.to/watch/\(extractedID)"
+                print(hiAnimeURL)
+                openSafariViewController(with: hiAnimeURL)
+            } else {
+                showAlert(title: "Error", message: "Unable to extract episode ID")
+            }
+        } else {
+            openSafariViewController(with: fullURL)
+        }
+    }
+    
+    private func openSafariViewController(with urlString: String) {
+        guard let url = URL(string: urlString) else {
             showAlert(title: "Error", message: "Unable to open the webpage")
             return
         }

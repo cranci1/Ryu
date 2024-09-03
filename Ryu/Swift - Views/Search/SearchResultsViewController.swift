@@ -6,9 +6,9 @@
 //
 
 import UIKit
-import Kingfisher
 import Alamofire
 import SwiftSoup
+import SafariServices
 
 class SearchResultsViewController: UIViewController {
     
@@ -448,6 +448,8 @@ extension SearchResultsViewController: UIContextMenuInteractionDelegate {
             baseUrl = "https://anitaku.pe"
         case "AnimeHeaven":
             baseUrl = "https://animeheaven.me/"
+        case "HiAnime":
+            baseUrl = "https://hianime.to/watch/"
         default:
             baseUrl = ""
         }
@@ -460,12 +462,8 @@ extension SearchResultsViewController: UIContextMenuInteractionDelegate {
             return
         }
         
-        UIApplication.shared.open(url, options: [:]) { success in
-            if !success {
-                print("Failed to open URL: \(url)")
-                self.showAlert(withTitle: "Error", message: "Failed to open the URL.")
-            }
-        }
+        let safariViewController = SFSafariViewController(url: url)
+        present(safariViewController, animated: true, completion: nil)
     }
     
     private func showAlert(withTitle title: String, message: String) {

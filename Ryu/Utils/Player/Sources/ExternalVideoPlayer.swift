@@ -432,58 +432,76 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
     }
     
     func loadQualityOptions(from url: URL, completion: @escaping (Bool, Error?) -> Void) {
-        let task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-            guard let self = self else { return }
-            
-            if let error = error {
-                print("Error downloading m3u8 file: \(error)")
-                DispatchQueue.main.async {
-                    completion(false, error)
+        let maxRetries = UserDefaults.standard.integer(forKey: "MaxRetries")
+        var retryCount = 0
+        
+        func attemptParsing() {
+            let task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+                guard let self = self else { return }
+                
+                if let error = error {
+                    print("Error downloading m3u8 file: \(error)")
+                    retryOrDismiss(error: error)
+                    return
                 }
-                return
-            }
-            
-            guard let data = data,
-                  let m3u8Content = String(data: data, encoding: .utf8) else {
-                print("Failed to decode m3u8 file content")
-                let error = NSError(domain: "M3U8ErrorDomain", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to parse m3u8 file"])
-                DispatchQueue.main.async {
-                    completion(false, error)
-                }
-                return
-            }
-            
-            print("m3u8 file content:\n\(m3u8Content)")
-            
-            let lines = m3u8Content.components(separatedBy: .newlines)
-            var currentName: String?
-            var newQualityOptions: [(name: String, fileName: String)] = []
-            
-            for line in lines {
-                if line.hasPrefix("#EXT-X-STREAM-INF") {
-                    if let nameRange = line.range(of: "NAME=\"") {
-                        let nameStartIndex = line.index(nameRange.upperBound, offsetBy: 0)
-                        if let nameEndIndex = line[nameStartIndex...].firstIndex(of: "\"") {
-                            currentName = String(line[nameStartIndex..<nameEndIndex])
+                
+                guard let data = data,
+                      let m3u8Content = String(data: data, encoding: .utf8) else {
+                          print("Failed to decode m3u8 file content")
+                          let error = NSError(domain: "M3U8ErrorDomain", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to parse m3u8 file"])
+                          retryOrDismiss(error: error)
+                          return
+                      }
+                
+                print("m3u8 file content:\n\(m3u8Content)")
+                
+                let lines = m3u8Content.components(separatedBy: .newlines)
+                var currentName: String?
+                var newQualityOptions: [(name: String, fileName: String)] = []
+                
+                for line in lines {
+                    if line.hasPrefix("#EXT-X-STREAM-INF") {
+                        if let nameRange = line.range(of: "NAME=\"") {
+                            let nameStartIndex = line.index(nameRange.upperBound, offsetBy: 0)
+                            if let nameEndIndex = line[nameStartIndex...].firstIndex(of: "\"") {
+                                currentName = String(line[nameStartIndex..<nameEndIndex])
+                            }
                         }
+                    } else if line.hasSuffix(".m3u8"), let name = currentName {
+                        let fullURL = URL(string: line, relativeTo: url)?.absoluteString ?? line
+                        newQualityOptions.append((name: name, fileName: fullURL))
+                        currentName = nil
                     }
-                } else if line.hasSuffix(".m3u8"), let name = currentName {
-                    let fullURL = URL(string: line, relativeTo: url)?.absoluteString ?? line
-                    newQualityOptions.append((name: name, fileName: fullURL))
-                    currentName = nil
+                }
+                self.qualityOptions = newQualityOptions
+                print("Parsed quality options: \(self.qualityOptions)")
+                
+                DispatchQueue.main.async {
+                    completion(true, nil)
                 }
             }
-            
-            self.qualityOptions = newQualityOptions
-            print("Parsed quality options: \(self.qualityOptions)")
-            
-            DispatchQueue.main.async {
-                completion(true, nil)
+            task.resume()
+        }
+        
+        func retryOrDismiss(error: Error) {
+            retryCount += 1
+            if retryCount < maxRetries {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    print("Retrying parsing attempt \(retryCount)...")
+                    attemptParsing()
+                }
+            } else {
+                print("Max retries reached. Dismissing view.")
+                DispatchQueue.main.async {
+                    self.dismiss(animated: true, completion: nil)
+                }
+                completion(false, error)
             }
         }
-        task.resume()
+        
+        attemptParsing()
     }
-
+    
     private func castVideoToGoogleCast(videoURL: URL) {
         DispatchQueue.main.async {
             let metadata = GCKMediaMetadata(metadataType: .movie)
