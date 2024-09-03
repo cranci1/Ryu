@@ -287,10 +287,10 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             playerProgress.heightAnchor.constraint(equalToConstant: 8),
             
             currentTimeLabel.leadingAnchor.constraint(equalTo: playerProgress.leadingAnchor),
-            currentTimeLabel.bottomAnchor.constraint(equalTo: controlsContainerView.bottomAnchor, constant: 10),
+            currentTimeLabel.bottomAnchor.constraint(equalTo: controlsContainerView.bottomAnchor, constant: -20),
             
             totalTimeLabel.trailingAnchor.constraint(equalTo: playerProgress.trailingAnchor),
-            totalTimeLabel.bottomAnchor.constraint(equalTo: controlsContainerView.bottomAnchor, constant: 10),
+            totalTimeLabel.bottomAnchor.constraint(equalTo: controlsContainerView.bottomAnchor, constant: -20),
             
             settingsButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
             settingsButton.trailingAnchor.constraint(equalTo: totalTimeLabel.trailingAnchor),
