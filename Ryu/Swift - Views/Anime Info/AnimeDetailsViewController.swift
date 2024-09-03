@@ -563,7 +563,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                 }
                 
                 self.selectServer(servers: servers, preferredServer: preferredServer) { server in
-                    let finalURL = "https://aniwatch.cranci.xyz/anime/episode-srcs?id=\(episodeId)&category=\(category)&server=\(server)"
+                    let finalURL = "https://aniwatch-api-dusky.vercel.app/anime/episode-srcs?id=\(episodeId)&category=\(category)&server=\(server)"
                     print(finalURL)
                     
                     self.fetchHiAnimeData(from: finalURL) { sourceURL, captionURLs in
@@ -942,7 +942,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
     }
     
     func fetchEpisodeOptions(episodeId: String, completion: @escaping ([String: [[String: Any]]]) -> Void) {
-        let url = URL(string: "https://aniwatch.cranci.xyz/anime/servers?episodeId=\(episodeId)")!
+        let url = URL(string: "https://aniwatch-api-dusky.vercel.app/anime/servers?episodeId=\(episodeId)")!
         print(url)
         
         URLSession.shared.dataTask(with: url) { data, response, error in

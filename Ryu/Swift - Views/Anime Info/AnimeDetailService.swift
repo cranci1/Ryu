@@ -33,7 +33,7 @@ class AnimeDetailService {
         case .animeheaven:
             baseUrl = "https://animeheaven.me/"
         case .hianime:
-            baseUrl = "https://aniwatch.cranci.xyz/anime/info?id="
+            baseUrl = "https://aniwatch-api-dusky.vercel.app/anime/info?id="
         case .animefire, .kuramanime, .jkanime, .anime3rb, .zorotv:
             baseUrl = ""
         }
@@ -150,7 +150,7 @@ class AnimeDetailService {
     }
     
     static func fetchHiAnimeEpisodes(from href: String, completion: @escaping (Result<[Episode], Error>) -> Void) {
-        let baseUrl = "https://aniwatch.cranci.xyz/anime/episodes/"
+        let baseUrl = "https://aniwatch-api-dusky.vercel.app/anime/episodes/"
         let fullUrl = baseUrl + href
         
         AF.request(fullUrl).responseJSON { response in
@@ -174,7 +174,7 @@ class AnimeDetailService {
                     
                     let episodeNumber = "\(number)"
                     let hrefID = episodeId
-                    let href = "https://aniwatch.cranci.xyz/anime/episode-srcs?id=" + hrefID
+                    let href = "https://aniwatch-api-dusky.vercel.app/anime/episode-srcs?id=" + hrefID
                     
                     return Episode(number: episodeNumber, href: href, downloadUrl: "")
                 }
