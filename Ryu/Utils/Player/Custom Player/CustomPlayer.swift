@@ -268,18 +268,18 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             
             playPauseButton.centerXAnchor.constraint(equalTo: centerXAnchor),
             playPauseButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-            playPauseButton.widthAnchor.constraint(equalToConstant: 55),
-            playPauseButton.heightAnchor.constraint(equalToConstant: 60),
+            playPauseButton.widthAnchor.constraint(equalToConstant: 50),
+            playPauseButton.heightAnchor.constraint(equalToConstant: 55),
             
             rewindButton.trailingAnchor.constraint(equalTo: playPauseButton.leadingAnchor, constant: -20),
             rewindButton.centerYAnchor.constraint(equalTo: playPauseButton.centerYAnchor),
-            rewindButton.widthAnchor.constraint(equalToConstant: 30),
-            rewindButton.heightAnchor.constraint(equalToConstant: 30),
+            rewindButton.widthAnchor.constraint(equalToConstant: 35),
+            rewindButton.heightAnchor.constraint(equalToConstant: 35),
             
             forwardButton.leadingAnchor.constraint(equalTo: playPauseButton.trailingAnchor, constant: 20),
             forwardButton.centerYAnchor.constraint(equalTo: playPauseButton.centerYAnchor),
-            forwardButton.widthAnchor.constraint(equalToConstant: 30),
-            forwardButton.heightAnchor.constraint(equalToConstant: 30),
+            forwardButton.widthAnchor.constraint(equalToConstant: 35),
+            forwardButton.heightAnchor.constraint(equalToConstant: 35),
             
             playerProgress.leadingAnchor.constraint(equalTo: controlsContainerView.leadingAnchor, constant: 20),
             playerProgress.trailingAnchor.constraint(equalTo: controlsContainerView.trailingAnchor, constant: -20),

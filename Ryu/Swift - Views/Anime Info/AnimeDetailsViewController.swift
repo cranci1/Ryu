@@ -574,13 +574,15 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                                 return
                             }
                             
-                            self.selectSubtitles(captionURLs: captionURLs) { selectedCaptionURL in
-                                guard let selectedCaptionURL = selectedCaptionURL else {
-                                    print("No caption URL selected")
-                                    return
+                            let subtitleURL: URL = {
+                                if let url = captionURLs?[UserDefaults.standard.string(forKey: "subtitleHiPrefe") ?? "English"] {
+                                    return url
+                                } else {
+                                    return URL(string: "https://nosubtitlesfor.you")!
                                 }
-                                self.openHiAnimeExperimental(url: sourceURL, subURL: selectedCaptionURL, cell: cell, fullURL: fullURL)
-                            }
+                            }()
+                            
+                            self.openHiAnimeExperimental(url: sourceURL, subURL: subtitleURL, cell: cell, fullURL: fullURL)
                         }
                     }
                 }

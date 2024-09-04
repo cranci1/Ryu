@@ -308,10 +308,56 @@ extension SettingsViewController: UIDocumentPickerDelegate {
             return
         }
         
-        importBackup(from: selectedFileURL)
+        presentBackupImportOptions(for: selectedFileURL)
     }
     
-    private func importBackup(from url: URL) {
+    private func presentBackupImportOptions(for url: URL) {
+        let alertController = UIAlertController(title: "Backup Import Options", message: "Choose how to handle the backup:", preferredStyle: .alert)
+        
+        let replaceAction = UIAlertAction(title: "Replace Current Data", style: .default) { [weak self] _ in
+            self?.replaceData(withBackupAt: url)
+        }
+        
+        let mergeAction = UIAlertAction(title: "Merge Backup with Data", style: .default) { [weak self] _ in
+            self?.mergeBackup(withBackupAt: url)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
+        
+        alertController.addAction(replaceAction)
+        alertController.addAction(mergeAction)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    private func replaceData(withBackupAt url: URL) {
+        do {
+            
+            if let domain = Bundle.main.bundleIdentifier {
+                UserDefaults.standard.removePersistentDomain(forName: domain)
+                UserDefaults.standard.synchronize()
+            }
+            
+            let backupData = try Data(contentsOf: url)
+            guard let backupString = String(data: backupData, encoding: .utf8) else {
+                showAlert(message: "Invalid backup file format.")
+                return
+            }
+            
+            if BackupManager.shared.importBackup(backupString) {
+                showAlert(message: "Backup imported successfully and current data replaced!")
+                NotificationCenter.default.post(name: .appDataReset, object: nil)
+                loadUserDefaults()
+            } else {
+                showAlert(message: "Failed to import backup.")
+            }
+        } catch {
+            showAlert(message: "Failed to read backup file: \(error.localizedDescription)")
+        }
+    }
+    
+    private func mergeBackup(withBackupAt url: URL) {
         do {
             let backupData = try Data(contentsOf: url)
             guard let backupString = String(data: backupData, encoding: .utf8) else {
@@ -320,7 +366,8 @@ extension SettingsViewController: UIDocumentPickerDelegate {
             }
             
             if BackupManager.shared.importBackup(backupString) {
-                showAlert(message: "Backup imported successfully!")
+                showAlert(message: "Backup imported successfully and merged with current data!")
+                NotificationCenter.default.post(name: .appDataReset, object: nil)
                 loadUserDefaults()
             } else {
                 showAlert(message: "Failed to import backup.")
