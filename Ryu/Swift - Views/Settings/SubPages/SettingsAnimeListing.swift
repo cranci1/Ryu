@@ -13,18 +13,32 @@ class SettingsAnimeListing: UITableViewController {
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var loginLogoutLabel: UILabel!
     
+    @IBOutlet var pushUpdatesSwitch: UISwitch!
+    
     let serviceName = "me.ryu.AniListToken"
     let accountName = "AniListAccessToken"
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        pushUpdatesSwitch.isEnabled = false
+        
         updateUserStatus()
+        loadUserDefaultss()
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(loginLogoutLabelTapped))
         loginLogoutLabel.isUserInteractionEnabled = true
         loginLogoutLabel.addGestureRecognizer(tapGesture)
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleAuthorizationCode(_:)), name: Notification.Name("AuthorizationCodeReceived"), object: nil)
+    }
+    
+    func loadUserDefaultss() {
+        pushUpdatesSwitch.isOn = UserDefaults.standard.bool(forKey: "sendPushUpdates")
+    }
+    
+    @IBAction func pushUpdatesToggle(_ sender: UISwitch) {
+        UserDefaults.standard.set(sender.isOn, forKey: "sendPushUpdates")
     }
     
     @IBAction func closeButtonTapped() {
@@ -85,9 +99,11 @@ class SettingsAnimeListing: UITableViewController {
     
     func updateUserStatus() {
         if let token = getTokenFromKeychain() {
+            pushUpdatesSwitch.isEnabled = true
             fetchUserInfo(token: token)
         } else {
             statusLabel.text = "You are not logged in"
+            pushUpdatesSwitch.isEnabled = false
         }
         updateLoginLogoutLabelText()
     }
@@ -155,7 +171,9 @@ class SettingsAnimeListing: UITableViewController {
                         let usernameRange = (fullText as NSString).range(of: username)
                         attributedText.addAttribute(.foregroundColor, value: color, range: usernameRange)
                         
+                        UserDefaults.standard.set(true, forKey: "sendPushUpdates")
                         self.statusLabel.attributedText = attributedText
+                        self.loadUserDefaultss()
                     }
                 } else {
                     DispatchQueue.main.async {

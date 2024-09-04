@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="qDf-0y-9t8">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina6_1" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
@@ -1143,8 +1143,38 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                                         </tableViewCellContentView>
                                         <gestureRecognizers/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="Obx-Dp-2q5">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="WLh-0v-coc">
                                         <rect key="frame" x="20" y="177.5" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="WLh-0v-coc" id="Tn3-Ip-zsA">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Send Push updates" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7JY-pU-aYd">
+                                                    <rect key="frame" x="15" y="13" width="133" height="18"/>
+                                                    <color key="tintColor" name="AccentColor"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wkh-gh-YfR">
+                                                    <rect key="frame" x="310" y="6.5" width="51" height="31"/>
+                                                    <color key="onTintColor" name="AccentColor"/>
+                                                    <connections>
+                                                        <action selector="pushUpdatesToggle:" destination="tJk-lL-JpK" eventType="valueChanged" id="aO4-kf-W0h"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Wkh-gh-YfR" firstAttribute="trailing" secondItem="Tn3-Ip-zsA" secondAttribute="trailing" constant="-15" id="DIQ-qh-6Ag"/>
+                                                <constraint firstItem="7JY-pU-aYd" firstAttribute="centerY" secondItem="Tn3-Ip-zsA" secondAttribute="centerY" id="RoD-gZ-GIk"/>
+                                                <constraint firstItem="Wkh-gh-YfR" firstAttribute="centerY" secondItem="Tn3-Ip-zsA" secondAttribute="centerY" id="SyG-5Q-elw"/>
+                                                <constraint firstItem="7JY-pU-aYd" firstAttribute="leading" secondItem="Tn3-Ip-zsA" secondAttribute="leading" constant="15" id="X1O-t5-Sbp"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <gestureRecognizers/>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="Obx-Dp-2q5">
+                                        <rect key="frame" x="20" y="221" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Obx-Dp-2q5" id="SNQ-c4-ZeI">
                                             <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
@@ -1186,6 +1216,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                     </navigationItem>
                     <connections>
                         <outlet property="loginLogoutLabel" destination="vVV-Wb-M3z" id="AUd-n3-uTR"/>
+                        <outlet property="pushUpdatesSwitch" destination="Wkh-gh-YfR" id="yvu-dT-In0"/>
                         <outlet property="statusLabel" destination="yEL-IM-x2e" id="2GU-8C-cnG"/>
                     </connections>
                 </tableViewController>

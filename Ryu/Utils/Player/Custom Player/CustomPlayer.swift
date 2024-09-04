@@ -502,12 +502,14 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             )
             ContinueWatchingManager.shared.saveItem(continueWatchingItem)
             
-            if remainingTime < 120 && !(self.hasSentUpdate) {
+            let shouldSendPushUpdates = UserDefaults.standard.bool(forKey: "sendPushUpdates")
+            
+            if shouldSendPushUpdates && remainingTime < 120 && !self.hasSentUpdate {
                 let cleanedTitle = self.cleanTitle(self.videoTitle)
                 
                 self.fetchAnimeID(title: cleanedTitle) { animeID in
                     let aniListMutation = AniListMutation()
-                    aniListMutation.updateAnimeProgress(animeId: animeID, episodeNumber: Int(self.cell.episodeNumber) ?? 0) { result in
+                    aniListMutation.updateAnimeProgress(animeId: animeID, episodeNumber: episodeNumber) { result in
                         switch result {
                         case .success():
                             print("Successfully updated anime progress.")

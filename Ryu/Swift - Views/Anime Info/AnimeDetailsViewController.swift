@@ -1524,7 +1524,9 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
             )
             ContinueWatchingManager.shared.saveItem(continueWatchingItem)
             
-            if remainingTime < 120 && !self.hasSentUpdate {
+            let shouldSendPushUpdates = UserDefaults.standard.bool(forKey: "sendPushUpdates")
+            
+            if shouldSendPushUpdates && remainingTime < 120 && !self.hasSentUpdate {
                 let cleanedTitle = self.cleanTitle(self.animeTitle ?? "Unknown Anime")
                 
                 self.fetchAnimeID(title: cleanedTitle) { animeID in
