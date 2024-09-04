@@ -16,16 +16,20 @@ class FavoritesManager {
     
     func addFavorite(_ item: FavoriteItem) {
         var favorites = getFavorites()
-        favorites.append(item)
-        saveFavorites(favorites)
-        NotificationCenter.default.post(name: FavoritesManager.favoritesChangedNotification, object: nil)
+        if !favorites.contains(where: { $0.contentURL == item.contentURL }) {
+            favorites.append(item)
+            saveFavorites(favorites)
+            NotificationCenter.default.post(name: FavoritesManager.favoritesChangedNotification, object: nil)
+        }
     }
     
     func removeFavorite(_ item: FavoriteItem) {
         var favorites = getFavorites()
-        favorites.removeAll { $0.contentURL == item.contentURL }
-        saveFavorites(favorites)
-        NotificationCenter.default.post(name: FavoritesManager.favoritesChangedNotification, object: nil)
+        if let index = favorites.firstIndex(where: { $0.contentURL == item.contentURL }) {
+            favorites.remove(at: index)
+            saveFavorites(favorites)
+            NotificationCenter.default.post(name: FavoritesManager.favoritesChangedNotification, object: nil)
+        }
     }
     
     func getFavorites() -> [FavoriteItem] {
@@ -34,12 +38,16 @@ class FavoritesManager {
     }
     
     func saveFavorites(_ favorites: [FavoriteItem]) {
-        if let data = try? JSONEncoder().encode(favorites) {
+        do {
+            let data = try JSONEncoder().encode(favorites)
             UserDefaults.standard.set(data, forKey: favoritesKey)
+        } catch {
+            print("Failed to encode favorites: \(error)")
         }
     }
     
     func isFavorite(_ item: FavoriteItem) -> Bool {
-        return getFavorites().contains { $0.contentURL == item.contentURL }
+        let favorites = getFavorites()
+        return favorites.contains(where: { $0.contentURL == item.contentURL })
     }
 }
