@@ -238,6 +238,12 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
     private func showOptionsMenu() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
+        let customAniListIDAction = UIAlertAction(title: "Custom AniList ID", style: .default) { [weak self] _ in
+            self?.customAniListID()
+        }
+        customAniListIDAction.setValue(UIImage(systemName: "pencil"), forKey: "image")
+        alertController.addAction(customAniListIDAction)
+        
         let fetchIDAction = UIAlertAction(title: "AniList Info", style: .default) { [weak self] _ in
             guard let self = self else { return }
             let cleanedTitle = self.cleanTitle(self.animeTitle ?? "Title")
@@ -270,6 +276,33 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
         present(alertController, animated: true, completion: nil)
     }
     
+    private func customAniListID() {
+        let alert = UIAlertController(title: "Custom AniList ID", message: "Enter a custom AniList ID for this anime:", preferredStyle: .alert)
+        
+        alert.addTextField { textField in
+            textField.placeholder = "AniList ID"
+            if let animeTitle = self.animeTitle {
+                let customID = UserDefaults.standard.string(forKey: "customAniListID_\(animeTitle)")
+                textField.text = customID
+            }
+        }
+        
+        let saveAction = UIAlertAction(title: "Save", style: .default) { [weak self] _ in
+            if let animeTitle = self?.animeTitle, let textField = alert.textFields?.first, let customID = textField.text, !customID.isEmpty {
+                UserDefaults.standard.setValue(customID, forKey: "customAniListID_\(animeTitle)")
+            } else {
+                self?.showAlert(title: "Error", message: "AniList ID cannot be empty.")
+            }
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alert.addAction(saveAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
     func cleanTitle(_ title: String) -> String {
         let unwantedStrings = ["(ITA)", "(Dub)", "(Dub ID)", "(Dublado)"]
         var cleanedTitle = title
@@ -283,13 +316,17 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
     }
     
     private func fetchAndNavigateToAnime(title: String) {
-        AnimeService.fetchAnimeID(byTitle: title) { [weak self] result in
-            switch result {
-            case .success(let id):
-                self?.navigateToAnimeDetail(for: id)
-            case .failure(let error):
-                print("Error fetching anime ID: \(error.localizedDescription)")
-                self?.showAlert(title: "Error", message: "Ryu is not able to find the anime ID from AniList")
+        if let customID = UserDefaults.standard.string(forKey: "customAniListID_\(animeTitle ?? "")") {
+            navigateToAnimeDetail(for: Int(customID) ?? 0)
+        } else {
+            AnimeService.fetchAnimeID(byTitle: title) { [weak self] result in
+                switch result {
+                case .success(let id):
+                    self?.navigateToAnimeDetail(for: id)
+                case .failure(let error):
+                    print("Error fetching anime ID: \(error.localizedDescription)")
+                    self?.showAlert(title: "Error", message: "Unable to find the anime ID from AniList")
+                }
             }
         }
     }
@@ -1547,6 +1584,15 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
     }
     
     func fetchAnimeID(title: String, completion: @escaping (Int) -> Void) {
+        if let animeTitle = self.animeTitle {
+            let customID = UserDefaults.standard.string(forKey: "customAniListID_\(animeTitle)")
+            
+            if let customID = customID, let id = Int(customID) {
+                completion(id)
+                return
+            }
+        }
+        
         AnimeService.fetchAnimeID(byTitle: title) { result in
             switch result {
             case .success(let id):

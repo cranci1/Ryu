@@ -525,6 +525,15 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
     }
     
     func fetchAnimeID(title: String, completion: @escaping (Int) -> Void) {
+        if let videoTitle = self.videoTitle as String? {
+            let customID = UserDefaults.standard.string(forKey: "customAniListID_\(videoTitle)")
+            
+            if let customID = customID, let id = Int(customID) {
+                completion(id)
+                return
+            }
+        }
+        
         AnimeService.fetchAnimeID(byTitle: title) { result in
             switch result {
             case .success(let id):
