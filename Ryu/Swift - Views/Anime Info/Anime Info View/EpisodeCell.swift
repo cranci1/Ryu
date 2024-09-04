@@ -33,6 +33,7 @@ class EpisodeCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupCell()
+        setupGestureRecognizers()
     }
     
     required init?(coder: NSCoder) {
@@ -142,7 +143,7 @@ class EpisodeCell: UITableViewCell {
             resetPlaybackProgress()
         }
     }
-
+    
     func configure(episode: Episode, delegate: AnimeDetailViewController) {
         self.episode = episode
         self.delegate = delegate
@@ -167,5 +168,53 @@ class EpisodeCell: UITableViewCell {
         if let episode = episode, let delegate = delegate {
             delegate.downloadMedia(for: episode)
         }
+    }
+    
+    private func setupGestureRecognizers() {
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+        addGestureRecognizer(longPressGesture)
+    }
+    
+    @objc private func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
+        guard gesture.state == .began else { return }
+        
+        becomeFirstResponder()
+        
+        var menuItems: [UIMenuItem] = []
+        
+        menuItems.append(UIMenuItem(title: "Mark as Finished", action: #selector(markAsFinished)))
+        
+        if playbackProgressView.progress > 0 {
+            menuItems.append(UIMenuItem(title: "Clear Progress", action: #selector(clearProgress)))
+        }
+        
+        UIMenuController.shared.menuItems = menuItems
+        UIMenuController.shared.showMenu(from: self, rect: self.bounds)
+    }
+    
+    override var canBecomeFirstResponder: Bool {
+        return true
+    }
+    
+    @objc private func markAsFinished() {
+        guard let episode = episode else { return }
+        let fullURL = episode.href
+        
+        let totalTime = "24.0"
+        
+        UserDefaults.standard.set(totalTime, forKey: "lastPlayedTime_\(fullURL)")
+        UserDefaults.standard.set(totalTime, forKey: "totalTime_\(fullURL)")
+        
+        updatePlaybackProgress(progress: 1.0, remainingTime: 0)
+    }
+    
+    @objc private func clearProgress() {
+        guard let episode = episode else { return }
+        let fullURL = episode.href
+        
+        UserDefaults.standard.removeObject(forKey: "lastPlayedTime_\(fullURL)")
+        UserDefaults.standard.removeObject(forKey: "totalTime_\(fullURL)")
+        
+        resetPlaybackProgress()
     }
 }

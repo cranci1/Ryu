@@ -1508,7 +1508,6 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
             
             UserDefaults.standard.set(currentTime, forKey: "lastPlayedTime_\(fullURL)")
             UserDefaults.standard.set(duration, forKey: "totalTime_\(fullURL)")
-            print(fullURL)
             
             let episodeNumber = Int(cell.episodeNumber) ?? 0
             let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
