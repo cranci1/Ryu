@@ -186,16 +186,20 @@ class EpisodeCell: UITableViewCell {
             let lastPlayedTime = UserDefaults.standard.double(forKey: "lastPlayedTime_\(fullURL)")
             let totalTime = UserDefaults.standard.double(forKey: "totalTime_\(fullURL)")
             let remainingTime = totalTime - lastPlayedTime
-
-            if remainingTime < 120 {
-                menuItems.append(UIMenuItem(title: "Clear Data", action: #selector(clearProgress)))
-                menuItems.append(UIMenuItem(title: "Rewatch", action: #selector(rewatch)))
+            
+            if lastPlayedTime > 0 || totalTime > 0 {
+                if remainingTime < 120 {
+                    menuItems.append(UIMenuItem(title: "Clear Progress", action: #selector(clearProgress)))
+                    menuItems.append(UIMenuItem(title: "Rewatch", action: #selector(rewatch)))
+                } else {
+                    menuItems.append(UIMenuItem(title: "Mark as Finished", action: #selector(markAsFinished)))
+                    
+                    if playbackProgressView.progress > 0 {
+                        menuItems.append(UIMenuItem(title: "Clear Progress", action: #selector(clearProgress)))
+                    }
+                }
             } else {
                 menuItems.append(UIMenuItem(title: "Mark as Finished", action: #selector(markAsFinished)))
-                
-                if playbackProgressView.progress > 0 {
-                    menuItems.append(UIMenuItem(title: "Clear Progress", action: #selector(clearProgress)))
-                }
             }
         }
         
@@ -217,7 +221,7 @@ class EpisodeCell: UITableViewCell {
         guard let episode = episode else { return }
         let fullURL = episode.href
         
-        let totalTime = "24.0"
+        let totalTime = "240.0"
         
         UserDefaults.standard.set(totalTime, forKey: "lastPlayedTime_\(fullURL)")
         UserDefaults.standard.set(totalTime, forKey: "totalTime_\(fullURL)")
