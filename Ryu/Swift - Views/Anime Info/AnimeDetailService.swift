@@ -332,7 +332,6 @@ class AnimeDetailService {
                     guard let episodeText = try? element.text(),
                           let href = try? element.attr("href") else { return nil }
                     let downloadUrl = try? document.select(downloadUrlElement).attr("href")
-                    print("\(href)")
                     return Episode(number: episodeText, href: href, downloadUrl: downloadUrl ?? "")
                 }
             }

@@ -23,6 +23,7 @@ class EpisodeCell: UITableViewCell {
     let startnowLabel = UILabel()
     let playbackProgressView = UIProgressView(progressViewStyle: .default)
     let remainingTimeLabel = UILabel()
+    let infoButton = UIButton(type: .infoLight)
     
     var episodeNumber: String = ""
     let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
@@ -48,12 +49,14 @@ class EpisodeCell: UITableViewCell {
         contentView.addSubview(startnowLabel)
         contentView.addSubview(playbackProgressView)
         contentView.addSubview(remainingTimeLabel)
+        contentView.addSubview(infoButton)
         
         episodeLabel.translatesAutoresizingMaskIntoConstraints = false
         downloadButton.translatesAutoresizingMaskIntoConstraints = false
         startnowLabel.translatesAutoresizingMaskIntoConstraints = false
         playbackProgressView.translatesAutoresizingMaskIntoConstraints = false
         remainingTimeLabel.translatesAutoresizingMaskIntoConstraints = false
+        infoButton.translatesAutoresizingMaskIntoConstraints = false
         
         episodeLabel.font = UIFont.systemFont(ofSize: 16)
         
@@ -73,6 +76,9 @@ class EpisodeCell: UITableViewCell {
         remainingTimeLabel.textColor = .secondaryLabel
         remainingTimeLabel.textAlignment = .right
         
+        infoButton.tintColor = .systemTeal
+        infoButton.addTarget(self, action: #selector(infoButtonTapped), for: .touchUpInside)
+        
         NSLayoutConstraint.activate([
             episodeLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             episodeLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
@@ -91,6 +97,11 @@ class EpisodeCell: UITableViewCell {
             
             remainingTimeLabel.leadingAnchor.constraint(equalTo: playbackProgressView.trailingAnchor, constant: 8),
             remainingTimeLabel.centerYAnchor.constraint(equalTo: startnowLabel.centerYAnchor),
+            
+            infoButton.centerYAnchor.constraint(equalTo: episodeLabel.centerYAnchor),
+            infoButton.leadingAnchor.constraint(equalTo: episodeLabel.trailingAnchor, constant: 4),
+            infoButton.widthAnchor.constraint(equalToConstant: 22),
+            infoButton.heightAnchor.constraint(equalToConstant: 22),
             
             contentView.bottomAnchor.constraint(equalTo: startnowLabel.bottomAnchor, constant: 10)
         ])
@@ -150,6 +161,8 @@ class EpisodeCell: UITableViewCell {
         self.episodeNumber = episode.number
         updateEpisodeLabel()
         updateDownloadButtonVisibility()
+        infoButton.accessibilityLabel = "Info for Episode \(episodeNumber)"
+        infoButton.accessibilityHint = "Tap to view more information about this episode"
     }
     
     private func updateEpisodeLabel() {
@@ -167,6 +180,76 @@ class EpisodeCell: UITableViewCell {
     @objc private func downloadButtonTapped() {
         if let episode = episode, let delegate = delegate {
             delegate.downloadMedia(for: episode)
+        }
+    }
+    
+    @objc private func infoButtonTapped() {
+        guard let delegate = delegate, let animeTitle = delegate.animeTitle else { return }
+        
+        let cleanedTitle = delegate.cleanTitle(animeTitle)
+        
+        delegate.fetchAnimeID(title: cleanedTitle) { anilistID in
+            self.fetchEpisodeInfo(anilistID: anilistID, episodeNumber: self.episodeNumber)
+        }
+    }
+    
+    private func fetchEpisodeInfo(anilistID: Int, episodeNumber: String) {
+        guard let url = URL(string: "https://api.ani.zip/mappings?anilist_id=\(anilistID)") else {
+            print("Invalid URL")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                print("Error fetching episode info: \(error.localizedDescription)")
+                DispatchQueue.main.async {
+                    self.showErrorAlert(message: "Failed to fetch episode information")
+                }
+                return
+            }
+            
+            guard let data = data else {
+                print("No data received")
+                return
+            }
+            
+            do {
+                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                   let episodes = json["episodes"] as? [String: [String: Any]],
+                   let episodeInfo = episodes[episodeNumber] {
+                    DispatchQueue.main.async {
+                        self.showEpisodeInfoView(episodeInfo)
+                    }
+                }
+            } catch {
+                print("Error parsing JSON: \(error.localizedDescription)")
+                DispatchQueue.main.async {
+                    self.showErrorAlert(message: "Failed to parse episode information")
+                }
+            }
+        }.resume()
+    }
+    
+    private func showEpisodeInfoView(_ info: [String: Any]) {
+        let episodeInfoVC = EpisodeInfoAlertController()
+        
+        let imageUrl = info["image"] as? String ?? ""
+        
+        episodeInfoVC.configure(with: info, imageUrl: imageUrl)
+        episodeInfoVC.modalPresentationStyle = .overFullScreen
+        episodeInfoVC.modalTransitionStyle = .crossDissolve
+        
+        if let viewController = self.delegate {
+            viewController.present(episodeInfoVC, animated: true, completion: nil)
+        }
+    }
+    
+    private func showErrorAlert(message: String) {
+        let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        
+        if let viewController = self.delegate {
+            viewController.present(alertController, animated: true, completion: nil)
         }
     }
     
@@ -221,7 +304,7 @@ class EpisodeCell: UITableViewCell {
         guard let episode = episode else { return }
         let fullURL = episode.href
         
-        let totalTime = "240.0"
+        let totalTime = "9999999999.9"
         
         UserDefaults.standard.set(totalTime, forKey: "lastPlayedTime_\(fullURL)")
         UserDefaults.standard.set(totalTime, forKey: "totalTime_\(fullURL)")
@@ -237,5 +320,148 @@ class EpisodeCell: UITableViewCell {
         UserDefaults.standard.removeObject(forKey: "totalTime_\(fullURL)")
         
         resetPlaybackProgress()
+    }
+}
+
+class EpisodeInfoAlertController: UIViewController {
+    let containerView = UIView()
+    let titleLabel = UILabel()
+    let airDateLabel = UILabel()
+    let runtimeLabel = UILabel()
+    let overviewLabel = UILabel()
+    let episodeImageView = UIImageView()
+    let okButton = UIButton(type: .system)
+    let topSeparatorLine = UIView()
+    let bottomSeparatorLine = UIView()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupViews()
+    }
+    
+    private func setupViews() {
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        
+        containerView.backgroundColor = .secondarySystemGroupedBackground
+        containerView.layer.cornerRadius = 14
+        containerView.clipsToBounds = true
+        
+        episodeImageView.contentMode = .scaleAspectFill
+        episodeImageView.clipsToBounds = true
+        episodeImageView.layer.cornerRadius = 8
+        
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        titleLabel.numberOfLines = 0
+        titleLabel.textAlignment = .center
+        
+        airDateLabel.font = UIFont.systemFont(ofSize: 14)
+        airDateLabel.textColor = .secondaryLabel
+        airDateLabel.textAlignment = .left
+        
+        runtimeLabel.font = UIFont.systemFont(ofSize: 14)
+        runtimeLabel.textColor = .secondaryLabel
+        runtimeLabel.textAlignment = .right
+        
+        overviewLabel.font = UIFont.systemFont(ofSize: 13)
+        overviewLabel.numberOfLines = 4
+        overviewLabel.textColor = .secondaryLabel
+        
+        topSeparatorLine.backgroundColor = UIColor.systemGray.withAlphaComponent(0.4)
+        bottomSeparatorLine.backgroundColor = UIColor.systemGray.withAlphaComponent(0.4)
+        
+        okButton.setTitle("OK", for: .normal)
+        okButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
+        okButton.addTarget(self, action: #selector(dismissAlert), for: .touchUpInside)
+        
+        view.addSubview(containerView)
+        containerView.addSubview(episodeImageView)
+        containerView.addSubview(titleLabel)
+        containerView.addSubview(airDateLabel)
+        containerView.addSubview(runtimeLabel)
+        containerView.addSubview(overviewLabel)
+        containerView.addSubview(bottomSeparatorLine)
+        containerView.addSubview(topSeparatorLine)
+        containerView.addSubview(okButton)
+        
+        setConstraints()
+    }
+    
+    private func setConstraints() {
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        episodeImageView.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        airDateLabel.translatesAutoresizingMaskIntoConstraints = false
+        runtimeLabel.translatesAutoresizingMaskIntoConstraints = false
+        overviewLabel.translatesAutoresizingMaskIntoConstraints = false
+        bottomSeparatorLine.translatesAutoresizingMaskIntoConstraints = false
+        topSeparatorLine.translatesAutoresizingMaskIntoConstraints = false
+        okButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            containerView.widthAnchor.constraint(equalToConstant: 320),
+            
+            episodeImageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
+            episodeImageView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            episodeImageView.widthAnchor.constraint(equalToConstant: 245),
+            episodeImageView.heightAnchor.constraint(equalToConstant: 140),
+            
+            titleLabel.topAnchor.constraint(equalTo: episodeImageView.bottomAnchor, constant: 4),
+            titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
+            titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
+            
+            airDateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+            airDateLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
+            airDateLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
+            
+            runtimeLabel.centerYAnchor.constraint(equalTo: airDateLabel.centerYAnchor),
+            runtimeLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
+            runtimeLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
+            
+            topSeparatorLine.topAnchor.constraint(equalTo: runtimeLabel.bottomAnchor, constant: 8),
+            topSeparatorLine.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            topSeparatorLine.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            topSeparatorLine.heightAnchor.constraint(equalToConstant: 0.5),
+            
+            overviewLabel.topAnchor.constraint(equalTo: topSeparatorLine.bottomAnchor, constant: 8),
+            overviewLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
+            overviewLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
+            
+            bottomSeparatorLine.topAnchor.constraint(equalTo: overviewLabel.bottomAnchor, constant: 8),
+            bottomSeparatorLine.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            bottomSeparatorLine.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            bottomSeparatorLine.heightAnchor.constraint(equalToConstant: 0.5),
+            
+            okButton.topAnchor.constraint(equalTo: bottomSeparatorLine.bottomAnchor, constant: 4),
+            okButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -4),
+            okButton.centerXAnchor.constraint(equalTo: containerView.centerXAnchor)
+        ])
+    }
+    
+    @objc private func dismissAlert() {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func configure(with info: [String: Any], imageUrl: String) {
+        titleLabel.text = (info["title"] as? [String: String])?["en"] ?? "No Title available"
+        airDateLabel.text = "Air Date: " + (info["airDate"] as? String ?? "N/A")
+        runtimeLabel.text = "Runtime: \((info["runtime"] as? Int) ?? 0)m"
+        overviewLabel.text = info["overview"] as? String ?? "No overview available"
+        
+        if let url = URL(string: imageUrl) {
+            URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
+                if let error = error {
+                    print("Error fetching image: \(error.localizedDescription)")
+                    return
+                }
+                
+                if let data = data, let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        self?.episodeImageView.image = image
+                    }
+                }
+            }.resume()
+        }
     }
 }
