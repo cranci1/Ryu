@@ -110,7 +110,7 @@ class SettingsViewSources: UITableViewController {
             self?.audioButton.setTitle("raw", for: .normal)
         })
 
-        let menu = UIMenu(title: "Select Prefered Audio", children: [action1, action2])
+        let menu = UIMenu(title: "Select Prefered Audio", children: [action1, action2, action3])
         
         audioButton.menu = menu
         audioButton.showsMenuAsPrimaryAction = true
