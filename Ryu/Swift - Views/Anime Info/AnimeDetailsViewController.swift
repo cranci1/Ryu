@@ -238,11 +238,11 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
     private func showOptionsMenu() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let customAniListIDAction = UIAlertAction(title: "Custom AniList ID", style: .default) { [weak self] _ in
-            self?.customAniListID()
+        let advancedSettingsAction = UIAlertAction(title: "Advanced Settings", style: .default) { [weak self] _ in
+            self?.showAdvancedSettingsMenu()
         }
-        customAniListIDAction.setValue(UIImage(systemName: "pencil"), forKey: "image")
-        alertController.addAction(customAniListIDAction)
+        advancedSettingsAction.setValue(UIImage(systemName: "gear"), forKey: "image")
+        alertController.addAction(advancedSettingsAction)
         
         let fetchIDAction = UIAlertAction(title: "AniList Info", style: .default) { [weak self] _ in
             guard let self = self else { return }
@@ -263,6 +263,27 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
         }
         refreshAction.setValue(UIImage(systemName: "arrow.clockwise"), forKey: "image")
         alertController.addAction(refreshAction)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        if let popoverController = alertController.popoverPresentationController {
+            popoverController.sourceView = view
+            popoverController.sourceRect = CGRect(x: view.bounds.midX, y: view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    private func showAdvancedSettingsMenu() {
+        let alertController = UIAlertController(title: "Advanced Settings", message: nil, preferredStyle: .actionSheet)
+        
+        let customAniListIDAction = UIAlertAction(title: "Custom AniList ID", style: .default) { [weak self] _ in
+            self?.customAniListID()
+        }
+        customAniListIDAction.setValue(UIImage(systemName: "pencil"), forKey: "image")
+        alertController.addAction(customAniListIDAction)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(cancelAction)
