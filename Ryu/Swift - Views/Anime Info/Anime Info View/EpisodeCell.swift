@@ -27,8 +27,8 @@ class EpisodeCell: UITableViewCell {
     var episodeNumber: String = ""
     let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
     
-    var episode: Episode?
     weak var delegate: AnimeDetailViewController?
+    var episode: Episode?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -182,14 +182,31 @@ class EpisodeCell: UITableViewCell {
         
         var menuItems: [UIMenuItem] = []
         
-        menuItems.append(UIMenuItem(title: "Mark as Finished", action: #selector(markAsFinished)))
-        
-        if playbackProgressView.progress > 0 {
-            menuItems.append(UIMenuItem(title: "Clear Progress", action: #selector(clearProgress)))
+        if let episode = episode, let fullURL = episode.href as String? {
+            let lastPlayedTime = UserDefaults.standard.double(forKey: "lastPlayedTime_\(fullURL)")
+            let totalTime = UserDefaults.standard.double(forKey: "totalTime_\(fullURL)")
+            let remainingTime = totalTime - lastPlayedTime
+
+            if remainingTime < 120 {
+                menuItems.append(UIMenuItem(title: "Clear Data", action: #selector(clearProgress)))
+                menuItems.append(UIMenuItem(title: "Rewatch", action: #selector(rewatch)))
+            } else {
+                menuItems.append(UIMenuItem(title: "Mark as Finished", action: #selector(markAsFinished)))
+                
+                if playbackProgressView.progress > 0 {
+                    menuItems.append(UIMenuItem(title: "Clear Progress", action: #selector(clearProgress)))
+                }
+            }
         }
         
         UIMenuController.shared.menuItems = menuItems
         UIMenuController.shared.showMenu(from: self, rect: self.bounds)
+    }
+    
+    @objc private func rewatch() {
+        guard let episode = episode, let delegate = delegate else { return }
+        clearProgress()
+        delegate.episodeSelected(episode: episode, cell: self)
     }
     
     override var canBecomeFirstResponder: Bool {
