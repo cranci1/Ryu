@@ -74,10 +74,9 @@ class SettingsAnimeListing: UITableViewController {
     @objc func handleAuthorizationCode(_ notification: Notification) {
         guard let userInfo = notification.userInfo,
               let code = userInfo["code"] as? String else {
-            print("Failed to retrieve authorization code")
-            return
-        }
-        print("Authorization code received: \(code)")
+                  print("Failed to retrieve authorization code")
+                  return
+              }
         updateStatusForTokenExchange()
         AniListToken.exchangeAuthorizationCodeForToken(code: code) { [weak self] success in
             DispatchQueue.main.async {
@@ -114,7 +113,7 @@ class SettingsAnimeListing: UITableViewController {
         request.httpMethod = "POST"
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
+        
         let query = """
         {
             Viewer {
@@ -126,7 +125,7 @@ class SettingsAnimeListing: UITableViewController {
             }
         }
         """
-
+        
         let body: [String: Any] = ["query": query]
         
         do {
@@ -137,7 +136,7 @@ class SettingsAnimeListing: UITableViewController {
             }
             return
         }
-
+        
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 DispatchQueue.main.async {
@@ -145,14 +144,14 @@ class SettingsAnimeListing: UITableViewController {
                 }
                 return
             }
-
+            
             guard let data = data else {
                 DispatchQueue.main.async {
                     self.statusLabel.text = "No data received"
                 }
                 return
             }
-
+            
             do {
                 let json = try JSONSerialization.jsonObject(with: data, options: [])
                 if let dict = json as? [String: Any],
@@ -171,8 +170,8 @@ class SettingsAnimeListing: UITableViewController {
                         let usernameRange = (fullText as NSString).range(of: username)
                         attributedText.addAttribute(.foregroundColor, value: color, range: usernameRange)
                         
-                        UserDefaults.standard.set(true, forKey: "sendPushUpdates")
                         self.statusLabel.attributedText = attributedText
+                        self.pushUpdatesSwitch.isEnabled = true
                         self.loadUserDefaultss()
                     }
                 } else {
@@ -186,7 +185,7 @@ class SettingsAnimeListing: UITableViewController {
                 }
             }
         }
-
+        
         task.resume()
     }
     
@@ -218,30 +217,30 @@ class SettingsAnimeListing: UITableViewController {
     }
     
     func getTokenFromKeychain() -> String? {
-         let query: [String: Any] = [
-             kSecClass as String: kSecClassGenericPassword,
-             kSecAttrService as String: serviceName,
-             kSecAttrAccount as String: accountName,
-             kSecReturnData as String: kCFBooleanTrue!,
-             kSecMatchLimit as String: kSecMatchLimitOne
-         ]
-         
-         var item: CFTypeRef?
-         let status = SecItemCopyMatching(query as CFDictionary, &item)
-         
-         guard status == errSecSuccess, let tokenData = item as? Data else {
-             return nil
-         }
-         
-         return String(data: tokenData, encoding: .utf8)
-     }
-
-     func removeTokenFromKeychain() {
-         let deleteQuery: [String: Any] = [
-             kSecClass as String: kSecClassGenericPassword,
-             kSecAttrService as String: serviceName,
-             kSecAttrAccount as String: accountName
-         ]
-         SecItemDelete(deleteQuery as CFDictionary)
-     }
- }
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: serviceName,
+            kSecAttrAccount as String: accountName,
+            kSecReturnData as String: kCFBooleanTrue!,
+            kSecMatchLimit as String: kSecMatchLimitOne
+        ]
+        
+        var item: CFTypeRef?
+        let status = SecItemCopyMatching(query as CFDictionary, &item)
+        
+        guard status == errSecSuccess, let tokenData = item as? Data else {
+            return nil
+        }
+        
+        return String(data: tokenData, encoding: .utf8)
+    }
+    
+    func removeTokenFromKeychain() {
+        let deleteQuery: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: serviceName,
+            kSecAttrAccount as String: accountName
+        ]
+        SecItemDelete(deleteQuery as CFDictionary)
+    }
+}
