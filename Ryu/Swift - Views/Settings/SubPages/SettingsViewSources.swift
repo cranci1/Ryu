@@ -97,13 +97,17 @@ class SettingsViewSources: UITableViewController {
     }
     
     func setupAudioMenu() {
-        let action1 = UIAction(title: "Sub", handler: { [weak self] _ in
+        let action1 = UIAction(title: "sub", handler: { [weak self] _ in
             UserDefaults.standard.set("sub", forKey: "audioHiPrefe")
-            self?.audioButton.setTitle("Sub", for: .normal)
+            self?.audioButton.setTitle("sub", for: .normal)
         })
-        let action2 = UIAction(title: "Dub", handler: { [weak self] _ in
+        let action2 = UIAction(title: "dub", handler: { [weak self] _ in
             UserDefaults.standard.set("dub", forKey: "audioHiPrefe")
-            self?.audioButton.setTitle("Dub", for: .normal)
+            self?.audioButton.setTitle("dub", for: .normal)
+        })
+        let action3 = UIAction(title: "raw", handler: { [weak self] _ in
+            UserDefaults.standard.set("raw", forKey: "audioHiPrefe")
+            self?.audioButton.setTitle("raw", for: .normal)
         })
 
         let menu = UIMenu(title: "Select Prefered Audio", children: [action1, action2])

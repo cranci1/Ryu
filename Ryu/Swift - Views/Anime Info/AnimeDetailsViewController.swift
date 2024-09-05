@@ -1014,9 +1014,10 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
             
             do {
                 if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                   let raw = json["raw"] as? [[String: Any]],
                    let sub = json["sub"] as? [[String: Any]],
                    let dub = json["dub"] as? [[String: Any]] {
-                    completion(["sub": sub, "dub": dub])
+                    completion(["raw": raw,"sub": sub, "dub": dub])
                 } else {
                     completion([:])
                 }
@@ -1029,11 +1030,18 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
     
     func presentDubSubSelection(options: [String: [[String: Any]]], completion: @escaping (String) -> Void) {
         DispatchQueue.main.async {
+            let rawOptions = options["raw"]
             let subOptions = options["sub"]
             let dubOptions = options["dub"]
             
-            if let subOptions = subOptions, !subOptions.isEmpty, let dubOptions = dubOptions, !dubOptions.isEmpty {
+            if let rawOptions = rawOptions, !rawOptions.isEmpty,
+               let subOptions = subOptions, !subOptions.isEmpty,
+               let dubOptions = dubOptions, !dubOptions.isEmpty {
                 let alert = UIAlertController(title: "Select Audio", message: nil, preferredStyle: .actionSheet)
+                
+                alert.addAction(UIAlertAction(title: "Raw", style: .default) { _ in
+                    completion("raw")
+                })
                 
                 alert.addAction(UIAlertAction(title: "Subtitled", style: .default) { _ in
                     completion("sub")
@@ -1061,6 +1069,8 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                 completion("sub")
             } else if let dubOptions = dubOptions, !dubOptions.isEmpty {
                 completion("dub")
+            } else if let rawOptions = rawOptions, !rawOptions.isEmpty {
+                completion("raw")
             } else {
                 print("No audio options available")
                 self.showAlert(title: "Error", message: "No audio options available")
