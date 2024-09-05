@@ -745,12 +745,14 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                 case "ZoroTv":
                     self.extractIframeAndGetM3U8URL(from: htmlString, cell: cell, fullURL: fullURL) { [weak self] result in
                         guard let self = self else { return }
-                        guard let m3u8URL = result else {
-                            print("Error extracting m3u8 URL")
-                            self.showAlert(title: "Error", message: "Error extracting the m3u8 URL")
-                            return
+                        DispatchQueue.main.async {
+                            guard let m3u8URL = result else {
+                                print("Error extracting m3u8 URL")
+                                self.showAlert(title: "Error", message: "Error extracting the m3u8 URL")
+                                return
+                            }
+                            self.playVideo(sourceURL: m3u8URL, cell: cell, fullURL: fullURL)
                         }
-                        self.playVideo(sourceURL: m3u8URL, cell: cell, fullURL: fullURL)
                     }
                     return
                 case "AnimeFire":
