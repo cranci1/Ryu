@@ -62,9 +62,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserDefaults.standard.removeObject(forKey: "accessToken")
         }
         
-        UserDefaults.standard.set(true, forKey: "autoSkipIntro")
-        UserDefaults.standard.set(true, forKey: "autoSkipOutro")
-        
         UserDefaults.standard.register(defaults: ["fullTitleCast": true])
         UserDefaults.standard.register(defaults: ["animeImageCast": true])
     }

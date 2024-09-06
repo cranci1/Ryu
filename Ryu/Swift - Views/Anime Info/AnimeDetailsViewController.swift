@@ -29,7 +29,6 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
     
     var currentEpisodeIndex: Int = 0
     var timeObserverToken: Any?
-    var timeObservers: [Any] = []
     
     var isFavorite: Bool = false
     var isSynopsisExpanded = false
@@ -84,15 +83,6 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
            let remoteMediaClient = castSession.remoteMediaClient {
             remoteMediaClient.remove(self)
         }
-        
-        removeTimeObservers()
-    }
-    
-    private func removeTimeObservers() {
-        for observer in timeObservers {
-            player?.removeTimeObserver(observer)
-        }
-        timeObservers.removeAll()
     }
     
     private func toggleFavorite() {
@@ -1522,7 +1512,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
         } else {
             player = AVPlayer(url: sourceURL)
             
-            playerViewController = AVPlayerViewController()
+            playerViewController = UserDefaults.standard.bool(forKey: "AlwaysLandscape") ? LandscapePlayer() : NormalPlayer()
             playerViewController?.player = player
             playerViewController?.delegate = self
             playerViewController?.entersFullScreenWhenPlaybackBegins = true
@@ -1548,7 +1538,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                         let episodeNumber = Int(cell.episodeNumber) ?? 1
                         self.fetchSkipTimes(malID: malID, episodeNumber: episodeNumber) { skipIntervals in
                             DispatchQueue.main.async {
-                                self.setupAutoSkip(skipIntervals: skipIntervals)
+                                self.addSkipMarkers(skipIntervals: skipIntervals)
                             }
                         }
                     }
@@ -1559,80 +1549,35 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
         }
     }
     
-    private func addSkipMarker(for interval: SkipInterval) {
+    private func addSkipMarkers(skipIntervals: [SkipInterval]) {
         guard let playerViewController = playerViewController,
               let duration = player?.currentItem?.duration.seconds else {
             return
         }
 
-        let startRatio = CGFloat(interval.start / duration)
-        let endRatio = CGFloat(interval.end / duration)
-        
-        let markerColor = interval.type == "op" ? UIColor.blue : UIColor.red
-        
-        let markerLayer = CALayer()
-        markerLayer.backgroundColor = markerColor.cgColor
-        markerLayer.frame = CGRect(x: startRatio, y: 0, width: endRatio - startRatio, height: 1)
-        
-        if let timelineView = findTimelineView(in: playerViewController.view) {
-            timelineView.layer.addSublayer(markerLayer)
-        }
-    }
-
-    private func findTimelineView(in view: UIView) -> UIView? {
-        
-        let potentialTimelineView = view.subviews.first { subview in
-            
-            return subview is UISlider ||
-                   (subview.bounds.width > view.bounds.width * 0.8 && subview.bounds.height < 10)
-        }
-        
-        if let timelineView = potentialTimelineView {
-            return timelineView
-        }
-        
-        for subview in view.subviews {
-            if let timelineView = findTimelineView(in: subview) {
-                return timelineView
-            }
-        }
-        
-        return nil
-    }
-    
-    private func setupAutoSkip(skipIntervals: [SkipInterval]) {
-        guard let player = player else { return }
-        
-        let autoSkipIntro = UserDefaults.standard.bool(forKey: "autoSkipIntro")
-        let autoSkipOutro = UserDefaults.standard.bool(forKey: "autoSkipOutro")
-        
         for interval in skipIntervals {
-            let startTime = CMTime(seconds: interval.start, preferredTimescale: 1)
-            let endTime = CMTime(seconds: interval.end, preferredTimescale: 1)
-            
-            let shouldAutoSkip = (interval.type == "op" && autoSkipIntro) || (interval.type == "ed" && autoSkipOutro)
-            
-            if shouldAutoSkip {
-                let timeObserver = player.addBoundaryTimeObserver(forTimes: [NSValue(time: startTime)], queue: .main) { [weak self] in
-                    self?.player?.seek(to: endTime)
-                }
-                
-                self.timeObservers.append(timeObserver)
-            }
-            
-            DispatchQueue.main.async {
-                self.addSkipMarker(for: interval)
-            }
+            let startRatio = interval.start / duration
+            let endRatio = interval.end / duration
+
+            let startMarker = UIView(frame: CGRect(x: playerViewController.view.bounds.width * CGFloat(startRatio), y: 0, width: 2, height: 10))
+            startMarker.backgroundColor = interval.type == "op" ? .blue : .red
+
+            let endMarker = UIView(frame: CGRect(x: playerViewController.view.bounds.width * CGFloat(endRatio), y: 0, width: 2, height: 10))
+            endMarker.backgroundColor = interval.type == "op" ? .blue : .red
+
+            playerViewController.view.addSubview(startMarker)
+            playerViewController.view.addSubview(endMarker)
         }
     }
     
     func playerViewController(_ playerViewController: AVPlayerViewController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void) {
         if self.presentedViewController == nil {
+            playerViewController.modalPresentationStyle = .fullScreen
             present(playerViewController, animated: true) {
                 completionHandler(true)
             }
         } else {
-            completionHandler(false)
+            completionHandler(true)
         }
     }
     
