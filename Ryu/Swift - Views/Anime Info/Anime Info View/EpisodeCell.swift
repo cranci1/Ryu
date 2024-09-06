@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 struct Episode {
     let number: String
@@ -346,7 +347,7 @@ class EpisodeInfoAlertController: UIViewController {
         containerView.layer.cornerRadius = 14
         containerView.clipsToBounds = true
         
-        episodeImageView.contentMode = .scaleAspectFill
+        episodeImageView.contentMode = .scaleAspectFit
         episodeImageView.clipsToBounds = true
         episodeImageView.layer.cornerRadius = 8
         
@@ -435,6 +436,8 @@ class EpisodeInfoAlertController: UIViewController {
             
             okButton.topAnchor.constraint(equalTo: bottomSeparatorLine.bottomAnchor, constant: 4),
             okButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -4),
+            okButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            okButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
             okButton.centerXAnchor.constraint(equalTo: containerView.centerXAnchor)
         ])
     }
@@ -444,24 +447,47 @@ class EpisodeInfoAlertController: UIViewController {
     }
     
     func configure(with info: [String: Any], imageUrl: String) {
-        titleLabel.text = (info["title"] as? [String: String])?["en"] ?? "No Title available"
-        airDateLabel.text = "Air Date: " + (info["airDate"] as? String ?? "N/A")
-        runtimeLabel.text = "Runtime: \((info["runtime"] as? Int) ?? 0)m"
-        overviewLabel.text = info["overview"] as? String ?? "No overview available"
+        guard let title = (info["title"] as? [String: String])?["en"],
+              let airDate = info["airDate"] as? String,
+              let runtime = info["runtime"] as? Int,
+              let overview = info["overview"] as? String,
+              !imageUrl.isEmpty else {
+            showErrorMessage()
+            return
+        }
+        
+        titleLabel.text = title
+        airDateLabel.text = "Air Date: \(airDate)"
+        runtimeLabel.text = "Runtime: \(runtime)m"
+        overviewLabel.text = overview
         
         if let url = URL(string: imageUrl) {
-            URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
-                if let error = error {
-                    print("Error fetching image: \(error.localizedDescription)")
-                    return
-                }
-                
-                if let data = data, let image = UIImage(data: data) {
-                    DispatchQueue.main.async {
-                        self?.episodeImageView.image = image
+            episodeImageView.kf.setImage(
+                with: url,
+                placeholder: UIImage(systemName: "photo"),
+                options: [
+                    .transition(.fade(0.2)),
+                    .cacheOriginalImage
+                ],
+                completionHandler: { [weak self] result in
+                    switch result {
+                    case .success(_):
+                        break
+                    case .failure(_):
+                        self?.episodeImageView.image = UIImage(systemName: "exclamationmark.triangle")
                     }
                 }
-            }.resume()
+            )
+        } else {
+            episodeImageView.image = UIImage(systemName: "exclamationmark.triangle")
         }
+    }
+    
+    private func showErrorMessage() {
+        titleLabel.text = "Error"
+        airDateLabel.text = ""
+        runtimeLabel.text = ""
+        overviewLabel.text = "Not enough information available for this episode. This may be cause of the Anime Titlte"
+        episodeImageView.image = UIImage(systemName: "exclamationmark.triangle")
     }
 }
