@@ -1531,9 +1531,42 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                     self.player?.play()
                 }
                 self.addPeriodicTimeObserver(cell: cell, fullURL: fullURL)
+                
+                self.fetchAnimeID(title: self.cleanTitle(self.animeTitle ?? "Unknown Anime")) { anilistID in
+                    self.fetchMALID(anilistID: anilistID) { malID in
+                        guard let malID = malID else { return }
+                        let episodeNumber = Int(cell.episodeNumber) ?? 1
+                        self.fetchSkipTimes(malID: malID, episodeNumber: episodeNumber) { skipIntervals in
+                            DispatchQueue.main.async {
+                                self.addSkipMarkers(skipIntervals: skipIntervals)
+                            }
+                        }
+                    }
+                }
             }
             
             NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd), name: .AVPlayerItemDidPlayToEndTime, object: player?.currentItem)
+        }
+    }
+    
+    private func addSkipMarkers(skipIntervals: [SkipInterval]) {
+        guard let playerViewController = playerViewController,
+              let duration = player?.currentItem?.duration.seconds else {
+            return
+        }
+
+        for interval in skipIntervals {
+            let startRatio = interval.start / duration
+            let endRatio = interval.end / duration
+
+            let startMarker = UIView(frame: CGRect(x: playerViewController.view.bounds.width * CGFloat(startRatio), y: 0, width: 2, height: 10))
+            startMarker.backgroundColor = interval.type == "op" ? .blue : .red
+
+            let endMarker = UIView(frame: CGRect(x: playerViewController.view.bounds.width * CGFloat(endRatio), y: 0, width: 2, height: 10))
+            endMarker.backgroundColor = interval.type == "op" ? .blue : .red
+
+            playerViewController.view.addSubview(startMarker)
+            playerViewController.view.addSubview(endMarker)
         }
     }
     
@@ -1634,6 +1667,74 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                 print("Error fetching anime ID: \(error.localizedDescription)")
             }
         }
+    }
+    
+    func fetchMALID(anilistID: Int, completion: @escaping (Int?) -> Void) {
+        let urlString = "https://api.ani.zip/mappings?anilist_id=\(anilistID)"
+        guard let url = URL(string: urlString) else {
+            completion(nil)
+            return
+        }
+
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else {
+                completion(nil)
+                return
+            }
+
+            do {
+                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                   let mappings = json["mappings"] as? [String: Any],
+                   let malID = mappings["mal_id"] as? Int {
+                    completion(malID)
+                } else {
+                    completion(nil)
+                }
+            } catch {
+                completion(nil)
+            }
+        }.resume()
+    }
+    
+    struct SkipInterval {
+        let start: Double
+        let end: Double
+        let type: String
+    }
+
+    func fetchSkipTimes(malID: Int, episodeNumber: Int, completion: @escaping ([SkipInterval]) -> Void) {
+        let urlString = "https://api.aniskip.com/v1/skip-times/\(malID)/\(episodeNumber)?types=op&types=ed"
+        guard let url = URL(string: urlString) else {
+            completion([])
+            return
+        }
+
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else {
+                completion([])
+                return
+            }
+
+            do {
+                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                   let results = json["results"] as? [[String: Any]] {
+                    let skipIntervals = results.compactMap { result -> SkipInterval? in
+                        guard let interval = result["interval"] as? [String: Double],
+                              let start = interval["start_time"],
+                              let end = interval["end_time"],
+                              let type = result["skip_type"] as? String else {
+                            return nil
+                        }
+                        return SkipInterval(start: start, end: end, type: type)
+                    }
+                    completion(skipIntervals)
+                } else {
+                    completion([])
+                }
+            } catch {
+                completion([])
+            }
+        }.resume()
     }
     
     func playNextEpisode() {
