@@ -815,7 +815,6 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
     }
     
     @objc private func playerItemDidReachEnd(notification: Notification) {
-        player?.seek(to: .zero)
         player?.pause()
         updatePlayPauseButton()
         
@@ -823,6 +822,15 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             UIScreen.main.brightness = originalBrightness
             isFullBrightness = false
             updateSettingsMenu()
+        }
+        
+        showControls()
+        
+        playerProgress.progress = 1.0
+        
+        if let duration = player?.currentItem?.duration {
+            currentTimeLabel.text = timeString(from: CMTimeGetSeconds(duration))
+            totalTimeLabel.text = "-00:00"
         }
     }
     
