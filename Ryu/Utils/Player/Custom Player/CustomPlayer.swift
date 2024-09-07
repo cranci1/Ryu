@@ -1095,11 +1095,11 @@ extension CustomVideoPlayerView {
             self?.voteForSkipTimes(voteType: "upvote")
         })
         
-        alert.addAction(UIAlertAction(title: "Downvote - Bad skips", style: .destructive) { [weak self] _ in
+        alert.addAction(UIAlertAction(title: "Downvote - Bad skips", style: .default) { [weak self] _ in
             self?.voteForSkipTimes(voteType: "downvote")
         })
         
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .destructive))
         
         viewController.present(alert, animated: true)
     }

@@ -316,6 +316,7 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
             else if let selectedPlayer = UserDefaults.standard.string(forKey: "mediaPlayerSelected") {
                 if selectedPlayer == "VLC" || selectedPlayer == "Infuse" || selectedPlayer == "OutPlayer" {
                     self.animeDetailsViewController?.openInExternalPlayer(player: selectedPlayer, url: url)
+                    self.dismiss(animated: true, completion: nil)
                 } else if selectedPlayer == "Experimental" {
                     let videoTitle = self.animeDetailsViewController?.animeTitle ?? "Anime"
                     let customPlayerVC = CustomPlayerView(videoTitle: videoTitle, videoURL: url, cell: self.cell, fullURL: self.fullURL)

@@ -107,7 +107,7 @@ FrameWorks:
 - [SwiftSoup](https://github.com/scinfu/SwiftSoup) - MIT License
 - [KingFisher](https://github.com/onevcat/Kingfisher) - MIT License
 - [Alamofire](https://github.com/Alamofire/Alamofire) - MIT License
-- [GoogleCastSDK-ios-no-bluetooth](https://github.com/onevcat/Kingfisher) - Google Developer Terms
+- [GoogleCastSDK-ios-no-bluetooth](https://github.com/SRGSSR/GoogleCastSDK-ios-no-bluetooth) - Google Developer Terms
 
 APIs:
 - [AniWatch-api](https://github.com/ghoshritesh12/aniwatch-api) - MIT License
