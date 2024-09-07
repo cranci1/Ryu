@@ -68,8 +68,10 @@ class SearchViewController: UIViewController {
     func loadSearchHistory() {
         if let savedHistory = UserDefaults.standard.array(forKey: "SearchHistory") as? [String] {
             searchHistory = savedHistory
-            historyTableView.reloadData()
+        } else {
+            searchHistory = []
         }
+        historyTableView.reloadData()
     }
     
     @IBAction func selectSourceButtonTapped(_ sender: UIButton) {

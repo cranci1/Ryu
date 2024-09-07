@@ -40,5 +40,3 @@ class SettingsViewAniSkip: UITableViewController {
         UserDefaults.standard.set(sender.isOn, forKey: "skipFeedbacks")
     }
 }
-
-

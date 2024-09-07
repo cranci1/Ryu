@@ -446,7 +446,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Import Backup" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HSv-07-1Gt">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Import Backup" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HSv-07-1Gt">
                                                     <rect key="frame" x="15" y="13" width="100.5" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" name="AccentColor"/>
@@ -470,7 +470,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Clear History" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZNc-C1-eRY">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Clear History" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZNc-C1-eRY">
                                                     <rect key="frame" x="15" y="13" width="89.5" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" systemColor="systemRedColor"/>
@@ -2089,7 +2089,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <sections>
-                            <tableViewSection headerTitle="Frameworks" id="Wfi-Wl-EOK">
+                            <tableViewSection headerTitle="Frameworks" footerTitle="All of this frameworks are used for: Web Scraping, Sites Requests, Image caching, Google cast." id="Wfi-Wl-EOK">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="pvd-1P-22W">
                                         <rect key="frame" x="20" y="32" width="374" height="43.5"/>
@@ -2173,10 +2173,10 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="APIs" id="OAc-k8-ZBT">
+                            <tableViewSection headerTitle="APIs" footerTitle="This APIs are used for: HiAnime informations parsing, Anime TimeStamps parsing." id="OAc-k8-ZBT">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="dY4-GX-1eb">
-                                        <rect key="frame" x="20" y="256" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="286" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dY4-GX-1eb" id="u5m-Jn-QkT">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -2196,7 +2196,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="ivR-ng-ewS">
-                                        <rect key="frame" x="20" y="299.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="329.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ivR-ng-ewS" id="yZW-kg-L8i">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -2217,10 +2217,10 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Apps" id="2ui-DN-1Wv">
+                            <tableViewSection headerTitle="Apps" footerTitle="Thanks to the beautiful looking UI of NineAnimator that inspired me in to making this project." id="2ui-DN-1Wv">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="0nj-Re-vwF">
-                                        <rect key="frame" x="20" y="393" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="453" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0nj-Re-vwF" id="bc9-Hw-9FO">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -2240,6 +2240,10 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
+                            </tableViewSection>
+                            <tableViewSection id="H0N-WH-gJe">
+                                <string key="footerTitle">Thanks to all the creators of this projects, without their help Ryu would not be the same without this frameworks, apis and apps. </string>
+                                <cells/>
                             </tableViewSection>
                         </sections>
                         <connections>
@@ -2268,7 +2272,10 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <sections>
-                            <tableViewSection headerTitle="General" footerTitle="Thanks to the AniSkip api that provides all of this informations that Ryu uses for the timestamps entry." id="7JC-cj-1zT">
+                            <tableViewSection headerTitle="General" id="7JC-cj-1zT">
+                                <string key="footerTitle">Thanks to the AniSkip api that provides all of this informations that Ryu uses for the timestamps entry.
+
+Please report wrong TimeStamps in their discord server. The Ryu Team is not affiliated with the AniSkip API.</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="JPF-84-ZUO">
                                         <rect key="frame" x="20" y="32" width="374" height="43.5"/>

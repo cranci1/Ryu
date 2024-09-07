@@ -33,10 +33,13 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
     private var animeDetailsViewController: AnimeDetailViewController?
     
     private var skipButtons: [UIButton] = []
-    private var skipIntervals: [(String, TimeInterval, TimeInterval, String)] = []
-    private var hasVotedForSkipTimes = false
-    private var autoSkipTimer: Timer?
     private var skipIntervalViews: [UIView] = []
+    private var skipIntervals: [(String, TimeInterval, TimeInterval, String)] = []
+    private var autoSkipTimer: Timer?
+    
+    private var hasVotedForSkipTimes = false
+    private var hasSkippedIntro = false
+    private var hasSkippedOutro = false
     
     private var subtitles: [SubtitleCue] = []
     private var subtitleTimer: Timer?
@@ -389,7 +392,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         }
         
         addPeriodicTimeObserver(fullURL: fullURL, cell: cell)
-        
+        resetSkipFlags()
         skipIntervals.removeAll()
         removeSkipIntervalViews()
         
@@ -1022,22 +1025,35 @@ extension CustomVideoPlayerView {
             
             if isWithinInterval {
                 let shouldAutoSkip: Bool
+                var hasSkipped: Bool
+                
                 if interval.0 == "op" {
                     shouldAutoSkip = UserDefaults.standard.bool(forKey: "autoSkipIntro")
+                    hasSkipped = hasSkippedIntro
                 } else {
                     shouldAutoSkip = UserDefaults.standard.bool(forKey: "autoSkipOutro")
+                    hasSkipped = hasSkippedOutro
                 }
                 
-                if shouldAutoSkip {
-                    autoSkipTimer?.invalidate()
-                    autoSkipTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { [weak self] _ in
-                        self?.player?.seek(to: CMTime(seconds: interval.2, preferredTimescale: 1))
+                if shouldAutoSkip && !hasSkipped {
+                    
+                    player?.seek(to: CMTime(seconds: interval.2, preferredTimescale: 1))
+                    if interval.0 == "op" {
+                        hasSkippedIntro = true
+                    } else {
+                        hasSkippedOutro = true
+                    }
+                    UIView.animate(withDuration: 0.3) {
+                        button.alpha = 0
                     }
                 }
-            } else {
-                autoSkipTimer?.invalidate()
             }
         }
+    }
+    
+    func resetSkipFlags() {
+        hasSkippedIntro = false
+        hasSkippedOutro = false
     }
     
     private func setupSkipButtonUpdates() {
