@@ -1827,7 +1827,7 @@ class AnimeThumbnailFetcher {
     static let apiUrl = "https://api.ani.zip/mappings?anilist_id="
     
     static func fetchAnimeThumbnails(for title: String, episodeNumber: Int, completion: @escaping (String?) -> Void) {
-        fetchAnimeID(for: cleanTitle(title: title)) { anilistId in
+        fetchAnimeID(for: title) { anilistId in
             guard let anilistId = anilistId else {
                 completion(nil)
                 return
@@ -1866,7 +1866,14 @@ class AnimeThumbnailFetcher {
     }
     
     static func fetchAnimeID(for title: String, completion: @escaping (Int?) -> Void) {
-        AnimeService.fetchAnimeID(byTitle: cleanTitle(title: title)) { result in
+        if let customID = UserDefaults.standard.string(forKey: "customAniListID_\(title)"),
+           let id = Int(customID) {
+            completion(id)
+            return
+        }
+        
+        let cleanedTitle = cleanTitle(title: title)
+        AnimeService.fetchAnimeID(byTitle: cleanedTitle) { result in
             switch result {
             case .success(let id):
                 completion(id)
