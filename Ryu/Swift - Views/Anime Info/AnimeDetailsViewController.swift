@@ -316,9 +316,17 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
             }
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
         
+        let revertAction = UIAlertAction(title: "Revert", style: .default) { [weak self] _ in
+            if let animeTitle = self?.animeTitle {
+                UserDefaults.standard.removeObject(forKey: "customAniListID_\(animeTitle)")
+                self?.showAlert(title: "Reverted", message: "The custom AniList ID has been cleared.")
+            }
+        }
+
         alert.addAction(saveAction)
+        alert.addAction(revertAction)
         alert.addAction(cancelAction)
         
         present(alert, animated: true, completion: nil)
