@@ -145,28 +145,12 @@ class SettingsViewSources: UITableViewController {
             UserDefaults.standard.set("English", forKey: "subtitleHiPrefe")
             self?.subtitlesButton.setTitle("English", for: .normal)
         })
-        let action2 = UIAction(title: "Spanish", handler: { [weak self] _ in
-            UserDefaults.standard.set("Spanish", forKey: "subtitleHiPrefe")
-            self?.subtitlesButton.setTitle("Spanish", for: .normal)
-        })
-        let action3 = UIAction(title: "Portuguese", handler: { [weak self] _ in
-            UserDefaults.standard.set("Portuguese", forKey: "subtitleHiPrefe")
-            self?.subtitlesButton.setTitle("Portuguese", for: .normal)
-        })
-        let action4 = UIAction(title: "Thai", handler: { [weak self] _ in
-            UserDefaults.standard.set("Thai", forKey: "subtitleHiPrefe")
-            self?.subtitlesButton.setTitle("Thai", for: .normal)
-        })
-        let action5 = UIAction(title: "French", handler: { [weak self] _ in
-            UserDefaults.standard.set("French", forKey: "subtitleHiPrefe")
-            self?.subtitlesButton.setTitle("French", for: .normal)
-        })
-        let action6 = UIAction(title: "Always Ask", handler: { [weak self] _ in
-            UserDefaults.standard.set("Always Ask", forKey: "subtitleHiPrefe")
+        let action2 = UIAction(title: "Always Ask", handler: { [weak self] _ in
+            UserDefaults.standard.set("always ask frfrfrfr", forKey: "subtitleHiPrefe")
             self?.subtitlesButton.setTitle("Always Ask", for: .normal)
         })
 
-        let menu = UIMenu(title: "Select Captions Language", children: [action1, action2, action3, action4, action5, action6])
+        let menu = UIMenu(title: "Select Subtitles Language", children: [action1, action2])
         
         subtitlesButton.menu = menu
         subtitlesButton.showsMenuAsPrimaryAction = true

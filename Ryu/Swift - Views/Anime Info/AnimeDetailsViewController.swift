@@ -632,15 +632,10 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                                 return
                             }
                             
-                            let subtitleURL: URL = {
-                                if let url = captionURLs?[UserDefaults.standard.string(forKey: "subtitleHiPrefe") ?? "English"] {
-                                    return url
-                                } else {
-                                    return URL(string: "https://nosubtitlesfor.you")!
-                                }
-                            }()
-                            
-                            self.openHiAnimeExperimental(url: sourceURL, subURL: subtitleURL, cell: cell, fullURL: fullURL)
+                            self.selectSubtitles(captionURLs: captionURLs) { selectedSubtitleURL in
+                                let subtitleURL = selectedSubtitleURL ?? URL(string: "https://nosubtitlesfor.you")!
+                                self.openHiAnimeExperimental(url: sourceURL, subURL: subtitleURL, cell: cell, fullURL: fullURL)
+                            }
                         }
                     }
                 }
@@ -674,9 +669,8 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
             return
         }
         
-        let preferredSubtitles = UserDefaults.standard.string(forKey: "subtitleHiPrefe") ?? "English"
-        
-        if let preferredURL = captionURLs[preferredSubtitles] {
+        if let preferredSubtitles = UserDefaults.standard.string(forKey: "subtitleHiPrefe"),
+           let preferredURL = captionURLs[preferredSubtitles] {
             completion(preferredURL)
         } else {
             DispatchQueue.main.async {
@@ -747,8 +741,8 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                         guard let self = self else { return }
                         DispatchQueue.main.async {
                             guard let m3u8URL = result else {
-                                print("Error extracting m3u8 URL")
-                                self.showAlert(title: "Error", message: "Error extracting the m3u8 URL")
+                                print("Error getting the video URL")
+                                self.showAlert(title: "Error", message: "Error getting the video URL")
                                 return
                             }
                             self.playVideo(sourceURL: m3u8URL, cell: cell, fullURL: fullURL)
