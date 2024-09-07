@@ -100,12 +100,18 @@ You can find the dev ipa file on [nightly.link](https://nightly.link/cranci1/Ryu
 
 Ryu contains code from the following open-source projects:
 
+Apps:
 - [NineAnimator](https://github.com/SuperMarcus/NineAnimator) - GPLv3.0 License
+
+FrameWorks:
 - [SwiftSoup](https://github.com/scinfu/SwiftSoup) - MIT License
 - [KingFisher](https://github.com/onevcat/Kingfisher) - MIT License
 - [Alamofire](https://github.com/Alamofire/Alamofire) - MIT License
-- [AniWatch-api](https://github.com/ghoshritesh12/aniwatch-api) - MIT License - [self-hosted](https://aniwatch.cranci.xyz)
 - [GoogleCastSDK-ios-no-bluetooth](https://github.com/onevcat/Kingfisher) - Google Developer Terms
+
+APIs:
+- [AniWatch-api](https://github.com/ghoshritesh12/aniwatch-api) - MIT License
+- [AniSkip-api](https://github.com/aniskip/aniskip-api) - MIT License
 
 ## Contributing
 
@@ -151,3 +157,5 @@ along with Ryu. If not, see <https://www.gnu.org/licenses/>.
 ## Legal
 
 The content available is not affiliated with the developer, all contents are obtained by non-affiliated sources. Ryu doesn't store anything server side.
+
+Ryu is not made to promote piracy, all this contents are accessible by anyone anywhere.

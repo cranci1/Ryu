@@ -84,6 +84,7 @@
 		13921B412C6B8F71004E8BDC /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13921B402C6B8F71004E8BDC /* URL.swift */; };
 		13921B432C6B8F87004E8BDC /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13921B422C6B8F87004E8BDC /* Notification.swift */; };
 		13921B452C6B8FC1004E8BDC /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13921B442C6B8FC1004E8BDC /* UserDefaults.swift */; };
+		139782182C8C3B56007AB9C0 /* SettingsViewAniSkip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139782172C8C3B56007AB9C0 /* SettingsViewAniSkip.swift */; };
 		13A888B22C7A305500D6C597 /* CustomPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A888B12C7A305500D6C597 /* CustomPlayer.swift */; };
 		13A888B42C7A322600D6C597 /* CustomPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A888B32C7A322600D6C597 /* CustomPlayerView.swift */; };
 /* End PBXBuildFile section */
@@ -164,6 +165,7 @@
 		13921B402C6B8F71004E8BDC /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 		13921B422C6B8F87004E8BDC /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		13921B442C6B8FC1004E8BDC /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		139782172C8C3B56007AB9C0 /* SettingsViewAniSkip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewAniSkip.swift; sourceTree = "<group>"; };
 		13A888B12C7A305500D6C597 /* CustomPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPlayer.swift; sourceTree = "<group>"; };
 		13A888B32C7A322600D6C597 /* CustomPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlayerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -392,6 +394,7 @@
 				136524E62C6B5B4000210A98 /* SettingsViewSources.swift */,
 				136524E72C6B5B4000210A98 /* SettingsViewCast.swift */,
 				136524E82C6B5B4000210A98 /* SettingsViewDoneButton.swift */,
+				139782172C8C3B56007AB9C0 /* SettingsViewAniSkip.swift */,
 			);
 			path = SubPages;
 			sourceTree = "<group>";
@@ -697,6 +700,7 @@
 				136525462C6B5B4100210A98 /* ActiveDownloadsViewController.swift in Sources */,
 				136525252C6B5B4100210A98 /* AnimeInformation.swift in Sources */,
 				136525452C6B5B4100210A98 /* SearchResultSourcesParsing.swift in Sources */,
+				139782182C8C3B56007AB9C0 /* SettingsViewAniSkip.swift in Sources */,
 				1365253A2C6B5B4100210A98 /* SettingsViewController.swift in Sources */,
 				1365254F2C6B5B4100210A98 /* M3U8Downloader.swift in Sources */,
 				13921B452C6B8FC1004E8BDC /* UserDefaults.swift in Sources */,
