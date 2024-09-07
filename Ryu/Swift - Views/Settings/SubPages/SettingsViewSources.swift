@@ -146,7 +146,7 @@ class SettingsViewSources: UITableViewController {
             self?.subtitlesButton.setTitle("English", for: .normal)
         })
         let action2 = UIAction(title: "Always Ask", handler: { [weak self] _ in
-            UserDefaults.standard.set("always ask frfrfrfr", forKey: "subtitleHiPrefe")
+            UserDefaults.standard.set("Always Ask", forKey: "subtitleHiPrefe")
             self?.subtitlesButton.setTitle("Always Ask", for: .normal)
         })
 
