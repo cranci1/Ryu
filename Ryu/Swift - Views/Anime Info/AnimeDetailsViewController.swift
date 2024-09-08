@@ -636,8 +636,13 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                 }
                 
                 self.selectServer(servers: servers, preferredServer: preferredServer) { server in
-                    let finalURL = "https://aniwatch-api-dusky.vercel.app/anime/episode-srcs?id=\(episodeId)&category=\(category)&server=\(server)"
-                    print(finalURL)
+                    let urls = [
+                        "https://aniwatch-api-dusky.vercel.app/anime/episode-srcs?id=",
+                        "https://aniwatch-api-cranci.vercel.app/anime/episode-srcs?id="
+                    ]
+                    
+                    let randomURL = urls.randomElement()!
+                    let finalURL = "\(randomURL)\(episodeId)&category=\(category)&server=\(server)"
                     
                     self.fetchHiAnimeData(from: finalURL) { sourceURL, captionURLs in
                         DispatchQueue.main.async {
@@ -1013,10 +1018,15 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
     }
     
     func fetchEpisodeOptions(episodeId: String, completion: @escaping ([String: [[String: Any]]]) -> Void) {
-        let url = URL(string: "https://aniwatch-api-dusky.vercel.app/anime/servers?episodeId=\(episodeId)")!
-        print(url)
+        let urls = [
+            "https://aniwatch-api-dusky.vercel.app/anime/servers?episodeId=",
+            "https://aniwatch-api-cranci.vercel.app/anime/servers?episodeId="
+        ]
         
-        URLSession.shared.dataTask(with: url) { data, response, error in
+        let randomURL = urls.randomElement()!
+        let fullURL = URL(string: "\(randomURL)\(episodeId)")!
+        
+        URLSession.shared.dataTask(with: fullURL) { data, response, error in
             guard let data = data else {
                 print("Error fetching episode options: \(error?.localizedDescription ?? "Unknown error")")
                 completion([:])
@@ -1028,7 +1038,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                    let raw = json["raw"] as? [[String: Any]],
                    let sub = json["sub"] as? [[String: Any]],
                    let dub = json["dub"] as? [[String: Any]] {
-                    completion(["raw": raw,"sub": sub, "dub": dub])
+                    completion(["raw": raw, "sub": sub, "dub": dub])
                 } else {
                     completion([:])
                 }

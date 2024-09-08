@@ -304,7 +304,11 @@ class SearchResultsViewController: UIViewController {
             url = "https://anime3rb.com/search"
             parameters["q"] = query
         case "HiAnime":
-            url = "https://aniwatch-api-dusky.vercel.app/anime/search"
+            let baseUrls = [
+                "https://aniwatch-api-dusky.vercel.app/anime/search",
+                "https://aniwatch-api-cranci.vercel.app/anime/search"
+            ]
+            url = baseUrls.randomElement()!
             parameters["q"] = query
         case "ZoroTv":
             url = "https://zorotv.com.in/"

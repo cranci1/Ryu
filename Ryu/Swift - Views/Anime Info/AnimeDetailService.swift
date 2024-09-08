@@ -24,32 +24,42 @@ class AnimeDetailService {
             return
         }
         
-        let baseUrl: String
+        let baseUrls: [String]
         switch selectedSource {
         case .animeWorld:
-            baseUrl = "https://animeworld.so"
+            baseUrls = ["https://animeworld.so"]
         case .gogoanime:
-            baseUrl = "https://anitaku.pe"
+            baseUrls = ["https://anitaku.pe"]
         case .animeheaven:
-            baseUrl = "https://animeheaven.me/"
+            baseUrls = ["https://animeheaven.me/"]
         case .hianime:
-            baseUrl = "https://aniwatch-api-dusky.vercel.app/anime/info?id="
+            baseUrls = [
+                "https://aniwatch-api-dusky.vercel.app/anime/info?id=",
+                "https://aniwatch-api-cranci.vercel.app/anime/info?id="
+            ]
         case .animefire, .kuramanime, .jkanime, .anime3rb, .zorotv:
-            baseUrl = ""
+            baseUrls = [""]
         }
         
+        let baseUrl = baseUrls.randomElement()!
         let fullUrl = baseUrl + href
         
         if selectedSource == .hianime {
-            let prefix = "https://aniwatch-api-dusky.vercel.app/anime/episode-srcs?id="
+            let prefixes = [
+                "https://aniwatch-api-dusky.vercel.app/anime/episode-srcs?id=",
+                "https://aniwatch-api-cranci.vercel.app/anime/episode-srcs?id="
+            ]
+            let prefix = prefixes.randomElement()!
             let fullUrl: String
-            if href.contains(prefix) {
+            if href.contains(prefixes[0]) || href.contains(prefixes[1]) {
                 func extractIdentifier(from fullUrl: String) -> String? {
-                    if let idRange = fullUrl.range(of: prefix) {
-                        let startIndex = fullUrl.index(idRange.upperBound, offsetBy: 0)
-                        if let endRange = fullUrl[startIndex...].range(of: "?ep=") {
-                            let identifier = String(fullUrl[startIndex..<endRange.lowerBound])
-                            return identifier
+                    for prefix in prefixes {
+                        if let idRange = fullUrl.range(of: prefix) {
+                            let startIndex = fullUrl.index(idRange.upperBound, offsetBy: 0)
+                            if let endRange = fullUrl[startIndex...].range(of: "?ep=") {
+                                let identifier = String(fullUrl[startIndex..<endRange.lowerBound])
+                                return identifier
+                            }
                         }
                     }
                     return nil
@@ -64,8 +74,6 @@ class AnimeDetailService {
             } else {
                 fullUrl = baseUrl + href
             }
-
-            
             AF.request(fullUrl).responseJSON { response in
                 switch response.result {
                 case .success(let json):
@@ -75,7 +83,7 @@ class AnimeDetailService {
                         let moreInfo = animeInfo["moreInfo"] as? [String: Any] else {
                             completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid JSON format."])))
                             return
-                    }
+                        }
                     
                     let description = (animeInfo["info"] as? [String: Any])?["description"] as? String ?? ""
                     let name = (animeInfo["info"] as? [String: Any])?["name"] as? String ?? ""
@@ -200,8 +208,6 @@ class AnimeDetailService {
         } else {
             fullUrl = baseUrl + href
         }
-
-        print(fullUrl)
         
         AF.request(fullUrl).responseJSON { response in
             switch response.result {
@@ -215,6 +221,11 @@ class AnimeDetailService {
                     return
                 }
                 
+                let baseUrls = [
+                    "https://aniwatch-api-dusky.vercel.app/anime/episode-srcs?id=",
+                    "https://aniwatch-api-cranci.vercel.app/anime/episode-srcs?id="
+                ]
+                
                 let episodes = episodesArray.compactMap { episodeDict -> Episode? in
                     guard
                         let episodeId = episodeDict["episodeId"] as? String,
@@ -225,7 +236,8 @@ class AnimeDetailService {
                     
                     let episodeNumber = "\(number)"
                     let hrefID = episodeId
-                    let href = "https://aniwatch-api-dusky.vercel.app/anime/episode-srcs?id=" + hrefID
+                    let randomBaseUrl = baseUrls.randomElement()!
+                    let href = randomBaseUrl + hrefID
                     
                     return Episode(number: episodeNumber, href: href, downloadUrl: "")
                 }
@@ -272,8 +284,8 @@ class AnimeDetailService {
                 episodeElements = try document.select("")
                 downloadUrlElement = ""
             case .zorotv:
-                 episodeElements = try document.select("div.eplister ul li a")
-                 downloadUrlElement = ""
+                episodeElements = try document.select("div.eplister ul li a")
+                downloadUrlElement = ""
             }
             
             switch source {
@@ -291,18 +303,18 @@ class AnimeDetailService {
                     }
                 }
             case .animeheaven:
-                 episodes = episodeElements.compactMap { element in
-                     do {
-                         let episodeNumber = try element.select("div.watch2.bc").first()?.text().trimmingCharacters(in: .whitespacesAndNewlines)
-                         let episodeHref = try element.attr("href")
-                         
-                         guard let episodeNumber = episodeNumber else { return nil }
-                         return Episode(number: episodeNumber, href: episodeHref, downloadUrl: "")
-                     } catch {
-                         print("Error parsing AnimeHeaven episode: \(error.localizedDescription)")
-                         return nil
-                     }
-                 }
+                episodes = episodeElements.compactMap { element in
+                    do {
+                        let episodeNumber = try element.select("div.watch2.bc").first()?.text().trimmingCharacters(in: .whitespacesAndNewlines)
+                        let episodeHref = try element.attr("href")
+                        
+                        guard let episodeNumber = episodeNumber else { return nil }
+                        return Episode(number: episodeNumber, href: episodeHref, downloadUrl: "")
+                    } catch {
+                        print("Error parsing AnimeHeaven episode: \(error.localizedDescription)")
+                        return nil
+                    }
+                }
             case .animefire:
                 var filmCount = 0
                 episodes = episodeElements.compactMap { element in
@@ -343,8 +355,8 @@ class AnimeDetailService {
                     guard parts.count == 2,
                           let start = Int(parts[0].trimmingCharacters(in: .whitespaces)),
                           let end = Int(parts[1].trimmingCharacters(in: .whitespaces)) else {
-                        return []
-                    }
+                              return []
+                          }
                     
                     return (max(1, start)...end).map { episodeNumber in
                         let formattedEpisode = String(episodeNumber)
