@@ -17,6 +17,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
     var animeTitle: String?
     var imageUrl: String?
     var href: String?
+    var source: String?
     
     var episodes: [Episode] = []
     var synopsis: String = ""
@@ -38,10 +39,16 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
     var qualityOptions: [(name: String, fileName: String)] = []
     var hasSentUpdate = false
     
-    func configure(title: String, imageUrl: String, href: String) {
+    func configure(title: String, imageUrl: String, href: String, source: String) {
         self.animeTitle = title
         self.imageUrl = imageUrl
         self.href = href
+        self.source = source
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        UserDefaults.standard.set(source, forKey: "selectedMediaSource")
     }
     
     override func viewDidLoad() {

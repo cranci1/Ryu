@@ -487,7 +487,8 @@ extension HomeViewController: UICollectionViewDelegate {
     
     private func resumeWatching(item: ContinueWatchingItem) {
         let detailVC = AnimeDetailViewController()
-        detailVC.configure(title: item.animeTitle, imageUrl: item.imageURL, href: item.fullURL)
+        
+        detailVC.configure(title: item.animeTitle, imageUrl: item.imageURL, href: item.fullURL, source: item.source)
         
         let episode = Episode(number: String(item.episodeNumber), href: item.fullURL, downloadUrl: "")
         let dummyCell = EpisodeCell()
@@ -511,7 +512,9 @@ extension HomeViewController: UICollectionViewDelegate {
     
     private func navigateToAnimeDetail(title: String, imageUrl: String, href: String) {
         let detailVC = AnimeDetailViewController()
-        detailVC.configure(title: title, imageUrl: imageUrl, href: href)
+        let selectedMedaiSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? ""
+        
+        detailVC.configure(title: title, imageUrl: imageUrl, href: href, source: selectedMedaiSource)
         navigationController?.pushViewController(detailVC, animated: true)
     }
 }

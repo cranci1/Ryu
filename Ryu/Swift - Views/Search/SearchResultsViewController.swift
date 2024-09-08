@@ -375,7 +375,9 @@ class SearchResultsViewController: UIViewController {
     
     private func navigateToAnimeDetail(title: String, imageUrl: String, href: String) {
         let detailVC = AnimeDetailViewController()
-        detailVC.configure(title: title, imageUrl: imageUrl, href: href)
+        let selectedMedaiSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? ""
+        
+        detailVC.configure(title: title, imageUrl: imageUrl, href: href, source: selectedMedaiSource)
         navigationController?.pushViewController(detailVC, animated: true)
     }
 }
@@ -418,7 +420,8 @@ extension SearchResultsViewController: UIContextMenuInteractionDelegate {
         
         return UIContextMenuConfiguration(identifier: nil, previewProvider: {
             let detailVC = AnimeDetailViewController()
-            detailVC.configure(title: result.title, imageUrl: result.imageUrl, href: result.href)
+            let selectedMedaiSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? ""
+            detailVC.configure(title: result.title, imageUrl: result.imageUrl, href: result.href, source: selectedMedaiSource)
             return detailVC
         }, actionProvider: { _ in
             let openAction = UIAction(title: "Open", image: UIImage(systemName: "arrow.up.right.square")) { [weak self] _ in

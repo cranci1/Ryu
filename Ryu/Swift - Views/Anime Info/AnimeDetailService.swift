@@ -258,7 +258,7 @@ class AnimeDetailService {
                 episodeElements = try document.select("div.div_video_list a")
                 downloadUrlElement = ""
             case .kuramanime:
-                let episodeContent = try document.select("div.d-inline a.follow-btn").attr("data-content")
+                let episodeContent = try document.select("div#episodeListsSection a.follow-btn").attr("data-content")
                 let episodeDocument = try SwiftSoup.parse(episodeContent)
                 episodeElements = try episodeDocument.select("a.btn")
                 downloadUrlElement = ""
