@@ -1229,7 +1229,13 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
             
             let mediaLoadOptions = GCKMediaLoadOptions()
             mediaLoadOptions.autoplay = true
-            mediaLoadOptions.playPosition = 0
+            
+            let lastPlayedTime = UserDefaults.standard.double(forKey: "lastPlayedTime_\(videoURL)")
+            if lastPlayedTime > 0 {
+                mediaLoadOptions.playPosition = lastPlayedTime
+            } else {
+                mediaLoadOptions.playPosition = 0
+            }
             
             if let castSession = GCKCastContext.sharedInstance().sessionManager.currentCastSession,
                let remoteMediaClient = castSession.remoteMediaClient {
@@ -1503,7 +1509,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
     
     func openHiAnimeExperimental(url: URL, subURL: URL, cell: EpisodeCell, fullURL: String) {
         let videoTitle = animeTitle!
-        let viewController = CustomPlayerView(videoTitle: videoTitle, videoURL: url, cell: cell, fullURL: fullURL)
+        let viewController = CustomPlayerView(videoTitle: videoTitle, videoURL: url, subURL: subURL, cell: cell, fullURL: fullURL)
         viewController.modalPresentationStyle = .fullScreen
         self.present(viewController, animated: true, completion: nil)
     }
