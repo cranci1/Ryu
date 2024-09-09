@@ -15,12 +15,17 @@ struct SubtitleCue {
 }
 
 class SubtitlesLoader {
-    static func parseVTT(data: Data) -> [SubtitleCue] {
+    static func parseVTT(data: Data, completion: @escaping ([SubtitleCue]) -> Void) {
         var cues: [SubtitleCue] = []
         let text = String(data: data, encoding: .utf8) ?? ""
         
         let lines = text.split(separator: "\n", omittingEmptySubsequences: false)
         var currentCue: SubtitleCue?
+        
+        let isTranslationEnabled = UserDefaults.standard.bool(forKey: "googleTranslation")
+        let targetLanguage = UserDefaults.standard.string(forKey: "translationLanguage") ?? "en"
+        
+        let dispatchGroup = DispatchGroup()
         
         for line in lines {
             let lineStr = String(line)
@@ -35,11 +40,24 @@ class SubtitlesLoader {
             } else if !lineStr.isEmpty {
                 currentCue?.text += removeHTMLTags(from: lineStr) + "\n"
             } else if let cue = currentCue {
-                cues.append(cue)
+                if isTranslationEnabled {
+                    dispatchGroup.enter()
+                    translateText(cue.text, targetLang: targetLanguage) { translatedText in
+                        var translatedCue = cue
+                        translatedCue.text = translatedText
+                        cues.append(translatedCue)
+                        dispatchGroup.leave()
+                    }
+                } else {
+                    cues.append(cue)
+                }
                 currentCue = nil
             }
         }
-        return cues
+        
+        dispatchGroup.notify(queue: .main) {
+            completion(cues)
+        }
     }
     
     private static func timeToCMTime(timeString: String) -> CMTime {
@@ -79,5 +97,48 @@ class SubtitlesLoader {
         let range = NSRange(location: 0, length: text.utf16.count)
         return regex?.stringByReplacingMatches(in: text, options: [], range: range, withTemplate: "") ?? text
     }
+    
+    private static func translateText(_ text: String, targetLang: String, completion: @escaping (String) -> Void) {
+        let url = URL(string: "https://translate-api-sable.vercel.app/api/translate")!
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let payload: [String: Any] = [
+            "text": text,
+            "source_lang": "auto",
+            "target_lang": targetLang
+        ]
+        
+        request.httpBody = try? JSONSerialization.data(withJSONObject: payload)
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard error == nil else {
+                print("Error: \(error!.localizedDescription)")
+                completion(text)
+                return
+            }
+            
+            guard let data = data else {
+                print("No data received.")
+                completion(text)
+                return
+            }
+            
+            do {
+                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                   let translatedText = json["data"] as? String {
+                    completion(translatedText)
+                } else {
+                    completion(text)
+                }
+            } catch {
+                print("JSON parsing error: \(error.localizedDescription)")
+                completion(text)
+            }
+        }
+        
+        task.resume()
+    }
 }
-

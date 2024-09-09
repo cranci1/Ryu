@@ -357,7 +357,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             settingsButton.widthAnchor.constraint(equalToConstant: 30),
             
             speedButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
-            speedButton.trailingAnchor.constraint(equalTo: settingsButton.leadingAnchor, constant: -10),
+            speedButton.trailingAnchor.constraint(equalTo: settingsButton.leadingAnchor),
             speedButton.widthAnchor.constraint(equalToConstant: 30),
             
             dismissButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 30),

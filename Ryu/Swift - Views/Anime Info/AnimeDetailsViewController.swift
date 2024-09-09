@@ -794,7 +794,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
     }
     
     func extractEpisodeId(from url: String) -> String? {
-        let components = url.components(separatedBy: "?")
+        let components = url.components(separatedBy: "?id=")
         guard components.count >= 2 else { return nil }
         let episodeId = components[1].components(separatedBy: "&").first
         guard let ep = components.last else { return nil }
