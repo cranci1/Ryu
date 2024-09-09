@@ -123,7 +123,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
     }
     
     private func setupUI() {
-        view.backgroundColor = .secondarySystemBackground
+        tableView.backgroundColor = .secondarySystemBackground
         tableView.register(AnimeHeaderCell.self, forCellReuseIdentifier: "AnimeHeaderCell")
         tableView.register(SynopsisCell.self, forCellReuseIdentifier: "SynopsisCell")
         tableView.register(EpisodeCell.self, forCellReuseIdentifier: "EpisodeCell")

@@ -635,7 +635,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <sections>
                             <tableViewSection headerTitle="About Ryu" id="12i-Tl-sd4">
-                                <string key="footerTitle">Ryu is a free, open source iOS app, developed by cranci. The app is under the GNU General Public License version 3. 
+                                <string key="footerTitle">Ryu is a free, open source iOS app, developed by cranci. The app is under the GNU GPLv3.0 
 
 Ryu is also not made to promote piracy. Its just a streaming app, all the contents are not stored in any server. </string>
                                 <cells>
@@ -773,7 +773,7 @@ Ryu is also not made to promote piracy. Its just a streaming app, all the conten
                                 <string key="footerTitle">Ryu prioritizes user privacy and does not store any personal data. All generated images are not retained by the app. If a user chooses to download an episode, it will only be stored locally in their device storage or on the Downloads Page in the app. We are committed to ensuring a secure and private experience for our users.</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="oBQ-XV-Yb3">
-                                        <rect key="frame" x="20" y="385.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="371.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oBQ-XV-Yb3" id="iwq-sG-PiT">
                                             <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
@@ -808,7 +808,7 @@ Ryu is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
 You should have received a copy of the GNU General Public License along with Ryu. If not, see &lt;https://www.gnu.org/licenses/&gt;.</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="HkG-T8-RWQ">
-                                        <rect key="frame" x="20" y="565" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="551" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HkG-T8-RWQ" id="w93-1l-591">
                                             <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
@@ -836,7 +836,7 @@ You should have received a copy of the GNU General Public License along with Ryu
                             <tableViewSection headerTitle="Credits" footerTitle="Find all the credits to all the projects used to make this app possible." id="Mkr-5S-bqG">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="w4T-NN-0Re">
-                                        <rect key="frame" x="20" y="884.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="870.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="w4T-NN-0Re" id="94Y-a6-fSO">
                                             <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
@@ -979,22 +979,22 @@ The Streaming type is the method to stream the episode, can be 'buffered' that w
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use Anime Image" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3iS-di-kBf">
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e0L-Sv-Jup">
+                                                    <rect key="frame" x="310" y="6.5" width="51" height="31"/>
+                                                    <color key="onTintColor" name="AccentColor"/>
+                                                </switch>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use Anime Image" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aTG-dX-2YJ">
                                                     <rect key="frame" x="15" y="13" width="120" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e0L-Sv-Jup">
-                                                    <rect key="frame" x="310" y="6.5" width="51" height="31"/>
-                                                    <color key="onTintColor" name="AccentColor"/>
-                                                </switch>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="e0L-Sv-Jup" firstAttribute="centerY" secondItem="mM9-Bq-Mv0" secondAttribute="centerY" id="Kft-fC-dCv"/>
-                                                <constraint firstItem="3iS-di-kBf" firstAttribute="leading" secondItem="mM9-Bq-Mv0" secondAttribute="leading" constant="15" id="NrU-2e-R39"/>
                                                 <constraint firstItem="e0L-Sv-Jup" firstAttribute="trailing" secondItem="mM9-Bq-Mv0" secondAttribute="trailing" constant="-15" id="UgR-V3-SGL"/>
-                                                <constraint firstItem="3iS-di-kBf" firstAttribute="centerY" secondItem="mM9-Bq-Mv0" secondAttribute="centerY" id="qFm-au-0Pu"/>
+                                                <constraint firstItem="aTG-dX-2YJ" firstAttribute="centerY" secondItem="mM9-Bq-Mv0" secondAttribute="centerY" id="aPf-5h-ahi"/>
+                                                <constraint firstItem="aTG-dX-2YJ" firstAttribute="leading" secondItem="mM9-Bq-Mv0" secondAttribute="leading" constant="15" id="d8g-UR-8ZW"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -1061,7 +1061,7 @@ The Streaming type is the method to stream the episode, can be 'buffered' that w
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <sections>
                             <tableViewSection headerTitle="AniList" id="aA9-OL-lkL">
-                                <string key="footerTitle">Ryu is not affiliated with AniList.co
+                                <string key="footerTitle">Ryu is not affiliated with AniList.co in any way
 
 Note that push updates might occasionally be inaccurate due to differences between the anime's name and its title on AniList.</string>
                                 <cells>
@@ -2113,7 +2113,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="APIs" footerTitle="This APIs are used for: HiAnime informations parsing, Anime TimeStamps parsing." id="OAc-k8-ZBT">
+                            <tableViewSection headerTitle="APIs" footerTitle="This APIs are used for: HiAnime informations parsing and for the Anime TimeStamps parsing." id="OAc-k8-ZBT">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="dY4-GX-1eb">
                                         <rect key="frame" x="20" y="286" width="374" height="43.5"/>
@@ -2181,8 +2181,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection id="H0N-WH-gJe">
-                                <string key="footerTitle">Thanks to all the creators of this projects, without their help Ryu would not be the same without this frameworks, apis and apps. </string>
+                            <tableViewSection footerTitle="Thanks to all the creators of this projects, Ryu would not be the same without this frameworks, apis and apps. Thanks a lot" id="H0N-WH-gJe">
                                 <cells/>
                             </tableViewSection>
                         </sections>

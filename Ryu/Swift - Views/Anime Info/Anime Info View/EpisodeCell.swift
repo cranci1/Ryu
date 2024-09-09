@@ -280,6 +280,7 @@ class EpisodeCell: UITableViewCell {
                     
                     if playbackProgressView.progress > 0 {
                         menuItems.append(UIMenuItem(title: "Clear Progress", action: #selector(clearProgress)))
+                        menuItems.append(UIMenuItem(title: "Rewatch", action: #selector(rewatch)))
                     }
                 }
             } else {
