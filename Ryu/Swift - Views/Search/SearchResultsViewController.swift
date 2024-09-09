@@ -119,7 +119,7 @@ class SearchResultsViewController: UIViewController {
             alertController.addAction(dubAction)
             alertController.addAction(subAction)
         case "AnimeWorld":
-            let itaAction = UIAlertAction(title: "Dub", style: .default) { [weak self] _ in
+            let itaAction = UIAlertAction(title: "ITA", style: .default) { [weak self] _ in
                 self?.filterResults(option: .ita)
             }
             alertController.addAction(itaAction)
@@ -180,7 +180,7 @@ class SearchResultsViewController: UIViewController {
     private func showSourceSelector() {
         let alertController = UIAlertController(title: "Select Source", message: "Please select a source to search from.", preferredStyle: .actionSheet)
         
-        let sources = ["AnimeWorld", "GoGoAnime", "AnimeHeaven", "AnimeFire", "Kuramanime", "JKanime", "Anime3rb", "HiAnime", "ZoroTv"]
+        let sources = ["AnimeWorld", "GoGoAnime", "AnimeHeaven", "AnimeFire", "Kuramanime", "JKanime", "Anime3rb", "HiAnime"]
         
         for source in sources {
             let action = UIAlertAction(title: source, style: .default) { [weak self] _ in
@@ -310,9 +310,6 @@ class SearchResultsViewController: UIViewController {
             ]
             url = baseUrls.randomElement()!
             parameters["q"] = query
-        case "ZoroTv":
-            url = "https://zorotv.com.in/"
-            parameters["s"] = query
         default:
             return nil
         }
@@ -371,9 +368,6 @@ class SearchResultsViewController: UIViewController {
         case .hianime:
             guard let jsonString = jsonString else { return [] }
             return parseHiAnime(jsonString)
-        case .zorotv:
-            guard let document = document else { return [] }
-            return parseZoroTv(document)
         }
     }
     

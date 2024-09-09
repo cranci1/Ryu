@@ -37,7 +37,7 @@ class AnimeDetailService {
                 "https://aniwatch-api-dusky.vercel.app/anime/info?id=",
                 "https://aniwatch-api-cranci.vercel.app/anime/info?id="
             ]
-        case .animefire, .kuramanime, .jkanime, .anime3rb, .zorotv:
+        case .animefire, .kuramanime, .jkanime, .anime3rb:
             baseUrls = [""]
         }
         
@@ -161,11 +161,6 @@ class AnimeDetailService {
                             synopsis = ""
                             airdate = ""
                             stars = ""
-                        case .zorotv:
-                            aliases = try document.select("span.alter").text()
-                            synopsis = try document.select("div.entry-content p").text()
-                            airdate = "N/A"
-                            stars = ""
                         }
                         
                         episodes = self.fetchEpisodes(document: document, for: selectedSource, href: href)
@@ -283,9 +278,6 @@ class AnimeDetailService {
             case .hianime:
                 episodeElements = try document.select("")
                 downloadUrlElement = ""
-            case .zorotv:
-                episodeElements = try document.select("div.eplister ul li a")
-                downloadUrlElement = ""
             }
             
             switch source {
@@ -375,18 +367,6 @@ class AnimeDetailService {
                         return Episode(number: episodeNumber, href: href, downloadUrl: "")
                     } catch {
                         print("Error parsing Anime3rb episode: \(error.localizedDescription)")
-                        return nil
-                    }
-                }
-            case .zorotv:
-                episodes = episodeElements.compactMap { element in
-                    do {
-                        let episodeNumber = try element.select("div.epl-num").text()
-                        let episodeHref = try element.attr("href")
-                        
-                        return Episode(number: episodeNumber, href: episodeHref, downloadUrl: "")
-                    } catch {
-                        print("Error parsing Zoro episode: \(error.localizedDescription)")
                         return nil
                     }
                 }

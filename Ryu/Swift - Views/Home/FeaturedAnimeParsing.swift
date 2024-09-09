@@ -27,8 +27,6 @@ extension HomeViewController {
             return ("https://anime3rb.com/titles/list?status[0]=upcomming&status[1]=finished&sort_by=addition_date", parseAnime3rbFeatured)
         case "HiAnime":
             return ("https://hianime.to/home", parseHiAnimeFeatured)
-        case "ZoroTv":
-            return ("https://zorotv.com.in/anime/?status=&type=&order=update", parseZoroTvFeatured)
         default:
             return (nil, nil)
         }
@@ -196,22 +194,6 @@ extension HomeViewController {
             }
             
             return AnimeItem(title: title, episode: "", imageURL: imageURL, href: href)
-        }
-    }
-    
-    func parseZoroTvFeatured(_ doc: Document) throws -> [AnimeItem] {
-        let animeItems = try doc.select("div.listupd article.bs")
-        return try animeItems.array().compactMap { item in
-            
-            let title = try item.select("h2").text()
-            
-            let episodeText = try item.select("div.anime__sidebar__comment__item__text h6").text()
-            let episode = episodeText.replacingOccurrences(of: "Episodio ", with: "")
-            
-            let imageURL = try item.select("img").attr("src")
-            let href = try item.select("a").attr("href")
-            
-            return AnimeItem(title: title, episode: episode, imageURL: imageURL, href: href)
         }
     }
 }

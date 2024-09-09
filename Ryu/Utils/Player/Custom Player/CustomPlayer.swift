@@ -322,15 +322,15 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             playPauseButton.widthAnchor.constraint(equalToConstant: 50),
             playPauseButton.heightAnchor.constraint(equalToConstant: 55),
             
-            rewindButton.trailingAnchor.constraint(equalTo: playPauseButton.leadingAnchor, constant: -70),
+            rewindButton.trailingAnchor.constraint(equalTo: playPauseButton.leadingAnchor, constant: -80),
             rewindButton.centerYAnchor.constraint(equalTo: playPauseButton.centerYAnchor),
-            rewindButton.widthAnchor.constraint(equalToConstant: 35),
-            rewindButton.heightAnchor.constraint(equalToConstant: 35),
+            rewindButton.widthAnchor.constraint(equalToConstant: 30),
+            rewindButton.heightAnchor.constraint(equalToConstant: 30),
             
-            forwardButton.leadingAnchor.constraint(equalTo: playPauseButton.trailingAnchor, constant: 70),
+            forwardButton.leadingAnchor.constraint(equalTo: playPauseButton.trailingAnchor, constant: 80),
             forwardButton.centerYAnchor.constraint(equalTo: playPauseButton.centerYAnchor),
-            forwardButton.widthAnchor.constraint(equalToConstant: 35),
-            forwardButton.heightAnchor.constraint(equalToConstant: 35),
+            forwardButton.widthAnchor.constraint(equalToConstant: 30),
+            forwardButton.heightAnchor.constraint(equalToConstant: 30),
             
             progressBarContainer.leadingAnchor.constraint(equalTo: leadingAnchor),
             progressBarContainer.trailingAnchor.constraint(equalTo: trailingAnchor),
@@ -356,7 +356,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             settingsButton.widthAnchor.constraint(equalToConstant: 30),
             
             speedButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
-            speedButton.trailingAnchor.constraint(equalTo: settingsButton.leadingAnchor, constant: -5),
+            speedButton.trailingAnchor.constraint(equalTo: settingsButton.leadingAnchor, constant: -10),
             speedButton.widthAnchor.constraint(equalToConstant: 30),
             
             dismissButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 30),

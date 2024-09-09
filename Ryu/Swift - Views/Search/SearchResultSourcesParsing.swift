@@ -156,19 +156,4 @@ extension SearchResultsViewController {
             return []
         }
     }
-    
-    func parseZoroTv(_ document: Document) -> [(title: String, imageUrl: String, href: String)] {
-        do {
-            let items = try document.select("div.listupd article")
-            return try items.map { item -> (title: String, imageUrl: String, href: String) in
-                let title = try item.select("h2").text()
-                let imageUrl = try item.select("img").attr("src")
-                let href = try item.select("a").first()?.attr("href") ?? ""
-                return (title: title, imageUrl: imageUrl, href: href)
-            }
-        } catch {
-            print("Error parsing Anime3rb: \(error.localizedDescription)")
-            return []
-        }
-    }
 }

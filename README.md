@@ -52,7 +52,6 @@ A simple way to enjoy and watch anime on iOS
 | Anime3rb    | Arabic     | ✅     | ✅        | ✅        | ✅       |
 | JKanime     | Spanish    | ✅     | ✅        | ✅        | :x:      |
 | HiAnime     | English    | ✅     | ✅        | ✅        | :x:      |
-| ZoroTv      | English    | ✅     | ✅        | ✅        | :x:      |
 
 > [!Note]
 > AnimeFire is region Blocked. Only Portugal and Brazil IP are allowed!
@@ -67,6 +66,7 @@ A simple way to enjoy and watch anime on iOS
    - Sidestore
    - TrollStore (Note: Downloads may not work)
    - Esign
+   - LiveContainer (Tested Working fine 👍)
    - Any other IPA installation tool
 
 You can find the dev ipa file on [nightly.link](https://nightly.link/cranci1/Ryu/workflows/build/main) or the stable ipa on [releases](https://github.com/cranci1/Ryu/releases)
