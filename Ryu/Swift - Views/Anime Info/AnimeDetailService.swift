@@ -49,7 +49,6 @@ class AnimeDetailService {
                 "https://aniwatch-api-dusky.vercel.app/anime/episode-srcs?id=",
                 "https://aniwatch-api-cranci.vercel.app/anime/episode-srcs?id="
             ]
-            let prefix = prefixes.randomElement()!
             let fullUrl: String
             if href.contains(prefixes[0]) || href.contains(prefixes[1]) {
                 func extractIdentifier(from fullUrl: String) -> String? {

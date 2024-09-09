@@ -87,8 +87,8 @@ class AnilistServiceAiringAnime {
                                       let nextAiringEpisode = media["nextAiringEpisode"] as? [String: Any],
                                       let episode = nextAiringEpisode["episode"] as? Int,
                                       let airingAt = nextAiringEpisode["airingAt"] as? Int else {
-                                    return nil
-                                }
+                                          return nil
+                                      }
                                 
                                 let description = media["description"] as? String
                                 

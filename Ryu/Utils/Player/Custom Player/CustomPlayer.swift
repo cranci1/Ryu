@@ -544,7 +544,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         guard index < qualities.count else { return }
         
         currentQualityIndex = index
-        let (name, filename) = qualities[index]
+        let (_, filename) = qualities[index]
         
         guard let baseURL = baseURL else { return }
         let fullURL = baseURL.appendingPathComponent(filename)

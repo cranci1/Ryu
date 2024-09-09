@@ -49,6 +49,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         UserDefaults.standard.set(source, forKey: "selectedMediaSource")
+        self.tableView.reloadData()
     }
     
     override func viewDidLoad() {
@@ -323,9 +324,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
             }
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
-        
-        let revertAction = UIAlertAction(title: "Revert", style: .default) { [weak self] _ in
+        let revertAction = UIAlertAction(title: "Revert", style: .destructive) { [weak self] _ in
             if let animeTitle = self?.animeTitle {
                 UserDefaults.standard.removeObject(forKey: "customAniListID_\(animeTitle)")
                 self?.showAlert(title: "Reverted", message: "The custom AniList ID has been cleared.")
@@ -334,7 +333,6 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
 
         alert.addAction(saveAction)
         alert.addAction(revertAction)
-        alert.addAction(cancelAction)
         
         present(alert, animated: true, completion: nil)
     }
