@@ -33,6 +33,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
     private var hasSentUpdate = false
     private var animeDetailsViewController: AnimeDetailViewController?
     
+    private var skipButtonsBottomConstraint: NSLayoutConstraint?
     private var skipButtons: [UIButton] = []
     private var skipIntervalViews: [UIView] = []
     private var skipIntervals: [(String, TimeInterval, TimeInterval, String)] = []
@@ -311,7 +312,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             controlsContainerView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
             titleLabel.leadingAnchor.constraint(equalTo: playerProgress.leadingAnchor),
-            titleLabel.bottomAnchor.constraint(equalTo: playerProgress.topAnchor, constant: -6),
+            titleLabel.bottomAnchor.constraint(equalTo: playerProgress.topAnchor, constant: -4),
             titleLabel.trailingAnchor.constraint(equalTo: speedButton.leadingAnchor),
             
             episodeLabel.leadingAnchor.constraint(equalTo: playerProgress.leadingAnchor),
@@ -337,8 +338,8 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             progressBarContainer.bottomAnchor.constraint(equalTo: currentTimeLabel.topAnchor),
             progressBarContainer.heightAnchor.constraint(equalToConstant: 17),
             
-            playerProgress.leadingAnchor.constraint(equalTo: controlsContainerView.leadingAnchor, constant: 20),
-            playerProgress.trailingAnchor.constraint(equalTo: controlsContainerView.trailingAnchor, constant: -20),
+            playerProgress.leadingAnchor.constraint(equalTo: controlsContainerView.leadingAnchor, constant: 30),
+            playerProgress.trailingAnchor.constraint(equalTo: controlsContainerView.trailingAnchor, constant: -30),
             playerProgress.bottomAnchor.constraint(equalTo: currentTimeLabel.topAnchor, constant: -5),
             playerProgress.heightAnchor.constraint(equalToConstant: 8),
             
@@ -705,6 +706,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         case .changed:
             updateSeekThumbPosition(progress: CGFloat(progress))
             updateTimeLabels(progress: Double(progress))
+            seek(to: progress)
         case .ended:
             isSeeking = false
             hideSeekThumb()
@@ -778,6 +780,8 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         UIView.animate(withDuration: 0.3) {
             self.controlsContainerView.alpha = 1
             self.progressBarContainer.alpha = 1
+            self.skipButtonsBottomConstraint?.constant = -5
+            self.layoutIfNeeded()
         }
         resetHideControlsTimer()
     }
@@ -787,6 +791,8 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             isControlsVisible = false
             UIView.animate(withDuration: 0.3) {
                 self.controlsContainerView.alpha = 0
+                self.skipButtonsBottomConstraint?.constant = 30
+                self.layoutIfNeeded()
             }
         }
     }
@@ -810,15 +816,18 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
     
     @objc private func rewindButtonTapped() {
         guard let currentTime = player?.currentTime() else { return }
-        let newTime = CMTimeSubtract(currentTime, CMTime(seconds: 10, preferredTimescale: 1))
-        player?.seek(to: newTime)
+        
+        let newTime = max(CMTimeGetSeconds(currentTime) - 10, 0)
+        player?.seek(to: CMTime(seconds: newTime, preferredTimescale: 1))
         resetHideControlsTimer()
     }
-    
+
     @objc private func forwardButtonTapped() {
-        guard let currentTime = player?.currentTime() else { return }
-        let newTime = CMTimeAdd(currentTime, CMTime(seconds: 10, preferredTimescale: 1))
-        player?.seek(to: newTime)
+        guard let currentTime = player?.currentTime(),
+              let duration = player?.currentItem?.duration else { return }
+        
+        let newTime = min(CMTimeGetSeconds(currentTime) + 10, CMTimeGetSeconds(duration))
+        player?.seek(to: CMTime(seconds: newTime, preferredTimescale: 1))
         resetHideControlsTimer()
     }
     
@@ -1117,30 +1126,32 @@ extension CustomVideoPlayerView {
             button.removeFromSuperview()
         }
         skipButtons.removeAll()
-        
+
         for (index, interval) in skipIntervals.enumerated() {
             let button = UIButton(type: .system)
-            
+
             button.setTitle(interval.0 == "op" ? "SKIP INTRO" : "SKIP OUTRO", for: .normal)
             button.backgroundColor = UIColor.white
             button.setTitleColor(.black, for: .normal)
-            button.layer.cornerRadius = 20
+            button.layer.cornerRadius = 16
             button.layer.masksToBounds = true
-            button.titleLabel?.font = UIFont.systemFont(ofSize: 17)
-            
+            button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+
             button.tag = index
             button.addTarget(self, action: #selector(skipButtonTapped(_:)), for: .touchUpInside)
             button.alpha = 0
-            
+
             addSubview(button)
             skipButtons.append(button)
-            
+
             button.translatesAutoresizingMaskIntoConstraints = false
+            let bottomConstraint = button.bottomAnchor.constraint(equalTo: settingsButton.topAnchor, constant: isControlsVisible ? -5 : 30)
+            skipButtonsBottomConstraint = bottomConstraint
             NSLayoutConstraint.activate([
-                button.trailingAnchor.constraint(equalTo: speedButton.leadingAnchor),
-                button.topAnchor.constraint(equalTo: settingsButton.bottomAnchor),
+                button.trailingAnchor.constraint(equalTo: settingsButton.trailingAnchor),
+                bottomConstraint,
                 button.widthAnchor.constraint(equalToConstant: 110),
-                button.heightAnchor.constraint(equalToConstant: 38)
+                button.heightAnchor.constraint(equalToConstant: 35)
             ])
         }
     }

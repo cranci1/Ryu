@@ -1271,7 +1271,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
         switch player {
         case "Infuse", "VLC", "OutPlayer":
             openInExternalPlayer(player: player, url: sourceURL)
-        case "Experimental":
+        case "Custom":
             let videoTitle = animeTitle
             let viewController = CustomPlayerView(videoTitle: videoTitle ?? "", videoURL: sourceURL, cell: cell, fullURL: fullURL)
             viewController.modalPresentationStyle = .fullScreen

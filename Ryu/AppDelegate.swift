@@ -22,48 +22,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     private func setupDefaultUserPreferences() {
-        if UserDefaults.standard.object(forKey: "selectedMediaSource") == nil {
-            UserDefaults.standard.set("AnimeWorld", forKey: "selectedMediaSource")
+        let defaultValues: [String: Any] = [
+            "selectedMediaSource": "AnimeWorld",
+            "AnimeListingService": "AniList",
+            "maxRetries": 10,
+            "holdSpeedPlayer": 2,
+            "preferredQuality": "1080p",
+            "subtitleHiPrefe": "English",
+            "serverHiPrefe": "hd-1",
+            "audioHiPrefe": "dub"
+        ]
+        
+        for (key, value) in defaultValues {
+            if UserDefaults.standard.object(forKey: key) == nil {
+                UserDefaults.standard.set(value, forKey: key)
+            }
         }
         
-        if UserDefaults.standard.object(forKey: "AnimeListingService") == nil {
-            UserDefaults.standard.set("AniList", forKey: "AnimeListingService")
-        }
-        
-        if UserDefaults.standard.object(forKey: "maxRetries") == nil {
-            UserDefaults.standard.set(10, forKey: "maxRetries")
-        }
-        
-        if UserDefaults.standard.object(forKey: "holdSpeedPlayer") == nil {
-            UserDefaults.standard.set(2, forKey: "holdSpeedPlayer")
-        }
-        
-        if UserDefaults.standard.object(forKey: "preferredQuality") == nil {
-            UserDefaults.standard.set("1080p", forKey: "preferredQuality")
-        }
-        
-        if UserDefaults.standard.object(forKey: "hideWebPlayer") == nil {
-            UserDefaults.standard.set(true, forKey: "hideWebPlayer")
-        }
-        
-        if UserDefaults.standard.object(forKey: "subtitleHiPrefe") == nil {
-            UserDefaults.standard.set("English", forKey: "subtitleHiPrefe")
-        }
-        
-        if UserDefaults.standard.object(forKey: "serverHiPrefe") == nil {
-            UserDefaults.standard.set("hd-1", forKey: "serverHiPrefe")
-        }
-        
-        if UserDefaults.standard.object(forKey: "audioHiPrefe") == nil {
-            UserDefaults.standard.set("dub", forKey: "audioHiPrefe")
-        }
-        
-        if (UserDefaults.standard.object(forKey: "accessToken") != nil) {
+        if UserDefaults.standard.object(forKey: "accessToken") != nil {
             UserDefaults.standard.removeObject(forKey: "accessToken")
         }
         
-        UserDefaults.standard.register(defaults: ["fullTitleCast": true])
-        UserDefaults.standard.register(defaults: ["animeImageCast": true])
+        UserDefaults.standard.register(defaults: [
+            "fullTitleCast": true,
+            "animeImageCast": true
+        ])
+        
+        if UserDefaults.standard.string(forKey: "mediaPlayerSelected") == "Experimental" {
+            UserDefaults.standard.set("Custom", forKey: "mediaPlayerSelected")
+        }
     }
     
     private func setupGoogleCast() {

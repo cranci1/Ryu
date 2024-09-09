@@ -33,10 +33,7 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
         self.cell = cell
         self.fullURL = fullURL
         self.animeDetailsViewController = animeDetailsViewController
-        
-        let userDefaultsRetries = UserDefaults.standard.integer(forKey: "maxRetries")
-        self.maxRetries = userDefaultsRetries > 0 ? userDefaultsRetries : 10
-
+        self.maxRetries = UserDefaults.standard.integer(forKey: "maxRetries") > 0 ? UserDefaults.standard.integer(forKey: "maxRetries") : 10
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -86,7 +83,7 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
     }
     
     private func setupUI() {
-        view.backgroundColor = UIColor.secondarySystemBackground
+        view.backgroundColor = .secondarySystemBackground
         setupActivityIndicator()
         setupWebView()
     }
@@ -94,27 +91,21 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
     private func setupHoldGesture() {
         holdGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleHoldGesture(_:)))
         holdGesture?.minimumPressDuration = 0.5
-        if let holdGesture = holdGesture {
-            view.addGestureRecognizer(holdGesture)
-        }
+        view.addGestureRecognizer(holdGesture!)
     }
     
     @objc private func handleHoldGesture(_ gesture: UILongPressGestureRecognizer) {
         switch gesture.state {
-        case .began:
-            beginHoldSpeed()
-        case .ended, .cancelled:
-            endHoldSpeed()
-        default:
-            break
+        case .began: beginHoldSpeed()
+        case .ended, .cancelled: endHoldSpeed()
+        default: break
         }
     }
     
     private func beginHoldSpeed() {
         guard let player = player else { return }
         originalRate = player.rate
-        let holdSpeed = UserDefaults.standard.float(forKey: "holdSpeedPlayer")
-        player.rate = holdSpeed
+        player.rate = UserDefaults.standard.float(forKey: "holdSpeedPlayer")
     }
     
     private func endHoldSpeed() {
@@ -126,14 +117,11 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
         activityIndicator?.color = .label
         activityIndicator?.startAnimating()
         activityIndicator?.center = view.center
-        if let activityIndicator = activityIndicator {
-            view.addSubview(activityIndicator)
-        }
+        view.addSubview(activityIndicator!)
     }
     
     private func setupWebView() {
-        let configuration = WKWebViewConfiguration()
-        webView = WKWebView(frame: .zero, configuration: configuration)
+        webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
         webView?.navigationDelegate = self
     }
     
@@ -142,160 +130,81 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
             print("Invalid stream URL")
             return
         }
-        let request = URLRequest(url: url)
-        webView?.load(request)
+        webView?.load(URLRequest(url: url))
     }
     
     private func extractVideoSource() {
         webView?.evaluateJavaScript("document.body.innerHTML") { [weak self] (result, error) in
             guard let self = self, let htmlString = result as? String else {
-                print("Error getting HTML: \(error?.localizedDescription ?? "Unknown error")")
                 self?.retryExtraction()
                 return
             }
             
-            let qualityOptions = self.extractQualityOptions(from: htmlString)
-            
-            if !qualityOptions.isEmpty {
-                DispatchQueue.main.async {
-                    self.selectPreferredQuality(options: qualityOptions)
-                }
-            } else {
-                print("No quality options found")
-                self.retryExtraction()
+            self.handleVideoSource(htmlString: htmlString)
+        }
+    }
+    
+    private func handleVideoSource(htmlString: String) {
+        if let videoURL = self.extractVideoSourceURL(from: htmlString) {
+            DispatchQueue.main.async {
+                self.activityIndicator?.stopAnimating()
+                self.handleVideoURL(url: videoURL)
             }
+        } else {
+            self.retryExtraction()
         }
     }
     
     private func extractVideoSourceURL(from htmlString: String) -> URL? {
         do {
-            let doc: Document = try SwiftSoup.parse(htmlString)
-            guard let videoElement = try doc.select("video").first(),
-                  let sourceURLString = try videoElement.attr("src").nilIfEmpty,
-                  let sourceURL = URL(string: sourceURLString) else {
-                return nil
+            let doc = try SwiftSoup.parse(htmlString)
+            if let videoElement = try doc.select("video").first(), let sourceURLString = try videoElement.attr("src").nilIfEmpty, let sourceURL = URL(string: sourceURLString) {
+                return sourceURL
             }
-            return sourceURL
-        } catch {
-            print("Error parsing HTML with SwiftSoup: \(error)")
             
             let pattern = #"<video[^>]+src="([^"]+)"#
-            
-            guard let regex = try? NSRegularExpression(pattern: pattern, options: []),
-                  let match = regex.firstMatch(in: htmlString, range: NSRange(htmlString.startIndex..., in: htmlString)),
-                  let urlRange = Range(match.range(at: 1), in: htmlString) else {
-                return nil
+            if let regex = try? NSRegularExpression(pattern: pattern, options: []), let match = regex.firstMatch(in: htmlString, range: NSRange(htmlString.startIndex..., in: htmlString)), let urlRange = Range(match.range(at: 1), in: htmlString) {
+                let urlString = String(htmlString[urlRange])
+                return URL(string: urlString)
             }
-            
-            let urlString = String(htmlString[urlRange])
-            return URL(string: urlString)
-        }
-    }
-    
-    private func extractQualityOptions(from htmlString: String) -> [(String, URL)] {
-        do {
-            let doc: Document = try SwiftSoup.parse(htmlString)
-            let qualityButtons = try doc.select("button[data-plyr='quality']")
-            
-            var qualityOptions: [(String, URL)] = []
-            
-            for button in qualityButtons {
-                var quality = try button.attr("value")
-                quality = quality.replacingOccurrences(of: "HD", with: "").replacingOccurrences(of: "SD", with: "").trimmingCharacters(in: .whitespaces)
-                if let sourceElement = try doc.select("source[size='\(quality)']").first(),
-                   let sourceURL = URL(string: try sourceElement.attr("src")) {
-                    qualityOptions.append((quality, sourceURL))
-                }
-            }
-
-            return qualityOptions
         } catch {
-            print("Error parsing HTML for quality options: \(error)")
-            return []
+            print("Error parsing HTML: \(error)")
         }
-    }
-    
-    private func selectPreferredQuality(options: [(String, URL)]) {
-        let preferredQuality = UserDefaults.standard.string(forKey: "preferredQuality") ?? "1080p"
-        
-        var selectedOption: (String, URL)? = nil
-        var closestOption: (String, URL)? = nil
-        
-        for option in options {
-            let availableQuality = option.0
-            if availableQuality == preferredQuality {
-                selectedOption = option
-                break
-            } else if closestOption == nil || abs(preferredQuality.compare(availableQuality).rawValue) < abs(preferredQuality.compare(closestOption!.0).rawValue) {
-                closestOption = option
-            }
-        }
-        
-        if let selectedOption = selectedOption {
-            self.handleVideoURL(url: selectedOption.1)
-        } else if let closestOption = closestOption {
-            self.handleVideoURL(url: closestOption.1)
-        } else {
-            print("No suitable quality option found")
-            retryExtraction()
-        }
-    }
-    
-    private func presentQualityOptionsMenu(options: [(String, URL)]) {
-        let alertController = UIAlertController(title: "Select Quality", message: nil, preferredStyle: .actionSheet)
-        
-        for (label, url) in options {
-            let action = UIAlertAction(title: label, style: .default) { [weak self] _ in
-                self?.handleVideoURL(url: url)
-            }
-            alertController.addAction(action)
-        }
-        
-        self.present(alertController, animated: true, completion: nil)
+        return nil
     }
     
     private func handleVideoURL(url: URL) {
-        DispatchQueue.main.async {
-            self.activityIndicator?.stopAnimating()
-            
-            if UserDefaults.standard.bool(forKey: "isToDownload") {
-                self.handleDownload(url: url)
-            }
-            else if GCKCastContext.sharedInstance().sessionManager.hasConnectedCastSession() {
-                self.castVideoToGoogleCast(videoURL: url)
-                self.dismiss(animated: true, completion: nil)
-            }
-            else if let selectedPlayer = UserDefaults.standard.string(forKey: "mediaPlayerSelected") {
-                if selectedPlayer == "VLC" || selectedPlayer == "Infuse" || selectedPlayer == "OutPlayer" {
-                    self.animeDetailsViewController?.openInExternalPlayer(player: selectedPlayer, url: url)
-                    self.dismiss(animated: true, completion: nil)
-                } else if selectedPlayer == "Experimental" {
-                    let videoTitle = self.animeDetailsViewController?.animeTitle ?? "Anime"
-                    let customPlayerVC = CustomPlayerView(videoTitle: videoTitle, videoURL: url, cell: self.cell, fullURL: self.fullURL)
-                    customPlayerVC.modalPresentationStyle = .fullScreen
-                    customPlayerVC.delegate = self
-                    self.present(customPlayerVC, animated: true, completion: nil)
-                } else {
-                    self.playOrCastVideo(url: url)
-                }
-            }
-            else {
-                self.playOrCastVideo(url: url)
-            }
-        }
-    }
+         if UserDefaults.standard.bool(forKey: "isToDownload") {
+             handleDownload(url: url)
+         } else if GCKCastContext.sharedInstance().sessionManager.hasConnectedCastSession() {
+             castVideoToGoogleCast(videoURL: url)
+             dismiss(animated: true)
+         } else {
+             let selectedPlayer = UserDefaults.standard.string(forKey: "mediaPlayerSelected") ?? "Default"
+             switch selectedPlayer {
+             case "VLC", "Infuse", "OutPlayer":
+                 animeDetailsViewController?.openInExternalPlayer(player: selectedPlayer, url: url)
+                 dismiss(animated: true)
+             case "Custom":
+                 let videoTitle = animeDetailsViewController?.animeTitle ?? "Anime"
+                 let customPlayerVC = CustomPlayerView(videoTitle: videoTitle, videoURL: url, cell: cell, fullURL: fullURL)
+                 customPlayerVC.modalPresentationStyle = .fullScreen
+                 customPlayerVC.delegate = self
+                 present(customPlayerVC, animated: true)
+             default:
+                 playOrCastVideo(url: url)
+             }
+         }
+     }
 
     private func handleDownload(url: URL) {
         UserDefaults.standard.set(false, forKey: "isToDownload")
-        self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true)
         
         let downloadManager = DownloadManager.shared
-        let title = self.animeDetailsViewController?.animeTitle ?? "Anime Download"
-        
+        let title = animeDetailsViewController?.animeTitle ?? "Anime Download"
         downloadManager.startDownload(url: url, title: title, progress: { progress in
-            DispatchQueue.main.async {
-                print("Download progress: \(progress * 100)%")
-            }
+            print("Download progress: \(progress * 100)%")
         }) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
@@ -310,132 +219,115 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
         }
     }
     
+    private func castVideoToGoogleCast(videoURL: URL) {
+        let metadata = GCKMediaMetadata(metadataType: .movie)
+        
+        if UserDefaults.standard.bool(forKey: "fullTitleCast") {
+            metadata.setString(animeDetailsViewController?.animeTitle ?? "Unknown Anime", forKey: kGCKMetadataKeyTitle)
+        } else {
+            let episodeNumber = (animeDetailsViewController?.currentEpisodeIndex ?? -1) + 1
+            metadata.setString("Episode \(episodeNumber)", forKey: kGCKMetadataKeyTitle)
+        }
+        
+        if UserDefaults.standard.bool(forKey: "animeImageCast"), let imageURL = URL(string: animeDetailsViewController?.imageUrl ?? "") {
+            metadata.addImage(GCKImage(url: imageURL, width: 480, height: 720))
+        }
+        
+        let builder = GCKMediaInformationBuilder(contentURL: videoURL)
+        builder.contentType = "video/mp4"
+        builder.metadata = metadata
+        builder.streamType = UserDefaults.standard.string(forKey: "castStreamingType") == "live" ? .live : .buffered
+        
+        if let remoteMediaClient = GCKCastContext.sharedInstance().sessionManager.currentCastSession?.remoteMediaClient {
+            let lastPlayedTime = UserDefaults.standard.double(forKey: "lastPlayedTime_\(fullURL)")
+            if lastPlayedTime > 0 {
+                let options = GCKMediaLoadOptions()
+                options.playPosition = TimeInterval(lastPlayedTime)
+                remoteMediaClient.loadMedia(builder.build(), with: options)
+            } else {
+                remoteMediaClient.loadMedia(builder.build())
+            }
+        }
+    }
+    
     private func playOrCastVideo(url: URL) {
         let player = AVPlayer(url: url)
         let playerViewController = AVPlayerViewController()
         playerViewController.player = player
-        self.addChild(playerViewController)
-        self.view.addSubview(playerViewController.view)
         
-        playerViewController.view.frame = self.view.bounds
+        addChild(playerViewController)
+        view.addSubview(playerViewController.view)
+        playerViewController.view.frame = view.bounds
         playerViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         playerViewController.didMove(toParent: self)
         
-        let lastPlayedTime = UserDefaults.standard.double(forKey: "lastPlayedTime_\(self.fullURL)")
-        
+        let lastPlayedTime = UserDefaults.standard.double(forKey: "lastPlayedTime_\(fullURL)")
         if lastPlayedTime > 0 {
-                player.seek(to: CMTime(seconds: lastPlayedTime, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
+            player.seek(to: CMTime(seconds: lastPlayedTime, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
         }
         
         player.play()
-        
         self.player = player
         self.playerViewController = playerViewController
-        self.addPeriodicTimeObserver()
+        addPeriodicTimeObserver()
     }
     
     private func addPeriodicTimeObserver() {
         let interval = CMTime(seconds: 1.0, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         timeObserverToken = player?.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
-            guard let self = self,
-                  let currentItem = self.player?.currentItem,
-                  currentItem.duration.seconds.isFinite else {
+            guard let self = self, let currentItem = self.player?.currentItem, currentItem.duration.seconds.isFinite else {
                 return
             }
             
-            let currentTime = time.seconds
-            let duration = currentItem.duration.seconds
-            let progress = currentTime / duration
-            let remainingTime = duration - currentTime
-            
-            self.cell.updatePlaybackProgress(progress: Float(progress), remainingTime: remainingTime)
-            
-            UserDefaults.standard.set(currentTime, forKey: "lastPlayedTime_\(self.fullURL)")
-            UserDefaults.standard.set(duration, forKey: "totalTime_\(self.fullURL)")
-            
-            let episodeNumber = Int(self.cell.episodeNumber) ?? 0
-            let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
-            
-            let continueWatchingItem = ContinueWatchingItem(
-                animeTitle: self.animeDetailsViewController?.animeTitle ?? "Unknown Anime",
-                episodeTitle: "Ep. \(episodeNumber)",
-                episodeNumber: episodeNumber,
-                imageURL: self.animeDetailsViewController?.imageUrl ?? "",
-                fullURL: self.fullURL,
-                lastPlayedTime: currentTime,
-                totalTime: duration,
-                source: selectedMediaSource
-            )
-            ContinueWatchingManager.shared.saveItem(continueWatchingItem)
-            
-            let shouldSendPushUpdates = UserDefaults.standard.bool(forKey: "sendPushUpdates")
-            if shouldSendPushUpdates && remainingTime < 120 && !(self.animeDetailsViewController!.hasSentUpdate) {
-                let cleanedTitle = self.animeDetailsViewController?.cleanTitle(self.animeDetailsViewController?.animeTitle ?? "Unknown Anime")
-                
-                self.animeDetailsViewController?.fetchAnimeID(title: cleanedTitle ?? "Title") { animeID in
-                    let aniListMutation = AniListMutation()
-                    aniListMutation.updateAnimeProgress(animeId: animeID, episodeNumber: Int(self.cell.episodeNumber) ?? 0) { result in
-                        switch result {
-                        case .success():
-                            print("Successfully updated anime progress.")
-                        case .failure(let error):
-                            print("Failed to update anime progress: \(error.localizedDescription)")
-                        }
-                    }
-                    
-                    self.animeDetailsViewController?.hasSentUpdate = true
-                }
-            }
+            self.updatePlaybackProgress(time: time, duration: currentItem.duration.seconds)
         }
     }
     
-    private func castVideoToGoogleCast(videoURL: URL) {
-        DispatchQueue.main.async {
-            let metadata = GCKMediaMetadata(metadataType: .movie)
-            
-            if UserDefaults.standard.bool(forKey: "fullTitleCast") {
-                if let animeTitle = self.animeDetailsViewController?.animeTitle {
-                    metadata.setString(animeTitle, forKey: kGCKMetadataKeyTitle)
-                } else {
-                    print("Error: Anime title is missing.")
-                }
-            } else {
-                let episodeNumber = (self.animeDetailsViewController?.currentEpisodeIndex ?? -1) + 1
-                metadata.setString("Episode \(episodeNumber)", forKey: kGCKMetadataKeyTitle)
-            }
-            
-            if UserDefaults.standard.bool(forKey: "animeImageCast") {
-                if let imageURL = URL(string: self.animeDetailsViewController?.imageUrl ?? "") {
-                    metadata.addImage(GCKImage(url: imageURL, width: 480, height: 720))
-                } else {
-                    print("Error: Anime image URL is missing or invalid.")
-                }
-            }
-            
-            let builder = GCKMediaInformationBuilder(contentURL: videoURL)
-            builder.contentType = "video/mp4"
-            builder.metadata = metadata
-            
-            let streamTypeString = UserDefaults.standard.string(forKey: "castStreamingType") ?? "buffered"
-            switch streamTypeString {
-            case "live":
-                builder.streamType = .live
-            default:
-                builder.streamType = .buffered
-            }
-            
-            let mediaInformation = builder.build()
-            
-            if let remoteMediaClient = GCKCastContext.sharedInstance().sessionManager.currentCastSession?.remoteMediaClient {
-                let lastPlayedTime = UserDefaults.standard.double(forKey: "lastPlayedTime_\(self.fullURL)")
-                if lastPlayedTime > 0 {
-                    let options = GCKMediaLoadOptions()
-                    options.playPosition = TimeInterval(lastPlayedTime)
-                    remoteMediaClient.loadMedia(mediaInformation, with: options)
-                } else {
-                    remoteMediaClient.loadMedia(mediaInformation)
+    private func updatePlaybackProgress(time: CMTime, duration: Double) {
+        let currentTime = time.seconds
+        let progress = currentTime / duration
+        let remainingTime = duration - currentTime
+        
+        cell.updatePlaybackProgress(progress: Float(progress), remainingTime: remainingTime)
+        UserDefaults.standard.set(currentTime, forKey: "lastPlayedTime_\(fullURL)")
+        UserDefaults.standard.set(duration, forKey: "totalTime_\(fullURL)")
+        
+        updateContinueWatchingItem(currentTime: currentTime, duration: duration)
+        sendPushUpdates(remainingTime: remainingTime)
+    }
+    
+    private func updateContinueWatchingItem(currentTime: Double, duration: Double) {
+        let episodeNumber = Int(cell.episodeNumber) ?? 0
+        let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
+        
+        let continueWatchingItem = ContinueWatchingItem(
+            animeTitle: animeDetailsViewController?.animeTitle ?? "Unknown Anime",
+            episodeTitle: "Ep. \(episodeNumber)",
+            episodeNumber: episodeNumber,
+            imageURL: animeDetailsViewController?.imageUrl ?? "",
+            fullURL: fullURL,
+            lastPlayedTime: currentTime,
+            totalTime: duration,
+            source: selectedMediaSource
+        )
+        ContinueWatchingManager.shared.saveItem(continueWatchingItem)
+    }
+    
+    private func sendPushUpdates(remainingTime: Double) {
+        guard let animeDetailsViewController = animeDetailsViewController, UserDefaults.standard.bool(forKey: "sendPushUpdates"), remainingTime < 120, !animeDetailsViewController.hasSentUpdate else {
+            return
+        }
+        
+        let cleanedTitle = animeDetailsViewController.cleanTitle(animeDetailsViewController.animeTitle ?? "Unknown Anime")
+        animeDetailsViewController.fetchAnimeID(title: cleanedTitle) { [weak self] animeID in
+            let aniListMutation = AniListMutation()
+            aniListMutation.updateAnimeProgress(animeId: animeID, episodeNumber: Int(self?.cell.episodeNumber ?? "0") ?? 0) { result in
+                switch result {
+                case .success: print("Successfully updated anime progress.")
+                case .failure(let error): print("Failed to update anime progress: \(error.localizedDescription)")
                 }
             }
+            animeDetailsViewController.hasSentUpdate = true
         }
     }
     
@@ -444,8 +336,7 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
         if retryCount < maxRetries {
             print("Retrying extraction (Attempt \(retryCount + 1))")
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
-                guard let self = self else { return }
-                self.loadInitialURL()
+                self?.loadInitialURL()
             }
         } else {
             print("Max retries reached. Unable to find video source.")
@@ -478,8 +369,26 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
         webView?.loadHTMLString("", baseURL: nil)
     }
     
-    func playNextEpisode() {
-        guard let animeDetailsViewController = self.animeDetailsViewController else {
+    @objc func playerItemDidReachEnd(notification: Notification) {
+        if UserDefaults.standard.bool(forKey: "AutoPlay"), let animeDetailsViewController = animeDetailsViewController {
+            let hasNextEpisode = animeDetailsViewController.isReverseSorted ?
+                (animeDetailsViewController.currentEpisodeIndex > 0) :
+                (animeDetailsViewController.currentEpisodeIndex < animeDetailsViewController.episodes.count - 1)
+            
+            if hasNextEpisode {
+                dismiss(animated: true) { [weak self] in
+                    self?.playNextEpisode()
+                }
+            } else {
+                dismiss(animated: true)
+            }
+        } else {
+            dismiss(animated: true)
+        }
+    }
+    
+    private func playNextEpisode() {
+        guard let animeDetailsViewController = animeDetailsViewController else {
             print("Error: animeDetailsViewController is nil")
             return
         }
@@ -510,25 +419,6 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
         let nextEpisode = animeDetailsViewController.episodes[index]
         if let cell = animeDetailsViewController.tableView.cellForRow(at: IndexPath(row: index, section: 2)) as? EpisodeCell {
             animeDetailsViewController.episodeSelected(episode: nextEpisode, cell: cell)
-        }
-    }
-    
-    @objc func playerItemDidReachEnd(notification: Notification) {
-        if UserDefaults.standard.bool(forKey: "AutoPlay") {
-            guard let animeDetailsViewController = self.animeDetailsViewController else { return }
-            let hasNextEpisode = animeDetailsViewController.isReverseSorted ?
-                (animeDetailsViewController.currentEpisodeIndex > 0) :
-                (animeDetailsViewController.currentEpisodeIndex < animeDetailsViewController.episodes.count - 1)
-            
-            if hasNextEpisode {
-                self.dismiss(animated: true) { [weak self] in
-                    self?.playNextEpisode()
-                }
-            } else {
-                self.dismiss(animated: true, completion: nil)
-            }
-        } else {
-            self.dismiss(animated: true, completion: nil)
         }
     }
 }
