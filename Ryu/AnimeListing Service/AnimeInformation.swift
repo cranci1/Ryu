@@ -200,7 +200,9 @@ class AnimeInformation: UIViewController, UITableViewDataSource {
         var bannerImageUrl: URL?
         
         if let titleDict = animeData["title"] as? [String: String] {
-            titleLabel.text = titleDict["english"] ?? titleDict["romaji"]
+            titleLabel.text = titleDict["romaji"] ?? titleDict["english"] ?? titleDict["native"] ?? titleDict["userPreferred"] ?? "Title not available"
+        } else {
+            titleLabel.text = "Title not available"
         }
         
         if let coverImage = (animeData["coverImage"] as? [String: String])?["extraLarge"],
