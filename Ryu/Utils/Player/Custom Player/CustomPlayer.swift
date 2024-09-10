@@ -48,8 +48,10 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
     private var seekThumbCenterXConstraint: NSLayoutConstraint?
     
     private var subtitles: [SubtitleCue] = []
+    private var currentSubtitleIndex: Int?
+    private var lastTranslationLanguage: String?
     private var subtitleTimer: Timer?
-    private var subtitleFontSize: CGFloat = 18
+    private var subtitleFontSize: CGFloat = 16
     private var subtitleColor: UIColor = .white
     private var subtitleBorderWidth: CGFloat = 1
     private var subtitleBorderColor: UIColor = .black
@@ -927,8 +929,54 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
                 self?.toggleSubtitles()
             }
             
+            let isGoogleTranslateEnabled = UserDefaults.standard.bool(forKey: "googleTranslation")
+            let subtitlesTranslationAction = UIAction(title: "Subtitles Translation", state: isGoogleTranslateEnabled ? .on : .off) { _ in
+                UserDefaults.standard.set(!isGoogleTranslateEnabled, forKey: "googleTranslation")
+                self.updateSettingsMenu()
+            }
+            
+            let currentLanguage = UserDefaults.standard.string(forKey: "translationLanguage") ?? "en"
+            let languageOptions: [(String, String)] = [
+                ("ar", "Arabic"),
+                ("bg", "Bulgarian"),
+                ("cs", "Czech"),
+                ("da", "Danish"),
+                ("de", "German"),
+                ("el", "Greek"),
+                ("es", "Spanish"),
+                ("et", "Estonian"),
+                ("fi", "Finnish"),
+                ("fr", "French"),
+                ("hu", "Hungarian"),
+                ("id", "Indonesian"),
+                ("it", "Italian"),
+                ("ja", "Japanese"),
+                ("ko", "Korean"),
+                ("lt", "Lithuanian"),
+                ("lv", "Latvian"),
+                ("nl", "Dutch"),
+                ("pl", "Polish"),
+                ("pt", "Portuguese"),
+                ("ro", "Romanian"),
+                ("ru", "Russian"),
+                ("sk", "Slovak"),
+                ("sl", "Slovenian"),
+                ("sv", "Swedish"),
+                ("tr", "Turkish"),
+                ("uk", "Ukrainian")
+            ]
+            let languageItems = languageOptions.map { (code, name) in
+                UIAction(title: name, state: currentLanguage == code ? .on : .off) { _ in
+                    UserDefaults.standard.set(code, forKey: "translationLanguage")
+                    self.updateSettingsMenu()
+                }
+            }
+            let languageSubmenu = UIMenu(title: "Translation Language", children: languageItems)
+            
             let subtitleSettingsSubmenu = UIMenu(title: "Subtitle Settings", image: UIImage(systemName: "captions.bubble"), children: [
                 hideSubtitlesAction,
+                subtitlesTranslationAction,
+                languageSubmenu,
                 fontSizeSubmenu,
                 colorSubmenu,
                 borderWidthSubmenu
@@ -1023,7 +1071,12 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
     private func loadSubtitles(from url: URL) {
         URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
             guard let self = self, let data = data else { return }
-            self.subtitles = SubtitlesLoader.parseVTT(data: data)
+            
+            SubtitlesLoader.parseVTT(data: data) { [weak self] cues in
+                DispatchQueue.main.async {
+                    self?.subtitles = cues
+                }
+            }
         }.resume()
     }
     
@@ -1031,15 +1084,32 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         guard !areSubtitlesHidden, let player = player else { return }
         
         let currentTime = player.currentTime()
+        let isTranslationEnabled = UserDefaults.standard.bool(forKey: "googleTranslation")
+        let currentTranslationLanguage = UserDefaults.standard.string(forKey: "translationLanguage") ?? "en"
         
-        for cue in subtitles {
-            if CMTimeCompare(currentTime, cue.startTime) >= 0 && CMTimeCompare(currentTime, cue.endTime) <= 0 {
-                subtitlesLabel.text = cue.text
-                return
+        if let index = subtitles.firstIndex(where: {
+            CMTimeCompare(currentTime, $0.startTime) >= 0 && CMTimeCompare(currentTime, $0.endTime) <= 0
+        }) {
+            if index != currentSubtitleIndex || lastTranslationLanguage != currentTranslationLanguage {
+                currentSubtitleIndex = index
+                lastTranslationLanguage = currentTranslationLanguage
+                
+                SubtitlesLoader.getTranslatedSubtitle(subtitles[index] as SubtitleCue) { [weak self] translatedCue in
+                    DispatchQueue.main.async {
+                        if self?.currentSubtitleIndex == index {
+                            if isTranslationEnabled {
+                                self?.subtitlesLabel.text = translatedCue.getTranslation(for: currentTranslationLanguage) ?? translatedCue.originalText
+                            } else {
+                                self?.subtitlesLabel.text = translatedCue.originalText
+                            }
+                        }
+                    }
+                }
             }
+        } else {
+            currentSubtitleIndex = nil
+            subtitlesLabel.text = nil
         }
-        
-        subtitlesLabel.text = nil
     }
 }
 

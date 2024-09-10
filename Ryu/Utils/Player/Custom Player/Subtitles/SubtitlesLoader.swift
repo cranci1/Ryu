@@ -11,7 +11,16 @@ import AVFoundation
 struct SubtitleCue {
     let startTime: CMTime
     let endTime: CMTime
-    var text: String
+    var originalText: String
+    var translations: [String: String] = [:]
+    
+    mutating func setTranslation(_ text: String, for language: String) {
+        translations[language] = text
+    }
+    
+    func getTranslation(for language: String) -> String? {
+        return translations[language]
+    }
 }
 
 class SubtitlesLoader {
@@ -22,11 +31,6 @@ class SubtitlesLoader {
         let lines = text.split(separator: "\n", omittingEmptySubsequences: false)
         var currentCue: SubtitleCue?
         
-        let isTranslationEnabled = UserDefaults.standard.bool(forKey: "googleTranslation")
-        let targetLanguage = UserDefaults.standard.string(forKey: "translationLanguage") ?? "en"
-        
-        let dispatchGroup = DispatchGroup()
-        
         for line in lines {
             let lineStr = String(line)
             
@@ -35,28 +39,35 @@ class SubtitlesLoader {
                 if times.count == 2 {
                     let startTime = timeToCMTime(timeString: times[0].trimmingCharacters(in: .whitespacesAndNewlines))
                     let endTime = timeToCMTime(timeString: times[1].trimmingCharacters(in: .whitespacesAndNewlines))
-                    currentCue = SubtitleCue(startTime: startTime, endTime: endTime, text: "")
+                    currentCue = SubtitleCue(startTime: startTime, endTime: endTime, originalText: "")
                 }
             } else if !lineStr.isEmpty {
-                currentCue?.text += removeHTMLTags(from: lineStr) + "\n"
+                currentCue?.originalText += removeHTMLTags(from: lineStr) + "\n"
             } else if let cue = currentCue {
-                if isTranslationEnabled {
-                    dispatchGroup.enter()
-                    translateText(cue.text, targetLang: targetLanguage) { translatedText in
-                        var translatedCue = cue
-                        translatedCue.text = translatedText
-                        cues.append(translatedCue)
-                        dispatchGroup.leave()
-                    }
-                } else {
-                    cues.append(cue)
-                }
+                cues.append(cue)
                 currentCue = nil
             }
         }
         
-        dispatchGroup.notify(queue: .main) {
-            completion(cues)
+        completion(cues)
+    }
+    
+    static func getTranslatedSubtitle(_ subtitle: SubtitleCue, completion: @escaping (SubtitleCue) -> Void) {
+        let isTranslationEnabled = UserDefaults.standard.bool(forKey: "googleTranslation")
+        let targetLanguage = UserDefaults.standard.string(forKey: "translationLanguage") ?? "en"
+        
+        if isTranslationEnabled {
+            if let translatedText = subtitle.getTranslation(for: targetLanguage) {
+                completion(subtitle)
+            } else {
+                var modifiedSubtitle = subtitle
+                translateText(subtitle.originalText, targetLang: targetLanguage) { translatedText in
+                    modifiedSubtitle.setTranslation(translatedText, for: targetLanguage)
+                    completion(modifiedSubtitle)
+                }
+            }
+        } else {
+            completion(subtitle)
         }
     }
     
@@ -99,6 +110,11 @@ class SubtitlesLoader {
     }
     
     private static func translateText(_ text: String, targetLang: String, completion: @escaping (String) -> Void) {
+        guard UserDefaults.standard.bool(forKey: "googleTranslation") else {
+            completion(text)
+            return
+        }
+        
         let url = URL(string: "https://translate-api-sable.vercel.app/api/translate")!
         
         var request = URLRequest(url: url)
