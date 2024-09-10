@@ -21,6 +21,7 @@
 		1357B50A2C6D0965000A2C9B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1357B4FD2C6D0965000A2C9B /* Main.storyboard */; };
 		1357B50B2C6D0965000A2C9B /* AnilistAnimeInformation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1357B4FF2C6D0965000A2C9B /* AnilistAnimeInformation.storyboard */; };
 		1357B50C2C6D0965000A2C9B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1357B5012C6D0965000A2C9B /* LaunchScreen.storyboard */; };
+		13603FD12C90BB1A0075DBA9 /* HanashiAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13603FD02C90BB1A0075DBA9 /* HanashiAPI.swift */; };
 		136525162C6B5B4100210A98 /* Jikan-Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136524B52C6B5B4000210A98 /* Jikan-Info.swift */; };
 		136525172C6B5B4100210A98 /* Jikan-Sesonal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136524B72C6B5B4000210A98 /* Jikan-Sesonal.swift */; };
 		136525182C6B5B4100210A98 /* Jikan-Trending.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136524B82C6B5B4000210A98 /* Jikan-Trending.swift */; };
@@ -101,6 +102,7 @@
 		1357B4FE2C6D0965000A2C9B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Ryu/Base.lproj/Main.storyboard; sourceTree = SOURCE_ROOT; };
 		1357B5002C6D0965000A2C9B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Ryu/Base.lproj/AnilistAnimeInformation.storyboard; sourceTree = SOURCE_ROOT; };
 		1357B5022C6D0965000A2C9B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Ryu/Base.lproj/LaunchScreen.storyboard; sourceTree = SOURCE_ROOT; };
+		13603FD02C90BB1A0075DBA9 /* HanashiAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HanashiAPI.swift; sourceTree = "<group>"; };
 		1365249C2C6B5B2F00210A98 /* Ryu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ryu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		136524B52C6B5B4000210A98 /* Jikan-Info.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Jikan-Info.swift"; sourceTree = "<group>"; };
 		136524B72C6B5B4000210A98 /* Jikan-Sesonal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Jikan-Sesonal.swift"; sourceTree = "<group>"; };
@@ -237,6 +239,14 @@
 			path = AiringAnimeCell;
 			sourceTree = "<group>";
 		};
+		13603FCF2C90BAFE0075DBA9 /* Hanashi */ = {
+			isa = PBXGroup;
+			children = (
+				13603FD02C90BB1A0075DBA9 /* HanashiAPI.swift */,
+			);
+			path = Hanashi;
+			sourceTree = "<group>";
+		};
 		136524932C6B5B2F00210A98 = {
 			isa = PBXGroup;
 			children = (
@@ -360,6 +370,7 @@
 		136524CD2C6B5B4000210A98 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				13603FCF2C90BAFE0075DBA9 /* Hanashi */,
 				136524CF2C6B5B4000210A98 /* SourceMenu.swift */,
 				136524CE2C6B5B4000210A98 /* Sources.swift */,
 			);
@@ -699,6 +710,7 @@
 				136525572C6B5B4100210A98 /* ExternalVideoPlayer3rb.swift in Sources */,
 				1365253C2C6B5B4100210A98 /* FeaturedAnimeParsing.swift in Sources */,
 				136525212C6B5B4100210A98 /* Kitsu-Trending.swift in Sources */,
+				13603FD12C90BB1A0075DBA9 /* HanashiAPI.swift in Sources */,
 				13921B3F2C6B8ED9004E8BDC /* String.swift in Sources */,
 				136525462C6B5B4100210A98 /* ActiveDownloadsViewController.swift in Sources */,
 				136525252C6B5B4100210A98 /* AnimeInformation.swift in Sources */,

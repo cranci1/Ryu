@@ -152,8 +152,36 @@ extension SearchResultsViewController {
                 return (title: title, imageUrl: imageUrl, href: href)
             }
         } catch {
-            print("Error parsing JSON: \(error.localizedDescription)")
+            print("Error parsing HiAnime JSON: \(error.localizedDescription)")
             return []
         }
+    }
+    
+    func parseHanashi(_ jsonString: String) -> [(title: String, imageUrl: String, href: String)] {
+        print(jsonString)
+        guard let data = jsonString.data(using: .utf8) else { return [] }
+        do {
+            if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]] {
+                return json.compactMap { item in
+                    guard let id = item["id"] as? String,
+                          let names = item["name"] as? [[String: String]],
+                          let images = item["images"] as? [String: [[String: Any]]] else {
+                              return nil
+                          }
+                    
+                    let title = names.first { $0["locale"] == "de-DE" }?["name"] ?? names.first?["name"] ?? ""
+                    
+                    let coverImages = images["cover"] ?? []
+                    let pngImage = coverImages.first { $0["format"] as? String == "png" }
+                    let parImageURL = pngImage?["source"] as? String ?? ""
+                    let imageUrl = "https://api.hanashi.to/public/" + parImageURL
+                    
+                    return (title: title, imageUrl: imageUrl, href: id)
+                }
+            }
+        } catch {
+            print("Error parsing Hanashi JSON: \(error.localizedDescription)")
+        }
+        return []
     }
 }

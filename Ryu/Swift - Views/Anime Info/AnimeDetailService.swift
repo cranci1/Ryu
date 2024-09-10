@@ -37,8 +37,9 @@ class AnimeDetailService {
                 "https://aniwatch-api-dusky.vercel.app/anime/info?id=",
                 "https://aniwatch-api-cranci.vercel.app/anime/info?id="
             ]
-        case .animefire, .kuramanime, .jkanime, .anime3rb:
+        case .animefire, .kuramanime, .jkanime, .anime3rb, .hanashi:
             baseUrls = [""]
+
         }
         
         let baseUrl = baseUrls.randomElement()!
@@ -160,6 +161,11 @@ class AnimeDetailService {
                             synopsis = ""
                             airdate = ""
                             stars = ""
+                        case .hanashi:
+                            aliases = ""
+                            synopsis = ""
+                            airdate = ""
+                            stars = ""
                         }
                         
                         episodes = self.fetchEpisodes(document: document, for: selectedSource, href: href)
@@ -275,6 +281,9 @@ class AnimeDetailService {
                 episodeElements = try document.select("div.absolute.overflow-hidden div a.gap-3")
                 downloadUrlElement = ""
             case .hianime:
+                episodeElements = try document.select("")
+                downloadUrlElement = ""
+            case .hanashi:
                 episodeElements = try document.select("")
                 downloadUrlElement = ""
             }
