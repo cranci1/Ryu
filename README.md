@@ -37,6 +37,8 @@ A simple way to enjoy and watch anime on iOS
 - [x] Offline mode (with ongoing improvements)
 - [x] Apple KeyChain support for the AniList Token
 - [x] External Media Player support (VLC, Infuse, OutPlayer)
+- [x] Intro/Outro skipper with timestamps
+- [x] Real-time subtitles Translator
 - [ ] Notifications for new episodes (coming soon)
 - [ ] macOS support
 
@@ -112,6 +114,7 @@ FrameWorks:
 APIs:
 - [AniWatch-api](https://github.com/ghoshritesh12/aniwatch-api) - MIT License
 - [AniSkip-api](https://github.com/aniskip/aniskip-api) - MIT License
+- [Deeplx-vercel-api](https://github.com/bropines/Deeplx-vercel) - MIT License
 
 ## Contributing
 
