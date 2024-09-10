@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             "preferredQuality": "1080p",
             "subtitleHiPrefe": "English",
             "serverHiPrefe": "hd-1",
-            "audioHiPrefe": "dub"
+            "audioHiPrefe": "sub"
         ]
         
         for (key, value) in defaultValues {

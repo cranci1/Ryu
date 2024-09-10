@@ -57,7 +57,7 @@ class SubtitlesLoader {
         let targetLanguage = UserDefaults.standard.string(forKey: "translationLanguage") ?? "en"
         
         if isTranslationEnabled {
-            if let translatedText = subtitle.getTranslation(for: targetLanguage) {
+            if subtitle.getTranslation(for: targetLanguage) != nil {
                 completion(subtitle)
             } else {
                 var modifiedSubtitle = subtitle
@@ -115,7 +115,8 @@ class SubtitlesLoader {
             return
         }
         
-        let url = URL(string: "https://translate-api-sable.vercel.app/api/translate")!
+        let urlString = Bool.random() ? "https://translate-api-first.vercel.app/api/translate" : "https://translate-api-second.vercel.app/api/translate"
+        let url = URL(string: urlString)!
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
