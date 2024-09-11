@@ -20,8 +20,7 @@ class SourceMenu {
                 ("Kuramanime", .kuramanime, "🇮🇩"),
                 ("JKanime", .jkanime, "🇪🇸"),
                 ("Anime3rb", .anime3rb, "🇸🇦"),
-                ("HiAnime", .hianime, "🇺🇸"),
-                ("Hanashi", .hanashi, "🇩🇪")
+                ("HiAnime", .hianime, "🇺🇸")
             ]
             
             let alertController = UIAlertController(title: "Select Source", message: "Choose your preferred source.", preferredStyle: .actionSheet)

@@ -115,8 +115,14 @@ class SubtitlesLoader {
             return
         }
         
-        let urlString = Bool.random() ? "https://translate-api-first.vercel.app/api/translate" : "https://translate-api-second.vercel.app/api/translate"
-        let url = URL(string: urlString)!
+        let customURLString = UserDefaults.standard.string(forKey: "savedTranslatorInstance")
+        let urlString = customURLString ?? "https://translate-api-first.vercel.app/api/translate"
+
+        guard let url = URL(string: urlString) else {
+            print("Invalid URL")
+            completion(text)
+            return
+        }
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -158,4 +164,5 @@ class SubtitlesLoader {
         
         task.resume()
     }
+
 }

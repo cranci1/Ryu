@@ -1155,14 +1155,26 @@ extension CustomVideoPlayerView {
     }
     
     func fetchSkipTimes(malID: Int, episodeNumber: Int, completion: @escaping ([(String, TimeInterval, TimeInterval, String)]) -> Void) {
-        let urlString = "https://api.aniskip.com/v1/skip-times/\(malID)/\(episodeNumber)?types=op&types=ed"
-        guard let url = URL(string: urlString) else {
+        let savedAniSkipInstance = UserDefaults.standard.string(forKey: "savedAniSkipInstance") ?? ""
+        
+        let baseURL = savedAniSkipInstance.isEmpty ? "https://api.aniskip.com/" : savedAniSkipInstance
+        let endpoint = "v1/skip-times/\(malID)/\(episodeNumber)?types=op&types=ed"
+        
+        guard let url = URL(string: "\(baseURL)\(endpoint)") else {
+            print("Invalid URL")
             completion([])
             return
         }
         
         URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                print("Network error: \(error)")
+                completion([])
+                return
+            }
+            
             guard let data = data else {
+                print("No data received")
                 completion([])
                 return
             }
@@ -1170,6 +1182,7 @@ extension CustomVideoPlayerView {
             do {
                 if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
                    let results = json["results"] as? [[String: Any]] {
+                    
                     let skipTimes = results.compactMap { result -> (String, TimeInterval, TimeInterval, String)? in
                         guard let interval = result["interval"] as? [String: Double],
                               let startTime = interval["start_time"],
@@ -1180,8 +1193,10 @@ extension CustomVideoPlayerView {
                               }
                         return (skipType, startTime, endTime, skipId)
                     }
+                    
                     completion(skipTimes)
                 } else {
+                    print("Invalid JSON format")
                     completion([])
                 }
             } catch {
@@ -1343,8 +1358,13 @@ extension CustomVideoPlayerView {
     }
     
     private func sendVote(skipId: String, voteType: String) {
-        let urlString = "https://api.aniskip.com/v1/skip-times/vote/\(skipId)"
-        guard let url = URL(string: urlString) else { return }
+        let baseURL = "https://api.aniskip.com/"
+        let endpoint = "v1/skip-times/vote/\(skipId)"
+        
+        guard let url = URL(string: "\(baseURL)\(endpoint)") else {
+            print("Invalid URL")
+            return
+        }
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
