@@ -82,7 +82,7 @@ class SettingsViewSources: UITableViewController {
             UserDefaults.standard.set("1080p", forKey: "preferredQuality")
             self?.qualityPrefered.setTitle("1080p", for: .normal)
         })
-
+        
         let menu = UIMenu(title: "Select Prefered Quality", children: [action1, action2, action3, action4])
         
         qualityPrefered.menu = menu
@@ -106,7 +106,7 @@ class SettingsViewSources: UITableViewController {
             UserDefaults.standard.set("raw", forKey: "audioHiPrefe")
             self?.audioButton.setTitle("raw", for: .normal)
         })
-
+        
         let menu = UIMenu(title: "Select Prefered Audio", children: [action1, action2, action3])
         
         audioButton.menu = menu
@@ -130,7 +130,7 @@ class SettingsViewSources: UITableViewController {
             UserDefaults.standard.set("Always Ask", forKey: "serverHiPrefe")
             self?.serverButton.setTitle("Always Ask", for: .normal)
         })
-
+        
         let menu = UIMenu(title: "Select Prefered Server", children: [action1, action2, action3])
         
         serverButton.menu = menu
@@ -150,7 +150,7 @@ class SettingsViewSources: UITableViewController {
             UserDefaults.standard.set("Always Ask", forKey: "subtitleHiPrefe")
             self?.subtitlesButton.setTitle("Always Ask", for: .normal)
         })
-
+        
         let menu = UIMenu(title: "Select Subtitles Language", children: [action1, action2])
         
         subtitlesButton.menu = menu

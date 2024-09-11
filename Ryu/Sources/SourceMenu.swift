@@ -9,7 +9,7 @@ import UIKit
 
 class SourceMenu {
     static weak var delegate: SourceSelectionDelegate?
-
+    
     static func showSourceSelector(from viewController: UIViewController, sourceView: UIView?, completion: (() -> Void)? = nil) {
         DispatchQueue.main.async {
             let sources: [(title: String, source: MediaSource, language: String)] = [

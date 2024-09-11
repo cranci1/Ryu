@@ -253,16 +253,16 @@ extension DownloadListViewController: UIContextMenuInteractionDelegate {
     func contextMenuInteraction(_ interaction: UIContextMenuInteraction, previewForHighlightingMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
         guard let indexPath = configuration.identifier as? IndexPath,
               let cell = tableView.cellForRow(at: indexPath) else {
-            return nil
-        }
+                  return nil
+              }
         return UITargetedPreview(view: cell)
     }
     
     func contextMenuInteraction(_ interaction: UIContextMenuInteraction, previewForDismissingMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
         guard let indexPath = configuration.identifier as? IndexPath,
               let cell = tableView.cellForRow(at: indexPath) else {
-            return nil
-        }
+                  return nil
+              }
         return UITargetedPreview(view: cell)
     }
     

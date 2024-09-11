@@ -59,8 +59,8 @@ class ContinueWatchingManager {
     func getItems() -> [ContinueWatchingItem] {
         guard let data = userDefaults.data(forKey: continueWatchingKey),
               let items = try? JSONDecoder().decode([ContinueWatchingItem].self, from: data) else {
-            return []
-        }
+                  return []
+              }
         return items.filter { $0.shouldDisplay }
     }
     

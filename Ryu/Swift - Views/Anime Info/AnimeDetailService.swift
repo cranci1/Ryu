@@ -39,7 +39,6 @@ class AnimeDetailService {
             ]
         case .animefire, .kuramanime, .jkanime, .anime3rb, .hanashi:
             baseUrls = [""]
-
         }
         
         let baseUrl = baseUrls.randomElement()!

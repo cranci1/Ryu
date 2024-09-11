@@ -196,7 +196,7 @@ class AnimeInformation: UIViewController, UITableViewDataSource {
     
     private func updateUI() {
         guard let animeData = animeData else { return }
-
+        
         var bannerImageUrl: URL?
         
         if let titleDict = animeData["title"] as? [String: String] {
@@ -251,7 +251,7 @@ extension AnimeInformation {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 8
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellIdentifier", for: indexPath)
         return cell
@@ -332,8 +332,8 @@ class AnimeInfoView: UIView {
         guard let year = dateDict?["year"],
               let month = dateDict?["month"],
               let day = dateDict?["day"] else {
-            return "N/A"
-        }
+                  return "N/A"
+              }
         return "\(String(format: "%02d", day))/\(String(format: "%02d", month))/\(year)"
     }
     
@@ -563,11 +563,11 @@ class StatsView: UIView {
         super.init(frame: frame)
         setupUI()
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     private func setupUI() {
         layer.cornerRadius = 12
         
@@ -578,12 +578,12 @@ class StatsView: UIView {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         barChartView.translatesAutoresizingMaskIntoConstraints = false
         averageScoreLabel.translatesAutoresizingMaskIntoConstraints = false
-
+        
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: topAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
-
+            
             barChartView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
             barChartView.leadingAnchor.constraint(equalTo: leadingAnchor),
             barChartView.trailingAnchor.constraint(equalTo: trailingAnchor),
@@ -593,7 +593,7 @@ class StatsView: UIView {
             averageScoreLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             averageScoreLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
         ])
-
+        
         titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
         titleLabel.text = "Ratings & Statistics"
         titleLabel.textColor = .label
@@ -601,14 +601,14 @@ class StatsView: UIView {
         averageScoreLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         averageScoreLabel.textColor = .secondaryLabel
     }
-
+    
     func configure(with stats: [String: Any]?) {
         barChartView.subviews.forEach { $0.removeFromSuperview() }
-
+        
         guard let scoreDistribution = stats?["scoreDistribution"] as? [[String: Int]] else {
             return
         }
-
+        
         let sortedDistribution = scoreDistribution.sorted { $0["score"] ?? 0 < $1["score"] ?? 0 }
         let maxAmount = sortedDistribution.max { ($0["amount"] ?? 0) < ($1["amount"] ?? 0) }?["amount"] ?? 1
         
@@ -617,14 +617,14 @@ class StatsView: UIView {
         let averageScore = Double(totalScore) / Double(totalAmount)
         
         averageScoreLabel.text = String(format: "Average Score: %.1f", averageScore)
-
+        
         for (index, scoreStat) in sortedDistribution.enumerated() {
             if let score = scoreStat["score"], let amount = scoreStat["amount"] {
                 let barView = UIView()
                 barView.layer.cornerRadius = 4
                 barView.backgroundColor = .systemTeal
                 barChartView.addSubview(barView)
-
+                
                 barView.translatesAutoresizingMaskIntoConstraints = false
                 NSLayoutConstraint.activate([
                     barView.bottomAnchor.constraint(equalTo: barChartView.bottomAnchor),
@@ -639,7 +639,7 @@ class StatsView: UIView {
                 scoreLabel.textAlignment = .center
                 scoreLabel.textColor = .secondaryLabel
                 barChartView.addSubview(scoreLabel)
-
+                
                 scoreLabel.translatesAutoresizingMaskIntoConstraints = false
                 NSLayoutConstraint.activate([
                     scoreLabel.topAnchor.constraint(equalTo: barView.bottomAnchor, constant: 4),
@@ -649,20 +649,20 @@ class StatsView: UIView {
         }
     }
 }
- 
+
 class CharactersView: UIView {
     private let titleLabel = UILabel()
     private let collectionView: UICollectionView
     private let cellId = "CharacterCollectionViewCell"
     private var characters: [[String: Any]] = []
-
+    
     override init(frame: CGRect) {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 8
         layout.minimumLineSpacing = 8
         layout.itemSize = CGSize(width: 120, height: 140)
-
+        
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
         super.init(frame: frame)

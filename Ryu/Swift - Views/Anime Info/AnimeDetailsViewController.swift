@@ -330,7 +330,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                 self?.showAlert(title: "Reverted", message: "The custom AniList ID has been cleared.")
             }
         }
-
+        
         alert.addAction(saveAction)
         alert.addAction(revertAction)
         

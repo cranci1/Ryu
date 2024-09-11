@@ -9,7 +9,7 @@ import UIKit
 import UniformTypeIdentifiers
 
 class SettingsViewController: UITableViewController {
-
+    
     @IBOutlet var autoPlaySwitch: UISwitch!
     @IBOutlet var landScapeSwitch: UISwitch!
     @IBOutlet var browserPlayerSwitch: UISwitch!
@@ -79,7 +79,7 @@ class SettingsViewController: UITableViewController {
             self?.updateSourceButtonTitle()
         }
     }
-
+    
     private func updateSourceButtonTitle() {
         if let selectedSourceRawValue = UserDefaults.standard.string(forKey: "selectedMediaSource"),
            let selectedSource = MediaSource(rawValue: selectedSourceRawValue) {
@@ -95,7 +95,7 @@ class SettingsViewController: UITableViewController {
         let vlcIcon = UIImage(systemName: "film")
         let outplayerIcon = UIImage(systemName: "play.circle.fill")
         let customIcon = UIImage(systemName: "bolt.horizontal.fill")
-
+        
         let action1 = UIAction(title: "Default", image: defaultIcon, handler: { [weak self] _ in
             UserDefaults.standard.set("Default", forKey: "mediaPlayerSelected")
             self?.playerButton.setTitle("Default", for: .normal)
@@ -116,7 +116,7 @@ class SettingsViewController: UITableViewController {
             UserDefaults.standard.set("Custom", forKey: "mediaPlayerSelected")
             self?.playerButton.setTitle("Custom", for: .normal)
         })
-
+        
         let menu = UIMenu(title: "Select Media Player", children: [action1, action2, action3, action4, action5])
         
         playerButton.menu = menu
@@ -283,7 +283,7 @@ class SettingsViewController: UITableViewController {
         
         present(alertController, animated: true, completion: nil)
     }
-
+    
     private func performDeletion() {
         let fileManager = FileManager.default
         do {
