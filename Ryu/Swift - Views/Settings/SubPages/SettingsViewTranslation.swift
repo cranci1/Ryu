@@ -10,19 +10,23 @@ import UIKit
 class SettingsViewTranslation: UITableViewController {
     
     @IBOutlet var translationSwitch: UISwitch!
-    @IBOutlet var customInstanceSwitch: UISwitch!
+    @IBOutlet var selfhostSwitch: UISwitch!
     
     @IBOutlet weak var preferedLanguage: UIButton!
+    
+    private var viewModel = LocalServerViewModel()
+    private var progressAlert: UIAlertController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         loadUserDefaults()
         setupLanguageMenu()
+        setupViewModel()
     }
     
     private func loadUserDefaults() {
         translationSwitch.isOn = UserDefaults.standard.bool(forKey: "googleTranslation")
-        customInstanceSwitch.isOn = UserDefaults.standard.bool(forKey: "customTranslatorInstance")
+        selfhostSwitch.isOn = UserDefaults.standard.bool(forKey: "selfHostEnabled")
     }
     
     @IBAction func closeButtonTapped() {
@@ -86,40 +90,52 @@ class SettingsViewTranslation: UITableViewController {
         }
     }
     
-    @IBAction func urlToggle(_ sender: UISwitch) {
-        UserDefaults.standard.set(sender.isOn, forKey: "customTranslatorInstance")
+    @IBAction func selfSwitchToggled(_ sender: UISwitch) {
+        UserDefaults.standard.set(sender.isOn, forKey: "selfHostEnabled")
         
         if sender.isOn {
-            presentURLAlert()
+            startSelfHostingServer() // Start server process when switch is on
         }
     }
     
-    private func presentURLAlert() {
-        let alertController = UIAlertController(title: "Enter custom Instance URL", message: "Make sure to follow the rules in the footer of the cell", preferredStyle: .alert)
-        
-        alertController.addTextField { textField in
-            textField.placeholder = "https://translate-api-first.vercel.app/api/translate"
-            textField.keyboardType = .URL
+    private func startSelfHostingServer() {
+        // Show alert and start the server
+        showProgressAlert()
+        viewModel.selectedRepository = viewModel.repositories.first // Select a repository to start
+        viewModel.startProcess() // Trigger the process
+    }
+    
+    private func showProgressAlert() {
+        progressAlert = UIAlertController(title: "Starting Self-Host", message: "Initializing...", preferredStyle: .alert)
+        if let alert = progressAlert {
+            present(alert, animated: true)
         }
-        
-        let saveAction = UIAlertAction(title: "Save", style: .default) { [weak self] _ in
-            if let urlString = alertController.textFields?.first?.text {
-                self?.saveURL(urlString)
+    }
+    
+    private func updateProgressAlert(message: String) {
+        progressAlert?.message = message
+    }
+    
+    private func setupViewModel() {
+        // Observer to update the alert when server progress updates
+        viewModel.onUpdate = { [weak self] statusMessage in
+            DispatchQueue.main.async {
+                self?.updateProgressAlert(message: statusMessage)
             }
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { [weak self] _ in
-            self?.customInstanceSwitch.setOn(false, animated: true)
-            UserDefaults.standard.set(false, forKey: "customTranslatorInstance")
+        // Observer to close the alert once the process is finished
+        viewModel.onProcessFinished = { [weak self] in
+            DispatchQueue.main.async {
+                self?.dismissProgressAlert()
+            }
         }
-        
-        alertController.addAction(saveAction)
-        alertController.addAction(cancelAction)
-        
-        present(alertController, animated: true, completion: nil)
     }
     
-    private func saveURL(_ urlString: String) {
-        UserDefaults.standard.set(urlString, forKey: "savedTranslatorInstance")
+    private func dismissProgressAlert() {
+        if let alert = progressAlert {
+            alert.dismiss(animated: true, completion: nil)
+            progressAlert = nil // Reset the alert after dismissing
+        }
     }
 }
