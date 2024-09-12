@@ -89,8 +89,6 @@
 		13A888B22C7A305500D6C597 /* CustomPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A888B12C7A305500D6C597 /* CustomPlayer.swift */; };
 		13A888B42C7A322600D6C597 /* CustomPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A888B32C7A322600D6C597 /* CustomPlayerView.swift */; };
 		13E7F8182C9031A7007550B9 /* SettingsViewTranslation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7F8172C9031A7007550B9 /* SettingsViewTranslation.swift */; };
-		13F3EA0A2C92EF1E0098B1C8 /* GCDWebServer in Frameworks */ = {isa = PBXBuildFile; productRef = 13F3EA092C92EF1E0098B1C8 /* GCDWebServer */; };
-		13F3EA0D2C92F1300098B1C8 /* LocalServerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F3EA0C2C92F1300098B1C8 /* LocalServerViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -174,7 +172,6 @@
 		13A888B12C7A305500D6C597 /* CustomPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPlayer.swift; sourceTree = "<group>"; };
 		13A888B32C7A322600D6C597 /* CustomPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlayerView.swift; sourceTree = "<group>"; };
 		13E7F8172C9031A7007550B9 /* SettingsViewTranslation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewTranslation.swift; sourceTree = "<group>"; };
-		13F3EA0C2C92F1300098B1C8 /* LocalServerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalServerViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,7 +181,6 @@
 			files = (
 				131546D82C6DE6D9002DC3CC /* Kingfisher in Frameworks */,
 				131546E12C6DE71D002DC3CC /* SwiftSoup in Frameworks */,
-				13F3EA0A2C92EF1E0098B1C8 /* GCDWebServer in Frameworks */,
 				131546DE2C6DE6F2002DC3CC /* Alamofire in Frameworks */,
 				131546D52C6DE6CC002DC3CC /* GoogleCastSDK-ios-no-bluetooth in Frameworks */,
 			);
@@ -486,7 +482,6 @@
 		136525002C6B5B4000210A98 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				13F3EA0B2C92F11D0098B1C8 /* LocalHost */,
 				136525012C6B5B4000210A98 /* Managers */,
 				136525062C6B5B4000210A98 /* Downloaders */,
 				136525092C6B5B4000210A98 /* Extensions */,
@@ -577,14 +572,6 @@
 			path = Subtitles;
 			sourceTree = "<group>";
 		};
-		13F3EA0B2C92F11D0098B1C8 /* LocalHost */ = {
-			isa = PBXGroup;
-			children = (
-				13F3EA0C2C92F1300098B1C8 /* LocalServerViewModel.swift */,
-			);
-			path = LocalHost;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -606,7 +593,6 @@
 				131546D72C6DE6D9002DC3CC /* Kingfisher */,
 				131546DD2C6DE6F2002DC3CC /* Alamofire */,
 				131546E02C6DE71D002DC3CC /* SwiftSoup */,
-				13F3EA092C92EF1E0098B1C8 /* GCDWebServer */,
 			);
 			productName = Ryu;
 			productReference = 1365249C2C6B5B2F00210A98 /* Ryu.app */;
@@ -641,7 +627,6 @@
 				131546D62C6DE6D9002DC3CC /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				131546DC2C6DE6F2002DC3CC /* XCRemoteSwiftPackageReference "Alamofire" */,
 				131546DF2C6DE71D002DC3CC /* XCRemoteSwiftPackageReference "SwiftSoup" */,
-				13F3EA082C92EF1E0098B1C8 /* XCRemoteSwiftPackageReference "GCDWebServer" */,
 			);
 			productRefGroup = 1365249D2C6B5B2F00210A98 /* Products */;
 			projectDirPath = "";
@@ -691,7 +676,6 @@
 				136525192C6B5B4100210A98 /* Jikan-Airing.swift in Sources */,
 				1365253B2C6B5B4100210A98 /* HomeViewController.swift in Sources */,
 				1365251B2C6B5B4100210A98 /* AniList-Airing.swift in Sources */,
-				13F3EA0D2C92F1300098B1C8 /* LocalServerViewModel.swift in Sources */,
 				136525202C6B5B4100210A98 /* Token.swift in Sources */,
 				13921B432C6B8F87004E8BDC /* Notification.swift in Sources */,
 				136525592C6B5B4100210A98 /* SceneDelegate.swift in Sources */,
@@ -1021,14 +1005,6 @@
 				version = 2.4.0;
 			};
 		};
-		13F3EA082C92EF1E0098B1C8 /* XCRemoteSwiftPackageReference "GCDWebServer" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/readium/GCDWebServer";
-			requirement = {
-				kind = exactVersion;
-				version = 3.7.5;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1051,11 +1027,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 131546DF2C6DE71D002DC3CC /* XCRemoteSwiftPackageReference "SwiftSoup" */;
 			productName = SwiftSoup;
-		};
-		13F3EA092C92EF1E0098B1C8 /* GCDWebServer */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 13F3EA082C92EF1E0098B1C8 /* XCRemoteSwiftPackageReference "GCDWebServer" */;
-			productName = GCDWebServer;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

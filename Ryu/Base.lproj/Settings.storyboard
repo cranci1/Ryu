@@ -2060,7 +2060,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <sections>
-                            <tableViewSection headerTitle="Frameworks" footerTitle="All of this frameworks are used for: Web Scraping, Sites Requests, Image caching, Google cast and self-hosting sites." id="Wfi-Wl-EOK">
+                            <tableViewSection headerTitle="Frameworks" footerTitle="All of this frameworks are used for: Web Scraping, Sites Requests, Image caching, Google cast." id="Wfi-Wl-EOK">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="pvd-1P-22W">
                                         <rect key="frame" x="20" y="32" width="374" height="43.5"/>
@@ -2142,32 +2142,12 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="DB5-pB-84g">
-                                        <rect key="frame" x="20" y="206" width="374" height="43.5"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="DB5-pB-84g" id="g7u-7A-BV9">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GCDWebServer - Custom Licence" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sVr-kI-GUs">
-                                                    <rect key="frame" x="15" y="13" width="232.5" height="18"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="sVr-kI-GUs" firstAttribute="centerY" secondItem="g7u-7A-BV9" secondAttribute="centerY" id="KXV-8d-xVA"/>
-                                                <constraint firstItem="sVr-kI-GUs" firstAttribute="leading" secondItem="g7u-7A-BV9" secondAttribute="leading" constant="15" id="X4Q-Xw-DAc"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="APIs" footerTitle="This APIs are used for: HiAnime informations parsing, for the Anime TimeStamps parsing and the Real Time translation." id="OAc-k8-ZBT">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="dY4-GX-1eb">
-                                        <rect key="frame" x="20" y="343.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="286" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dY4-GX-1eb" id="u5m-Jn-QkT">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -2187,7 +2167,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="ivR-ng-ewS">
-                                        <rect key="frame" x="20" y="387" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="329.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ivR-ng-ewS" id="yZW-kg-L8i">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -2207,7 +2187,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="fIJ-38-CKR">
-                                        <rect key="frame" x="20" y="430.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="373" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fIJ-38-CKR" id="9ow-Az-oDQ">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -2231,7 +2211,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                             <tableViewSection headerTitle="Apps" footerTitle="Thanks to the beautiful looking UI of NineAnimator that inspired me in to making this project." id="2ui-DN-1Wv">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="0nj-Re-vwF">
-                                        <rect key="frame" x="20" y="568" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="510.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0nj-Re-vwF" id="bc9-Hw-9FO">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -2448,13 +2428,13 @@ Use this featured if you are able to host it your self to prevent downtime or ma
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <sections>
                             <tableViewSection headerTitle="General" id="3CD-7Z-CGr">
-                                <mutableString key="footerTitle">Thanks to the Deeplx-Vercel API, created by bropines, for providing an easy and efficient translation solution. The API instance is fully self-hosted on my Vercel account, so no data is made public.
+                                <string key="footerTitle">Thanks to the Deeplx-Vercel API, created by bropines, for providing an easy and efficient translation solution. The API instance is fully self-hosted on my Vercel account, so no data is made public.
 
 
 The real-time translation feature translates all subtitles of the episode using the Deeplx API. However, as with any automated translation, there may be occasional inaccuracies, so some text might not have the exact meaning of the original language.
 
 
-The translation feature can be toggled directly within the custom player, where you can also switch between languages.</mutableString>
+The translation feature can be toggled directly within the custom player, where users can also switch between languages.</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="c0c-OS-Nip">
                                         <rect key="frame" x="20" y="32" width="374" height="43.5"/>
@@ -2473,7 +2453,7 @@ The translation feature can be toggled directly within the custom player, where 
                                                     <rect key="frame" x="310" y="6.5" width="51" height="31"/>
                                                     <color key="onTintColor" name="AccentColor"/>
                                                     <connections>
-                                                        <action selector="translationToggle:" destination="sox-ZS-6at" eventType="valueChanged" id="8Pd-Xc-ubu"/>
+                                                        <action selector="translationToggle:" destination="sox-ZS-6at" eventType="valueChanged" id="fxY-HQ-0PA"/>
                                                     </connections>
                                                 </switch>
                                             </subviews>
@@ -2516,9 +2496,11 @@ The translation feature can be toggled directly within the custom player, where 
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="self-hosting" id="Aqt-WS-8et">
-                                <string key="footerTitle">By using this feature a site will be automatically hosted on you device and started once the custom player is started. (The site will start only if the "self-host" instance is set to true)
+                                <string key="footerTitle">Make sure to use the full URL WITHOUT the final "/" and starting "https://"
 
-Using this feature is very recommended. Since it wont mass request my API url.</string>
+exaple: "https://translate-api-first.vercel.app/api/translate"
+
+Use this featured if you are able to host it your self to prevent downtime or mass requests slowdown.</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="tjN-cO-1Pu">
                                         <rect key="frame" x="20" y="395" width="374" height="43.5"/>
@@ -2527,8 +2509,8 @@ Using this feature is very recommended. Since it wont mass request my API url.</
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Self-Host the instance" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7m0-Fh-2zT">
-                                                    <rect key="frame" x="15" y="13" width="153.5" height="18"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use custom Instance" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7m0-Fh-2zT">
+                                                    <rect key="frame" x="15" y="13" width="144" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -2537,7 +2519,7 @@ Using this feature is very recommended. Since it wont mass request my API url.</
                                                     <rect key="frame" x="310" y="6.5" width="51" height="31"/>
                                                     <color key="onTintColor" name="AccentColor"/>
                                                     <connections>
-                                                        <action selector="selfSwitchToggled:" destination="sox-ZS-6at" eventType="valueChanged" id="Apy-eg-uOx"/>
+                                                        <action selector="urlToggle:" destination="sox-ZS-6at" eventType="valueChanged" id="uKX-Yq-zxg"/>
                                                     </connections>
                                                 </switch>
                                             </subviews>
@@ -2566,8 +2548,8 @@ Using this feature is very recommended. Since it wont mass request my API url.</
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="customInstanceSwitch" destination="Igf-4L-ICB" id="8lW-bT-AP7"/>
                         <outlet property="preferedLanguage" destination="XxP-DR-FJs" id="25u-aG-mR9"/>
-                        <outlet property="selfhostSwitch" destination="Igf-4L-ICB" id="sWm-JO-TIN"/>
                         <outlet property="translationSwitch" destination="NjA-6h-mpq" id="5lU-kb-VFK"/>
                     </connections>
                 </tableViewController>

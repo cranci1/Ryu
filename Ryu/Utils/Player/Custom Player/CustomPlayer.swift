@@ -368,7 +368,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             dismissButton.heightAnchor.constraint(equalToConstant: 25),
             
             pipButton.centerYAnchor.constraint(equalTo: dismissButton.centerYAnchor),
-            pipButton.leadingAnchor.constraint(equalTo: dismissButton.trailingAnchor, constant: 30),
+            pipButton.leadingAnchor.constraint(equalTo: dismissButton.trailingAnchor, constant: 20),
             pipButton.widthAnchor.constraint(equalToConstant: 30),
             pipButton.heightAnchor.constraint(equalToConstant: 25),
             
