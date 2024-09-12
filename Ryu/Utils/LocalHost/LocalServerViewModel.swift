@@ -5,8 +5,7 @@
 //  Created by Francesco on 12/09/24.
 //
 
-import UIKit
-import GCDWebServer
+import Foundation
 
 struct Repository: Identifiable, Hashable {
     let id = UUID()
@@ -43,14 +42,10 @@ struct TranslationResponse: Codable {
 }
 
 class LocalServerViewModel {
-    var repositories: [Repository] = [
-        Repository(name: "DeepLX vercel", url: "https://github.com/bropines/Deeplx-vercel.git", port: 9000)
-    ]
+    let repository = Repository(name: "DeepLX vercel", url: "https://github.com/bropines/Deeplx-vercel.git", port: 9000)
     var selectedRepository: Repository?
     var isProcessing = false
     var serverResponse: String = ""
-    
-    private var webServer: GCDWebServer?
     
     var onUpdate: ((String) -> Void)?
     var onProcessFinished: (() -> Void)?
@@ -62,59 +57,7 @@ class LocalServerViewModel {
         onUpdate?(serverResponse)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-            self?.cloneRepository(repository)
-        }
-    }
-    
-    private func cloneRepository(_ repository: Repository) {
-        serverResponse += "\nCloning repository: \(repository.name)..."
-        onUpdate?(serverResponse)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
-            self?.startServer(repository)
-        }
-    }
-    
-    private func startServer(_ repository: Repository) {
-        serverResponse += "\nStarting local server on port \(repository.port)..."
-        onUpdate?(serverResponse)
-        
-        webServer = GCDWebServer()
-        
-        webServer?.addHandler(forMethod: "POST", path: "/api/translate", request: GCDWebServerDataRequest.self) { [weak self] (request, completion) in
-            guard let dataRequest = request as? GCDWebServerDataRequest else {
-                completion(GCDWebServerDataResponse(statusCode: 400))
-                return
-            }
-            
-            do {
-                let translationRequest = try JSONDecoder().decode(TranslationRequest.self, from: dataRequest.data)
-                let translatedText = "Ciao amico mio"
-                let response = TranslationResponse(code: 200, data: translatedText, sourceLang: "auto", targetLang: "it")
-                let jsonData = try JSONEncoder().encode(response)
-                
-                let dataResponse = GCDWebServerDataResponse(data: jsonData, contentType: "application/json")
-                completion(dataResponse)
-                
-                DispatchQueue.main.async {
-                    self?.serverResponse += "\nReceived translation request: \(translationRequest.text)"
-                    self?.serverResponse += "\nResponded with: \(translatedText)"
-                    self?.onUpdate?(self?.serverResponse ?? "")
-                }
-            } catch {
-                completion(GCDWebServerDataResponse(statusCode: 400))
-            }
-        }
-        
-        do {
-            try webServer?.start(options: [GCDWebServerOption_Port: repository.port])
-            serverResponse += "\nServer started successfully"
-            onUpdate?(serverResponse)
-            makeTranslationRequest(repository)
-        } catch {
-            serverResponse += "\nFailed to start server: \(error.localizedDescription)"
-            isProcessing = false
-            onUpdate?(serverResponse)
-            onProcessFinished?()
+            self?.makeTranslationRequest(repository)
         }
     }
     
