@@ -11,7 +11,6 @@ import MediaPlayer
 import AVFoundation
 
 class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
-    
     private var player: AVPlayer?
     private var playerLayer: AVPlayerLayer?
     private var isControlsVisible = true
@@ -31,7 +30,6 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
     private var cell: EpisodeCell
     private var fullURL: String
     private var hasSentUpdate = false
-    private var animeDetailsViewController: AnimeDetailViewController?
     
     private var skipButtonsBottomConstraint: NSLayoutConstraint?
     private var skipButtons: [UIButton] = []
@@ -613,7 +611,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
                 animeTitle: self.videoTitle,
                 episodeTitle: "Ep. \(episodeNumber)",
                 episodeNumber: episodeNumber,
-                imageURL: self.animeDetailsViewController?.imageUrl ?? "https://s4.anilist.co/file/anilistcdn/character/large/default.jpg",
+                imageURL: "https://s4.anilist.co/file/anilistcdn/character/large/default.jpg",
                 fullURL: fullURL,
                 lastPlayedTime: currentTime,
                 totalTime: duration,
