@@ -368,17 +368,19 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             dismissButton.heightAnchor.constraint(equalToConstant: 25),
             
             pipButton.centerYAnchor.constraint(equalTo: dismissButton.centerYAnchor),
-            pipButton.leadingAnchor.constraint(equalTo: dismissButton.trailingAnchor, constant: 20),
+            pipButton.leadingAnchor.constraint(equalTo: dismissButton.trailingAnchor, constant: 30),
             pipButton.widthAnchor.constraint(equalToConstant: 30),
             pipButton.heightAnchor.constraint(equalToConstant: 25),
             
             airplayButton.centerYAnchor.constraint(equalTo: dismissButton.centerYAnchor),
-            airplayButton.leadingAnchor.constraint(equalTo: pipButton.trailingAnchor, constant: 20),
+            airplayButton.leadingAnchor.constraint(equalTo: pipButton.trailingAnchor, constant: 15),
             airplayButton.widthAnchor.constraint(equalToConstant: 25),
             airplayButton.heightAnchor.constraint(equalToConstant: 25),
             
             subtitlesLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            subtitlesLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
+            subtitlesLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+            subtitlesLabel.leadingAnchor.constraint(equalTo: playerProgress.leadingAnchor),
+            subtitlesLabel.trailingAnchor.constraint(equalTo: playerProgress.trailingAnchor)
         ])
         
         let episodeNumber = Int(self.cell.episodeNumber) ?? 0
