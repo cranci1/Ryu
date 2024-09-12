@@ -11,6 +11,15 @@
         }
       },
       {
+        "package": "GCDWebServer",
+        "repositoryURL": "https://github.com/readium/GCDWebServer",
+        "state": {
+          "branch": null,
+          "revision": "50caf05df2c70edadce143747c96fcd877fe05bb",
+          "version": "3.7.5"
+        }
+      },
+      {
         "package": "GoogleCastSDK-ios-no-bluetooth",
         "repositoryURL": "https://github.com/SRGSSR/GoogleCastSDK-ios-no-bluetooth.git",
         "state": {

@@ -111,16 +111,14 @@ class SubtitlesLoader {
     
     private static func translateText(_ text: String, targetLang: String, completion: @escaping (String) -> Void) {
         guard UserDefaults.standard.bool(forKey: "googleTranslation") else {
-            print("Translation is disabled.")
             completion(text)
             return
         }
         
-        let urlString = "http://localhost:9000/api/translate" // Local server URL
-        print("Preparing to send translation request to \(urlString)")
+        let urlString = Bool.random() ? "https://translate-api-first.vercel.app/api/translate" : "https://translate-api-second.vercel.app/api/translate"
 
         guard let url = URL(string: urlString) else {
-            print("Invalid URL: \(urlString)")
+            print("Invalid URL")
             completion(text)
             return
         }
@@ -135,29 +133,14 @@ class SubtitlesLoader {
             "target_lang": targetLang
         ]
         
-        do {
-            request.httpBody = try JSONSerialization.data(withJSONObject: payload)
-            print("Request payload: \(String(data: request.httpBody!, encoding: .utf8) ?? "nil")")
-        } catch {
-            print("Error serializing JSON payload: \(error.localizedDescription)")
-            completion(text)
-            return
-        }
+        request.httpBody = try? JSONSerialization.data(withJSONObject: payload)
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                print("Network error: \(error.localizedDescription)")
+            guard error == nil else {
+                print("Error: \(error!.localizedDescription)")
                 completion(text)
                 return
             }
-            
-            guard let httpResponse = response as? HTTPURLResponse else {
-                print("Invalid response.")
-                completion(text)
-                return
-            }
-            
-            print("HTTP status code: \(httpResponse.statusCode)")
             
             guard let data = data else {
                 print("No data received.")
@@ -165,19 +148,11 @@ class SubtitlesLoader {
                 return
             }
             
-            print("Response data: \(String(data: data, encoding: .utf8) ?? "nil")")
-            
             do {
-                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-                    print("Response JSON: \(json)")
-                    if let translatedText = json["data"] as? String {
-                        completion(translatedText)
-                    } else {
-                        print("Invalid JSON format: missing 'data' field")
-                        completion(text)
-                    }
+                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                   let translatedText = json["data"] as? String {
+                    completion(translatedText)
                 } else {
-                    print("Invalid JSON format.")
                     completion(text)
                 }
             } catch {

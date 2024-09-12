@@ -94,47 +94,48 @@ class SettingsViewTranslation: UITableViewController {
         UserDefaults.standard.set(sender.isOn, forKey: "selfHostEnabled")
         
         if sender.isOn {
-            startSelfHostingServer()
+            startSelfHostingServer() // Start server process when switch is on
         }
     }
     
     private func startSelfHostingServer() {
+        // Show alert and start the server
         showProgressAlert()
-        viewModel.selectedRepository = viewModel.repository
-        viewModel.startProcess()
+        viewModel.selectedRepository = viewModel.repositories.first // Select a repository to start
+        viewModel.startProcess() // Trigger the process
     }
-
+    
     private func showProgressAlert() {
         progressAlert = UIAlertController(title: "Starting Self-Host", message: "Initializing...", preferredStyle: .alert)
         if let alert = progressAlert {
             present(alert, animated: true)
         }
     }
-
+    
     private func updateProgressAlert(message: String) {
         progressAlert?.message = message
     }
-
+    
     private func setupViewModel() {
+        // Observer to update the alert when server progress updates
         viewModel.onUpdate = { [weak self] statusMessage in
             DispatchQueue.main.async {
                 self?.updateProgressAlert(message: statusMessage)
             }
         }
         
+        // Observer to close the alert once the process is finished
         viewModel.onProcessFinished = { [weak self] in
             DispatchQueue.main.async {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self?.dismissProgressAlert()
-                }
+                self?.dismissProgressAlert()
             }
         }
     }
-
+    
     private func dismissProgressAlert() {
         if let alert = progressAlert {
             alert.dismiss(animated: true, completion: nil)
-            progressAlert = nil
+            progressAlert = nil // Reset the alert after dismissing
         }
     }
 }
