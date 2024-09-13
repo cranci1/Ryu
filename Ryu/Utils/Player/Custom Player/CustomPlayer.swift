@@ -973,7 +973,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             }
             let languageSubmenu = UIMenu(title: "Translation Language", children: languageItems)
             
-            let subtitleSettingsSubmenu = UIMenu(title: "Subtitle Settings", image: UIImage(systemName: "captions.bubble"), children: [
+            let subtitleSettingsSubmenu = UIMenu(title: "Subtitles Settings", image: UIImage(systemName: "captions.bubble"), children: [
                 hideSubtitlesAction,
                 subtitlesTranslationAction,
                 languageSubmenu,

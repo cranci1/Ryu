@@ -289,11 +289,18 @@ class AnimeDetailService {
             
             switch source {
             case .gogoanime:
+                episodeElements = try document.select("ul#episode_page a")
+                downloadUrlElement = ""
                 episodes = episodeElements.flatMap { element -> [Episode] in
-                    guard let startStr = try? element.attr("ep_start"), let endStr = try? element.attr("ep_end"),
-                          let start = Int(startStr), let end = Int(endStr) else { return [] }
+                    guard let startStr = try? element.attr("ep_start"),
+                          let endStr = try? element.attr("ep_end"),
+                          let start = Int(startStr),
+                          let end = Int(endStr) else { return [] }
                     
-                    return (max(1, start)...end).map { episodeNumber in
+                    let validStart = min(start, end)
+                    let validEnd = max(start, end)
+                    
+                    return (validStart...validEnd).map { episodeNumber in
                         let formattedEpisode = "\(episodeNumber)"
                         let episodeHref = "\(href)-episode-\(episodeNumber)"
                         let downloadUrl = try? document.select(downloadUrlElement).attr("href")
