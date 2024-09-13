@@ -307,6 +307,7 @@ class AnimeDetailService {
                         
                         return Episode(number: formattedEpisode, href: episodeHref, downloadUrl: downloadUrl ?? "")
                     }
+                    .filter { $0.number != "0" }
                 }
             case .animeheaven:
                 episodes = episodeElements.compactMap { element in

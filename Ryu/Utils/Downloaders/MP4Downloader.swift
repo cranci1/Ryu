@@ -82,7 +82,12 @@ class BackgroundSessionDelegate: NSObject, URLSessionDelegate, URLSessionDownloa
     }
     
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
-        let originalFileName = downloadTask.originalRequest?.url?.lastPathComponent ?? "downloadedFile.mp4"
+        var originalFileName = downloadTask.originalRequest?.url?.lastPathComponent ?? "downloadedFile.php"
+        
+        if originalFileName.hasSuffix(".php") {
+            originalFileName = originalFileName.replacingOccurrences(of: ".php", with: ".mp4")
+        }
+        
         let documentsDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         let destinationFileUrl = MP4Downloader.getUniqueFileURL(for: originalFileName, in: documentsDirectoryURL)
         

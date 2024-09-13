@@ -753,7 +753,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                 
                 switch selectedMediaSource {
                 case "GoGoAnime":
-                    srcURL = self.extractIframeSourceURL(from: htmlString)
+                    srcURL = self.extractDownloadLink(from: htmlString)
                 case "AnimeFire":
                     srcURL = self.extractDataVideoSrcURL(from: htmlString)
                 case "AnimeWorld", "AnimeHeaven":
@@ -1121,6 +1121,22 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                   }
             print("Data-video-src URL: \(sourceURL.absoluteString)")
             return sourceURL
+        } catch {
+            print("Error parsing HTML with SwiftSoup: \(error)")
+            return nil
+        }
+    }
+    
+    private func extractDownloadLink(from htmlString: String) -> URL? {
+        do {
+            let doc: Document = try SwiftSoup.parse(htmlString)
+            guard let downloadElement = try doc.select("li.dowloads a").first(),
+                  let hrefString = try downloadElement.attr("href").nilIfEmpty,
+                  let downloadURL = URL(string: hrefString) else {
+                      return nil
+                  }
+            print("Download link URL: \(downloadURL.absoluteString)")
+            return downloadURL
         } catch {
             print("Error parsing HTML with SwiftSoup: \(error)")
             return nil

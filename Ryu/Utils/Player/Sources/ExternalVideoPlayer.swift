@@ -10,15 +10,13 @@ import WebKit
 import Combine
 import GoogleCast
 
-class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessageHandler, GCKRemoteMediaClientListener {
-    private var downloader = M3U8Downloader()
-    private var qualityOptions: [(name: String, fileName: String)] = []
+class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, CustomPlayerViewDelegate {
+    func customPlayerViewDidDismiss() {
+        self.dismiss(animated: true, completion: nil)
+    }
     
     private var webView: WKWebView?
-    private var clickCancellable: AnyCancellable?
-    private var loadingObserver: NSKeyValueObservation?
     private var playerViewController: AVPlayerViewController?
-    private var isVideoPlaying = false
     private var streamURL: String
     private var activityIndicator: UIActivityIndicatorView?
     private var cell: EpisodeCell
@@ -27,9 +25,33 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
     private var player: AVPlayer?
     private var timeObserverToken: Any?
     
+    private var retryCount = 0
+    private var maxRetries: Int {
+        UserDefaults.standard.integer(forKey: "maxRetries")
+    }
+    
     private var originalRate: Float = 1.0
     private var holdGesture: UILongPressGestureRecognizer?
-
+    private var qualityOptions: [(name: String, url: String)] = []
+    
+    private let userAgents = [
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:89.0) Gecko/20100101 Firefox/89.0",
+        "Mozilla/5.0 (X11; Linux i686; rv:89.0) Gecko/20100101 Firefox/89.0",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.1 Safari/605.1.15",
+        "Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1",
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Edg/91.0.864.59",
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 OPR/78.0.4093.184",
+        "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko",
+        "Mozilla/5.0 (Linux; Android 10; SM-A505FN) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.120 Mobile Safari/537.36",
+        "Mozilla/5.0 (Linux; Android 11; Pixel 5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.120 Mobile Safari/537.36",
+        "Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/91.0.4472.80 Mobile/15E148 Safari/604.1",
+        "Mozilla/5.0 (iPad; CPU OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1",
+    ]
+    
     init(streamURL: String, cell: EpisodeCell, fullURL: String, animeDetailsViewController: AnimeDetailViewController) {
         self.streamURL = streamURL
         self.cell = cell
@@ -37,15 +59,16 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
         self.animeDetailsViewController = animeDetailsViewController
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupLoadingView()
-        openWebView(fullURL: streamURL)
+        view.backgroundColor = .secondarySystemBackground
+        setupWebView()
+        setupActivityIndicator()
         setupHoldGesture()
         setupNotificationObserver()
     }
@@ -65,7 +88,7 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
     override var prefersHomeIndicatorAutoHidden: Bool {
         return true
     }
-
+    
     override var childForHomeIndicatorAutoHidden: UIViewController? {
         return playerViewController
     }
@@ -73,7 +96,7 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
     override var prefersStatusBarHidden: Bool {
         return true
     }
-
+    
     override var childForStatusBarHidden: UIViewController? {
         return playerViewController
     }
@@ -107,89 +130,17 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
     private func endHoldSpeed() {
         player?.rate = originalRate
     }
-
-    private func setupLoadingView() {
-        view.backgroundColor = .secondarySystemBackground
-        activityIndicator = UIActivityIndicatorView(style: .large)
-        activityIndicator?.color = .label
-        activityIndicator?.startAnimating()
-        activityIndicator?.center = view.center
-        if let activityIndicator = activityIndicator {
-            view.addSubview(activityIndicator)
-        }
-    }
-
-    private func startMonitoringPlayState(interval: TimeInterval) {
-        stopMonitoringPlayState()
-
-        clickCancellable = Timer.publish(every: interval, on: .main, in: .common)
-            .autoconnect()
-            .sink { [weak self] _ in
-                self?.checkAndClickPlayButton()
-            }
-
-        checkAndClickPlayButton()
-    }
-
-    private func stopMonitoringPlayState() {
-        clickCancellable?.cancel()
-        clickCancellable = nil
-    }
-
-    private func checkAndClickPlayButton() {
-        guard let webView = self.webView, !isVideoPlaying else {
-            return
-        }
-
-        let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "GoGoAnime"
-
-        let script: String
-
-        switch selectedMediaSource {
-        case "GoGoAnime":
-            script = """
-            (function() {
-                var player = jwplayer();
-                if (player && player.getState() === 'idle') {
-                    var playButton = document.querySelector('.jw-icon.jw-icon-display.jw-button-color.jw-reset');
-                    if (playButton) {
-                        playButton.click();
-                        return 'Clicked play button for GoGoAnime';
-                    }
-                }
-                return player ? player.getState() : 'Player not found';
-            })();
-            """
-        default:
-            script = """
-            (function() {
-                return 'Unknown media source';
-            })();
-            """
-        }
-
-        webView.evaluateJavaScript(script) { (result, error) in
-            if let error = error {
-                print("Error executing JavaScript: \(error)")
-            } else if let result = result as? String {
-                print("Player state: \(result)")
-            }
-        }
-    }
-
-    private func openWebView(fullURL: String) {
+    
+    private func setupWebView() {
         let configuration = WKWebViewConfiguration()
-        configuration.allowsInlineMediaPlayback = true
-        configuration.mediaTypesRequiringUserActionForPlayback = []
-
-        let contentController = WKUserContentController()
-        contentController.add(self, name: "videoHandler")
-        configuration.userContentController = contentController
-
-        webView = WKWebView(frame: .zero, configuration: configuration)
+        
+        let randomUserAgent = userAgents.randomElement() ?? userAgents[0]
+        configuration.applicationNameForUserAgent = randomUserAgent
+        
+        webView = WKWebView(frame: view.bounds, configuration: configuration)
         webView?.navigationDelegate = self
         webView?.isHidden = true
-
+        
         if let webView = webView {
             view.addSubview(webView)
             webView.translatesAutoresizingMaskIntoConstraints = false
@@ -200,106 +151,128 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
                 webView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             ])
         }
-
-        setupLoadingObserver()
-
-        if let url = URL(string: fullURL) {
+        
+        if let url = URL(string: streamURL) {
             let request = URLRequest(url: url)
             webView?.load(request)
         }
     }
-
-    private func setupLoadingObserver() {
-        loadingObserver = webView?.observe(\.isLoading, options: [.new]) { [weak self] _, change in
-            if let isLoading = change.newValue, !isLoading {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                    self?.injectCustomJavaScript()
-                    self?.startMonitoringPlayState(interval: 1.0)
-                }
-            }
+    
+    private func setRandomUserAgentForRequest() {
+        let randomUserAgent = userAgents.randomElement() ?? userAgents[0]
+        webView?.customUserAgent = randomUserAgent
+    }
+    
+    private func loadNewRequest(with url: URL) {
+        setRandomUserAgentForRequest()
+        let request = URLRequest(url: url)
+        webView?.load(request)
+    }
+    
+    private func setupActivityIndicator() {
+        activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator?.center = view.center
+        activityIndicator?.hidesWhenStopped = true
+        
+        if let activityIndicator = activityIndicator {
+            view.addSubview(activityIndicator)
+            activityIndicator.startAnimating()
         }
     }
-
-    private func injectCustomJavaScript() {
-        let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "GoGoAnime"
-
-        let script: String
-
-        switch selectedMediaSource {
-        case "GoGoAnime":
-            script = """
-            function notifyVideoState(state, videoUrl) {
-                window.webkit.messageHandlers.videoHandler.postMessage({state: state, url: videoUrl});
-            }
-
-            if (typeof jwplayer !== 'undefined') {
-                var player = jwplayer();
-                player.on('play', function() {
-                    var videoUrl = player.getPlaylistItem().file;
-                    notifyVideoState('play', videoUrl);
-                });
-                player.on('pause', function() { notifyVideoState('pause', null); });
-                player.on('complete', function() { notifyVideoState('complete', null); });
-                player.on('error', function() { notifyVideoState('error', null); });
-            }
-            """
-        default:
-            script = ""
+    
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
+            self?.extractVideoLinks()
         }
-
-        webView?.evaluateJavaScript(script) { [weak self] _, error in
-            if let error = error {
-                print("Error injecting custom JavaScript: \(error)")
-            } else {
-                self?.startCheckingForMediaPlayback()
+    }
+    
+    private func extractVideoLinks() {
+        let script = """
+        var links = [];
+        var downloadDivs = document.querySelectorAll('#content-download .mirror_link .dowload a');
+        downloadDivs.forEach(function(a) {
+            if (a.textContent.includes('Download') && a.textContent.includes('mp4')) {
+                var text = a.textContent.trim();
+                var qualityMatch = text.match(/\\((\\d+P) - mp4\\)/);
+                var quality = qualityMatch ? qualityMatch[1].replace('P', 'p') : '';
+                if (quality) {
+                    links.push({name: quality, url: a.href});
+                }
+            }
+        });
+        links;
+        """
+        
+        webView?.evaluateJavaScript(script) { [weak self] (result, error) in
+            if let links = result as? [[String: String]] {
+                self?.qualityOptions = links.compactMap { link in
+                    guard let name = link["name"], !name.isEmpty, let url = link["url"] else { return nil }
+                    return (name: name, url: url)
+                }
+                if self?.qualityOptions.isEmpty == true {
+                    self?.retryExtractVideoLinks()
+                } else {
+                    self?.handleQualitySelection()
+                }
+            } else if let error = error {
+                print("Error extracting video links: \(error)")
+                self?.retryExtractVideoLinks()
             }
         }
     }
     
-    private func startCheckingForMediaPlayback() {
-          let script = """
-          function checkMediaPlayback() {
-              var video = document.querySelector('video');
-              if (video && !video.paused) {
-                  window.webkit.messageHandlers.videoHandler.postMessage({state: 'play', url: video.src});
-                  return true;
-              }
-              return false;
-          }
-          checkMediaPlayback();
-          """
-          
-          Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] timer in
-              self?.webView?.evaluateJavaScript(script) { result, error in
-                  if let isPlaying = result as? Bool, isPlaying {
-                      timer.invalidate()
-                  }
-              }
-          }
-      }
-
-    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        if message.name == "videoHandler" {
-            if let dict = message.body as? [String: Any],
-               let state = dict["state"] as? String {
-                print("Video state changed: \(state)")
-                if state == "play" {
-                    stopMonitoringPlayState()
-                    activityIndicator?.stopAnimating()
-                    activityIndicator?.removeFromSuperview()
-                    if let videoUrlString = dict["url"] as? String,
-                       let videoUrl = URL(string: videoUrlString) {
-                        DispatchQueue.main.async { [weak self] in
-                            guard let self = self else { return }
-                            self.handleVideoURL(url: videoUrl)
-                        }
-                    }
-                } else if state == "pause" || state == "complete" || state == "error" {
-                    isVideoPlaying = false
-                    startMonitoringPlayState(interval: 2.0)
-                }
+    private func retryExtractVideoLinks() {
+        if retryCount < maxRetries {
+            retryCount += 1
+            print("Retrying extraction... Attempt \(retryCount) of \(maxRetries)")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) { [weak self] in
+                self?.extractVideoLinks()
+            }
+        } else {
+            activityIndicator?.stopAnimating()
+            print("Failed to extract video links after \(maxRetries) attempts.")
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    private func handleQualitySelection() {
+        activityIndicator?.stopAnimating()
+        
+        if qualityOptions.isEmpty {
+            print("No quality options available.")
+            return
+        }
+        
+        if let preferredQuality = UserDefaults.standard.string(forKey: "preferredQuality"),
+           let matchingOption = qualityOptions.first(where: { $0.name.contains(preferredQuality) }) {
+            if let url = URL(string: matchingOption.url) {
+                handleVideoURL(url: url)
+            } else {
+                print("Invalid URL for preferred quality.")
+            }
+        } else {
+            showQualityPicker()
+        }
+    }
+    
+    private func showQualityPicker() {
+        let alert = UIAlertController(title: "Select Quality", message: nil, preferredStyle: .actionSheet)
+        
+        for option in qualityOptions {
+            alert.addAction(UIAlertAction(title: option.name, style: .default, handler: { [weak self] _ in
+                self?.handleVideoURL(url: URL(string: option.url)!)
+            }))
+        }
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            if let popoverController = alert.popoverPresentationController {
+                popoverController.sourceView = self.view
+                popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+                popoverController.permittedArrowDirections = []
             }
         }
+        
+        present(alert, animated: true, completion: nil)
     }
     
     private func handleVideoURL(url: URL) {
@@ -307,7 +280,7 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
             self.activityIndicator?.stopAnimating()
             
             if UserDefaults.standard.bool(forKey: "isToDownload") {
-                self.handleDownloadorPlayback(url: url)
+                self.handleDownload(url: url)
             }
             else if GCKCastContext.sharedInstance().sessionManager.hasConnectedCastSession() {
                 self.castVideoToGoogleCast(videoURL: url)
@@ -324,190 +297,39 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
                     customPlayerVC.delegate = self
                     self.present(customPlayerVC, animated: true, completion: nil)
                 } else {
-                    self.handleDownloadorPlayback(url: url)
+                    self.playVideo(url: url.absoluteString)
                 }
             }
             else {
-                self.handleDownloadorPlayback(url: url)
+                self.playVideo(url: url.absoluteString)
             }
         }
     }
     
-    private func handleDownloadorPlayback(url: URL) {
-        loadQualityOptions(from: url) { success, error in
-            if success {
-                self.showQualitySelection()
-                self.cleanup()
-            } else if let error = error {
-                print("Error loading quality options: \(error)")
+    private func handleDownload(url: URL) {
+        UserDefaults.standard.set(false, forKey: "isToDownload")
+        
+        self.dismiss(animated: true, completion: nil)
+        
+        let downloadManager = DownloadManager.shared
+        let title = self.animeDetailsViewController?.animeTitle ?? "Anime Download"
+        
+        downloadManager.startDownload(url: url, title: title, progress: { progress in
+            DispatchQueue.main.async {
+                print("Download progress: \(progress * 100)%")
             }
-        }
-    }
-    
-    func showQualitySelection() {
-        let preferredQuality = UserDefaults.standard.string(forKey: "preferredQuality")
-        
-        if let preferredQuality = preferredQuality {
-            if let exactMatch = qualityOptions.first(where: { $0.name == preferredQuality }) {
-                handleQualitySelection(option: exactMatch)
-                return
-            }
-            let closestMatch = findClosestQuality(to: preferredQuality)
-            if let closestMatch = closestMatch {
-                handleQualitySelection(option: closestMatch)
-                return
-            }
-        }
-        
-        presentQualityPicker()
-    }
-
-    private func findClosestQuality(to preferredQuality: String) -> (name: String, fileName: String)? {
-        let preferredValue = extractQualityValue(from: preferredQuality)
-        var closestOption: (name: String, fileName: String)?
-        var smallestDifference = Int.max
-        
-        for option in qualityOptions {
-            let optionValue = extractQualityValue(from: option.name)
-            let difference = abs(preferredValue - optionValue)
-            if difference < smallestDifference {
-                smallestDifference = difference
-                closestOption = option
-            }
-        }
-        
-        return closestOption
-    }
-
-    private func extractQualityValue(from qualityString: String) -> Int {
-        return Int(qualityString.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()) ?? 0
-    }
-
-    private func presentQualityPicker() {
-        let alert = UIAlertController(title: "Select Quality", message: nil, preferredStyle: .actionSheet)
-        
-        for option in qualityOptions {
-            alert.addAction(UIAlertAction(title: option.name, style: .default, handler: { _ in
-                self.handleQualitySelection(option: option)
-            }))
-        }
-        
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            if let popoverController = alert.popoverPresentationController {
-                popoverController.sourceView = self.view
-                popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
-                popoverController.permittedArrowDirections = []
-            }
-        }
-        
-        self.present(alert, animated: true, completion: nil)
-    }
-
-    private func handleQualitySelection(option: (name: String, fileName: String)) {
-        print("Selected quality: \(option.name), URL: \(option.fileName)")
-        if let url = URL(string: option.fileName) {
-            let isToDownload = UserDefaults.standard.bool(forKey: "isToDownload")
-            
-            if isToDownload {
-                let animeTitle = self.animeDetailsViewController?.animeTitle ?? "Anime"
-                let episodeNumber = (self.animeDetailsViewController?.currentEpisodeIndex ?? 0) + 1
-                let safeAnimeTitle = animeTitle.replacingOccurrences(of: "[^a-zA-Z0-9]", with: "_", options: .regularExpression)
-                let baseFileName = "\(safeAnimeTitle)_Episode_\(episodeNumber)"
-                let outputFileName = "\(baseFileName)_\(option.name)"
-                self.downloader.downloadAndCombineM3U8(url: url, outputFileName: outputFileName)
-                self.dismiss(animated: true, completion: nil)
-                UserDefaults.standard.set(false, forKey: "isToDownload")
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                    self.animeDetailsViewController?.showAlert(title: "Download Started", message: "Check your notifications and also the folder in the Files app to see when your episode is downloaded")
-                }
-            } else {
-                DispatchQueue.main.async {
-                    self.playVideoInAVPlayer(url: url)
-                }
-            }
-        } else {
-            print("Invalid URL for quality option: \(option.fileName)")
-            self.dismiss(animated: true, completion: nil)
-        }
-    }
-    
-    func loadQualityOptions(from url: URL, completion: @escaping (Bool, Error?) -> Void) {
-        let maxRetries = UserDefaults.standard.integer(forKey: "MaxRetries")
-        var retryCount = 0
-        
-        func attemptParsing() {
-            let task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-                guard let self = self else { return }
-                
-                if let error = error {
-                    print("Error downloading m3u8 file: \(error)")
-                    retryOrDismiss(error: error)
-                    return
-                }
-                
-                guard let data = data,
-                      let m3u8Content = String(data: data, encoding: .utf8) else {
-                          print("Failed to decode m3u8 file content")
-                          let error = NSError(domain: "M3U8ErrorDomain", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to parse m3u8 file"])
-                          retryOrDismiss(error: error)
-                          return
-                      }
-                
-                print("m3u8 file content:\n\(m3u8Content)")
-                
-                let lines = m3u8Content.components(separatedBy: .newlines)
-                var currentName: String?
-                var newQualityOptions: [(name: String, fileName: String)] = []
-                
-                for line in lines {
-                    if line.hasPrefix("#EXT-X-STREAM-INF") {
-                        if let nameRange = line.range(of: "NAME=\"") {
-                            let nameStartIndex = line.index(nameRange.upperBound, offsetBy: 0)
-                            if let nameEndIndex = line[nameStartIndex...].firstIndex(of: "\"") {
-                                currentName = String(line[nameStartIndex..<nameEndIndex])
-                            }
-                        }
-                    } else if line.hasSuffix(".m3u8"), let name = currentName {
-                        let fullURL = URL(string: line, relativeTo: url)?.absoluteString ?? line
-                        newQualityOptions.append((name: name, fileName: fullURL))
-                        currentName = nil
-                    }
-                }
-                
-                DispatchQueue.main.async {
-                    if newQualityOptions.isEmpty {
-                        print("No quality options found")
-                        let error = NSError(domain: "M3U8ErrorDomain", code: -2, userInfo: [NSLocalizedDescriptionKey: "No quality options found"])
-                        retryOrDismiss(error: error)
-                    } else {
-                        self.qualityOptions = newQualityOptions
-                        print("Parsed quality options: \(self.qualityOptions)")
-                        completion(true, nil)
-                    }
-                }
-            }
-            task.resume()
-        }
-        
-        func retryOrDismiss(error: Error) {
-            retryCount += 1
-            if retryCount < maxRetries {
-                print("Retrying parsing attempt \(retryCount)...")
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                    attemptParsing()
-                }
-            } else {
-                print("Max retries reached. Dismissing view.")
-                DispatchQueue.main.async {
-                    self.dismiss(animated: true) {
-                        completion(false, error)
-                    }
+        }) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let downloadURL):
+                    print("Download completed. File saved at: \(downloadURL)")
+                    self?.animeDetailsViewController?.showAlert(withTitle: "Download Completed!", message: "You can find your download in the Library -> Downloads.")
+                case .failure(let error):
+                    print("Download failed with error: \(error.localizedDescription)")
+                    self?.animeDetailsViewController?.showAlert(withTitle: "Download Failed", message: error.localizedDescription)
                 }
             }
         }
-        
-        attemptParsing()
     }
     
     private func castVideoToGoogleCast(videoURL: URL) {
@@ -534,7 +356,7 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
             }
             
             let builder = GCKMediaInformationBuilder(contentURL: videoURL)
-            builder.contentType = "application/x-mpegURL"
+            builder.contentType = "video/mp4"
             builder.metadata = metadata
             
             let streamTypeString = UserDefaults.standard.string(forKey: "castStreamingType") ?? "buffered"
@@ -560,10 +382,13 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
         }
     }
     
-    private func playVideoInAVPlayer(url: URL) {
-        cleanup()
+    private func playVideo(url: String) {
+        guard let videoURL = URL(string: url) else {
+            print("Invalid video URL")
+            return
+        }
         
-        let player = AVPlayer(url: url)
+        let player = AVPlayer(url: videoURL)
         let playerViewController = AVPlayerViewController()
         playerViewController.player = player
         
@@ -580,21 +405,19 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
         
         self.player = player
         self.playerViewController = playerViewController
-        self.isVideoPlaying = true
-        
         self.addPeriodicTimeObserver()
         
         player.play()
     }
-
+    
     private func addPeriodicTimeObserver() {
         let interval = CMTime(seconds: 1.0, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         timeObserverToken = player?.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
             guard let self = self,
                   let currentItem = self.player?.currentItem,
                   currentItem.duration.seconds.isFinite else {
-                return
-            }
+                      return
+                  }
             
             let currentTime = time.seconds
             let duration = currentItem.duration.seconds
@@ -643,38 +466,6 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
         }
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        cleanup()
-    }
-
-    private func cleanup() {
-        player?.pause()
-        player = nil
-        
-        playerViewController?.willMove(toParent: nil)
-        playerViewController?.view.removeFromSuperview()
-        playerViewController?.removeFromParent()
-        playerViewController = nil
-        
-        isVideoPlaying = false
-        stopMonitoringPlayState()
-        
-        if let timeObserverToken = timeObserverToken {
-            player?.removeTimeObserver(timeObserverToken)
-            self.timeObserverToken = nil
-        }
-        
-        webView?.stopLoading()
-        webView?.loadHTMLString("", baseURL: nil)
-    }
-
-    deinit {
-        cleanup()
-        loadingObserver?.invalidate()
-        NotificationCenter.default.removeObserver(self)
-    }
-    
     func playNextEpisode() {
         guard let animeDetailsViewController = self.animeDetailsViewController else {
             print("Error: animeDetailsViewController is nil")
@@ -701,9 +492,9 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
     private func playEpisode(at index: Int) {
         guard let animeDetailsViewController = self.animeDetailsViewController,
               index >= 0 && index < animeDetailsViewController.episodes.count else {
-            return
-        }
-
+                  return
+              }
+        
         let nextEpisode = animeDetailsViewController.episodes[index]
         if let cell = animeDetailsViewController.tableView.cellForRow(at: IndexPath(row: index, section: 2)) as? EpisodeCell {
             animeDetailsViewController.episodeSelected(episode: nextEpisode, cell: cell)
@@ -714,8 +505,8 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
         if UserDefaults.standard.bool(forKey: "AutoPlay") {
             guard let animeDetailsViewController = self.animeDetailsViewController else { return }
             let hasNextEpisode = animeDetailsViewController.isReverseSorted ?
-                (animeDetailsViewController.currentEpisodeIndex > 0) :
-                (animeDetailsViewController.currentEpisodeIndex < animeDetailsViewController.episodes.count - 1)
+            (animeDetailsViewController.currentEpisodeIndex > 0) :
+            (animeDetailsViewController.currentEpisodeIndex < animeDetailsViewController.episodes.count - 1)
             
             if hasNextEpisode {
                 self.dismiss(animated: true) { [weak self] in
@@ -728,10 +519,33 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, WKScriptMessa
             self.dismiss(animated: true, completion: nil)
         }
     }
-}
-
-extension ExternalVideoPlayer: CustomPlayerViewDelegate {
-    func customPlayerViewDidDismiss() {
-        self.dismiss(animated: true, completion: nil)
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        cleanup()
+    }
+    
+    private func cleanup() {
+        player?.pause()
+        player = nil
+        
+        playerViewController?.willMove(toParent: nil)
+        playerViewController?.view.removeFromSuperview()
+        playerViewController?.removeFromParent()
+        playerViewController = nil
+        
+        if let timeObserverToken = timeObserverToken {
+            player?.removeTimeObserver(timeObserverToken)
+            self.timeObserverToken = nil
+        }
+        
+        webView?.stopLoading()
+        webView?.loadHTMLString("", baseURL: nil)
+        UserDefaults.standard.set(false, forKey: "isToDownload")
+    }
+    
+    deinit {
+        cleanup()
+        NotificationCenter.default.removeObserver(self)
     }
 }
