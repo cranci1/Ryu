@@ -2359,7 +2359,7 @@ Please report wrong TimeStamps in their discord server. The Ryu Team is not affi
                             <tableViewSection headerTitle="self-hosting" id="zRg-Mf-xM6">
                                 <string key="footerTitle">Make sure to use the full URL with the final "/" and starting "https://"
 
-exaple: "https://api.aniskip.com/"
+example: "https://api.aniskip.com/"
 
 Use this featured if you are able to host it your self to prevent downtime or mass requests slowdown.</string>
                                 <cells>
@@ -2498,7 +2498,7 @@ The translation feature can be toggled directly within the custom player, where 
                             <tableViewSection headerTitle="self-hosting" id="Aqt-WS-8et">
                                 <string key="footerTitle">Make sure to use the full URL WITHOUT the final "/" and starting "https://"
 
-exaple: "https://translate-api-first.vercel.app/api/translate"
+example: "https://translate-api-first.vercel.app/api/translate"
 
 Use this featured if you are able to host it your self to prevent downtime or mass requests slowdown.</string>
                                 <cells>

@@ -1535,7 +1535,6 @@ class ContinueWatchingCell: UICollectionViewCell {
     private var currentAnimeTitle: String?
     private var currentEpisodeNumber: Int?
     
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -1548,6 +1547,7 @@ class ContinueWatchingCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         imageLoadTask?.cancel()
+        imageView.kf.cancelDownloadTask()
         imageView.image = nil
         titleLabel.text = nil
         progressView.progress = 0
@@ -1620,28 +1620,31 @@ class ContinueWatchingCell: UICollectionViewCell {
         imageView.image = getPlaceholderImage()
         
         AnimeThumbnailFetcher.fetchAnimeThumbnails(for: item.animeTitle, episodeNumber: item.episodeNumber) { [weak self] imageURL in
-            guard let self = self,
-                  let imageURL = imageURL,
-                  self.currentAnimeTitle == item.animeTitle,
-                  self.currentEpisodeNumber == item.episodeNumber else {
-                      return
-                  }
-            
-            if let url = URL(string: imageURL) {
-                self.imageLoadTask = self.imageView.kf.setImage(
-                    with: url,
-                    placeholder: self.getPlaceholderImage(),
-                    options: [
-                        .transition(.fade(0.2)),
-                        .cacheOriginalImage
-                    ]
-                ) { result in
-                    switch result {
-                    case .success(_):
-                        break
-                    case .failure(let error):
-                        print("Error loading image: \(error)")
-                        self.imageView.image = self.getErrorPlaceholderImage()
+            DispatchQueue.main.async {
+                guard let self = self,
+                      let imageURL = imageURL,
+                      self.currentAnimeTitle == item.animeTitle,
+                      self.currentEpisodeNumber == item.episodeNumber else {
+                    return
+                }
+                
+                if let url = URL(string: imageURL) {
+                    self.imageLoadTask = self.imageView.kf.setImage(
+                        with: url,
+                        placeholder: self.getPlaceholderImage(),
+                        options: [
+                            .transition(.fade(0.2)),
+                            .cacheOriginalImage,
+                            .callbackQueue(.mainAsync)
+                        ]
+                    ) { result in
+                        switch result {
+                        case .success(_):
+                            break
+                        case .failure(let error):
+                            print("Error loading image: \(error)")
+                            self.imageView.image = self.getErrorPlaceholderImage()
+                        }
                     }
                 }
             }
@@ -1655,7 +1658,9 @@ class AnimeThumbnailFetcher {
     static func fetchAnimeThumbnails(for title: String, episodeNumber: Int, completion: @escaping (String?) -> Void) {
         fetchAnimeID(for: title) { anilistId in
             guard let anilistId = anilistId else {
-                completion(nil)
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
                 return
             }
             
@@ -1663,12 +1668,16 @@ class AnimeThumbnailFetcher {
             let task = URLSession.shared.dataTask(with: url) { data, _, error in
                 if let error = error {
                     print("Error fetching anime thumbnails: \(error)")
-                    completion(nil)
+                    DispatchQueue.main.async {
+                        completion(nil)
+                    }
                     return
                 }
                 
                 guard let data = data else {
-                    completion(nil)
+                    DispatchQueue.main.async {
+                        completion(nil)
+                    }
                     return
                 }
                 
@@ -1678,13 +1687,19 @@ class AnimeThumbnailFetcher {
                        let episodes = jsonDict["episodes"] as? [String: Any],
                        let episodeInfo = episodes["\(episodeNumber)"] as? [String: Any],
                        let imageUrl = episodeInfo["image"] as? String {
-                        completion(imageUrl)
+                        DispatchQueue.main.async {
+                            completion(imageUrl)
+                        }
                     } else {
-                        completion(nil)
+                        DispatchQueue.main.async {
+                            completion(nil)
+                        }
                     }
                 } catch {
                     print("Error parsing JSON: \(error)")
-                    completion(nil)
+                    DispatchQueue.main.async {
+                        completion(nil)
+                    }
                 }
             }
             task.resume()
@@ -1694,18 +1709,22 @@ class AnimeThumbnailFetcher {
     static func fetchAnimeID(for title: String, completion: @escaping (Int?) -> Void) {
         if let customID = UserDefaults.standard.string(forKey: "customAniListID_\(title)"),
            let id = Int(customID) {
-            completion(id)
+            DispatchQueue.main.async {
+                completion(id)
+            }
             return
         }
         
         let cleanedTitle = cleanTitle(title: title)
         AnimeService.fetchAnimeID(byTitle: cleanedTitle) { result in
-            switch result {
-            case .success(let id):
-                completion(id)
-            case .failure(let error):
-                print("Error fetching anime ID: \(error.localizedDescription)")
-                completion(nil)
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let id):
+                    completion(id)
+                case .failure(let error):
+                    print("Error fetching anime ID: \(error.localizedDescription)")
+                    completion(nil)
+                }
             }
         }
     }
