@@ -12,7 +12,7 @@ class AnimeHeaderCell: UITableViewCell {
     private let animeImageView = UIImageView()
     private let titleLabel = UILabel()
     private let aliasLabel = UILabel()
-    private let favoriteButton = UIButton()
+    private let bookmarkButton = UIImageView()
     private let optionsButton = UIImageView()
     private let starLabel = UILabel()
     private let airDateLabel = UILabel()
@@ -21,7 +21,6 @@ class AnimeHeaderCell: UITableViewCell {
     
     var favoriteButtonTapped: (() -> Void)?
     var showOptionsMenu: (() -> Void)?
-    var fetchAndNavigateToAnime: ((String) -> Void)?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -38,22 +37,16 @@ class AnimeHeaderCell: UITableViewCell {
         contentView.addSubview(animeImageView)
         contentView.addSubview(titleLabel)
         contentView.addSubview(aliasLabel)
-        contentView.addSubview(favoriteButton)
+        contentView.addSubview(bookmarkButton)
         contentView.addSubview(optionsButton)
         contentView.addSubview(starLabel)
         contentView.addSubview(airDateLabel)
         contentView.addSubview(starIconImageView)
         contentView.addSubview(calendarIconImageView)
         
-        animeImageView.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        aliasLabel.translatesAutoresizingMaskIntoConstraints = false
-        favoriteButton.translatesAutoresizingMaskIntoConstraints = false
-        optionsButton.translatesAutoresizingMaskIntoConstraints = false
-        starLabel.translatesAutoresizingMaskIntoConstraints = false
-        airDateLabel.translatesAutoresizingMaskIntoConstraints = false
-        starIconImageView.translatesAutoresizingMaskIntoConstraints = false
-        calendarIconImageView.translatesAutoresizingMaskIntoConstraints = false
+        [animeImageView, titleLabel, aliasLabel, bookmarkButton, optionsButton, starLabel, airDateLabel, starIconImageView, calendarIconImageView].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
         
         animeImageView.contentMode = .scaleAspectFill
         animeImageView.layer.cornerRadius = 8
@@ -62,16 +55,15 @@ class AnimeHeaderCell: UITableViewCell {
         titleLabel.font = UIFont.boldSystemFont(ofSize: 21)
         titleLabel.textColor = .label
         titleLabel.numberOfLines = 4
-
+        
         aliasLabel.font = UIFont.systemFont(ofSize: 13)
         aliasLabel.textColor = .secondaryLabel
         aliasLabel.numberOfLines = 2
-
-        favoriteButton.setTitle("FAVORITE", for: .normal)
-        favoriteButton.setTitleColor(.black, for: .normal)
-        favoriteButton.backgroundColor = .systemTeal
-        favoriteButton.layer.cornerRadius = 14
-        favoriteButton.addTarget(self, action: #selector(favoriteButtonPressed), for: .touchUpInside)
+        
+        bookmarkButton.image = UIImage(systemName: "bookmark.circle")
+        bookmarkButton.tintColor = .systemTeal
+        let apGesture = UITapGestureRecognizer(target: self, action: #selector(favoriteButtonPressed))
+        bookmarkButton.addGestureRecognizer(apGesture)
         
         optionsButton.image = UIImage(systemName: "ellipsis.circle.fill")
         optionsButton.tintColor = .systemTeal
@@ -105,13 +97,13 @@ class AnimeHeaderCell: UITableViewCell {
             aliasLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             aliasLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
             
-            favoriteButton.bottomAnchor.constraint(equalTo: animeImageView.bottomAnchor),
-            favoriteButton.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            favoriteButton.heightAnchor.constraint(equalToConstant: 30),
-            favoriteButton.widthAnchor.constraint(equalToConstant: 100),
+            bookmarkButton.bottomAnchor.constraint(equalTo: animeImageView.bottomAnchor),
+            bookmarkButton.trailingAnchor.constraint(equalTo: optionsButton.leadingAnchor, constant: -15),
+            bookmarkButton.widthAnchor.constraint(equalToConstant: 30),
+            bookmarkButton.heightAnchor.constraint(equalToConstant: 30),
             
-            optionsButton.centerYAnchor.constraint(equalTo: favoriteButton.centerYAnchor),
-            optionsButton.leadingAnchor.constraint(equalTo: favoriteButton.trailingAnchor, constant: 10),
+            optionsButton.bottomAnchor.constraint(equalTo: animeImageView.bottomAnchor),
+            optionsButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
             optionsButton.widthAnchor.constraint(equalToConstant: 30),
             optionsButton.heightAnchor.constraint(equalToConstant: 30),
             
@@ -119,27 +111,26 @@ class AnimeHeaderCell: UITableViewCell {
             starIconImageView.leadingAnchor.constraint(equalTo: animeImageView.leadingAnchor),
             starIconImageView.widthAnchor.constraint(equalToConstant: 20),
             starIconImageView.heightAnchor.constraint(equalToConstant: 20),
-             
+            
             starLabel.bottomAnchor.constraint(equalTo: starIconImageView.bottomAnchor),
             starLabel.leadingAnchor.constraint(equalTo: starIconImageView.trailingAnchor),
-             
+            
             calendarIconImageView.topAnchor.constraint(equalTo: animeImageView.bottomAnchor, constant: 16),
             calendarIconImageView.trailingAnchor.constraint(equalTo: airDateLabel.leadingAnchor),
             calendarIconImageView.widthAnchor.constraint(equalToConstant: 20),
             calendarIconImageView.heightAnchor.constraint(equalToConstant: 20),
-             
+            
             airDateLabel.bottomAnchor.constraint(equalTo: calendarIconImageView.bottomAnchor),
             airDateLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
-             
+            
             contentView.bottomAnchor.constraint(equalTo: calendarIconImageView.bottomAnchor, constant: 10)
         ])
     }
     
-
     @objc private func favoriteButtonPressed() {
         favoriteButtonTapped?()
     }
-
+    
     @objc private func optionsButtonTapped() {
         showOptionsMenu?()
     }
@@ -171,8 +162,8 @@ class AnimeHeaderCell: UITableViewCell {
     }
     
     private func updateFavoriteButtonState(isFavorite: Bool) {
-        let title = isFavorite ? "REMOVE" : "FAVORITE"
-        favoriteButton.setTitle(title, for: .normal)
-        favoriteButton.backgroundColor = isFavorite ? .systemGray : .systemTeal
+        let imageName = isFavorite ? "bookmark.circle.fill" : "bookmark.circle"
+        bookmarkButton.image = UIImage(systemName: imageName)
+        bookmarkButton.tintColor = isFavorite ? .systemYellow : .systemTeal
     }
 }

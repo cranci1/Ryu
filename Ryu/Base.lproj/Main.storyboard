@@ -174,11 +174,11 @@
             </objects>
             <point key="canvasLocation" x="-2695" y="1500"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Saved-->
         <scene sceneID="qIV-Ii-dhQ">
             <objects>
                 <navigationController id="zUE-0l-pun" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" systemItem="favorites" id="bqb-dW-tII"/>
+                    <tabBarItem key="tabBarItem" title="Saved" image="books.vertical.fill" catalog="system" id="bqb-dW-tII"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="nBH-n3-bIW">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -191,7 +191,7 @@
             </objects>
             <point key="canvasLocation" x="-4590" y="-18"/>
         </scene>
-        <!--Favorites-->
+        <!--Saved-->
         <scene sceneID="JNZ-TQ-x2k">
             <objects>
                 <viewController id="IWM-mT-B3l" customClass="FavoritesViewController" customModule="Ryu" customModuleProvider="target" sceneMemberID="viewController">
@@ -224,7 +224,7 @@
                             <constraint firstItem="RC6-7K-ADf" firstAttribute="leading" secondItem="icT-SM-Cdp" secondAttribute="leading" id="owC-Er-z1o"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Favorites" id="BBu-Lh-qnt">
+                    <navigationItem key="navigationItem" title="Saved" id="BBu-Lh-qnt">
                         <barButtonItem key="leftBarButtonItem" id="2ET-QB-yVC">
                             <imageReference key="image" image="gearshape" catalog="system" symbolScale="large"/>
                             <color key="tintColor" name="AccentColor"/>
@@ -635,10 +635,11 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="X14-oT-TJn"/>
+        <segue reference="A4S-3U-V1x"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.down.circle.fill" catalog="system" width="128" height="121"/>
+        <image name="books.vertical.fill" catalog="system" width="128" height="109"/>
         <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="house.fill" catalog="system" width="128" height="106"/>
         <namedColor name="AccentColor">
