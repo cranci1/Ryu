@@ -49,30 +49,28 @@ class AnimeDetailService {
                 "https://aniwatch-api-dusky.vercel.app/anime/episode-srcs?id=",
                 "https://aniwatch-api-cranci.vercel.app/anime/episode-srcs?id="
             ]
-            let fullUrl: String
-            if href.contains(prefixes[0]) || href.contains(prefixes[1]) {
-                func extractIdentifier(from fullUrl: String) -> String? {
-                    for prefix in prefixes {
-                        if let idRange = fullUrl.range(of: prefix) {
-                            let startIndex = fullUrl.index(idRange.upperBound, offsetBy: 0)
-                            if let endRange = fullUrl[startIndex...].range(of: "?ep=") {
-                                let identifier = String(fullUrl[startIndex..<endRange.lowerBound])
-                                return identifier
-                            }
+            
+            func extractIdentifier(from fullUrl: String) -> String? {
+                for prefix in prefixes {
+                    if let idRange = fullUrl.range(of: prefix) {
+                        let startIndex = fullUrl.index(idRange.upperBound, offsetBy: 0)
+                        if let endRange = fullUrl[startIndex...].range(of: "?ep=") ?? fullUrl[startIndex...].range(of: "&ep=") {
+                            let identifier = String(fullUrl[startIndex..<endRange.lowerBound])
+                            return identifier
                         }
                     }
-                    return nil
                 }
-                
-                if let identifier = extractIdentifier(from: href) {
-                    fullUrl = baseUrl + identifier
-                } else {
-                    completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL format."])))
-                    return
-                }
-            } else {
-                fullUrl = baseUrl + href
+                return nil
             }
+            
+            let fullUrl: String
+            if let identifier = extractIdentifier(from: href) {
+                fullUrl = baseUrl + identifier
+            } else {
+                completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL format."])))
+                return
+            }
+            
             AF.request(fullUrl).responseJSON { response in
                 switch response.result {
                 case .success(let json):
@@ -183,30 +181,18 @@ class AnimeDetailService {
     
     static func fetchHiAnimeEpisodes(from href: String, completion: @escaping (Result<[Episode], Error>) -> Void) {
         let baseUrl = "https://aniwatch-api-dusky.vercel.app/anime/episodes/"
-        let prefix = "https://aniwatch-api-dusky.vercel.app/anime/episode-srcs?id="
         
-        let fullUrl: String
-        if href.contains(prefix) {
-            func extractIdentifier(from fullUrl: String) -> String? {
-                if let idRange = fullUrl.range(of: prefix) {
-                    let startIndex = fullUrl.index(idRange.upperBound, offsetBy: 0)
-                    if let endRange = fullUrl[startIndex...].range(of: "?ep=") {
-                        let identifier = String(fullUrl[startIndex..<endRange.lowerBound])
-                        return identifier
-                    }
-                }
-                return nil
-            }
-            
-            if let identifier = extractIdentifier(from: href) {
-                fullUrl = baseUrl + identifier
-            } else {
-                completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL format."])))
-                return
-            }
-        } else {
-            fullUrl = baseUrl + href
-        }
+        guard let idRange = href.range(of: "id="),
+              let endRange = href.range(of: "?ep=") ?? href.range(of: "&ep=") else {
+                  completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid href format."])))
+                  return
+              }
+        
+        let startIndex = idRange.upperBound
+        let endIndex = endRange.lowerBound
+        let id = String(href[startIndex..<endIndex])
+        
+        let fullUrl = baseUrl + id
         
         AF.request(fullUrl).responseJSON { response in
             switch response.result {
@@ -216,14 +202,8 @@ class AnimeDetailService {
                     let episodesArray = jsonDict["episodes"] as? [[String: Any]]
                 else {
                     completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid JSON format."])))
-                    print(json)
                     return
                 }
-                
-                let baseUrls = [
-                    "https://aniwatch-api-dusky.vercel.app/anime/episode-srcs?id=",
-                    "https://aniwatch-api-cranci.vercel.app/anime/episode-srcs?id="
-                ]
                 
                 let episodes = episodesArray.compactMap { episodeDict -> Episode? in
                     guard
@@ -235,8 +215,7 @@ class AnimeDetailService {
                     
                     let episodeNumber = "\(number)"
                     let hrefID = episodeId
-                    let randomBaseUrl = baseUrls.randomElement()!
-                    let href = randomBaseUrl + hrefID
+                    let href = "https://aniwatch-api-dusky.vercel.app/anime/episode-srcs?id=" + hrefID
                     
                     return Episode(number: episodeNumber, href: href, downloadUrl: "")
                 }
