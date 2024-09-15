@@ -27,7 +27,7 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
     
     private var originalRate: Float = 1.0
     private var holdGesture: UILongPressGestureRecognizer?
-
+    
     init(streamURL: String, cell: EpisodeCell, fullURL: String, animeDetailsViewController: AnimeDetailViewController) {
         self.streamURL = streamURL
         self.cell = cell
@@ -69,7 +69,7 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
     override var prefersHomeIndicatorAutoHidden: Bool {
         return true
     }
-
+    
     override var childForHomeIndicatorAutoHidden: UIViewController? {
         return playerViewController
     }
@@ -77,7 +77,7 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
     override var prefersStatusBarHidden: Bool {
         return true
     }
-
+    
     override var childForStatusBarHidden: UIViewController? {
         return playerViewController
     }
@@ -114,10 +114,19 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
     
     private func setupActivityIndicator() {
         activityIndicator = UIActivityIndicatorView(style: .large)
-        activityIndicator?.color = .label
-        activityIndicator?.startAnimating()
-        activityIndicator?.center = view.center
-        view.addSubview(activityIndicator!)
+        activityIndicator?.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator?.hidesWhenStopped = true
+        
+        if let activityIndicator = activityIndicator {
+            view.addSubview(activityIndicator)
+            
+            NSLayoutConstraint.activate([
+                activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            ])
+            
+            activityIndicator.startAnimating()
+        }
     }
     
     private func setupWebView() {
@@ -174,29 +183,29 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
     }
     
     private func handleVideoURL(url: URL) {
-         if UserDefaults.standard.bool(forKey: "isToDownload") {
-             handleDownload(url: url)
-         } else if GCKCastContext.sharedInstance().sessionManager.hasConnectedCastSession() {
-             castVideoToGoogleCast(videoURL: url)
-             dismiss(animated: true)
-         } else {
-             let selectedPlayer = UserDefaults.standard.string(forKey: "mediaPlayerSelected") ?? "Default"
-             switch selectedPlayer {
-             case "VLC", "Infuse", "OutPlayer":
-                 animeDetailsViewController?.openInExternalPlayer(player: selectedPlayer, url: url)
-                 dismiss(animated: true)
-             case "Custom":
-                 let videoTitle = animeDetailsViewController?.animeTitle ?? "Anime"
-                 let customPlayerVC = CustomPlayerView(videoTitle: videoTitle, videoURL: url, cell: cell, fullURL: fullURL)
-                 customPlayerVC.modalPresentationStyle = .fullScreen
-                 customPlayerVC.delegate = self
-                 present(customPlayerVC, animated: true)
-             default:
-                 playOrCastVideo(url: url)
-             }
-         }
-     }
-
+        if UserDefaults.standard.bool(forKey: "isToDownload") {
+            handleDownload(url: url)
+        } else if GCKCastContext.sharedInstance().sessionManager.hasConnectedCastSession() {
+            castVideoToGoogleCast(videoURL: url)
+            dismiss(animated: true)
+        } else {
+            let selectedPlayer = UserDefaults.standard.string(forKey: "mediaPlayerSelected") ?? "Default"
+            switch selectedPlayer {
+            case "VLC", "Infuse", "OutPlayer":
+                animeDetailsViewController?.openInExternalPlayer(player: selectedPlayer, url: url)
+                dismiss(animated: true)
+            case "Custom":
+                let videoTitle = animeDetailsViewController?.animeTitle ?? "Anime"
+                let customPlayerVC = CustomPlayerView(videoTitle: videoTitle, videoURL: url, cell: cell, fullURL: fullURL)
+                customPlayerVC.modalPresentationStyle = .fullScreen
+                customPlayerVC.delegate = self
+                present(customPlayerVC, animated: true)
+            default:
+                playOrCastVideo(url: url)
+            }
+        }
+    }
+    
     private func handleDownload(url: URL) {
         UserDefaults.standard.set(false, forKey: "isToDownload")
         dismiss(animated: true)
@@ -372,8 +381,8 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
     @objc func playerItemDidReachEnd(notification: Notification) {
         if UserDefaults.standard.bool(forKey: "AutoPlay"), let animeDetailsViewController = animeDetailsViewController {
             let hasNextEpisode = animeDetailsViewController.isReverseSorted ?
-                (animeDetailsViewController.currentEpisodeIndex > 0) :
-                (animeDetailsViewController.currentEpisodeIndex < animeDetailsViewController.episodes.count - 1)
+            (animeDetailsViewController.currentEpisodeIndex > 0) :
+            (animeDetailsViewController.currentEpisodeIndex < animeDetailsViewController.episodes.count - 1)
             
             if hasNextEpisode {
                 dismiss(animated: true) { [weak self] in
@@ -413,9 +422,9 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
     private func playEpisode(at index: Int) {
         guard let animeDetailsViewController = self.animeDetailsViewController,
               index >= 0 && index < animeDetailsViewController.episodes.count else {
-            return
-        }
-
+                  return
+              }
+        
         let nextEpisode = animeDetailsViewController.episodes[index]
         if let cell = animeDetailsViewController.tableView.cellForRow(at: IndexPath(row: index, section: 2)) as? EpisodeCell {
             animeDetailsViewController.episodeSelected(episode: nextEpisode, cell: cell)

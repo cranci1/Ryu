@@ -70,6 +70,7 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
         setupRefreshControl()
         setupEmptyContinueWatchingLabel()
         setupErrorLabelsAndActivityIndicators()
+        setupActivityIndicators()
         fetchAnimeData()
         
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
@@ -171,6 +172,24 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
     
     @objc func refreshData() {
         fetchAnimeData()
+    }
+    
+    private func setupActivityIndicators() {
+        let activityIndicators = [airingActivityIndicator, trendingActivityIndicator, seasonalActivityIndicator, featuredActivityIndicator]
+        let collectionViews = [airingCollectionView, trendingCollectionView, seasonalCollectionView, featuredCollectionView]
+        
+        for (index, indicator) in activityIndicators.enumerated() {
+            guard let collectionView = collectionViews[index] else { continue }
+            
+            indicator.hidesWhenStopped = true
+            indicator.translatesAutoresizingMaskIntoConstraints = false
+            collectionView.addSubview(indicator)
+            
+            NSLayoutConstraint.activate([
+                indicator.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor),
+                indicator.centerYAnchor.constraint(equalTo: collectionView.centerYAnchor)
+            ])
+        }
     }
     
     func fetchAnimeData() {

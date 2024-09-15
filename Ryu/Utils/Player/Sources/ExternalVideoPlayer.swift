@@ -24,6 +24,8 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, CustomPlayerV
     private weak var animeDetailsViewController: AnimeDetailViewController?
     private var player: AVPlayer?
     private var timeObserverToken: Any?
+    private var isVideoPlaying = false
+    private var extractionTimer: Timer?
     
     private var retryCount = 0
     private var maxRetries: Int {
@@ -71,6 +73,18 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, CustomPlayerV
         setupActivityIndicator()
         setupHoldGesture()
         setupNotificationObserver()
+        startExtractionProcess()
+    }
+    
+    private func startExtractionProcess() {
+        extractionTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { [weak self] _ in
+            self?.extractVideoLinks()
+        }
+    }
+    
+    private func stopExtractionProcess() {
+        extractionTimer?.invalidate()
+        extractionTimer = nil
     }
     
     private func setupNotificationObserver() {
@@ -171,22 +185,27 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, CustomPlayerV
     
     private func setupActivityIndicator() {
         activityIndicator = UIActivityIndicatorView(style: .large)
-        activityIndicator?.center = view.center
+        activityIndicator?.translatesAutoresizingMaskIntoConstraints = false
         activityIndicator?.hidesWhenStopped = true
         
         if let activityIndicator = activityIndicator {
             view.addSubview(activityIndicator)
+            
+            NSLayoutConstraint.activate([
+                activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            ])
+            
             activityIndicator.startAnimating()
         }
     }
     
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
-            self?.extractVideoLinks()
-        }
-    }
-    
     private func extractVideoLinks() {
+        guard !isVideoPlaying else {
+            stopExtractionProcess()
+            return
+        }
+        
         let script = """
         var links = [];
         var downloadDivs = document.querySelectorAll('#content-download .mirror_link .dowload a');
@@ -204,31 +223,32 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, CustomPlayerV
         """
         
         webView?.evaluateJavaScript(script) { [weak self] (result, error) in
+            guard let self = self, !self.isVideoPlaying else { return }
+            
             if let links = result as? [[String: String]] {
-                self?.qualityOptions = links.compactMap { link in
+                self.qualityOptions = links.compactMap { link in
                     guard let name = link["name"], !name.isEmpty, let url = link["url"] else { return nil }
                     return (name: name, url: url)
                 }
-                if self?.qualityOptions.isEmpty == true {
-                    self?.retryExtractVideoLinks()
+                if self.qualityOptions.isEmpty {
+                    self.retryExtractVideoLinks()
                 } else {
-                    self?.handleQualitySelection()
+                    self.stopExtractionProcess()
+                    self.handleQualitySelection()
                 }
             } else if let error = error {
                 print("Error extracting video links: \(error)")
-                self?.retryExtractVideoLinks()
+                self.retryExtractVideoLinks()
             }
         }
     }
     
     private func retryExtractVideoLinks() {
-        if retryCount < maxRetries {
+        if !isVideoPlaying && retryCount < maxRetries {
             retryCount += 1
             print("Retrying extraction... Attempt \(retryCount) of \(maxRetries)")
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) { [weak self] in
-                self?.extractVideoLinks()
-            }
-        } else {
+        } else if !isVideoPlaying {
+            stopExtractionProcess()
             activityIndicator?.stopAnimating()
             print("Failed to extract video links after \(maxRetries) attempts.")
             self.dismiss(animated: true, completion: nil)
@@ -277,6 +297,8 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, CustomPlayerV
     
     private func handleVideoURL(url: URL) {
         DispatchQueue.main.async {
+            self.isVideoPlaying = true
+            self.stopExtractionProcess()
             self.activityIndicator?.stopAnimating()
             
             if UserDefaults.standard.bool(forKey: "isToDownload") {
@@ -526,6 +548,8 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, CustomPlayerV
     }
     
     private func cleanup() {
+        stopExtractionProcess()
+        isVideoPlaying = false
         player?.pause()
         player = nil
         

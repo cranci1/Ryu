@@ -127,11 +127,18 @@ class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
     
     private func setupActivityIndicator() {
         activityIndicator = UIActivityIndicatorView(style: .large)
-        activityIndicator?.color = .label
-        activityIndicator?.startAnimating()
-        activityIndicator?.center = view.center
+        activityIndicator?.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator?.hidesWhenStopped = true
+        
         if let activityIndicator = activityIndicator {
             view.addSubview(activityIndicator)
+            
+            NSLayoutConstraint.activate([
+                activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            ])
+            
+            activityIndicator.startAnimating()
         }
     }
     
