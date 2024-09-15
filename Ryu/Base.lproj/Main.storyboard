@@ -174,11 +174,11 @@
             </objects>
             <point key="canvasLocation" x="-2695" y="1500"/>
         </scene>
-        <!--Saved-->
+        <!--Library-->
         <scene sceneID="qIV-Ii-dhQ">
             <objects>
                 <navigationController id="zUE-0l-pun" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Saved" image="books.vertical.fill" catalog="system" id="bqb-dW-tII"/>
+                    <tabBarItem key="tabBarItem" title="Library" image="books.vertical.fill" catalog="system" id="bqb-dW-tII"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="nBH-n3-bIW">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -191,7 +191,7 @@
             </objects>
             <point key="canvasLocation" x="-4590" y="-18"/>
         </scene>
-        <!--Saved-->
+        <!--Library-->
         <scene sceneID="JNZ-TQ-x2k">
             <objects>
                 <viewController id="IWM-mT-B3l" customClass="FavoritesViewController" customModule="Ryu" customModuleProvider="target" sceneMemberID="viewController">
@@ -224,7 +224,7 @@
                             <constraint firstItem="RC6-7K-ADf" firstAttribute="leading" secondItem="icT-SM-Cdp" secondAttribute="leading" id="owC-Er-z1o"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Saved" id="BBu-Lh-qnt">
+                    <navigationItem key="navigationItem" title="Library" id="BBu-Lh-qnt">
                         <barButtonItem key="leftBarButtonItem" id="2ET-QB-yVC">
                             <imageReference key="image" image="gearshape" catalog="system" symbolScale="large"/>
                             <color key="tintColor" name="AccentColor"/>

@@ -12,7 +12,7 @@ class AnimeHeaderCell: UITableViewCell {
     private let animeImageView = UIImageView()
     private let titleLabel = UILabel()
     private let aliasLabel = UILabel()
-    private let bookmarkButton = UIImageView()
+    private let bookmarkButton = UIButton(type: .system)
     private let optionsButton = UIImageView()
     private let starLabel = UILabel()
     private let airDateLabel = UILabel()
@@ -60,10 +60,9 @@ class AnimeHeaderCell: UITableViewCell {
         aliasLabel.textColor = .secondaryLabel
         aliasLabel.numberOfLines = 2
         
-        bookmarkButton.image = UIImage(systemName: "bookmark.circle")
+        bookmarkButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
         bookmarkButton.tintColor = .systemTeal
-        let apGesture = UITapGestureRecognizer(target: self, action: #selector(favoriteButtonPressed))
-        bookmarkButton.addGestureRecognizer(apGesture)
+        bookmarkButton.addTarget(self, action: #selector(favoriteButtonPressed), for: .touchUpInside)
         
         optionsButton.image = UIImage(systemName: "ellipsis.circle.fill")
         optionsButton.tintColor = .systemTeal
@@ -162,8 +161,8 @@ class AnimeHeaderCell: UITableViewCell {
     }
     
     private func updateFavoriteButtonState(isFavorite: Bool) {
-        let imageName = isFavorite ? "bookmark.circle.fill" : "bookmark.circle"
-        bookmarkButton.image = UIImage(systemName: imageName)
+        let imageName = isFavorite ? "bookmark.fill" : "bookmark"
+        bookmarkButton.setImage(UIImage(systemName: imageName), for: .normal)
         bookmarkButton.tintColor = isFavorite ? .systemYellow : .systemTeal
     }
 }

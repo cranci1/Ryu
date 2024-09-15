@@ -477,7 +477,7 @@ extension SearchResultsViewController: UIContextMenuInteractionDelegate {
                 self?.openInBrowser(path: result.href)
             }
             
-            let favoriteAction = UIAction(title: self.isFavorite(for: result) ? "Remove from Favorites" : "Add to Favorites", image: UIImage(systemName: self.isFavorite(for: result) ? "star.fill" : "star")) { [weak self] _ in
+            let favoriteAction = UIAction(title: self.isFavorite(for: result) ? "Remove from the Library" : "Add to Library", image: UIImage(systemName: self.isFavorite(for: result) ? "bookmark.fill" : "bookmark")) { [weak self] _ in
                 self?.toggleFavorite(for: result)
             }
             
