@@ -64,11 +64,15 @@ class AnimeDetailService {
             }
             
             let fullUrl: String
-            if let identifier = extractIdentifier(from: href) {
-                fullUrl = baseUrl + identifier
+            if href.contains("https") {
+                if let identifier = extractIdentifier(from: href) {
+                    fullUrl = baseUrl + identifier
+                } else {
+                    completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL format."])))
+                    return
+                }
             } else {
-                completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL format."])))
-                return
+                fullUrl = baseUrl + href
             }
             
             AF.request(fullUrl).responseJSON { response in
@@ -182,17 +186,22 @@ class AnimeDetailService {
     static func fetchHiAnimeEpisodes(from href: String, completion: @escaping (Result<[Episode], Error>) -> Void) {
         let baseUrl = "https://aniwatch-api-dusky.vercel.app/anime/episodes/"
         
-        guard let idRange = href.range(of: "id="),
-              let endRange = href.range(of: "?ep=") ?? href.range(of: "&ep=") else {
-                  completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid href format."])))
-                  return
-              }
-        
-        let startIndex = idRange.upperBound
-        let endIndex = endRange.lowerBound
-        let id = String(href[startIndex..<endIndex])
-        
-        let fullUrl = baseUrl + id
+        let fullUrl: String
+        if href.contains("https") {
+            guard let idRange = href.range(of: "id="),
+                  let endRange = href.range(of: "?ep=") ?? href.range(of: "&ep=") else {
+                completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid href format."])))
+                return
+            }
+            
+            let startIndex = idRange.upperBound
+            let endIndex = endRange.lowerBound
+            let id = String(href[startIndex..<endIndex])
+            
+            fullUrl = baseUrl + id
+        } else {
+            fullUrl = baseUrl + href
+        }
         
         AF.request(fullUrl).responseJSON { response in
             switch response.result {
