@@ -319,7 +319,8 @@ class ExternalVideoPlayerGoGo2: UIViewController, WKNavigationDelegate, WKScript
                     self.dismiss(animated: true, completion: nil)
                 } else if selectedPlayer == "Custom" {
                     let videoTitle = self.animeDetailsViewController?.animeTitle ?? "Anime"
-                    let customPlayerVC = CustomPlayerView(videoTitle: videoTitle, videoURL: url, cell: self.cell, fullURL: self.fullURL)
+                    let imageURL = self.animeDetailsViewController?.imageUrl ?? ""
+                    let customPlayerVC = CustomPlayerView(videoTitle: videoTitle, videoURL: url, cell: self.cell, fullURL: self.fullURL, image: imageURL)
                     customPlayerVC.modalPresentationStyle = .fullScreen
                     customPlayerVC.delegate = self
                     self.present(customPlayerVC, animated: true, completion: nil)

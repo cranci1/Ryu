@@ -1300,7 +1300,8 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
             openInExternalPlayer(player: player, url: sourceURL)
         case "Custom":
             let videoTitle = animeTitle
-            let viewController = CustomPlayerView(videoTitle: videoTitle ?? "", videoURL: sourceURL, cell: cell, fullURL: fullURL)
+            let imageURL = imageUrl ?? "https://s4.anilist.co/file/anilistcdn/character/large/default.jpg"
+            let viewController = CustomPlayerView(videoTitle: videoTitle ?? "", videoURL: sourceURL, cell: cell, fullURL: fullURL, image: imageURL)
             viewController.modalPresentationStyle = .fullScreen
             self.present(viewController, animated: true, completion: nil)
         default:
@@ -1338,7 +1339,8 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
     
     func openHiAnimeExperimental(url: URL, subURL: URL, cell: EpisodeCell, fullURL: String) {
         let videoTitle = animeTitle!
-        let viewController = CustomPlayerView(videoTitle: videoTitle, videoURL: url, subURL: subURL, cell: cell, fullURL: fullURL)
+        let imageURL = imageUrl ?? "https://s4.anilist.co/file/anilistcdn/character/large/default.jpg"
+        let viewController = CustomPlayerView(videoTitle: videoTitle, videoURL: url, subURL: subURL, cell: cell, fullURL: fullURL, image: imageURL)
         viewController.modalPresentationStyle = .fullScreen
         self.present(viewController, animated: true, completion: nil)
     }

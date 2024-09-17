@@ -196,7 +196,8 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
                 dismiss(animated: true)
             case "Custom":
                 let videoTitle = animeDetailsViewController?.animeTitle ?? "Anime"
-                let customPlayerVC = CustomPlayerView(videoTitle: videoTitle, videoURL: url, cell: cell, fullURL: fullURL)
+                let imageURL = animeDetailsViewController?.imageUrl ?? ""
+                let customPlayerVC = CustomPlayerView(videoTitle: videoTitle, videoURL: url, cell: self.cell, fullURL: self.fullURL, image: imageURL)
                 customPlayerVC.modalPresentationStyle = .fullScreen
                 customPlayerVC.delegate = self
                 present(customPlayerVC, animated: true)

@@ -17,15 +17,17 @@ class CustomPlayerView: UIViewController {
     private var subURL: URL?
     private var cell: EpisodeCell
     private var fullURL: String
+    private var animeImage: String
     
     weak var delegate: CustomPlayerViewDelegate?
     
-    init(videoTitle: String, videoURL: URL, subURL: URL? = nil, cell: EpisodeCell, fullURL: String) {
+    init(videoTitle: String, videoURL: URL, subURL: URL? = nil, cell: EpisodeCell, fullURL: String, image: String) {
         self.videoTitle = videoTitle
         self.videoURL = videoURL
         self.subURL = subURL
         self.cell = cell
         self.fullURL = fullURL
+        self.animeImage = image
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -40,7 +42,7 @@ class CustomPlayerView: UIViewController {
         
         setupAudioSession()
         
-        playerView = CustomVideoPlayerView(frame: view.bounds, cell: cell, fullURL: fullURL)
+        playerView = CustomVideoPlayerView(frame: view.bounds, cell: cell, fullURL: fullURL, image: animeImage)
         view.addSubview(playerView)
         
         playerView.translatesAutoresizingMaskIntoConstraints = false

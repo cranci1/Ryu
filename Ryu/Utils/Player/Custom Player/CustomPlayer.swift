@@ -30,6 +30,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
     private var cell: EpisodeCell
     private var fullURL: String
     private var hasSentUpdate = false
+    private var animeImage: String
     
     private var skipButtonsBottomConstraint: NSLayoutConstraint?
     private var skipButtons: [UIButton] = []
@@ -216,9 +217,10 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         return imageView
     }()
     
-    init(frame: CGRect, cell: EpisodeCell, fullURL: String) {
+    init(frame: CGRect, cell: EpisodeCell, fullURL: String, image: String) {
         self.cell = cell
         self.fullURL = fullURL
+        self.animeImage = image
         super.init(frame: frame)
         setupPlayer()
         setupUI()
@@ -611,7 +613,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
                 animeTitle: self.videoTitle,
                 episodeTitle: "Ep. \(episodeNumber)",
                 episodeNumber: episodeNumber,
-                imageURL: "https://s4.anilist.co/file/anilistcdn/character/large/default.jpg",
+                imageURL: self.animeImage,
                 fullURL: fullURL,
                 lastPlayedTime: currentTime,
                 totalTime: duration,
