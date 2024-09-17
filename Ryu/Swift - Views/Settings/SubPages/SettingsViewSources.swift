@@ -129,8 +129,12 @@ class SettingsViewSources: UITableViewController {
             UserDefaults.standard.set("raw", forKey: "audioHiPrefe")
             self?.audioButton.setTitle("raw", for: .normal)
         })
+        let action4 = UIAction(title: "Always Ask", handler: { [weak self] _ in
+            UserDefaults.standard.set("Always Ask", forKey: "audioHiPrefe")
+            self?.audioButton.setTitle("Always Ask", for: .normal)
+        })
         
-        let menu = UIMenu(title: "Select Prefered Audio", children: [action1, action2, action3])
+        let menu = UIMenu(title: "Select Prefered Audio", children: [action1, action2, action3, action4])
         
         audioButton.menu = menu
         audioButton.showsMenuAsPrimaryAction = true

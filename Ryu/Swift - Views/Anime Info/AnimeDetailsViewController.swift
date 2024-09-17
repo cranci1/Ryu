@@ -666,7 +666,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
             completion(preferredAudio)
         } else {
             DispatchQueue.main.async {
-                self.presentDubSubSelection(options: options, completion: completion)
+                self.presentDubSubRawSelection(options: options, preferredType: preferredAudio, completion: completion)
             }
         }
     }
@@ -840,52 +840,57 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
         }.resume()
     }
     
-    func presentDubSubSelection(options: [String: [[String: Any]]], completion: @escaping (String) -> Void) {
+    func presentDubSubRawSelection(options: [String: [[String: Any]]], preferredType: String, completion: @escaping (String) -> Void) {
         DispatchQueue.main.async {
             let rawOptions = options["raw"]
             let subOptions = options["sub"]
             let dubOptions = options["dub"]
             
-            if let rawOptions = rawOptions, !rawOptions.isEmpty,
-               let subOptions = subOptions, !subOptions.isEmpty,
-               let dubOptions = dubOptions, !dubOptions.isEmpty {
-                let alert = UIAlertController(title: "Select Audio", message: nil, preferredStyle: .actionSheet)
-                
-                alert.addAction(UIAlertAction(title: "Raw", style: .default) { _ in
-                    completion("raw")
-                })
-                
-                alert.addAction(UIAlertAction(title: "Subtitled", style: .default) { _ in
-                    completion("sub")
-                })
-                
-                alert.addAction(UIAlertAction(title: "Dubbed", style: .default) { _ in
-                    completion("dub")
-                })
-                
-                if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-                   let topController = scene.windows.first?.rootViewController {
-                    if UIDevice.current.userInterfaceIdiom == .pad {
-                        alert.modalPresentationStyle = .popover
-                        if let popover = alert.popoverPresentationController {
-                            popover.sourceView = topController.view
-                            popover.sourceRect = CGRect(x: topController.view.bounds.midX, y: topController.view.bounds.midY, width: 0, height: 0)
-                            popover.permittedArrowDirections = []
-                        }
-                    }
-                    topController.present(alert, animated: true, completion: nil)
-                } else {
-                    print("Could not find top view controller to present alert")
-                }
-            } else if let subOptions = subOptions, !subOptions.isEmpty {
-                completion("sub")
-            } else if let dubOptions = dubOptions, !dubOptions.isEmpty {
-                completion("dub")
-            } else if let rawOptions = rawOptions, !rawOptions.isEmpty {
-                completion("raw")
-            } else {
+            let availableOptions = [
+                "raw": rawOptions,
+                "sub": subOptions,
+                "dub": dubOptions
+            ].filter { $0.value != nil && !($0.value!.isEmpty) }
+            
+            if availableOptions.isEmpty {
                 print("No audio options available")
                 self.showAlert(title: "Error", message: "No audio options available")
+                return
+            }
+            
+            if availableOptions.count == 1, let onlyOption = availableOptions.first {
+                completion(onlyOption.key)
+                return
+            }
+            
+            if availableOptions[preferredType] != nil {
+                
+                completion(preferredType)
+                return
+            }
+            
+            let alert = UIAlertController(title: "Select Audio", message: nil, preferredStyle: .actionSheet)
+            
+            for (type, _) in availableOptions {
+                let title = type.capitalized
+                alert.addAction(UIAlertAction(title: title, style: .default) { _ in
+                    completion(type)
+                })
+            }
+            
+            if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let topController = scene.windows.first?.rootViewController {
+                if UIDevice.current.userInterfaceIdiom == .pad {
+                    alert.modalPresentationStyle = .popover
+                    if let popover = alert.popoverPresentationController {
+                        popover.sourceView = topController.view
+                        popover.sourceRect = CGRect(x: topController.view.bounds.midX, y: topController.view.bounds.midY, width: 0, height: 0)
+                        popover.permittedArrowDirections = []
+                    }
+                }
+                topController.present(alert, animated: true, completion: nil)
+            } else {
+                print("Could not find top view controller to present alert")
             }
         }
     }
