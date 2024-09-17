@@ -12,6 +12,8 @@ class SettingsViewSources: UITableViewController {
     @IBOutlet weak var retryMethod: UIButton!
     @IBOutlet weak var qualityPrefered: UIButton!
     
+    @IBOutlet weak var gogoButton: UIButton!
+    
     @IBOutlet weak var audioButton: UIButton!
     @IBOutlet weak var serverButton: UIButton!
     @IBOutlet weak var subtitlesButton: UIButton!
@@ -20,6 +22,7 @@ class SettingsViewSources: UITableViewController {
         super.viewDidLoad()
         setupRetryMenu()
         setupMenu()
+        setupGoGo()
         setupAudioMenu()
         setupServerMenu()
         setupSubtitlesMenu()
@@ -57,6 +60,26 @@ class SettingsViewSources: UITableViewController {
             retryMethod.setTitle("\(retries) Tries", for: .normal)
         } else {
             retryMethod.setTitle("Select Tries", for: .normal)
+        }
+    }
+    
+    func setupGoGo() {
+        let action1 = UIAction(title: "Default", handler: { [weak self] _ in
+            UserDefaults.standard.set("Default", forKey: "gogoFetcher")
+            self?.gogoButton.setTitle("Default", for: .normal)
+        })
+        let action2 = UIAction(title: "Secondary", handler: { [weak self] _ in
+            UserDefaults.standard.set("Secondary", forKey: "gogoFetcher")
+            self?.gogoButton.setTitle("Secondary", for: .normal)
+        })
+        
+        let menu = UIMenu(title: "Select Prefered Method", children: [action1, action2])
+        
+        gogoButton.menu = menu
+        gogoButton.showsMenuAsPrimaryAction = true
+        
+        if let selectedOption = UserDefaults.standard.string(forKey: "gogoFetcher") {
+            gogoButton.setTitle(selectedOption, for: .normal)
         }
     }
     

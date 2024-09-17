@@ -1243,7 +1243,10 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <sections>
-                            <tableViewSection headerTitle="Quality" footerTitle="Select your favorite quality. Note that if it is not available then it will play the closest quality." id="ebO-eO-XI8">
+                            <tableViewSection headerTitle="Quality" id="ebO-eO-XI8">
+                                <string key="footerTitle">Select your favorite quality. Note that if it is not available then it will play the closest quality.
+
+The Tries is the method that defines how Ryu attempts to fetch episodes. Increasing the number of retries allows for more attempts to load a video, which can be useful if a video fails to load initially. However, note that a higher number of retries may increase the wait time.</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="XeR-HT-Ldq">
                                         <rect key="frame" x="20" y="32" width="374" height="43.5"/>
@@ -1273,13 +1276,8 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                            <tableViewSection headerTitle="General" id="8Uf-JF-cy1">
-                                <string key="footerTitle">This method defines how Ryu attempts to fetch episodes. Increasing the number of retries allows for more attempts to load a video, which can be useful if a video fails to load initially. However, note that a higher number of retries may increase the wait time.</string>
-                                <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="v3l-Ui-fOK">
-                                        <rect key="frame" x="20" y="155.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="75.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="v3l-Ui-fOK" id="zN2-dF-dq6">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -1308,10 +1306,42 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection headerTitle="GoGoAnime" footerTitle="Use the Secondary method only if episodes streams are not fetched correctly, donwloads wont work tho." id="RlO-a0-ghu">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="TBs-jc-vCL">
+                                        <rect key="frame" x="20" y="283" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="TBs-jc-vCL" id="3aT-Z3-c1T">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stream fetcher method" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HMC-gp-UxS">
+                                                    <rect key="frame" x="15" y="13" width="158.5" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o75-Cr-GFx">
+                                                    <rect key="frame" x="293" y="6.5" width="71" height="31"/>
+                                                    <color key="tintColor" name="AccentColor"/>
+                                                    <state key="normal" title="Button"/>
+                                                    <buttonConfiguration key="configuration" style="plain" title="Default"/>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="HMC-gp-UxS" firstAttribute="centerY" secondItem="3aT-Z3-c1T" secondAttribute="centerY" id="99A-dm-OgV"/>
+                                                <constraint firstItem="o75-Cr-GFx" firstAttribute="centerY" secondItem="3aT-Z3-c1T" secondAttribute="centerY" id="FeA-L6-BKL"/>
+                                                <constraint firstItem="o75-Cr-GFx" firstAttribute="trailing" secondItem="3aT-Z3-c1T" secondAttribute="trailing" constant="-10" id="OGd-HO-uOV"/>
+                                                <constraint firstItem="HMC-gp-UxS" firstAttribute="leading" secondItem="3aT-Z3-c1T" secondAttribute="leading" constant="15" id="OJc-iQ-B0o"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                             <tableViewSection headerTitle="HiAnime" footerTitle="Note that if something not available then it will prompt with the choise menu." id="2Fh-c7-PC3">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Eq3-tl-NMl">
-                                        <rect key="frame" x="20" y="321" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="406.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Eq3-tl-NMl" id="Kyx-5H-JU5">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -1339,7 +1369,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="sqb-Ta-47H">
-                                        <rect key="frame" x="20" y="364.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="450" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sqb-Ta-47H" id="t38-9O-80H">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -1367,7 +1397,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="DP4-qX-oXL">
-                                        <rect key="frame" x="20" y="408" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="493.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="DP4-qX-oXL" id="OyZ-KE-JAP">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -1399,7 +1429,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                             <tableViewSection headerTitle="Informations" footerTitle="Find some informations about each source" id="fYK-Yn-lEn">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="m1a-0k-gXI">
-                                        <rect key="frame" x="20" y="531.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="617" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="m1a-0k-gXI" id="Gc0-9A-Dxt">
                                             <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
@@ -1439,6 +1469,7 @@ Note that push updates might occasionally be inaccurate due to differences betwe
                     </navigationItem>
                     <connections>
                         <outlet property="audioButton" destination="ew1-sf-bu3" id="uYv-W7-Rgd"/>
+                        <outlet property="gogoButton" destination="o75-Cr-GFx" id="4Of-Ux-fmn"/>
                         <outlet property="qualityPrefered" destination="5Al-V9-xiO" id="kwd-cH-FFf"/>
                         <outlet property="retryMethod" destination="bTS-4X-xtJ" id="2iX-Ch-zBc"/>
                         <outlet property="serverButton" destination="JUh-bG-hKS" id="Uzf-Q4-FmV"/>

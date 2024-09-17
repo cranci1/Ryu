@@ -80,6 +80,8 @@ class EpisodeCell: UITableViewCell {
         infoButton.tintColor = .systemTeal
         infoButton.addTarget(self, action: #selector(infoButtonTapped), for: .touchUpInside)
         
+        playbackProgressView.tintColor = .systemTeal
+        
         NSLayoutConstraint.activate([
             episodeLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             episodeLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),

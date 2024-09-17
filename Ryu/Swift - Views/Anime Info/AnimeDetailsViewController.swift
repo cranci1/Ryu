@@ -552,8 +552,8 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                 streamingVC = ExternalVideoPlayerKura(streamURL: url, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
             case VideoPlayerType.playerJK:
                 streamingVC = ExternalVideoPlayerJK(streamURL: url, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
-            case VideoPlayerType.playerWeb:
-                streamingVC = HiAnimeWebPlayer(streamURL: url, captionURL: captionURL, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
+            case VideoPlayerType.playerGoGo2:
+                streamingVC = ExternalVideoPlayerGoGo2(streamURL: url, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
             default:
                 return
             }
@@ -749,11 +749,16 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                 }
                 
                 let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? ""
+                let gogoFetcher = UserDefaults.standard.string(forKey: "gogoFetcher") ?? "Default"
                 var srcURL: URL?
                 
                 switch selectedMediaSource {
                 case "GoGoAnime":
-                    srcURL = self.extractDownloadLink(from: htmlString)
+                    if gogoFetcher == "Secondary" {
+                        srcURL = self.extractIframeSourceURL(from: htmlString)
+                    } else if gogoFetcher == "Default" {
+                        srcURL = self.extractDownloadLink(from: htmlString)
+                    }
                 case "AnimeFire":
                     srcURL = self.extractDataVideoSrcURL(from: htmlString)
                 case "AnimeWorld", "AnimeHeaven":
@@ -773,7 +778,8 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                 DispatchQueue.main.async {
                     switch selectedMediaSource {
                     case "GoGoAnime":
-                        self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.standard, cell: cell, fullURL: fullURL)
+                        let playerType = gogoFetcher == "Default" ? VideoPlayerType.standard : VideoPlayerType.playerGoGo2
+                        self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: playerType, cell: cell, fullURL: fullURL)
                     case "AnimeFire":
                         self.fetchVideoDataAndChooseQuality(from: finalSrcURL.absoluteString) { selectedURL in
                             guard let selectedURL = selectedURL else { return }

@@ -10,7 +10,6 @@
 		131546D52C6DE6CC002DC3CC /* GoogleCastSDK-ios-no-bluetooth in Frameworks */ = {isa = PBXBuildFile; productRef = 131546D42C6DE6CC002DC3CC /* GoogleCastSDK-ios-no-bluetooth */; };
 		131546D82C6DE6D9002DC3CC /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 131546D72C6DE6D9002DC3CC /* Kingfisher */; };
 		131546DE2C6DE6F2002DC3CC /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 131546DD2C6DE6F2002DC3CC /* Alamofire */; };
-		131546E12C6DE71D002DC3CC /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 131546E02C6DE71D002DC3CC /* SwiftSoup */; };
 		1357B5032C6D0965000A2C9B /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1357B4F12C6D0965000A2C9B /* Settings.storyboard */; };
 		1357B5042C6D0965000A2C9B /* FavoriteCell-Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1357B4F52C6D0965000A2C9B /* FavoriteCell-Swift.swift */; };
 		1357B5052C6D0965000A2C9B /* FavoriteCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1357B4F62C6D0965000A2C9B /* FavoriteCell.xib */; };
@@ -80,6 +79,8 @@
 		136525592C6B5B4100210A98 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136525152C6B5B4100210A98 /* SceneDelegate.swift */; };
 		13765C9C2C6E44A8000070A5 /* NormalPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13765C9B2C6E44A8000070A5 /* NormalPlayer.swift */; };
 		138669D42C6F6266009ABA6F /* HiAnime-WebPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138669D32C6F6266009ABA6F /* HiAnime-WebPlayer.swift */; };
+		138F7AB12C99AF83007175F1 /* ExternalVideoPlayerGoGo2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138F7AB02C99AF83007175F1 /* ExternalVideoPlayerGoGo2.swift */; };
+		138F7AB72C99B622007175F1 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 138F7AB62C99B622007175F1 /* SwiftSoup */; };
 		13902BAC2C7B689F00596A2C /* SubtitlesLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13902BAB2C7B689F00596A2C /* SubtitlesLoader.swift */; };
 		13921B3F2C6B8ED9004E8BDC /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13921B3E2C6B8ED9004E8BDC /* String.swift */; };
 		13921B412C6B8F71004E8BDC /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13921B402C6B8F71004E8BDC /* URL.swift */; };
@@ -163,6 +164,7 @@
 		136525152C6B5B4100210A98 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		13765C9B2C6E44A8000070A5 /* NormalPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalPlayer.swift; sourceTree = "<group>"; };
 		138669D32C6F6266009ABA6F /* HiAnime-WebPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HiAnime-WebPlayer.swift"; sourceTree = "<group>"; };
+		138F7AB02C99AF83007175F1 /* ExternalVideoPlayerGoGo2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExternalVideoPlayerGoGo2.swift; sourceTree = "<group>"; };
 		13902BAB2C7B689F00596A2C /* SubtitlesLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtitlesLoader.swift; sourceTree = "<group>"; };
 		13921B3E2C6B8ED9004E8BDC /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		13921B402C6B8F71004E8BDC /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
@@ -180,7 +182,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				131546D82C6DE6D9002DC3CC /* Kingfisher in Frameworks */,
-				131546E12C6DE71D002DC3CC /* SwiftSoup in Frameworks */,
+				138F7AB72C99B622007175F1 /* SwiftSoup in Frameworks */,
 				131546DE2C6DE6F2002DC3CC /* Alamofire in Frameworks */,
 				131546D52C6DE6CC002DC3CC /* GoogleCastSDK-ios-no-bluetooth in Frameworks */,
 			);
@@ -538,7 +540,7 @@
 		1365250E2C6B5B4000210A98 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				136525112C6B5B4000210A98 /* ExternalVideoPlayer.swift */,
+				138F7AAF2C99AF79007175F1 /* GoGoAnime */,
 				136525102C6B5B4000210A98 /* ExternalVideoPlayerKura.swift */,
 				1365250F2C6B5B4000210A98 /* ExternalVideoPlayerJK.swift */,
 				136525132C6B5B4000210A98 /* ExternalVideoPlayer3rb.swift */,
@@ -552,6 +554,15 @@
 				138669D32C6F6266009ABA6F /* HiAnime-WebPlayer.swift */,
 			);
 			path = "WebView Player";
+			sourceTree = "<group>";
+		};
+		138F7AAF2C99AF79007175F1 /* GoGoAnime */ = {
+			isa = PBXGroup;
+			children = (
+				136525112C6B5B4000210A98 /* ExternalVideoPlayer.swift */,
+				138F7AB02C99AF83007175F1 /* ExternalVideoPlayerGoGo2.swift */,
+			);
+			path = GoGoAnime;
 			sourceTree = "<group>";
 		};
 		13902BA92C7B67E300596A2C /* Custom Player */ = {
@@ -592,7 +603,7 @@
 				131546D42C6DE6CC002DC3CC /* GoogleCastSDK-ios-no-bluetooth */,
 				131546D72C6DE6D9002DC3CC /* Kingfisher */,
 				131546DD2C6DE6F2002DC3CC /* Alamofire */,
-				131546E02C6DE71D002DC3CC /* SwiftSoup */,
+				138F7AB62C99B622007175F1 /* SwiftSoup */,
 			);
 			productName = Ryu;
 			productReference = 1365249C2C6B5B2F00210A98 /* Ryu.app */;
@@ -626,7 +637,7 @@
 				131546D32C6DE6CC002DC3CC /* XCRemoteSwiftPackageReference "GoogleCastSDK-ios-no-bluetooth" */,
 				131546D62C6DE6D9002DC3CC /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				131546DC2C6DE6F2002DC3CC /* XCRemoteSwiftPackageReference "Alamofire" */,
-				131546DF2C6DE71D002DC3CC /* XCRemoteSwiftPackageReference "SwiftSoup" */,
+				138F7AB52C99B622007175F1 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 			);
 			productRefGroup = 1365249D2C6B5B2F00210A98 /* Products */;
 			projectDirPath = "";
@@ -709,6 +720,7 @@
 				136525402C6B5B4100210A98 /* EpisodeCell.swift in Sources */,
 				136525572C6B5B4100210A98 /* ExternalVideoPlayer3rb.swift in Sources */,
 				1365253C2C6B5B4100210A98 /* FeaturedAnimeParsing.swift in Sources */,
+				138F7AB12C99AF83007175F1 /* ExternalVideoPlayerGoGo2.swift in Sources */,
 				136525212C6B5B4100210A98 /* Kitsu-Trending.swift in Sources */,
 				13603FD12C90BB1A0075DBA9 /* HanashiAPI.swift in Sources */,
 				13921B3F2C6B8ED9004E8BDC /* String.swift in Sources */,
@@ -997,7 +1009,7 @@
 				version = 5.8.0;
 			};
 		};
-		131546DF2C6DE71D002DC3CC /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
+		138F7AB52C99B622007175F1 /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/scinfu/SwiftSoup.git";
 			requirement = {
@@ -1023,9 +1035,9 @@
 			package = 131546DC2C6DE6F2002DC3CC /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
 		};
-		131546E02C6DE71D002DC3CC /* SwiftSoup */ = {
+		138F7AB62C99B622007175F1 /* SwiftSoup */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 131546DF2C6DE71D002DC3CC /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			package = 138F7AB52C99B622007175F1 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
 			productName = SwiftSoup;
 		};
 /* End XCSwiftPackageProductDependency section */
