@@ -569,8 +569,8 @@
 			isa = PBXGroup;
 			children = (
 				13902BAA2C7B689400596A2C /* Subtitles */,
-				13A888B12C7A305500D6C597 /* CustomPlayer.swift */,
 				13A888B32C7A322600D6C597 /* CustomPlayerView.swift */,
+				13A888B12C7A305500D6C597 /* CustomPlayer.swift */,
 			);
 			path = "Custom Player";
 			sourceTree = "<group>";

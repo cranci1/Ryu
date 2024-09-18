@@ -335,15 +335,15 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             forwardButton.widthAnchor.constraint(equalToConstant: 30),
             forwardButton.heightAnchor.constraint(equalToConstant: 30),
             
-            progressBarContainer.leadingAnchor.constraint(equalTo: leadingAnchor),
-            progressBarContainer.trailingAnchor.constraint(equalTo: trailingAnchor),
+            progressBarContainer.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            progressBarContainer.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
             progressBarContainer.bottomAnchor.constraint(equalTo: currentTimeLabel.topAnchor),
             progressBarContainer.heightAnchor.constraint(equalToConstant: 17),
             
-            playerProgress.leadingAnchor.constraint(equalTo: controlsContainerView.leadingAnchor, constant: 30),
-            playerProgress.trailingAnchor.constraint(equalTo: controlsContainerView.trailingAnchor, constant: -30),
+            playerProgress.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            playerProgress.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -10),
             playerProgress.bottomAnchor.constraint(equalTo: currentTimeLabel.topAnchor, constant: -5),
-            playerProgress.heightAnchor.constraint(equalToConstant: 8),
+            playerProgress.heightAnchor.constraint(equalToConstant: 6),
             
             seekThumb.centerYAnchor.constraint(equalTo: playerProgress.centerYAnchor),
             seekThumb.heightAnchor.constraint(equalToConstant: 16),
@@ -363,18 +363,18 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             speedButton.widthAnchor.constraint(equalToConstant: 30),
             
             dismissButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 30),
-            dismissButton.leadingAnchor.constraint(equalTo: playerProgress.leadingAnchor),
+            dismissButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
             dismissButton.widthAnchor.constraint(equalToConstant: 25),
             dismissButton.heightAnchor.constraint(equalToConstant: 25),
             
             pipButton.centerYAnchor.constraint(equalTo: dismissButton.centerYAnchor),
-            pipButton.leadingAnchor.constraint(equalTo: dismissButton.trailingAnchor, constant: 30),
+            pipButton.leadingAnchor.constraint(equalTo: dismissButton.trailingAnchor, constant: 20),
             pipButton.widthAnchor.constraint(equalToConstant: 30),
             pipButton.heightAnchor.constraint(equalToConstant: 25),
             
             airplayButton.centerYAnchor.constraint(equalTo: dismissButton.centerYAnchor),
-            airplayButton.leadingAnchor.constraint(equalTo: pipButton.trailingAnchor, constant: 15),
-            airplayButton.widthAnchor.constraint(equalToConstant: 25),
+            airplayButton.leadingAnchor.constraint(equalTo: pipButton.trailingAnchor, constant: 20),
+            airplayButton.widthAnchor.constraint(equalToConstant: 28),
             airplayButton.heightAnchor.constraint(equalToConstant: 25),
             
             subtitlesLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
