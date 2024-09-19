@@ -90,6 +90,8 @@
 		13A888B22C7A305500D6C597 /* CustomPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A888B12C7A305500D6C597 /* CustomPlayer.swift */; };
 		13A888B42C7A322600D6C597 /* CustomPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A888B32C7A322600D6C597 /* CustomPlayerView.swift */; };
 		13E7F8182C9031A7007550B9 /* SettingsViewTranslation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7F8172C9031A7007550B9 /* SettingsViewTranslation.swift */; };
+		13FD4DD72C9C61450056E90B /* AnimeDetailsMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13FD4DD62C9C61450056E90B /* AnimeDetailsMethods.swift */; };
+		13FD4DD92C9C61C30056E90B /* ContinueWatchingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13FD4DD82C9C61C30056E90B /* ContinueWatchingCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -174,6 +176,8 @@
 		13A888B12C7A305500D6C597 /* CustomPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPlayer.swift; sourceTree = "<group>"; };
 		13A888B32C7A322600D6C597 /* CustomPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlayerView.swift; sourceTree = "<group>"; };
 		13E7F8172C9031A7007550B9 /* SettingsViewTranslation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewTranslation.swift; sourceTree = "<group>"; };
+		13FD4DD62C9C61450056E90B /* AnimeDetailsMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeDetailsMethods.swift; sourceTree = "<group>"; };
+		13FD4DD82C9C61C30056E90B /* ContinueWatchingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinueWatchingCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -420,6 +424,7 @@
 			children = (
 				136524EB2C6B5B4000210A98 /* HomeViewController.swift */,
 				136524EC2C6B5B4000210A98 /* FeaturedAnimeParsing.swift */,
+				13FD4DD82C9C61C30056E90B /* ContinueWatchingCell.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -429,6 +434,7 @@
 			children = (
 				136524F02C6B5B4000210A98 /* Anime Info View */,
 				136524EF2C6B5B4000210A98 /* AnimeDetailsViewController.swift */,
+				13FD4DD62C9C61450056E90B /* AnimeDetailsMethods.swift */,
 				136524EE2C6B5B4000210A98 /* AnimeDetailService.swift */,
 			);
 			path = "Anime Info";
@@ -687,6 +693,7 @@
 				136525192C6B5B4100210A98 /* Jikan-Airing.swift in Sources */,
 				1365253B2C6B5B4100210A98 /* HomeViewController.swift in Sources */,
 				1365251B2C6B5B4100210A98 /* AniList-Airing.swift in Sources */,
+				13FD4DD92C9C61C30056E90B /* ContinueWatchingCell.swift in Sources */,
 				136525202C6B5B4100210A98 /* Token.swift in Sources */,
 				13921B432C6B8F87004E8BDC /* Notification.swift in Sources */,
 				136525592C6B5B4100210A98 /* SceneDelegate.swift in Sources */,
@@ -706,6 +713,7 @@
 				136525482C6B5B4100210A98 /* DownloadsViewController.swift in Sources */,
 				1365251A2C6B5B4100210A98 /* Mutation.swift in Sources */,
 				136525262C6B5B4100210A98 /* AppDelegate.swift in Sources */,
+				13FD4DD72C9C61450056E90B /* AnimeDetailsMethods.swift in Sources */,
 				1365254D2C6B5B4100210A98 /* ContinueWatchingManager.swift in Sources */,
 				136525472C6B5B4100210A98 /* ProgressDownloadCell.swift in Sources */,
 				13921B412C6B8F71004E8BDC /* URL.swift in Sources */,
