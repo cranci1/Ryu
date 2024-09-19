@@ -62,6 +62,7 @@ class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        UserDefaults.standard.set(false, forKey: "isToDownload")
         cleanup()
     }
     

@@ -2392,7 +2392,7 @@ Please report wrong TimeStamps in their discord server. The Ryu Team is not affi
 
 example: "https://api.aniskip.com/"
 
-Use this featured if you are able to host it your self to prevent downtime or mass requests slowdown.</string>
+Use this feature if you are able to host it your self to prevent downtime or mass requests slowdown.</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="bRy-Be-ent">
                                         <rect key="frame" x="20" y="284.5" width="374" height="43.5"/>
@@ -2531,7 +2531,7 @@ The translation feature can be toggled directly within the custom player, where 
 
 example: "https://translate-api-first.vercel.app/api/translate"
 
-Use this featured if you are able to host it your self to prevent downtime or mass requests slowdown.</string>
+Use this feature if you are able to host it your self to prevent downtime or mass requests slowdown.</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="tjN-cO-1Pu">
                                         <rect key="frame" x="20" y="395" width="374" height="43.5"/>

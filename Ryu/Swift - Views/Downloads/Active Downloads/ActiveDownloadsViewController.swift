@@ -41,6 +41,8 @@ class ActiveDownloadsViewController: UIViewController, ProgressDownloadCellDeleg
         setupViews()
         loadDownloads()
         startProgressUpdateTimer()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(downloadCompleted(_:)), name: .downloadCompleted, object: nil)
     }
 
     private func setupViews() {
@@ -132,5 +134,14 @@ class ActiveDownloadsViewController: UIViewController, ProgressDownloadCellDeleg
         
         downloads.remove(at: index)
         updateDownloadViews()
+    }
+
+    
+    @objc private func downloadCompleted(_ notification: Notification) {
+        if let title = notification.userInfo?["title"] as? String,
+           let index = downloads.firstIndex(where: { $0.title == title }) {
+            downloads.remove(at: index)
+            updateDownloadViews()
+        }
     }
 }

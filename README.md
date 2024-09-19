@@ -70,7 +70,9 @@ A simple way to enjoy and watch anime on iOS
    - TrollStore (Note: Downloads may not work)
    - Esign
    - LiveContainer (Tested Working fine 👍)
-   - Any other IPA installation tool
+   - Feather
+   
+   Or other IPA installation tool
 
 You can find the dev ipa file on [nightly.link](https://nightly.link/cranci1/Ryu/workflows/build/main) or the stable ipa on [releases](https://github.com/cranci1/Ryu/releases)
 
@@ -162,4 +164,4 @@ along with Ryu. If not, see <https://www.gnu.org/licenses/>.
 
 The content available is not affiliated with the developer, all contents are obtained by non-affiliated sources. Ryu doesn't store anything server side.
 
-Ryu is not made to promote piracy, all this contents are accessible by anyone anywhere.
+Ryu is not made to promote piracy, all this contents are accessible by anyone anywhere, since is just public available content

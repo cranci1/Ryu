@@ -79,6 +79,7 @@ class DownloadManager {
                 self?.activeDownloads.removeValue(forKey: url.absoluteString)
                 completion(result)
                 MP4Downloader.handleDownloadResult(result)
+                NotificationCenter.default.post(name: .downloadCompleted, object: nil, userInfo: ["title": title])
             }
         }
         task.resume()

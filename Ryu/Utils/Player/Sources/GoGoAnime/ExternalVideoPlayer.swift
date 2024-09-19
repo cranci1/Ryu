@@ -545,6 +545,7 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, CustomPlayerV
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        UserDefaults.standard.set(false, forKey: "isToDownload")
         cleanup()
     }
     
@@ -566,7 +567,6 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, CustomPlayerV
         
         webView?.stopLoading()
         webView?.loadHTMLString("", baseURL: nil)
-        UserDefaults.standard.set(false, forKey: "isToDownload")
     }
     
     deinit {

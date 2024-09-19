@@ -37,7 +37,7 @@ class M3U8Downloader: ObservableObject {
                     self.downloadError = error.localizedDescription
                     self.sendNotification(title: "Download Failed", body: "here was an error downloading the episode :( \(error.localizedDescription)")
                 } else {
-                    self.sendNotification(title: "Download Complete", body: "Your Episode download has compleated, you can now start watching it!")
+                    self.sendNotification(title: "Download Complete", body: "Your Episode download has completed, you can now start watching it!")
                 }
             }, receiveValue: { _ in })
     }

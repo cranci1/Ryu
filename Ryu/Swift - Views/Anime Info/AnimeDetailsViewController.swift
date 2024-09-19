@@ -1419,6 +1419,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
             UserDefaults.standard.set(duration, forKey: "totalTime_\(fullURL)")
             
             let episodeNumber = Int(cell.episodeNumber) ?? 0
+            print(episodeNumber)
             let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
             
             let continueWatchingItem = ContinueWatchingItem(

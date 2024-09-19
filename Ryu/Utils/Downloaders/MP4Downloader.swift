@@ -28,7 +28,7 @@ class MP4Downloader {
         switch result {
         case .success:
             content.title = "Download Complete"
-            content.body = "Your Episode download has compleated, you can now start watching it!"
+            content.body = "Your Episode download has completed, you can now start watching it!"
             content.sound = .default
         case .failure:
             content.title = "Download Failed"

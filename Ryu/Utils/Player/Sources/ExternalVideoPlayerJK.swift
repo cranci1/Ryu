@@ -57,6 +57,7 @@ class ExternalVideoPlayerJK: UIViewController, WKNavigationDelegate, GCKRemoteMe
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        UserDefaults.standard.set(false, forKey: "isToDownload")
         cleanup()
     }
     

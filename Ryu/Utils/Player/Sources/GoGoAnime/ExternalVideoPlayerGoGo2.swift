@@ -646,6 +646,7 @@ class ExternalVideoPlayerGoGo2: UIViewController, WKNavigationDelegate, WKScript
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        UserDefaults.standard.set(false, forKey: "isToDownload")
         cleanup()
     }
 
