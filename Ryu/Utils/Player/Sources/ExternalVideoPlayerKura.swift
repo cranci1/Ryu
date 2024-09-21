@@ -308,13 +308,13 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
     }
     
     private func updateContinueWatchingItem(currentTime: Double, duration: Double) {
-        let episodeNumber = Int(cell.episodeNumber) ?? 0
+        let episodeNumber = self.animeDetailsViewController?.episodes[self.animeDetailsViewController!.currentEpisodeIndex].number ?? "0"
         let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
         
         let continueWatchingItem = ContinueWatchingItem(
             animeTitle: animeDetailsViewController?.animeTitle ?? "Unknown Anime",
             episodeTitle: "Ep. \(episodeNumber)",
-            episodeNumber: episodeNumber,
+            episodeNumber: Int(episodeNumber) ?? 0,
             imageURL: animeDetailsViewController?.imageUrl ?? "",
             fullURL: fullURL,
             lastPlayedTime: currentTime,

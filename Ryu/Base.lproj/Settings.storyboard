@@ -1306,7 +1306,7 @@ The Tries is the method that defines how Ryu attempts to fetch episodes. Increas
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="GoGoAnime" footerTitle="Use the Secondary method only if episodes streams are not fetched correctly, donwloads wont work tho." id="RlO-a0-ghu">
+                            <tableViewSection headerTitle="GoGoAnime" footerTitle="Use the Secondary method only if episodes streams are not fetched correctly, donwloads wont work on the secondary method." id="RlO-a0-ghu">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="TBs-jc-vCL">
                                         <rect key="frame" x="20" y="283" width="374" height="43.5"/>
@@ -1341,7 +1341,7 @@ The Tries is the method that defines how Ryu attempts to fetch episodes. Increas
                             <tableViewSection headerTitle="HiAnime" footerTitle="Note that if something not available then it will prompt with the choise menu." id="2Fh-c7-PC3">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Eq3-tl-NMl">
-                                        <rect key="frame" x="20" y="406.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="420.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Eq3-tl-NMl" id="Kyx-5H-JU5">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -1369,7 +1369,7 @@ The Tries is the method that defines how Ryu attempts to fetch episodes. Increas
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="sqb-Ta-47H">
-                                        <rect key="frame" x="20" y="450" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="464" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sqb-Ta-47H" id="t38-9O-80H">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -1397,7 +1397,7 @@ The Tries is the method that defines how Ryu attempts to fetch episodes. Increas
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="DP4-qX-oXL">
-                                        <rect key="frame" x="20" y="493.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="507.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="DP4-qX-oXL" id="OyZ-KE-JAP">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -1429,7 +1429,7 @@ The Tries is the method that defines how Ryu attempts to fetch episodes. Increas
                             <tableViewSection headerTitle="Informations" footerTitle="Find some informations about each source" id="fYK-Yn-lEn">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="m1a-0k-gXI">
-                                        <rect key="frame" x="20" y="617" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="631" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="m1a-0k-gXI" id="Gc0-9A-Dxt">
                                             <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>

@@ -303,13 +303,13 @@ class ExternalVideoPlayerJK: UIViewController, WKNavigationDelegate, GCKRemoteMe
             UserDefaults.standard.set(currentTime, forKey: "lastPlayedTime_\(self.fullURL)")
             UserDefaults.standard.set(duration, forKey: "totalTime_\(self.fullURL)")
             
-            let episodeNumber = Int(self.cell.episodeNumber) ?? 0
-            let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "JKanime"
+            let episodeNumber = self.animeDetailsViewController?.episodes[self.animeDetailsViewController!.currentEpisodeIndex].number ?? "0"
+            let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
             
             let continueWatchingItem = ContinueWatchingItem(
                 animeTitle: self.animeDetailsViewController?.animeTitle ?? "Unknown Anime",
                 episodeTitle: "Ep. \(episodeNumber)",
-                episodeNumber: episodeNumber,
+                episodeNumber: Int(episodeNumber) ?? 0,
                 imageURL: self.animeDetailsViewController?.imageUrl ?? "",
                 fullURL: self.fullURL,
                 lastPlayedTime: currentTime,
