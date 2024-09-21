@@ -259,6 +259,18 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         }
     }
     
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        if playPauseButton.point(inside: convert(point, to: playPauseButton), with: event) {
+            if !isControlsVisible {
+                showControls()
+            }
+            return playPauseButton
+        }
+        
+        return super.hitTest(point, with: event)
+    }
+
+    
     private func setupUI() {
         addSubview(speedIndicatorBackgroundView)
         addSubview(speedIndicatorLabel)
@@ -368,7 +380,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             dismissButton.heightAnchor.constraint(equalToConstant: 25),
             
             pipButton.centerYAnchor.constraint(equalTo: dismissButton.centerYAnchor),
-            pipButton.leadingAnchor.constraint(equalTo: dismissButton.trailingAnchor, constant: 20),
+            pipButton.leadingAnchor.constraint(equalTo: dismissButton.trailingAnchor, constant: 25),
             pipButton.widthAnchor.constraint(equalToConstant: 30),
             pipButton.heightAnchor.constraint(equalToConstant: 25),
             
@@ -795,7 +807,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             isControlsVisible = false
             UIView.animate(withDuration: 0.3) {
                 self.controlsContainerView.alpha = 0
-                self.skipButtonsBottomConstraint?.constant = 30
+                self.skipButtonsBottomConstraint?.constant = 35
                 self.layoutIfNeeded()
             }
         }
@@ -1216,13 +1228,24 @@ extension CustomVideoPlayerView {
 
         for (index, interval) in skipIntervals.enumerated() {
             let button = UIButton(type: .system)
-
-            button.setTitle(interval.0 == "op" ? "SKIP INTRO" : "SKIP OUTRO", for: .normal)
+            
+            let title = interval.0 == "op" ? "SKIP"  : "SKIP"
+            
+            let icon = UIImage(systemName: "forward.fill")
+            button.setImage(icon, for: .normal)
+            button.tintColor = .black
+            
+            button.setTitle(title, for: .normal)
             button.backgroundColor = UIColor.white
             button.setTitleColor(.black, for: .normal)
             button.layer.cornerRadius = 16
             button.layer.masksToBounds = true
             button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+            
+            button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -5, bottom: 0, right: 5)
+            button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: -5)
+            
+            button.contentHorizontalAlignment = .center
 
             button.tag = index
             button.addTarget(self, action: #selector(skipButtonTapped(_:)), for: .touchUpInside)
@@ -1230,14 +1253,14 @@ extension CustomVideoPlayerView {
 
             addSubview(button)
             skipButtons.append(button)
-
+            
             button.translatesAutoresizingMaskIntoConstraints = false
-            let bottomConstraint = button.bottomAnchor.constraint(equalTo: settingsButton.topAnchor, constant: isControlsVisible ? -5 : 30)
+            let bottomConstraint = button.bottomAnchor.constraint(equalTo: settingsButton.topAnchor, constant: isControlsVisible ? -5 : 35)
             skipButtonsBottomConstraint = bottomConstraint
             NSLayoutConstraint.activate([
                 button.trailingAnchor.constraint(equalTo: settingsButton.trailingAnchor),
                 bottomConstraint,
-                button.widthAnchor.constraint(equalToConstant: 110),
+                button.widthAnchor.constraint(equalToConstant: 90),
                 button.heightAnchor.constraint(equalToConstant: 35)
             ])
         }
