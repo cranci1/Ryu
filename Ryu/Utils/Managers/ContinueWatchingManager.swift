@@ -5,6 +5,13 @@
 //  Created by Francesco on 07/08/24.
 //
 
+//
+//  ContinueWatchingManager.swift
+//  Ryu
+//
+//  Created by Francesco on 07/08/24.
+//
+
 import Foundation
 
 struct ContinueWatchingItem: Codable {
@@ -21,83 +28,53 @@ struct ContinueWatchingItem: Codable {
         let remainingTime = totalTime - lastPlayedTime
         return remainingTime > 120
     }
-    
-    var progress: Double {
-        return min(max(lastPlayedTime / totalTime, 0), 1)
-    }
 }
 
 class ContinueWatchingManager {
     static let shared = ContinueWatchingManager()
     
-    private let userDefaults: UserDefaults
+    private let userDefaults = UserDefaults.standard
     private let continueWatchingKey = "continueWatchingItems"
     private let mergeWatchingKey = "mergeWatching"
     
-    private var items: [ContinueWatchingItem] = []
-    private let queue = DispatchQueue(label: "com.continuewatching.queue", attributes: .concurrent)
-    
-    private init(userDefaults: UserDefaults = .standard) {
-        self.userDefaults = userDefaults
-        loadItems()
-    }
-    
-    private func loadItems() {
-        queue.async(flags: .barrier) { [weak self] in
-            guard let data = self?.userDefaults.data(forKey: self?.continueWatchingKey ?? ""),
-                  let loadedItems = try? JSONDecoder().decode([ContinueWatchingItem].self, from: data) else {
-                return
-            }
-            self?.items = loadedItems
-        }
-    }
+    private init() {}
     
     func saveItem(_ item: ContinueWatchingItem) {
-        queue.async(flags: .barrier) { [weak self] in
-            guard let self = self else { return }
-            
-            if let index = self.items.firstIndex(where: { $0.fullURL == item.fullURL }) {
-                self.items.remove(at: index)
-            }
-            
-            if self.getMergeWatching() {
-                if let existingIndex = self.items.firstIndex(where: { $0.animeTitle == item.animeTitle }) {
-                    let existingItem = self.items[existingIndex]
-                    if item.episodeNumber > existingItem.episodeNumber {
-                        self.items.remove(at: existingIndex)
-                        self.items.insert(item, at: 0)
-                    }
-                } else {
-                    self.items.insert(item, at: 0)
+        var items = getItems()
+        
+        if let index = items.firstIndex(where: { $0.fullURL == item.fullURL }) {
+            items.remove(at: index)
+        }
+        
+        if userDefaults.bool(forKey: mergeWatchingKey) {
+            if let existingIndex = items.firstIndex(where: { $0.animeTitle == item.animeTitle }) {
+                let existingItem = items[existingIndex]
+                if item.episodeNumber > existingItem.episodeNumber {
+                    items.remove(at: existingIndex)
+                    items.insert(item, at: 0)
                 }
             } else {
-                self.items.insert(item, at: 0)
+                items.insert(item, at: 0)
             }
-            
-            self.saveItemsToDisk()
+        } else {
+            items.insert(item, at: 0)
         }
+        
+        userDefaults.set(try? JSONEncoder().encode(items), forKey: continueWatchingKey)
     }
     
     func getItems() -> [ContinueWatchingItem] {
-        var result: [ContinueWatchingItem] = []
-        queue.sync {
-            result = self.items.filter { $0.shouldDisplay }
-        }
-        return result
+        guard let data = userDefaults.data(forKey: continueWatchingKey),
+              let items = try? JSONDecoder().decode([ContinueWatchingItem].self, from: data) else {
+                  return []
+              }
+        return items.filter { $0.shouldDisplay }
     }
     
     func clearItem(fullURL: String) {
-        queue.async(flags: .barrier) { [weak self] in
-            self?.items.removeAll { $0.fullURL == fullURL }
-            self?.saveItemsToDisk()
-        }
-    }
-    
-    func clearAllItems() {
-        queue.async(flags: .barrier) { [weak self] in
-            self?.items.removeAll()
-            self?.saveItemsToDisk()
-        }
+        var items = getItems()
+        items.removeAll { $0.fullURL == fullURL }
+        userDefaults.set(try? JSONEncoder().encode(items), forKey: continueWatchingKey)
     }
     
     func setMergeWatching(_ value: Bool) {
@@ -106,14 +83,5 @@ class ContinueWatchingManager {
     
     func getMergeWatching() -> Bool {
         return userDefaults.bool(forKey: mergeWatchingKey)
-    }
-    
-    private func saveItemsToDisk() {
-        do {
-            let data = try JSONEncoder().encode(items)
-            userDefaults.set(data, forKey: continueWatchingKey)
-        } catch {
-            print("Error saving continue watching items: \(error)")
-        }
     }
 }
