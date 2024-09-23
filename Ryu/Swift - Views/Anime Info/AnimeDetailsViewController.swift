@@ -62,6 +62,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
         setupUserDefaultsObserver()
         sortEpisodes()
         
+        print(href as Any)
         navigationController?.navigationBar.prefersLargeTitles = false
         
         for (index, episode) in episodes.enumerated() {

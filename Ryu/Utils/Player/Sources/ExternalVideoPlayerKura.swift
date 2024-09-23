@@ -27,6 +27,7 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
     
     private var originalRate: Float = 1.0
     private var holdGesture: UILongPressGestureRecognizer?
+    private var videoURLs: [String: String] = [:]
     
     init(streamURL: String, cell: EpisodeCell, fullURL: String, animeDetailsViewController: AnimeDetailViewController) {
         self.streamURL = streamURL
@@ -143,44 +144,82 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
         webView?.load(URLRequest(url: url))
     }
     
-    private func extractVideoSource() {
+    private func extractVideoSources() {
         webView?.evaluateJavaScript("document.body.innerHTML") { [weak self] (result, error) in
             guard let self = self, let htmlString = result as? String else {
                 self?.retryExtraction()
                 return
             }
             
-            self.handleVideoSource(htmlString: htmlString)
+            self.handleVideoSources(htmlString: htmlString)
         }
     }
     
-    private func handleVideoSource(htmlString: String) {
-        if let videoURL = self.extractVideoSourceURL(from: htmlString) {
-            DispatchQueue.main.async {
-                self.activityIndicator?.stopAnimating()
-                self.handleVideoURL(url: videoURL)
+    private func handleVideoSources(htmlString: String) {
+        do {
+            let doc = try SwiftSoup.parse(htmlString)
+            let videoElement = try doc.select("video#player").first()
+            let sourceElements = try videoElement?.select("source")
+            
+            sourceElements?.forEach { element in
+                if let _ = try? element.attr("size"),
+                   let url = try? element.attr("src") {
+                    let id = element.id()
+                    let qualityNumber = id.replacingOccurrences(of: "source", with: "")
+                    self.videoURLs[qualityNumber + "p"] = url
+                }
             }
-        } else {
+            
+            DispatchQueue.main.async {
+                if self.videoURLs.isEmpty {
+                    self.retryExtraction()
+                } else {
+                    self.selectQuality()
+                    self.activityIndicator?.stopAnimating()
+                }
+            }
+        } catch {
+            print("Error parsing HTML: \(error)")
             self.retryExtraction()
         }
     }
     
-    private func extractVideoSourceURL(from htmlString: String) -> URL? {
-        do {
-            let doc = try SwiftSoup.parse(htmlString)
-            if let videoElement = try doc.select("video").first(), let sourceURLString = try videoElement.attr("src").nilIfEmpty, let sourceURL = URL(string: sourceURLString) {
-                return sourceURL
-            }
+    private func selectQuality() {
+        let preferredQuality = UserDefaults.standard.string(forKey: "preferredQuality") ?? "720p"
+        
+        if let url = videoURLs[preferredQuality] {
+            handleVideoURL(url: URL(string: url)!)
+        } else {
+            let availableQualities = videoURLs.keys.map { Int($0.replacingOccurrences(of: "p", with: "")) ?? 0 }.sorted()
+            let preferredQualityValue = Int(preferredQuality.replacingOccurrences(of: "p", with: "")) ?? 720
             
-            let pattern = #"<video[^>]+src="([^"]+)"#
-            if let regex = try? NSRegularExpression(pattern: pattern, options: []), let match = regex.firstMatch(in: htmlString, range: NSRange(htmlString.startIndex..., in: htmlString)), let urlRange = Range(match.range(at: 1), in: htmlString) {
-                let urlString = String(htmlString[urlRange])
-                return URL(string: urlString)
+            if let closestQuality = availableQualities.min(by: { abs($0 - preferredQualityValue) < abs($1 - preferredQualityValue) }) {
+                if let url = videoURLs["\(closestQuality)p"] {
+                    handleVideoURL(url: URL(string: url)!)
+                } else {
+                    showQualitySelectionPopup()
+                }
+            } else {
+                showQualitySelectionPopup()
             }
-        } catch {
-            print("Error parsing HTML: \(error)")
         }
-        return nil
+    }
+    
+    private func showQualitySelectionPopup() {
+        let alertController = UIAlertController(title: "Select Prefered Quality", message: nil, preferredStyle: .actionSheet)
+        
+        for (quality, urlString) in videoURLs.sorted(by: {
+            Int($0.key.replacingOccurrences(of: "p", with: "")) ?? 0 >
+            Int($1.key.replacingOccurrences(of: "p", with: "")) ?? 0
+        }) {
+            alertController.addAction(UIAlertAction(title: quality, style: .default) { [weak self] _ in
+                if let url = URL(string: urlString) {
+                    self?.handleVideoURL(url: url)
+                }
+            })
+        }
+        
+        present(alertController, animated: true, completion: nil)
     }
     
     private func handleVideoURL(url: URL) {
@@ -308,20 +347,23 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
     }
     
     private func updateContinueWatchingItem(currentTime: Double, duration: Double) {
-        let episodeNumber = self.animeDetailsViewController?.episodes[self.animeDetailsViewController!.currentEpisodeIndex].number ?? "0"
-        let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
-        
-        let continueWatchingItem = ContinueWatchingItem(
-            animeTitle: animeDetailsViewController?.animeTitle ?? "Unknown Anime",
-            episodeTitle: "Ep. \(episodeNumber)",
-            episodeNumber: Int(episodeNumber) ?? 0,
-            imageURL: animeDetailsViewController?.imageUrl ?? "",
-            fullURL: fullURL,
-            lastPlayedTime: currentTime,
-            totalTime: duration,
-            source: selectedMediaSource
-        )
-        ContinueWatchingManager.shared.saveItem(continueWatchingItem)
+        if let viewController = self.animeDetailsViewController,
+           let episodeNumber = viewController.episodes[safe: viewController.currentEpisodeIndex]?.number {
+            
+            let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
+            
+            let continueWatchingItem = ContinueWatchingItem(
+                animeTitle: viewController.animeTitle ?? "Unknown Anime",
+                episodeTitle: "Ep. \(episodeNumber)",
+                episodeNumber: Int(episodeNumber) ?? 0,
+                imageURL: viewController.imageUrl ?? "",
+                fullURL: fullURL,
+                lastPlayedTime: currentTime,
+                totalTime: duration,
+                source: selectedMediaSource
+            )
+            ContinueWatchingManager.shared.saveItem(continueWatchingItem)
+        }
     }
     
     private func sendPushUpdates(remainingTime: Double) {
@@ -350,7 +392,7 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
                 self?.loadInitialURL()
             }
         } else {
-            print("Max retries reached. Unable to find video source.")
+            print("Max retries reached. Unable to find video sources.")
             DispatchQueue.main.async {
                 self.activityIndicator?.stopAnimating()
                 self.dismiss(animated: true)
@@ -436,7 +478,7 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
 
 extension ExternalVideoPlayerKura: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        extractVideoSource()
+        extractVideoSources()
     }
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {

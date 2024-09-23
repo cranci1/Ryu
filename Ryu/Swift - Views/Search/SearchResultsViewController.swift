@@ -335,7 +335,7 @@ class SearchResultsViewController: UIViewController {
             let encodedQuery = query.lowercased().addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? query
             url = "https://animefire.plus/pesquisar/\(encodedQuery)"
         case "Kuramanime":
-            url = "https://kuramanime.boo/anime"
+            url = "https://kuramanime.dad/anime"
             parameters["search"] = query
         case "JKanime":
             let encodedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? query

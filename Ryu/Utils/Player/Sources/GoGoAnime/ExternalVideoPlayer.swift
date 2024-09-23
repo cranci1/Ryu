@@ -276,7 +276,7 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, CustomPlayerV
     }
     
     private func showQualityPicker() {
-        let alert = UIAlertController(title: "Select Quality", message: nil, preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "Select Prefered Quality", message: nil, preferredStyle: .actionSheet)
         
         for option in qualityOptions {
             alert.addAction(UIAlertAction(title: option.name, style: .default, handler: { [weak self] _ in
