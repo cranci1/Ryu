@@ -29,7 +29,7 @@ class ExternalVideoPlayerGoGo2: UIViewController, WKNavigationDelegate, WKScript
     
     private var originalRate: Float = 1.0
     private var holdGesture: UILongPressGestureRecognizer?
-
+    
     init(streamURL: String, cell: EpisodeCell, fullURL: String, animeDetailsViewController: AnimeDetailViewController) {
         self.streamURL = streamURL
         self.cell = cell
@@ -37,11 +37,11 @@ class ExternalVideoPlayerGoGo2: UIViewController, WKNavigationDelegate, WKScript
         self.animeDetailsViewController = animeDetailsViewController
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLoadingView()
@@ -65,7 +65,7 @@ class ExternalVideoPlayerGoGo2: UIViewController, WKNavigationDelegate, WKScript
     override var prefersHomeIndicatorAutoHidden: Bool {
         return true
     }
-
+    
     override var childForHomeIndicatorAutoHidden: UIViewController? {
         return playerViewController
     }
@@ -73,7 +73,7 @@ class ExternalVideoPlayerGoGo2: UIViewController, WKNavigationDelegate, WKScript
     override var prefersStatusBarHidden: Bool {
         return true
     }
-
+    
     override var childForStatusBarHidden: UIViewController? {
         return playerViewController
     }
@@ -107,7 +107,7 @@ class ExternalVideoPlayerGoGo2: UIViewController, WKNavigationDelegate, WKScript
     private func endHoldSpeed() {
         player?.rate = originalRate
     }
-
+    
     private func setupLoadingView() {
         view.backgroundColor = .secondarySystemBackground
         activityIndicator = UIActivityIndicatorView(style: .large)
@@ -118,33 +118,33 @@ class ExternalVideoPlayerGoGo2: UIViewController, WKNavigationDelegate, WKScript
             view.addSubview(activityIndicator)
         }
     }
-
+    
     private func startMonitoringPlayState(interval: TimeInterval) {
         stopMonitoringPlayState()
-
+        
         clickCancellable = Timer.publish(every: interval, on: .main, in: .common)
             .autoconnect()
             .sink { [weak self] _ in
                 self?.checkAndClickPlayButton()
             }
-
+        
         checkAndClickPlayButton()
     }
-
+    
     private func stopMonitoringPlayState() {
         clickCancellable?.cancel()
         clickCancellable = nil
     }
-
+    
     private func checkAndClickPlayButton() {
         guard let webView = self.webView, !isVideoPlaying else {
             return
         }
-
+        
         let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "GoGoAnime"
-
+        
         let script: String
-
+        
         switch selectedMediaSource {
         case "GoGoAnime":
             script = """
@@ -167,7 +167,7 @@ class ExternalVideoPlayerGoGo2: UIViewController, WKNavigationDelegate, WKScript
             })();
             """
         }
-
+        
         webView.evaluateJavaScript(script) { (result, error) in
             if let error = error {
                 print("Error executing JavaScript: \(error)")
@@ -176,20 +176,20 @@ class ExternalVideoPlayerGoGo2: UIViewController, WKNavigationDelegate, WKScript
             }
         }
     }
-
+    
     private func openWebView(fullURL: String) {
         let configuration = WKWebViewConfiguration()
         configuration.allowsInlineMediaPlayback = true
         configuration.mediaTypesRequiringUserActionForPlayback = []
-
+        
         let contentController = WKUserContentController()
         contentController.add(self, name: "videoHandler")
         configuration.userContentController = contentController
-
+        
         webView = WKWebView(frame: .zero, configuration: configuration)
         webView?.navigationDelegate = self
         webView?.isHidden = true
-
+        
         if let webView = webView {
             view.addSubview(webView)
             webView.translatesAutoresizingMaskIntoConstraints = false
@@ -200,15 +200,15 @@ class ExternalVideoPlayerGoGo2: UIViewController, WKNavigationDelegate, WKScript
                 webView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             ])
         }
-
+        
         setupLoadingObserver()
-
+        
         if let url = URL(string: fullURL) {
             let request = URLRequest(url: url)
             webView?.load(request)
         }
     }
-
+    
     private func setupLoadingObserver() {
         loadingObserver = webView?.observe(\.isLoading, options: [.new]) { [weak self] _, change in
             if let isLoading = change.newValue, !isLoading {
@@ -219,19 +219,19 @@ class ExternalVideoPlayerGoGo2: UIViewController, WKNavigationDelegate, WKScript
             }
         }
     }
-
+    
     private func injectCustomJavaScript() {
         let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "GoGoAnime"
-
+        
         let script: String
-
+        
         switch selectedMediaSource {
         case "GoGoAnime":
             script = """
             function notifyVideoState(state, videoUrl) {
                 window.webkit.messageHandlers.videoHandler.postMessage({state: state, url: videoUrl});
             }
-
+            
             if (typeof jwplayer !== 'undefined') {
                 var player = jwplayer();
                 player.on('play', function() {
@@ -246,7 +246,7 @@ class ExternalVideoPlayerGoGo2: UIViewController, WKNavigationDelegate, WKScript
         default:
             script = ""
         }
-
+        
         webView?.evaluateJavaScript(script) { [weak self] _, error in
             if let error = error {
                 print("Error injecting custom JavaScript: \(error)")
@@ -257,7 +257,7 @@ class ExternalVideoPlayerGoGo2: UIViewController, WKNavigationDelegate, WKScript
     }
     
     private func startCheckingForMediaPlayback() {
-          let script = """
+        let script = """
           function checkMediaPlayback() {
               var video = document.querySelector('video');
               if (video && !video.paused) {
@@ -268,16 +268,16 @@ class ExternalVideoPlayerGoGo2: UIViewController, WKNavigationDelegate, WKScript
           }
           checkMediaPlayback();
           """
-          
-          Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] timer in
-              self?.webView?.evaluateJavaScript(script) { result, error in
-                  if let isPlaying = result as? Bool, isPlaying {
-                      timer.invalidate()
-                  }
-              }
-          }
-      }
-
+        
+        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] timer in
+            self?.webView?.evaluateJavaScript(script) { result, error in
+                if let isPlaying = result as? Bool, isPlaying {
+                    timer.invalidate()
+                }
+            }
+        }
+    }
+    
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         if message.name == "videoHandler" {
             if let dict = message.body as? [String: Any],
@@ -362,7 +362,7 @@ class ExternalVideoPlayerGoGo2: UIViewController, WKNavigationDelegate, WKScript
         
         presentQualityPicker()
     }
-
+    
     private func findClosestQuality(to preferredQuality: String) -> (name: String, fileName: String)? {
         let preferredValue = extractQualityValue(from: preferredQuality)
         var closestOption: (name: String, fileName: String)?
@@ -379,11 +379,11 @@ class ExternalVideoPlayerGoGo2: UIViewController, WKNavigationDelegate, WKScript
         
         return closestOption
     }
-
+    
     private func extractQualityValue(from qualityString: String) -> Int {
         return Int(qualityString.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()) ?? 0
     }
-
+    
     private func presentQualityPicker() {
         let alert = UIAlertController(title: "Select Quality", message: nil, preferredStyle: .actionSheet)
         
@@ -403,7 +403,7 @@ class ExternalVideoPlayerGoGo2: UIViewController, WKNavigationDelegate, WKScript
         
         self.present(alert, animated: true, completion: nil)
     }
-
+    
     private func handleQualitySelection(option: (name: String, fileName: String)) {
         print("Selected quality: \(option.name), URL: \(option.fileName)")
         if let url = URL(string: option.fileName) {
@@ -587,15 +587,15 @@ class ExternalVideoPlayerGoGo2: UIViewController, WKNavigationDelegate, WKScript
         
         player.play()
     }
-
+    
     private func addPeriodicTimeObserver() {
         let interval = CMTime(seconds: 1.0, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         timeObserverToken = player?.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
             guard let self = self,
                   let currentItem = self.player?.currentItem,
                   currentItem.duration.seconds.isFinite else {
-                return
-            }
+                      return
+                  }
             
             let currentTime = time.seconds
             let duration = currentItem.duration.seconds
@@ -607,38 +607,41 @@ class ExternalVideoPlayerGoGo2: UIViewController, WKNavigationDelegate, WKScript
             UserDefaults.standard.set(currentTime, forKey: "lastPlayedTime_\(self.fullURL)")
             UserDefaults.standard.set(duration, forKey: "totalTime_\(self.fullURL)")
             
-            let episodeNumber = self.animeDetailsViewController?.episodes[self.animeDetailsViewController!.currentEpisodeIndex].number ?? "0"
-            let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
-            
-            let continueWatchingItem = ContinueWatchingItem(
-                animeTitle: self.animeDetailsViewController?.animeTitle ?? "Unknown Anime",
-                episodeTitle: "Ep. \(episodeNumber)",
-                episodeNumber: Int(episodeNumber) ?? 0,
-                imageURL: self.animeDetailsViewController?.imageUrl ?? "",
-                fullURL: self.fullURL,
-                lastPlayedTime: currentTime,
-                totalTime: duration,
-                source: selectedMediaSource
-            )
-            ContinueWatchingManager.shared.saveItem(continueWatchingItem)
-            
-            let shouldSendPushUpdates = UserDefaults.standard.bool(forKey: "sendPushUpdates")
-            
-            if shouldSendPushUpdates && remainingTime < 120 && !(self.animeDetailsViewController!.hasSentUpdate) {
-                let cleanedTitle = self.animeDetailsViewController?.cleanTitle(self.animeDetailsViewController?.animeTitle ?? "Unknown Anime")
+            if let viewController = self.animeDetailsViewController,
+               let episodeNumber = viewController.episodes[safe: viewController.currentEpisodeIndex]?.number {
                 
-                self.animeDetailsViewController?.fetchAnimeID(title: cleanedTitle ?? "Title") { animeID in
-                    let aniListMutation = AniListMutation()
-                    aniListMutation.updateAnimeProgress(animeId: animeID, episodeNumber: Int(self.cell.episodeNumber) ?? 0) { result in
-                        switch result {
-                        case .success():
-                            print("Successfully updated anime progress.")
-                        case .failure(let error):
-                            print("Failed to update anime progress: \(error.localizedDescription)")
-                        }
-                    }
+                let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
+                
+                let continueWatchingItem = ContinueWatchingItem(
+                    animeTitle: viewController.animeTitle ?? "Unknown Anime",
+                    episodeTitle: "Ep. \(episodeNumber)",
+                    episodeNumber: Int(episodeNumber) ?? 0,
+                    imageURL: viewController.imageUrl ?? "",
+                    fullURL: self.fullURL,
+                    lastPlayedTime: currentTime,
+                    totalTime: duration,
+                    source: selectedMediaSource
+                )
+                ContinueWatchingManager.shared.saveItem(continueWatchingItem)
+                
+                let shouldSendPushUpdates = UserDefaults.standard.bool(forKey: "sendPushUpdates")
+                
+                if shouldSendPushUpdates && remainingTime < 120 && !(viewController.hasSentUpdate) {
+                    let cleanedTitle = viewController.cleanTitle(viewController.animeTitle ?? "Unknown Anime")
                     
-                    self.animeDetailsViewController?.hasSentUpdate = true
+                    viewController.fetchAnimeID(title: cleanedTitle ) { animeID in
+                        let aniListMutation = AniListMutation()
+                        aniListMutation.updateAnimeProgress(animeId: animeID, episodeNumber: Int(self.cell.episodeNumber) ?? 0) { result in
+                            switch result {
+                            case .success():
+                                print("Successfully updated anime progress.")
+                            case .failure(let error):
+                                print("Failed to update anime progress: \(error.localizedDescription)")
+                            }
+                        }
+                        
+                        viewController.hasSentUpdate = true
+                    }
                 }
             }
         }
@@ -649,7 +652,7 @@ class ExternalVideoPlayerGoGo2: UIViewController, WKNavigationDelegate, WKScript
         UserDefaults.standard.set(false, forKey: "isToDownload")
         cleanup()
     }
-
+    
     private func cleanup() {
         player?.pause()
         player = nil
@@ -670,7 +673,7 @@ class ExternalVideoPlayerGoGo2: UIViewController, WKNavigationDelegate, WKScript
         webView?.stopLoading()
         webView?.loadHTMLString("", baseURL: nil)
     }
-
+    
     deinit {
         cleanup()
         loadingObserver?.invalidate()
@@ -703,9 +706,9 @@ class ExternalVideoPlayerGoGo2: UIViewController, WKNavigationDelegate, WKScript
     private func playEpisode(at index: Int) {
         guard let animeDetailsViewController = self.animeDetailsViewController,
               index >= 0 && index < animeDetailsViewController.episodes.count else {
-            return
-        }
-
+                  return
+              }
+        
         let nextEpisode = animeDetailsViewController.episodes[index]
         if let cell = animeDetailsViewController.tableView.cellForRow(at: IndexPath(row: index, section: 2)) as? EpisodeCell {
             animeDetailsViewController.episodeSelected(episode: nextEpisode, cell: cell)
@@ -716,8 +719,8 @@ class ExternalVideoPlayerGoGo2: UIViewController, WKNavigationDelegate, WKScript
         if UserDefaults.standard.bool(forKey: "AutoPlay") {
             guard let animeDetailsViewController = self.animeDetailsViewController else { return }
             let hasNextEpisode = animeDetailsViewController.isReverseSorted ?
-                (animeDetailsViewController.currentEpisodeIndex > 0) :
-                (animeDetailsViewController.currentEpisodeIndex < animeDetailsViewController.episodes.count - 1)
+            (animeDetailsViewController.currentEpisodeIndex > 0) :
+            (animeDetailsViewController.currentEpisodeIndex < animeDetailsViewController.episodes.count - 1)
             
             if hasNextEpisode {
                 self.dismiss(animated: true) { [weak self] in
