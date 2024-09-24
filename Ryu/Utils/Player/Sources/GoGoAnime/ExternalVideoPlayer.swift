@@ -38,21 +38,13 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, CustomPlayerV
     
     private let userAgents = [
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0",
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:89.0) Gecko/20100101 Firefox/89.0",
-        "Mozilla/5.0 (X11; Linux i686; rv:89.0) Gecko/20100101 Firefox/89.0",
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.1 Safari/605.1.15",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2 Safari/605.1.15",
         "Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1",
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Edg/91.0.864.59",
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 OPR/78.0.4093.184",
-        "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko",
-        "Mozilla/5.0 (Linux; Android 10; SM-A505FN) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.120 Mobile Safari/537.36",
-        "Mozilla/5.0 (Linux; Android 11; Pixel 5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.120 Mobile Safari/537.36",
-        "Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/91.0.4472.80 Mobile/15E148 Safari/604.1",
         "Mozilla/5.0 (iPad; CPU OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1",
+        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
     ]
+    
+    private var extractionCancellable: AnyCancellable?
     
     init(streamURL: String, cell: EpisodeCell, fullURL: String, animeDetailsViewController: AnimeDetailViewController) {
         self.streamURL = streamURL
@@ -74,17 +66,6 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, CustomPlayerV
         setupHoldGesture()
         setupNotificationObserver()
         startExtractionProcess()
-    }
-    
-    private func startExtractionProcess() {
-        extractionTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { [weak self] _ in
-            self?.extractVideoLinks()
-        }
-    }
-    
-    private func stopExtractionProcess() {
-        extractionTimer?.invalidate()
-        extractionTimer = nil
     }
     
     private func setupNotificationObserver() {
@@ -145,6 +126,23 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, CustomPlayerV
         player?.rate = originalRate
     }
     
+    private func setupActivityIndicator() {
+        activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator?.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator?.hidesWhenStopped = true
+        
+        if let activityIndicator = activityIndicator {
+            view.addSubview(activityIndicator)
+            
+            NSLayoutConstraint.activate([
+                activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            ])
+            
+            activityIndicator.startAnimating()
+        }
+    }
+    
     private func setupWebView() {
         let configuration = WKWebViewConfiguration()
         
@@ -153,7 +151,7 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, CustomPlayerV
         
         webView = WKWebView(frame: view.bounds, configuration: configuration)
         webView?.navigationDelegate = self
-        webView?.isHidden = true
+        webView?.isHidden = false
         
         if let webView = webView {
             view.addSubview(webView)
@@ -172,32 +170,17 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, CustomPlayerV
         }
     }
     
-    private func setRandomUserAgentForRequest() {
-        let randomUserAgent = userAgents.randomElement() ?? userAgents[0]
-        webView?.customUserAgent = randomUserAgent
+    private func startExtractionProcess() {
+        extractionCancellable = Timer.publish(every: 0.5, on: .main, in: .common)
+            .autoconnect()
+            .sink { [weak self] _ in
+                self?.extractVideoLinks()
+            }
     }
     
-    private func loadNewRequest(with url: URL) {
-        setRandomUserAgentForRequest()
-        let request = URLRequest(url: url)
-        webView?.load(request)
-    }
-    
-    private func setupActivityIndicator() {
-        activityIndicator = UIActivityIndicatorView(style: .large)
-        activityIndicator?.translatesAutoresizingMaskIntoConstraints = false
-        activityIndicator?.hidesWhenStopped = true
-        
-        if let activityIndicator = activityIndicator {
-            view.addSubview(activityIndicator)
-            
-            NSLayoutConstraint.activate([
-                activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-            ])
-            
-            activityIndicator.startAnimating()
-        }
+    private func stopExtractionProcess() {
+        extractionCancellable?.cancel()
+        extractionCancellable = nil
     }
     
     private func extractVideoLinks() {
@@ -207,35 +190,34 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, CustomPlayerV
         }
         
         let script = """
-        var links = [];
-        var downloadDivs = document.querySelectorAll('#content-download .mirror_link .dowload a');
-        downloadDivs.forEach(function(a) {
-            if (a.textContent.includes('Download') && a.textContent.includes('mp4')) {
-                var text = a.textContent.trim();
-                var qualityMatch = text.match(/\\((\\d+P) - mp4\\)/);
-                var quality = qualityMatch ? qualityMatch[1].replace('P', 'p') : '';
-                if (quality) {
-                    links.push({name: quality, url: a.href});
-                }
-            }
-        });
-        links;
-        """
+         function extractLinks() {
+             const links = [];
+             const downloadDivs = document.querySelectorAll('#content-download .mirror_link .dowload a');
+             for (const a of downloadDivs) {
+                 if (a.textContent.includes('Download') && a.textContent.includes('mp4')) {
+                     const text = a.textContent.trim();
+                     const qualityMatch = text.match(/\\((\\d+P) - mp4\\)/);
+                     const quality = qualityMatch ? qualityMatch[1].replace('P', 'p') : '';
+                     if (quality) {
+                         links.push({name: quality, url: a.href});
+                     }
+                 }
+             }
+             return links;
+         }
+         extractLinks();
+         """
         
         webView?.evaluateJavaScript(script) { [weak self] (result, error) in
             guard let self = self, !self.isVideoPlaying else { return }
             
-            if let links = result as? [[String: String]] {
+            if let links = result as? [[String: String]], !links.isEmpty {
                 self.qualityOptions = links.compactMap { link in
                     guard let name = link["name"], !name.isEmpty, let url = link["url"] else { return nil }
                     return (name: name, url: url)
                 }
-                if self.qualityOptions.isEmpty {
-                    self.retryExtractVideoLinks()
-                } else {
-                    self.stopExtractionProcess()
-                    self.handleQualitySelection()
-                }
+                self.stopExtractionProcess()
+                self.handleQualitySelection()
             } else if let error = error {
                 print("Error extracting video links: \(error)")
                 self.retryExtractVideoLinks()
@@ -247,6 +229,9 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, CustomPlayerV
         if !isVideoPlaying && retryCount < maxRetries {
             retryCount += 1
             print("Retrying extraction... Attempt \(retryCount) of \(maxRetries)")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+                self?.extractVideoLinks()
+            }
         } else if !isVideoPlaying {
             stopExtractionProcess()
             activityIndicator?.stopAnimating()

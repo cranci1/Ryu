@@ -42,17 +42,9 @@ class AnimeDetailService {
         }
         
         let baseUrl = baseUrls.randomElement()!
-        var fullUrl = baseUrl + href
-        
-        if selectedSource == .kuramanime {
-            let components = fullUrl.components(separatedBy: "/")
-            if let episodeIndex = components.firstIndex(of: "episode"),
-               episodeIndex < components.count - 1,
-               Int(components[episodeIndex + 1]) != nil {
-                let newComponents = components[..<episodeIndex]
-                fullUrl = newComponents.joined(separator: "/")
-            }
-        } else if selectedSource == .hianime {
+        let fullUrl = baseUrl + href
+
+        if selectedSource == .hianime {
             let prefixes = [
                 "https://aniwatch-api-dusky.vercel.app/anime/episode-srcs?id=",
                 "https://aniwatch-api-cranci.vercel.app/anime/episode-srcs?id="
