@@ -977,6 +977,11 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
             UserDefaults.standard.set(currentTime, forKey: "lastPlayedTime_\(fullURL)")
             UserDefaults.standard.set(duration, forKey: "totalTime_\(fullURL)")
             
+            guard self.currentEpisodeIndex >= 0 && self.currentEpisodeIndex < self.episodes.count else {
+                print("Error: currentEpisodeIndex out of bounds")
+                return
+            }
+            
             let episodeNumber = self.episodes[self.currentEpisodeIndex].number
             let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
             

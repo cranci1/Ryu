@@ -350,19 +350,21 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
         if let viewController = self.animeDetailsViewController,
            let episodeNumber = viewController.episodes[safe: viewController.currentEpisodeIndex]?.number {
             
-            let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
-            
-            let continueWatchingItem = ContinueWatchingItem(
-                animeTitle: viewController.animeTitle ?? "Unknown Anime",
-                episodeTitle: "Ep. \(episodeNumber)",
-                episodeNumber: Int(episodeNumber) ?? 0,
-                imageURL: viewController.imageUrl ?? "",
-                fullURL: fullURL,
-                lastPlayedTime: currentTime,
-                totalTime: duration,
-                source: selectedMediaSource
-            )
-            ContinueWatchingManager.shared.saveItem(continueWatchingItem)
+            if let episodeNumberInt = Int(episodeNumber) {
+                let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "Kuramanime"
+                
+                let continueWatchingItem = ContinueWatchingItem(
+                    animeTitle: viewController.animeTitle ?? "Unknown Anime",
+                    episodeTitle: "Ep. \(episodeNumberInt)",
+                    episodeNumber: episodeNumberInt,
+                    imageURL: viewController.imageUrl ?? "",
+                    fullURL: fullURL,
+                    lastPlayedTime: currentTime,
+                    totalTime: duration,
+                    source: selectedMediaSource
+                )
+                ContinueWatchingManager.shared.saveItem(continueWatchingItem)
+            }
         }
     }
     

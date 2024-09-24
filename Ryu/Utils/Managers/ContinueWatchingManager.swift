@@ -5,13 +5,6 @@
 //  Created by Francesco on 07/08/24.
 //
 
-//
-//  ContinueWatchingManager.swift
-//  Ryu
-//
-//  Created by Francesco on 07/08/24.
-//
-
 import Foundation
 
 struct ContinueWatchingItem: Codable {

@@ -151,7 +151,7 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, CustomPlayerV
         
         webView = WKWebView(frame: view.bounds, configuration: configuration)
         webView?.navigationDelegate = self
-        webView?.isHidden = false
+        webView?.isHidden = true
         
         if let webView = webView {
             view.addSubview(webView)
@@ -440,38 +440,42 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, CustomPlayerV
             if let viewController = self.animeDetailsViewController,
                let episodeNumber = viewController.episodes[safe: viewController.currentEpisodeIndex]?.number {
                 
-                let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
-                
-                let continueWatchingItem = ContinueWatchingItem(
-                    animeTitle: viewController.animeTitle ?? "Unknown Anime",
-                    episodeTitle: "Ep. \(episodeNumber)",
-                    episodeNumber: Int(episodeNumber) ?? 0,
-                    imageURL: viewController.imageUrl ?? "",
-                    fullURL: self.fullURL,
-                    lastPlayedTime: currentTime,
-                    totalTime: duration,
-                    source: selectedMediaSource
-                )
-                ContinueWatchingManager.shared.saveItem(continueWatchingItem)
-                
-                let shouldSendPushUpdates = UserDefaults.standard.bool(forKey: "sendPushUpdates")
-                
-                if shouldSendPushUpdates && remainingTime < 120 && !(viewController.hasSentUpdate) {
-                    let cleanedTitle = viewController.cleanTitle(viewController.animeTitle ?? "Unknown Anime")
+                if let episodeNumberInt = Int(episodeNumber) {
+                    let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "GoGoAnime"
                     
-                    viewController.fetchAnimeID(title: cleanedTitle ) { animeID in
-                        let aniListMutation = AniListMutation()
-                        aniListMutation.updateAnimeProgress(animeId: animeID, episodeNumber: Int(self.cell.episodeNumber) ?? 0) { result in
-                            switch result {
-                            case .success():
-                                print("Successfully updated anime progress.")
-                            case .failure(let error):
-                                print("Failed to update anime progress: \(error.localizedDescription)")
+                    let continueWatchingItem = ContinueWatchingItem(
+                        animeTitle: viewController.animeTitle ?? "Unknown Anime",
+                        episodeTitle: "Ep. \(episodeNumberInt)",
+                        episodeNumber: episodeNumberInt,
+                        imageURL: viewController.imageUrl ?? "",
+                        fullURL: self.fullURL,
+                        lastPlayedTime: currentTime,
+                        totalTime: duration,
+                        source: selectedMediaSource
+                    )
+                    ContinueWatchingManager.shared.saveItem(continueWatchingItem)
+
+                    let shouldSendPushUpdates = UserDefaults.standard.bool(forKey: "sendPushUpdates")
+
+                    if shouldSendPushUpdates && remainingTime < 120 && !(viewController.hasSentUpdate) {
+                        let cleanedTitle = viewController.cleanTitle(viewController.animeTitle ?? "Unknown Anime")
+
+                        viewController.fetchAnimeID(title: cleanedTitle) { animeID in
+                            let aniListMutation = AniListMutation()
+                            aniListMutation.updateAnimeProgress(animeId: animeID, episodeNumber: episodeNumberInt) { result in
+                                switch result {
+                                case .success():
+                                    print("Successfully updated anime progress.")
+                                case .failure(let error):
+                                    print("Failed to update anime progress: \(error.localizedDescription)")
+                                }
                             }
+                            
+                            viewController.hasSentUpdate = true
                         }
-                        
-                        viewController.hasSentUpdate = true
                     }
+                } else {
+                    print("Error: Failed to convert episodeNumber '\(episodeNumber)' to an Int.")
                 }
             }
         }
