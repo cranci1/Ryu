@@ -31,7 +31,7 @@ A simple way to enjoy and watch anime on iOS
 - [x] Third-party anime services push updates (AniList.co)
 - [x] Background playback and Picture-in-Picture (PiP) support
 - [x] Favorite system
-- [x] Multi-source support for streaming and downloads
+- [x] Multi-source support with different languages
 - [x] Google Cast support
 - [x] Backup system (import, export)
 - [x] Offline mode (with ongoing improvements)
