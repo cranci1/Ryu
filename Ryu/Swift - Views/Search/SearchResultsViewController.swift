@@ -18,6 +18,14 @@ class SearchResultsViewController: UIViewController {
         return table
     }()
     
+    private lazy var changeSourceButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Change Source", for: .normal)
+        button.addTarget(self, action: #selector(changeSourceButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     private let loadingIndicator = UIActivityIndicatorView(style: .large)
     private let errorLabel = UILabel()
     private let noResultsLabel = UILabel()
@@ -94,10 +102,16 @@ class SearchResultsViewController: UIViewController {
         noResultsLabel.textAlignment = .center
         noResultsLabel.text = "No results found"
         noResultsLabel.isHidden = true
+        
         view.addSubview(noResultsLabel)
+        view.addSubview(changeSourceButton)
+        
         NSLayoutConstraint.activate([
             noResultsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            noResultsLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            noResultsLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            
+            changeSourceButton.topAnchor.constraint(equalTo: noResultsLabel.bottomAnchor, constant: 20),
+            changeSourceButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
     
@@ -212,6 +226,7 @@ class SearchResultsViewController: UIViewController {
         tableView.isHidden = true
         errorLabel.isHidden = true
         noResultsLabel.isHidden = true
+        changeSourceButton.isHidden = true
         
         guard let selectedSource = UserDefaults.standard.string(forKey: "selectedMediaSource") else {
             loadingIndicator.stopAnimating()
@@ -367,8 +382,13 @@ class SearchResultsViewController: UIViewController {
         errorLabel.isHidden = false
     }
     
+    @objc private func changeSourceButtonTapped() {
+        showSourceSelector()
+    }
+    
     private func showNoResults() {
         noResultsLabel.isHidden = false
+        changeSourceButton.isHidden = false
     }
     
     func parseHTML(html: String, for source: MediaSource) -> [(title: String, imageUrl: String, href: String)] {
