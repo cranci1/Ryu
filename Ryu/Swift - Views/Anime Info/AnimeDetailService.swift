@@ -335,12 +335,26 @@ class AnimeDetailService {
                     return nil
                 }
             case .kuramanime:
-                episodes = episodeElements.compactMap { element in
-                    guard let episodeText = try? element.text(),
-                          let href = try? element.attr("href") else { return nil }
+                do {
+                    let episodeContent = try document.select("div#episodeListsSection a.follow-btn").attr("data-content")
+                    let episodeDocument = try SwiftSoup.parse(episodeContent)
+                    episodeElements = try episodeDocument.select("a.btn")
                     
-                    let episodeNumber = episodeText.replacingOccurrences(of: "Ep ", with: "")
-                    return Episode(number: episodeNumber, href: href, downloadUrl: "")
+                    episodes = try episodeElements.compactMap { element in
+                        let episodeText = try element.text().trimmingCharacters(in: .whitespacesAndNewlines)
+                        let href = try element.attr("href")
+                        
+                        let episodeNumber = episodeText.replacingOccurrences(of: "Ep ", with: "")
+                        
+                        guard !episodeNumber.isEmpty, Int(episodeNumber) != nil else {
+                            print("Invalid episode number: \(episodeText)")
+                            return nil
+                        }
+                        
+                        return Episode(number: episodeNumber, href: href, downloadUrl: "")
+                    }
+                } catch {
+                    print("Error parsing Kuramanime episodes: \(error.localizedDescription)")
                 }
             case .jkanime:
                 episodes = episodeElements.flatMap { element -> [Episode] in
