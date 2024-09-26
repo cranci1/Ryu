@@ -165,3 +165,10 @@ along with Ryu. If not, see <https://www.gnu.org/licenses/>.
 The content available is not affiliated with the developer, all contents are obtained by non-affiliated sources. Ryu doesn't store anything server side.
 
 Ryu is not made to promote piracy, all this contents are accessible by anyone anywhere, since is just public available content
+
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=cranci1/Ryu&type=Date)](https://star-history.com/#cranci1/Ryu&Date)
+
+Don't forget to leave a star 🌟
