@@ -326,7 +326,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             controlsContainerView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
             titleLabel.leadingAnchor.constraint(equalTo: playerProgress.leadingAnchor),
-            titleLabel.bottomAnchor.constraint(equalTo: playerProgress.topAnchor, constant: -4),
+            titleLabel.bottomAnchor.constraint(equalTo: playerProgress.topAnchor, constant: -8),
             titleLabel.trailingAnchor.constraint(equalTo: speedButton.leadingAnchor),
             
             episodeLabel.leadingAnchor.constraint(equalTo: playerProgress.leadingAnchor),
@@ -375,7 +375,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             speedButton.widthAnchor.constraint(equalToConstant: 30),
             
             dismissButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 30),
-            dismissButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            dismissButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 10),
             dismissButton.widthAnchor.constraint(equalToConstant: 25),
             dismissButton.heightAnchor.constraint(equalToConstant: 25),
             
