@@ -79,6 +79,48 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
         SourceMenu.delegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleAppDataReset), name: .appDataReset, object: nil)
+        
+        setupContextMenus()
+    }
+    
+    private func setupContextMenus() {
+        let collectionViews = [trendingCollectionView, seasonalCollectionView, airingCollectionView]
+        
+        for collectionView in collectionViews {
+            let interaction = UIContextMenuInteraction(delegate: self)
+            collectionView?.addInteraction(interaction)
+        }
+    }
+
+    @objc func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
+        if gestureRecognizer.state == .began {
+            let point = gestureRecognizer.location(in: continueWatchingCollectionView)
+            if let indexPath = continueWatchingCollectionView.indexPathForItem(at: point) {
+                showContinueWatchingOptions(for: indexPath)
+            }
+        }
+    }
+
+    func showContinueWatchingOptions(for indexPath: IndexPath) {
+        let item = continueWatchingItems[indexPath.item]
+        
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let resumeAction = UIAlertAction(title: "Resume", style: .default) { [weak self] _ in
+            self?.resumeWatching(item: item)
+        }
+        
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
+            self?.showRemoveAlert(for: indexPath)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alertController.addAction(resumeAction)
+        alertController.addAction(deleteAction)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true, completion: nil)
     }
     
     deinit {
@@ -358,15 +400,6 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
         }
     }
     
-    @objc func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
-        if gestureRecognizer.state == .began {
-            let point = gestureRecognizer.location(in: continueWatchingCollectionView)
-            if let indexPath = continueWatchingCollectionView.indexPathForItem(at: point) {
-                showRemoveAlert(for: indexPath)
-            }
-        }
-    }
-    
     func showRemoveAlert(for indexPath: IndexPath) {
         let item = continueWatchingItems[indexPath.item]
         
@@ -540,20 +573,32 @@ extension HomeViewController: UICollectionViewDelegate {
 
 extension HomeViewController: UIContextMenuInteractionDelegate {
     func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
-        guard let cell = interaction.view as? UICollectionViewCell,
-              let indexPath = indexPathForCell(cell) else { return nil }
+        guard let collectionView = interaction.view as? UICollectionView,
+              let indexPath = collectionView.indexPathForItem(at: location) else { return nil }
         
-        return UIContextMenuConfiguration(identifier: indexPath as NSCopying, previewProvider: { [weak self] in
-            self?.previewViewController(for: indexPath)
+        let section: Int
+        switch collectionView {
+        case trendingCollectionView:
+            section = 0
+        case seasonalCollectionView:
+            section = 1
+        case airingCollectionView:
+            section = 2
+        default:
+            return nil
+        }
+        
+        return UIContextMenuConfiguration(identifier: IndexPath(item: indexPath.item, section: section) as NSCopying, previewProvider: { [weak self] in
+            self?.previewViewController(for: IndexPath(item: indexPath.item, section: section))
         }, actionProvider: { [weak self] _ in
             guard let self = self else { return nil }
             
             let openAction = UIAction(title: "Open", image: UIImage(systemName: "eye")) { _ in
-                self.openAnimeDetail(for: indexPath)
+                self.openAnimeDetail(for: IndexPath(item: indexPath.item, section: section))
             }
             
             let searchAction = UIAction(title: "Search Episodes", image: UIImage(systemName: "magnifyingglass")) { _ in
-                self.searchEpisodes(for: indexPath)
+                self.searchEpisodes(for: IndexPath(item: indexPath.item, section: section))
             }
             
             return UIMenu(title: "", children: [openAction, searchAction])
@@ -584,11 +629,6 @@ extension HomeViewController: UIContextMenuInteractionDelegate {
         return animeDetailVC
     }
     
-    private func openAnimeDetail(for indexPath: IndexPath) {
-        guard let anime = animeForIndexPath(indexPath) else { return }
-        navigateToAnimeDetail(for: anime)
-    }
-    
     private func animeForIndexPath(_ indexPath: IndexPath) -> Anime? {
         switch indexPath.section {
         case 0:
@@ -597,11 +637,26 @@ extension HomeViewController: UIContextMenuInteractionDelegate {
             return seasonalAnime[indexPath.item]
         case 2:
             return airingAnime[indexPath.item]
-        case 3:
-            return nil
         default:
             return nil
         }
+    }
+
+    private func openAnimeDetail(for indexPath: IndexPath) {
+        guard let anime = animeForIndexPath(indexPath) else { return }
+        navigateToAnimeDetail(for: anime)
+    }
+
+    private func searchEpisodes(for indexPath: IndexPath) {
+        guard let anime = animeForIndexPath(indexPath) else { return }
+        let query = anime.title.romaji
+        
+        guard !query.isEmpty else {
+            showError(message: "Could not find anime title.")
+            return
+        }
+        
+        searchMedia(query: query)
     }
     
     private func indexPathForCell(_ cell: UICollectionViewCell) -> IndexPath? {
@@ -619,18 +674,6 @@ extension HomeViewController: UIContextMenuInteractionDelegate {
         let collectionViews = [trendingCollectionView, seasonalCollectionView, airingCollectionView, featuredCollectionView]
         guard indexPath.section < collectionViews.count else { return nil }
         return collectionViews[indexPath.section]?.cellForItem(at: IndexPath(item: indexPath.item, section: 0))
-    }
-    
-    private func searchEpisodes(for indexPath: IndexPath) {
-        guard let anime = animeForIndexPath(indexPath) else { return }
-        
-        let query = anime.title.romaji
-        guard !query.isEmpty else {
-            showError(message: "Could not find anime title.")
-            return
-        }
-        
-        searchMedia(query: query)
     }
     
     private func searchMedia(query: String) {
