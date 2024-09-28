@@ -62,8 +62,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
         setupUserDefaultsObserver()
         sortEpisodes()
         
-        navigationController?.navigationBar.prefersLargeTitles = false
-        
+        navigationItem.largeTitleDisplayMode = .never
         for (index, episode) in episodes.enumerated() {
             if let cell = tableView.cellForRow(at: IndexPath(row: index, section: 2)) as? EpisodeCell {
                 cell.loadSavedProgress(for: episode.href)

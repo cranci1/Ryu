@@ -44,6 +44,7 @@ class FavoritesViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         loadFavorites()
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     private func setupCollectionView() {

@@ -27,6 +27,7 @@ class SearchViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         loadSearchHistory()
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     func searchMedia(query: String) {
