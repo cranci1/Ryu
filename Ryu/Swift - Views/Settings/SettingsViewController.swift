@@ -14,11 +14,13 @@ class SettingsViewController: UITableViewController {
     @IBOutlet var landScapeSwitch: UISwitch!
     @IBOutlet var browserPlayerSwitch: UISwitch!
     @IBOutlet var mergeActivitySwitch: UISwitch!
+    @IBOutlet weak var syncThemeSwitch: UISwitch!
     
     @IBOutlet weak var playerButton: UIButton!
     @IBOutlet weak var sourceButton: UIButton!
     
     @IBOutlet weak var episodeSortingSegmentedControl: UISegmentedControl!
+    @IBOutlet weak var themeSegmentedControl: UISegmentedControl!
     
     @IBOutlet weak var holdSpeedSteppper: UIStepper!
     @IBOutlet weak var holdSpeeedLabel: UILabel!
@@ -28,6 +30,7 @@ class SettingsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupHoldSpeedStepper()
+        setupThemeControls()
         loadUserDefaults()
         setupMenu()
         
@@ -37,6 +40,57 @@ class SettingsViewController: UITableViewController {
         
         let isReverseSorted = UserDefaults.standard.bool(forKey: "isEpisodeReverseSorted")
         episodeSortingSegmentedControl.selectedSegmentIndex = isReverseSorted ? 1 : 0
+    }
+    
+    private func setupThemeControls() {
+        let syncWithSystem = UserDefaults.standard.bool(forKey: "syncWithSystem")
+        syncThemeSwitch.isOn = syncWithSystem
+        
+        themeSegmentedControl.removeAllSegments()
+        themeSegmentedControl.insertSegment(withTitle: "Dark", at: 0, animated: false)
+        themeSegmentedControl.insertSegment(withTitle: "Light", at: 1, animated: false)
+        
+        let selectedTheme = UserDefaults.standard.integer(forKey: "selectedTheme")
+        themeSegmentedControl.selectedSegmentIndex = selectedTheme
+        
+        themeSegmentedControl.isEnabled = !syncWithSystem
+    }
+    
+    @IBAction func syncThemeSwitchChanged(_ sender: UISwitch) {
+        UserDefaults.standard.set(sender.isOn, forKey: "syncWithSystem")
+        themeSegmentedControl.isEnabled = !sender.isOn
+        updateAppAppearance()
+    }
+    
+    @IBAction func themeSegmentedControlChanged(_ sender: UISegmentedControl) {
+        UserDefaults.standard.set(sender.selectedSegmentIndex, forKey: "selectedTheme")
+        updateAppAppearance()
+    }
+    
+    private func updateAppAppearance() {
+        let syncWithSystem = UserDefaults.standard.bool(forKey: "syncWithSystem")
+        
+        if syncWithSystem {
+            UIApplication.shared.windows.forEach { window in
+                window.overrideUserInterfaceStyle = .unspecified
+            }
+        } else {
+            let selectedTheme = UserDefaults.standard.integer(forKey: "selectedTheme")
+            switch selectedTheme {
+            case 0:
+                UIApplication.shared.windows.forEach { window in
+                    window.overrideUserInterfaceStyle = .dark
+                }
+            case 1:
+                UIApplication.shared.windows.forEach { window in
+                    window.overrideUserInterfaceStyle = .light
+                }
+            default:
+                UIApplication.shared.windows.forEach { window in
+                    window.overrideUserInterfaceStyle = .unspecified
+                }
+            }
+        }
     }
     
     private func setupHoldSpeedStepper() {
@@ -139,6 +193,13 @@ class SettingsViewController: UITableViewController {
         
         let holdSpeeed = UserDefaults.standard.float(forKey: "holdSpeedPlayer")
         holdSpeeedLabel.text = String(format: "Hold Speed player: %.2fx", holdSpeeed)
+        
+        let syncWithSystem = UserDefaults.standard.bool(forKey: "syncWithSystem")
+        syncThemeSwitch.isOn = syncWithSystem
+        
+        let selectedTheme = UserDefaults.standard.integer(forKey: "selectedTheme")
+        themeSegmentedControl.selectedSegmentIndex = selectedTheme
+        themeSegmentedControl.isEnabled = !syncWithSystem
     }
     
     @IBAction func clearCache(_ sender: Any) {
