@@ -12,7 +12,6 @@ A simple way to enjoy and watch anime on iOS
 
 ## Table of Contents
 
-- [Table of Contents](#table-of-contents)
 - [Features](#features)
 - [Sources](#sources)
 - [Installation](#installation)
@@ -30,15 +29,15 @@ A simple way to enjoy and watch anime on iOS
 - [x] Streaming & Download support
 - [x] Third-party anime services push updates (AniList.co)
 - [x] Background playback and Picture-in-Picture (PiP) support
-- [x] Favorite system
+- [x] Library system
 - [x] Multi-source support with different languages
 - [x] Google Cast support
-- [x] Backup system (import, export)
-- [x] Offline mode (with ongoing improvements)
+- [x] Backup system (import/export)
+- [x] Offline mode (ongoing improvements)
 - [x] Apple KeyChain support for the AniList Token
 - [x] External Media Player support (VLC, Infuse, OutPlayer)
 - [x] Intro/Outro skipper with timestamps
-- [x] Real-time subtitles Translator
+- [x] Real-time subtitles translator
 - [ ] Notifications for new episodes (coming soon)
 - [ ] macOS support
 
@@ -56,25 +55,26 @@ A simple way to enjoy and watch anime on iOS
 | HiAnime     | English    | ✅     | ✅        | ✅        | :x:      |
 | Hanashi     | German     | ✅     | :x:       | :x:       | :x:      |
 
-> [!Note]
-> AnimeFire is region Blocked. Only Portugal and Brazil IP are allowed!
+> Note: AnimeFire is region-blocked; only Portugal and Brazil IPs are allowed!
 
 ## Installation
 
-1. **TestFlight (Recommended)**:
-   Join the [TestFlight beta](https://testflight.apple.com/join/Sxyg9JXF) for automatic updates.
+### TestFlight (Recommended)
 
-2. **Alternative Methods**:
-   - AltStore
-   - Sidestore
-   - TrollStore (Note: Downloads may not work)
-   - Esign
-   - LiveContainer (Tested Working fine 👍)
-   - Feather
-   
-   Or other IPA installation tool
+Join the [TestFlight beta](https://testflight.apple.com/join/Sxyg9JXF) for automatic updates.
 
-You can find the dev ipa file on [nightly.link](https://nightly.link/cranci1/Ryu/workflows/build/main) or the stable ipa on [releases](https://github.com/cranci1/Ryu/releases)
+### Alternative Methods
+
+- AltStore
+- Sidestore
+- TrollStore (Note: Downloads may not work)
+- Esign
+- LiveContainer (Tested working fine 👍)
+- Feather
+  
+Or use other IPA installation tools.
+
+You can find the dev IPA file on [nightly.link](https://nightly.link/cranci1/Ryu/workflows/build/main) or the stable IPA on [releases](https://github.com/cranci1/Ryu/releases).
 
 ## Compatibility
 
@@ -84,22 +84,22 @@ You can find the dev ipa file on [nightly.link](https://nightly.link/cranci1/Ryu
 ## Frequently Asked Questions
 
 1. **What is Ryu?**
-   Ryu is a free, ad-free anime streaming app for iOS and iPadOS.
+   - Ryu is a free, ad-free anime streaming app for iOS and iPadOS.
 
 2. **Is Ryu legal?**
-   While using Ryu may not directly break laws, check your local regulations regarding streaming content.
+   - While using Ryu may not directly break laws, please check your local regulations regarding streaming content.
 
 3. **Will Ryu be on the App Store?**
-   There are no plans for an App Store release, but Ryu is available on TestFlight.
+   - There are no plans for an App Store release, but Ryu is available on TestFlight.
 
 4. **Is Ryu safe?**
-   Yes, Ryu is open-source and doesn't store user data on external servers.
+   - Yes, Ryu is open-source and does not store user data on external servers.
 
 5. **Will Ryu ever be paid?**
-   No, Ryu will always remain free without subscriptions or paid content.
+   - No, Ryu will always remain free without subscriptions, paid content, or any type of login.
 
-6. **Why I'm joing beta for AnimeGen?**
-   To be able to be on TestFlight Ryu is using the same TestFlight as an other iOS app made by cranci, AnimeGen. But don't worry you will install Ryu not AnimeGen.
+6. **Why is the name on TestFlight AnimeGen?**
+   - To be isntalled via TestFlight, Ryu shares the same TestFlight as another app made by me, AnimeGen. Rest assured, you will be installing Ryu, not AnimeGen.
 
 ## Acknowledgements
 
@@ -164,4 +164,4 @@ along with Ryu. If not, see <https://www.gnu.org/licenses/>.
 
 The content available is not affiliated with the developer, all contents are obtained by non-affiliated sources. Ryu doesn't store anything server side.
 
-Ryu is not made to promote piracy, all this contents are accessible by anyone anywhere, since is just public available content
+Ryu is not made to promote piracy, all this content are accessible by anyone anywhere very easily.
