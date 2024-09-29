@@ -60,9 +60,16 @@ class FavoritesViewController: UIViewController {
     }
     
     private func setupDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Int, FavoriteItem>(collectionView: collectionView) { (collectionView, indexPath, item) -> UICollectionViewCell? in
+        dataSource = UICollectionViewDiffableDataSource<Int, FavoriteItem>(collectionView: collectionView) { [weak self] (collectionView, indexPath, item) -> UICollectionViewCell? in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FavoriteCell", for: indexPath) as! FavoriteCell
             cell.configure(with: item)
+            
+            if self?.isEditingMode == true {
+                self?.addShakeAnimation(to: cell)
+            } else {
+                self?.removeShakeAnimation(from: cell)
+            }
+            
             return cell
         }
     }
@@ -115,6 +122,7 @@ class FavoritesViewController: UIViewController {
                 removeShakeAnimation(from: cell)
             }
         }
+        collectionView.reloadData()
     }
     
     @objc private func editButtonTapped() {
@@ -198,6 +206,24 @@ class FavoritesViewController: UIViewController {
     }
 }
 
+extension FavoritesViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return sortedFavorites.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        return dataSource.collectionView(collectionView, cellForItemAt: indexPath)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if isEditingMode {
+            addShakeAnimation(to: cell)
+        } else {
+            removeShakeAnimation(from: cell)
+        }
+    }
+}
+
 extension FavoritesViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard !isEditingMode, let item = dataSource.itemIdentifier(for: indexPath) else { return }
@@ -237,12 +263,19 @@ extension FavoritesViewController: UICollectionViewDragDelegate, UICollectionVie
         
         var snapshot = dataSource.snapshot()
         snapshot.deleteItems([dragItem])
-        snapshot.insertItems([dragItem], beforeItem: snapshot.itemIdentifiers[destinationIndexPath.item])
+        
+        if destinationIndexPath.item < snapshot.itemIdentifiers.count {
+            snapshot.insertItems([dragItem], beforeItem: snapshot.itemIdentifiers[destinationIndexPath.item])
+        } else {
+            snapshot.appendItems([dragItem])
+        }
         
         dataSource.apply(snapshot, animatingDifferences: true) {
             self.sortedFavorites = snapshot.itemIdentifiers
             self.favorites = self.sortedFavorites
             FavoritesManager.shared.saveFavorites(self.favorites)
+            
+            self.collectionView.performBatchUpdates(nil, completion: nil)
         }
         
         coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
