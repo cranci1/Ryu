@@ -31,10 +31,10 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
     var isFavorite: Bool = false
     var isSynopsisExpanded = false
     var isReverseSorted = false
+    var hasSentUpdate = false
     
     var availableQualities: [String] = []
     var qualityOptions: [(name: String, fileName: String)] = []
-    var hasSentUpdate = false
     
     func configure(title: String, imageUrl: String, href: String, source: String) {
         self.animeTitle = title
@@ -72,6 +72,21 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
         if let firstEpisodeHref = episodes.first?.href {
             currentEpisodeIndex = episodes.firstIndex(where: { $0.href == firstEpisodeHref }) ?? 0
         }
+        
+        setupRefreshControl()
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundColor = .secondarySystemBackground
+    }
+
+    private func setupRefreshControl() {
+        refreshControl = UIRefreshControl()
+        refreshControl?.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+    }
+
+    @objc private func handleRefresh() {
+        refreshAnimeDetails()
     }
     
     private func setupCastButton() {
@@ -523,26 +538,21 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
     }
     
     private func refreshAnimeDetails() {
-        let loadingIndicator = UIActivityIndicatorView(style: .medium)
-        loadingIndicator.startAnimating()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: loadingIndicator)
-        
         if let href = href {
             AnimeDetailService.fetchAnimeDetails(from: href) { [weak self] result in
                 DispatchQueue.main.async {
-                    self?.navigationItem.rightBarButtonItem = nil
+                    self?.refreshControl?.endRefreshing()
                     
                     switch result {
                     case .success(let details):
                         self?.updateAnimeDetails(with: details)
-                        self?.setupCastButton()
                     case .failure(let error):
                         self?.showAlert(withTitle: "Refresh Failed", message: error.localizedDescription)
-                        self?.setupCastButton()
                     }
                 }
             }
         } else {
+            refreshControl?.endRefreshing()
             showAlert(withTitle: "Error", message: "Unable to refresh. No valid URL found.")
         }
     }
