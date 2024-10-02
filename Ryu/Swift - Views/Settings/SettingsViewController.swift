@@ -351,6 +351,7 @@ class SettingsViewController: UITableViewController {
             let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
             
             let fileURLs = try fileManager.contentsOfDirectory(at: documentsURL, includingPropertiesForKeys: nil)
+            
             for fileURL in fileURLs {
                 try fileManager.removeItem(at: fileURL)
             }

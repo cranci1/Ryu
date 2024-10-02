@@ -236,6 +236,7 @@ class SearchResultsViewController: UIViewController {
         
         guard let urlParameters = getUrlAndParameters(for: selectedSource) else {
             showError("Unsupported media source.")
+            showSourceSelector()
             return
         }
         
