@@ -243,6 +243,10 @@ class SearchResultsViewController: UIViewController {
             DispatchQueue.main.async {
                 self.fetchHanashiResults(urlParameters: urlParameters)
             }
+        } else if selectedSource == "JKanime" {
+            DispatchQueue.main.async {
+                self.fetchJKanimeResults(urlParameters: urlParameters)
+            }
         } else {
             AF.request(urlParameters.url, method: .get, parameters: urlParameters.parameters).responseString { [weak self] response in
                 guard let self = self else { return }
@@ -328,6 +332,44 @@ class SearchResultsViewController: UIViewController {
                     }
             case .failure:
                 self?.showError("Failed to authenticate with Hanashi. Please try again later.")
+            }
+        }
+    }
+    
+    private func fetchJKanimeResults(urlParameters: (url: String, parameters: Parameters)) {
+        let group = DispatchGroup()
+        var allResults: [(title: String, imageUrl: String, href: String)] = []
+        
+        group.enter()
+        AF.request(urlParameters.url, method: .get, parameters: urlParameters.parameters).responseString { [weak self] response in
+            defer { group.leave() }
+            if let value = try? response.result.get(),
+               let document = try? SwiftSoup.parse(value),
+               let results = self?.parseJKanime(document) {
+                allResults.append(contentsOf: results)
+            }
+        }
+        
+        let secondPageUrl = urlParameters.url + "/2"
+        group.enter()
+        AF.request(secondPageUrl, method: .get, parameters: urlParameters.parameters).responseString { [weak self] response in
+            defer { group.leave() }
+            if let value = try? response.result.get(),
+               let document = try? SwiftSoup.parse(value),
+               let results = self?.parseJKanime(document) {
+                allResults.append(contentsOf: results)
+            }
+        }
+        
+        group.notify(queue: .main) { [weak self] in
+            self?.loadingIndicator.stopAnimating()
+            self?.searchResults = allResults
+            self?.filteredResults = allResults
+            if allResults.isEmpty {
+                self?.showNoResults()
+            } else {
+                self?.tableView.isHidden = false
+                self?.tableView.reloadData()
             }
         }
     }
