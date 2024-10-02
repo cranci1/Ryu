@@ -347,7 +347,7 @@ class SearchResultsViewController: UIViewController {
             url = "https://animeheaven.me/search.php"
             parameters["s"] = query
         case "AnimeFire":
-            let encodedQuery = query.lowercased().addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? query
+            let encodedQuery = query.lowercased().replacingOccurrences(of: " ", with: "-").addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? query
             url = "https://animefire.plus/pesquisar/\(encodedQuery)"
         case "Kuramanime":
             url = "https://kuramanime.dad/anime"
