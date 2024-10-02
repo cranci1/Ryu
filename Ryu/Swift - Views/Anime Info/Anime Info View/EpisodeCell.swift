@@ -26,6 +26,17 @@ class EpisodeCell: UITableViewCell {
     let remainingTimeLabel = UILabel()
     let infoButton = UIButton(type: .infoLight)
     
+    private let progressFormatter: DateComponentsFormatter = {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.hour, .minute, .second]
+        formatter.unitsStyle = .positional
+        formatter.zeroFormattingBehavior = .pad
+        return formatter
+    }()
+    
+    private var currentProgress: Float = 0
+    private var currentRemainingTime: TimeInterval = 0
+    
     var episodeNumber: String = ""
     let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
     
@@ -111,6 +122,9 @@ class EpisodeCell: UITableViewCell {
     }
     
     func updatePlaybackProgress(progress: Float, remainingTime: TimeInterval) {
+        currentProgress = progress
+        currentRemainingTime = remainingTime
+        
         playbackProgressView.isHidden = false
         startnowLabel.isHidden = true
         remainingTimeLabel.isHidden = false
@@ -124,6 +138,8 @@ class EpisodeCell: UITableViewCell {
     }
     
     func resetPlaybackProgress() {
+        currentProgress = 0
+        currentRemainingTime = 0
         playbackProgressView.isHidden = true
         startnowLabel.isHidden = false
         remainingTimeLabel.isHidden = true
@@ -132,16 +148,25 @@ class EpisodeCell: UITableViewCell {
     }
     
     private func formatRemainingTime(_ time: TimeInterval) -> String {
-        let hours = Int(time) / 3600
-        let minutes = (Int(time) % 3600) / 60
-        let seconds = Int(time) % 60
-        
         if time < 120 {
             return "Finished"
-        } else if hours > 0 {
-            return String(format: "%d:%02d:%02d left", hours, minutes, seconds)
         } else {
-            return String(format: "%02d:%02d left", minutes, seconds)
+            let hours = Int(time) / 3600
+            let minutes = (Int(time) % 3600) / 60
+            let seconds = Int(time) % 60
+            
+            var components = [String]()
+            
+            if hours > 0 {
+                components.append(String(format: "%d:%02d:%02d", hours, minutes, seconds))
+            } else if minutes > 0 {
+                components.append(String(format: "%d:%02d", minutes, seconds))
+            } else {
+                components.append(String(format: "0:%02d", seconds))
+            }
+            
+            components.append("left")
+            return components.joined(separator: " ")
         }
     }
     
