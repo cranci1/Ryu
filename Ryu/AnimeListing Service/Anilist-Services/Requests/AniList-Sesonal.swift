@@ -14,7 +14,7 @@ class AnilistServiceSeasonalAnime {
         let query = """
         query {
           Page(page: 1, perPage: 100) {
-            media(season: SUMMER, seasonYear: 2024, type: ANIME, isAdult: false) {
+            media(season: FALL, seasonYear: 2024, type: ANIME, isAdult: false) {
               id
               title {
                 romaji
