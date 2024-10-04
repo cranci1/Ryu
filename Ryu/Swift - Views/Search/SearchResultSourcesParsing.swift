@@ -184,4 +184,37 @@ extension SearchResultsViewController {
         }
         return []
     }
+    
+    func parseAnilibria(_ jsonString: String) -> [(title: String, imageUrl: String, href: String)] {
+        do {
+            guard let jsonData = jsonString.data(using: .utf8) else {
+                print("Error converting JSON string to Data")
+                return []
+            }
+            
+            let json = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any]
+            
+            guard let list = json?["list"] as? [[String: Any]] else {
+                print("Error extracting 'list' array from JSON")
+                return []
+            }
+            
+            return list.compactMap { anime -> (title: String, imageUrl: String, href: String)? in
+                guard let id = anime["id"] as? Int,
+                      let names = anime["names"] as? [String: String],
+                      let posters = anime["posters"] as? [String: [String: String]] else {
+                    return nil
+                }
+                
+                let title = names["en"] ?? names["ru"] ?? "Unknown Title"
+                let imageUrl = posters["medium"]?["url"] ?? ""
+                let href = String(id)
+                
+                return (title: title, imageUrl: imageUrl, href: href)
+            }
+        } catch {
+            print("Error parsing Anilibria JSON: \(error.localizedDescription)")
+            return []
+        }
+    }
 }
