@@ -45,8 +45,13 @@ class SourceMenu {
                     popoverController.sourceRect = sourceView.bounds
                 } else {
                     popoverController.sourceView = viewController.view
-                    popoverController.sourceRect = viewController.view.bounds
+                    popoverController.sourceRect = CGRect(x: viewController.view.bounds.midX, y: viewController.view.bounds.midY, width: 0, height: 0)
                 }
+                popoverController.permittedArrowDirections = [.up, .down, .left, .right]
+            }
+            
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                alertController.modalPresentationStyle = .popover
             }
             
             viewController.present(alertController, animated: true)

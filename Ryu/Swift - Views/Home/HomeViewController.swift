@@ -120,6 +120,17 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
         alertController.addAction(deleteAction)
         alertController.addAction(cancelAction)
         
+        if let popoverController = alertController.popoverPresentationController {
+            if let cell = continueWatchingCollectionView.cellForItem(at: indexPath) {
+                popoverController.sourceView = cell
+                popoverController.sourceRect = cell.bounds
+            } else {
+                popoverController.sourceView = continueWatchingCollectionView
+                popoverController.sourceRect = CGRect(x: continueWatchingCollectionView.bounds.midX, y: continueWatchingCollectionView.bounds.midY, width: 0, height: 0)
+            }
+            popoverController.permittedArrowDirections = [.up, .down]
+        }
+        
         present(alertController, animated: true, completion: nil)
     }
     
@@ -702,7 +713,6 @@ class AnimeItem: NSObject {
         self.href = href
     }
 }
-
 
 struct Anime {
     let id: Int
