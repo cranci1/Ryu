@@ -38,7 +38,7 @@ class AnimeDetailService {
                 "https://aniwatch-api-cranci.vercel.app/anime/info?id="
             ]
         case .anilibria:
-            baseUrls = [""]
+            baseUrls = ["https://api.anilibria.tv/v3/title?id="]
         case .animefire, .kuramanime, .jkanime, .anime3rb, .hanashi:
             baseUrls = [""]
         }
@@ -46,7 +46,30 @@ class AnimeDetailService {
         let baseUrl = baseUrls.randomElement()!
         let fullUrl = baseUrl + href
 
-        if selectedSource == .hianime {
+        if selectedSource == .anilibria {
+            AF.request(fullUrl).responseDecodable(of: AnilibriaResponse.self) { response in
+                switch response.result {
+                case .success(let anilibriaResponse):
+                    let aliases = anilibriaResponse.names.en
+                    let synopsis = anilibriaResponse.description
+                    let airdate = "\(anilibriaResponse.season.year) \(anilibriaResponse.season.string)"
+                    let stars = String(anilibriaResponse.inFavorites)
+                    
+                    let episodes = anilibriaResponse.player.list.map { (key, value) -> Episode in
+                        let episodeNumber = key
+                        let hdUrl = "https://cache.libria.fun\(value.hls.hd ?? "")"
+                        let sdUrl = "https://cache.libria.fun\(value.hls.sd ?? "")"
+                        return Episode(number: episodeNumber, href: hdUrl, downloadUrl: "")
+                    }.sorted { Int($0.number) ?? 0 < Int($1.number) ?? 0 }
+                    
+                    let details = AnimeDetail(aliases: aliases, synopsis: synopsis, airdate: airdate, stars: stars, episodes: episodes)
+                    completion(.success(details))
+                    
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+        } else if selectedSource == .hianime {
             let prefixes = [
                 "https://aniwatch-api-dusky.vercel.app/anime/episode-srcs?id=",
                 "https://aniwatch-api-cranci.vercel.app/anime/episode-srcs?id="

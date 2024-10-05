@@ -186,31 +186,30 @@ extension SearchResultsViewController {
     }
     
     func parseAnilibria(_ jsonString: String) -> [(title: String, imageUrl: String, href: String)] {
+        guard let jsonData = jsonString.data(using: .utf8) else {
+            return []
+        }
+        
         do {
-            guard let jsonData = jsonString.data(using: .utf8) else {
-                print("Error converting JSON string to Data")
-                return []
-            }
-            
-            let json = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any]
-            
-            guard let list = json?["list"] as? [[String: Any]] else {
-                print("Error extracting 'list' array from JSON")
+            guard let jsonObject = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any],
+                  let list = jsonObject["list"] as? [[String: Any]] else {
                 return []
             }
             
             return list.compactMap { anime -> (title: String, imageUrl: String, href: String)? in
                 guard let id = anime["id"] as? Int,
-                      let names = anime["names"] as? [String: String],
-                      let posters = anime["posters"] as? [String: [String: String]] else {
+                      let names = anime["names"] as? [String: Any],
+                      let posters = anime["posters"] as? [String: Any],
+                      let mediumPoster = posters["medium"] as? [String: Any],
+                      let imageUrl = mediumPoster["url"] as? String else {
                     return nil
                 }
                 
-                let title = names["en"] ?? names["ru"] ?? "Unknown Title"
-                let imageUrl = posters["medium"]?["url"] ?? ""
+                let title = (names["ru"] as? String) ?? (names["en"] as? String) ?? "Unknown Title"
+                let imageURL = "https://anilibria.tv/" + imageUrl
                 let href = String(id)
                 
-                return (title: title, imageUrl: imageUrl, href: href)
+                return (title: title, imageUrl: imageURL, href: href)
             }
         } catch {
             print("Error parsing Anilibria JSON: \(error.localizedDescription)")

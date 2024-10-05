@@ -415,7 +415,7 @@ class SearchResultsViewController: UIViewController {
         case "Anilibria":
             url = "https://api.anilibria.tv/v3/title/search"
             parameters["search"] = query
-            parameters["filter"] = "id,names"
+            parameters["filter"] = "id,names,posters"
         default:
             return nil
         }
@@ -440,7 +440,7 @@ class SearchResultsViewController: UIViewController {
     
     func parseHTML(html: String, for source: MediaSource) -> [(title: String, imageUrl: String, href: String)] {
         switch source {
-        case .hianime, .hanashi:
+        case .hianime, .hanashi, .anilibria:
             return parseDocument(nil, jsonString: html, for: source)
         default:
             do {

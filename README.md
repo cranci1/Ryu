@@ -54,6 +54,7 @@ A simple way to enjoy and watch anime on iOS
 | JKanime     | Spanish    | ✅     | ✅        | ✅        | :x:      |
 | HiAnime     | English    | ✅     | ✅        | ✅        | :x:      |
 | Hanashi     | German     | ✅     | :x:       | :x:       | :x:      |
+| Anilibria   | Russian    | ✅     | ✅        | ✅        | :x:      |
 
 > Note: AnimeFire is region-blocked; only Portugal and Brazil IPs are allowed!
 
