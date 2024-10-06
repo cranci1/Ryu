@@ -277,11 +277,14 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
         fetchIDAction.setValue(UIImage(systemName: "info.circle"), forKey: "image")
         alertController.addAction(fetchIDAction)
         
-        let openOnWebAction = UIAlertAction(title: "Open in Web", style: .default) { [weak self] _ in
-            self?.openAnimeOnWeb()
+        let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? ""
+        if selectedMediaSource != "Anilibria" {
+            let openOnWebAction = UIAlertAction(title: "Open in Web", style: .default) { [weak self] _ in
+                self?.openAnimeOnWeb()
+            }
+            openOnWebAction.setValue(UIImage(systemName: "safari"), forKey: "image")
+            alertController.addAction(openOnWebAction)
         }
-        openOnWebAction.setValue(UIImage(systemName: "safari"), forKey: "image")
-        alertController.addAction(openOnWebAction)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(cancelAction)

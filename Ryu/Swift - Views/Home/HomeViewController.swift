@@ -385,16 +385,7 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
     }
     
     @IBAction func selectSourceButtonTapped(_ sender: UIButton) {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let alertController = UIAlertController(title: "Change Source",  message: "Please change the source via Settings.", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-            
-            alertController.addAction(okAction)
-            
-            self.present(alertController, animated: true, completion: nil)
-        } else {
-            SourceMenu.showSourceSelector(from: self, sourceView: sender)
-        }
+        SourceMenu.showSourceSelector(from: self, sourceView: sender)
     }
     
     func didSelectNewSource() {
