@@ -27,6 +27,8 @@ extension HomeViewController {
             return ("https://anime3rb.com/titles/list?status[0]=upcomming&status[1]=finished&sort_by=addition_date", parseAnime3rbFeatured)
         case "HiAnime":
             return ("https://hianime.to/home", parseHiAnimeFeatured)
+        case "Anilibria":
+            return ("https://api.anilibria.tv/v3/title/updates?filter=posters,id,names&limit=20", parseAniLibriaFeatured)
         default:
             return (nil, nil)
         }
@@ -192,6 +194,42 @@ extension HomeViewController {
             if let queryIndex = href.firstIndex(of: "?") {
                 href = String(href[..<queryIndex])
             }
+            
+            return AnimeItem(title: title, episode: "", imageURL: imageURL, href: href)
+        }
+    }
+    
+    func parseAniLibriaFeatured(_ doc: Document) throws -> [AnimeItem] {
+        guard let preElement = try doc.select("body").first() else {
+            throw NSError(domain: "ParsingError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not find body element in document"])
+        }
+        
+        let jsonString = try preElement.html()
+        
+        guard let jsonData = jsonString.data(using: .utf8) else {
+            throw NSError(domain: "ParsingError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not convert JSON string to Data"])
+        }
+        
+        guard let json = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] else {
+            throw NSError(domain: "ParsingError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid JSON structure"])
+        }
+        
+        guard let list = json["list"] as? [[String: Any]] else {
+            throw NSError(domain: "ParsingError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid JSON structure: missing or invalid 'list' key"])
+        }
+        
+        return list.compactMap { item in
+            guard let id = item["id"] as? Int,
+                  let names = item["names"] as? [String: Any],
+                  let title = names["ru"] as? String,
+                  let posters = item["posters"] as? [String: Any],
+                  let medium = posters["medium"] as? [String: Any],
+                  let posterURL = medium["url"] as? String else {
+                return nil
+            }
+            
+            let imageURL = "https://anilibria.tv" + posterURL
+            let href = String(id)
             
             return AnimeItem(title: title, episode: "", imageURL: imageURL, href: href)
         }
