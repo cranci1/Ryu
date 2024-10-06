@@ -548,11 +548,22 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
                 }
             }
             
-            qualities.sort { $0.0 > $1.0 }
-            
             DispatchQueue.main.async {
-                self?.qualities = qualities
-                completion()
+                if qualities.isEmpty {
+                    self?.qualities = []
+                    let playerItem = AVPlayerItem(url: url)
+                    self?.player?.replaceCurrentItem(with: playerItem)
+
+                    let lastPlayedTime = UserDefaults.standard.double(forKey: "lastPlayedTime_\(self?.fullURL ?? "")")
+                    if lastPlayedTime > 0 {
+                        self?.player?.seek(to: CMTime(seconds: lastPlayedTime, preferredTimescale: 1))
+                    }
+
+                    self?.updateSettingsMenu()
+                } else {
+                    self?.qualities = qualities
+                    completion()
+                }
             }
         }.resume()
     }

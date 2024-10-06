@@ -57,9 +57,14 @@ class AnimeDetailService {
                     
                     let episodes = anilibriaResponse.player.list.map { (key, value) -> Episode in
                         let episodeNumber = key
-                        let hdUrl = "https://cache.libria.fun\(value.hls.hd ?? "")"
-                        let sdUrl = "https://cache.libria.fun\(value.hls.sd ?? "")"
-                        return Episode(number: episodeNumber, href: hdUrl, downloadUrl: "")
+                        
+                        let fhdUrl = value.hls.fhd.map { "https://cache.libria.fun\($0)" }
+                        let hdUrl = value.hls.hd.map { "https://cache.libria.fun\($0)" }
+                        let sdUrl = value.hls.sd.map { "https://cache.libria.fun\($0)" }
+                        
+                        let selectedUrl = fhdUrl ?? hdUrl ?? sdUrl ?? ""
+                        
+                        return Episode(number: episodeNumber, href: selectedUrl, downloadUrl: "")
                     }.sorted { Int($0.number) ?? 0 < Int($1.number) ?? 0 }
                     
                     let details = AnimeDetail(aliases: aliases, synopsis: synopsis, airdate: airdate, stars: stars, episodes: episodes)
