@@ -158,7 +158,6 @@ extension SearchResultsViewController {
     }
     
     func parseHanashi(_ jsonString: String) -> [(title: String, imageUrl: String, href: String)] {
-        print(jsonString)
         guard let data = jsonString.data(using: .utf8) else { return [] }
         do {
             if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]] {
