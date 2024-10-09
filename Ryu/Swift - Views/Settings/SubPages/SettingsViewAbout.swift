@@ -16,7 +16,7 @@ class SettingsViewAbout: UITableViewController {
     
     let githubURL = "https://github.com/cranci1/Ryu/"
     let reportIssueURL = "https://github.com/cranci1/Ryu/issues"
-    let disocrdURL = "https://discord.gg/mxfZTxatzp"
+    let disocrdURL = "https://discord.gg/XR3SrmUbpd"
     let reviewCodeURL = "https://github.com/cranci1/Ryu/tree/main"
     let fullLicenseURL = "https://github.com/cranci1/Ryu/blob/main/LICENSE"
     
