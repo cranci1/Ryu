@@ -588,6 +588,8 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
     }
     
     func episodeSelected(episode: Episode, cell: EpisodeCell) {
+        showLoadingBanner()
+        
         let selectedSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
         currentEpisodeIndex = episodes.firstIndex(where: { $0.href == episode.href }) ?? 0
         
@@ -627,10 +629,32 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
         }
     }
     
+    func showLoadingBanner() {
+        let alert = UIAlertController(title: nil, message: "Extracting Video", preferredStyle: .alert)
+        alert.view.backgroundColor = UIColor.black
+        alert.view.alpha = 0.8
+        alert.view.layer.cornerRadius = 15
+        
+        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 5, y: 5, width: 50, height: 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.style = .medium
+        loadingIndicator.startAnimating()
+        
+        alert.view.addSubview(loadingIndicator)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func hideLoadingBanner() {
+        if let alert = self.presentedViewController as? UIAlertController {
+            alert.dismiss(animated: true, completion: nil)
+        }
+    }
+    
     private func checkUserDefault(url: String, cell: EpisodeCell, fullURL: String) {
         if UserDefaults.standard.bool(forKey: "isToDownload") {
             playEpisode(url: url, cell: cell, fullURL: fullURL)
         } else if UserDefaults.standard.bool(forKey: "browserPlayer") {
+            hideLoadingBanner()
             openInWeb(fullURL: url)
         } else {
             playEpisode(url: url, cell: cell, fullURL: fullURL)
@@ -667,25 +691,63 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
         presentStreamingView(withURL: url, captionURL: captionURL, playerType: playerType, cell: cell, fullURL: fullURL)
     }
     
-    func presentStreamingView(withURL url: String, captionURL: String, playerType: String, cell: EpisodeCell, fullURL: String) {
-        DispatchQueue.main.async {
-            var streamingVC: UIViewController
-            switch playerType {
-            case VideoPlayerType.standard:
-                streamingVC = ExternalVideoPlayer(streamURL: url, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
-            case VideoPlayerType.player3rb:
-                streamingVC = ExternalVideoPlayer3rb(streamURL: url, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
-            case VideoPlayerType.playerKura:
-                streamingVC = ExternalVideoPlayerKura(streamURL: url, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
-            case VideoPlayerType.playerJK:
-                streamingVC = ExternalVideoPlayerJK(streamURL: url, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
-            case VideoPlayerType.playerGoGo2:
-                streamingVC = ExternalVideoPlayerGoGo2(streamURL: url, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
-            default:
-                return
+    func playEpisode(url: String, cell: EpisodeCell, fullURL: String) {
+        hasSentUpdate = false
+        
+        guard let videoURL = URL(string: url) else {
+            print("Invalid URL: \(url)")
+            hideLoadingBanner()
+            return
+        }
+        
+        let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? ""
+        
+        if selectedMediaSource == "HiAnime" {
+            handleHiAnimeSource(url: url, cell: cell, fullURL: fullURL)
+        } else if url.contains(".mp4") || url.contains(".m3u8") || url.contains("animeheaven.me/video.mp4") {
+            hideLoadingBanner { [weak self] in
+                self?.playVideo(sourceURL: videoURL, cell: cell, fullURL: fullURL)
             }
-            streamingVC.modalPresentationStyle = .fullScreen
-            self.present(streamingVC, animated: true, completion: nil)
+        } else {
+            handleSources(url: url, cell: cell, fullURL: fullURL)
+        }
+    }
+    
+    func hideLoadingBanner(completion: (() -> Void)? = nil) {
+        DispatchQueue.main.async {
+            if let alert = self.presentedViewController as? UIAlertController {
+                alert.dismiss(animated: true) {
+                    completion?()
+                }
+            } else {
+                completion?()
+            }
+        }
+    }
+    
+    func presentStreamingView(withURL url: String, captionURL: String, playerType: String, cell: EpisodeCell, fullURL: String) {
+        hideLoadingBanner { [weak self] in
+            guard let self = self else { return }
+            
+            DispatchQueue.main.async {
+                var streamingVC: UIViewController
+                switch playerType {
+                case VideoPlayerType.standard:
+                    streamingVC = ExternalVideoPlayer(streamURL: url, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
+                case VideoPlayerType.player3rb:
+                    streamingVC = ExternalVideoPlayer3rb(streamURL: url, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
+                case VideoPlayerType.playerKura:
+                    streamingVC = ExternalVideoPlayerKura(streamURL: url, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
+                case VideoPlayerType.playerJK:
+                    streamingVC = ExternalVideoPlayerJK(streamURL: url, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
+                case VideoPlayerType.playerGoGo2:
+                    streamingVC = ExternalVideoPlayerGoGo2(streamURL: url, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
+                default:
+                    return
+                }
+                streamingVC.modalPresentationStyle = .fullScreen
+                self.present(streamingVC, animated: true, completion: nil)
+            }
         }
     }
     
@@ -707,33 +769,10 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
         }
     }
     
-    func playEpisode(url: String, cell: EpisodeCell, fullURL: String) {
-        hasSentUpdate = false
-        
-        guard let videoURL = URL(string: url) else {
-            print("Invalid URL: \(url)")
-            return
-        }
-        
-        let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? ""
-        
-        if selectedMediaSource == "HiAnime" {
-            handleHiAnimeSource(url: url, cell: cell, fullURL: fullURL)
-        } else if url.contains(".mp4") || url.contains(".m3u8") || url.contains("animeheaven.me/video.mp4") {
-            DispatchQueue.main.async {
-                self.playVideo(sourceURL: videoURL, cell: cell, fullURL: fullURL)
-            }
-        } else {
-            handleSources(url: url, cell: cell, fullURL: fullURL)
-        }
-    }
-    
     private func handleHiAnimeSource(url: String, cell: EpisodeCell, fullURL: String) {
         guard let episodeId = extractEpisodeId(from: url) else {
             print("Could not extract episodeId from URL")
-            DispatchQueue.main.async {
-                self.showAlert(title: "Error", message: "Could not extract episodeId from URL")
-            }
+            hideLoadingBannerAndShowAlert(title: "Error", message: "Could not extract episodeId from URL")
             return
         }
         
@@ -742,9 +781,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
             
             if options.isEmpty {
                 print("No options available for this episode")
-                DispatchQueue.main.async {
-                    self.showAlert(title: "Error", message: "No options available for this episode")
-                }
+                self.hideLoadingBannerAndShowAlert(title: "Error", message: "No options available for this episode")
                 return
             }
             
@@ -754,9 +791,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
             self.selectAudioCategory(options: options, preferredAudio: preferredAudio) { category in
                 guard let servers = options[category], !servers.isEmpty else {
                     print("No servers available for selected category")
-                    DispatchQueue.main.async {
-                        self.showAlert(title: "Error", message: "No server available")
-                    }
+                    self.hideLoadingBannerAndShowAlert(title: "Error", message: "No server available")
                     return
                 }
                 
@@ -769,21 +804,34 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                     let randomURL = urls.randomElement()!
                     let finalURL = "\(randomURL)\(episodeId)&category=\(category)&server=\(server)"
                     
-                    self.fetchHiAnimeData(from: finalURL) { sourceURL, captionURLs in
-                        DispatchQueue.main.async {
-                            guard let sourceURL = sourceURL else {
-                                print("Error extracting source URL")
-                                self.showAlert(title: "Error", message: "Error extracting source URL")
-                                return
-                            }
-                            
-                            self.selectSubtitles(captionURLs: captionURLs) { selectedSubtitleURL in
-                                let subtitleURL = selectedSubtitleURL ?? URL(string: "https://nosubtitlesfor.you")!
-                                self.openHiAnimeExperimental(url: sourceURL, subURL: subtitleURL, cell: cell, fullURL: fullURL)
+                    self.fetchHiAnimeData(from: finalURL) { [weak self] sourceURL, captionURLs in
+                        guard let self = self else { return }
+                        
+                        self.hideLoadingBanner {
+                            DispatchQueue.main.async {
+                                guard let sourceURL = sourceURL else {
+                                    print("Error extracting source URL")
+                                    self.showAlert(title: "Error", message: "Error extracting source URL")
+                                    return
+                                }
+                                
+                                self.selectSubtitles(captionURLs: captionURLs) { selectedSubtitleURL in
+                                    let subtitleURL = selectedSubtitleURL ?? URL(string: "https://nosubtitlesfor.you")!
+                                    self.openHiAnimeExperimental(url: sourceURL, subURL: subtitleURL, cell: cell, fullURL: fullURL)
+                                }
                             }
                         }
                     }
                 }
+            }
+        }
+    }
+    
+    private func hideLoadingBannerAndShowAlert(title: String, message: String) {
+        hideLoadingBanner { [weak self] in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                self.showAlert(title: title, message: message)
             }
         }
     }
@@ -837,24 +885,26 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                     return
                 }
                 
-                DispatchQueue.main.async {
-                    switch selectedMediaSource {
-                    case "GoGoAnime":
-                        let playerType = gogoFetcher == "Secondary" ? VideoPlayerType.standard : VideoPlayerType.playerGoGo2
-                        self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: playerType, cell: cell, fullURL: fullURL)
-                    case "AnimeFire":
-                        self.fetchVideoDataAndChooseQuality(from: finalSrcURL.absoluteString) { selectedURL in
-                            guard let selectedURL = selectedURL else { return }
-                            self.playVideo(sourceURL: selectedURL, cell: cell, fullURL: fullURL)
+                self.hideLoadingBanner {
+                    DispatchQueue.main.async {
+                        switch selectedMediaSource {
+                        case "GoGoAnime":
+                            let playerType = gogoFetcher == "Secondary" ? VideoPlayerType.standard : VideoPlayerType.playerGoGo2
+                            self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: playerType, cell: cell, fullURL: fullURL)
+                        case "AnimeFire":
+                            self.fetchVideoDataAndChooseQuality(from: finalSrcURL.absoluteString) { selectedURL in
+                                guard let selectedURL = selectedURL else { return }
+                                self.playVideo(sourceURL: selectedURL, cell: cell, fullURL: fullURL)
+                            }
+                        case "Anime3rb":
+                            self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.player3rb, cell: cell, fullURL: fullURL)
+                        case "Kuramanime":
+                            self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.playerKura, cell: cell, fullURL: fullURL)
+                        case "JKanime":
+                            self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.playerJK, cell: cell, fullURL: fullURL)
+                        default:
+                            self.playVideo(sourceURL: finalSrcURL, cell: cell, fullURL: fullURL)
                         }
-                    case "Anime3rb":
-                        self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.player3rb, cell: cell, fullURL: fullURL)
-                    case "Kuramanime":
-                        self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.playerKura, cell: cell, fullURL: fullURL)
-                    case "JKanime":
-                        self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.playerJK, cell: cell, fullURL: fullURL)
-                    default:
-                        self.playVideo(sourceURL: finalSrcURL, cell: cell, fullURL: fullURL)
                     }
                 }
             }

@@ -13,8 +13,13 @@ extension AnimeDetailViewController {
         if let audioOptions = options[preferredAudio], !audioOptions.isEmpty {
             completion(preferredAudio)
         } else {
-            DispatchQueue.main.async {
-                self.presentDubSubRawSelection(options: options, preferredType: preferredAudio, completion: completion)
+            hideLoadingBanner {
+                DispatchQueue.main.async {
+                    self.presentDubSubRawSelection(options: options, preferredType: preferredAudio) { selectedCategory in
+                        self.showLoadingBanner()
+                        completion(selectedCategory)
+                    }
+                }
             }
         }
     }
@@ -23,8 +28,13 @@ extension AnimeDetailViewController {
         if let server = servers.first(where: { ($0["serverName"] as? String) == preferredServer }) {
             completion(server["serverName"] as? String ?? "")
         } else {
-            DispatchQueue.main.async {
-                self.presentServerSelection(servers: servers, completion: completion)
+            hideLoadingBanner {
+                DispatchQueue.main.async {
+                    self.presentServerSelection(servers: servers) { selectedServer in
+                        self.showLoadingBanner()
+                        completion(selectedServer)
+                    }
+                }
             }
         }
     }
@@ -39,8 +49,10 @@ extension AnimeDetailViewController {
            let preferredURL = captionURLs[preferredSubtitles] {
             completion(preferredURL)
         } else {
-            DispatchQueue.main.async {
-                self.presentSubtitleSelection(captionURLs: captionURLs, completion: completion)
+            hideLoadingBanner {
+                DispatchQueue.main.async {
+                    self.presentSubtitleSelection(captionURLs: captionURLs, completion: completion)
+                }
             }
         }
     }
