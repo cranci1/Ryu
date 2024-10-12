@@ -839,6 +839,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
     private func handleSources(url: String, cell: EpisodeCell, fullURL: String) {
         guard let requestURL = URL(string: url) else {
             DispatchQueue.main.async {
+                self.hideLoadingBanner()
                 self.showAlert(title: "Error", message: "Invalid URL: \(url)")
             }
             return
@@ -849,11 +850,13 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
             
             DispatchQueue.main.async {
                 if let error = error {
+                    self.hideLoadingBanner()
                     self.showAlert(title: "Error", message: "Error fetching video data: \(error.localizedDescription)")
                     return
                 }
                 
                 guard let data = data, let htmlString = String(data: data, encoding: .utf8) else {
+                    self.hideLoadingBanner()
                     self.showAlert(title: "Error", message: "Error parsing video data")
                     return
                 }
@@ -880,6 +883,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                 }
                 
                 guard let finalSrcURL = srcURL else {
+                    self.hideLoadingBanner()
                     print("Error extracting source URL")
                     self.showAlert(title: "Error", message: "Error extracting source URL")
                     return
@@ -893,7 +897,10 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                             self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: playerType, cell: cell, fullURL: fullURL)
                         case "AnimeFire":
                             self.fetchVideoDataAndChooseQuality(from: finalSrcURL.absoluteString) { selectedURL in
-                                guard let selectedURL = selectedURL else { return }
+                                guard let selectedURL = selectedURL else {
+                                    self.showAlert(title: "Error", message: "Failed to fetch video data")
+                                    return
+                                }
                                 self.playVideo(sourceURL: selectedURL, cell: cell, fullURL: fullURL)
                             }
                         case "Anime3rb":
