@@ -6,12 +6,12 @@
 //
 
 import UIKit
+import Network
 
 class SettingsViewCast: UITableViewController {
     
     @IBOutlet var fullTitleSwitch: UISwitch!
     @IBOutlet var animeImageSwitch: UISwitch!
-    
     @IBOutlet weak var castMethod: UIButton!
     
     override func viewDidLoad() {
@@ -35,6 +35,41 @@ class SettingsViewCast: UITableViewController {
     
     @IBAction func animeImageToggle(_ sender: UISwitch) {
         UserDefaults.standard.set(sender.isOn, forKey: "animeImageCast")
+    }
+    
+    @IBAction func handleTapGesture() {
+        requestLocalNetworkPermission()
+    }
+    
+    func requestLocalNetworkPermission() {
+        let parameters = NWParameters.udp
+        let endpoint = NWEndpoint.hostPort(host: .ipv4(IPv4Address("192.168.1.1")!), port: 8080)
+        let connection = NWConnection(to: endpoint, using: parameters)
+        
+        connection.stateUpdateHandler = { [weak self] newState in
+            switch newState {
+            case .ready:
+                print("Connection is ready")
+                DispatchQueue.main.async {
+                    self?.showPermissionGrantedAlert()
+                }
+            case .failed(let error):
+                print("Connection failed: \(error)")
+            default:
+                break
+            }
+        }
+        connection.start(queue: .main)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            connection.cancel()
+        }
+    }
+    
+    func showPermissionGrantedAlert() {
+        let alertController = UIAlertController(title: "Permission Granted", message: "Local network access has been granted.", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alertController, animated: true, completion: nil)
     }
     
     func setupMethodMenu() {
