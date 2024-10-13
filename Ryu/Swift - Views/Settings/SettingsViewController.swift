@@ -97,7 +97,7 @@ class SettingsViewController: UITableViewController {
         let holdSpeed = UserDefaults.standard.float(forKey: "holdSpeedPlayer")
         holdSpeedSteppper.value = Double(holdSpeed)
         holdSpeedSteppper.minimumValue = 0.50
-        holdSpeedSteppper.maximumValue = 5.0
+        holdSpeedSteppper.maximumValue = 2.0
         holdSpeedSteppper.stepValue = 0.25
         updateHoldSpeedLabel()
     }

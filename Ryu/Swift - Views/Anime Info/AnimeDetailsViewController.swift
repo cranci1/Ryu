@@ -377,6 +377,21 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(cancelAction)
         
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            alertController.modalPresentationStyle = .popover
+            if let popoverController = alertController.popoverPresentationController {
+                popoverController.sourceView = self.view
+                popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+                popoverController.permittedArrowDirections = [.up, .down, .left, .right]
+            }
+        } else {
+            if let popoverController = alertController.popoverPresentationController {
+                popoverController.sourceView = self.view
+                popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+                popoverController.permittedArrowDirections = []
+            }
+        }
+        
         DispatchQueue.main.async {
             self.present(alertController, animated: true, completion: nil)
         }
