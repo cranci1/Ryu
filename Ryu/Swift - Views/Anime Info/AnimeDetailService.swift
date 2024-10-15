@@ -44,8 +44,22 @@ class AnimeDetailService {
         }
         
         let baseUrl = baseUrls.randomElement()!
-        let fullUrl = baseUrl + href
-
+        let fullUrl: String
+        
+        if selectedSource == .anilibria,
+           href.hasPrefix("https://cache.libria.fun/videos/media/ts/") {
+            let components = href.components(separatedBy: "/")
+            if let tsIndex = components.firstIndex(of: "ts"),
+               tsIndex + 1 < components.count,
+               let extractedId = components[tsIndex + 1].components(separatedBy: CharacterSet.decimalDigits.inverted).first {
+                fullUrl = baseUrl + extractedId
+            } else {
+                fullUrl = baseUrl + href
+            }
+        } else {
+            fullUrl = baseUrl + href
+        }
+        
         if selectedSource == .anilibria {
             AF.request(fullUrl).responseDecodable(of: AnilibriaResponse.self) { response in
                 switch response.result {
