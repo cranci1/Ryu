@@ -59,7 +59,6 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
         setupCastButton()
         
         isReverseSorted = UserDefaults.standard.bool(forKey: "isEpisodeReverseSorted")
-        setupUserDefaultsObserver()
         sortEpisodes()
         
         navigationItem.largeTitleDisplayMode = .never
@@ -142,6 +141,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
     
     private func setupNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleInterruption), name: AVAudioSession.interruptionNotification, object: AVAudioSession.sharedInstance())
+        NotificationCenter.default.addObserver(self, selector: #selector(userDefaultsChanged), name: UserDefaults.didChangeNotification, object: nil)
     }
     
     @objc private func handleInterruption(notification: Notification) {
@@ -189,10 +189,6 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
     
     private func sortEpisodes() {
         episodes = isReverseSorted ? episodes.sorted(by: { $0.episodeNumber > $1.episodeNumber }) : episodes.sorted(by: { $0.episodeNumber < $1.episodeNumber })
-    }
-    
-    private func setupUserDefaultsObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(userDefaultsChanged), name: UserDefaults.didChangeNotification, object: nil)
     }
     
     @objc private func userDefaultsChanged() {

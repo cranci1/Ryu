@@ -67,7 +67,7 @@ class AnimeDetailService {
                     let aliases = anilibriaResponse.names.en
                     let synopsis = anilibriaResponse.description
                     let airdate = "\(anilibriaResponse.season.year) \(anilibriaResponse.season.string)"
-                    let stars = String(anilibriaResponse.inFavorites)
+                    let stars = ""
                     
                     let episodes = anilibriaResponse.player.list.map { (key, value) -> Episode in
                         let episodeNumber = key
