@@ -675,15 +675,17 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
     @objc private func openInWeb(fullURL: String) {
         let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource")
         
-        if selectedMediaSource == "HiAnime" {
+        switch selectedMediaSource {
+        case "HiAnime":
             if let extractedID = extractEpisodeId(from: fullURL) {
                 let hiAnimeURL = "https://hianime.to/watch/\(extractedID)"
-                print(hiAnimeURL)
                 openSafariViewController(with: hiAnimeURL)
             } else {
                 showAlert(title: "Error", message: "Unable to extract episode ID")
             }
-        } else {
+        case "Anilibria":
+            showAlert(title: "Unsupported Function", message: "Anilibria doesn't support playing in web.")
+        default:
             openSafariViewController(with: fullURL)
         }
     }
