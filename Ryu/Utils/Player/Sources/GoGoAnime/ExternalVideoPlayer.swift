@@ -542,7 +542,6 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, CustomPlayerV
     }
     
     private func cleanup() {
-        stopExtractionProcess()
         isVideoPlaying = false
         player?.pause()
         player = nil
@@ -551,6 +550,8 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, CustomPlayerV
         playerViewController?.view.removeFromSuperview()
         playerViewController?.removeFromParent()
         playerViewController = nil
+        
+        stopExtractionProcess()
         
         if let timeObserverToken = timeObserverToken {
             player?.removeTimeObserver(timeObserverToken)

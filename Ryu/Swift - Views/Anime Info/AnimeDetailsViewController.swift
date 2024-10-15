@@ -112,7 +112,10 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                 FavoritesManager.shared.removeFavorite(anime)
             }
         }
-        tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+        
+        tableView.beginUpdates()
+        tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+        tableView.endUpdates()
     }
     
     private func createFavoriteAnime() -> FavoriteItem? {
