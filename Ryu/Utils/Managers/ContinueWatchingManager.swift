@@ -41,14 +41,9 @@ class ContinueWatchingManager {
         
         if userDefaults.bool(forKey: mergeWatchingKey) {
             if let existingIndex = items.firstIndex(where: { $0.animeTitle == item.animeTitle }) {
-                let existingItem = items[existingIndex]
-                if item.episodeNumber > existingItem.episodeNumber {
-                    items.remove(at: existingIndex)
-                    items.insert(item, at: 0)
-                }
-            } else {
-                items.insert(item, at: 0)
+                items.remove(at: existingIndex)
             }
+            items.insert(item, at: 0)
         } else {
             items.insert(item, at: 0)
         }
