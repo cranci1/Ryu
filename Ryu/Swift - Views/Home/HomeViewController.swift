@@ -83,6 +83,22 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
         setupContextMenus()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadContinueWatchingItems()
+        
+        let currentSelectedSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
+        if let displayedSource = selectedSourceLabel.text?.replacingOccurrences(of: "on ", with: "").replacingOccurrences(of: "%", with: "") {
+            if displayedSource != currentSelectedSource {
+                setupSelectedSourceLabel()
+                
+                fetchFeaturedAnime { [weak self] in
+                    self?.refreshFeaturedUI()
+                }
+            }
+        }
+    }
+    
     private func setupContextMenus() {
         let collectionViews = [trendingCollectionView, seasonalCollectionView, airingCollectionView]
         
@@ -136,11 +152,6 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
     
     deinit {
         NotificationCenter.default.removeObserver(self)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        loadContinueWatchingItems()
     }
     
     private func setupEmptyContinueWatchingLabel() {
