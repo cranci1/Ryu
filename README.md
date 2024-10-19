@@ -56,6 +56,8 @@ A simple way to enjoy and watch anime on iOS
 | Hanashi     | German     | ✅     | :x:       | :x:       | :x:      |
 | Anilibria   | Russian    | ✅     | ✅        | ✅        | :x:      |
 
+Hanashi Development has stopped since that the main Developer has stopped working on Hanashi at the moment
+
 > Note: AnimeFire is region-blocked; only Portugal and Brazil IPs are allowed!
 
 ## Installation
