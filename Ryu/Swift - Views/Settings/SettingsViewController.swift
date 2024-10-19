@@ -149,6 +149,7 @@ class SettingsViewController: UITableViewController {
         let vlcIcon = UIImage(systemName: "film")
         let outplayerIcon = UIImage(systemName: "play.circle.fill")
         let customIcon = UIImage(systemName: "bolt.horizontal.fill")
+        let networkIcon = UIImage(systemName: "network")
         
         let action1 = UIAction(title: "Default", image: defaultIcon, handler: { [weak self] _ in
             UserDefaults.standard.set("Default", forKey: "mediaPlayerSelected")
@@ -170,8 +171,12 @@ class SettingsViewController: UITableViewController {
             UserDefaults.standard.set("Custom", forKey: "mediaPlayerSelected")
             self?.playerButton.setTitle("Custom", for: .normal)
         })
+        let action6 = UIAction(title: "WebPlayer", image: networkIcon, handler: { [weak self] _ in
+            UserDefaults.standard.set("WebPlayer", forKey: "mediaPlayerSelected")
+            self?.playerButton.setTitle("WebPlayer", for: .normal)
+        })
         
-        let menu = UIMenu(title: "Select Media Player", children: [action1, action2, action3, action4, action5])
+        let menu = UIMenu(title: "Select Media Player", children: [action1, action2, action3, action4, action5, action6])
         
         playerButton.menu = menu
         playerButton.showsMenuAsPrimaryAction = true

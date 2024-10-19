@@ -758,6 +758,8 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                     streamingVC = ExternalVideoPlayerJK(streamURL: url, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
                 case VideoPlayerType.playerGoGo2:
                     streamingVC = ExternalVideoPlayerGoGo2(streamURL: url, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
+                case VideoPlayerType.playerWeb:
+                    streamingVC = WebPlayer(streamURL: url, captionURL: captionURL, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
                 default:
                     return
                 }
@@ -1066,6 +1068,8 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
             let viewController = CustomPlayerView(videoTitle: videoTitle ?? "", videoURL: sourceURL, cell: cell, fullURL: fullURL, image: imageURL)
             viewController.modalPresentationStyle = .fullScreen
             self.present(viewController, animated: true, completion: nil)
+        case "WebPlayer":
+            startStreamingButtonTapped(withURL: sourceURL.absoluteString, captionURL: "", playerType: VideoPlayerType.playerWeb, cell: cell, fullURL: fullURL)
         default:
             playVideoWithAVPlayer(sourceURL: sourceURL, cell: cell, fullURL: fullURL)
         }

@@ -79,7 +79,7 @@
 		136525592C6B5B4100210A98 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136525152C6B5B4100210A98 /* SceneDelegate.swift */; };
 		13765C9C2C6E44A8000070A5 /* NormalPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13765C9B2C6E44A8000070A5 /* NormalPlayer.swift */; };
 		137B8D042CA15BA1004CC61B /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137B8D032CA15BA1004CC61B /* Collection.swift */; };
-		138669D42C6F6266009ABA6F /* HiAnime-WebPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138669D32C6F6266009ABA6F /* HiAnime-WebPlayer.swift */; };
+		138669D42C6F6266009ABA6F /* WebPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138669D32C6F6266009ABA6F /* WebPlayer.swift */; };
 		138F7AB12C99AF83007175F1 /* ExternalVideoPlayerGoGo2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138F7AB02C99AF83007175F1 /* ExternalVideoPlayerGoGo2.swift */; };
 		138F7AB72C99B622007175F1 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 138F7AB62C99B622007175F1 /* SwiftSoup */; };
 		13902BAC2C7B689F00596A2C /* SubtitlesLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13902BAB2C7B689F00596A2C /* SubtitlesLoader.swift */; };
@@ -88,7 +88,7 @@
 		13921B432C6B8F87004E8BDC /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13921B422C6B8F87004E8BDC /* Notification.swift */; };
 		13921B452C6B8FC1004E8BDC /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13921B442C6B8FC1004E8BDC /* UserDefaults.swift */; };
 		139782182C8C3B56007AB9C0 /* SettingsViewAniSkip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139782172C8C3B56007AB9C0 /* SettingsViewAniSkip.swift */; };
-		13A888B22C7A305500D6C597 /* CustomPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A888B12C7A305500D6C597 /* CustomPlayer.swift */; };
+		13A888B22C7A305500D6C597 /* CustomPlayerUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A888B12C7A305500D6C597 /* CustomPlayerUI.swift */; };
 		13A888B42C7A322600D6C597 /* CustomPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A888B32C7A322600D6C597 /* CustomPlayerView.swift */; };
 		13B40E212CB191D900EF964A /* AnimeInfo+Struct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B40E202CB191D900EF964A /* AnimeInfo+Struct.swift */; };
 		13E7F8182C9031A7007550B9 /* SettingsViewTranslation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E7F8172C9031A7007550B9 /* SettingsViewTranslation.swift */; };
@@ -168,7 +168,7 @@
 		136525152C6B5B4100210A98 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		13765C9B2C6E44A8000070A5 /* NormalPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalPlayer.swift; sourceTree = "<group>"; };
 		137B8D032CA15BA1004CC61B /* Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
-		138669D32C6F6266009ABA6F /* HiAnime-WebPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HiAnime-WebPlayer.swift"; sourceTree = "<group>"; };
+		138669D32C6F6266009ABA6F /* WebPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebPlayer.swift; sourceTree = "<group>"; };
 		138F7AB02C99AF83007175F1 /* ExternalVideoPlayerGoGo2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExternalVideoPlayerGoGo2.swift; sourceTree = "<group>"; };
 		13902BAB2C7B689F00596A2C /* SubtitlesLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubtitlesLoader.swift; sourceTree = "<group>"; };
 		13921B3E2C6B8ED9004E8BDC /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
@@ -176,7 +176,7 @@
 		13921B422C6B8F87004E8BDC /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		13921B442C6B8FC1004E8BDC /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		139782172C8C3B56007AB9C0 /* SettingsViewAniSkip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewAniSkip.swift; sourceTree = "<group>"; };
-		13A888B12C7A305500D6C597 /* CustomPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPlayer.swift; sourceTree = "<group>"; };
+		13A888B12C7A305500D6C597 /* CustomPlayerUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPlayerUI.swift; sourceTree = "<group>"; };
 		13A888B32C7A322600D6C597 /* CustomPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlayerView.swift; sourceTree = "<group>"; };
 		13B40E202CB191D900EF964A /* AnimeInfo+Struct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnimeInfo+Struct.swift"; sourceTree = "<group>"; };
 		13E7F8172C9031A7007550B9 /* SettingsViewTranslation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewTranslation.swift; sourceTree = "<group>"; };
@@ -563,7 +563,7 @@
 		138669D22C6F6242009ABA6F /* WebView Player */ = {
 			isa = PBXGroup;
 			children = (
-				138669D32C6F6266009ABA6F /* HiAnime-WebPlayer.swift */,
+				138669D32C6F6266009ABA6F /* WebPlayer.swift */,
 			);
 			path = "WebView Player";
 			sourceTree = "<group>";
@@ -582,7 +582,7 @@
 			children = (
 				13902BAA2C7B689400596A2C /* Subtitles */,
 				13A888B32C7A322600D6C597 /* CustomPlayerView.swift */,
-				13A888B12C7A305500D6C597 /* CustomPlayer.swift */,
+				13A888B12C7A305500D6C597 /* CustomPlayerUI.swift */,
 			);
 			path = "Custom Player";
 			sourceTree = "<group>";
@@ -714,7 +714,7 @@
 				136525382C6B5B4100210A98 /* SettingsViewCast.swift in Sources */,
 				13765C9C2C6E44A8000070A5 /* NormalPlayer.swift in Sources */,
 				136525242C6B5B4100210A98 /* Kitsu-Info.swift in Sources */,
-				13A888B22C7A305500D6C597 /* CustomPlayer.swift in Sources */,
+				13A888B22C7A305500D6C597 /* CustomPlayerUI.swift in Sources */,
 				1365251C2C6B5B4100210A98 /* AniList-Info.swift in Sources */,
 				136525372C6B5B4100210A98 /* SettingsViewSources.swift in Sources */,
 				136525492C6B5B4100210A98 /* DownloadCell.swift in Sources */,
@@ -723,7 +723,7 @@
 				136525222C6B5B4100210A98 /* Kitsu-Sesonal.swift in Sources */,
 				1365254E2C6B5B4100210A98 /* MP4Downloader.swift in Sources */,
 				136525172C6B5B4100210A98 /* Jikan-Sesonal.swift in Sources */,
-				138669D42C6F6266009ABA6F /* HiAnime-WebPlayer.swift in Sources */,
+				138669D42C6F6266009ABA6F /* WebPlayer.swift in Sources */,
 				136525482C6B5B4100210A98 /* DownloadsViewController.swift in Sources */,
 				1365251A2C6B5B4100210A98 /* Mutation.swift in Sources */,
 				136525262C6B5B4100210A98 /* AppDelegate.swift in Sources */,
