@@ -14,7 +14,8 @@ class SettingsViewController: UITableViewController {
     @IBOutlet var landScapeSwitch: UISwitch!
     @IBOutlet var browserPlayerSwitch: UISwitch!
     @IBOutlet var mergeActivitySwitch: UISwitch!
-    @IBOutlet weak var syncThemeSwitch: UISwitch!
+    @IBOutlet var FavoriteNotificationSwitch: UISwitch!
+    @IBOutlet var syncThemeSwitch: UISwitch!
     
     @IBOutlet weak var playerButton: UIButton!
     @IBOutlet weak var sourceButton: UIButton!
@@ -195,6 +196,7 @@ class SettingsViewController: UITableViewController {
         landScapeSwitch.isOn = UserDefaults.standard.bool(forKey: "AlwaysLandscape")
         browserPlayerSwitch.isOn = UserDefaults.standard.bool(forKey: "browserPlayer")
         mergeActivitySwitch.isOn = UserDefaults.standard.bool(forKey: "mergeWatching")
+        FavoriteNotificationSwitch.isOn = UserDefaults.standard.bool(forKey: "notificationEpisodes")
         
         let holdSpeeed = UserDefaults.standard.float(forKey: "holdSpeedPlayer")
         holdSpeeedLabel.text = String(format: "Hold Speed player: %.2fx", holdSpeeed)
@@ -225,6 +227,34 @@ class SettingsViewController: UITableViewController {
     
     @IBAction func mergeActivtyToggle(_ sender: UISwitch) {
         UserDefaults.standard.set(sender.isOn, forKey: "mergeWatching")
+    }
+    
+    @IBAction func notificationsToggle(_ sender: UISwitch) {
+        if sender.isOn {
+            requestNotificationPermissions { granted in
+                DispatchQueue.main.async {
+                    if granted {
+                        UserDefaults.standard.set(true, forKey: "notificationEpisodes")
+                    } else {
+                        sender.setOn(false, animated: true)
+                        UserDefaults.standard.set(false, forKey: "notificationEpisodes")
+                    }
+                }
+            }
+        } else {
+            UserDefaults.standard.set(false, forKey: "notificationEpisodes")
+        }
+    }
+
+    private func requestNotificationPermissions(completion: @escaping (Bool) -> Void) {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+            if let error = error {
+                print("Error requesting notification permissions: \(error)")
+                completion(false)
+            } else {
+                completion(granted)
+            }
+        }
     }
     
     @IBAction func createBackup(_ sender: Any) {

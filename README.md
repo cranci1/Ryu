@@ -38,7 +38,7 @@ A simple way to enjoy and watch anime on iOS
 - [x] External Media Player support (VLC, Infuse, OutPlayer)
 - [x] Intro/Outro skipper with timestamps
 - [x] Real-time subtitles translator
-- [ ] Notifications for new episodes (coming soon)
+- [x] Notifications for new episodes
 - [ ] macOS support
 
 ## Sources

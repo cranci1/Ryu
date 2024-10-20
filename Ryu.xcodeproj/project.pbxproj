@@ -10,6 +10,7 @@
 		131546D52C6DE6CC002DC3CC /* GoogleCastSDK-ios-no-bluetooth in Frameworks */ = {isa = PBXBuildFile; productRef = 131546D42C6DE6CC002DC3CC /* GoogleCastSDK-ios-no-bluetooth */; };
 		131546D82C6DE6D9002DC3CC /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 131546D72C6DE6D9002DC3CC /* Kingfisher */; };
 		131546DE2C6DE6F2002DC3CC /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 131546DD2C6DE6F2002DC3CC /* Alamofire */; };
+		132BEFA32CC5440C00B61089 /* Anilist-Episodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132BEFA22CC5440C00B61089 /* Anilist-Episodes.swift */; };
 		1357B5032C6D0965000A2C9B /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1357B4F12C6D0965000A2C9B /* Settings.storyboard */; };
 		1357B5042C6D0965000A2C9B /* FavoriteCell-Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1357B4F52C6D0965000A2C9B /* FavoriteCell-Swift.swift */; };
 		1357B5052C6D0965000A2C9B /* FavoriteCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1357B4F62C6D0965000A2C9B /* FavoriteCell.xib */; };
@@ -25,13 +26,13 @@
 		136525172C6B5B4100210A98 /* Jikan-Sesonal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136524B72C6B5B4000210A98 /* Jikan-Sesonal.swift */; };
 		136525182C6B5B4100210A98 /* Jikan-Trending.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136524B82C6B5B4000210A98 /* Jikan-Trending.swift */; };
 		136525192C6B5B4100210A98 /* Jikan-Airing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136524B92C6B5B4000210A98 /* Jikan-Airing.swift */; };
-		1365251A2C6B5B4100210A98 /* Mutation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136524BC2C6B5B4000210A98 /* Mutation.swift */; };
+		1365251A2C6B5B4100210A98 /* Anilist-Mutation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136524BC2C6B5B4000210A98 /* Anilist-Mutation.swift */; };
 		1365251B2C6B5B4100210A98 /* AniList-Airing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136524BE2C6B5B4000210A98 /* AniList-Airing.swift */; };
 		1365251C2C6B5B4100210A98 /* AniList-Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136524BF2C6B5B4000210A98 /* AniList-Info.swift */; };
 		1365251D2C6B5B4100210A98 /* AniList-Trending.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136524C02C6B5B4000210A98 /* AniList-Trending.swift */; };
 		1365251E2C6B5B4100210A98 /* AniList-Sesonal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136524C12C6B5B4000210A98 /* AniList-Sesonal.swift */; };
-		1365251F2C6B5B4100210A98 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136524C32C6B5B4000210A98 /* Login.swift */; };
-		136525202C6B5B4100210A98 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136524C42C6B5B4000210A98 /* Token.swift */; };
+		1365251F2C6B5B4100210A98 /* Anilist-Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136524C32C6B5B4000210A98 /* Anilist-Login.swift */; };
+		136525202C6B5B4100210A98 /* Anilist-Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136524C42C6B5B4000210A98 /* Anilist-Token.swift */; };
 		136525212C6B5B4100210A98 /* Kitsu-Trending.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136524C72C6B5B4000210A98 /* Kitsu-Trending.swift */; };
 		136525222C6B5B4100210A98 /* Kitsu-Sesonal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136524C82C6B5B4000210A98 /* Kitsu-Sesonal.swift */; };
 		136525232C6B5B4100210A98 /* Kitsu-Airing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136524C92C6B5B4000210A98 /* Kitsu-Airing.swift */; };
@@ -97,6 +98,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		132BEFA22CC5440C00B61089 /* Anilist-Episodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Anilist-Episodes.swift"; sourceTree = "<group>"; };
 		1357B4F22C6D0965000A2C9B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Ryu/Base.lproj/Settings.storyboard; sourceTree = SOURCE_ROOT; };
 		1357B4F52C6D0965000A2C9B /* FavoriteCell-Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FavoriteCell-Swift.swift"; sourceTree = "<group>"; };
 		1357B4F62C6D0965000A2C9B /* FavoriteCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FavoriteCell.xib; sourceTree = "<group>"; };
@@ -113,13 +115,13 @@
 		136524B72C6B5B4000210A98 /* Jikan-Sesonal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Jikan-Sesonal.swift"; sourceTree = "<group>"; };
 		136524B82C6B5B4000210A98 /* Jikan-Trending.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Jikan-Trending.swift"; sourceTree = "<group>"; };
 		136524B92C6B5B4000210A98 /* Jikan-Airing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Jikan-Airing.swift"; sourceTree = "<group>"; };
-		136524BC2C6B5B4000210A98 /* Mutation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mutation.swift; sourceTree = "<group>"; };
+		136524BC2C6B5B4000210A98 /* Anilist-Mutation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Anilist-Mutation.swift"; sourceTree = "<group>"; };
 		136524BE2C6B5B4000210A98 /* AniList-Airing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AniList-Airing.swift"; sourceTree = "<group>"; };
 		136524BF2C6B5B4000210A98 /* AniList-Info.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AniList-Info.swift"; sourceTree = "<group>"; };
 		136524C02C6B5B4000210A98 /* AniList-Trending.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AniList-Trending.swift"; sourceTree = "<group>"; };
 		136524C12C6B5B4000210A98 /* AniList-Sesonal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AniList-Sesonal.swift"; sourceTree = "<group>"; };
-		136524C32C6B5B4000210A98 /* Login.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
-		136524C42C6B5B4000210A98 /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
+		136524C32C6B5B4000210A98 /* Anilist-Login.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Anilist-Login.swift"; sourceTree = "<group>"; };
+		136524C42C6B5B4000210A98 /* Anilist-Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Anilist-Token.swift"; sourceTree = "<group>"; };
 		136524C72C6B5B4000210A98 /* Kitsu-Trending.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Kitsu-Trending.swift"; sourceTree = "<group>"; };
 		136524C82C6B5B4000210A98 /* Kitsu-Sesonal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Kitsu-Sesonal.swift"; sourceTree = "<group>"; };
 		136524C92C6B5B4000210A98 /* Kitsu-Airing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Kitsu-Airing.swift"; sourceTree = "<group>"; };
@@ -199,6 +201,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		132BEFA72CC546EC00B61089 /* Episodes */ = {
+			isa = PBXGroup;
+			children = (
+				132BEFA22CC5440C00B61089 /* Anilist-Episodes.swift */,
+			);
+			path = Episodes;
+			sourceTree = "<group>";
+		};
 		1357B4F02C6D0954000A2C9B /* StoryBoard */ = {
 			isa = PBXGroup;
 			children = (
@@ -323,6 +333,7 @@
 		136524BA2C6B5B4000210A98 /* Anilist-Services */ = {
 			isa = PBXGroup;
 			children = (
+				132BEFA72CC546EC00B61089 /* Episodes */,
 				136524C22C6B5B4000210A98 /* Authorization */,
 				136524BB2C6B5B4000210A98 /* Mutations */,
 				136524BD2C6B5B4000210A98 /* Requests */,
@@ -333,7 +344,7 @@
 		136524BB2C6B5B4000210A98 /* Mutations */ = {
 			isa = PBXGroup;
 			children = (
-				136524BC2C6B5B4000210A98 /* Mutation.swift */,
+				136524BC2C6B5B4000210A98 /* Anilist-Mutation.swift */,
 			);
 			path = Mutations;
 			sourceTree = "<group>";
@@ -352,8 +363,8 @@
 		136524C22C6B5B4000210A98 /* Authorization */ = {
 			isa = PBXGroup;
 			children = (
-				136524C32C6B5B4000210A98 /* Login.swift */,
-				136524C42C6B5B4000210A98 /* Token.swift */,
+				136524C32C6B5B4000210A98 /* Anilist-Login.swift */,
+				136524C42C6B5B4000210A98 /* Anilist-Token.swift */,
 			);
 			path = Authorization;
 			sourceTree = "<group>";
@@ -708,7 +719,7 @@
 				1365253B2C6B5B4100210A98 /* HomeViewController.swift in Sources */,
 				1365251B2C6B5B4100210A98 /* AniList-Airing.swift in Sources */,
 				13FD4DD92C9C61C30056E90B /* ContinueWatchingCell.swift in Sources */,
-				136525202C6B5B4100210A98 /* Token.swift in Sources */,
+				136525202C6B5B4100210A98 /* Anilist-Token.swift in Sources */,
 				13921B432C6B8F87004E8BDC /* Notification.swift in Sources */,
 				136525592C6B5B4100210A98 /* SceneDelegate.swift in Sources */,
 				136525382C6B5B4100210A98 /* SettingsViewCast.swift in Sources */,
@@ -725,9 +736,10 @@
 				136525172C6B5B4100210A98 /* Jikan-Sesonal.swift in Sources */,
 				138669D42C6F6266009ABA6F /* WebPlayer.swift in Sources */,
 				136525482C6B5B4100210A98 /* DownloadsViewController.swift in Sources */,
-				1365251A2C6B5B4100210A98 /* Mutation.swift in Sources */,
+				1365251A2C6B5B4100210A98 /* Anilist-Mutation.swift in Sources */,
 				136525262C6B5B4100210A98 /* AppDelegate.swift in Sources */,
 				13FD4DD72C9C61450056E90B /* AnimeDetailsMethods.swift in Sources */,
+				132BEFA32CC5440C00B61089 /* Anilist-Episodes.swift in Sources */,
 				1365254D2C6B5B4100210A98 /* ContinueWatchingManager.swift in Sources */,
 				136525472C6B5B4100210A98 /* ProgressDownloadCell.swift in Sources */,
 				13921B412C6B8F71004E8BDC /* URL.swift in Sources */,
@@ -756,7 +768,7 @@
 				136525422C6B5B4100210A98 /* FavoritesViewController.swift in Sources */,
 				136525532C6B5B4100210A98 /* ExternalVideoPlayerJK.swift in Sources */,
 				13902BAC2C7B689F00596A2C /* SubtitlesLoader.swift in Sources */,
-				1365251F2C6B5B4100210A98 /* Login.swift in Sources */,
+				1365251F2C6B5B4100210A98 /* Anilist-Login.swift in Sources */,
 				13B40E212CB191D900EF964A /* AnimeInfo+Struct.swift in Sources */,
 				136525272C6B5B4100210A98 /* Sources.swift in Sources */,
 				136525362C6B5B4100210A98 /* SettingsAnimeListing.swift in Sources */,

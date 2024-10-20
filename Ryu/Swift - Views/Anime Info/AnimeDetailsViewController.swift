@@ -108,8 +108,24 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
         if let anime = createFavoriteAnime() {
             if isFavorite {
                 FavoritesManager.shared.addFavorite(anime)
+                fetchAniListIDForNotifications()
             } else {
                 FavoritesManager.shared.removeFavorite(anime)
+                if let animeTitle = animeTitle,
+                   let customID = UserDefaults.standard.string(forKey: "customAniListID_\(animeTitle)"),
+                   let animeID = Int(customID) {
+                    AnimeEpisodeService.cancelNotifications(forAnimeID: animeID)
+                } else {
+                    let cleanedTitle = cleanTitle(animeTitle ?? "")
+                    AnimeService.fetchAnimeID(byTitle: cleanedTitle) { result in
+                        switch result {
+                        case .success(let id):
+                            AnimeEpisodeService.cancelNotifications(forAnimeID: id)
+                        case .failure(let error):
+                            print("Error fetching anime ID for canceling notifications: \(error)")
+                        }
+                    }
+                }
             }
         }
         
@@ -132,6 +148,36 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
     private func checkFavoriteStatus() {
         if let anime = createFavoriteAnime() {
             isFavorite = FavoritesManager.shared.isFavorite(anime)
+            
+            if isFavorite && UserDefaults.standard.bool(forKey: "notificationEpisodes") {
+                fetchAniListIDForNotifications()
+            }
+        }
+    }
+    
+    private func fetchAniListIDForNotifications() {
+        guard let title = animeTitle else { return }
+        
+        let mediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "Unknown Source"
+        
+        if let customID = UserDefaults.standard.string(forKey: "customAniListID_\(title)"),
+           let animeID = Int(customID) {
+            AnimeEpisodeService.fetchEpisodesSchedule(animeID: animeID, animeName: title, mediaSource: mediaSource)
+            return
+        }
+        
+        let cleanedTitle = cleanTitle(title)
+        AnimeService.fetchAnimeID(byTitle: cleanedTitle) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let id):
+                AnimeEpisodeService.fetchEpisodesSchedule(animeID: id, animeName: title, mediaSource: mediaSource)
+                print("scheduling")
+            case .failure(let error):
+                print("Error fetching anime ID for notifications: \(error)")
+                self.showAlert(title: "Notification Error", message: "Unable to set up episode notifications. Please try setting a custom AniList ID.")
+            }
         }
     }
     

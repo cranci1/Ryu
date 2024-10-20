@@ -20,10 +20,10 @@
                             <tableViewSection headerTitle="About Ryu" footerTitle="Find some Information about Ryu" id="PtL-kS-yFQ">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="Gne-PG-d7D">
-                                        <rect key="frame" x="20" y="32" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="32" width="374" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Gne-PG-d7D" id="QHg-2c-5oZ">
-                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="About" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lKL-3a-n9V">
@@ -44,10 +44,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="McV-an-f8h">
-                                        <rect key="frame" x="20" y="75.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="76" width="374" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="McV-an-f8h" id="sbr-Pt-vRR">
-                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GitHub Repository" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mfn-kK-Wvh">
@@ -73,7 +73,7 @@
                                 <string key="footerTitle">By activating the Merge, on the Continue Watching items only the newer episode played of an anime will be showed, if disabled all episodes that are playing of an anime will be shown.</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="1Lh-1M-16s">
-                                        <rect key="frame" x="20" y="185" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="186" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1Lh-1M-16s" id="dJP-XZ-jWj">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -104,7 +104,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="nsB-qj-jT6">
-                                        <rect key="frame" x="20" y="228.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="229.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="nsB-qj-jT6" id="cRs-Ln-Smm">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -133,7 +133,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="Wll-pX-PVX">
-                                        <rect key="frame" x="20" y="272" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="273" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Wll-pX-PVX" id="33P-hc-0rs">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -166,10 +166,44 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection headerTitle="Favorite" id="zPX-Lg-afV">
+                                <string key="footerTitle">Since the episode airing information is parsed from the Anilist API, it may not be 100% accurate, so an additional hour is added to the release date.</string>
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="h3B-A1-IB7">
+                                        <rect key="frame" x="20" y="424.5" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="h3B-A1-IB7" id="06G-ng-LVc">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notification on new Episode" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="joR-5r-rOW">
+                                                    <rect key="frame" x="15" y="13" width="191" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mHS-bC-69a">
+                                                    <rect key="frame" x="310" y="6.5" width="51" height="31"/>
+                                                    <color key="onTintColor" name="AccentColor"/>
+                                                    <connections>
+                                                        <action selector="notificationsToggle:" destination="pc2-lO-9Ci" eventType="valueChanged" id="lOD-x2-2P1"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="joR-5r-rOW" firstAttribute="leading" secondItem="06G-ng-LVc" secondAttribute="leading" constant="15" id="AYm-y8-izb"/>
+                                                <constraint firstItem="mHS-bC-69a" firstAttribute="trailing" secondItem="06G-ng-LVc" secondAttribute="trailing" constant="-15" id="Qfy-7D-ICA"/>
+                                                <constraint firstItem="joR-5r-rOW" firstAttribute="centerY" secondItem="06G-ng-LVc" secondAttribute="centerY" id="kz4-f3-PDD"/>
+                                                <constraint firstItem="mHS-bC-69a" firstAttribute="centerY" secondItem="06G-ng-LVc" secondAttribute="centerY" id="qgK-Jc-G7s"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                             <tableViewSection headerTitle="Theme" id="akj-2L-xlM">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="009-vp-4GS">
-                                        <rect key="frame" x="20" y="416" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="554.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="009-vp-4GS" id="DJJ-nF-NZd">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -198,7 +232,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="4cD-bU-e9p">
-                                        <rect key="frame" x="20" y="459.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="598" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="4cD-bU-e9p" id="jth-WD-9qz">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -234,7 +268,7 @@
                             <tableViewSection headerTitle="Sources" id="2Ds-cg-lq5">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="KMG-MD-kC0">
-                                        <rect key="frame" x="20" y="553" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="691.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="KMG-MD-kC0" id="xUo-3P-ZFi">
                                             <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
@@ -257,7 +291,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="eOM-3f-lpN">
-                                        <rect key="frame" x="20" y="596.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="735" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="eOM-3f-lpN" id="0dm-0Y-aF1">
                                             <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
@@ -284,7 +318,7 @@
                             <tableViewSection headerTitle="Player" footerTitle="You must have the VLC/Infuse/Outplayer app installed to be able to use the external Media Player." id="Ao9-xv-dJB">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="p2W-Y0-0VQ">
-                                        <rect key="frame" x="20" y="697.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="836" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="p2W-Y0-0VQ" id="6eF-kO-gnu">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -313,7 +347,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="pZ8-Bd-ctw">
-                                        <rect key="frame" x="20" y="741" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="879.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="pZ8-Bd-ctw" id="n9K-6T-tka">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -342,7 +376,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="YcD-pQ-iyV">
-                                        <rect key="frame" x="20" y="784.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="923" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="YcD-pQ-iyV" id="MxW-95-5nY">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -371,7 +405,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="i8x-yq-InO">
-                                        <rect key="frame" x="20" y="828" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="966.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="i8x-yq-InO" id="SK4-kd-de3">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -399,7 +433,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="gfO-ze-BcA">
-                                        <rect key="frame" x="20" y="871.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="1010" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gfO-ze-BcA" id="dwo-ud-ay0">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -433,10 +467,10 @@
 The Real Time Translation is only made to work on the HiAnime source, since it has a softsub subtitles type.</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="TNs-QJ-X3d">
-                                        <rect key="frame" x="20" y="995" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="1133.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="TNs-QJ-X3d" id="C3n-J2-pYD">
-                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="357.5" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AutoSkip Preferences" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vEh-c4-OqT">
@@ -456,13 +490,13 @@ The Real Time Translation is only made to work on the HiAnime source, since it h
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="XTU-wy-rjh">
-                                        <rect key="frame" x="20" y="1038.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="1177" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XTU-wy-rjh" id="FW5-6Z-D6W">
-                                            <rect key="frame" x="0.0" y="0.0" width="355.5" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="357.5" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Real Time Translation Preferences" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YyY-6f-8hG">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Real Time Translation Preferences" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YyY-6f-8hG">
                                                     <rect key="frame" x="15" y="13" width="233" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
@@ -483,13 +517,13 @@ The Real Time Translation is only made to work on the HiAnime source, since it h
                             <tableViewSection headerTitle="Home Configuration" id="NpK-mw-Ph6">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="GOv-Nu-HBP">
-                                        <rect key="frame" x="20" y="1182.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="1321" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="GOv-Nu-HBP" id="cZi-Uj-rTb">
-                                            <rect key="frame" x="0.0" y="0.0" width="355.5" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="357.5" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Google Cast" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pyf-T3-n6p">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Google Cast" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pyf-T3-n6p">
                                                     <rect key="frame" x="15" y="13" width="84.5" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
@@ -510,7 +544,7 @@ The Real Time Translation is only made to work on the HiAnime source, since it h
                             <tableViewSection headerTitle="Data" id="y8g-0P-qDQ">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="hfE-We-1uZ">
-                                        <rect key="frame" x="20" y="1276" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="1414.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hfE-We-1uZ" id="xJ2-Ge-9P0">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -534,7 +568,7 @@ The Real Time Translation is only made to work on the HiAnime source, since it h
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="MCd-19-KYt">
-                                        <rect key="frame" x="20" y="1319.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="1458" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="MCd-19-KYt" id="q9N-QI-RRZ">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -558,7 +592,7 @@ The Real Time Translation is only made to work on the HiAnime source, since it h
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="mQq-1t-gtR">
-                                        <rect key="frame" x="20" y="1363" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="1501.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mQq-1t-gtR" id="tiP-rb-fIJ">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -582,7 +616,7 @@ The Real Time Translation is only made to work on the HiAnime source, since it h
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="HUR-n8-Rbx">
-                                        <rect key="frame" x="20" y="1406.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="1545" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HUR-n8-Rbx" id="bHB-r2-4FI">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -606,7 +640,7 @@ The Real Time Translation is only made to work on the HiAnime source, since it h
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="SUn-bk-K3o">
-                                        <rect key="frame" x="20" y="1450" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="1588.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="SUn-bk-K3o" id="K0P-lj-MW7">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -630,7 +664,7 @@ The Real Time Translation is only made to work on the HiAnime source, since it h
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="nUw-b7-C1T">
-                                        <rect key="frame" x="20" y="1493.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="1632" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="nUw-b7-C1T" id="zBm-wD-CZR">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -670,6 +704,7 @@ The Real Time Translation is only made to work on the HiAnime source, since it h
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="FavoriteNotificationSwitch" destination="mHS-bC-69a" id="9vK-Wp-Js7"/>
                         <outlet property="autoPlaySwitch" destination="xtA-Zv-yy8" id="Wzy-AC-GdI"/>
                         <outlet property="browserPlayerSwitch" destination="2jM-8Y-fd7" id="iLv-e3-heq"/>
                         <outlet property="episodeSortingSegmentedControl" destination="QgB-fb-Dni" id="dwU-AP-PyC"/>
