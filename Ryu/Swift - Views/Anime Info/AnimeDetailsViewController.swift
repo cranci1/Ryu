@@ -648,7 +648,9 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
     }
     
     func episodeSelected(episode: Episode, cell: EpisodeCell) {
+        #if os(iOS)
         showLoadingBanner()
+        #endif
         
         let selectedSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
         currentEpisodeIndex = episodes.firstIndex(where: { $0.href == episode.href }) ?? 0
