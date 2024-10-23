@@ -648,9 +648,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
     }
     
     func episodeSelected(episode: Episode, cell: EpisodeCell) {
-        #if os(iOS)
         showLoadingBanner()
-        #endif
         
         let selectedSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
         currentEpisodeIndex = episodes.firstIndex(where: { $0.href == episode.href }) ?? 0
@@ -692,6 +690,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
     }
     
     func showLoadingBanner() {
+        #if os(iOS)
         let alert = UIAlertController(title: nil, message: "Extracting Video", preferredStyle: .alert)
         alert.view.backgroundColor = UIColor.black
         alert.view.alpha = 0.8
@@ -704,12 +703,15 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
         
         alert.view.addSubview(loadingIndicator)
         present(alert, animated: true, completion: nil)
+        #endif
     }
     
     private func hideLoadingBanner() {
+        #if os(iOS)
         if let alert = self.presentedViewController as? UIAlertController {
             alert.dismiss(animated: true, completion: nil)
         }
+        #endif
     }
     
     private func checkUserDefault(url: String, cell: EpisodeCell, fullURL: String) {
@@ -894,12 +896,14 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
     }
     
     private func hideLoadingBannerAndShowAlert(title: String, message: String) {
+        #if os(iOS)
         hideLoadingBanner { [weak self] in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 self.showAlert(title: title, message: message)
             }
         }
+        #endif
     }
     
     private func handleSources(url: String, cell: EpisodeCell, fullURL: String) {
