@@ -487,7 +487,7 @@ class ExternalVideoPlayer3rb: UIViewController, GCKRemoteMediaClientListener {
 
                     let shouldSendPushUpdates = UserDefaults.standard.bool(forKey: "sendPushUpdates")
 
-                    if shouldSendPushUpdates && remainingTime < 120 && !(viewController.hasSentUpdate) {
+                    if shouldSendPushUpdates && remainingTime < 90 && !(viewController.hasSentUpdate) {
                         let cleanedTitle = viewController.cleanTitle(viewController.animeTitle ?? "Unknown Anime")
 
                         viewController.fetchAnimeID(title: cleanedTitle) { animeID in

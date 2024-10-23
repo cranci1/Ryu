@@ -177,7 +177,7 @@ class SettingsViewController: UITableViewController {
             self?.playerButton.setTitle("WebPlayer", for: .normal)
         })
         
-        let menu = UIMenu(title: "Select Media Player", children: [action1, action2, action3, action4, action5, action6])
+        let menu = UIMenu(title: "Select Media Player", children: [action1, action2, action3, action4, action5])
         
         playerButton.menu = menu
         playerButton.showsMenuAsPrimaryAction = true

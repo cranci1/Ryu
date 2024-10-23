@@ -130,7 +130,7 @@ class EpisodeCell: UITableViewCell {
         remainingTimeLabel.isHidden = false
         playbackProgressView.progress = progress
         
-        if remainingTime < 120 {
+        if remainingTime < 90 {
             remainingTimeLabel.text = "Finished"
         } else {
             remainingTimeLabel.text = formatRemainingTime(remainingTime)
@@ -148,7 +148,7 @@ class EpisodeCell: UITableViewCell {
     }
     
     private func formatRemainingTime(_ time: TimeInterval) -> String {
-        if time < 120 {
+        if time < 90 {
             return "Finished"
         } else {
             let hours = Int(time) / 3600
@@ -299,7 +299,7 @@ class EpisodeCell: UITableViewCell {
             let remainingTime = totalTime - lastPlayedTime
             
             if lastPlayedTime > 0 || totalTime > 0 {
-                if remainingTime < 120 {
+                if remainingTime < 90 {
                     menuItems.append(UIMenuItem(title: "Clear Progress", action: #selector(clearProgress)))
                     menuItems.append(UIMenuItem(title: "Rewatch", action: #selector(rewatch)))
                 } else {

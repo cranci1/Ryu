@@ -20,16 +20,11 @@ class WebPlayer: UIViewController {
         let configuration = WKWebViewConfiguration()
         configuration.allowsInlineMediaPlayback = true
         configuration.mediaTypesRequiringUserActionForPlayback = []
+        configuration.allowsPictureInPictureMediaPlayback = true
         let webView = WKWebView(frame: .zero, configuration: configuration)
         webView.translatesAutoresizingMaskIntoConstraints = false
         webView.navigationDelegate = self
         return webView
-    }()
-    
-    private let activityIndicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView(style: .large)
-        indicator.translatesAutoresizingMaskIntoConstraints = false
-        return indicator
     }()
     
     private lazy var closeButton: UIButton = {
@@ -48,6 +43,9 @@ class WebPlayer: UIViewController {
         self.fullURL = fullURL
         self.animeDetailsViewController = animeDetailsViewController
         super.init(nibName: nil, bundle: nil)
+        
+        self.modalPresentationStyle = .fullScreen
+        self.isModalInPresentation = false
     }
     
     required init?(coder: NSCoder) {
@@ -58,16 +56,17 @@ class WebPlayer: UIViewController {
         webView.configuration.userContentController.removeScriptMessageHandler(forName: "videoPlay")
         webView.configuration.userContentController.removeScriptMessageHandler(forName: "videoEnd")
         webView.configuration.userContentController.removeScriptMessageHandler(forName: "timeUpdate")
+        webView.configuration.userContentController.removeScriptMessageHandler(forName: "closePlayer")
+        webView.configuration.userContentController.removeScriptMessageHandler(forName: "exitFullscreen")
         stopAndCleanUpWebView()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor.secondarySystemBackground
+        view.backgroundColor = UIColor.black
         
         view.addSubview(webView)
-        view.addSubview(activityIndicator)
         view.addSubview(closeButton)
         
         NSLayoutConstraint.activate([
@@ -76,51 +75,19 @@ class WebPlayer: UIViewController {
             webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             webView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            
             closeButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             closeButton.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
         
-        activityIndicator.startAnimating()
-        
         let userContentController = webView.configuration.userContentController
         userContentController.add(self, name: "videoPlay")
         userContentController.add(self, name: "videoEnd")
+        userContentController.add(self, name: "timeUpdate")
+        userContentController.add(self, name: "closePlayer")
+        userContentController.add(self, name: "exitFullscreen")
         
         let htmlContent = generateHTMLContent(videoURL: streamURL, captionsURL: captionURL)
         webView.loadHTMLString(htmlContent, baseURL: nil)
-        setupTimeObserver()
-    }
-    
-    private func setupTimeObserver() {
-        let javascript = """
-            function setupTimeObserver() {
-                const video = document.querySelector('video');
-                setInterval(() => {
-                    if (!video.paused) {
-                        const currentTime = video.currentTime;
-                        const duration = video.duration;
-                        const progress = currentTime / duration;
-                        const remainingTime = duration - currentTime;
-                        
-                        window.webkit.messageHandlers.timeUpdate.postMessage({
-                            currentTime: currentTime,
-                            duration: duration,
-                            progress: progress,
-                            remainingTime: remainingTime
-                        });
-                    }
-                }, 1000);
-            }
-        
-            document.querySelector('video').addEventListener('loadedmetadata', setupTimeObserver);
-        """
-        
-        let userContentController = webView.configuration.userContentController
-        userContentController.add(self, name: "timeUpdate")
-        webView.evaluateJavaScript(javascript, completionHandler: nil)
     }
     
     private func generateHTMLContent(videoURL: String, captionsURL: String) -> String {
@@ -138,6 +105,7 @@ class WebPlayer: UIViewController {
                      width: 100%;
                      height: 100%;
                      overflow: hidden;
+                     background-color: black;
                  }
                  #videoContainer {
                      position: relative;
@@ -160,23 +128,65 @@ class WebPlayer: UIViewController {
          </head>
          <body>
              <div id="videoContainer">
-                 <video controls autoplay>
+                 <video id="videoPlayer" controls autoplay playsinline>
                      <source src="\(videoURL)" type="video/mp4">
                      <track kind="captions" src="\(captionsURL)" srclang="en" label="English" default>
                      Your browser does not support the video tag.
                  </video>
                  <script>
-                     var video = document.querySelector('video');
+                     var video = document.getElementById('videoPlayer');
+         
                      video.addEventListener('play', function() {
+                         if (video.requestFullscreen) {
+                             video.requestFullscreen();
+                         } else if (video.webkitRequestFullscreen) {
+                             video.webkitRequestFullscreen();
+                         } else if (video.msRequestFullscreen) {
+                             video.msRequestFullscreen();
+                         }
                          window.webkit.messageHandlers.videoPlay.postMessage(null);
                      });
+         
+                     document.addEventListener('fullscreenchange', handleFullscreenChange);
+                     document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+                     document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+                     document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+                     
+                     function handleFullscreenChange() {
+                         if (!document.fullscreenElement &&
+                             !document.webkitFullscreenElement &&
+                             !document.mozFullScreenElement &&
+                             !document.msFullscreenElement) {
+                             window.webkit.messageHandlers.exitFullscreen.postMessage(null);
+                         }
+                     }
+                     
                      video.addEventListener('ended', function() {
                          window.webkit.messageHandlers.videoEnd.postMessage(null);
                      });
-                     video.addEventListener('pause', function() {
-                         if (video.currentTime < video.duration) {
-                             window.webkit.messageHandlers.videoEnd.postMessage(null);
+                     
+                     video.addEventListener('timeupdate', function() {
+                         const currentTime = video.currentTime;
+                         const duration = video.duration;
+                         const progress = currentTime / duration;
+                         const remainingTime = duration - currentTime;
+                         
+                         window.webkit.messageHandlers.timeUpdate.postMessage({
+                             currentTime: currentTime,
+                             duration: duration,
+                             progress: progress,
+                             remainingTime: remainingTime
+                         });
+                     });
+                     
+                     document.addEventListener('visibilitychange', function() {
+                         if (document.visibilityState === 'hidden') {
+                             window.webkit.messageHandlers.closePlayer.postMessage(null);
                          }
+                     });
+                     
+                     window.addEventListener('popstate', function() {
+                         window.webkit.messageHandlers.closePlayer.postMessage(null);
                      });
                  </script>
              </div>
@@ -200,12 +210,10 @@ class WebPlayer: UIViewController {
 
 extension WebPlayer: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        activityIndicator.stopAnimating()
         closeButton.isHidden = false
     }
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        activityIndicator.stopAnimating()
         stopAndCleanUpWebView()
         self.dismiss(animated: true)
     }
@@ -249,7 +257,7 @@ extension WebPlayer: WKScriptMessageHandler {
                             
                             let shouldSendPushUpdates = UserDefaults.standard.bool(forKey: "sendPushUpdates")
                             
-                            if shouldSendPushUpdates && remainingTime < 120 && !viewController.hasSentUpdate {
+                            if shouldSendPushUpdates && remainingTime < 90 && !viewController.hasSentUpdate {
                                 let cleanedTitle = viewController.cleanTitle(viewController.animeTitle ?? "Unknown Anime")
                                 
                                 viewController.fetchAnimeID(title: cleanedTitle) { animeID in
@@ -266,12 +274,10 @@ extension WebPlayer: WKScriptMessageHandler {
                                     viewController.hasSentUpdate = true
                                 }
                             }
-                        } else {
-                            print("Error: Failed to convert episodeNumber '\(episodeNumber)' to an Int.")
                         }
                     }
                 }
-            case "videoEnd":
+            case "videoEnd", "closePlayer", "exitFullscreen":
                 self.stopAndCleanUpWebView()
                 self.dismiss(animated: true)
             case "videoPlay":

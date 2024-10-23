@@ -19,7 +19,7 @@ struct ContinueWatchingItem: Codable {
     
     var shouldDisplay: Bool {
         let remainingTime = totalTime - lastPlayedTime
-        return remainingTime > 120
+        return remainingTime > 90
     }
 }
 
