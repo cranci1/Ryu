@@ -215,4 +215,29 @@ extension SearchResultsViewController {
             return []
         }
     }
+    
+    func parseAnimeSRBIJA(_ document: Document) -> [(title: String, imageUrl: String, href: String)] {
+        do {
+            let items = try document.select("div.ani-wrap div.ani-item")
+            return try items.map { item -> (title: String, imageUrl: String, href: String) in
+                let title = try item.select("h3.ani-title").text()
+                
+                let srcset = try item.select("img").attr("srcset")
+                let imageUrl = srcset.components(separatedBy: ", ")
+                    .last?
+                    .components(separatedBy: " ")
+                    .first ?? ""
+                
+                let imageURL = "https://www.animesrbija.com" + imageUrl
+                
+                let hrefBase = try item.select("a").first()?.attr("href") ?? ""
+                let href = "https://www.animesrbija.com" + hrefBase
+                
+                return (title: title, imageUrl: imageURL, href: href)
+            }
+        } catch {
+            print("Error parsing AnimeSRBIJA: \(error.localizedDescription)")
+            return []
+        }
+    }
 }

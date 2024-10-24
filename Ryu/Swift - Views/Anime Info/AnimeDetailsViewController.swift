@@ -948,6 +948,8 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                     srcURL = self.extractVideoSourceURL(from: htmlString)
                 case "Anime3rb", "Kuramanime", "JKanime":
                     srcURL = URL(string: fullURL)
+                case "AnimeSRBIJA":
+                    srcURL = self.extractAsgoldURL(from: htmlString)
                 default:
                     srcURL = self.extractIframeSourceURL(from: htmlString)
                 }

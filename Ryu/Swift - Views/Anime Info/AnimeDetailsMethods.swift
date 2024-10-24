@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVKit
 import SwiftSoup
 
 extension AnimeDetailViewController {
@@ -361,6 +362,28 @@ extension AnimeDetailViewController {
             print("Error parsing HTML with SwiftSoup: \(error)")
             return nil
         }
+    }
+    
+    func extractAsgoldURL(from documentString: String) -> URL? {
+        let baseURL = "https://cdn.asgold.pp.ua/file/"
+        let pattern = "https://cdn\\.asgold\\.pp\\.ua/file/[^\\s\"']*"
+        
+        do {
+            let regex = try NSRegularExpression(pattern: pattern, options: [])
+            let range = NSRange(documentString.startIndex..<documentString.endIndex, in: documentString)
+            
+            if let match = regex.firstMatch(in: documentString, options: [], range: range),
+               let matchRange = Range(match.range, in: documentString) {
+                let urlString = String(documentString[matchRange])
+                let encodedURLString = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+                if let encodedURLString = encodedURLString, encodedURLString.hasPrefix(baseURL) {
+                    return URL(string: encodedURLString)
+                }
+            }
+        } catch {
+            return nil
+        }
+        return nil
     }
     
     func fetchVideoDataAndChooseQuality(from urlString: String, completion: @escaping (URL?) -> Void) {

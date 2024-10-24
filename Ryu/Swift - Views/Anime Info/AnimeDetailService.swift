@@ -39,7 +39,7 @@ class AnimeDetailService {
             ]
         case .anilibria:
             baseUrls = ["https://api.anilibria.tv/v3/title?id="]
-        case .animefire, .kuramanime, .jkanime, .anime3rb, .hanashi:
+        case .animefire, .kuramanime, .jkanime, .anime3rb, .hanashi, .animesrbija:
             baseUrls = [""]
         }
         
@@ -216,6 +216,27 @@ class AnimeDetailService {
                             synopsis = ""
                             airdate = ""
                             stars = ""
+                        case .animesrbija:
+                            aliases = try document.select("h3.anime-eng-name").text()
+                            
+                            let rawSynopsis = try document.select("div.anime-description").text()
+                            synopsis = rawSynopsis.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression)
+                            
+                            if let dateElement = try document.select("div.anime-information-col div:contains(Datum:)").first()?.text(),
+                               let dateStr = dateElement.split(separator: ":").last?.trimmingCharacters(in: .whitespaces) {
+                                airdate = dateStr.components(separatedBy: "to")
+                                    .first?
+                                    .trimmingCharacters(in: .whitespaces) ?? ""
+                            } else {
+                                airdate = ""
+                            }
+                            
+                            if let scoreElement = try document.select("div.anime-information-col div:contains(MAL Ocena:)").first()?.text(),
+                               let scoreStr = scoreElement.split(separator: ":").last?.trimmingCharacters(in: .whitespaces) {
+                                stars = scoreStr
+                            } else {
+                                stars = ""
+                            }
                         }
                         
                         episodes = self.fetchEpisodes(document: document, for: selectedSource, href: href)
@@ -325,6 +346,9 @@ class AnimeDetailService {
             case .anilibria:
                 episodeElements = try document.select("")
                 downloadUrlElement = ""
+            case .animesrbija:
+                 episodeElements = try document.select("ul.anime-episodes-holder li.anime-episode-item")
+                 downloadUrlElement = ""
             }
             
             switch source {
@@ -438,6 +462,22 @@ class AnimeDetailService {
                         print("Error parsing Anime3rb episode: \(error.localizedDescription)")
                         return nil
                     }
+                }
+            case .animesrbija:
+                episodes = try episodeElements.compactMap { element in
+                    let episodeNumber = try element.select("span.anime-episode-num").text()
+                        .replacingOccurrences(of: "Epizoda ", with: "")
+                    let hrefBase = try element.select("a.anime-episode-link").attr("href")
+                    let href = "https://www.animesrbija.com" + hrefBase
+                    
+                    print(href)
+                    return Episode(number: episodeNumber, href: href, downloadUrl: "")
+                }
+                episodes.sort {
+                    if let num1 = Int($0.number), let num2 = Int($1.number) {
+                        return num1 < num2
+                    }
+                    return false
                 }
             default:
                 episodes = episodeElements.compactMap { element in

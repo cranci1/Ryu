@@ -194,7 +194,7 @@ class SearchResultsViewController: UIViewController {
     private func showSourceSelector() {
         let alertController = UIAlertController(title: "Select Source", message: "Please select a source to search from.", preferredStyle: .actionSheet)
         
-        let sources = ["AnimeWorld", "GoGoAnime", "AnimeHeaven", "AnimeFire", "Kuramanime", "JKanime", "Anime3rb", "HiAnime", "Anilibria"]
+        let sources = ["AnimeWorld", "GoGoAnime", "AnimeHeaven", "AnimeFire", "Kuramanime", "JKanime", "Anime3rb", "HiAnime", "Anilibria", "AnimeSRBIJA"]
         
         for source in sources {
             let action = UIAlertAction(title: source, style: .default) { [weak self] _ in
@@ -416,6 +416,9 @@ class SearchResultsViewController: UIViewController {
             url = "https://api.anilibria.tv/v3/title/search"
             parameters["search"] = query
             parameters["filter"] = "id,names,posters"
+        case "AnimeSRBIJA":
+            url = "https://www.animesrbija.com/filter"
+            parameters["search"] = query
         default:
             return nil
         }
@@ -485,6 +488,9 @@ class SearchResultsViewController: UIViewController {
         case .anilibria:
             guard let jsonString = jsonString else { return [] }
             return parseAnilibria(jsonString)
+        case .animesrbija:
+            guard let document = document else { return [] }
+            return parseAnimeSRBIJA(document)
         }
     }
     
