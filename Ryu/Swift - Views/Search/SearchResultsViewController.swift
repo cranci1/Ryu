@@ -194,7 +194,7 @@ class SearchResultsViewController: UIViewController {
     private func showSourceSelector() {
         let alertController = UIAlertController(title: "Select Source", message: "Please select a source to search from.", preferredStyle: .actionSheet)
         
-        let sources = ["AnimeWorld", "GoGoAnime", "AnimeHeaven", "AnimeFire", "Kuramanime", "JKanime", "Anime3rb", "Anilibria", "AnimeSRBIJA"]
+        let sources = ["AnimeWorld", "GoGoAnime", "AnimeHeaven", "AnimeFire", "Kuramanime", "JKanime", "Anime3rb", "HiAnime", "Anilibria", "AnimeSRBIJA"]
         
         for source in sources {
             let action = UIAlertAction(title: source, style: .default) { [weak self] _ in
