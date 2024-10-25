@@ -54,7 +54,7 @@ A simple way to enjoy and watch anime on iOS
 | JKanime     | Spanish    | ✅     | ✅        | ✅        | :x:      |
 | HiAnime     | English    | ✅     | ✅        | ✅        | :x:      |
 | Anilibria   | Russian    | ✅     | ✅        | ✅        | :x:      |
-| AnimeSRBIJA | Croatian   | ✅     | ✅        | :x:       | :x:     |
+| AnimeSRBIJA | Croatian   | ✅     | ✅        | ✅        | :x:     |
 | Hanashi     | German     | ✅     | :x:       | :x:       | :x:      |
 
 Hanashi Development has stopped since that the main Developer has stopped working on Hanashi at the moment

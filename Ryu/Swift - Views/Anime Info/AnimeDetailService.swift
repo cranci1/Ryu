@@ -470,7 +470,6 @@ class AnimeDetailService {
                     let hrefBase = try element.select("a.anime-episode-link").attr("href")
                     let href = "https://www.animesrbija.com" + hrefBase
                     
-                    print(href)
                     return Episode(number: episodeNumber, href: href, downloadUrl: "")
                 }
                 episodes.sort {

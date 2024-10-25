@@ -164,6 +164,6 @@ class AnimeHeaderCell: UITableViewCell {
     private func updateFavoriteButtonState(isFavorite: Bool) {
         let imageName = isFavorite ? "bookmark.fill" : "bookmark"
         bookmarkImageView.image = UIImage(systemName: imageName)
-        bookmarkImageView.tintColor = isFavorite ? .systemYellow : .systemOrange
+        bookmarkImageView.tintColor = isFavorite ? .systemRed : .systemOrange
     }
 }
