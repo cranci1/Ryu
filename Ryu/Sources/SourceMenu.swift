@@ -39,6 +39,17 @@ class SourceMenu {
             }
             
             alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+            
+            if let popoverController = alertController.popoverPresentationController {
+                if let sourceView = sourceView, sourceView.window != nil {
+                    popoverController.sourceView = sourceView
+                    popoverController.sourceRect = sourceView.bounds
+                } else {
+                    popoverController.sourceView = viewController.view
+                    popoverController.sourceRect = viewController.view.bounds
+                }
+            }
+            
             viewController.present(alertController, animated: true)
         }
     }
