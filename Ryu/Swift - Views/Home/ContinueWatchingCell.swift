@@ -58,7 +58,7 @@ class ContinueWatchingCell: UICollectionViewCell {
         titleLabel.textColor = .white
         titleLabel.textAlignment = .left
         
-        progressView.progressTintColor = .systemTeal
+        progressView.progressTintColor = .systemOrange
         
         imageView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false

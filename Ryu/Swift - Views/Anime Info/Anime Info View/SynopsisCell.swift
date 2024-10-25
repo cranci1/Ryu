@@ -41,7 +41,7 @@ class SynopsisCell: UITableViewCell {
         synopsisLabel.font = UIFont.systemFont(ofSize: 14)
         synopsisLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        toggleButton.setTitleColor(.systemTeal, for: .normal)
+        toggleButton.setTitleColor(.systemOrange, for: .normal)
         toggleButton.addTarget(self, action: #selector(toggleButtonTapped), for: .touchUpInside)
         toggleButton.translatesAutoresizingMaskIntoConstraints = false
         toggleButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)

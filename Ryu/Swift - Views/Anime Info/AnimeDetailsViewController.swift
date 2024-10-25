@@ -718,7 +718,6 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
         if UserDefaults.standard.bool(forKey: "isToDownload") {
             playEpisode(url: url, cell: cell, fullURL: fullURL)
         } else if UserDefaults.standard.bool(forKey: "browserPlayer") {
-            hideLoadingBanner()
             openInWeb(fullURL: url)
         } else {
             playEpisode(url: url, cell: cell, fullURL: fullURL)
@@ -726,20 +725,22 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
     }
     
     @objc private func openInWeb(fullURL: String) {
-        let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource")
-        
-        switch selectedMediaSource {
-        case "HiAnime":
-            if let extractedID = extractEpisodeId(from: fullURL) {
-                let hiAnimeURL = "https://hianime.to/watch/\(extractedID)"
-                openSafariViewController(with: hiAnimeURL)
-            } else {
-                showAlert(title: "Error", message: "Unable to extract episode ID")
+        hideLoadingBanner {
+            let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource")
+            
+            switch selectedMediaSource {
+            case "HiAnime":
+                if let extractedID = self.extractEpisodeId(from: fullURL) {
+                    let hiAnimeURL = "https://hianime.to/watch/\(extractedID)"
+                    self.openSafariViewController(with: hiAnimeURL)
+                } else {
+                    self.showAlert(title: "Error", message: "Unable to extract episode ID")
+                }
+            case "Anilibria":
+                self.showAlert(title: "Unsupported Function", message: "Anilibria doesn't support playing in web.")
+            default:
+                self.openSafariViewController(with: fullURL)
             }
-        case "Anilibria":
-            showAlert(title: "Unsupported Function", message: "Anilibria doesn't support playing in web.")
-        default:
-            openSafariViewController(with: fullURL)
         }
     }
     

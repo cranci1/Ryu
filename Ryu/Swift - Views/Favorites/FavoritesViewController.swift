@@ -75,7 +75,7 @@ class FavoritesViewController: UIViewController {
     }
     
     private func setupNavigationBar() {
-        let tealColor = UIColor.systemTeal
+        let tealColor = UIColor.systemOrange
         
         let editButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editButtonTapped))
         editButton.tintColor = tealColor

@@ -77,7 +77,7 @@ class EpisodeCell: UITableViewCell {
         startnowLabel.textColor = .secondaryLabel
         
         downloadButton.image = UIImage(systemName: "icloud.and.arrow.down")
-        downloadButton.tintColor = .systemTeal
+        downloadButton.tintColor = .systemOrange
         downloadButton.contentMode = .scaleAspectFit
         downloadButton.isUserInteractionEnabled = true
         
@@ -88,10 +88,10 @@ class EpisodeCell: UITableViewCell {
         remainingTimeLabel.textColor = .secondaryLabel
         remainingTimeLabel.textAlignment = .right
         
-        infoButton.tintColor = .systemTeal
+        infoButton.tintColor = .systemOrange
         infoButton.addTarget(self, action: #selector(infoButtonTapped), for: .touchUpInside)
         
-        playbackProgressView.tintColor = .systemTeal
+        playbackProgressView.tintColor = .systemOrange
         
         NSLayoutConstraint.activate([
             episodeLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),

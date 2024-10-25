@@ -355,7 +355,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             playerProgress.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 10),
             playerProgress.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -10),
             playerProgress.bottomAnchor.constraint(equalTo: currentTimeLabel.topAnchor, constant: -5),
-            playerProgress.heightAnchor.constraint(equalToConstant: 6),
+            playerProgress.heightAnchor.constraint(equalToConstant: 7),
             
             seekThumb.centerYAnchor.constraint(equalTo: playerProgress.centerYAnchor),
             seekThumb.heightAnchor.constraint(equalToConstant: 16),
@@ -1344,7 +1344,7 @@ extension CustomVideoPlayerView {
             let endPercentage = CGFloat(interval.2 / duration)
             
             let skipView = UIView()
-            skipView.backgroundColor = .systemTeal
+            skipView.backgroundColor = .systemOrange
             skipView.alpha = 0.5
             
             playerProgress.addSubview(skipView)
