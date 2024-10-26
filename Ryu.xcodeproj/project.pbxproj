@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		13071F792CCD3900001078B7 /* Kitsu+Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13071F782CCD3900001078B7 /* Kitsu+Token.swift */; };
 		131546D52C6DE6CC002DC3CC /* GoogleCastSDK-ios-no-bluetooth in Frameworks */ = {isa = PBXBuildFile; productRef = 131546D42C6DE6CC002DC3CC /* GoogleCastSDK-ios-no-bluetooth */; };
 		131546D82C6DE6D9002DC3CC /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 131546D72C6DE6D9002DC3CC /* Kingfisher */; };
 		131546DE2C6DE6F2002DC3CC /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 131546DD2C6DE6F2002DC3CC /* Alamofire */; };
@@ -98,6 +99,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		13071F782CCD3900001078B7 /* Kitsu+Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Kitsu+Token.swift"; sourceTree = "<group>"; };
 		132BEFA22CC5440C00B61089 /* Anilist-Episodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Anilist-Episodes.swift"; sourceTree = "<group>"; };
 		1357B4F22C6D0965000A2C9B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Ryu/Base.lproj/Settings.storyboard; sourceTree = SOURCE_ROOT; };
 		1357B4F52C6D0965000A2C9B /* FavoriteCell-Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FavoriteCell-Swift.swift"; sourceTree = "<group>"; };
@@ -201,6 +203,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		13071F772CCD38E8001078B7 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				13071F782CCD3900001078B7 /* Kitsu+Token.swift */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
 		132BEFA72CC546EC00B61089 /* Episodes */ = {
 			isa = PBXGroup;
 			children = (
@@ -372,8 +382,8 @@
 		136524C52C6B5B4000210A98 /* Kitsu-Service */ = {
 			isa = PBXGroup;
 			children = (
+				13071F772CCD38E8001078B7 /* Authentication */,
 				136524C62C6B5B4000210A98 /* Requests */,
-				136524CA2C6B5B4000210A98 /* Kitsu-Info.swift */,
 			);
 			path = "Kitsu-Service";
 			sourceTree = "<group>";
@@ -381,6 +391,7 @@
 		136524C62C6B5B4000210A98 /* Requests */ = {
 			isa = PBXGroup;
 			children = (
+				136524CA2C6B5B4000210A98 /* Kitsu-Info.swift */,
 				136524C72C6B5B4000210A98 /* Kitsu-Trending.swift */,
 				136524C82C6B5B4000210A98 /* Kitsu-Sesonal.swift */,
 				136524C92C6B5B4000210A98 /* Kitsu-Airing.swift */,
@@ -739,6 +750,7 @@
 				1365251A2C6B5B4100210A98 /* Anilist-Mutation.swift in Sources */,
 				136525262C6B5B4100210A98 /* AppDelegate.swift in Sources */,
 				13FD4DD72C9C61450056E90B /* AnimeDetailsMethods.swift in Sources */,
+				13071F792CCD3900001078B7 /* Kitsu+Token.swift in Sources */,
 				132BEFA32CC5440C00B61089 /* Anilist-Episodes.swift in Sources */,
 				1365254D2C6B5B4100210A98 /* ContinueWatchingManager.swift in Sources */,
 				136525472C6B5B4100210A98 /* ProgressDownloadCell.swift in Sources */,
