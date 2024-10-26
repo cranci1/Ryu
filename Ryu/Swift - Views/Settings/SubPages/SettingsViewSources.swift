@@ -177,8 +177,12 @@ class SettingsViewSources: UITableViewController {
             UserDefaults.standard.set("Always Ask", forKey: "subtitleHiPrefe")
             self?.subtitlesButton.setTitle("Always Ask", for: .normal)
         })
+        let action3 = UIAction(title: "No Subtitles", handler: { [weak self] _ in
+            UserDefaults.standard.set("No Subtitles", forKey: "subtitleHiPrefe")
+            self?.subtitlesButton.setTitle("No Subtitles", for: .normal)
+        })
         
-        let menu = UIMenu(title: "Select Subtitles Language", children: [action1, action2])
+        let menu = UIMenu(title: "Select Subtitles Language", children: [action1, action3, action2])
         
         subtitlesButton.menu = menu
         subtitlesButton.showsMenuAsPrimaryAction = true

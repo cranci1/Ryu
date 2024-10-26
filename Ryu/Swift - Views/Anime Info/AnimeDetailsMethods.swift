@@ -46,14 +46,20 @@ extension AnimeDetailViewController {
             return
         }
         
-        if let preferredSubtitles = UserDefaults.standard.string(forKey: "subtitleHiPrefe"),
-           let preferredURL = captionURLs[preferredSubtitles] {
-            completion(preferredURL)
-        } else {
-            hideLoadingBanner {
-                DispatchQueue.main.async {
-                    self.presentSubtitleSelection(captionURLs: captionURLs, completion: completion)
-                }
+        if let preferredSubtitles = UserDefaults.standard.string(forKey: "subtitleHiPrefe") {
+            if preferredSubtitles == "No Subtitles" {
+                completion(nil)
+                return
+            }
+            if let preferredURL = captionURLs[preferredSubtitles] {
+                completion(preferredURL)
+                return
+            }
+        }
+        
+        hideLoadingBanner {
+            DispatchQueue.main.async {
+                self.presentSubtitleSelection(captionURLs: captionURLs, completion: completion)
             }
         }
     }
