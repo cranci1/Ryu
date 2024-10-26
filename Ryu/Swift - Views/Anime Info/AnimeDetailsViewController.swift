@@ -1261,7 +1261,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
             
             let shouldSendPushUpdates = UserDefaults.standard.bool(forKey: "sendPushUpdates")
             
-            if shouldSendPushUpdates && remainingTime < 90 && !self.hasSentUpdate {
+            if shouldSendPushUpdates && remainingTime < 120 && !self.hasSentUpdate {
                 let cleanedTitle = self.cleanTitle(self.animeTitle ?? "Unknown Anime")
                 
                 self.fetchAnimeID(title: cleanedTitle) { animeID in
