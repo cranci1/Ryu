@@ -487,4 +487,48 @@ extension AnimeDetailViewController {
         
         present(alertController, animated: true, completion: nil)
     }
+    
+    func extractVidozaVideoURL(from htmlString: String, completion: @escaping (URL?) -> Void) {
+        let pattern = "href=\"(/redirect/.*?)\"[^>]*>\\s*<i class=\"icon Vidoza\""
+        guard let regex = try? NSRegularExpression(pattern: pattern),
+              let match = regex.firstMatch(in: htmlString, range: NSRange(htmlString.startIndex..., in: htmlString)),
+              let range = Range(match.range(at: 1), in: htmlString) else {
+            completion(nil)
+            return
+        }
+        
+        let vidozaPath = String(htmlString[range])
+        let fullURL = "https://aniworld.to\(vidozaPath)"
+        
+        guard let url = URL(string: fullURL) else {
+            completion(nil)
+            return
+        }
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let finalURL = (response as? HTTPURLResponse)?.url,
+                  error == nil else {
+                completion(nil)
+                return
+            }
+            
+            URLSession.shared.dataTask(with: finalURL) { data, response, error in
+                guard let data = data,
+                      let htmlString = String(data: data, encoding: .utf8) else {
+                    completion(nil)
+                    return
+                }
+                
+                let mp4Pattern = "source src=\"(https://.*?\\.mp4)\""
+                guard let mp4Regex = try? NSRegularExpression(pattern: mp4Pattern),
+                      let mp4Match = mp4Regex.firstMatch(in: htmlString, range: NSRange(htmlString.startIndex..., in: htmlString)),
+                      let mp4Range = Range(mp4Match.range(at: 1), in: htmlString),
+                      let videoURL = URL(string: String(htmlString[mp4Range])) else {
+                    completion(nil)
+                    return
+                }
+                
+                completion(videoURL)
+            }.resume()
+        }.resume()
+    }
 }

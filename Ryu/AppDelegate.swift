@@ -31,7 +31,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             "subtitleHiPrefe": "English",
             "serverHiPrefe": "hd-1",
             "audioHiPrefe": "Always Ask",
-            "syncWithSystem": true
+            "syncWithSystem": true,
+            "selectedHoster": "StreamTape"
         ]
         
         for (key, value) in defaultValues {

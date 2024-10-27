@@ -708,8 +708,10 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
     
     private func hideLoadingBanner() {
         #if os(iOS)
-        if let alert = self.presentedViewController as? UIAlertController {
-            alert.dismiss(animated: true, completion: nil)
+        DispatchQueue.main.async {
+            if let alert = self.presentedViewController as? UIAlertController {
+                alert.dismiss(animated: true, completion: nil)
+            }
         }
         #endif
     }
@@ -951,6 +953,19 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                     srcURL = URL(string: fullURL)
                 case "AnimeSRBIJA":
                     srcURL = self.extractAsgoldURL(from: htmlString)
+                case "AniWorld":
+                    self.extractVidozaVideoURL(from: htmlString) { videoURL in
+                        guard let finalURL = videoURL else {
+                            self.hideLoadingBanner()
+                            self.showAlert(title: "Error", message: "Error extracting Vidoza URL")
+                            return
+                        }
+                        DispatchQueue.main.async {
+                            self.hideLoadingBanner()
+                            self.playVideo(sourceURL: finalURL, cell: cell, fullURL: fullURL)
+                        }
+                    }
+                    return
                 default:
                     srcURL = self.extractIframeSourceURL(from: htmlString)
                 }
