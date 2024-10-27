@@ -1085,11 +1085,15 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
     }
     
     func playVideo(sourceURL: URL, cell: EpisodeCell, fullURL: String) {
+        hideLoadingBanner()
         let selectedPlayer = UserDefaults.standard.string(forKey: "mediaPlayerSelected") ?? "Default"
         let isToDownload = UserDefaults.standard.bool(forKey: "isToDownload")
         
         if isToDownload {
-            handleDownload(sourceURL: sourceURL, fullURL: fullURL)
+            DispatchQueue.main.async {
+                self.hideLoadingBanner()
+                self.handleDownload(sourceURL: sourceURL, fullURL: fullURL)
+            }
         } else {
             DispatchQueue.main.async {
                 self.playVideoWithSelectedPlayer(player: selectedPlayer, sourceURL: sourceURL, cell: cell, fullURL: fullURL)
