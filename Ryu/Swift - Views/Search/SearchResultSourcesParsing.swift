@@ -243,6 +243,7 @@ extension SearchResultsViewController {
     
     func parseAniWorld(_ document: Document) -> [(title: String, imageUrl: String, href: String)] {
         var results: [(title: String, imageUrl: String, href: String)] = []
+        let searchQuery = query.lowercased()
         
         do {
             let genreElements = try document.select("div.genre")
@@ -252,22 +253,14 @@ extension SearchResultsViewController {
                 for anchor in anchorElements {
                     let title = try anchor.text()
                     let href = try anchor.attr("href")
-                    
-                    if let altTitles = try? anchor.attr("data-alternative-title") {
-                        let altTitlesList = altTitles.components(separatedBy: ", ")
-                        for altTitle in altTitlesList where !altTitle.isEmpty {
-                            results.append((
-                                title: altTitle,
-                                imageUrl: "https://s4.anilist.co/file/anilistcdn/character/large/default.jpg",
-                                href: "https://aniworld.to\(href)"
-                            ))
-                        }
+                    if title.lowercased().contains(searchQuery) {
+                        results.append((
+                            title: title,
+                            imageUrl: "https://s4.anilist.co/file/anilistcdn/character/large/default.jpg",
+                            href: "https://aniworld.to\(href)"
+                        ))
+                        print(href)
                     }
-                    results.append((
-                        title: title,
-                        imageUrl: "https://s4.anilist.co/file/anilistcdn/character/large/default.jpg",
-                        href: "https://aniworld.to\(href)"
-                    ))
                 }
             }
         } catch {
