@@ -55,7 +55,7 @@ A simple way to enjoy and watch anime on iOS
 | HiAnime     | English    | ✅     | ✅        | ✅        | :x:      |
 | Anilibria   | Russian    | ✅     | ✅        | ✅        | :x:      |
 | AnimeSRBIJA | Croatian   | ✅     | ✅        | ✅        | :x:      |
-| AniWorld    | German     | ⚠️     | ✅        | ✅        | :x:      |
+| AniWorld    | German     | ✅     | ✅        | ✅        | ✅       |
 
 Hanashi Development has stopped since that the main Developer has stopped working on Hanashi at the moment
 

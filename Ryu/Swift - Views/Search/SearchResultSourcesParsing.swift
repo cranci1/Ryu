@@ -259,7 +259,6 @@ extension SearchResultsViewController {
                             imageUrl: "https://s4.anilist.co/file/anilistcdn/character/large/default.jpg",
                             href: "https://aniworld.to\(href)"
                         ))
-                        print(href)
                     }
                 }
             }

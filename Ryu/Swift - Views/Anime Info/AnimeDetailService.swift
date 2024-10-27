@@ -489,17 +489,19 @@ class AnimeDetailService {
             case .aniworld:
                 episodes = episodeElements.compactMap { element in
                     do {
-                        let episodeNumber = try element.select("td a").text()
-                        let digits = episodeNumber.replacingOccurrences(of: "\\D", with: "", options: .regularExpression)
-                        
+                        let fullText = try element.select("td a").text()
                         let episodeHref = try element.select("td a").attr("href")
                         let href = "https://aniworld.to" + episodeHref
-                        if !digits.isEmpty {
-                            print(href)
-                            return Episode(number: digits, href: href, downloadUrl: "")
-                        } else {
-                            return nil
+                        
+                        if let range = fullText.range(of: "Folge ") {
+                            let afterFolge = String(fullText[range.upperBound...])
+                            let episodeNumber = afterFolge.split(separator: " ").first ?? ""
+                            
+                            if !String(episodeNumber).isEmpty {
+                                return Episode(number: String(episodeNumber), href: href, downloadUrl: "")
+                            }
                         }
+                        return nil
                     } catch {
                         print("Error parsing AniWorld episode: \(error.localizedDescription)")
                         return nil

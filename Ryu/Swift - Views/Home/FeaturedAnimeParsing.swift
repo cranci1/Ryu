@@ -31,6 +31,8 @@ extension HomeViewController {
             return ("https://api.anilibria.tv/v3/title/updates?filter=posters,id,names&limit=20", parseAniLibriaFeatured)
         case "AnimeSRBIJA":
             return ("https://www.animesrbija.com/filter?sort=new", paseAnimeSRBIJAFeatured)
+        case "AniWorld":
+            return ("https://aniworld.to/neu", paseAniWorldFeatured)
         default:
             return (nil, nil)
         }
@@ -256,6 +258,25 @@ extension HomeViewController {
             
             let hrefBase = try item.select("a").first()?.attr("href") ?? ""
             let href = "https://www.animesrbija.com" + hrefBase
+            
+            return AnimeItem(title: title, episode: episode, imageURL: imageURL, href: href)
+        }
+    }
+    
+    func paseAniWorldFeatured(_ doc: Document) throws -> [AnimeItem] {
+        let animeItems = try doc.select("div.seriesListSection div.seriesListContainer div")
+        return try animeItems.array().compactMap { item in
+            
+            let title = try item.select("h3").text()
+            
+            let episodeText = try item.select("div.anime__sidebar__comment__item__text h6").text()
+            let episode = episodeText.replacingOccurrences(of: "Episodio ", with: "")
+            
+            let imageUrl = try item.select("img").attr("data-src")
+            let imageURL = "https://aniworld.to" + imageUrl
+            
+            let hrefBase = try item.select("a").first()?.attr("href") ?? ""
+            let href = "https://aniworld.to" + hrefBase
             
             return AnimeItem(title: title, episode: episode, imageURL: imageURL, href: href)
         }
