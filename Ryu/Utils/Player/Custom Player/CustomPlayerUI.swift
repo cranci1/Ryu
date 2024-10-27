@@ -460,14 +460,26 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         if url.pathExtension == "m3u8" {
             parseM3U8(url: url) { [weak self] in
                 guard let self = self else { return }
+                let preferredQuality = UserDefaults.standard.string(forKey: "preferredQuality") ?? "1080p"
                 
-                if let highestQualityIndex = self.qualities.indices.last {
-                    self.setQuality(index: highestQualityIndex)
-                    
-                    if lastPlayedTime > 0 {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            self.player?.seek(to: CMTime(seconds: lastPlayedTime, preferredTimescale: 1))
+                if let preferredQualityIndex = self.qualities.firstIndex(where: { $0.0 == preferredQuality }) {
+                    self.setQuality(index: preferredQualityIndex)
+                } else {
+                    let availableQualities = ["1080p", "720p", "480p", "360p"]
+                    if let nearestQualityIndex = availableQualities.compactMap({ quality in
+                        self.qualities.firstIndex(where: { $0.0 == quality })
+                    }).first {
+                        self.setQuality(index: nearestQualityIndex)
+                    } else {
+                        if let highestQualityIndex = self.qualities.indices.last {
+                            self.setQuality(index: highestQualityIndex)
                         }
+                    }
+                }
+
+                if lastPlayedTime > 0 {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.player?.seek(to: CMTime(seconds: lastPlayedTime, preferredTimescale: 1))
                     }
                 }
                 

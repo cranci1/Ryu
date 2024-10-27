@@ -489,11 +489,17 @@ class AnimeDetailService {
             case .aniworld:
                 episodes = episodeElements.compactMap { element in
                     do {
-                        let episodeNumber = try element.select("td.season3EpisodeID meta[itemprop=episodeNumber]").attr("content")
-                        let episodeHref = try element.select("td.season3EpisodeID a").attr("href")
-                        let href = "https://aniworld.to" + episodeHref
+                        let episodeNumber = try element.select("td a").text()
+                        let digits = episodeNumber.replacingOccurrences(of: "\\D", with: "", options: .regularExpression)
                         
-                        return Episode(number: episodeNumber, href: href, downloadUrl: "")
+                        let episodeHref = try element.select("td a").attr("href")
+                        let href = "https://aniworld.to" + episodeHref
+                        if !digits.isEmpty {
+                            print(href)
+                            return Episode(number: digits, href: href, downloadUrl: "")
+                        } else {
+                            return nil
+                        }
                     } catch {
                         print("Error parsing AniWorld episode: \(error.localizedDescription)")
                         return nil
