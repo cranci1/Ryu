@@ -472,21 +472,6 @@ class SearchResultsViewController: UIViewController {
         switch source {
         case .hianime, .hanashi, .anilibria:
             return parseDocument(nil, jsonString: html, for: source)
-        case .aniworld:
-             do {
-                 let document = try SwiftSoup.parse(html)
-                 var results = parseAniWorld(document)
-                 
-                 results = fuzzySearch(query, in: results)
-                 if results.count > 10 {
-                     results = Array(results.prefix(1000000))
-                 }
-                 
-                 return results
-             } catch {
-                 print("Error parsing AniWorld HTML: \(error.localizedDescription)")
-                 return []
-             }
         default:
             do {
                 let document = try SwiftSoup.parse(html)

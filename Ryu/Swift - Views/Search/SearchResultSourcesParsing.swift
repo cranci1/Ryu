@@ -246,7 +246,6 @@ extension SearchResultsViewController {
         
         do {
             let genreElements = try document.select("div.genre")
-            
             for genreElement in genreElements {
                 let anchorElements = try genreElement.select("a")
                 
@@ -264,7 +263,6 @@ extension SearchResultsViewController {
                             ))
                         }
                     }
-                    
                     results.append((
                         title: title,
                         imageUrl: "https://s4.anilist.co/file/anilistcdn/character/large/default.jpg",
@@ -275,7 +273,7 @@ extension SearchResultsViewController {
         } catch {
             print("Error parsing AniWorld HTML: \(error.localizedDescription)")
         }
-        
-        return results
+        let sortedResults = results.sorted { $0.title.lowercased() < $1.title.lowercased() }
+        return sortedResults
     }
 }
