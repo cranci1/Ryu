@@ -1995,6 +1995,52 @@ The Tries is the method that defines how Ryu attempts to fetch episodes. Increas
                                             <segue destination="I7T-BX-7jj" kind="show" id="2BW-pR-SRv"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="mV0-V3-oJr">
+                                        <rect key="frame" x="20" y="322.5" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mV0-V3-oJr" id="rOe-bc-fEr">
+                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Croatian" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T2U-Mf-BwR">
+                                                    <rect key="frame" x="15" y="13" width="58" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="T2U-Mf-BwR" firstAttribute="leading" secondItem="rOe-bc-fEr" secondAttribute="leading" constant="15" id="4dC-DI-rY1"/>
+                                                <constraint firstItem="T2U-Mf-BwR" firstAttribute="centerY" secondItem="rOe-bc-fEr" secondAttribute="centerY" id="WLU-TG-JD0"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="m7o-Dq-59T" kind="show" id="2Mb-mh-Sy8"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="e4L-2K-aog">
+                                        <rect key="frame" x="20" y="366" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="e4L-2K-aog" id="kv9-fl-glc">
+                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="German" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fFa-U5-Tg9">
+                                                    <rect key="frame" x="15" y="13" width="55" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="fFa-U5-Tg9" firstAttribute="centerY" secondItem="kv9-fl-glc" secondAttribute="centerY" id="cK5-lo-9gh"/>
+                                                <constraint firstItem="fFa-U5-Tg9" firstAttribute="leading" secondItem="kv9-fl-glc" secondAttribute="leading" constant="15" id="jw3-ce-gwS"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="G8P-8E-zfN" kind="show" id="lRN-Ep-QIi"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -2893,13 +2939,140 @@ Use this feature if you are able to host it your self to prevent downtime or mas
             </objects>
             <point key="canvasLocation" x="7607" y="217"/>
         </scene>
+        <!--Croatian-->
+        <scene sceneID="Ufx-Hv-vG8">
+            <objects>
+                <tableViewController id="m7o-Dq-59T" customClass="SettingsViewDoneButton" customModule="Ryu" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="oI0-n0-h1Q">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <sections>
+                            <tableViewSection id="hRq-Fx-cvT">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="c7E-EG-KXn">
+                                        <rect key="frame" x="20" y="18" width="374" height="100"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="c7E-EG-KXn" id="6cm-bC-FoU">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AnimeSRBIJA" translatesAutoresizingMaskIntoConstraints="NO" id="nkS-lS-cin">
+                                                    <rect key="frame" x="20" y="11" width="78" height="78"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="78" id="N9f-Nv-p7X"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xJk-sQ-2kk">
+                                                    <rect key="frame" x="106" y="11" width="248" height="78"/>
+                                                    <string key="text">AnimeSRBIJA is a Croatian streaming service that provides SUB anime. Ryu has good support for AnimeSRBIJA, but downloads don't work.</string>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="nkS-lS-cin" firstAttribute="top" secondItem="xJk-sQ-2kk" secondAttribute="top" id="4eN-DM-6v0"/>
+                                                <constraint firstItem="nkS-lS-cin" firstAttribute="bottom" secondItem="6cm-bC-FoU" secondAttribute="bottomMargin" id="B1U-sD-HCr"/>
+                                                <constraint firstItem="xJk-sQ-2kk" firstAttribute="leading" secondItem="nkS-lS-cin" secondAttribute="trailing" constant="8" id="B6g-iI-TcY"/>
+                                                <constraint firstItem="xJk-sQ-2kk" firstAttribute="trailing" secondItem="6cm-bC-FoU" secondAttribute="trailingMargin" id="LnJ-cM-jr2"/>
+                                                <constraint firstItem="nkS-lS-cin" firstAttribute="bottom" secondItem="xJk-sQ-2kk" secondAttribute="bottom" id="Sid-wH-qgZ"/>
+                                                <constraint firstItem="nkS-lS-cin" firstAttribute="top" secondItem="6cm-bC-FoU" secondAttribute="topMargin" id="ZpI-2V-GeC"/>
+                                                <constraint firstItem="nkS-lS-cin" firstAttribute="leading" secondItem="6cm-bC-FoU" secondAttribute="leadingMargin" id="n4R-NA-o9a"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="m7o-Dq-59T" id="29k-S2-MB8"/>
+                            <outlet property="delegate" destination="m7o-Dq-59T" id="hwP-fB-sNT"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Croatian" id="hJ1-vw-Nzc">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="xIe-z7-hTh">
+                            <color key="tintColor" name="AccentColor"/>
+                            <connections>
+                                <action selector="closeButtonTapped" destination="m7o-Dq-59T" id="Chq-6p-otn"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NFg-GZ-GT6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="7606" y="-1219"/>
+        </scene>
+        <!--German-->
+        <scene sceneID="IeH-uc-aoI">
+            <objects>
+                <tableViewController id="G8P-8E-zfN" customClass="SettingsViewDoneButton" customModule="Ryu" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="ZTx-mL-j3R">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <sections>
+                            <tableViewSection id="6GC-Yx-rpG">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="sjB-gs-9Ly">
+                                        <rect key="frame" x="20" y="18" width="374" height="100"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sjB-gs-9Ly" id="vFM-hj-RXw">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AniWorld" translatesAutoresizingMaskIntoConstraints="NO" id="Tfg-U5-gzB">
+                                                    <rect key="frame" x="20" y="11" width="78" height="78"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="78" id="jzP-sS-wcd"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AniWorld is a German streaming service that provides both DUB and SUB. Ryu has great support for AniWorld." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qhb-BI-eeh">
+                                                    <rect key="frame" x="106" y="11" width="248" height="78"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Qhb-BI-eeh" firstAttribute="trailing" secondItem="vFM-hj-RXw" secondAttribute="trailingMargin" id="4Ly-Xc-ltD"/>
+                                                <constraint firstItem="Tfg-U5-gzB" firstAttribute="top" secondItem="vFM-hj-RXw" secondAttribute="topMargin" id="I5f-my-oMy"/>
+                                                <constraint firstItem="Tfg-U5-gzB" firstAttribute="top" secondItem="Qhb-BI-eeh" secondAttribute="top" id="PkT-To-A80"/>
+                                                <constraint firstItem="Qhb-BI-eeh" firstAttribute="leading" secondItem="Tfg-U5-gzB" secondAttribute="trailing" constant="8" id="aBi-WR-ZEh"/>
+                                                <constraint firstItem="Tfg-U5-gzB" firstAttribute="bottom" secondItem="vFM-hj-RXw" secondAttribute="bottomMargin" id="jvJ-ec-qaB"/>
+                                                <constraint firstItem="Tfg-U5-gzB" firstAttribute="bottom" secondItem="Qhb-BI-eeh" secondAttribute="bottom" id="l5Z-CG-K0g"/>
+                                                <constraint firstItem="Tfg-U5-gzB" firstAttribute="leading" secondItem="vFM-hj-RXw" secondAttribute="leadingMargin" id="ubS-qQ-2xQ"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="G8P-8E-zfN" id="hyu-8w-gDv"/>
+                            <outlet property="delegate" destination="G8P-8E-zfN" id="7Jr-Yh-SFo"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="German" id="EaC-oD-bJ7">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="MLZ-PI-S9j">
+                            <color key="tintColor" name="AccentColor"/>
+                            <connections>
+                                <action selector="closeButtonTapped" destination="G8P-8E-zfN" id="dmX-DN-L4t"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PQ3-g8-jIg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="8419" y="-1219"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="AniWorld" width="192" height="192"/>
         <image name="Anilibria" width="180" height="180"/>
         <image name="Anilist" width="512" height="512"/>
         <image name="Anime3rb" width="512" height="512"/>
         <image name="AnimeFire" width="192" height="192"/>
         <image name="AnimeHeaven" width="105" height="105"/>
+        <image name="AnimeSRBIJA" width="512" height="512"/>
         <image name="AnimeWorld" width="226" height="223"/>
         <image name="GoGoAnime" width="225" height="225"/>
         <image name="HiAnime" width="512" height="512"/>
