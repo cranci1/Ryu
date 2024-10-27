@@ -419,11 +419,38 @@ class SearchResultsViewController: UIViewController {
         case "AnimeSRBIJA":
             url = "https://www.animesrbija.com/filter"
             parameters["search"] = query
+        case "AniWorld":
+            url = "https://aniworld.to/animes"
+            parameters = [:]
         default:
             return nil
         }
         
         return (url, parameters)
+    }
+
+    private func fuzzySearch(_ query: String, in results: [(title: String, imageUrl: String, href: String)]) -> [(title: String, imageUrl: String, href: String)] {
+        return results.filter { result in
+            let title = result.title.lowercased()
+            let searchQuery = query.lowercased()
+            
+            if title.contains(searchQuery) {
+                return true
+            }
+            
+            let titleWords = title.components(separatedBy: .whitespaces)
+            let queryWords = searchQuery.components(separatedBy: .whitespaces)
+            
+            for queryWord in queryWords {
+                for titleWord in titleWords {
+                    if titleWord.contains(queryWord) || queryWord.contains(titleWord) {
+                        return true
+                    }
+                }
+            }
+            
+            return false
+        }
     }
     
     private func showError(_ message: String) {
@@ -445,6 +472,21 @@ class SearchResultsViewController: UIViewController {
         switch source {
         case .hianime, .hanashi, .anilibria:
             return parseDocument(nil, jsonString: html, for: source)
+        case .aniworld:
+             do {
+                 let document = try SwiftSoup.parse(html)
+                 var results = parseAniWorld(document)
+                 
+                 results = fuzzySearch(query, in: results)
+                 if results.count > 10 {
+                     results = Array(results.prefix(1000000))
+                 }
+                 
+                 return results
+             } catch {
+                 print("Error parsing AniWorld HTML: \(error.localizedDescription)")
+                 return []
+             }
         default:
             do {
                 let document = try SwiftSoup.parse(html)
@@ -491,6 +533,9 @@ class SearchResultsViewController: UIViewController {
         case .animesrbija:
             guard let document = document else { return [] }
             return parseAnimeSRBIJA(document)
+        case .aniworld:
+            guard let document = document else { return [] }
+            return parseAniWorld(document)
         }
     }
     

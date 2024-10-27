@@ -240,4 +240,42 @@ extension SearchResultsViewController {
             return []
         }
     }
+    
+    func parseAniWorld(_ document: Document) -> [(title: String, imageUrl: String, href: String)] {
+        var results: [(title: String, imageUrl: String, href: String)] = []
+        
+        do {
+            let genreElements = try document.select("div.genre")
+            
+            for genreElement in genreElements {
+                let anchorElements = try genreElement.select("a")
+                
+                for anchor in anchorElements {
+                    let title = try anchor.text()
+                    let href = try anchor.attr("href")
+                    
+                    if let altTitles = try? anchor.attr("data-alternative-title") {
+                        let altTitlesList = altTitles.components(separatedBy: ", ")
+                        for altTitle in altTitlesList where !altTitle.isEmpty {
+                            results.append((
+                                title: altTitle,
+                                imageUrl: "https://s4.anilist.co/file/anilistcdn/character/large/default.jpg",
+                                href: "https://aniworld.to\(href)"
+                            ))
+                        }
+                    }
+                    
+                    results.append((
+                        title: title,
+                        imageUrl: "https://s4.anilist.co/file/anilistcdn/character/large/default.jpg",
+                        href: "https://aniworld.to\(href)"
+                    ))
+                }
+            }
+        } catch {
+            print("Error parsing AniWorld HTML: \(error.localizedDescription)")
+        }
+        
+        return results
+    }
 }

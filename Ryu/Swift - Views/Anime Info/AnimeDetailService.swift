@@ -39,7 +39,7 @@ class AnimeDetailService {
             ]
         case .anilibria:
             baseUrls = ["https://api.anilibria.tv/v3/title?id="]
-        case .animefire, .kuramanime, .jkanime, .anime3rb, .hanashi, .animesrbija:
+        case .animefire, .kuramanime, .jkanime, .anime3rb, .hanashi, .animesrbija, .aniworld:
             baseUrls = [""]
         }
         
@@ -237,6 +237,11 @@ class AnimeDetailService {
                             } else {
                                 stars = ""
                             }
+                        case .aniworld:
+                            aliases = ""
+                            synopsis = try document.select("p.seri_des").text()
+                            airdate = "N/A"
+                            stars = "N/A"
                         }
                         
                         episodes = self.fetchEpisodes(document: document, for: selectedSource, href: href)
@@ -349,6 +354,9 @@ class AnimeDetailService {
             case .animesrbija:
                  episodeElements = try document.select("ul.anime-episodes-holder li.anime-episode-item")
                  downloadUrlElement = ""
+            case .aniworld:
+                episodeElements = try document.select("table.seasonEpisodesList tbody tr")
+                downloadUrlElement = ""
             }
             
             switch source {
@@ -477,6 +485,24 @@ class AnimeDetailService {
                         return num1 < num2
                     }
                     return false
+                }
+            case .aniworld:
+                episodes = episodeElements.compactMap { element in
+                    do {
+                        let episodeText = try element.select("td.season3EpisodeID a").text()
+                        let episodeNumber = episodeText.replacingOccurrences(of: "Folge", with: "").trimmingCharacters(in: .whitespacesAndNewlines)
+                        
+                        guard !episodeNumber.isEmpty, Int(episodeNumber) != nil else {
+                            print("Invalid episode number: \(episodeText)")
+                            return nil
+                        }
+                        let href = try element.select("td.season3EpisodeID a").attr("href")
+                        
+                        return Episode(number: episodeNumber, href: href, downloadUrl: "")
+                    } catch {
+                        print("Error parsing AniWorld episode: \(error.localizedDescription)")
+                        return nil
+                    }
                 }
             default:
                 episodes = episodeElements.compactMap { element in
