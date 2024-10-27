@@ -489,14 +489,9 @@ class AnimeDetailService {
             case .aniworld:
                 episodes = episodeElements.compactMap { element in
                     do {
-                        let episodeText = try element.select("td.season3EpisodeID a").text()
-                        let episodeNumber = episodeText.replacingOccurrences(of: "Folge", with: "").trimmingCharacters(in: .whitespacesAndNewlines)
-                        
-                        guard !episodeNumber.isEmpty, Int(episodeNumber) != nil else {
-                            print("Invalid episode number: \(episodeText)")
-                            return nil
-                        }
-                        let href = try element.select("td.season3EpisodeID a").attr("href")
+                        let episodeNumber = try element.select("td.season3EpisodeID meta[itemprop=episodeNumber]").attr("content")
+                        let episodeHref = try element.select("td.season3EpisodeID a").attr("href")
+                        let href = "https://aniworld.to" + episodeHref
                         
                         return Episode(number: episodeNumber, href: href, downloadUrl: "")
                     } catch {
