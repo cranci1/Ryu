@@ -517,7 +517,7 @@ extension AnimeDetailViewController {
     }
     
     private func extractAllVidozaLinks(from htmlString: String) -> [VidozaLink] {
-        let pattern = "<li[^>]*?data-lang-key=\"(\\d)\"[^>]*?>.*?href=\"(/redirect/[^\"]+)\"[^>]*?>\\s*<i class=\"icon Vidoza\""
+        let pattern = "<li[^>]*?data-lang-key=\"(\\d)\"[^>]*?>\\s*<div>\\s*<a[^>]*?href=\"(/redirect/[^\"]+)\"[^>]*?>\\s*<i class=\"icon Vidoza\""
         
         guard let regex = try? NSRegularExpression(pattern: pattern, options: [.dotMatchesLineSeparators]) else {
             return []
@@ -546,7 +546,7 @@ extension AnimeDetailViewController {
                   return
               }
         
-        let alert = UIAlertController(title: "Select Language", message: "Choose your preferred language:", preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "Select Audio", message: "Choose your preferred audio:", preferredStyle: .actionSheet)
         
         for link in links {
             let action = UIAlertAction(title: link.language.description, style: .default) { _ in
@@ -563,10 +563,7 @@ extension AnimeDetailViewController {
         if UIDevice.current.userInterfaceIdiom == .pad {
             if let popover = alert.popoverPresentationController {
                 popover.sourceView = topController.view
-                popover.sourceRect = CGRect(x: topController.view.bounds.midX,
-                                            y: topController.view.bounds.midY,
-                                            width: 0,
-                                            height: 0)
+                popover.sourceRect = CGRect(x: topController.view.bounds.midX, y: topController.view.bounds.midY, width: 0, height: 0)
                 popover.permittedArrowDirections = []
             }
         }
