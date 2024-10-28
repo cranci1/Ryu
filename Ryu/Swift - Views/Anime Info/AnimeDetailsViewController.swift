@@ -7,6 +7,7 @@
 
 import UIKit
 import AVKit
+import SwiftSoup
 import GoogleCast
 import SafariServices
 
@@ -38,9 +39,33 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
     
     func configure(title: String, imageUrl: String, href: String, source: String) {
         self.animeTitle = title
-        self.imageUrl = imageUrl
         self.href = href
         self.source = source
+        
+        if source == "AniWorld" {
+            if let url = URL(string: href) {
+                do {
+                    let html = try String(contentsOf: url)
+                    let doc = try SwiftSoup.parse(html)
+                    if let coverBox = try doc.select("div.seriesCoverBox").first(),
+                       let img = try coverBox.select("img").first(),
+                       let imgSrc = try? img.attr("data-src") {
+                        if imgSrc.hasPrefix("/") {
+                            self.imageUrl = "https://aniworld.to\(imgSrc)"
+                        } else {
+                            self.imageUrl = imgSrc
+                        }
+                    }
+                } catch {
+                    print("Error extracting image URL: \(error)")
+                    self.imageUrl = imageUrl
+                }
+            } else {
+                self.imageUrl = imageUrl
+            }
+        } else {
+            self.imageUrl = imageUrl
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
