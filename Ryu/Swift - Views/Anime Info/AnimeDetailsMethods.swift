@@ -489,45 +489,131 @@ extension AnimeDetailViewController {
     }
     
     func extractVidozaVideoURL(from htmlString: String, completion: @escaping (URL?) -> Void) {
-        let pattern = "href=\"(/redirect/.*?)\"[^>]*>\\s*<i class=\"icon Vidoza\""
-        guard let regex = try? NSRegularExpression(pattern: pattern),
-              let match = regex.firstMatch(in: htmlString, range: NSRange(htmlString.startIndex..., in: htmlString)),
-              let range = Range(match.range(at: 1), in: htmlString) else {
+        DispatchQueue.global(qos: .userInitiated).async {
+            let vidozaLinks = self.extractAllVidozaLinks(from: htmlString)
+            
+            guard !vidozaLinks.isEmpty else {
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+                return
+            }
+            
+            if vidozaLinks.count == 1 {
+                self.processVidozaURL(vidozaLinks[0].url, completion: completion)
+                return
+            }
+            
+            DispatchQueue.main.async {
+                self.hideLoadingBanner{
+                    self.showLanguageSelectionDialog(for: vidozaLinks) { selectedLink in
+                        if let selectedLink = selectedLink {
+                            self.processVidozaURL(selectedLink.url, completion: completion)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    private func extractAllVidozaLinks(from htmlString: String) -> [VidozaLink] {
+        let pattern = "<li[^>]*?data-lang-key=\"(\\d)\"[^>]*?>.*?href=\"(/redirect/[^\"]+)\"[^>]*?>\\s*<i class=\"icon Vidoza\""
+        
+        guard let regex = try? NSRegularExpression(pattern: pattern, options: [.dotMatchesLineSeparators]) else {
+            return []
+        }
+        
+        let matches = regex.matches(in: htmlString, range: NSRange(htmlString.startIndex..., in: htmlString))
+        
+        return matches.compactMap { match in
+            guard let langKeyRange = Range(match.range(at: 1), in: htmlString),
+                  let urlRange = Range(match.range(at: 2), in: htmlString),
+                  let langKey = Int(htmlString[langKeyRange]),
+                  let language = VideoLanguage(rawValue: langKey) else {
+                      return nil
+                  }
+            
+            let vidozaPath = String(htmlString[urlRange])
+            let fullURL = "https://aniworld.to\(vidozaPath)"
+            return VidozaLink(url: fullURL, language: language)
+        }
+    }
+    
+    private func showLanguageSelectionDialog(for links: [VidozaLink], completion: @escaping (VidozaLink?) -> Void) {
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let topController = windowScene.windows.first?.rootViewController else {
+                  completion(nil)
+                  return
+              }
+        
+        let alert = UIAlertController(title: "Select Language", message: "Choose your preferred language:", preferredStyle: .actionSheet)
+        
+        for link in links {
+            let action = UIAlertAction(title: link.language.description, style: .default) { _ in
+                completion(link)
+            }
+            alert.addAction(action)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
             completion(nil)
+        }
+        alert.addAction(cancelAction)
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            if let popover = alert.popoverPresentationController {
+                popover.sourceView = topController.view
+                popover.sourceRect = CGRect(x: topController.view.bounds.midX,
+                                            y: topController.view.bounds.midY,
+                                            width: 0,
+                                            height: 0)
+                popover.permittedArrowDirections = []
+            }
+        }
+        
+        topController.present(alert, animated: true)
+    }
+    
+    private func processVidozaURL(_ urlString: String, completion: @escaping (URL?) -> Void) {
+        guard let url = URL(string: urlString) else {
+            DispatchQueue.main.async {
+                completion(nil)
+            }
             return
         }
         
-        let vidozaPath = String(htmlString[range])
-        let fullURL = "https://aniworld.to\(vidozaPath)"
-        
-        guard let url = URL(string: fullURL) else {
-            completion(nil)
-            return
-        }
         URLSession.shared.dataTask(with: url) { data, response, error in
             guard let finalURL = (response as? HTTPURLResponse)?.url,
                   error == nil else {
-                completion(nil)
-                return
-            }
+                      DispatchQueue.main.async {
+                          completion(nil)
+                      }
+                      return
+                  }
             
             URLSession.shared.dataTask(with: finalURL) { data, response, error in
                 guard let data = data,
                       let htmlString = String(data: data, encoding: .utf8) else {
-                    completion(nil)
-                    return
-                }
+                          DispatchQueue.main.async {
+                              completion(nil)
+                          }
+                          return
+                      }
                 
                 let mp4Pattern = "source src=\"(https://.*?\\.mp4)\""
                 guard let mp4Regex = try? NSRegularExpression(pattern: mp4Pattern),
                       let mp4Match = mp4Regex.firstMatch(in: htmlString, range: NSRange(htmlString.startIndex..., in: htmlString)),
                       let mp4Range = Range(mp4Match.range(at: 1), in: htmlString),
                       let videoURL = URL(string: String(htmlString[mp4Range])) else {
-                    completion(nil)
-                    return
-                }
+                          DispatchQueue.main.async {
+                              completion(nil)
+                          }
+                          return
+                      }
                 
-                completion(videoURL)
+                DispatchQueue.main.async {
+                    completion(videoURL)
+                }
             }.resume()
         }.resume()
     }

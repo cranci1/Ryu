@@ -956,8 +956,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                 case "AniWorld":
                     self.extractVidozaVideoURL(from: htmlString) { videoURL in
                         guard let finalURL = videoURL else {
-                            self.hideLoadingBanner()
-                            self.showAlert(title: "Error", message: "Error extracting Vidoza URL")
+                            self.hideLoadingBannerAndShowAlert(title: "Error", message: "Error extracting Vidoza URL")
                             return
                         }
                         DispatchQueue.main.async {
