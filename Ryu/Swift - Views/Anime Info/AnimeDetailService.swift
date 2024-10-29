@@ -5,9 +5,9 @@
 //  Created by Francesco on 25/06/24.
 //
 
+import UIKit
 import Alamofire
 import SwiftSoup
-import UIKit
 
 struct AnimeDetail {
     let aliases: String
@@ -487,25 +487,15 @@ class AnimeDetailService {
                     return false
                 }
             case .aniworld:
-                episodes = episodeElements.compactMap { element in
-                    do {
-                        let fullText = try element.select("td a").text()
-                        let episodeHref = try element.select("td a").attr("href")
-                        let href = "https://aniworld.to" + episodeHref
-                        
-                        if let range = fullText.range(of: "Folge ") {
-                            let afterFolge = String(fullText[range.upperBound...])
-                            let episodeNumber = afterFolge.split(separator: " ").first ?? ""
-                            
-                            if !String(episodeNumber).isEmpty {
-                                return Episode(number: String(episodeNumber), href: href, downloadUrl: "")
-                            }
+                do {
+                    let seasonUrls = try extractSeasonUrls(document: document)
+                    for (seasonNumber, seasonUrl) in seasonUrls {
+                        if let seasonEpisodes = try? fetchAniWorldSeasonEpisodes(seasonUrl: seasonUrl) {
+                            episodes.append(contentsOf: seasonEpisodes)
                         }
-                        return nil
-                    } catch {
-                        print("Error parsing AniWorld episode: \(error.localizedDescription)")
-                        return nil
                     }
+                } catch {
+                    print("Error parsing AniWorld episodes: \(error.localizedDescription)")
                 }
             default:
                 episodes = episodeElements.compactMap { element in
@@ -518,6 +508,59 @@ class AnimeDetailService {
         } catch {
             print("Error parsing episodes: \(error.localizedDescription)")
         }
+        return episodes
+    }
+    
+    private static func extractSeasonUrls(document: Document) throws -> [(String, String)] {
+        var seasonUrls: [(String, String)] = []
+        
+        let seasonElements = try document.select("div.hosterSiteDirectNav ul li a")
+        
+        for element in seasonElements {
+            let href = try element.attr("href")
+            let title = try element.attr("title")
+            
+            if title.contains("Filme") {
+                seasonUrls.append(("F", "https://aniworld.to" + href))
+            } else if title.contains("Staffel") {
+                let seasonNumber = "S" + (title.components(separatedBy: " ").last ?? "")
+                seasonUrls.append((seasonNumber, "https://aniworld.to" + href))
+            }
+        }
+        
+        return seasonUrls
+    }
+    
+    public static func fetchAniWorldSeasonEpisodes(seasonUrl: String) throws -> [Episode] {
+        let html = try String(contentsOf: URL(string: seasonUrl)!, encoding: .utf8)
+        let document = try SwiftSoup.parse(html)
+        let episodeElements = try document.select("table.seasonEpisodesList tbody tr")
+        
+        var episodes: [Episode] = []
+        var episodeInfos: [EpisodeInfo] = []
+        
+        for element in episodeElements {
+            if let fullText = try? element.select("td a").text(),
+               let episodeInfo = parseEpisodeInfo(from: fullText),
+               let href = try? "https://aniworld.to" + element.select("td a").attr("href") {
+                episodeInfo.href = href
+                episodeInfos.append(episodeInfo)
+            }
+        }
+        
+        episodeInfos.sort { (ep1, ep2) in
+            if ep1.seasonNumber == ep2.seasonNumber {
+                return ep1.episodeNumber < ep2.episodeNumber
+            } else {
+                return ep1.seasonNumber < ep2.seasonNumber
+            }
+        }
+        
+        for episodeInfo in episodeInfos {
+            let formattedEpisode = "S\(episodeInfo.seasonNumber)E\(episodeInfo.episodeNumber)"
+            episodes.append(Episode(number: formattedEpisode, href: episodeInfo.href, downloadUrl: ""))
+        }
+        
         return episodes
     }
 }
