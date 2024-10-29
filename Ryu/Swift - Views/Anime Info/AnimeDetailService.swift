@@ -556,7 +556,8 @@ class AnimeDetailService {
                 if let range = fullText.range(of: "Folge ") {
                     let afterFolge = String(fullText[range.upperBound...])
                     if let episodeNumber = afterFolge.split(separator: " ").first {
-                        let formattedEpisodeNumber = "\(seasonNumber)E\(episodeNumber)"
+                        let paddedEpisodeNumber = String(format: "%02d", Int(episodeNumber) ?? 0)
+                        let formattedEpisodeNumber = "\(seasonNumber)E\(paddedEpisodeNumber)"
                         return Episode(number: formattedEpisodeNumber, href: href, downloadUrl: "")
                     }
                 }
