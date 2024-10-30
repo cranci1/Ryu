@@ -28,6 +28,7 @@ class SearchViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         loadSearchHistory()
+        setupSelectedSourceLabel()
         navigationController?.navigationBar.prefersLargeTitles = true
     }
     
