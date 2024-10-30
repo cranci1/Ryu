@@ -11,10 +11,12 @@ struct AnilibriaResponse: Codable {
     let names: Names
     let description: String
     let season: Season
+    let inFavorites: Int
     let player: Player
     
     enum CodingKeys: String, CodingKey {
         case names, description, season
+        case inFavorites = "in_favorites"
         case player
     }
 }
