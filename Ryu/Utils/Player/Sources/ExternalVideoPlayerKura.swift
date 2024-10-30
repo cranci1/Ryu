@@ -302,7 +302,7 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
     
     private func playOrCastVideo(url: URL) {
         let player = AVPlayer(url: url)
-        let playerViewController = AVPlayerViewController()
+        let playerViewController = NormalPlayer()
         playerViewController.player = player
         
         addChild(playerViewController)

@@ -16,6 +16,14 @@ class NormalPlayer: AVPlayerViewController {
         setupHoldGesture()
     }
     
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        if UserDefaults.standard.bool(forKey: "AlwaysLandscape") {
+            return .landscape
+        } else {
+            return .all
+        }
+    }
+    
     private func setupHoldGesture() {
         holdGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleHoldGesture(_:)))
         holdGesture?.minimumPressDuration = 0.5

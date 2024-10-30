@@ -1215,7 +1215,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
         } else {
             player = AVPlayer(url: sourceURL)
             
-            playerViewController = UserDefaults.standard.bool(forKey: "AlwaysLandscape") ? LandscapePlayer() : NormalPlayer()
+            playerViewController = NormalPlayer()
             playerViewController?.player = player
             playerViewController?.delegate = self
             playerViewController?.entersFullScreenWhenPlaybackBegins = true

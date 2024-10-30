@@ -397,7 +397,7 @@ class ExternalVideoPlayer: UIViewController, WKNavigationDelegate, CustomPlayerV
         }
         
         let player = AVPlayer(url: videoURL)
-        let playerViewController = AVPlayerViewController()
+        let playerViewController = NormalPlayer()
         playerViewController.player = player
         
         self.addChild(playerViewController)

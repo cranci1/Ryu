@@ -565,7 +565,7 @@ class ExternalVideoPlayerGoGo2: UIViewController, WKNavigationDelegate, WKScript
         cleanup()
         
         let player = AVPlayer(url: url)
-        let playerViewController = AVPlayerViewController()
+        let playerViewController = NormalPlayer()
         playerViewController.player = player
         
         self.addChild(playerViewController)

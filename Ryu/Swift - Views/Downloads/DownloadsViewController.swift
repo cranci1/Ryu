@@ -168,7 +168,7 @@ class DownloadListViewController: UIViewController {
         let player = AVPlayer(playerItem: playerItem)
         print("\(url)")
         
-        let playerViewController = AVPlayerViewController()
+        let playerViewController = NormalPlayer()
         playerViewController.player = player
         
         present(playerViewController, animated: true) {
