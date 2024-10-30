@@ -57,7 +57,7 @@ A simple way to enjoy and watch anime on iOS
 | AnimeSRBIJA | Croatian   | ✅     | ✅        | ✅        | :x:      |
 | AniWorld    | German     | ✅     | ✅        | ✅        | ✅       |
 
-Hanashi Development has stopped since that the main Developer has stopped working on Hanashi at the moment
+Hanashi Development is currently stopped as the main developer of Hanashi has stopped working on it
 
 > Note: AnimeFire is region-blocked; only Portugal and Brazil IPs are allowed!
 
