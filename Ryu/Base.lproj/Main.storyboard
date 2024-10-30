@@ -135,6 +135,7 @@
                     <connections>
                         <outlet property="historyTableView" destination="xbx-GI-YdK" id="gBn-9z-ugI"/>
                         <outlet property="searchBar" destination="K3f-Dc-Cgq" id="QM0-dJ-O3m"/>
+                        <outlet property="selectSourceLable" destination="xDq-TS-qlu" id="lHY-oi-Uj4"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BHX-JB-raA" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -556,6 +557,7 @@
                         <outlet property="dateLabel" destination="vTh-bi-IJD" id="TQ3-7p-iQe"/>
                         <outlet property="featuredCollectionView" destination="Udz-fP-c6G" id="Eq6-qg-GXh"/>
                         <outlet property="seasonalCollectionView" destination="S4e-tD-YKq" id="AQY-Tx-PMp"/>
+                        <outlet property="selectSourceLable" destination="1CL-Ex-tXm" id="0Fs-U8-Nz4"/>
                         <outlet property="selectedSourceLabel" destination="Csl-Ih-bpo" id="qp9-GT-JEU"/>
                         <outlet property="trendingCollectionView" destination="clI-d3-p5E" id="JXJ-7g-Dgx"/>
                     </connections>
@@ -635,7 +637,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Af5-Kj-0iD"/>
+        <segue reference="X14-oT-TJn"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.down.circle.fill" catalog="system" width="128" height="121"/>
@@ -643,7 +645,7 @@
         <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="house.fill" catalog="system" width="128" height="106"/>
         <namedColor name="AccentColor">
-            <color red="0.18823529411764706" green="0.69019607843137254" blue="0.7803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="quaternarySystemFillColor">
             <color red="0.45490196078431372" green="0.45490196078431372" blue="0.50196078431372548" alpha="0.080000000000000002" colorSpace="custom" customColorSpace="sRGB"/>

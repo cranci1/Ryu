@@ -13,6 +13,7 @@ class SearchViewController: UIViewController {
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var historyTableView: UITableView!
+    @IBOutlet weak var selectSourceLable: UIBarButtonItem!
     
     var searchHistory: [String] = []
     
@@ -86,6 +87,11 @@ class SearchViewController: UIViewController {
         } else {
             SourceMenu.showSourceSelector(from: self, sourceView: sender)
         }
+    }
+    
+    func setupSelectedSourceLabel() {
+        let selectedSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
+        selectSourceLable.title = selectedSource
     }
 }
 

@@ -18,6 +18,7 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
     
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var selectedSourceLabel: UILabel!
+    @IBOutlet weak var selectSourceLable: UIBarButtonItem!
     
     private var airingAnime: [Anime] = []
     private var trendingAnime: [Anime] = []
@@ -87,11 +88,11 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
         super.viewWillAppear(animated)
         loadContinueWatchingItems()
         
+        setupSelectedSourceLabel()
+        
         let currentSelectedSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
         if let displayedSource = selectedSourceLabel.text?.replacingOccurrences(of: "on ", with: "").replacingOccurrences(of: "%", with: "") {
             if displayedSource != currentSelectedSource {
-                setupSelectedSourceLabel()
-                
                 fetchFeaturedAnime { [weak self] in
                     self?.refreshFeaturedUI()
                 }
@@ -225,7 +226,7 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
     
     func setupSelectedSourceLabel() {
         let selectedSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
-        
+        selectSourceLable.title = selectedSource
         selectedSourceLabel.text = String(format: NSLocalizedString("on %@%", comment: "Prefix for slected Source"), selectedSource)
     }
     

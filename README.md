@@ -43,23 +43,24 @@ A simple way to enjoy and watch anime on iOS
 
 ## Sources
 
-| Sources     | Language   | Search | AnimeInfo | Streaming | Download |
-| ----------- | ---------- | ------ | --------- | --------- | -------- |
-| AnimeWorld  | Italian    | ✅     | ✅        | ✅        | ✅       |
-| GoGoAnime   | English    | ✅     | ✅        | ✅        | ✅       |
-| AnimeHeaven | English    | ✅     | ✅        | ✅        | ✅       |
-| AnimeFire   | Portuguese | ✅     | ✅        | ✅        | ✅       |
-| Kuramanime  | Indonesian | ✅     | ✅        | ✅        | ✅       |
-| Anime3rb    | Arabic     | ✅     | ✅        | ✅        | ✅       |
-| JKanime     | Spanish    | ✅     | ✅        | ✅        | :x:      |
-| HiAnime     | English    | ✅     | ✅        | ✅        | :x:      |
-| Anilibria   | Russian    | ✅     | ✅        | ✅        | :x:      |
-| AnimeSRBIJA | Croatian   | ✅     | ✅        | ✅        | :x:      |
-| AniWorld    | German     | ✅     | ✅        | ✅        | ✅       |
+| Sources     | Language   | Working| Search | Streaming | Download |
+| ----------- | ---------- | ------ | ------ | --------- | -------- |
+| AnimeWorld  | Italian    |   ✅   |   ✅   |     ✅    |    ✅   |
+| GoGoAnime   | English    |   ✅   |   ✅   |     ✅    |    ✅   |
+| AnimeHeaven | English    |   ✅   |   ✅   |     ✅    |    ✅   |
+| AnimeFire   | Portuguese |   ✅   |   ✅   |     ✅    |    ✅   |
+| Kuramanime  | Indonesian |   :x:  |   ✅   |     ✅    |    ✅   |
+| Anime3rb    | Arabic     |   ✅   |   ✅   |     ✅    |    ✅   |
+| JKanime     | Spanish    |   ✅   |   ✅   |     ✅    |    :x:  |
+| HiAnime     | English    |   ✅   |   ✅   |     ✅    |    :x:  |
+| Anilibria   | Russian    |   ✅   |   ✅   |     ✅    |    :x:  |
+| AnimeSRBIJA | Croatian   |   ✅   |   ✅   |     ✅    |    :x:  |
+| AniWorld    | German     |   ✅   |   ✅   |     ✅    |    ✅   |
 
-Hanashi Development is currently stopped as the main developer of Hanashi has stopped working on it
+> [!IMPORTANT]
+> Kuramanime is currently not available do to cloudflare protection
 
-> Note: AnimeFire is region-blocked; only Portugal and Brazil IPs are allowed!
+> AnimeFire is region-blocked; only Portugal and Brazil IPs are allowed!
 
 ## Installation
 
