@@ -144,12 +144,12 @@ class AnimeHeaderCell: UITableViewCell {
         
         switch selectedSource {
         case "AnimeWorld", "Anime3rb":
-            starLabel.text = stars + "/10"
+            starLabel.text = stars == "?" ? "N/A" : stars + "/10"
             airDateLabel.text = airdate
         case "GoGoAnime", "AnimeFire", "JKanime":
             starLabel.text = "N/A"
         default:
-            starLabel.text = stars
+            starLabel.text = stars == "?" ? "N/A" : stars
             airDateLabel.text = airdate
         }
         

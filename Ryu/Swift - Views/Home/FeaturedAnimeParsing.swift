@@ -20,7 +20,7 @@ extension HomeViewController {
         case "AnimeFire":
             return ("https://animefire.plus/", parseAnimeFireFeatured)
         case "Kuramanime":
-            return ("https://kuramanime.red/quick/ongoing?order_by=updated", parseKuramanimeFeatured)
+            return ("https://kuramanime.bid/quick/ongoing?order_by=updated", parseKuramanimeFeatured)
         case "JKanime":
             return ("https://jkanime.net/", parseJKAnimeFeatured)
         case "Anime3rb":

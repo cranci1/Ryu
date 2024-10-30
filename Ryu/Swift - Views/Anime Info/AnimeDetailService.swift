@@ -189,7 +189,7 @@ class AnimeDetailService {
                         case .kuramanime:
                             aliases = try document.select("div.anime__details__title span").last()?.text() ?? ""
                             synopsis = try document.select("div.anime__details__text p").text()
-                            airdate = try document.select("div.anime__details__widget ul li div.col-9").eq(3).text()
+                            airdate = try document.select("div.anime__details__widget ul li div.col-9").eq(3).text().components(separatedBy: "s/d").first?.trimmingCharacters(in: .whitespaces) as! String
                             stars = try document.select("div.anime__details__widget div.row div.col-lg-6 ul li").select("div:contains(Skor:) ~ div.col-9").text()
                         case .jkanime:
                             aliases = try document.select("div.anime__details__title span").text()

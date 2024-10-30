@@ -49,16 +49,13 @@ A simple way to enjoy and watch anime on iOS
 | GoGoAnime   | English    |   ✅   |   ✅   |     ✅    |    ✅   |
 | AnimeHeaven | English    |   ✅   |   ✅   |     ✅    |    ✅   |
 | AnimeFire   | Portuguese |   ✅   |   ✅   |     ✅    |    ✅   |
-| Kuramanime  | Indonesian |   :x:  |   ✅   |     ✅    |    ✅   |
+| Kuramanime  | Indonesian |   ✅   |   ✅   |     ✅    |    ✅   |
 | Anime3rb    | Arabic     |   ✅   |   ✅   |     ✅    |    ✅   |
 | JKanime     | Spanish    |   ✅   |   ✅   |     ✅    |    :x:  |
 | HiAnime     | English    |   ✅   |   ✅   |     ✅    |    :x:  |
 | Anilibria   | Russian    |   ✅   |   ✅   |     ✅    |    :x:  |
 | AnimeSRBIJA | Croatian   |   ✅   |   ✅   |     ✅    |    :x:  |
 | AniWorld    | German     |   ✅   |   ✅   |     ✅    |    ✅   |
-
-> [!IMPORTANT]
-> Kuramanime is currently not available do to cloudflare protection
 
 > AnimeFire is region-blocked; only Portugal and Brazil IPs are allowed!
 
