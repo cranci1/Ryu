@@ -86,7 +86,9 @@ class SearchViewController: UIViewController {
             
             self.present(alertController, animated: true, completion: nil)
         } else {
-            SourceMenu.showSourceSelector(from: self, sourceView: sender)
+            SourceMenu.showSourceSelector(from: self, sourceView: sender) { [weak self] in
+                self?.setupSelectedSourceLabel()
+            }
         }
     }
     
