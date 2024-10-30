@@ -268,4 +268,23 @@ extension SearchResultsViewController {
         let sortedResults = results.sorted { $0.title.lowercased() < $1.title.lowercased() }
         return sortedResults
     }
+    
+    func parseTokyoInsider(_ document: Document) -> [(title: String, imageUrl: String, href: String)] {
+        do {
+            let items = try document.select("div#inner_page table[cellpadding='3'] tr")
+            return try items.map { item -> (title: String, imageUrl: String, href: String) in
+                let title = try item.select("a").attr("title")
+                
+                var imageUrl = try item.select("img").attr("src")
+                imageUrl = imageUrl.replacingOccurrences(of: "small", with: "default")
+                
+                let href = try item.select("a").first()?.attr("href") ?? ""
+                let hrefFull = "https://www.tokyoinsider.com" + href
+                return (title: title, imageUrl: imageUrl, href: hrefFull)
+            }
+        } catch {
+            print("Error parsing TokyoInsider: \(error.localizedDescription)")
+            return []
+        }
+    }
 }

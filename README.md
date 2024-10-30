@@ -43,19 +43,20 @@ A simple way to enjoy and watch anime on iOS
 
 ## Sources
 
-| Sources     | Language   | Working| Search | Streaming | Download |
-| ----------- | ---------- | ------ | ------ | --------- | -------- |
-| AnimeWorld  | Italian    |   ✅   |   ✅   |     ✅    |    ✅   |
-| GoGoAnime   | English    |   ✅   |   ✅   |     ✅    |    ✅   |
-| AnimeHeaven | English    |   ✅   |   ✅   |     ✅    |    ✅   |
-| AnimeFire   | Portuguese |   ✅   |   ✅   |     ✅    |    ✅   |
-| Kuramanime  | Indonesian |   ✅   |   ✅   |     ✅    |    ✅   |
-| Anime3rb    | Arabic     |   ✅   |   ✅   |     ✅    |    ✅   |
-| JKanime     | Spanish    |   ✅   |   ✅   |     ✅    |    :x:  |
-| HiAnime     | English    |   ✅   |   ✅   |     ✅    |    :x:  |
-| Anilibria   | Russian    |   ✅   |   ✅   |     ✅    |    :x:  |
-| AnimeSRBIJA | Croatian   |   ✅   |   ✅   |     ✅    |    :x:  |
-| AniWorld    | German     |   ✅   |   ✅   |     ✅    |    ✅   |
+| Source       | Language   | Working| Search | Streaming | Download |
+| ------------ | ---------- | ------ | ------ | --------- | -------- |
+| AnimeWorld   | Italian    |   ✅   |   ✅   |     ✅    |    ✅   |
+| GoGoAnime    | English    |   ✅   |   ✅   |     ✅    |    ✅   |
+| AnimeHeaven  | English    |   ✅   |   ✅   |     ✅    |    ✅   |
+| AnimeFire    | Portuguese |   ✅   |   ✅   |     ✅    |    ✅   |
+| Kuramanime   | Indonesian |   ✅   |   ✅   |     ✅    |    ✅   |
+| Anime3rb     | Arabic     |   ✅   |   ✅   |     ✅    |    ✅   |
+| JKanime      | Spanish    |   ✅   |   ✅   |     ✅    |    :x:  |
+| HiAnime      | English    |   ✅   |   ✅   |     ✅    |    :x:  |
+| Anilibria    | Russian    |   ✅   |   ✅   |     ✅    |    :x:  |
+| AnimeSRBIJA  | Croatian   |   ✅   |   ✅   |     ✅    |    :x:  |
+| AniWorld     | German     |   ✅   |   ✅   |     ✅    |    ✅   |
+| TokyoInsider | English    |   ✅   |   ✅   |     ✅    |    ✅   |
 
 > AnimeFire is region-blocked; only Portugal and Brazil IPs are allowed!
 

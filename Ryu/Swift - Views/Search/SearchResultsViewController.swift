@@ -422,6 +422,9 @@ class SearchResultsViewController: UIViewController {
         case "AniWorld":
             url = "https://aniworld.to/animes"
             parameters = [:]
+        case "TokyoInsider":
+            url = "https://www.tokyoinsider.com/anime/search"
+            parameters["k"] = query
         default:
             return nil
         }
@@ -521,6 +524,9 @@ class SearchResultsViewController: UIViewController {
         case .aniworld:
             guard let document = document else { return [] }
             return parseAniWorld(document)
+        case .tokyoinsider:
+            guard let document = document else { return [] }
+            return parseTokyoInsider(document)
         }
     }
     

@@ -17,12 +17,14 @@ class SourceMenu {
                 ("GoGoAnime", .gogoanime, "🇺🇸"),
                 ("AnimeHeaven", .animeheaven, "🇺🇸"),
                 ("AnimeFire", .animefire, "🇵🇹"),
+                ("Kuramanime", .kuramanime, "🇮🇩"),
                 ("JKanime", .jkanime, "🇪🇸"),
                 ("Anime3rb", .anime3rb, "🇸🇦"),
                 ("HiAnime", .hianime, "🇺🇸"),
                 ("Anilibria", .anilibria, "🇷🇺"),
                 ("AnimeSRBIJA", .animesrbija, "🇭🇷"),
-                ("AniWorld", .aniworld, "🇩🇪")
+                ("AniWorld", .aniworld, "🇩🇪"),
+                ("TokyoInsider", .tokyoinsider, "🇺🇸")
             ]
             
             let alertController = UIAlertController(title: "Select Source", message: "Choose your preferred source.", preferredStyle: .actionSheet)

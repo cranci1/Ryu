@@ -370,6 +370,22 @@ extension AnimeDetailViewController {
         }
     }
     
+    func extractTokyoMp4(from htmlString: String) -> URL? {
+        do {
+            let doc = try SwiftSoup.parse(htmlString)
+            guard let downloadElement = try doc.select("a[href^=https://media.tokyoinsider.com][href*=.mp4]").first(),
+                  let hrefString = try downloadElement.attr("href").nilIfEmpty,
+                  let downloadURL = URL(string: hrefString) else {
+                      return nil
+                  }
+            print("Tokyo link URL: \(downloadURL.absoluteString)")
+            return downloadURL
+        } catch {
+            print("Error parsing HTML with SwiftSoup: \(error)")
+            return nil
+        }
+    }
+    
     func extractAsgoldURL(from documentString: String) -> URL? {
         let baseURL = "https://cdn.asgold.pp.ua/file/"
         let pattern = "https://cdn\\.asgold\\.pp\\.ua/file/[^.]*\\.m3u8"

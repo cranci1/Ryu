@@ -39,7 +39,7 @@ class AnimeDetailService {
             ]
         case .anilibria:
             baseUrls = ["https://api.anilibria.tv/v3/title?id="]
-        case .animefire, .kuramanime, .jkanime, .anime3rb, .hanashi, .animesrbija, .aniworld:
+        case .animefire, .kuramanime, .jkanime, .anime3rb, .hanashi, .animesrbija, .aniworld, .tokyoinsider:
             baseUrls = [""]
         }
         
@@ -242,6 +242,11 @@ class AnimeDetailService {
                             synopsis = try document.select("p.seri_des").text()
                             airdate = "N/A"
                             stars = "N/A"
+                        case .tokyoinsider:
+                            aliases = ""
+                            synopsis = try document.select("td[style*='border-bottom: 0']").text()
+                            airdate = try document.select("tr.c_h2:contains(Vintage:)").select("td:not(:has(b))").text()
+                            stars = "N/A"
                         }
                         
                         episodes = self.fetchEpisodes(document: document, for: selectedSource, href: href)
@@ -356,6 +361,9 @@ class AnimeDetailService {
                  downloadUrlElement = ""
             case .aniworld:
                 episodeElements = try document.select("table.seasonEpisodesList tbody tr")
+                downloadUrlElement = ""
+            case .tokyoinsider:
+                episodeElements = try document.select("div.episode")
                 downloadUrlElement = ""
             }
             
@@ -507,6 +515,21 @@ class AnimeDetailService {
                     }
                 } catch {
                     print("Error parsing AniWorld episodes: \(error.localizedDescription)")
+                }
+            case .tokyoinsider:
+                episodes = episodeElements.compactMap { element in
+                    do {
+                        let link = try element.select("a.download-link")
+                        let href = try link.attr("href")
+                        let episodeNumber = try element.select("strong").text()
+                        let isRegularEpisode = href.contains("/episode/")
+                        let formattedNumber = isRegularEpisode ? episodeNumber : "S\(episodeNumber)"
+                        
+                        return Episode(number: formattedNumber, href: "https://www.tokyoinsider.com" + href, downloadUrl: "")
+                    } catch {
+                        print("Error parsing TokyoInsider episode: \(error.localizedDescription)")
+                        return nil
+                    }
                 }
             default:
                 episodes = episodeElements.compactMap { element in

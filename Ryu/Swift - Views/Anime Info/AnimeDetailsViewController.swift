@@ -978,6 +978,8 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                     srcURL = URL(string: fullURL)
                 case "AnimeSRBIJA":
                     srcURL = self.extractAsgoldURL(from: htmlString)
+                case "TokyoInsider":
+                    srcURL = self.extractTokyoMp4(from: htmlString)
                 case "AniWorld":
                     self.extractVidozaVideoURL(from: htmlString) { videoURL in
                         guard let finalURL = videoURL else {
