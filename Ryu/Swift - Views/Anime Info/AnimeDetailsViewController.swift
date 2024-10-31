@@ -63,6 +63,22 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
             } else {
                 self.imageUrl = imageUrl
             }
+        } else if source == "TokyoInsider" {
+            if let url = URL(string: href) {
+                do {
+                    let html = try String(contentsOf: url)
+                    let doc = try SwiftSoup.parse(html)
+                    if let img = try doc.select("img.a_img").first(),
+                       let imgSrc = try? img.attr("src") {
+                        self.imageUrl = imgSrc
+                    }
+                } catch {
+                    print("Error extracting image URL: \(error)")
+                    self.imageUrl = imageUrl
+                }
+            } else {
+                self.imageUrl = imageUrl
+            }
         } else {
             self.imageUrl = imageUrl
         }

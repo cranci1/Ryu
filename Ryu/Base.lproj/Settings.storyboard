@@ -1803,6 +1803,37 @@ The Tries is the method that defines how Ryu attempts to fetch episodes. Increas
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="Dlj-y8-JFq">
+                                        <rect key="frame" x="20" y="318" width="374" height="100"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Dlj-y8-JFq" id="ONi-7a-Z6c">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TokyoInsider" translatesAutoresizingMaskIntoConstraints="NO" id="bVF-wZ-xMt">
+                                                    <rect key="frame" x="20" y="11" width="78" height="78"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="78" id="Jxl-EL-mS6"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TokyoInsider is an English streaming service that provides SUBs. Ryu has great support for TokyoInsider." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XaA-UH-NSM">
+                                                    <rect key="frame" x="106" y="11" width="248" height="78"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="bVF-wZ-xMt" firstAttribute="bottom" secondItem="XaA-UH-NSM" secondAttribute="bottom" id="7tM-56-0ba"/>
+                                                <constraint firstItem="XaA-UH-NSM" firstAttribute="leading" secondItem="bVF-wZ-xMt" secondAttribute="trailing" constant="8" id="H7j-hX-vJS"/>
+                                                <constraint firstItem="bVF-wZ-xMt" firstAttribute="leading" secondItem="ONi-7a-Z6c" secondAttribute="leadingMargin" id="RQs-3f-kJr"/>
+                                                <constraint firstItem="bVF-wZ-xMt" firstAttribute="top" secondItem="ONi-7a-Z6c" secondAttribute="topMargin" id="Ylz-Vw-QJL"/>
+                                                <constraint firstItem="bVF-wZ-xMt" firstAttribute="bottom" secondItem="ONi-7a-Z6c" secondAttribute="bottomMargin" id="hsV-Cl-BUq"/>
+                                                <constraint firstItem="bVF-wZ-xMt" firstAttribute="top" secondItem="XaA-UH-NSM" secondAttribute="top" id="reV-tq-T8w"/>
+                                                <constraint firstItem="XaA-UH-NSM" firstAttribute="trailing" secondItem="ONi-7a-Z6c" secondAttribute="trailingMargin" id="t3d-0L-pDj"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -3079,6 +3110,7 @@ Use this feature if you are able to host it your self to prevent downtime or mas
         <image name="JKanime" width="92" height="92"/>
         <image name="Kitsu" width="256" height="256"/>
         <image name="Kuramanime" width="150" height="150"/>
+        <image name="TokyoInsider" width="152" height="152"/>
         <namedColor name="AccentColor">
             <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
