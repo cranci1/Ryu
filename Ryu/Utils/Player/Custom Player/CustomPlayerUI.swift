@@ -460,29 +460,26 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         if url.pathExtension == "m3u8" {
             parseM3U8(url: url) { [weak self] in
                 guard let self = self else { return }
-                let preferredQuality = UserDefaults.standard.string(forKey: "preferredQuality") ?? "1080p"
+                let savedPreferredQuality = UserDefaults.standard.string(forKey: "preferredQuality")
                 
-                if let preferredQualityIndex = self.qualities.firstIndex(where: { $0.0 == preferredQuality }) {
-                    self.setQuality(index: preferredQualityIndex)
+                let preferredQualities = [savedPreferredQuality,"1080p","720p","480p","360p"].compactMap { $0 }
+                if let matchingQualityIndex = preferredQualities.lazy
+                    .compactMap({ preferredQuality in
+                        self.qualities.firstIndex(where: { $0.0.lowercased() == preferredQuality.lowercased() })
+                    })
+                    .first {
+                    self.setQuality(index: matchingQualityIndex)
                 } else {
-                    let availableQualities = ["1080p", "720p", "480p", "360p"]
-                    if let nearestQualityIndex = availableQualities.compactMap({ quality in
-                        self.qualities.firstIndex(where: { $0.0 == quality })
-                    }).first {
-                        self.setQuality(index: nearestQualityIndex)
-                    } else {
-                        if let highestQualityIndex = self.qualities.indices.last {
-                            self.setQuality(index: highestQualityIndex)
-                        }
+                    if let highestQualityIndex = self.qualities.indices.last {
+                        self.setQuality(index: highestQualityIndex)
                     }
                 }
-
+                
                 if lastPlayedTime > 0 {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         self.player?.seek(to: CMTime(seconds: lastPlayedTime, preferredTimescale: 1))
                     }
                 }
-                
                 self.updateSettingsMenu()
             }
         } else {

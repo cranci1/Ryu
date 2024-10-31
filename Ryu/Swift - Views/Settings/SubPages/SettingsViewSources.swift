@@ -89,9 +89,9 @@ class SettingsViewSources: UITableViewController {
     }
     
     func setupMenu() {
-        let action1 = UIAction(title: "320p", handler: { [weak self] _ in
-            UserDefaults.standard.set("320p", forKey: "preferredQuality")
-            self?.qualityPrefered.setTitle("320p", for: .normal)
+        let action1 = UIAction(title: "360p", handler: { [weak self] _ in
+            UserDefaults.standard.set("360p", forKey: "preferredQuality")
+            self?.qualityPrefered.setTitle("360p", for: .normal)
         })
         let action2 = UIAction(title: "480p", handler: { [weak self] _ in
             UserDefaults.standard.set("480p", forKey: "preferredQuality")

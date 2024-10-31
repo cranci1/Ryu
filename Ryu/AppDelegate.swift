@@ -53,6 +53,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if UserDefaults.standard.string(forKey: "mediaPlayerSelected") == "Experimental" {
             UserDefaults.standard.set("Custom", forKey: "mediaPlayerSelected")
         }
+        if UserDefaults.standard.string(forKey: "preferredQuality") == "320p" {
+            UserDefaults.standard.set("360p", forKey: "preferredQuality")
+        }
     }
     
     private func setupGoogleCast() {
