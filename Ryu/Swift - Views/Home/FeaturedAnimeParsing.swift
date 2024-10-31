@@ -33,6 +33,8 @@ extension HomeViewController {
             return ("https://www.animesrbija.com/filter?sort=new", paseAnimeSRBIJAFeatured)
         case "AniWorld":
             return ("https://aniworld.to/neu", paseAniWorldFeatured)
+        case "TokyoInsider":
+            return ("https://www.tokyoinsider.com/new", paseTokyoFeatured)
         default:
             return (nil, nil)
         }
@@ -277,6 +279,27 @@ extension HomeViewController {
             
             let hrefBase = try item.select("a").first()?.attr("href") ?? ""
             let href = "https://aniworld.to" + hrefBase
+            
+            return AnimeItem(title: title, episode: episode, imageURL: imageURL, href: href)
+        }
+    }
+    
+    func paseTokyoFeatured(_ doc: Document) throws -> [AnimeItem] {
+        let animeItems = try doc.select("div#inner_page div.c_h2b, div#inner_page div.c_h2")
+        return try animeItems.array().compactMap { item in
+            
+            var title = try item.select("a").text()
+            if let range = title.range(of: "\\s*(episode|special)", options: .regularExpression, range: nil, locale: nil) {
+                title = title.prefix(upTo: range.lowerBound).trimmingCharacters(in: .whitespaces)
+            }
+            
+            let episodeText = try item.select("div.anime__sidebar__comment__item__text h6").text()
+            let episode = episodeText.replacingOccurrences(of: "Episodio ", with: "")
+            
+            let imageURL = "https://s4.anilist.co/file/anilistcdn/character/large/default.jpg"
+            
+            let hrefBase = try item.select("a").first()?.attr("href").components(separatedBy: ")").first! ?? ""
+            let href = "https://www.tokyoinsider.com" + hrefBase + ")"
             
             return AnimeItem(title: title, episode: episode, imageURL: imageURL, href: href)
         }

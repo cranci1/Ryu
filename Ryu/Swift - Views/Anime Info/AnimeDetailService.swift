@@ -521,11 +521,12 @@ class AnimeDetailService {
                     do {
                         let link = try element.select("a.download-link")
                         let href = try link.attr("href")
+                        guard href.contains("/episode/") else {
+                            return nil
+                        }
                         let episodeNumber = try element.select("strong").text()
-                        let isRegularEpisode = href.contains("/episode/")
-                        let formattedNumber = isRegularEpisode ? episodeNumber : "S\(episodeNumber)"
                         
-                        return Episode(number: formattedNumber, href: "https://www.tokyoinsider.com" + href, downloadUrl: "")
+                        return Episode(number: episodeNumber, href: "https://www.tokyoinsider.com" + href, downloadUrl: "")
                     } catch {
                         print("Error parsing TokyoInsider episode: \(error.localizedDescription)")
                         return nil

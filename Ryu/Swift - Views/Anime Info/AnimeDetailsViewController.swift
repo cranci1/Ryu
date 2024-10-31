@@ -997,9 +997,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                 }
                 
                 guard let finalSrcURL = srcURL else {
-                    self.hideLoadingBanner()
-                    print("Error extracting source URL")
-                    self.showAlert(title: "Error", message: "Error extracting source URL")
+                    self.hideLoadingBannerAndShowAlert(title: "Error", message: "The stream URL wasn't found.")
                     return
                 }
                 
