@@ -42,46 +42,59 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
         self.href = href
         self.source = source
         
-        if source == "AniWorld" {
-            if let url = URL(string: href) {
-                do {
-                    let html = try String(contentsOf: url)
-                    let doc = try SwiftSoup.parse(html)
-                    if let coverBox = try doc.select("div.seriesCoverBox").first(),
-                       let img = try coverBox.select("img").first(),
-                       let imgSrc = try? img.attr("data-src") {
-                        if imgSrc.hasPrefix("/") {
-                            self.imageUrl = "https://aniworld.to\(imgSrc)"
-                        } else {
-                            self.imageUrl = imgSrc
-                        }
-                    }
-                } catch {
-                    print("Error extracting image URL: \(error)")
-                    self.imageUrl = imageUrl
-                }
-            } else {
-                self.imageUrl = imageUrl
-            }
-        } else if source == "TokyoInsider" {
-            if let url = URL(string: href) {
-                do {
-                    let html = try String(contentsOf: url)
-                    let doc = try SwiftSoup.parse(html)
-                    if let img = try doc.select("img.a_img").first(),
-                       let imgSrc = try? img.attr("src") {
-                        self.imageUrl = imgSrc
-                    }
-                } catch {
-                    print("Error extracting image URL: \(error)")
-                    self.imageUrl = imageUrl
-                }
-            } else {
-                self.imageUrl = imageUrl
-            }
+        if source == "AniWorld" || source == "TokyoInsider" {
+            self.imageUrl = imageUrl
+            fetchImageUrl(source: source, href: href, fallback: imageUrl)
         } else {
             self.imageUrl = imageUrl
         }
+    }
+    
+    private func fetchImageUrl(source: String, href: String, fallback: String) {
+        guard let url = URL(string: href.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? href) else {
+            self.imageUrl = fallback
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            guard let self = self,
+                  let data = data,
+                  let html = String(data: data, encoding: .utf8) else {
+                DispatchQueue.main.async {
+                    self?.imageUrl = fallback
+                }
+                return
+            }
+            
+            do {
+                let doc = try SwiftSoup.parse(html)
+                switch source {
+                case "AniWorld":
+                    if let coverBox = try doc.select("div.seriesCoverBox").first(),
+                       let img = try coverBox.select("img").first(),
+                       let imgSrc = try? img.attr("data-src") {
+                        DispatchQueue.main.async {
+                            self.imageUrl = imgSrc.hasPrefix("/") ? "https://aniworld.to\(imgSrc)" : imgSrc
+                        }
+                    }
+                case "TokyoInsider":
+                    if let img = try doc.select("img.a_img").first(),
+                       let imgSrc = try? img.attr("src") {
+                        DispatchQueue.main.async {
+                            self.imageUrl = imgSrc
+                        }
+                    }
+                default:
+                    break
+                }
+            } catch {
+                print("Error extracting image URL: \(error)")
+                DispatchQueue.main.async {
+                    self.imageUrl = fallback
+                }
+            }
+        }
+        task.resume()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -951,7 +964,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
     }
     
     private func handleSources(url: String, cell: EpisodeCell, fullURL: String) {
-        guard let requestURL = URL(string: url) else {
+        guard let requestURL = encodedURL(from: url) else { 
             DispatchQueue.main.async {
                 self.hideLoadingBanner()
                 self.showAlert(title: "Error", message: "Invalid URL: \(url)")
@@ -1044,6 +1057,12 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                 }
             }
         }.resume()
+    }
+    
+    func encodedURL(from urlString: String) -> URL? {
+        let allowedCharacters = CharacterSet.urlQueryAllowed
+        guard let encodedString = urlString.addingPercentEncoding(withAllowedCharacters: allowedCharacters) else { return nil }
+        return URL(string: encodedString)
     }
     
     private func proceedWithCasting(videoURL: URL) {

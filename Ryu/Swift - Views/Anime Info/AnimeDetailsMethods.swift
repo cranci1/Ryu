@@ -373,7 +373,8 @@ extension AnimeDetailViewController {
     func extractTokyoMp4(from htmlString: String) -> URL? {
         do {
             let doc = try SwiftSoup.parse(htmlString)
-            guard let downloadElement = try doc.select("a[href^=https://media.tokyoinsider.com][href*=.mp4]").first(),
+            let selector = "a[href*=media.tokyoinsider.com][href$=.mp4]"
+            guard let downloadElement = try doc.select(selector).first(),
                   let hrefString = try downloadElement.attr("href").nilIfEmpty,
                   let downloadURL = URL(string: hrefString) else {
                       return nil
