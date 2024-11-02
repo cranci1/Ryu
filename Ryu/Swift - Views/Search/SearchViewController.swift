@@ -145,7 +145,7 @@ class HistoryTableViewCell: UITableViewCell {
         let button = UIButton(type: .system)
         let image = UIImage(systemName: "trash")
         button.setImage(image, for: .normal)
-        button.tintColor = .systemOrange
+        button.tintColor = .systemTeal
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()

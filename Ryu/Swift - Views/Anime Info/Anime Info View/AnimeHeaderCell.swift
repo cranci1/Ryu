@@ -60,13 +60,13 @@ class AnimeHeaderCell: UITableViewCell {
         aliasLabel.numberOfLines = 2
         
         bookmarkImageView.image = UIImage(systemName: "bookmark")
-        bookmarkImageView.tintColor = .systemOrange
+        bookmarkImageView.tintColor = .systemTeal
         bookmarkImageView.isUserInteractionEnabled = true
         let tapGesture2 = UITapGestureRecognizer(target: self, action: #selector(favoriteButtonPressed))
         bookmarkImageView.addGestureRecognizer(tapGesture2)
         
         optionsButton.image = UIImage(systemName: "ellipsis.circle.fill")
-        optionsButton.tintColor = .systemOrange
+        optionsButton.tintColor = .systemTeal
         optionsButton.isUserInteractionEnabled = true
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(optionsButtonTapped))
         optionsButton.addGestureRecognizer(tapGesture)
@@ -164,6 +164,6 @@ class AnimeHeaderCell: UITableViewCell {
     private func updateFavoriteButtonState(isFavorite: Bool) {
         let imageName = isFavorite ? "bookmark.fill" : "bookmark"
         bookmarkImageView.image = UIImage(systemName: imageName)
-        bookmarkImageView.tintColor = isFavorite ? .systemRed : .systemOrange
+        bookmarkImageView.tintColor = isFavorite ? .systemYellow : .systemTeal
     }
 }

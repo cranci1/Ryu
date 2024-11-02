@@ -1353,7 +1353,7 @@ extension CustomVideoPlayerView {
             let endPercentage = CGFloat(interval.2 / duration)
             
             let skipView = UIView()
-            skipView.backgroundColor = .systemOrange
+            skipView.backgroundColor = .systemTeal
             skipView.alpha = 0.5
             
             playerProgress.addSubview(skipView)

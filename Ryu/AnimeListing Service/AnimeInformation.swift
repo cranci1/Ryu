@@ -31,7 +31,7 @@ class AnimeInformation: UIViewController, UITableViewDataSource {
         let button = UIButton(type: .system)
         button.setTitle("Search Episodes", for: .normal)
         button.addTarget(self, action: #selector(searchEpisodesButtonTapped), for: .touchUpInside)
-        button.backgroundColor = .systemOrange
+        button.backgroundColor = .systemTeal
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         button.layer.cornerRadius = 15
@@ -622,7 +622,7 @@ class StatsView: UIView {
             if let score = scoreStat["score"], let amount = scoreStat["amount"] {
                 let barView = UIView()
                 barView.layer.cornerRadius = 4
-                barView.backgroundColor = .systemOrange
+                barView.backgroundColor = .systemTeal
                 barChartView.addSubview(barView)
                 
                 barView.translatesAutoresizingMaskIntoConstraints = false

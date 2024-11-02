@@ -10,7 +10,7 @@ import UIKit
 class DownloadCell: UITableViewCell {
     let playImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(systemName: "play.circle.fill"))
-        imageView.tintColor = .systemOrange
+        imageView.tintColor = .systemTeal
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
