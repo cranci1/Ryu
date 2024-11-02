@@ -87,7 +87,6 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         loadContinueWatchingItems()
-        
         setupSelectedSourceLabel()
         
         let currentSelectedSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
@@ -227,7 +226,13 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
     func setupSelectedSourceLabel() {
         let selectedSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
         selectSourceLable.title = selectedSource
-        selectedSourceLabel.text = String(format: NSLocalizedString("on %@%", comment: "Prefix for slected Source"), selectedSource)
+        
+        if selectedSourceLabel.text?.replacingOccurrences(of: "on ", with: "").replacingOccurrences(of: "%", with: "") != selectedSource {
+            selectedSourceLabel.text = String(format: NSLocalizedString("on %@%", comment: "Prefix for selected Source"), selectedSource)
+            fetchFeaturedAnime { [weak self] in
+                self?.refreshFeaturedUI()
+            }
+        }
     }
     
     func setupRefreshControl() {
@@ -324,6 +329,13 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
         let selectedSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
         let (sourceURL, parseStrategy) = getSourceInfo(for: selectedSource)
         
+        DispatchQueue.main.async {
+            self.featuredAnime.removeAll()
+            self.featuredCollectionView.reloadData()
+            self.featuredActivityIndicator.startAnimating()
+            self.featuredErrorLabel.isHidden = true
+        }
+        
         guard let urlString = sourceURL, let url = URL(string: urlString), let parse = parseStrategy else {
             DispatchQueue.main.async {
                 self.featuredAnime = []
@@ -333,13 +345,6 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
                 completion()
             }
             return
-        }
-        
-        DispatchQueue.main.async {
-            self.featuredAnime = []
-            self.featuredCollectionView.reloadData()
-            self.featuredActivityIndicator.startAnimating()
-            self.featuredErrorLabel.isHidden = true
         }
         
         URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
