@@ -42,7 +42,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
         self.href = href
         self.source = source
         
-        if source == "AniWorld" || source == "TokyoInsider" {
+        if imageUrl == "https://s4.anilist.co/file/anilistcdn/character/large/default.jpg" && (source == "AniWorld" || source == "TokyoInsider") {
             self.imageUrl = imageUrl
             fetchImageUrl(source: source, href: href, fallback: imageUrl)
         } else {
