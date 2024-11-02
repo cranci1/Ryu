@@ -122,6 +122,9 @@ APIs:
 - [AniSkip-api](https://github.com/aniskip/aniskip-api) - MIT License
 - [Deeplx-vercel-api](https://github.com/bropines/Deeplx-vercel) - MIT License
 
+Projects:
+- [AniWorld-Downloader](https://github.com/phoenixthrush/AniWorld-Downloader) - MIT License
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
