@@ -507,25 +507,25 @@ extension AnimeDetailViewController {
     
     func extractVidozaVideoURL(from htmlString: String, completion: @escaping (URL?) -> Void) {
         DispatchQueue.global(qos: .userInitiated).async {
-            let vidozaLinks = self.extractAllVidozaLinks(from: htmlString)
+            let videoLinks = self.extractAllVideoLinks(from: htmlString)
             
-            guard !vidozaLinks.isEmpty else {
+            guard !videoLinks.isEmpty else {
                 DispatchQueue.main.async {
                     completion(nil)
                 }
                 return
             }
             
-            if vidozaLinks.count == 1 {
-                self.processVidozaURL(vidozaLinks[0].url, completion: completion)
+            if videoLinks.count == 1 {
+                self.processVideoURL(videoLinks[0], completion: completion)
                 return
             }
             
             DispatchQueue.main.async {
-                self.hideLoadingBanner{
-                    self.showLanguageSelectionDialog(for: vidozaLinks) { selectedLink in
+                self.hideLoadingBanner {
+                    self.showVideoSelectionDialog(for: videoLinks) { selectedLink in
                         if let selectedLink = selectedLink {
-                            self.processVidozaURL(selectedLink.url, completion: completion)
+                            self.processVideoURL(selectedLink, completion: completion)
                         }
                     }
                 }
@@ -533,40 +533,18 @@ extension AnimeDetailViewController {
         }
     }
     
-    private func extractAllVidozaLinks(from htmlString: String) -> [VidozaLink] {
-        let pattern = "<li[^>]*?data-lang-key=\"(\\d)\"[^>]*?>\\s*<div>\\s*<a[^>]*?href=\"(/redirect/[^\"]+)\"[^>]*?>\\s*<i class=\"icon Vidoza\""
-        
-        guard let regex = try? NSRegularExpression(pattern: pattern, options: [.dotMatchesLineSeparators]) else {
-            return []
-        }
-        
-        let matches = regex.matches(in: htmlString, range: NSRange(htmlString.startIndex..., in: htmlString))
-        
-        return matches.compactMap { match in
-            guard let langKeyRange = Range(match.range(at: 1), in: htmlString),
-                  let urlRange = Range(match.range(at: 2), in: htmlString),
-                  let langKey = Int(htmlString[langKeyRange]),
-                  let language = VideoLanguage(rawValue: langKey) else {
-                      return nil
-                  }
-            
-            let vidozaPath = String(htmlString[urlRange])
-            let fullURL = "https://aniworld.to\(vidozaPath)"
-            return VidozaLink(url: fullURL, language: language)
-        }
-    }
-    
-    private func showLanguageSelectionDialog(for links: [VidozaLink], completion: @escaping (VidozaLink?) -> Void) {
+    private func showVideoSelectionDialog(for links: [VideoLink], completion: @escaping (VideoLink?) -> Void) {
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let topController = windowScene.windows.first?.rootViewController else {
                   completion(nil)
                   return
               }
         
-        let alert = UIAlertController(title: "Select Audio", message: "Choose your preferred audio:", preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "Select Video Source", message: "Choose your preferred host and language:", preferredStyle: .actionSheet)
         
         for link in links {
-            let action = UIAlertAction(title: link.language.description, style: .default) { _ in
+            let title = "\(link.host.description) - \(link.language.description)"
+            let action = UIAlertAction(title: title, style: .default) { _ in
                 completion(link)
             }
             alert.addAction(action)
@@ -588,15 +566,48 @@ extension AnimeDetailViewController {
         topController.present(alert, animated: true)
     }
     
-    private func processVidozaURL(_ urlString: String, completion: @escaping (URL?) -> Void) {
-        guard let url = URL(string: urlString) else {
+    private func extractAllVideoLinks(from htmlString: String) -> [VideoLink] {
+        var links: [VideoLink] = []
+        
+        let vidozaPattern = "<li[^>]*?data-lang-key=\"(\\d)\"[^>]*?>\\s*<div>\\s*<a[^>]*?href=\"(/redirect/[^\"]+)\"[^>]*?>\\s*<i class=\"icon Vidoza\""
+        if let vidozaRegex = try? NSRegularExpression(pattern: vidozaPattern, options: [.dotMatchesLineSeparators]) {
+            let vidozaMatches = vidozaRegex.matches(in: htmlString, range: NSRange(htmlString.startIndex..., in: htmlString))
+            links += extractLinks(from: vidozaMatches, in: htmlString, host: .vidoza)
+        }
+        let voePattern = "<li[^>]*?data-lang-key=\"(\\d)\"[^>]*?>\\s*<div>\\s*<a[^>]*?href=\"(/redirect/[^\"]+)\"[^>]*?>\\s*<i class=\"icon VOE\""
+        if let voeRegex = try? NSRegularExpression(pattern: voePattern, options: [.dotMatchesLineSeparators]) {
+            let voeMatches = voeRegex.matches(in: htmlString, range: NSRange(htmlString.startIndex..., in: htmlString))
+            links += extractLinks(from: voeMatches, in: htmlString, host: .voe)
+        }
+        
+        return links
+    }
+    
+    private func extractLinks(from matches: [NSTextCheckingResult], in htmlString: String, host: VideoHost) -> [VideoLink] {
+        return matches.compactMap { match in
+            guard let langKeyRange = Range(match.range(at: 1), in: htmlString),
+                  let urlRange = Range(match.range(at: 2), in: htmlString),
+                  let langKey = Int(htmlString[langKeyRange]),
+                  let language = VideoLanguage(rawValue: langKey) else {
+                      return nil
+                  }
+            
+            let path = String(htmlString[urlRange])
+            let fullURL = "https://aniworld.to\(path)"
+            return VideoLink(url: fullURL, language: language, host: host)
+        }
+    }
+    
+    private func processVideoURL(_ videoLink: VideoLink, completion: @escaping (URL?) -> Void) {
+        guard let url = URL(string: videoLink.url) else {
             DispatchQueue.main.async {
                 completion(nil)
             }
             return
         }
         
-        URLSession.shared.dataTask(with: url) { data, response, error in
+        let request = URLRequest(url: url)
+        URLSession.shared.dataTask(with: request) { data, response, error in
             guard let finalURL = (response as? HTTPURLResponse)?.url,
                   error == nil else {
                       DispatchQueue.main.async {
@@ -605,7 +616,7 @@ extension AnimeDetailViewController {
                       return
                   }
             
-            URLSession.shared.dataTask(with: finalURL) { data, response, error in
+            URLSession.shared.dataTask(with: finalURL) { [weak self] data, response, error in
                 guard let data = data,
                       let htmlString = String(data: data, encoding: .utf8) else {
                           DispatchQueue.main.async {
@@ -614,21 +625,79 @@ extension AnimeDetailViewController {
                           return
                       }
                 
-                let mp4Pattern = "source src=\"(https://.*?\\.mp4)\""
-                guard let mp4Regex = try? NSRegularExpression(pattern: mp4Pattern),
-                      let mp4Match = mp4Regex.firstMatch(in: htmlString, range: NSRange(htmlString.startIndex..., in: htmlString)),
-                      let mp4Range = Range(mp4Match.range(at: 1), in: htmlString),
-                      let videoURL = URL(string: String(htmlString[mp4Range])) else {
-                          DispatchQueue.main.async {
-                              completion(nil)
-                          }
-                          return
-                      }
-                
-                DispatchQueue.main.async {
-                    completion(videoURL)
+                switch videoLink.host {
+                case .vidoza:
+                    self?.extractVidozaDirectURL(from: htmlString, completion: completion)
+                case .voe:
+                    self?.extractVoeDirectURL(from: htmlString, completion: completion)
                 }
             }.resume()
         }.resume()
+    }
+    
+    private func extractVoeDirectURL(from htmlString: String, completion: @escaping (URL?) -> Void) {
+        let redirectPattern = "window\\.location\\.href\\s*=\\s*'(https://[^/]+/e/\\w+)';"
+        guard let redirectRegex = try? NSRegularExpression(pattern: redirectPattern),
+              let redirectMatch = redirectRegex.firstMatch(in: htmlString, range: NSRange(htmlString.startIndex..., in: htmlString)),
+              let redirectURLRange = Range(redirectMatch.range(at: 1), in: htmlString) else {
+                  DispatchQueue.main.async {
+                      completion(nil)
+                  }
+                  return
+              }
+        
+        let redirectURLString = String(htmlString[redirectURLRange])
+        guard let redirectURL = URL(string: redirectURLString) else {
+            DispatchQueue.main.async {
+                completion(nil)
+            }
+            return
+        }
+        
+        var request = URLRequest(url: redirectURL)
+        request.setValue("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36", forHTTPHeaderField: "User-Agent")
+        request.timeoutInterval = 10
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data,
+                  let redirectContent = String(data: data, encoding: .utf8) else {
+                      DispatchQueue.main.async {
+                          completion(nil)
+                      }
+                      return
+                  }
+            
+            let nodePattern = "let nodeDetails = prompt\\(\"Node\",\\s*\"(https://[^\"]+)\"\\);"
+            guard let nodeRegex = try? NSRegularExpression(pattern: nodePattern),
+                  let nodeMatch = nodeRegex.firstMatch(in: redirectContent, range: NSRange(redirectContent.startIndex..., in: redirectContent)),
+                  let nodeURLRange = Range(nodeMatch.range(at: 1), in: redirectContent),
+                  let finalURL = URL(string: String(redirectContent[nodeURLRange])) else {
+                      DispatchQueue.main.async {
+                          completion(nil)
+                      }
+                      return
+                  }
+            
+            DispatchQueue.main.async {
+                completion(finalURL)
+            }
+        }.resume()
+    }
+    
+    private func extractVidozaDirectURL(from htmlString: String, completion: @escaping (URL?) -> Void) {
+        let mp4Pattern = "source src=\"(https://.*?\\.mp4)\""
+        guard let mp4Regex = try? NSRegularExpression(pattern: mp4Pattern),
+              let mp4Match = mp4Regex.firstMatch(in: htmlString, range: NSRange(htmlString.startIndex..., in: htmlString)),
+              let mp4Range = Range(mp4Match.range(at: 1), in: htmlString),
+              let videoURL = URL(string: String(htmlString[mp4Range])) else {
+                  DispatchQueue.main.async {
+                      completion(nil)
+                  }
+                  return
+              }
+        
+        DispatchQueue.main.async {
+            completion(videoURL)
+        }
     }
 }

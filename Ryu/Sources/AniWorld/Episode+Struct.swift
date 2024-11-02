@@ -21,7 +21,20 @@ enum VideoLanguage: Int {
     }
 }
 
-struct VidozaLink {
+enum VideoHost {
+    case vidoza
+    case voe
+    
+    var description: String {
+        switch self {
+        case .vidoza: return "Vidoza"
+        case .voe: return "Voe"
+        }
+    }
+}
+
+struct VideoLink {
     let url: String
     let language: VideoLanguage
+    let host: VideoHost
 }
