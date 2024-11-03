@@ -17,7 +17,6 @@ class SourceMenu {
                 ("GoGoAnime", .gogoanime, "🇺🇸"),
                 ("AnimeHeaven", .animeheaven, "🇺🇸"),
                 ("AnimeFire", .animefire, "🇵🇹"),
-                ("Kuramanime", .kuramanime, "🇮🇩"),
                 ("JKanime", .jkanime, "🇪🇸"),
                 ("Anime3rb", .anime3rb, "🇸🇦"),
                 ("HiAnime", .hianime, "🇺🇸"),
@@ -42,13 +41,11 @@ class SourceMenu {
             
             alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
             
-            if let popoverController = alertController.popoverPresentationController {
-                if let sourceView = sourceView, sourceView.window != nil {
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                if let popoverController = alertController.popoverPresentationController {
                     popoverController.sourceView = sourceView
-                    popoverController.sourceRect = sourceView.bounds
-                } else {
-                    popoverController.sourceView = viewController.view
-                    popoverController.sourceRect = viewController.view.bounds
+                    popoverController.sourceRect = CGRect(x: sourceView!.bounds.midX, y: sourceView!.bounds.midY, width: 0, height: 0)
+                    popoverController.permittedArrowDirections = []
                 }
             }
             
