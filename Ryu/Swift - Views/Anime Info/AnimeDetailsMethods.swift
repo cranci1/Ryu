@@ -390,7 +390,10 @@ extension AnimeDetailViewController {
                 
                 DispatchQueue.main.async {
                     guard !foundURLs.isEmpty else {
-                        self.hideLoadingBannerAndShowAlert( title: "Error", message: "No valid video URLs found" )
+                        self.hideLoadingBannerAndShowAlert(
+                            title: "Error",
+                            message: "No valid video URLs found"
+                        )
                         return
                     }
                     
@@ -398,24 +401,22 @@ extension AnimeDetailViewController {
                         completion(foundURLs[0].0)
                         return
                     }
-                    
                     let alertController = UIAlertController(title: "Select Video Format", message: "Choose which video to play", preferredStyle: .actionSheet)
                     
-                    if UIDevice.current.userInterfaceIdiom == .pad {
-                        if let popoverController = alertController.popoverPresentationController {
-                            popoverController.sourceView = self.view
-                            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
-                            popoverController.permittedArrowDirections = []
-                        }
-                    }
-                    
-                    for (url, filename) in foundURLs {let action = UIAlertAction(title: filename,style: .default) { _ in
+                    for (url, filename) in foundURLs {
+                        let action = UIAlertAction(
+                            title: filename,
+                            style: .default
+                        ) { _ in
                             completion(url)
                         }
                         alertController.addAction(action)
                     }
                     
-                    let cancelAction = UIAlertAction(title: "Cancel",style: .cancel) { _ in
+                    let cancelAction = UIAlertAction(
+                        title: "Cancel",
+                        style: .cancel
+                    ) { _ in
                         self.hideLoadingBanner()
                     }
                     alertController.addAction(cancelAction)
@@ -427,7 +428,10 @@ extension AnimeDetailViewController {
             } catch {
                 DispatchQueue.main.async {
                     print("Error parsing HTML with SwiftSoup: \(error)")
-                    self.hideLoadingBannerAndShowAlert(title: "Error",message: "Error extracting video URLs")
+                    self.hideLoadingBannerAndShowAlert(
+                        title: "Error",
+                        message: "Error extracting video URLs"
+                    )
                 }
             }
         }
