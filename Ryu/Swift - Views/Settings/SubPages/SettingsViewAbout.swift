@@ -9,8 +9,6 @@ import UIKit
 
 class SettingsViewAbout: UITableViewController {
     
-    @IBOutlet weak var versionLabel: UILabel!
-    @IBOutlet weak var buildLabel: UILabel!
     @IBOutlet weak var privacyLabel: UILabel!
     @IBOutlet weak var licenseLabel: UILabel!
     
@@ -22,18 +20,6 @@ class SettingsViewAbout: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
-            versionLabel.text = "\(appVersion)"
-        } else {
-            versionLabel.text = "N/A"
-        }
-        
-        if let appBuild = Bundle.main.infoDictionary?["CFBundleVersion"] as? String {
-            buildLabel.text = "\(appBuild)"
-        } else {
-            buildLabel.text = "N/A"
-        }
     }
     
     func openURL(_ urlString: String) {
