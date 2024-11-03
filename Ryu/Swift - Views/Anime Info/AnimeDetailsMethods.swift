@@ -370,20 +370,70 @@ extension AnimeDetailViewController {
         }
     }
     
-    func extractTokyoMp4(from htmlString: String) -> URL? {
-        do {
-            let doc = try SwiftSoup.parse(htmlString)
-            let selector = "a[href*=media.tokyoinsider.com][href$=.mp4]"
-            guard let downloadElement = try doc.select(selector).first(),
-                  let hrefString = try downloadElement.attr("href").nilIfEmpty,
-                  let downloadURL = URL(string: hrefString) else {
-                      return nil
-                  }
-            print("Tokyo link URL: \(downloadURL.absoluteString)")
-            return downloadURL
-        } catch {
-            print("Error parsing HTML with SwiftSoup: \(error)")
-            return nil
+    func extractTokyoVideo(from htmlString: String, completion: @escaping (URL) -> Void) {
+        let formats = UserDefaults.standard.bool(forKey: "otherFormats") ? ["mp4", "mkv", "avi"] : ["mp4"]
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            do {
+                let doc = try SwiftSoup.parse(htmlString)
+                let combinedSelector = formats.map { "a[href*=media.tokyoinsider.com][href$=.\($0)]" }.joined(separator: ", ")
+                
+                let downloadElements = try doc.select(combinedSelector)
+                
+                let foundURLs = downloadElements.compactMap { element -> (URL, String)? in
+                    guard let hrefString = try? element.attr("href").nilIfEmpty,
+                          let url = URL(string: hrefString) else { return nil }
+                    
+                    let filename = url.lastPathComponent
+                    return (url, filename)
+                }
+                
+                DispatchQueue.main.async {
+                    guard !foundURLs.isEmpty else {
+                        self.hideLoadingBannerAndShowAlert(
+                            title: "Error",
+                            message: "No valid video URLs found"
+                        )
+                        return
+                    }
+                    
+                    if foundURLs.count == 1 {
+                        completion(foundURLs[0].0)
+                        return
+                    }
+                    let alertController = UIAlertController(title: "Select Video Format", message: "Choose which video to play", preferredStyle: .actionSheet)
+                    
+                    for (url, filename) in foundURLs {
+                        let action = UIAlertAction(
+                            title: filename,
+                            style: .default
+                        ) { _ in
+                            completion(url)
+                        }
+                        alertController.addAction(action)
+                    }
+                    
+                    let cancelAction = UIAlertAction(
+                        title: "Cancel",
+                        style: .cancel
+                    ) { _ in
+                        self.hideLoadingBanner()
+                    }
+                    alertController.addAction(cancelAction)
+                    
+                    self.hideLoadingBanner {
+                        self.present(alertController, animated: true)
+                    }
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    print("Error parsing HTML with SwiftSoup: \(error)")
+                    self.hideLoadingBannerAndShowAlert(
+                        title: "Error",
+                        message: "Error extracting video URLs"
+                    )
+                }
+            }
         }
     }
     

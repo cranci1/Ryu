@@ -952,7 +952,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
         }
     }
     
-    private func hideLoadingBannerAndShowAlert(title: String, message: String) {
+    func hideLoadingBannerAndShowAlert(title: String, message: String) {
         #if os(iOS)
         hideLoadingBanner { [weak self] in
             guard let self = self else { return }
@@ -1008,7 +1008,13 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                 case "AnimeSRBIJA":
                     srcURL = self.extractAsgoldURL(from: htmlString)
                 case "TokyoInsider":
-                    srcURL = self.extractTokyoMp4(from: htmlString)
+                    self.extractTokyoVideo(from: htmlString) { selectedURL in
+                        DispatchQueue.main.async {
+                            self.hideLoadingBanner()
+                            self.playVideo(sourceURL: selectedURL, cell: cell, fullURL: fullURL)
+                        }
+                    }
+                    return
                 case "AniWorld":
                     self.extractVidozaVideoURL(from: htmlString) { videoURL in
                         guard let finalURL = videoURL else {

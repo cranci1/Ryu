@@ -18,6 +18,8 @@ class SettingsViewSources: UITableViewController {
     @IBOutlet weak var serverButton: UIButton!
     @IBOutlet weak var subtitlesButton: UIButton!
     
+    @IBOutlet weak var otherFOrmats: UISwitch!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupRetryMenu()
@@ -26,10 +28,19 @@ class SettingsViewSources: UITableViewController {
         setupAudioMenu()
         setupServerMenu()
         setupSubtitlesMenu()
+        loadUserDefaults()
         
         if let selectedOption = UserDefaults.standard.string(forKey: "preferredQuality") {
             qualityPrefered.setTitle(selectedOption, for: .normal)
         }
+    }
+    
+    private func loadUserDefaults() {
+        otherFOrmats.isOn = UserDefaults.standard.bool(forKey: "otherFormats")
+    }
+    
+    @IBAction func otherFormatsToggle(_ sender: UISwitch) {
+        UserDefaults.standard.set(sender.isOn, forKey: "otherFormats")
     }
     
     func setupRetryMenu() {

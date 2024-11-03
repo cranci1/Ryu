@@ -1646,10 +1646,44 @@ The Tries is the method that defines how Ryu attempts to fetch episodes. Increas
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection headerTitle="AniWorld" id="uTe-qn-4JY">
+                                <string key="footerTitle">This will allow fetching of mkv and avi files. The only thing is that you are forced to use VLC infuse or Outplayer to play them since that the iOS AVPlayer doesn't support them.</string>
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="D5j-AY-EEo">
+                                        <rect key="frame" x="20" y="617" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="D5j-AY-EEo" id="7bS-FB-a6H">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Allow other formats" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="frT-bd-4OM">
+                                                    <rect key="frame" x="15" y="13" width="134" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="rQL-2m-X9t">
+                                                    <rect key="frame" x="315" y="6.5" width="51" height="31"/>
+                                                    <color key="onTintColor" name="AccentColor"/>
+                                                    <connections>
+                                                        <action selector="otherFormatsToggle:" destination="15o-5a-dFg" eventType="valueChanged" id="45f-hi-4gc"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="frT-bd-4OM" firstAttribute="centerY" secondItem="7bS-FB-a6H" secondAttribute="centerY" id="63l-Xa-aIz"/>
+                                                <constraint firstItem="frT-bd-4OM" firstAttribute="leading" secondItem="7bS-FB-a6H" secondAttribute="leading" constant="15" id="BDC-xC-s93"/>
+                                                <constraint firstItem="rQL-2m-X9t" firstAttribute="centerY" secondItem="7bS-FB-a6H" secondAttribute="centerY" id="bAJ-Tq-mpJ"/>
+                                                <constraint firstItem="rQL-2m-X9t" firstAttribute="trailing" secondItem="7bS-FB-a6H" secondAttribute="trailing" constant="-10" id="m9j-nR-8ms"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                             <tableViewSection headerTitle="Informations" footerTitle="Find some informations about each source" id="fYK-Yn-lEn">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="m1a-0k-gXI">
-                                        <rect key="frame" x="20" y="617" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="768.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="m1a-0k-gXI" id="Gc0-9A-Dxt">
                                             <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
@@ -1690,6 +1724,7 @@ The Tries is the method that defines how Ryu attempts to fetch episodes. Increas
                     <connections>
                         <outlet property="audioButton" destination="ew1-sf-bu3" id="uYv-W7-Rgd"/>
                         <outlet property="gogoButton" destination="o75-Cr-GFx" id="4Of-Ux-fmn"/>
+                        <outlet property="otherFOrmats" destination="rQL-2m-X9t" id="vNg-Xj-0Ow"/>
                         <outlet property="qualityPrefered" destination="5Al-V9-xiO" id="kwd-cH-FFf"/>
                         <outlet property="retryMethod" destination="bTS-4X-xtJ" id="2iX-Ch-zBc"/>
                         <outlet property="serverButton" destination="JUh-bG-hKS" id="Uzf-Q4-FmV"/>
@@ -2416,7 +2451,7 @@ The Tries is the method that defines how Ryu attempts to fetch episodes. Increas
                                 <cells/>
                             </tableViewSection>
                             <tableViewSection headerTitle="Alamofire - MIT License" id="p0E-TR-vPW">
-                                <mutableString key="footerTitle">Copyright (c) 2014-2022 Alamofire Software Foundation (http://alamofire.org/)
+                                <string key="footerTitle">Copyright (c) 2014-2022 Alamofire Software Foundation (http://alamofire.org/)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this oftware and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -2425,11 +2460,11 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-------------------------------</mutableString>
+------------------------------</string>
                                 <cells/>
                             </tableViewSection>
                             <tableViewSection headerTitle="SwiftSoup - MIT LICENSE" id="u2b-Vr-Vt4">
-                                <mutableString key="footerTitle">Copyright (c) 2016 Nabil Chatbi
+                                <string key="footerTitle">Copyright (c) 2016 Nabil Chatbi
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this oftware and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -2438,11 +2473,11 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-------------------------------</mutableString>
+------------------------------</string>
                                 <cells/>
                             </tableViewSection>
                             <tableViewSection headerTitle="Kingfisher - MIT LICENSE" id="7OT-Jf-dmx">
-                                <mutableString key="footerTitle">Copyright (c) 2019 Wei Wang
+                                <string key="footerTitle">Copyright (c) 2019 Wei Wang
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this oftware and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -2451,7 +2486,7 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-------------------------------</mutableString>
+------------------------------</string>
                                 <cells/>
                             </tableViewSection>
                             <tableViewSection headerTitle="GoogleCastSDK - Google terms" id="03o-aO-gKi">
@@ -2461,7 +2496,7 @@ THE SOFTWARE.
                                 <cells/>
                             </tableViewSection>
                             <tableViewSection headerTitle="aniwatch-api - MIT LICENSE" id="pf4-rj-uwJ">
-                                <mutableString key="footerTitle">Copyright (c) 2023 Ritesh Ghosh
+                                <string key="footerTitle">Copyright (c) 2023 Ritesh Ghosh
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this oftware and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -2470,11 +2505,11 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-------------------------------</mutableString>
+------------------------------</string>
                                 <cells/>
                             </tableViewSection>
                             <tableViewSection headerTitle="aniskip-api - MIT LICENSE" id="75t-Qk-Gx4">
-                                <mutableString key="footerTitle">Copyright (c) 2021 Lexes Jan Mantiquilla
+                                <string key="footerTitle">Copyright (c) 2021 Lexes Jan Mantiquilla
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this oftware and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -2483,11 +2518,11 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-------------------------------</mutableString>
+------------------------------</string>
                                 <cells/>
                             </tableViewSection>
                             <tableViewSection headerTitle="DeepLX - MIT LICENSE" id="fEM-U3-wVU">
-                                <mutableString key="footerTitle">Copyright (c) 2024 Sergey Pinus
+                                <string key="footerTitle">Copyright (c) 2024 Sergey Pinus
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this oftware and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -2496,11 +2531,11 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-------------------------------</mutableString>
+------------------------------</string>
                                 <cells/>
                             </tableViewSection>
                             <tableViewSection headerTitle="AniWorld-Downloader - MIT LICENSE" id="LAk-Tp-733">
-                                <mutableString key="footerTitle">Copyright (c) 2024 Phoenixthrush UwU
+                                <string key="footerTitle">Copyright (c) 2024 Phoenixthrush UwU
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this oftware and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -2509,11 +2544,11 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-------------------------------</mutableString>
+------------------------------</string>
                                 <cells/>
                             </tableViewSection>
                             <tableViewSection headerTitle="NineAnimator - GPLv3.0 LICENSE" id="8AK-ds-Hzl">
-                                <mutableString key="footerTitle">Copyright © 2018-2020 Marcus Zhou. All rights reserved.
+                                <string key="footerTitle">Copyright © 2018-2020 Marcus Zhou. All rights reserved.
 
 NineAnimator is free software: you can redistribute it and/or modifyit under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
@@ -2521,7 +2556,7 @@ NineAnimator is distributed in the hope that it will be useful, but WITHOUT ANY 
 
 You should have received a copy of the GNU General Public License along with NineAnimator.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
 
-------------------------------</mutableString>
+------------------------------</string>
                                 <cells/>
                             </tableViewSection>
                         </sections>
