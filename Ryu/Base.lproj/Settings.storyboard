@@ -470,7 +470,7 @@ Real-time translation is only compatible with the HiAnime source, as it uses sof
                                         <rect key="frame" x="20" y="1132.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="TNs-QJ-X3d" id="C3n-J2-pYD">
-                                            <rect key="frame" x="0.0" y="0.0" width="357.5" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="355.5" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="AutoSkip Preferences" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vEh-c4-OqT">
@@ -493,7 +493,7 @@ Real-time translation is only compatible with the HiAnime source, as it uses sof
                                         <rect key="frame" x="20" y="1176" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XTU-wy-rjh" id="FW5-6Z-D6W">
-                                            <rect key="frame" x="0.0" y="0.0" width="357.5" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="355.5" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Real Time Translation Preferences" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YyY-6f-8hG">
@@ -520,7 +520,7 @@ Real-time translation is only compatible with the HiAnime source, as it uses sof
                                         <rect key="frame" x="20" y="1320" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="GOv-Nu-HBP" id="cZi-Uj-rTb">
-                                            <rect key="frame" x="0.0" y="0.0" width="357.5" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="355.5" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Google Cast" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pyf-T3-n6p">
@@ -1007,9 +1007,8 @@ You should have received a copy of the GNU General Public License along with Ryu
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="buildLabel" destination="bnx-Qa-LHS" id="c88-U0-WXE"/>
                         <outlet property="licenseLabel" destination="iPe-aW-DeN" id="Ecx-cF-Pzy"/>
-                        <outlet property="versionLabel" destination="yxN-nY-MRO" id="Rjb-S9-Bv4"/>
+                        <outlet property="privacyLabel" destination="rOT-dp-A7l" id="vue-4L-oNO"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M2c-XY-tsa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

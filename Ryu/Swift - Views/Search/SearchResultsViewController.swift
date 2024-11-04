@@ -68,9 +68,13 @@ class SearchResultsViewController: UIViewController {
         setupErrorLabel()
         setupNoResultsLabel()
         
-        selectedSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? ""
-        if ["AnimeWorld", "GoGoAnime", "Kuramanime", "AnimeFire"].contains(selectedSource) {
-            navigationItem.rightBarButtonItem = sortButton
+        if let selectedSource = UserDefaults.standard.selectedMediaSource {
+            switch selectedSource {
+            case .animeWorld, .gogoanime, .kuramanime, .animefire:
+                navigationItem.rightBarButtonItem = sortButton
+            default:
+                break
+            }
         }
     }
     
@@ -122,8 +126,8 @@ class SearchResultsViewController: UIViewController {
             self?.filterResults(option: .all)
         }
         
-        switch selectedSource {
-        case "GoGoAnime":
+        switch UserDefaults.standard.selectedMediaSource {
+        case .gogoanime:
             let dubAction = UIAlertAction(title: "Dub", style: .default) { [weak self] _ in
                 self?.filterResults(option: .dub)
             }
@@ -132,17 +136,17 @@ class SearchResultsViewController: UIViewController {
             }
             alertController.addAction(dubAction)
             alertController.addAction(subAction)
-        case "AnimeWorld":
+        case .animeWorld:
             let itaAction = UIAlertAction(title: "ITA", style: .default) { [weak self] _ in
                 self?.filterResults(option: .ita)
             }
             alertController.addAction(itaAction)
-        case "Kuramanime":
+        case .kuramanime:
             let dubAction = UIAlertAction(title: "Dub", style: .default) { [weak self] _ in
                 self?.filterResults(option: .dub)
             }
             alertController.addAction(dubAction)
-        case "AnimeFire":
+        case .animefire:
             let dubAction = UIAlertAction(title: "Dub", style: .default) { [weak self] _ in
                 self?.filterResults(option: .dub)
             }
@@ -191,30 +195,10 @@ class SearchResultsViewController: UIViewController {
         tableView.reloadData()
     }
     
-    private func showSourceSelector() {
-        let alertController = UIAlertController(title: "Select Source", message: "Please select a source to search from.", preferredStyle: .actionSheet)
-        
-        let sources = ["AnimeWorld", "GoGoAnime", "AnimeHeaven", "AnimeFire", "JKanime", "Anime3rb", "HiAnime", "Anilibria", "AnimeSRBIJA", "AniWorld", "TokyoInsider"]
-        
-        for source in sources {
-            let action = UIAlertAction(title: source, style: .default) { [weak self] _ in
-                UserDefaults.standard.set(source, forKey: "selectedMediaSource")
-                self?.selectedSource = source
-                self?.refreshResults()
-            }
-            alertController.addAction(action)
+    @objc private func changeSourceButtonTapped() {
+        SourceMenu.showSourceSelector(from: self, sourceView: changeSourceButton) { [weak self] in
+            self?.refreshResults()
         }
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        alertController.addAction(cancelAction)
-        
-        if let popoverController = alertController.popoverPresentationController {
-            popoverController.sourceView = self.view
-            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
-            popoverController.permittedArrowDirections = []
-        }
-        
-        present(alertController, animated: true, completion: nil)
     }
     
     func refreshResults() {
@@ -228,15 +212,19 @@ class SearchResultsViewController: UIViewController {
         noResultsLabel.isHidden = true
         changeSourceButton.isHidden = true
         
-        guard let selectedSource = UserDefaults.standard.string(forKey: "selectedMediaSource") else {
+        guard let selectedSource = UserDefaults.standard.selectedMediaSource?.rawValue else {
             loadingIndicator.stopAnimating()
-            showSourceSelector()
+            SourceMenu.showSourceSelector(from: self, sourceView: view) { [weak self] in
+                self?.refreshResults()
+            }
             return
         }
         
         guard let urlParameters = getUrlAndParameters(for: selectedSource) else {
             showError("Unsupported media source.")
-            showSourceSelector()
+            SourceMenu.showSourceSelector(from: self, sourceView: view) { [weak self] in
+                self?.refreshResults()
+            }
             return
         }
         
@@ -460,10 +448,6 @@ class SearchResultsViewController: UIViewController {
         loadingIndicator.stopAnimating()
         errorLabel.text = message
         errorLabel.isHidden = false
-    }
-    
-    @objc private func changeSourceButtonTapped() {
-        showSourceSelector()
     }
     
     private func showNoResults() {

@@ -10,7 +10,7 @@ import UIKit
 class SourceMenu {
     static weak var delegate: SourceSelectionDelegate?
     
-    static func showSourceSelector(from viewController: UIViewController, sourceView: UIView?, completion: (() -> Void)? = nil) {
+    static func showSourceSelector(from viewController: UIViewController, barButtonItem: UIBarButtonItem? = nil, sourceView: UIView? = nil, completion: (() -> Void)? = nil) {
         DispatchQueue.main.async {
             let sources: [(title: String, source: MediaSource, language: String)] = [
                 ("AnimeWorld", .animeWorld, "🇮🇹"),
@@ -42,7 +42,9 @@ class SourceMenu {
             alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
             
             if let popoverController = alertController.popoverPresentationController {
-                if let sourceView = sourceView, sourceView.window != nil {
+                if let barButtonItem = barButtonItem {
+                    popoverController.barButtonItem = barButtonItem
+                } else if let sourceView = sourceView, sourceView.window != nil {
                     popoverController.sourceView = sourceView
                     popoverController.sourceRect = sourceView.bounds
                 } else {
