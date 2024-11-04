@@ -24,11 +24,13 @@ enum VideoLanguage: Int {
 enum VideoHost {
     case vidoza
     case voe
+    case streamtape
     
     var description: String {
         switch self {
         case .vidoza: return "Vidoza"
-        case .voe: return "Voe"
+        case .voe: return "VOE"
+        case .streamtape: return "StreamTape"
         }
     }
 }
