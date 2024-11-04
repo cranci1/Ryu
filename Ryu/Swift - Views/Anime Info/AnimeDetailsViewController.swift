@@ -1328,13 +1328,14 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                 return
             }
             
-            let episodeNumber = self.episodes[self.currentEpisodeIndex].number
+            let episodeNumberString = self.episodes[self.currentEpisodeIndex].number
+            let episodeNumber = EpisodeNumberExtractor.extract(from: episodeNumberString)
             let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
             
             let continueWatchingItem = ContinueWatchingItem(
                 animeTitle: self.animeTitle ?? "Unknown Anime",
                 episodeTitle: "Ep. \(episodeNumber)",
-                episodeNumber: Int(episodeNumber) ?? 0,
+                episodeNumber: episodeNumber ,
                 imageURL: self.imageUrl ?? "",
                 fullURL: fullURL,
                 lastPlayedTime: currentTime,
@@ -1350,7 +1351,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                 
                 self.fetchAnimeID(title: cleanedTitle) { animeID in
                     let aniListMutation = AniListMutation()
-                    aniListMutation.updateAnimeProgress(animeId: animeID, episodeNumber: Int(episodeNumber) ?? 0) { result in
+                    aniListMutation.updateAnimeProgress(animeId: animeID, episodeNumber: episodeNumber) { result in
                         switch result {
                         case .success():
                             print("Successfully updated anime progress.")

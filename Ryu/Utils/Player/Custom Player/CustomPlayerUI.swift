@@ -652,7 +652,8 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             UserDefaults.standard.set(currentTime, forKey: "lastPlayedTime_\(fullURL)")
             UserDefaults.standard.set(duration, forKey: "totalTime_\(fullURL)")
             
-            let episodeNumber = Int(self.cell.episodeNumber) ?? 0
+            let episodeNumberString = self.cell.episodeNumber
+            let episodeNumber = EpisodeNumberExtractor.extract(from: episodeNumberString)
             let selectedMediaSource = UserDefaults.standard.string(forKey: "selectedMediaSource") ?? "AnimeWorld"
             
             let continueWatchingItem = ContinueWatchingItem(
