@@ -1202,6 +1202,12 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
         case "Infuse", "VLC", "OutPlayer":
             openInExternalPlayer(player: player, url: sourceURL)
         case "Custom":
+            let fileExtension = sourceURL.pathExtension.lowercased()
+            if fileExtension == "mkv" || fileExtension == "avi" {
+                showAlert(title: "Unsupported Video Format", message: "This video file (\(fileExtension)) requires a third-party player like VLC, Infuse, or outplayer to play. Set it up in settings")
+                return
+            }
+            
             let videoTitle = animeTitle
             let imageURL = imageUrl ?? "https://s4.anilist.co/file/anilistcdn/character/large/default.jpg"
             let viewController = CustomPlayerView(videoTitle: videoTitle ?? "", videoURL: sourceURL, cell: cell, fullURL: fullURL, image: imageURL)
@@ -1251,6 +1257,12 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
     }
     
     private func playVideoWithAVPlayer(sourceURL: URL, cell: EpisodeCell, fullURL: String) {
+        let fileExtension = sourceURL.pathExtension.lowercased()
+        if fileExtension == "mkv" || fileExtension == "avi" {
+            showAlert(title: "Unsupported Video Format", message: "This video file (\(fileExtension)) requires a third-party player like VLC, Infuse, or outplayer to play. Set it up in settings")
+            return
+        }
+        
         if GCKCastContext.sharedInstance().castState == .connected {
             proceedWithCasting(videoURL: sourceURL)
         } else {
