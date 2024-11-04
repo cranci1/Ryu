@@ -725,6 +725,7 @@ extension AnimeDetailViewController {
                   }
             
             DispatchQueue.main.async {
+                print(finalURL)
                 completion(finalURL)
             }
         }.resume()

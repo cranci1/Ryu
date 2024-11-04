@@ -395,8 +395,22 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             subtitlesLabel.trailingAnchor.constraint(equalTo: playerProgress.trailingAnchor)
         ])
         
-        let episodeNumber = Int(self.cell.episodeNumber) ?? 0
-        episodeLabel.text = "Episode " + String(episodeNumber)
+        let episodeText = self.cell.episodeNumber
+        var formattedText = ""
+
+        if episodeText.hasPrefix("S") {
+            let components = episodeText.dropFirst().components(separatedBy: "E")
+            if components.count == 2 {
+                let seasonNumber = components[0]
+                let episodeNumber = components[1]
+                let cleanSeasonNum = Int(seasonNumber)?.description ?? seasonNumber
+                let cleanEpisodeNum = Int(episodeNumber)?.description ?? episodeNumber
+                formattedText = "Season \(cleanSeasonNum) · Episode \(cleanEpisodeNum)"
+            }
+        } else {
+            formattedText = "Episode " + episodeText
+        }
+        episodeLabel.text = formattedText
         
         seekThumbWidthConstraint = seekThumb.widthAnchor.constraint(equalToConstant: 16)
         seekThumbCenterXConstraint = seekThumb.centerXAnchor.constraint(equalTo: playerProgress.leadingAnchor)
@@ -545,7 +559,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             var qualities: [(String, String)] = []
             
             for (index, line) in lines.enumerated() {
-                if line.contains("#EXT-X-STREAM-INF") {
+                if line.contains("#EXTM3U") {
                     if let resolutionPart = line.components(separatedBy: "RESOLUTION=").last?.components(separatedBy: ",").first,
                        let height = resolutionPart.components(separatedBy: "x").last,
                        let qualityNumber = ["1080", "720", "480", "360"].first(where: { height.hasPrefix($0) }),
