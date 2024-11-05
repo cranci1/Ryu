@@ -12,6 +12,7 @@
 		131546D82C6DE6D9002DC3CC /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 131546D72C6DE6D9002DC3CC /* Kingfisher */; };
 		131546DE2C6DE6F2002DC3CC /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 131546DD2C6DE6F2002DC3CC /* Alamofire */; };
 		132BEFA32CC5440C00B61089 /* Anilist-Episodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132BEFA22CC5440C00B61089 /* Anilist-Episodes.swift */; };
+		132F7EDF2CDA56CB0037FECD /* Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132F7EDE2CDA56CB0037FECD /* Sequence.swift */; };
 		1335C15E2CCFCF77004C19F4 /* Episode+Struct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1335C15D2CCFCF77004C19F4 /* Episode+Struct.swift */; };
 		1357B5032C6D0965000A2C9B /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1357B4F12C6D0965000A2C9B /* Settings.storyboard */; };
 		1357B5042C6D0965000A2C9B /* FavoriteCell-Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1357B4F52C6D0965000A2C9B /* FavoriteCell-Swift.swift */; };
@@ -102,6 +103,7 @@
 /* Begin PBXFileReference section */
 		13071F782CCD3900001078B7 /* Kitsu+Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Kitsu+Token.swift"; sourceTree = "<group>"; };
 		132BEFA22CC5440C00B61089 /* Anilist-Episodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Anilist-Episodes.swift"; sourceTree = "<group>"; };
+		132F7EDE2CDA56CB0037FECD /* Sequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sequence.swift; sourceTree = "<group>"; };
 		1335C15D2CCFCF77004C19F4 /* Episode+Struct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Episode+Struct.swift"; sourceTree = "<group>"; };
 		1357B4F22C6D0965000A2C9B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Ryu/Base.lproj/Settings.storyboard; sourceTree = SOURCE_ROOT; };
 		1357B4F52C6D0965000A2C9B /* FavoriteCell-Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FavoriteCell-Swift.swift"; sourceTree = "<group>"; };
@@ -563,6 +565,7 @@
 				13921B442C6B8FC1004E8BDC /* UserDefaults.swift */,
 				13921B422C6B8F87004E8BDC /* Notification.swift */,
 				137B8D032CA15BA1004CC61B /* Collection.swift */,
+				132F7EDE2CDA56CB0037FECD /* Sequence.swift */,
 				1365250A2C6B5B4000210A98 /* UIImage.swift */,
 				13921B3E2C6B8ED9004E8BDC /* String.swift */,
 				13921B402C6B8F71004E8BDC /* URL.swift */,
@@ -757,6 +760,7 @@
 				136525222C6B5B4100210A98 /* Kitsu-Sesonal.swift in Sources */,
 				1365254E2C6B5B4100210A98 /* MP4Downloader.swift in Sources */,
 				136525172C6B5B4100210A98 /* Jikan-Sesonal.swift in Sources */,
+				132F7EDF2CDA56CB0037FECD /* Sequence.swift in Sources */,
 				138669D42C6F6266009ABA6F /* WebPlayer.swift in Sources */,
 				136525482C6B5B4100210A98 /* DownloadsViewController.swift in Sources */,
 				1365251A2C6B5B4100210A98 /* Anilist-Mutation.swift in Sources */,

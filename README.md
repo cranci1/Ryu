@@ -49,7 +49,7 @@ A simple way to enjoy and watch anime on iOS
 | GoGoAnime    | English    |   ✅   |   ✅   |     ✅    |    ✅   |
 | AnimeHeaven  | English    |   ✅   |   ✅   |     ✅    |    ✅   |
 | AnimeFire    | Portuguese |   ✅   |   ✅   |     ✅    |    ✅   |
-| Kuramanime   | Indonesian |   :x:  |   ✅   |     ✅    |    ✅   |
+| Kuramanime   | Indonesian |   ✅   |   ✅   |     ✅    |    ✅   |
 | Anime3rb     | Arabic     |   ✅   |   ✅   |     ✅    |    ✅   |
 | JKanime      | Spanish    |   ✅   |   ✅   |     ✅    |    :x:  |
 | HiAnime      | English    |   ✅   |   ✅   |     ✅    |    :x:  |

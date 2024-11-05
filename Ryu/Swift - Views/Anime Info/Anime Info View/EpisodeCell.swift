@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-struct Episode {
+struct Episode: Hashable {
     let number: String
     let href: String
     let downloadUrl: String

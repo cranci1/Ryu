@@ -503,18 +503,36 @@ class AnimeDetailService {
                         
                         if season1 == "F" { return false }
                         if season2 == "F" { return true }
-                        let num1 = Int(season1.dropFirst()) ?? 0
-                        let num2 = Int(season2.dropFirst()) ?? 0
-                        return num1 < num2
+                        return (Int(season1.dropFirst()) ?? 0) < (Int(season2.dropFirst()) ?? 0)
                     }
                     
+                    let group = DispatchGroup()
+                    var allEpisodes: [Episode] = []
+                    let queue = DispatchQueue(label: "com.aniworld.fetch", attributes: .concurrent)
+                    let syncQueue = DispatchQueue(label: "com.aniworld.sync")
                     for (seasonNumber, seasonUrl) in sortedSeasonUrls {
-                        if let seasonEpisodes = try? fetchAniWorldSeasonEpisodes(seasonUrl: seasonUrl, seasonNumber: seasonNumber) {
-                            episodes.append(contentsOf: seasonEpisodes)
+                        group.enter()
+                        queue.async {
+                            if let seasonEpisodes = try? fetchAniWorldSeasonEpisodes(seasonUrl: seasonUrl, seasonNumber: seasonNumber) {
+                                syncQueue.async {
+                                    allEpisodes.append(contentsOf: seasonEpisodes)
+                                    group.leave()
+                                }
+                            } else {
+                                group.leave()
+                            }
                         }
                     }
+                    
+                    group.wait()
+                    return allEpisodes.sorted {
+                        guard let num1 = Int($0.number.split(separator: "E")[1]),
+                              let num2 = Int($1.number.split(separator: "E")[1]) else { return false }
+                        return num1 < num2
+                    }.uniqued(by: \.number)
                 } catch {
                     print("Error parsing AniWorld episodes: \(error.localizedDescription)")
+                    return []
                 }
             case .tokyoinsider:
                 episodes = episodeElements.compactMap { element in
@@ -547,54 +565,74 @@ class AnimeDetailService {
     }
     
     private static func extractSeasonUrls(document: Document) throws -> [(String, String)] {
-        var seasonUrls: [(String, String)] = []
+        let seasonElements = try document.select("div.hosterSiteDirectNav a[title]")
         
-        let seasonElements = try document.select("div.hosterSiteDirectNav ul li a")
-        
-        for element in seasonElements {
-            let href = try element.attr("href")
-            let title = try element.attr("title")
-            
-            if title.contains("Filme") {
-                seasonUrls.append(("F", "https://aniworld.to" + href))
-            } else if title.contains("Staffel") {
-                let seasonNumber = "S" + (title.components(separatedBy: " ").last ?? "")
-                seasonUrls.append((seasonNumber, "https://aniworld.to" + href))
-            }
-        }
-        
-        return seasonUrls
-    }
-    
-    private static func fetchAniWorldSeasonEpisodes(seasonUrl: String, seasonNumber: String) throws -> [Episode] {
-        let html = try String(contentsOf: URL(string: seasonUrl)!, encoding: .utf8)
-        let document = try SwiftSoup.parse(html)
-        let episodeElements = try document.select("table.seasonEpisodesList tbody tr")
-        
-        let unsortedEpisodes: [Episode] = episodeElements.compactMap { (element: Element) -> Episode? in
+        return seasonElements.compactMap { element in
             do {
-                let fullText = try element.select("td a").text()
-                let episodeHref = try element.select("td a").attr("href")
-                let href = "https://aniworld.to" + episodeHref
+                let href = try element.attr("href")
+                let title = try element.attr("title")
                 
-                if let range = fullText.range(of: "Folge ") {
-                    let afterFolge = String(fullText[range.upperBound...])
-                    if let episodeNumber = afterFolge.split(separator: " ").first {
-                        let paddedEpisodeNumber = String(format: "%02d", Int(episodeNumber) ?? 0)
-                        let formattedEpisodeNumber = "\(seasonNumber)E\(paddedEpisodeNumber)"
-                        return Episode(number: formattedEpisodeNumber, href: href, downloadUrl: "")
-                    }
+                if title.contains("Filme") {
+                    return ("F", "https://aniworld.to" + href)
+                } else if title.contains("Staffel"),
+                          let seasonNum = title.components(separatedBy: " ").last {
+                    return ("S\(seasonNum)", "https://aniworld.to" + href)
                 }
                 return nil
             } catch {
-                print("Error parsing AniWorld episode: \(error.localizedDescription)")
                 return nil
             }
         }
-        return unsortedEpisodes.sorted { (ep1: Episode, ep2: Episode) -> Bool in
-            let num1 = Int(ep1.number.split(separator: "E")[1]) ?? 0
-            let num2 = Int(ep2.number.split(separator: "E")[1]) ?? 0
-            return num1 < num2
+    }
+    
+    private static func fetchAniWorldSeasonEpisodes(seasonUrl: String, seasonNumber: String) throws -> [Episode] {
+        let config = URLSessionConfiguration.default
+        config.requestCachePolicy = .returnCacheDataElseLoad
+        config.urlCache = URLCache.shared
+        
+        let session = URLSession(configuration: config)
+        guard let url = URL(string: seasonUrl) else { throw URLError(.badURL) }
+        
+        let semaphore = DispatchSemaphore(value: 0)
+        var resultHtml: String?
+        var resultError: Error?
+        
+        let task = session.dataTask(with: url) { data, response, error in
+            if let error = error {
+                resultError = error
+            } else if let data = data,
+                      let html = String(data: data, encoding: .utf8) {
+                resultHtml = html
+            }
+            semaphore.signal()
         }
+        task.resume()
+        
+        semaphore.wait()
+        
+        if let error = resultError { throw error }
+        guard let html = resultHtml else { throw URLError(.badServerResponse) }
+        
+        let document = try SwiftSoup.parse(html)
+        
+        return try document.select("table.seasonEpisodesList td a")
+            .compactMap { element -> Episode? in
+                let fullText = try element.text()
+                let episodeHref = try element.attr("href")
+                
+                guard let episodeNumberStr = fullText.split(separator: " ")
+                        .first(where: { $0.allSatisfy({ $0.isNumber }) }),
+                      let episodeNumber = Int(episodeNumberStr) else { return nil }
+                
+                let paddedEpisodeNumber = String(format: "%02d", episodeNumber)
+                let formattedEpisodeNumber = "\(seasonNumber)E\(paddedEpisodeNumber)"
+                
+                return Episode(number: formattedEpisodeNumber, href: "https://aniworld.to" + episodeHref, downloadUrl: "")
+            }
+            .sorted {
+                guard let num1 = Int($0.number.split(separator: "E")[1]),
+                      let num2 = Int($1.number.split(separator: "E")[1]) else { return false }
+                return num1 < num2
+            }
     }
 }
