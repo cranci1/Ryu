@@ -52,6 +52,12 @@ extension AnimeDetailViewController {
                 completion(nil)
                 return
             }
+            if preferredSubtitles == "Always Import" {
+                self.hideLoadingBanner {
+                    self.importSubtitlesFromURL(completion: completion)
+                }
+                return
+            }
             if let preferredURL = captionURLs[preferredSubtitles] {
                 completion(preferredURL)
                 return
@@ -68,15 +74,16 @@ extension AnimeDetailViewController {
     func presentSubtitleSelection(captionURLs: [String: URL], completion: @escaping (URL?) -> Void) {
         let alert = UIAlertController(title: "Select Subtitle Source", message: nil, preferredStyle: .actionSheet)
         
-        alert.addAction(UIAlertAction(title: "Import from a URL...", style: .default) { [weak self] _ in
-            self?.importSubtitlesFromURL(completion: completion)
-        })
         
         for (label, url) in captionURLs {
             alert.addAction(UIAlertAction(title: label, style: .default) { _ in
                 completion(url)
             })
         }
+        
+        alert.addAction(UIAlertAction(title: "Import from a URL...", style: .default) { [weak self] _ in
+            self?.importSubtitlesFromURL(completion: completion)
+        })
         
         alert.addAction(UIAlertAction(title: "No Subtitles", style: .default) { _ in
             completion(nil)
