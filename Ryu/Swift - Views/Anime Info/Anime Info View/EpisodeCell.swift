@@ -298,6 +298,10 @@ class EpisodeCell: UITableViewCell {
             let totalTime = UserDefaults.standard.double(forKey: "totalTime_\(fullURL)")
             let remainingTime = totalTime - lastPlayedTime
             
+            if episode.episodeNumber > 1 {
+                menuItems.append(UIMenuItem(title: "Mark Previous as Watched", action: #selector(markPreviousAsWatched)))
+            }
+            
             if lastPlayedTime > 0 || totalTime > 0 {
                 if remainingTime < 120 {
                     menuItems.append(UIMenuItem(title: "Clear Progress", action: #selector(clearProgress)))
@@ -317,6 +321,25 @@ class EpisodeCell: UITableViewCell {
         
         UIMenuController.shared.menuItems = menuItems
         UIMenuController.shared.showMenu(from: self, rect: self.bounds)
+    }
+    
+    @objc private func markPreviousAsWatched() {
+        guard let currentEpisode = episode,
+              let delegate = delegate else { return }
+        
+        let currentEpNumber = currentEpisode.episodeNumber
+        
+        let episodesToMark = delegate.episodes.filter { $0.episodeNumber <= currentEpNumber }
+        
+        for episode in episodesToMark {
+            let fullURL = episode.href
+            let totalTime = "9999999999.9"
+            
+            UserDefaults.standard.set(totalTime, forKey: "lastPlayedTime_\(fullURL)")
+            UserDefaults.standard.set(totalTime, forKey: "totalTime_\(fullURL)")
+        }
+        
+        delegate.tableView.reloadData()
     }
     
     @objc private func rewatch() {
