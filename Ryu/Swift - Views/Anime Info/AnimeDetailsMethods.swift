@@ -6,8 +6,9 @@
 //
 
 import UIKit
-import AVKit
 import SwiftSoup
+import MobileCoreServices
+import UniformTypeIdentifiers
 
 extension AnimeDetailViewController {
     func selectAudioCategory(options: [String: [[String: Any]]], preferredAudio: String, completion: @escaping (String) -> Void) {
@@ -65,8 +66,13 @@ extension AnimeDetailViewController {
     }
     
     func presentSubtitleSelection(captionURLs: [String: URL], completion: @escaping (URL?) -> Void) {
-        let alert = UIAlertController(title: "Select Subtitle Language", message: nil, preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "Select Subtitle Source", message: nil, preferredStyle: .actionSheet)
         
+        alert.addAction(UIAlertAction(title: "Import from a URL...", style: .default) { [weak self] _ in
+            self?.importSubtitlesFromURL(completion: completion)
+        })
+        
+        // Existing options
         for (label, url) in captionURLs {
             alert.addAction(UIAlertAction(title: label, style: .default) { _ in
                 completion(url)
@@ -79,6 +85,72 @@ extension AnimeDetailViewController {
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
+        presentAlert(alert)
+    }
+    
+    private func importSubtitlesFromURL(completion: @escaping (URL?) -> Void) {
+        let alert = UIAlertController(title: "Enter Subtitle URL", message: "Enter the URL of the subtitle file (.srt, .ass, or .vtt)", preferredStyle: .alert)
+        
+        alert.addTextField { textField in
+            textField.placeholder = "https://example.com/subtitles.srt"
+            textField.keyboardType = .URL
+            textField.autocorrectionType = .no
+            textField.autocapitalizationType = .none
+        }
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        
+        alert.addAction(UIAlertAction(title: "Import", style: .default) { [weak alert] _ in
+            guard let urlString = alert?.textFields?.first?.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+                  let url = URL(string: urlString),
+                  let fileExtension = url.pathExtension.lowercased() as String?,
+                  ["srt", "ass", "vtt"].contains(fileExtension) else {
+                      self.showAlert(title: "Error", message: "Invalid subtitle URL. Must end with .srt, .ass, or .vtt")
+                      completion(nil)
+                      return
+                  }
+            
+            self.downloadSubtitles(from: url, completion: completion)
+        })
+        
+        presentAlert(alert)
+    }
+    
+    private func downloadSubtitles(from url: URL, completion: @escaping (URL?) -> Void) {
+        let task = URLSession.shared.downloadTask(with: url) { localURL, response, error in
+            guard let localURL = localURL,
+                  error == nil,
+                  let response = response as? HTTPURLResponse,
+                  response.statusCode == 200 else {
+                      DispatchQueue.main.async {
+                          self.showAlert(title: "Error", message: "Failed to download subtitles")
+                          completion(nil)
+                      }
+                      return
+                  }
+            
+            let tempURL = FileManager.default.temporaryDirectory
+                .appendingPathComponent(UUID().uuidString)
+                .appendingPathExtension(url.pathExtension)
+            
+            do {
+                try FileManager.default.moveItem(at: localURL, to: tempURL)
+                DispatchQueue.main.async {
+                    completion(tempURL)
+                }
+            } catch {
+                print("Error moving downloaded file: \(error)")
+                DispatchQueue.main.async {
+                    self.showAlert(title: "Error", message: "Failed to save subtitles")
+                    completion(nil)
+                }
+            }
+        }
+        
+        task.resume()
+    }
+    
+    private func presentAlert(_ alert: UIAlertController) {
         if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let topController = scene.windows.first?.rootViewController {
             if UIDevice.current.userInterfaceIdiom == .pad {
@@ -89,7 +161,7 @@ extension AnimeDetailViewController {
                     popover.permittedArrowDirections = []
                 }
             }
-            topController.present(alert, animated: true, completion: nil)
+            topController.present(alert, animated: true)
         }
     }
     
@@ -798,5 +870,22 @@ extension AnimeDetailViewController {
                 completion(videoURL)
             }
         }.resume()
+    }
+}
+
+class SubtitleDocumentPickerDelegate: NSObject, UIDocumentPickerDelegate {
+    private let completion: (URL?) -> Void
+    
+    init(completion: @escaping (URL?) -> Void) {
+        self.completion = completion
+        super.init()
+    }
+    
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        completion(urls.first)
+    }
+    
+    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+        completion(nil)
     }
 }
