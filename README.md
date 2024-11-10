@@ -46,7 +46,7 @@ A simple way to enjoy and watch anime on iOS
 | Source       | Language   | Working| Search | Streaming | Download |
 | ------------ | ---------- | ------ | ------ | --------- | -------- |
 | AnimeWorld   | Italian    |   ✅   |   ✅   |     ✅    |    ✅   |
-| GoGoAnime    | English    |   :x:  |   ✅   |     ✅    |    ✅   |
+| GoGoAnime    | English    |   ✅   |   ✅   |     ✅    |    ✅   |
 | AnimeHeaven  | English    |   ✅   |   ✅   |     ✅    |    ✅   |
 | AnimeFire    | Portuguese |   ✅   |   ✅   |     ✅    |    ✅   |
 | Kuramanime   | Indonesian |   :x:  |   ✅   |     ✅    |    ✅   |
