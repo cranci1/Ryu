@@ -13,7 +13,6 @@ struct SubtitleCue {
     let endTime: CMTime
     var originalText: String
     var translations: [String: String] = [:]
-    var style: String?
     
     mutating func setTranslation(_ text: String, for language: String) {
         translations[language] = text
@@ -24,43 +23,11 @@ struct SubtitleCue {
     }
 }
 
-enum SubtitleFormat {
-    case vtt
-    case srt
-    case ass
-    
-    static func detect(from text: String) -> SubtitleFormat {
-        if text.lowercased().contains("webvtt") {
-            return .vtt
-        } else if text.lowercased().contains("[script info]") {
-            return .ass
-        } else {
-            return .srt
-        }
-    }
-}
-
 class SubtitlesLoader {
-    static func parseSubtitles(data: Data, format: SubtitleFormat? = nil, completion: @escaping ([SubtitleCue]) -> Void) {
-        guard let text = String(data: data, encoding: .utf8) else {
-            completion([])
-            return
-        }
-        
-        let detectedFormat = format ?? SubtitleFormat.detect(from: text)
-        
-        switch detectedFormat {
-        case .vtt:
-            parseVTT(text: text, completion: completion)
-        case .srt:
-            parseSRT(text: text, completion: completion)
-        case .ass:
-            parseASS(text: text, completion: completion)
-        }
-    }
-    
-    static func parseVTT(text: String, completion: @escaping ([SubtitleCue]) -> Void) {
+    static func parseVTT(data: Data, completion: @escaping ([SubtitleCue]) -> Void) {
         var cues: [SubtitleCue] = []
+        let text = String(data: data, encoding: .utf8) ?? ""
+        
         let lines = text.split(separator: "\n", omittingEmptySubsequences: false)
         var currentCue: SubtitleCue?
         
@@ -74,84 +41,11 @@ class SubtitlesLoader {
                     let endTime = timeToCMTime(timeString: times[1].trimmingCharacters(in: .whitespacesAndNewlines))
                     currentCue = SubtitleCue(startTime: startTime, endTime: endTime, originalText: "")
                 }
-            } else if !lineStr.isEmpty && currentCue != nil {
-                var cue = currentCue!
-                cue.originalText += removeHTMLTags(from: lineStr) + "\n"
-                currentCue = cue
+            } else if !lineStr.isEmpty {
+                currentCue?.originalText += removeHTMLTags(from: lineStr) + "\n"
             } else if let cue = currentCue {
                 cues.append(cue)
                 currentCue = nil
-            }
-        }
-        
-        if let lastCue = currentCue {
-            cues.append(lastCue)
-        }
-        
-        completion(cues)
-    }
-    
-    static func parseSRT(text: String, completion: @escaping ([SubtitleCue]) -> Void) {
-        var cues: [SubtitleCue] = []
-        let blocks = text.components(separatedBy: "\n\n").filter { !$0.isEmpty }
-        
-        for block in blocks {
-            let lines = block.components(separatedBy: "\n").filter { !$0.isEmpty }
-            guard lines.count >= 3 else { continue }
-            
-            let timeLine = lines[1]
-            let textLines = Array(lines[2...])
-            
-            let timeComponents = timeLine.components(separatedBy: " --> ")
-            guard timeComponents.count == 2 else { continue }
-            
-            let startTime = srtTimeToCMTime(timeString: timeComponents[0].trimmingCharacters(in: .whitespacesAndNewlines))
-            let endTime = srtTimeToCMTime(timeString: timeComponents[1].trimmingCharacters(in: .whitespacesAndNewlines))
-            
-            let text = textLines.joined(separator: "\n")
-            let cue = SubtitleCue(startTime: startTime, endTime: endTime, originalText: removeHTMLTags(from: text))
-            cues.append(cue)
-        }
-        
-        completion(cues)
-    }
-    
-    static func parseASS(text: String, completion: @escaping ([SubtitleCue]) -> Void) {
-        var cues: [SubtitleCue] = []
-        var inEventsSection = false
-        var formatLine: [String] = []
-        
-        let lines = text.components(separatedBy: .newlines)
-        
-        for line in lines {
-            let trimmedLine = line.trimmingCharacters(in: .whitespacesAndNewlines)
-            
-            if trimmedLine.starts(with: "[Events]") {
-                inEventsSection = true
-                continue
-            }
-            
-            if inEventsSection {
-                if trimmedLine.starts(with: "Format:") {
-                    formatLine = trimmedLine.replacingOccurrences(of: "Format:", with: "")
-                        .split(separator: ",")
-                        .map { String($0.trimmingCharacters(in: .whitespacesAndNewlines)) }
-                } else if trimmedLine.starts(with: "Dialogue:") {
-                    let dialogueComponents = trimmedLine.replacingOccurrences(of: "Dialogue:", with: "")
-                        .split(separator: ",", maxSplits: formatLine.count - 1, omittingEmptySubsequences: false)
-                        .map { String($0.trimmingCharacters(in: .whitespacesAndNewlines)) }
-                    
-                    guard dialogueComponents.count >= 9 else { continue }
-                    
-                    let startTime = assTimeToCMTime(timeString: dialogueComponents[1])
-                    let endTime = assTimeToCMTime(timeString: dialogueComponents[2])
-                    let style = dialogueComponents[3]
-                    let text = dialogueComponents[9...].joined(separator: ",")
-                    
-                    var cue = SubtitleCue(startTime: startTime, endTime: endTime, originalText: removeASSFormatting(from: text))
-                    cue.style = style
-                    cues.append(cue)
-                }
             }
         }
         
@@ -223,7 +117,7 @@ class SubtitlesLoader {
         
         let customURLString = UserDefaults.standard.string(forKey: "savedTranslatorInstance")
         let urlString = customURLString ?? "https://translate-api-first.vercel.app/api/translate"
-        
+
         guard let url = URL(string: urlString) else {
             print("Invalid URL")
             completion(text)
@@ -270,43 +164,5 @@ class SubtitlesLoader {
         
         task.resume()
     }
-}
 
-extension SubtitlesLoader {
-    private static func srtTimeToCMTime(timeString: String) -> CMTime {
-        let components = timeString.components(separatedBy: ":")
-        guard components.count == 3 else { return .zero }
-        
-        let hours = Double(components[0]) ?? 0
-        let minutes = Double(components[1]) ?? 0
-        
-        let secondsAndMillis = components[2].components(separatedBy: ",")
-        let seconds = Double(secondsAndMillis[0]) ?? 0
-        let milliseconds = Double(secondsAndMillis.count > 1 ? secondsAndMillis[1] : "0") ?? 0
-        
-        return CMTime(seconds: hours * 3600 + minutes * 60 + seconds + milliseconds / 1000,
-                      preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-    }
-    
-    private static func assTimeToCMTime(timeString: String) -> CMTime {
-        let components = timeString.split(separator: ":")
-        guard components.count == 3 else { return .zero }
-        
-        let hours = Double(components[0]) ?? 0
-        let minutes = Double(components[1]) ?? 0
-        let seconds = Double(components[2]) ?? 0
-        
-        return CMTime(seconds: hours * 3600 + minutes * 60 + seconds,
-                      preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-    }
-    
-    private static func removeASSFormatting(from text: String) -> String {
-        var cleanText = text.replacingOccurrences(of: "\\{[^}]*\\}", with: "", options: .regularExpression)
-        
-        let assTagsPattern = "\\\\[Nn]|\\\\[Hh]|\\\\[Bb]\\d|\\\\[Ii]\\d|\\\\[Ss]\\d|\\\\[Uu]\\d|\\\\[Aa]\\d"
-        cleanText = cleanText.replacingOccurrences(of: assTagsPattern, with: "", options: .regularExpression)
-        
-        return cleanText.trimmingCharacters(in: .whitespacesAndNewlines)
-    }
-    
 }
