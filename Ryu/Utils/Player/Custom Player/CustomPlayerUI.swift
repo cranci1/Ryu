@@ -226,6 +226,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         setupUI()
         setupGestures()
         updateSubtitleAppearance()
+        loadSettings()
     }
     
     required init?(coder: NSCoder) {
@@ -269,7 +270,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         
         return super.hitTest(point, with: event)
     }
-
+    
     
     private func setupUI() {
         addSubview(speedIndicatorBackgroundView)
@@ -397,7 +398,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         
         let episodeText = self.cell.episodeNumber
         var formattedText = ""
-
+        
         if episodeText.hasPrefix("S") {
             let components = episodeText.dropFirst().components(separatedBy: "E")
             if components.count == 2 {
@@ -576,12 +577,12 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
                     self?.qualities = []
                     let playerItem = AVPlayerItem(url: url)
                     self?.player?.replaceCurrentItem(with: playerItem)
-
+                    
                     let lastPlayedTime = UserDefaults.standard.double(forKey: "lastPlayedTime_\(self?.fullURL ?? "")")
                     if lastPlayedTime > 0 {
                         self?.player?.seek(to: CMTime(seconds: lastPlayedTime, preferredTimescale: 1))
                     }
-
+                    
                     self?.updateSettingsMenu()
                 } else {
                     self?.qualities = qualities
@@ -872,7 +873,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         player?.seek(to: CMTime(seconds: newTime, preferredTimescale: 1))
         resetHideControlsTimer()
     }
-
+    
     @objc private func forwardButtonTapped() {
         guard let currentTime = player?.currentTime(),
               let duration = player?.currentItem?.duration else { return }
@@ -948,6 +949,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
                     self?.subtitleFontSize = size
                     self?.updateSubtitleAppearance()
                     self?.updateSettingsMenu()
+                    self?.saveSettings()
                 }
             }
             let fontSizeSubmenu = UIMenu(title: "Font Size", children: fontSizeItems)
@@ -960,6 +962,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
                     self?.subtitleColor = color
                     self?.updateSubtitleAppearance()
                     self?.updateSettingsMenu()
+                    self?.saveSettings()
                 }
             }
             let colorSubmenu = UIMenu(title: "Color", children: colorItems)
@@ -970,12 +973,14 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
                     self?.subtitleBorderWidth = width
                     self?.updateSubtitleAppearance()
                     self?.updateSettingsMenu()
+                    self?.saveSettings()
                 }
             }
             let borderWidthSubmenu = UIMenu(title: "Shadow Intensity", children: borderWidthItems)
             
             let hideSubtitlesAction = UIAction(title: "Hide Subtitles", state: areSubtitlesHidden ? .on : .off) { [weak self] _ in
                 self?.toggleSubtitles()
+                self?.saveSettings()
             }
             
             let isGoogleTranslateEnabled = UserDefaults.standard.bool(forKey: "googleTranslation")
@@ -1018,6 +1023,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
                 UIAction(title: name, state: currentLanguage == code ? .on : .off) { _ in
                     UserDefaults.standard.set(code, forKey: "translationLanguage")
                     self.updateSettingsMenu()
+                    self.saveSettings()
                 }
             }
             let languageSubmenu = UIMenu(title: "Translation Language", children: languageItems)
@@ -1039,6 +1045,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             UIAction(title: option, state: (option == "Fit" && currentGravity == .resizeAspect) || (option == "Fill" && currentGravity == .resizeAspectFill) ? .on : .off) { [weak self] _ in
                 self?.playerLayer?.videoGravity = option == "Fit" ? .resizeAspect : .resizeAspectFill
                 self?.updateSettingsMenu()
+                self?.saveSettings()
             }
         }
         let aspectRatioSubmenu = UIMenu(title: "Aspect Ratio", image: UIImage(systemName: "rectangle.arrowtriangle.2.outward"), children: aspectRatioItems)
@@ -1046,6 +1053,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         
         let brightnessAction = UIAction(title: "Full Brightness", image: UIImage(systemName: "sun.max"), state: isFullBrightness ? .on : .off) { [weak self] _ in
             self?.toggleFullBrightness()
+            self?.saveSettings()
         }
         menuItems.append(brightnessAction)
         
@@ -1121,7 +1129,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
             guard let self = self, let data = data else { return }
             
-            SubtitlesLoader.parseVTT(data: data) { [weak self] cues in
+            SubtitlesLoader.parseSubtitles(data: data) { [weak self] cues in
                 DispatchQueue.main.async {
                     self?.subtitles = cues
                 }
@@ -1260,7 +1268,7 @@ extension CustomVideoPlayerView {
             button.removeFromSuperview()
         }
         skipButtons.removeAll()
-
+        
         for (index, interval) in skipIntervals.enumerated() {
             let button = UIButton(type: .system)
             
@@ -1281,11 +1289,11 @@ extension CustomVideoPlayerView {
             button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: -5)
             
             button.contentHorizontalAlignment = .center
-
+            
             button.tag = index
             button.addTarget(self, action: #selector(skipButtonTapped(_:)), for: .touchUpInside)
             button.alpha = 0
-
+            
             addSubview(button)
             skipButtons.append(button)
             
@@ -1443,5 +1451,59 @@ extension CustomVideoPlayerView {
                 print("Unexpected response from server")
             }
         }.resume()
+    }
+}
+
+
+extension CustomVideoPlayerView {
+    struct SettingsKeys {
+        static let qualityIndex = "selectedQualityIndex"
+        static let subtitleFontSize = "subtitleFontSize"
+        static let subtitleColor = "subtitleColor"
+        static let subtitleBorderWidth = "subtitleBorderWidth"
+        static let subtitlesHidden = "subtitlesHidden"
+        static let aspectRatioFit = "aspectRatioFit"
+        static let fullBrightness = "fullBrightness"
+    }
+    
+    func saveSettings() {
+        let defaults = UserDefaults.standard
+        defaults.set(currentQualityIndex, forKey: SettingsKeys.qualityIndex)
+        
+        defaults.set(subtitleFontSize, forKey: SettingsKeys.subtitleFontSize)
+        if let colorData = try? NSKeyedArchiver.archivedData(withRootObject: subtitleColor, requiringSecureCoding: true) {
+            defaults.set(colorData, forKey: SettingsKeys.subtitleColor)
+        }
+        defaults.set(subtitleBorderWidth, forKey: SettingsKeys.subtitleBorderWidth)
+        defaults.set(areSubtitlesHidden, forKey: SettingsKeys.subtitlesHidden)
+        
+        defaults.set(playerLayer?.videoGravity == .resizeAspect, forKey: SettingsKeys.aspectRatioFit)
+        
+        defaults.set(isFullBrightness, forKey: SettingsKeys.fullBrightness)
+    }
+    
+    func loadSettings() {
+        let defaults = UserDefaults.standard
+        
+        if defaults.object(forKey: SettingsKeys.qualityIndex) != nil {
+            currentQualityIndex = defaults.integer(forKey: SettingsKeys.qualityIndex)
+        }
+        
+        if let fontSize = defaults.object(forKey: SettingsKeys.subtitleFontSize) as? CGFloat {
+            subtitleFontSize = fontSize
+        }
+        if let colorData = defaults.data(forKey: SettingsKeys.subtitleColor),
+           let color = try? NSKeyedUnarchiver.unarchivedObject(ofClass: UIColor.self, from: colorData) {
+            subtitleColor = color
+        }
+        if let borderWidth = defaults.object(forKey: SettingsKeys.subtitleBorderWidth) as? CGFloat {
+            subtitleBorderWidth = borderWidth
+        }
+        areSubtitlesHidden = defaults.bool(forKey: SettingsKeys.subtitlesHidden)
+        
+        let isFitMode = defaults.bool(forKey: SettingsKeys.aspectRatioFit)
+        playerLayer?.videoGravity = isFitMode ? .resizeAspect : .resizeAspectFill
+        
+        isFullBrightness = defaults.bool(forKey: SettingsKeys.fullBrightness)
     }
 }
