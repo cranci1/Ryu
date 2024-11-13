@@ -14,7 +14,7 @@ extension HomeViewController {
         case "AnimeWorld":
             return ("https://www.animeworld.so", parseAnimeWorldFeatured)
         case "GoGoAnime":
-            return ("https://anitaku.pe/home.html", parseGoGoFeatured)
+            return ("https://anitaku.bz/home.html", parseGoGoFeatured)
         case "AnimeHeaven":
             return ("https://animeheaven.me/new.php", parseAnimeHeavenFeatured)
         case "AnimeFire":
