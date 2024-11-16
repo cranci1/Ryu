@@ -49,7 +49,7 @@ class DownloadListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .secondarySystemBackground
+        view.backgroundColor = .systemBackground
         
         setupTableView()
         setupEmptyStateLabel()
@@ -78,7 +78,7 @@ class DownloadListViewController: UIViewController {
         view.addSubview(tableView)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.backgroundColor = .secondarySystemBackground
+        tableView.backgroundColor = .systemBackground
         tableView.register(DownloadCell.self, forCellReuseIdentifier: "DownloadCell")
         
         NSLayoutConstraint.activate([

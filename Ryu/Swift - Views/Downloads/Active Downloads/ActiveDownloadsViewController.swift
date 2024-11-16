@@ -37,7 +37,7 @@ class ActiveDownloadsViewController: UIViewController, ProgressDownloadCellDeleg
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .secondarySystemBackground
+        view.backgroundColor = .systemBackground
         setupViews()
         loadDownloads()
         startProgressUpdateTimer()

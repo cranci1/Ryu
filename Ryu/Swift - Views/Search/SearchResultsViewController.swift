@@ -42,7 +42,7 @@ class SearchResultsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .secondarySystemBackground
+        view.backgroundColor = .systemBackground
         
         setupUI()
         fetchResults()
@@ -61,7 +61,7 @@ class SearchResultsViewController: UIViewController {
         
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.backgroundColor = .secondarySystemBackground
+        tableView.backgroundColor = .systemBackground
         tableView.register(SearchResultCell.self, forCellReuseIdentifier: "resultCell")
         
         setupLoadingIndicator()
@@ -758,6 +758,6 @@ class SearchResultCell: UITableViewCell {
     }
     
     private func configureAppearance() {
-        backgroundColor = UIColor.secondarySystemBackground
+        backgroundColor = UIColor.systemBackground
     }
 }

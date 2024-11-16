@@ -55,7 +55,7 @@ class ProgressDownloadCell: UIView {
     }
     
     private func setupViews() {
-        backgroundColor = .secondarySystemBackground
+        backgroundColor = .systemBackground
         layer.cornerRadius = 12
         layer.masksToBounds = true
         
