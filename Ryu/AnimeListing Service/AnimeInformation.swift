@@ -51,7 +51,7 @@ class AnimeInformation: UIViewController, UITableViewDataSource {
     }
     
     private func setupUI() {
-        view.backgroundColor = .secondarySystemBackground
+        view.backgroundColor = .systemBackground
         
         setupScrollView()
         setupHeaderView()
@@ -680,7 +680,7 @@ class CharactersView: UIView {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
-        collectionView.backgroundColor = UIColor.secondarySystemBackground
+        collectionView.backgroundColor = UIColor.systemBackground
         collectionView.showsHorizontalScrollIndicator = true
         collectionView.dataSource = self
         collectionView.register(CharacterCollectionViewCell.self, forCellWithReuseIdentifier: cellId)

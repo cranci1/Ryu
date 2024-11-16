@@ -151,7 +151,7 @@ class HistoryTableViewCell: UITableViewCell {
     }
     
     private func setupCell() {
-        backgroundColor = UIColor.secondarySystemBackground
+        backgroundColor = UIColor.systemBackground
         contentView.addSubview(deleteButton)
         
         NSLayoutConstraint.activate([

@@ -54,7 +54,7 @@ class EpisodeCell: UITableViewCell {
     }
     
     private func setupCell() {
-        contentView.backgroundColor = UIColor.secondarySystemBackground
+        contentView.backgroundColor = UIColor.systemBackground
         
         contentView.addSubview(episodeLabel)
         contentView.addSubview(downloadButton)

@@ -31,7 +31,7 @@ class AnimeHeaderCell: UITableViewCell {
     }
     
     private func setupUI() {
-        contentView.backgroundColor = .secondarySystemBackground
+        contentView.backgroundColor = .systemBackground
         
         contentView.addSubview(animeImageView)
         contentView.addSubview(titleLabel)
