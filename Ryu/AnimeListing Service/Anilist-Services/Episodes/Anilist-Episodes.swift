@@ -98,7 +98,7 @@ class AnimeEpisodeService {
                 content.title = "New Episode available"
                 content.body = """
                     Episode \(episodeNumber) of "\(animeName)" is now available!
-                    Watch it now on \(mediaSource)
+                    You can now watch it on \(mediaSource)
                     """
                 content.sound = .default
                 

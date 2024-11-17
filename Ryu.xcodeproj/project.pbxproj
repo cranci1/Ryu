@@ -308,6 +308,7 @@
 		1365249E2C6B5B2F00210A98 /* Ryu */ = {
 			isa = PBXGroup;
 			children = (
+				136525092C6B5B4000210A98 /* Extensions */,
 				136524B32C6B5B4000210A98 /* AnimeListing Service */,
 				136524CD2C6B5B4000210A98 /* Sources */,
 				136525002C6B5B4000210A98 /* Utils */,
@@ -532,7 +533,6 @@
 			children = (
 				136525012C6B5B4000210A98 /* Managers */,
 				136525062C6B5B4000210A98 /* Downloaders */,
-				136525092C6B5B4000210A98 /* Extensions */,
 				1365250B2C6B5B4000210A98 /* Player */,
 				13CCBE892CD90A8E007AB1A7 /* EpisodeNumberExtractor.swift */,
 			);
