@@ -394,7 +394,7 @@ class EpisodeInfoAlertController: UIViewController {
     private func setupViews() {
         view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         
-        containerView.backgroundColor = .secondarySystemGroupedBackground
+        containerView.backgroundColor = .systemGroupedBackground
         containerView.layer.cornerRadius = 14
         containerView.clipsToBounds = true
         

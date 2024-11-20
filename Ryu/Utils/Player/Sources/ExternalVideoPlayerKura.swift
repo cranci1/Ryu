@@ -343,7 +343,7 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
         UserDefaults.standard.set(duration, forKey: "totalTime_\(fullURL)")
         
         updateContinueWatchingItem(currentTime: currentTime, duration: duration)
-        sendPushUpdates(remainingTime: remainingTime)
+        sendPushUpdates(remainingTime: remainingTime, totalTime: duration)
     }
     
     private func updateContinueWatchingItem(currentTime: Double, duration: Double) {

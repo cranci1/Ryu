@@ -323,7 +323,7 @@ class ExternalVideoPlayerJK: UIViewController, WKNavigationDelegate, GCKRemoteMe
 
                     let shouldSendPushUpdates = UserDefaults.standard.bool(forKey: "sendPushUpdates")
 
-                    if shouldSendPushUpdates && remainingTime / duration < 0.15 && !self.hasSentUpdate {
+                    if shouldSendPushUpdates && remainingTime / duration < 0.15 && !viewController.hasSentUpdate {
                         let cleanedTitle = viewController.cleanTitle(viewController.animeTitle ?? "Unknown Anime")
 
                         viewController.fetchAnimeID(title: cleanedTitle) { animeID in
