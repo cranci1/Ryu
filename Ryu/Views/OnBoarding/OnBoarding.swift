@@ -80,7 +80,7 @@ class OnboardingViewController: UIViewController {
             description: "Get real-time notifications for new episodes, recommendations, and anime updates in your interests.",
             backgroundColor: .systemBackground,
             showPlatforms: false
-        )
+        ),
         .init(
             icon: UIImage(systemName: "lock.shield.fill"),
             title: "Secure & Private",
