@@ -75,16 +75,16 @@ class OnboardingViewController: UIViewController {
             showPlatforms: false
         ),
         .init(
-            icon: UIImage(systemName: "lock.shield.fill"),
-            title: "Secure & Private",
-            description: "Enjoy your favorite anime with top-notch privacy and security features. Your AniList/Kitsu credentials are encrypted locally.",
-            backgroundColor: .systemBackground,
-            showPlatforms: false
-        ),
-        .init(
             icon: UIImage(systemName: "bell.fill"),
             title: "Stay Updated",
             description: "Get real-time notifications for new episodes, recommendations, and anime updates in your interests.",
+            backgroundColor: .systemBackground,
+            showPlatforms: false
+        )
+        .init(
+            icon: UIImage(systemName: "lock.shield.fill"),
+            title: "Secure & Private",
+            description: "Enjoy your favorite anime with top-notch privacy and security features. Your AniList/Kitsu credentials are encrypted locally.",
             backgroundColor: .systemBackground,
             showPlatforms: false
         )
