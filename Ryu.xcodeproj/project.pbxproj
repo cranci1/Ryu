@@ -91,6 +91,7 @@
 		13921B432C6B8F87004E8BDC /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13921B422C6B8F87004E8BDC /* Notification.swift */; };
 		13921B452C6B8FC1004E8BDC /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13921B442C6B8FC1004E8BDC /* UserDefaults.swift */; };
 		139782182C8C3B56007AB9C0 /* SettingsViewAniSkip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139782172C8C3B56007AB9C0 /* SettingsViewAniSkip.swift */; };
+		13A5D8B12CEE1EFB000E5FFC /* OnBoarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A5D8B02CEE1EFB000E5FFC /* OnBoarding.swift */; };
 		13A888B22C7A305500D6C597 /* CustomPlayerUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A888B12C7A305500D6C597 /* CustomPlayerUI.swift */; };
 		13A888B42C7A322600D6C597 /* CustomPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A888B32C7A322600D6C597 /* CustomPlayerView.swift */; };
 		13B40E212CB191D900EF964A /* AnimeInfo+Struct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B40E202CB191D900EF964A /* AnimeInfo+Struct.swift */; };
@@ -183,6 +184,7 @@
 		13921B422C6B8F87004E8BDC /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		13921B442C6B8FC1004E8BDC /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		139782172C8C3B56007AB9C0 /* SettingsViewAniSkip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewAniSkip.swift; sourceTree = "<group>"; };
+		13A5D8B02CEE1EFB000E5FFC /* OnBoarding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnBoarding.swift; sourceTree = "<group>"; };
 		13A888B12C7A305500D6C597 /* CustomPlayerUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPlayerUI.swift; sourceTree = "<group>"; };
 		13A888B32C7A322600D6C597 /* CustomPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlayerView.swift; sourceTree = "<group>"; };
 		13B40E202CB191D900EF964A /* AnimeInfo+Struct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnimeInfo+Struct.swift"; sourceTree = "<group>"; };
@@ -312,7 +314,7 @@
 				136524B32C6B5B4000210A98 /* AnimeListing Service */,
 				136524CD2C6B5B4000210A98 /* Sources */,
 				136525002C6B5B4000210A98 /* Utils */,
-				136524E12C6B5B4000210A98 /* Swift - Views */,
+				136524E12C6B5B4000210A98 /* Views */,
 				1357B4F02C6D0954000A2C9B /* StoryBoard */,
 				136524CC2C6B5B4000210A98 /* AppDelegate.swift */,
 				136525152C6B5B4100210A98 /* SceneDelegate.swift */,
@@ -424,9 +426,10 @@
 			path = Sources;
 			sourceTree = "<group>";
 		};
-		136524E12C6B5B4000210A98 /* Swift - Views */ = {
+		136524E12C6B5B4000210A98 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				13A5D8AF2CEE1EED000E5FFC /* OnBoarding */,
 				136524EA2C6B5B4000210A98 /* Home */,
 				136524F42C6B5B4000210A98 /* Favorites */,
 				136524FA2C6B5B4000210A98 /* Downloads */,
@@ -434,7 +437,7 @@
 				136524E22C6B5B4000210A98 /* Settings */,
 				136524ED2C6B5B4000210A98 /* Anime Info */,
 			);
-			path = "Swift - Views";
+			path = Views;
 			sourceTree = "<group>";
 		};
 		136524E22C6B5B4000210A98 /* Settings */ = {
@@ -631,6 +634,14 @@
 			path = Subtitles;
 			sourceTree = "<group>";
 		};
+		13A5D8AF2CEE1EED000E5FFC /* OnBoarding */ = {
+			isa = PBXGroup;
+			children = (
+				13A5D8B02CEE1EFB000E5FFC /* OnBoarding.swift */,
+			);
+			path = OnBoarding;
+			sourceTree = "<group>";
+		};
 		13B40E1F2CB191CA00EF964A /* Anilibria */ = {
 			isa = PBXGroup;
 			children = (
@@ -800,6 +811,7 @@
 				13B40E212CB191D900EF964A /* AnimeInfo+Struct.swift in Sources */,
 				136525272C6B5B4100210A98 /* Sources.swift in Sources */,
 				136525362C6B5B4100210A98 /* SettingsAnimeListing.swift in Sources */,
+				13A5D8B12CEE1EFB000E5FFC /* OnBoarding.swift in Sources */,
 				137B8D042CA15BA1004CC61B /* Collection.swift in Sources */,
 				13E7F8182C9031A7007550B9 /* SettingsViewTranslation.swift in Sources */,
 				136525512C6B5B4100210A98 /* VideoPlayerType.swift in Sources */,

@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         setupDefaultUserPreferences()
         setupGoogleCast()
-        
+        checkForFirstLaunch()
         return true
     }
     
@@ -31,7 +31,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             "subtitleHiPrefe": "English",
             "serverHiPrefe": "hd-1",
             "audioHiPrefe": "Always Ask",
-            "syncWithSystem": true
+            "syncWithSystem": true,
+            "fullTitleCast": true,
+            "animeImageCast": true
         ]
         
         for (key, value) in defaultValues {
@@ -44,11 +46,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserDefaults.standard.removeObject(forKey: "accessToken")
         }
         
-        UserDefaults.standard.register(defaults: [
-            "fullTitleCast": true,
-            "animeImageCast": true
-        ])
-        
         if UserDefaults.standard.string(forKey: "mediaPlayerSelected") == "Experimental" {
             UserDefaults.standard.set("Custom", forKey: "mediaPlayerSelected")
         }
@@ -60,6 +57,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func setupGoogleCast() {
         let options = GCKCastOptions(discoveryCriteria: GCKDiscoveryCriteria(applicationID: kGCKDefaultMediaReceiverApplicationID))
         GCKCastContext.setSharedInstanceWith(options)
+    }
+    
+    func checkForFirstLaunch() {
+        let hasCompletedOnboarding = UserDefaults.standard.bool(forKey: "hasCompletedOnboarding")
+        
+        if !hasCompletedOnboarding {
+            DispatchQueue.main.async {
+                if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                   let window = windowScene.windows.first {
+                    let onboardingVC = OnboardingViewController()
+                    onboardingVC.modalPresentationStyle = .fullScreen
+                    window.rootViewController?.present(onboardingVC, animated: true)
+                }
+            }
+        }
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
