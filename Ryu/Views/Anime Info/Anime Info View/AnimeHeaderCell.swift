@@ -17,9 +17,12 @@ class AnimeHeaderCell: UITableViewCell {
     private let airDateLabel = UILabel()
     private let starIconImageView = UIImageView()
     private let calendarIconImageView = UIImageView()
+    private let watchNextButton = UIButton()
+    private let playImageView = UIImageView()
     
     var favoriteButtonTapped: (() -> Void)?
     var showOptionsMenu: (() -> Void)?
+    var watchNextTapped: (() -> Void)?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -32,7 +35,7 @@ class AnimeHeaderCell: UITableViewCell {
     
     private func setupUI() {
         contentView.backgroundColor = .systemBackground
-        
+
         contentView.addSubview(animeImageView)
         contentView.addSubview(titleLabel)
         contentView.addSubview(aliasLabel)
@@ -42,8 +45,10 @@ class AnimeHeaderCell: UITableViewCell {
         contentView.addSubview(airDateLabel)
         contentView.addSubview(starIconImageView)
         contentView.addSubview(calendarIconImageView)
-        
-        [animeImageView, titleLabel, aliasLabel, bookmarkImageView, optionsButton, starLabel, airDateLabel, starIconImageView, calendarIconImageView].forEach {
+        contentView.addSubview(watchNextButton)
+        contentView.addSubview(playImageView)
+
+        [animeImageView, titleLabel, aliasLabel, bookmarkImageView, optionsButton, starLabel, airDateLabel, starIconImageView, calendarIconImageView, watchNextButton, playImageView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
@@ -82,6 +87,13 @@ class AnimeHeaderCell: UITableViewCell {
         
         calendarIconImageView.image = UIImage(systemName: "calendar")
         calendarIconImageView.tintColor = .systemGray
+        
+        watchNextButton.setTitle("Watch Next Episode", for: .normal)
+        watchNextButton.setTitleColor(.systemTeal, for: .normal)
+        watchNextButton.addTarget(self, action: #selector(watchNextButtonTapped), for: .touchUpInside)
+        
+        playImageView.image = UIImage(systemName: "play.circle.fill")
+        playImageView.tintColor = .systemTeal
         
         NSLayoutConstraint.activate([
             animeImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
@@ -123,7 +135,15 @@ class AnimeHeaderCell: UITableViewCell {
             airDateLabel.bottomAnchor.constraint(equalTo: calendarIconImageView.bottomAnchor),
             airDateLabel.trailingAnchor.constraint(equalTo: calendarIconImageView.leadingAnchor, constant: -2),
             
-            contentView.bottomAnchor.constraint(equalTo: calendarIconImageView.bottomAnchor, constant: 10)
+            watchNextButton.leadingAnchor.constraint(equalTo: playImageView.trailingAnchor, constant: 2),
+            watchNextButton.centerYAnchor.constraint(equalTo: playImageView.centerYAnchor),
+            
+            playImageView.topAnchor.constraint(equalTo: starIconImageView.bottomAnchor, constant: 15),
+            playImageView.leadingAnchor.constraint(equalTo: starIconImageView.leadingAnchor),
+            playImageView.widthAnchor.constraint(equalToConstant: 35),
+            playImageView.heightAnchor.constraint(equalToConstant: 35),
+            
+            contentView.bottomAnchor.constraint(equalTo: playImageView.bottomAnchor, constant: 10)
         ])
     }
     
@@ -133,6 +153,10 @@ class AnimeHeaderCell: UITableViewCell {
     
     @objc private func optionsButtonTapped() {
         showOptionsMenu?()
+    }
+    
+    @objc private func watchNextButtonTapped() {
+        watchNextTapped?()
     }
     
     func configure(title: String?, imageUrl: String?, aliases: String, isFavorite: Bool, airdate: String, stars: String, href: String?) {

@@ -18,8 +18,9 @@ struct ContinueWatchingItem: Codable {
     let source: String
     
     var shouldDisplay: Bool {
-        let remainingTime = totalTime - lastPlayedTime
-        return remainingTime > 120
+        guard totalTime > 0 else { return false }
+        let remainingTimeRatio = (totalTime - lastPlayedTime) / totalTime
+        return remainingTimeRatio > 0.15
     }
 }
 

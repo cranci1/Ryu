@@ -336,6 +336,9 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
             cell.showOptionsMenu = { [weak self] in
                 self?.showOptionsMenu()
             }
+            cell.watchNextTapped = { [weak self] in
+                self?.watchNextEpisode()
+            }
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "SynopsisCell", for: indexPath) as! SynopsisCell
@@ -1347,7 +1350,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
             let continueWatchingItem = ContinueWatchingItem(
                 animeTitle: self.animeTitle ?? "Unknown Anime",
                 episodeTitle: "Ep. \(episodeNumber)",
-                episodeNumber: episodeNumber ,
+                episodeNumber: episodeNumber,
                 imageURL: self.imageUrl ?? "",
                 fullURL: fullURL,
                 lastPlayedTime: currentTime,
@@ -1358,7 +1361,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
             
             let shouldSendPushUpdates = UserDefaults.standard.bool(forKey: "sendPushUpdates")
             
-            if shouldSendPushUpdates && remainingTime < 120 && !self.hasSentUpdate {
+            if shouldSendPushUpdates && remainingTime / duration < 0.15 && !self.hasSentUpdate {
                 let cleanedTitle = self.cleanTitle(self.animeTitle ?? "Unknown Anime")
                 
                 self.fetchAnimeID(title: cleanedTitle) { animeID in
@@ -1451,6 +1454,31 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
         UserDefaults.standard.set(true, forKey: "isToDownload")
         
         episodeSelected(episode: episode, cell: cell)
+    }
+    
+    private func watchNextEpisode() {
+        for episode in episodes {
+            let fullURL = episode.href
+            let lastPlayedTime = UserDefaults.standard.double(forKey: "lastPlayedTime_\(fullURL)")
+            let totalTime = UserDefaults.standard.double(forKey: "totalTime_\(fullURL)")
+            
+            if totalTime > 0 {
+                let progressDifference = (totalTime - lastPlayedTime) / totalTime
+                if progressDifference > 0.15 {
+                    if let cell = tableView.cellForRow(at: IndexPath(row: episodes.firstIndex(of: episode) ?? 0, section: 2)) as? EpisodeCell {
+                        cell.loadSavedProgress(for: episode.href)
+                        episodeSelected(episode: episode, cell: cell)
+                    }
+                    break
+                }
+            } else {
+                if let cell = tableView.cellForRow(at: IndexPath(row: episodes.firstIndex(of: episode) ?? 0, section: 2)) as? EpisodeCell {
+                    cell.loadSavedProgress(for: episode.href)
+                    episodeSelected(episode: episode, cell: cell)
+                }
+                break
+            }
+        }
     }
 }
 

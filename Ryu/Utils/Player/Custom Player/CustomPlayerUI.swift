@@ -671,7 +671,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
             
             let shouldSendPushUpdates = UserDefaults.standard.bool(forKey: "sendPushUpdates")
             
-            if shouldSendPushUpdates && remainingTime < 120 && !self.hasSentUpdate {
+            if shouldSendPushUpdates && remainingTime / duration < 0.15 && !self.hasSentUpdate {
                 let cleanedTitle = self.cleanTitle(self.videoTitle)
                 
                 self.fetchAnimeID(title: cleanedTitle) { animeID in

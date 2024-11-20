@@ -368,8 +368,9 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
         }
     }
     
-    private func sendPushUpdates(remainingTime: Double) {
-        guard let animeDetailsViewController = animeDetailsViewController, UserDefaults.standard.bool(forKey: "sendPushUpdates"), remainingTime < 120, !animeDetailsViewController.hasSentUpdate else {
+    private func sendPushUpdates(remainingTime: Double, totalTime: Double) {
+        guard let animeDetailsViewController = animeDetailsViewController, UserDefaults.standard.bool(forKey: "sendPushUpdates"), totalTime > 0, remainingTime / totalTime < 0.15, !animeDetailsViewController.hasSentUpdate
+        else {
             return
         }
         
