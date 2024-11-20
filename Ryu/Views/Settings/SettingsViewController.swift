@@ -342,7 +342,7 @@ class SettingsViewController: UITableViewController {
     }
     
     private func presentResetConfirmation() {
-        let alertController = UIAlertController(title: "Reset App Datas", message: "Are you sure you want to reset all app Data? This action cannot be undone.", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Reset App Data", message: "Are you sure you want to reset all app Data? This action cannot be undone.", preferredStyle: .alert)
         
         let resetAction = UIAlertAction(title: "Reset", style: .destructive) { [weak self] _ in
             self?.resetUserDefaults()
