@@ -478,15 +478,14 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate, GCKRe
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
         if let popoverController = actionSheet.popoverPresentationController {
-            popoverController.sourceView = self.view
-            popoverController.sourceRect = self.view.bounds
-            popoverController.permittedArrowDirections = .any
+            popoverController.sourceView = UIApplication.shared.keyWindow
+            popoverController.sourceRect = CGRect(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
         }
         
         findViewController()?.present(actionSheet, animated: true)
     }
-
-
+    
     private func performAirplay() {
         let rect = CGRect(x: -100, y: 0, width: 0, height: 0)
         let airplayVolume = MPVolumeView(frame: rect)
