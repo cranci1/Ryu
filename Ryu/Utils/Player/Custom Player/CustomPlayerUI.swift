@@ -7,15 +7,17 @@
 
 import UIKit
 import AVKit
+import GoogleCast
 import MediaPlayer
 import AVFoundation
 
-class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
+class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate, GCKRemoteMediaClientListener {
     private var player: AVPlayer?
     private var playerLayer: AVPlayerLayer?
     private var isControlsVisible = true
     private var hideControlsTimer: Timer?
     private var baseURL: URL?
+    private var realURL: URL?
     private var qualities: [(String, String)] = []
     private var currentQualityIndex = 0
     private var timeObserverToken: Any?
@@ -31,6 +33,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
     private var fullURL: String
     private var hasSentUpdate = false
     private var animeImage: String
+    private var chromecastObserver: NSObjectProtocol?
     
     private var skipButtonsBottomConstraint: NSLayoutConstraint?
     private var skipButtons: [UIButton] = []
@@ -227,6 +230,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         setupGestures()
         updateSubtitleAppearance()
         loadSettings()
+        setupChromecastObserver()
     }
     
     required init?(coder: NSCoder) {
@@ -238,6 +242,24 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         if let token = timeObserverToken {
             player?.removeTimeObserver(token)
         }
+        if let observer = chromecastObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+    }
+    
+    private func setupChromecastObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(checkCastState),
+            name: .gckCastStateDidChange,
+            object: nil
+        )
+    }
+    
+    @objc private func checkCastState() {
+        guard GCKCastContext.sharedInstance().castState == .connected else { return }
+        proceedWithCasting(videoURL: realURL!)
+        findViewController()?.dismiss(animated: true, completion: nil)
     }
     
     private func setupPlayer() {
@@ -443,6 +465,29 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
     }
     
     @objc private func airplayButtonTapped() {
+        let actionSheet = UIAlertController(title: "Cast Options", message: nil, preferredStyle: .actionSheet)
+        
+        actionSheet.addAction(UIAlertAction(title: "AirPlay", style: .default) { [weak self] _ in
+            self?.performAirplay()
+        })
+        
+        actionSheet.addAction(UIAlertAction(title: "Chromecast", style: .default) { [weak self] _ in
+            self?.presentChromecastDeviceList()
+        })
+        
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        if let popoverController = actionSheet.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = self.view.bounds
+            popoverController.permittedArrowDirections = .any
+        }
+        
+        findViewController()?.present(actionSheet, animated: true)
+    }
+
+
+    private func performAirplay() {
         let rect = CGRect(x: -100, y: 0, width: 0, height: 0)
         let airplayVolume = MPVolumeView(frame: rect)
         airplayVolume.showsVolumeSlider = false
@@ -455,6 +500,20 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         }
         airplayVolume.removeFromSuperview()
     }
+
+    private func presentChromecastDeviceList() {
+        let castButton = GCKUICastButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
+        self.addSubview(castButton)
+        castButton.isHidden = true
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+            castButton.sendActions(for: .touchUpInside)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                castButton.removeFromSuperview()
+            }
+        }
+    }
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -466,11 +525,17 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         self.videoTitle = title
         titleLabel.text = title
         self.baseURL = url.deletingLastPathComponent()
+        self.realURL = url
         self.subtitlesURL = subURL
         self.cell = cell
         self.fullURL = fullURL
         
         let lastPlayedTime = UserDefaults.standard.double(forKey: "lastPlayedTime_\(fullURL)")
+        
+        if GCKCastContext.sharedInstance().sessionManager.hasConnectedCastSession() {
+            proceedWithCasting(videoURL: url)
+            findViewController()?.dismiss(animated: true, completion: nil)
+        }
         
         if url.pathExtension == "m3u8" {
             parseM3U8(url: url) { [weak self] in
@@ -1166,6 +1231,57 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate {
         } else {
             currentSubtitleIndex = nil
             subtitlesLabel.text = nil
+        }
+    }
+    
+    func proceedWithCasting(videoURL: URL) {
+        DispatchQueue.main.async {
+            let metadata = GCKMediaMetadata(metadataType: .movie)
+            
+            if UserDefaults.standard.bool(forKey: "fullTitleCast") {
+                metadata.setString(self.videoTitle.isEmpty ? "Unknown Title" : self.videoTitle, forKey: kGCKMetadataKeyTitle)
+            } else {
+                let episodeNumberString = self.cell.episodeNumber
+                let episodeNumber = EpisodeNumberExtractor.extract(from: episodeNumberString)
+                metadata.setString("Episode \(episodeNumber)", forKey: kGCKMetadataKeyTitle)
+            }
+            
+            if UserDefaults.standard.bool(forKey: "animeImageCast"),
+               let imageURL = URL(string: self.animeImage) {
+                metadata.addImage(GCKImage(url: imageURL, width: 480, height: 720))
+            }
+            
+            let builder = GCKMediaInformationBuilder(contentURL: videoURL)
+            
+            let contentType: String
+            switch videoURL.pathExtension.lowercased() {
+            case "m3u8":
+                contentType = "application/x-mpegurl"
+            case "mp4":
+                contentType = "video/mp4"
+            default:
+                contentType = "video/mp4"
+            }
+            
+            builder.contentType = contentType
+            builder.metadata = metadata
+            
+            let streamTypeString = UserDefaults.standard.string(forKey: "castStreamingType") ?? "buffered"
+            builder.streamType = (streamTypeString == "live") ? .live : .buffered
+            
+            let mediaInformation = builder.build()
+            
+            if let remoteMediaClient = GCKCastContext.sharedInstance().sessionManager.currentCastSession?.remoteMediaClient {
+                let lastPlayedTime = UserDefaults.standard.double(forKey: "lastPlayedTime_\(self.fullURL)")
+                
+                if lastPlayedTime > 0 {
+                    let options = GCKMediaLoadOptions()
+                    options.playPosition = TimeInterval(lastPlayedTime)
+                    remoteMediaClient.loadMedia(mediaInformation, with: options)
+                } else {
+                    remoteMediaClient.loadMedia(mediaInformation)
+                }
+            }
         }
     }
 }

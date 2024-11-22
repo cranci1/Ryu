@@ -84,7 +84,7 @@ class OnboardingViewController: UIViewController {
         .init(
             icon: UIImage(systemName: "lock.shield.fill"),
             title: "Secure & Private",
-            description: "Enjoy your favorite anime with top-notch privacy and security features. Your AniList/Kitsu credentials are encrypted locally.",
+            description: "Enjoy your favorite anime with top-notch privacy and security features. Your AniList and Kitsu tokens are encrypted in the iPhone Keychaing.",
             backgroundColor: .systemBackground,
             showPlatforms: false
         )
