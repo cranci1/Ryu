@@ -532,23 +532,25 @@ extension AnimeDetailViewController {
         }
         return nil
     }
-
-        func extractAniVibeURL(from documentString: String) -> URL? {
-        let pattern = "https?://[^\\s]+\\.m3u8"
+    
+    func extractAniVibeURL(from htmlContent: String) -> URL? {
+        let pattern = #""url":"(.*?\.m3u8)""#
         
-        do {
-            let regex = try NSRegularExpression(pattern: pattern, options: [])
-            let range = NSRange(documentString.startIndex..<documentString.endIndex, in: documentString)
-            
-            if let match = regex.firstMatch(in: documentString, options: [], range: range),
-               let matchRange = Range(match.range, in: documentString) {
-                let urlString = String(documentString[matchRange])
-                print("URL is this:" + urlString)
-                return URL(string: urlString)
-            }
-        } catch {
+        guard let regex = try? NSRegularExpression(pattern: pattern) else {
             return nil
         }
+        
+        let range = NSRange(htmlContent.startIndex..., in: htmlContent)
+        guard let match = regex.firstMatch(in: htmlContent, range: range) else {
+            return nil
+        }
+        
+        if let urlRange = Range(match.range(at: 1), in: htmlContent) {
+            let extractedURLString = String(htmlContent[urlRange])
+            let unescapedURLString = extractedURLString.replacingOccurrences(of: "\\/", with: "/")
+            return URL(string: unescapedURLString)
+        }
+        
         return nil
     }
     
