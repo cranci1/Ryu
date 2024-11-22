@@ -21,6 +21,7 @@ enum MediaSource: String {
     case animesrbija = "AnimeSRBIJA"
     case aniworld = "AniWorld"
     case tokyoinsider = "TokyoInsider"
+    case anivibe = "AniVibe"
 }
 
 extension MediaSource {
@@ -39,6 +40,7 @@ extension MediaSource {
         case .animesrbija: return "AnimeSRBIJA"
         case .aniworld: return "AniWorld"
         case .tokyoinsider: return "TokyoInsider"
+        case .anivibe: return "AniVibe"
         }
     }
 }

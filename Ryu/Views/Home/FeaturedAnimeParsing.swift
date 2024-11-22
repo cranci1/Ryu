@@ -35,6 +35,8 @@ extension HomeViewController {
             return ("https://aniworld.to/neu", paseAniWorldFeatured)
         case "TokyoInsider":
             return ("https://www.tokyoinsider.com/new", paseTokyoFeatured)
+        case "AniVibe":
+            return ("https://anivibe.net/newest", paseAniVibeFeatured)
         default:
             return (nil, nil)
         }
@@ -302,6 +304,25 @@ extension HomeViewController {
             let href = "https://www.tokyoinsider.com" + hrefBase + ")"
             
             return AnimeItem(title: title, episode: episode, imageURL: imageURL, href: href)
+        }
+    }
+    
+    func paseAniVibeFeatured(_ doc: Document) throws -> [AnimeItem] {
+        let animeItems = try doc.select("div.listupd article")
+        return try animeItems.array().compactMap { item in
+            
+            let title = try item.select("div.tt span").text()
+            
+            let episodeText = try item.select("div.anime__sidebar__comment__item__text h6").text()
+            let episode = episodeText.replacingOccurrences(of: "Episodio ", with: "")
+            
+            var imageUrl = try item.select("img").attr("src")
+            imageUrl = imageUrl.replacingOccurrences(of: "small", with: "default")
+            
+            let href = try item.select("a").first()?.attr("href") ?? ""
+            let hrefFull = "https://anivibe.net" + href
+            
+            return AnimeItem(title: title, episode: episode, imageURL: imageUrl, href: hrefFull)
         }
     }
 }

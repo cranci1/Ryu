@@ -1010,6 +1010,8 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                     srcURL = URL(string: fullURL)
                 case "AnimeSRBIJA":
                     srcURL = self.extractAsgoldURL(from: htmlString)
+                case "AniVibe":
+                    srcURL = self.extractAniVibeURL(from: htmlString)
                 case "TokyoInsider":
                     self.extractTokyoVideo(from: htmlString) { selectedURL in
                         DispatchQueue.main.async {
