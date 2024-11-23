@@ -11,6 +11,7 @@
 		131546D52C6DE6CC002DC3CC /* GoogleCastSDK-ios-no-bluetooth in Frameworks */ = {isa = PBXBuildFile; productRef = 131546D42C6DE6CC002DC3CC /* GoogleCastSDK-ios-no-bluetooth */; };
 		131546D82C6DE6D9002DC3CC /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 131546D72C6DE6D9002DC3CC /* Kingfisher */; };
 		131546DE2C6DE6F2002DC3CC /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 131546DD2C6DE6F2002DC3CC /* Alamofire */; };
+		13195DAE2CF22EE400F66658 /* AnimeUnityStreamExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13195DAD2CF22EE400F66658 /* AnimeUnityStreamExtractor.swift */; };
 		132BEFA32CC5440C00B61089 /* Anilist-Episodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132BEFA22CC5440C00B61089 /* Anilist-Episodes.swift */; };
 		132F7EDF2CDA56CB0037FECD /* Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132F7EDE2CDA56CB0037FECD /* Sequence.swift */; };
 		1335C15E2CCFCF77004C19F4 /* Episode+Struct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1335C15D2CCFCF77004C19F4 /* Episode+Struct.swift */; };
@@ -103,6 +104,7 @@
 
 /* Begin PBXFileReference section */
 		13071F782CCD3900001078B7 /* Kitsu+Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Kitsu+Token.swift"; sourceTree = "<group>"; };
+		13195DAD2CF22EE400F66658 /* AnimeUnityStreamExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeUnityStreamExtractor.swift; sourceTree = "<group>"; };
 		132BEFA22CC5440C00B61089 /* Anilist-Episodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Anilist-Episodes.swift"; sourceTree = "<group>"; };
 		132F7EDE2CDA56CB0037FECD /* Sequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sequence.swift; sourceTree = "<group>"; };
 		1335C15D2CCFCF77004C19F4 /* Episode+Struct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Episode+Struct.swift"; sourceTree = "<group>"; };
@@ -215,6 +217,14 @@
 				13071F782CCD3900001078B7 /* Kitsu+Token.swift */,
 			);
 			path = Authentication;
+			sourceTree = "<group>";
+		};
+		13195DAC2CF22ED700F66658 /* AnimeUnity */ = {
+			isa = PBXGroup;
+			children = (
+				13195DAD2CF22EE400F66658 /* AnimeUnityStreamExtractor.swift */,
+			);
+			path = AnimeUnity;
 			sourceTree = "<group>";
 		};
 		132BEFA72CC546EC00B61089 /* Episodes */ = {
@@ -417,6 +427,7 @@
 		136524CD2C6B5B4000210A98 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				13195DAC2CF22ED700F66658 /* AnimeUnity */,
 				1335C15C2CCFCF12004C19F4 /* AniWorld */,
 				13B40E1F2CB191CA00EF964A /* Anilibria */,
 				13603FCF2C90BAFE0075DBA9 /* Hanashi */,
@@ -811,6 +822,7 @@
 				13B40E212CB191D900EF964A /* AnimeInfo+Struct.swift in Sources */,
 				136525272C6B5B4100210A98 /* Sources.swift in Sources */,
 				136525362C6B5B4100210A98 /* SettingsAnimeListing.swift in Sources */,
+				13195DAE2CF22EE400F66658 /* AnimeUnityStreamExtractor.swift in Sources */,
 				13A5D8B12CEE1EFB000E5FFC /* OnBoarding.swift in Sources */,
 				137B8D042CA15BA1004CC61B /* Collection.swift in Sources */,
 				13E7F8182C9031A7007550B9 /* SettingsViewTranslation.swift in Sources */,

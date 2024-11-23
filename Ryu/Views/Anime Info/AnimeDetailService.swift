@@ -39,7 +39,7 @@ class AnimeDetailService {
             ]
         case .anilibria:
             baseUrls = ["https://api.anilibria.tv/v3/title?id="]
-        case .animefire, .kuramanime, .jkanime, .anime3rb, .hanashi, .animesrbija, .aniworld, .tokyoinsider, .anivibe, .animeszone:
+        case .animefire, .kuramanime, .jkanime, .anime3rb, .hanashi, .animesrbija, .aniworld, .tokyoinsider, .anivibe, .animeszone, .animeunity:
             baseUrls = [""]
         }
         
@@ -257,6 +257,11 @@ class AnimeDetailService {
                             synopsis = try document.select("section#sinopse p").text()
                             airdate = "N/A"
                             stars = "N/A"
+                        case .animeunity:
+                            aliases = ""
+                            synopsis = try document.select("div.description").text()
+                            airdate = "N/A"
+                            stars = "N/A"
                         }
                         
                         episodes = self.fetchEpisodes(document: document, for: selectedSource, href: href)
@@ -380,6 +385,9 @@ class AnimeDetailService {
                 downloadUrlElement = ""
             case .animeszone:
                 episodeElements = try document.select("ul.post-lst li")
+                downloadUrlElement = ""
+            case .animeunity:
+                episodeElements = try document.select("")
                 downloadUrlElement = ""
             }
             
@@ -590,6 +598,37 @@ class AnimeDetailService {
                         print("Error parsing AniVibe episode: \(error.localizedDescription)")
                         return nil
                     }
+                }
+            case .animeunity:
+                do {
+                    // Get episodes count from the document
+                    let episodeCountElement = try document.select("div[episodes_count]")
+                    guard let episodeCountStr = try? episodeCountElement.attr("episodes_count"),
+                          let episodeCount = Int(episodeCountStr) else {
+                        return []
+                    }
+                    
+                    // Get the episode IDs
+                    let episodeIdsScript = try document.select("script:containsData(episodes_arr)").html()
+                    let episodeIds = episodeIdsScript.components(separatedBy: "[")[1]
+                        .components(separatedBy: "]")[0]
+                        .components(separatedBy: ",")
+                        .compactMap { Int($0.trimmingCharacters(in: .whitespacesAndNewlines)) }
+                    
+                    // Create episodes array
+                    episodes = (0..<episodeCount).compactMap { index in
+                        guard index < episodeIds.count else { return nil }
+                        let episodeNumber = "\(index + 1)"
+                        let episodeId = episodeIds[index]
+                        let episodeHref = "https://animeunity.tv/episode/\(episodeId)"
+                        
+                        return Episode(number: episodeNumber,
+                                     href: episodeHref,
+                                     downloadUrl: "")
+                    }
+                } catch {
+                    print("Error parsing AnimeUnity episodes: \(error.localizedDescription)")
+                    return []
                 }
             default:
                 episodes = episodeElements.compactMap { element in

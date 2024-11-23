@@ -469,6 +469,9 @@ class SearchResultsViewController: UIViewController {
             url = "https://animeszone.net/"
             parameters["s"] = ""
             parameters["_pesquisa"] = query
+        case "AnimeUnity":
+            url = "https://www.animeunity.to/archivio"
+            parameters["title"] = query
         default:
             return nil
         }
@@ -573,6 +576,9 @@ class SearchResultsViewController: UIViewController {
         case .animeszone:
             guard let document = document else { return [] }
             return parseAnimeZone(document)
+        case .animeunity:
+            guard let document = document else { return [] }
+            return parseAnimeUnity(document)
         }
     }
     

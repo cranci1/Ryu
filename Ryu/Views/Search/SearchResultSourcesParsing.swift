@@ -301,7 +301,7 @@ extension SearchResultsViewController {
                 return (title: title, imageUrl: imageUrl, href: hrefFull)
             }
         } catch {
-            print("Error parsing TokyoInsider: \(error.localizedDescription)")
+            print("Error parsing AniVibe: \(error.localizedDescription)")
             return []
         }
     }
@@ -318,7 +318,41 @@ extension SearchResultsViewController {
                 return (title: title, imageUrl: imageUrl, href: href)
             }
         } catch {
-            print("Error parsing TokyoInsider: \(error.localizedDescription)")
+            print("Error parsing AnimesZone: \(error.localizedDescription)")
+            return []
+        }
+    }
+    
+    func parseAnimeUnity(_ document: Document) -> [(title: String, imageUrl: String, href: String)] {
+        do {
+            let recordsScript = try document.select("script:containsData(records)").first()?.html() ?? ""
+            
+            guard let jsonStart = recordsScript.range(of: "records: ")?.upperBound,
+                  let jsonEnd = recordsScript.range(of: ",\n", range: jsonStart..<recordsScript.endIndex)?.lowerBound else {
+                print("Could not find records JSON")
+                return []
+            }
+            
+            let jsonString = String(recordsScript[jsonStart..<jsonEnd])
+            
+            guard let jsonData = jsonString.data(using: .utf8),
+                  let records = try? JSONSerialization.jsonObject(with: jsonData) as? [[String: Any]] else {
+                print("Failed to parse records JSON")
+                return []
+            }
+            
+            return records.compactMap { record -> (title: String, imageUrl: String, href: String)? in
+                guard let title = record["title"] as? String,
+                      let imageUrl = record["image_url"] as? String,
+                      let slug = record["slug"] as? String else {
+                    return nil
+                }
+                
+                let hrefFull = "https://www.animeunity.to/anime/\(slug)"
+                return (title: title, imageUrl: imageUrl, href: hrefFull)
+            }
+        } catch {
+            print("Error parsing AnimeUnity: \(error.localizedDescription)")
             return []
         }
     }
