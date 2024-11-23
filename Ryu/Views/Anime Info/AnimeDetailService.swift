@@ -39,7 +39,7 @@ class AnimeDetailService {
             ]
         case .anilibria:
             baseUrls = ["https://api.anilibria.tv/v3/title?id="]
-        case .animefire, .kuramanime, .jkanime, .anime3rb, .hanashi, .animesrbija, .aniworld, .tokyoinsider, .anivibe:
+        case .animefire, .kuramanime, .jkanime, .anime3rb, .hanashi, .animesrbija, .aniworld, .tokyoinsider, .anivibe, .animeszone:
             baseUrls = [""]
         }
         
@@ -252,6 +252,11 @@ class AnimeDetailService {
                             synopsis = try document.select("div.synp div.entry-content").text()
                             airdate = try document.select("div.split").text()
                             stars = "N/A"
+                        case .animeszone:
+                            aliases = ""
+                            synopsis = try document.select("section#sinopse p").text()
+                            airdate = "N/A"
+                            stars = "N/A"
                         }
                         
                         episodes = self.fetchEpisodes(document: document, for: selectedSource, href: href)
@@ -372,6 +377,9 @@ class AnimeDetailService {
                 downloadUrlElement = ""
             case .anivibe:
                 episodeElements = try document.select("div.eplister ul li a")
+                downloadUrlElement = ""
+            case .animeszone:
+                episodeElements = try document.select("ul.post-lst li")
                 downloadUrlElement = ""
             }
             
@@ -566,6 +574,18 @@ class AnimeDetailService {
                         let fullepisodeHerf = "https://anivibe.net" + episodeHref
                         
                         return Episode(number: episodeNumber, href: fullepisodeHerf, downloadUrl: "")
+                    } catch {
+                        print("Error parsing AniVibe episode: \(error.localizedDescription)")
+                        return nil
+                    }
+                }
+            case .animeszone:
+                episodes = episodeElements.compactMap { element in
+                    do {
+                        let episodeNumber = try element.select("span.epiTipo").text()
+                        let episodeHref = try element.attr("href")
+                        
+                        return Episode(number: episodeNumber, href: episodeHref, downloadUrl: "")
                     } catch {
                         print("Error parsing AniVibe episode: \(error.localizedDescription)")
                         return nil

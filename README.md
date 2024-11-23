@@ -57,6 +57,7 @@ A simple way to enjoy and watch anime on iOS
 | AnimeSRBIJA  | Croatian   |   ✅   |   ✅   |     ✅    |    :x:  |
 | AniWorld     | German     |   ✅   |   ✅   |     ✅    |    ✅   |
 | TokyoInsider | English    |   ✅   |   ✅   |     ✅    |    ✅   |
+| AniVibe      | English    |   ✅   |   ✅   |     ✅    |    :x:  |
 
 > Note that some Sources are region blocked:
 > AnimeFire: Brazil and Protugal, Kuramanime: Indionesia

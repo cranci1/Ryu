@@ -288,18 +288,34 @@ extension SearchResultsViewController {
         }
     }
     
-    func parseAniVibeInsider(_ document: Document) -> [(title: String, imageUrl: String, href: String)] {
+    func parseAniVibe(_ document: Document) -> [(title: String, imageUrl: String, href: String)] {
         do {
             let items = try document.select("div.listupd article")
             return try items.map { item -> (title: String, imageUrl: String, href: String) in
                 let title = try item.select("div.tt span").text()
                 
-                var imageUrl = try item.select("img").attr("src")
-                imageUrl = imageUrl.replacingOccurrences(of: "small", with: "default")
+                let imageUrl = try item.select("img").attr("src")
                 
                 let href = try item.select("a").first()?.attr("href") ?? ""
                 let hrefFull = "https://anivibe.net" + href
                 return (title: title, imageUrl: imageUrl, href: hrefFull)
+            }
+        } catch {
+            print("Error parsing TokyoInsider: \(error.localizedDescription)")
+            return []
+        }
+    }
+    
+    func parseAnimeZone(_ document: Document) -> [(title: String, imageUrl: String, href: String)] {
+        do {
+            let items = try document.select("div.aniItem")
+            return try items.map { item -> (title: String, imageUrl: String, href: String) in
+                let title = try item.select("h2.aniTitulo").text()
+                
+                let imageUrl = try item.select("img").attr("src")
+                
+                let href = try item.select("a").first()?.attr("href") ?? ""
+                return (title: title, imageUrl: imageUrl, href: href)
             }
         } catch {
             print("Error parsing TokyoInsider: \(error.localizedDescription)")
