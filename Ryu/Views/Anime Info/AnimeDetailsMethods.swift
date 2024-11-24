@@ -416,6 +416,79 @@ extension AnimeDetailViewController {
         }
     }
     
+    func extractEmbedUrl(from rawHtml: String, completion: @escaping (URL?) -> Void) {
+        if let startIndex = rawHtml.range(of: "<video-player")?.upperBound,
+           let endIndex = rawHtml.range(of: "</video-player>")?.lowerBound {
+            
+            let videoPlayerContent = String(rawHtml[startIndex..<endIndex])
+            
+            if let embedUrlStart = videoPlayerContent.range(of: "embed_url=\"")?.upperBound,
+               let embedUrlEnd = videoPlayerContent[embedUrlStart...].range(of: "\"")?.lowerBound {
+                
+                var embedUrl = String(videoPlayerContent[embedUrlStart..<embedUrlEnd])
+                embedUrl = embedUrl.replacingOccurrences(of: "amp;", with: "")
+                
+                extractWindowUrl(from: embedUrl) { finalUrl in
+                    completion(finalUrl)
+                }
+                return
+            }
+        }
+        completion(nil)
+    }
+
+    private func extractWindowUrl(from urlString: String, completion: @escaping (URL?) -> Void) {
+        guard let url = URL(string: urlString) else {
+            completion(nil)
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.setValue("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36", forHTTPHeaderField: "User-Agent")
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data,
+                  let pageContent = String(data: data, encoding: .utf8) else {
+                      DispatchQueue.main.async {
+                          completion(nil)
+                      }
+                      return
+                  }
+            
+            let downloadUrlPattern = #"window\.downloadUrl\s*=\s*['"]([^'"]+)['"]"#
+            
+            guard let regex = try? NSRegularExpression(pattern: downloadUrlPattern, options: []) else {
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+                return
+            }
+            
+            let range = NSRange(pageContent.startIndex..<pageContent.endIndex, in: pageContent)
+            guard let match = regex.firstMatch(in: pageContent, options: [], range: range),
+                  let urlRange = Range(match.range(at: 1), in: pageContent) else {
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+                return
+            }
+            
+            let downloadUrlString = String(pageContent[urlRange])
+            let cleanedUrlString = downloadUrlString.replacingOccurrences(of: "amp;", with: "")
+            
+            guard let downloadUrl = URL(string: cleanedUrlString) else {
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+                return
+            }
+            
+            DispatchQueue.main.async {
+                completion(downloadUrl)
+            }
+        }.resume()
+    }
+    
     func extractDataVideoSrcURL(from htmlString: String) -> URL? {
         do {
             let doc: Document = try SwiftSoup.parse(htmlString)

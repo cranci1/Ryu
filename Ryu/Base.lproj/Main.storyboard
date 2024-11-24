@@ -214,6 +214,7 @@
                             </collectionView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="icT-SM-Cdp"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="RC6-7K-ADf" firstAttribute="centerX" secondItem="TOP-3B-jqm" secondAttribute="centerX" id="Gim-jB-upG"/>
                             <constraint firstItem="icT-SM-Cdp" firstAttribute="bottom" secondItem="RC6-7K-ADf" secondAttribute="bottom" id="KL5-UN-O6M"/>

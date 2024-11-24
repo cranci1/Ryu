@@ -1033,8 +1033,16 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                     }
                     return
                 case "AnimeUnity":
-                    print(htmlString)
-                    srcURL = self.extractIframeSourceURL(from: htmlString)
+                    self.extractEmbedUrl(from: htmlString) { finalUrl in
+                        if let url = finalUrl {
+                            self.hideLoadingBanner()
+                            self.playVideo(sourceURL: url, cell: cell, fullURL: fullURL)
+                        } else {
+                            self.hideLoadingBannerAndShowAlert(title: "Error", message: "Error extracting source URL")
+                            return
+                        }
+                    }
+                    return
                 default:
                     srcURL = self.extractIframeSourceURL(from: htmlString)
                 }
