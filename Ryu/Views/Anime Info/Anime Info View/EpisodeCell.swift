@@ -307,7 +307,7 @@ class EpisodeCell: UITableViewCell {
                     menuItems.append(UIMenuItem(title: "Clear Progress", action: #selector(clearProgress)))
                     menuItems.append(UIMenuItem(title: "Rewatch", action: #selector(rewatch)))
                 } else {
-                    menuItems.append(UIMenuItem(title: "Mark as Finished", action: #selector(markAsFinished)))
+                    menuItems.append(UIMenuItem(title: "Mark as Watched", action: #selector(markAsFinished)))
                     
                     if playbackProgressView.progress > 0 {
                         menuItems.append(UIMenuItem(title: "Clear Progress", action: #selector(clearProgress)))
@@ -315,7 +315,7 @@ class EpisodeCell: UITableViewCell {
                     }
                 }
             } else {
-                menuItems.append(UIMenuItem(title: "Mark as Finished", action: #selector(markAsFinished)))
+                menuItems.append(UIMenuItem(title: "Mark as Watched", action: #selector(markAsFinished)))
             }
         }
         
@@ -538,7 +538,7 @@ class EpisodeInfoAlertController: UIViewController {
         titleLabel.text = "Error"
         airDateLabel.text = ""
         runtimeLabel.text = ""
-        overviewLabel.text = "Not enough information available for this episode. This may be cause of the Anime Titlte"
+        overviewLabel.text = "Not enough information available for this episode. This may be because of the Anime Title"
         episodeImageView.image = UIImage(systemName: "exclamationmark.triangle")
     }
 }

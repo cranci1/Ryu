@@ -1470,7 +1470,9 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
     }
     
     private func watchNextEpisode() {
-        for episode in episodes {
+        let sortedEpisodes = isReverseSorted ? episodes.reversed() : episodes
+        
+        for episode in sortedEpisodes {
             let fullURL = episode.href
             let lastPlayedTime = UserDefaults.standard.double(forKey: "lastPlayedTime_\(fullURL)")
             let totalTime = UserDefaults.standard.double(forKey: "totalTime_\(fullURL)")
@@ -1478,14 +1480,14 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
             if totalTime > 0 {
                 let progressDifference = (totalTime - lastPlayedTime) / totalTime
                 if progressDifference > 0.15 {
-                    if let cell = tableView.cellForRow(at: IndexPath(row: episodes.firstIndex(of: episode) ?? 0, section: 2)) as? EpisodeCell {
+                    if let cell = tableView.cellForRow(at: IndexPath(row: sortedEpisodes.firstIndex(of: episode) ?? 0, section: 2)) as? EpisodeCell {
                         cell.loadSavedProgress(for: episode.href)
                         episodeSelected(episode: episode, cell: cell)
                     }
                     break
                 }
             } else {
-                if let cell = tableView.cellForRow(at: IndexPath(row: episodes.firstIndex(of: episode) ?? 0, section: 2)) as? EpisodeCell {
+                if let cell = tableView.cellForRow(at: IndexPath(row: sortedEpisodes.firstIndex(of: episode) ?? 0, section: 2)) as? EpisodeCell {
                     cell.loadSavedProgress(for: episode.href)
                     episodeSelected(episode: episode, cell: cell)
                 }

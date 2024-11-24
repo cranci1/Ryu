@@ -26,7 +26,6 @@ class SourceMenu {
                 ("AniWorld", .aniworld, "🇩🇪"),
                 ("TokyoInsider", .tokyoinsider, "🇺🇸"),
                 ("AniVibe", .anivibe, "🇺🇸"),
-                ("AnimesZone", .animeszone, "🇪🇸"),
                 ("AnimeUnity", .animeunity, "🇮🇹")
             ]
             

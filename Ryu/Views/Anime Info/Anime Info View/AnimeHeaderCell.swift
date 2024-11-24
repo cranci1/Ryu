@@ -94,6 +94,9 @@ class AnimeHeaderCell: UITableViewCell {
         
         playImageView.image = UIImage(systemName: "play.circle.fill")
         playImageView.tintColor = .systemTeal
+        playImageView.isUserInteractionEnabled = true
+        let tapGesture3 = UITapGestureRecognizer(target: self, action: #selector(watchNextButtonTapped))
+        playImageView.addGestureRecognizer(tapGesture3)
         
         NSLayoutConstraint.activate([
             animeImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
