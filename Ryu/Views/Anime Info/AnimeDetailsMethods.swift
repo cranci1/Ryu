@@ -627,6 +627,86 @@ extension AnimeDetailViewController {
         return nil
     }
     
+    func anime3rbGetter(from documentString: String, completion: @escaping (URL?) -> Void) {
+        guard let videoPlayerURL = extractAnime3rbVideoURL(from: documentString) else {
+            completion(nil)
+            return
+        }
+        
+        extractAnime3rbMP4VideoURL(from: videoPlayerURL.absoluteString) { urls in
+            DispatchQueue.main.async {
+                completion(urls)
+            }
+        }
+    }
+    
+    func extractAnime3rbVideoURL(from documentString: String) -> URL? {
+        let pattern = "https://video\\.vid3rb\\.com/player/[\\w-]+\\?token=[\\w]+&(?:amp;)?expires=\\d+"
+        
+        do {
+            let regex = try NSRegularExpression(pattern: pattern, options: [])
+            let range = NSRange(documentString.startIndex..<documentString.endIndex, in: documentString)
+            
+            if let match = regex.firstMatch(in: documentString, options: [], range: range),
+               let matchRange = Range(match.range, in: documentString) {
+                let urlString = String(documentString[matchRange])
+                
+                let cleanedURLString = urlString.replacingOccurrences(of: "&amp;", with: "&")
+                
+                return URL(string: cleanedURLString)
+            }
+        } catch {
+            return nil
+        }
+        return nil
+    }
+    
+    func extractAnime3rbMP4VideoURL(from urlString: String, completion: @escaping (URL?) -> Void) {
+        guard let url = URL(string: urlString) else {
+            completion(nil)
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.setValue("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36", forHTTPHeaderField: "User-Agent")
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data,
+                  let pageContent = String(data: data, encoding: .utf8) else {
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+                return
+            }
+            
+            let mp4Pattern = #"https?://[^\s<>"]+?\.mp4[^\s<>"]*"#
+            
+            guard let regex = try? NSRegularExpression(pattern: mp4Pattern, options: []) else {
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+                return
+            }
+            
+            let range = NSRange(pageContent.startIndex..<pageContent.endIndex, in: pageContent)
+            if let match = regex.firstMatch(in: pageContent, options: [], range: range),
+               let urlRange = Range(match.range, in: pageContent) {
+                let urlString = String(pageContent[urlRange])
+                let cleanedUrlString = urlString.replacingOccurrences(of: "amp;", with: "")
+                let mp4Url = URL(string: cleanedUrlString)
+                
+                DispatchQueue.main.async {
+                    completion(mp4Url)
+                }
+                return
+            }
+            
+            DispatchQueue.main.async {
+                completion(nil)
+            }
+        }.resume()
+    }
+    
     func fetchVideoDataAndChooseQuality(from urlString: String, completion: @escaping (URL?) -> Void) {
         guard let url = URL(string: urlString) else {
             print("Invalid URL string")

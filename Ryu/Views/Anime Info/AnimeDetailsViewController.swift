@@ -1006,10 +1006,21 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                     srcURL = self.extractDataVideoSrcURL(from: htmlString)
                 case "AnimeWorld", "AnimeHeaven":
                     srcURL = self.extractVideoSourceURL(from: htmlString)
-                case "Anime3rb", "Kuramanime", "JKanime":
+                case "Kuramanime", "JKanime":
                     srcURL = URL(string: fullURL)
                 case "AnimeSRBIJA":
                     srcURL = self.extractAsgoldURL(from: htmlString)
+                case "Anime3rb":
+                    self.anime3rbGetter  (from: htmlString) { finalUrl in
+                        if let url = finalUrl {
+                            self.hideLoadingBanner()
+                            self.playVideo(sourceURL: url, cell: cell, fullURL: fullURL)
+                        } else {
+                            self.hideLoadingBannerAndShowAlert(title: "Error", message: "Error extracting source URL")
+                            return
+                        }
+                    }
+                    return
                 case "AniVibe":
                     srcURL = self.extractAniVibeURL(from: htmlString)
                 case "TokyoInsider":
@@ -1051,7 +1062,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                     self.hideLoadingBannerAndShowAlert(title: "Error", message: "The stream URL wasn't found.")
                     return
                 }
-                
+                print(srcURL!)
                 self.hideLoadingBanner {
                     DispatchQueue.main.async {
                         switch selectedMediaSource {
@@ -1066,8 +1077,6 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                                 }
                                 self.playVideo(sourceURL: selectedURL, cell: cell, fullURL: fullURL)
                             }
-                        case "Anime3rb":
-                            self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.player3rb, cell: cell, fullURL: fullURL)
                         case "Kuramanime":
                             self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.playerKura, cell: cell, fullURL: fullURL)
                         case "JKanime":
