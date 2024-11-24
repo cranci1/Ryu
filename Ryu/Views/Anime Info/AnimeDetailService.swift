@@ -337,6 +337,7 @@ class AnimeDetailService {
         do {
             var episodeElements: Elements
             var downloadUrlElement: String
+            let baseURL = href
             
             switch source {
             case .animeWorld:
@@ -387,7 +388,7 @@ class AnimeDetailService {
                 episodeElements = try document.select("ul.post-lst li")
                 downloadUrlElement = ""
             case .animeunity:
-                episodeElements = try document.select("")
+                episodeElements = try document.select("video-player")
                 downloadUrlElement = ""
             }
             
@@ -600,35 +601,39 @@ class AnimeDetailService {
                     }
                 }
             case .animeunity:
-                do {
-                    // Get episodes count from the document
-                    let episodeCountElement = try document.select("div[episodes_count]")
-                    guard let episodeCountStr = try? episodeCountElement.attr("episodes_count"),
-                          let episodeCount = Int(episodeCountStr) else {
-                        return []
-                    }
+                let rawHtml = try document.html()
+                if let startIndex = rawHtml.range(of: "<video-player")?.upperBound,
+                   let endIndex = rawHtml.range(of: "</video-player>")?.lowerBound {
                     
-                    // Get the episode IDs
-                    let episodeIdsScript = try document.select("script:containsData(episodes_arr)").html()
-                    let episodeIds = episodeIdsScript.components(separatedBy: "[")[1]
-                        .components(separatedBy: "]")[0]
-                        .components(separatedBy: ",")
-                        .compactMap { Int($0.trimmingCharacters(in: .whitespacesAndNewlines)) }
+                    let videoPlayerContent = String(rawHtml[startIndex..<endIndex])
                     
-                    // Create episodes array
-                    episodes = (0..<episodeCount).compactMap { index in
-                        guard index < episodeIds.count else { return nil }
-                        let episodeNumber = "\(index + 1)"
-                        let episodeId = episodeIds[index]
-                        let episodeHref = "https://animeunity.tv/episode/\(episodeId)"
+                    if let episodesStart = videoPlayerContent.range(of: "episodes=\"")?.upperBound,
+                       let episodesEnd = videoPlayerContent[episodesStart...].range(of: "\"")?.lowerBound {
                         
-                        return Episode(number: episodeNumber,
-                                     href: episodeHref,
-                                     downloadUrl: "")
+                        let episodesJson = String(videoPlayerContent[episodesStart..<episodesEnd])
+                            .replacingOccurrences(of: "&quot;", with: "\"")
+                        
+                        if let episodesData = episodesJson.data(using: .utf8),
+                           let episodesList = try? JSONSerialization.jsonObject(with: episodesData) as? [[String: Any]] {
+                            print(episodesList)
+                            
+                            episodes = episodesList.compactMap { episodeDict in
+                                guard let number = episodeDict["number"] as? String,
+                                      let link = episodeDict["link"] as? String else {
+                                    return nil
+                                }
+                                
+                                let href: String
+                                if let id = episodeDict["id"] as? Int {
+                                    href = baseURL + "/\(id)"
+                                } else {
+                                    href = link
+                                }
+                                
+                                return Episode(number: number, href: href, downloadUrl: "")
+                            }
+                        }
                     }
-                } catch {
-                    print("Error parsing AnimeUnity episodes: \(error.localizedDescription)")
-                    return []
                 }
             default:
                 episodes = episodeElements.compactMap { element in
