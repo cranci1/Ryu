@@ -329,18 +329,43 @@ extension HomeViewController {
     }
     
     func parseAnimeUnityFeatured(_ doc: Document) throws -> [AnimeItem] {
-        let animeItems = try doc.select("div.latest-anime-container")
-        return try animeItems.array().compactMap { item in
+        let baseURL = "https://www.animeunity.to/anime/"
+        
+        do {
+            let rawHtml = try doc.html()
             
-            let title = try item.select("strong").text()
+            if let startIndex = rawHtml.range(of: "items-json=\"")?.upperBound,
+               let endIndex = rawHtml.range(of: "\"", range: startIndex..<rawHtml.endIndex)?.lowerBound {
+                
+                let jsonString = String(rawHtml[startIndex..<endIndex])
+                    .replacingOccurrences(of: "&quot;", with: "\"")
+                
+                if let jsonData = jsonString.data(using: .utf8),
+                   let json = try? JSONSerialization.jsonObject(with: jsonData) as? [String: Any],
+                   let data = json["data"] as? [[String: Any]] {
+                    
+                    return data.compactMap { record in
+                        guard let anime = record["anime"] as? [String: Any],
+                              let title = anime["title"] as? String ?? anime["title_eng"] as? String,
+                              let imageUrl = anime["imageurl"] as? String,
+                              let animeID = anime["id"] as? Int,
+                              let slug = anime["slug"] as? String else {
+                            return nil
+                        }
+                        
+                        let episode = record["number"] as? String ?? ""
+                        
+                        let hrefFull = "\(baseURL)\(animeID)-\(slug)"
+                        return AnimeItem(title: title, episode: episode, imageURL: imageUrl, href: hrefFull)
+                    }
+                }
+            }
             
-            let episodeText = try item.select("div.anime__sidebar__comment__item__text h6").text()
-            let episode = episodeText.replacingOccurrences(of: "Episodio ", with: "")
-            
-            let imageUrl = try item.select("img").attr("src")
-            
-            let href = try item.select("a").first()?.attr("href") ?? ""
-            return AnimeItem(title: title, episode: episode, imageURL: imageUrl, href: href)
+            print("Could not find or parse layout-items JSON")
+            return []
+        } catch {
+            print("Error parsing AnimeUnity: \(error.localizedDescription)")
+            return []
         }
     }
 }

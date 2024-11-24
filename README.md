@@ -1,4 +1,4 @@
-# Ryu
+  # Ryu
 
 <div align="center"> 
 
@@ -58,6 +58,7 @@ A simple way to enjoy and watch anime on iOS
 | AniWorld     | German     |   ✅   |   ✅   |     ✅    |    ✅   |
 | TokyoInsider | English    |   ✅   |   ✅   |     ✅    |    ✅   |
 | AniVibe      | English    |   ✅   |   ✅   |     ✅    |    :x:  |
+| AnimeUnity   | Italian    |   ✅   |   ✅   |     ✅    |    ✅   |
 
 > Note that some Sources are region blocked:
 > AnimeFire: Brazil and Protugal, Kuramanime: Indionesia

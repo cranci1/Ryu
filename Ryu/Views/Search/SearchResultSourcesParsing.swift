@@ -324,33 +324,42 @@ extension SearchResultsViewController {
     }
     
     func parseAnimeUnity(_ document: Document) -> [(title: String, imageUrl: String, href: String)] {
+        let baseURL = "https://www.animeunity.to/anime/"
+        
         do {
-            let recordsScript = try document.select("script:containsData(records)").first()?.html() ?? ""
+            let rawHtml = try document.html()
             
-            guard let jsonStart = recordsScript.range(of: "records: ")?.upperBound,
-                  let jsonEnd = recordsScript.range(of: ",\n", range: jsonStart..<recordsScript.endIndex)?.lowerBound else {
-                print("Could not find records JSON")
-                return []
-            }
-            
-            let jsonString = String(recordsScript[jsonStart..<jsonEnd])
-            
-            guard let jsonData = jsonString.data(using: .utf8),
-                  let records = try? JSONSerialization.jsonObject(with: jsonData) as? [[String: Any]] else {
-                print("Failed to parse records JSON")
-                return []
-            }
-            
-            return records.compactMap { record -> (title: String, imageUrl: String, href: String)? in
-                guard let title = record["title"] as? String,
-                      let imageUrl = record["image_url"] as? String,
-                      let slug = record["slug"] as? String else {
-                    return nil
-                }
+            if let startIndex = rawHtml.range(of: "<archivio")?.upperBound,
+               let endIndex = rawHtml.range(of: "</archivio>")?.lowerBound {
                 
-                let hrefFull = "https://www.animeunity.to/anime/\(slug)"
-                return (title: title, imageUrl: imageUrl, href: hrefFull)
+                let archivioContent = String(rawHtml[startIndex..<endIndex])
+                
+                if let recordsStart = archivioContent.range(of: "records=\"")?.upperBound,
+                   let recordsEnd = archivioContent[recordsStart...].range(of: "\"")?.lowerBound {
+                    
+                    let recordsJson = String(archivioContent[recordsStart..<recordsEnd])
+                        .replacingOccurrences(of: "&quot;", with: "\"")
+                    
+                    if let recordsData = recordsJson.data(using: .utf8),
+                       let recordsList = try? JSONSerialization.jsonObject(with: recordsData) as? [[String: Any]] {
+                        
+                        return recordsList.compactMap { record in
+                            guard let title = record["title"] as? String,
+                                  let imageUrl = record["imageurl"] as? String,
+                                  let animeID = record["id"] as? Int,
+                                  let slug = record["slug"] as? String else {
+                                return nil
+                            }
+                            
+                            let hrefFull = "\(baseURL)\(animeID)-\(slug)"
+                            return (title: title, imageUrl: imageUrl, href: hrefFull)
+                        }
+                    }
+                }
             }
+            
+            print("Could not find or parse <archivio> element")
+            return []
         } catch {
             print("Error parsing AnimeUnity: \(error.localizedDescription)")
             return []
