@@ -617,6 +617,10 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate, GCKRe
         URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
             guard let data = data, let content = String(data: data, encoding: .utf8) else {
                 print("Failed to load m3u8 file")
+                DispatchQueue.main.async {
+                    self?.qualities = []
+                    completion()
+                }
                 return
             }
             
@@ -624,7 +628,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate, GCKRe
             var qualities: [(String, String)] = []
             
             for (index, line) in lines.enumerated() {
-                if line.contains("#EXTM3U") {
+                if line.contains("#EXT-X-STREAM-INF") {
                     if let resolutionPart = line.components(separatedBy: "RESOLUTION=").last?.components(separatedBy: ",").first,
                        let height = resolutionPart.components(separatedBy: "x").last,
                        let qualityNumber = ["1080", "720", "480", "360"].first(where: { height.hasPrefix($0) }),
@@ -637,21 +641,9 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate, GCKRe
             }
             
             DispatchQueue.main.async {
-                if qualities.isEmpty {
-                    self?.qualities = []
-                    let playerItem = AVPlayerItem(url: url)
-                    self?.player?.replaceCurrentItem(with: playerItem)
-                    
-                    let lastPlayedTime = UserDefaults.standard.double(forKey: "lastPlayedTime_\(self?.fullURL ?? "")")
-                    if lastPlayedTime > 0 {
-                        self?.player?.seek(to: CMTime(seconds: lastPlayedTime, preferredTimescale: 1))
-                    }
-                    
-                    self?.updateSettingsMenu()
-                } else {
-                    self?.qualities = qualities
-                    completion()
-                }
+                self?.qualities = qualities
+                print("Parsed qualities: \(qualities)")
+                completion()
             }
         }.resume()
     }
@@ -1006,7 +998,7 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate, GCKRe
             menuItems.append(qualitySubmenu)
         }
         
-        if !subtitles.isEmpty {
+        if !subtitles.isEmpty || subtitlesURL != nil {
             let fontSizeOptions: [CGFloat] = [14, 16, 18, 20, 22, 24]
             let fontSizeItems = fontSizeOptions.map { size in
                 UIAction(title: "\(Int(size))pt", state: subtitleFontSize == size ? .on : .off) { [weak self] _ in
@@ -1019,7 +1011,8 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate, GCKRe
             let fontSizeSubmenu = UIMenu(title: "Font Size", children: fontSizeItems)
             
             let colorOptions: [(String, UIColor)] = [
-                ("Yellow", .yellow), ("White", .white), ("Green", .green), ("Red", .red), ("Blue", .blue), ("Black", .black)
+                ("Yellow", .yellow), ("White", .white), ("Green", .green),
+                ("Red", .red), ("Blue", .blue), ("Black", .black)
             ]
             let colorItems = colorOptions.map { (name, color) in
                 UIAction(title: name, state: subtitleColor == color ? .on : .off) { [weak self] _ in
@@ -1055,33 +1048,13 @@ class CustomVideoPlayerView: UIView, AVPictureInPictureControllerDelegate, GCKRe
             
             let currentLanguage = UserDefaults.standard.string(forKey: "translationLanguage") ?? "en"
             let languageOptions: [(String, String)] = [
-                ("ar", "Arabic"),
-                ("bg", "Bulgarian"),
-                ("cs", "Czech"),
-                ("da", "Danish"),
-                ("de", "German"),
-                ("el", "Greek"),
-                ("es", "Spanish"),
-                ("et", "Estonian"),
-                ("fi", "Finnish"),
-                ("fr", "French"),
-                ("hu", "Hungarian"),
-                ("id", "Indonesian"),
-                ("it", "Italian"),
-                ("ja", "Japanese"),
-                ("ko", "Korean"),
-                ("lt", "Lithuanian"),
-                ("lv", "Latvian"),
-                ("nl", "Dutch"),
-                ("pl", "Polish"),
-                ("pt", "Portuguese"),
-                ("ro", "Romanian"),
-                ("ru", "Russian"),
-                ("sk", "Slovak"),
-                ("sl", "Slovenian"),
-                ("sv", "Swedish"),
-                ("tr", "Turkish"),
-                ("uk", "Ukrainian")
+                ("ar", "Arabic"), ("bg", "Bulgarian"), ("cs", "Czech"), ("da", "Danish"),
+                ("de", "German"), ("el", "Greek"), ("es", "Spanish"), ("et", "Estonian"),
+                ("fi", "Finnish"), ("fr", "French"), ("hu", "Hungarian"), ("id", "Indonesian"),
+                ("it", "Italian"), ("ja", "Japanese"), ("ko", "Korean"), ("lt", "Lithuanian"),
+                ("lv", "Latvian"), ("nl", "Dutch"), ("pl", "Polish"), ("pt", "Portuguese"),
+                ("ro", "Romanian"), ("ru", "Russian"), ("sk", "Slovak"), ("sl", "Slovenian"),
+                ("sv", "Swedish"), ("tr", "Turkish"), ("uk", "Ukrainian")
             ]
             let languageItems = languageOptions.map { (code, name) in
                 UIAction(title: name, state: currentLanguage == code ? .on : .off) { _ in
