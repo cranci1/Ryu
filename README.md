@@ -34,7 +34,7 @@ A simple way to enjoy and watch anime on iOS
 - [x] Google Cast support
 - [x] Backup system (import/export)
 - [x] Offline mode (ongoing improvements)
-- [x] Apple KeyChain support for the AniList Token
+- [x] Apple KeyChain support for the AniList/Kitsu Token
 - [x] External Media Player support (VLC, Infuse, OutPlayer)
 - [x] Intro/Outro skipper with timestamps
 - [x] Real-time subtitles translator
