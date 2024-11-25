@@ -43,8 +43,9 @@ class FavoritesViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        loadFavorites()
+        view.viewWithTag(999)?.removeFromSuperview()
         navigationController?.navigationBar.prefersLargeTitles = true
+        loadFavorites()
     }
     
     private func setupCollectionView() {
@@ -87,10 +88,46 @@ class FavoritesViewController: UIViewController {
         navigationController?.navigationBar.tintColor = tealColor
     }
     
+    private let emptyStateMessages = [
+        "Your favorites list is currently empty. Time to add some gems!",
+        "Nothing here yet—start building your collection today!",
+        "Your favorites seem to be missing. Why not find something new to love?",
+        "This space is waiting for your top picks. Add your favorites now!",
+        "Nothing yet? Let’s change that and make this list shine!",
+        "Your Library shelf is ready for its first addition.",
+        "It’s a little quiet here—perfect time to discover something great.",
+        "Your list is empty. Add an item to start your collection.",
+        "Looks like you haven’t added anything yet. Start exploring!",
+        "This page is just waiting for your personal touch. Add a favorite!"
+    ]
+    
     private func loadFavorites() {
         favorites = FavoritesManager.shared.getFavorites()
         sortFavorites()
         applySnapshot()
+        
+        if favorites.isEmpty {
+            let emptyLabel = UILabel()
+            emptyLabel.text = emptyStateMessages.randomElement()
+            emptyLabel.numberOfLines = 0
+            emptyLabel.textAlignment = .center
+            emptyLabel.textColor = .systemGray
+            emptyLabel.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+            
+            emptyLabel.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(emptyLabel)
+            
+            NSLayoutConstraint.activate([
+                emptyLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                emptyLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+                emptyLabel.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 20),
+                emptyLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -20)
+            ])
+            
+            emptyLabel.tag = 999
+        } else {
+            view.viewWithTag(999)?.removeFromSuperview()
+        }
     }
     
     private func sortFavorites() {

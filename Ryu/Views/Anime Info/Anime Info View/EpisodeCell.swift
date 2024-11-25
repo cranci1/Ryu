@@ -198,7 +198,7 @@ class EpisodeCell: UITableViewCell {
     }
     
     private func updateDownloadButtonVisibility() {
-        if selectedMediaSource == "JKanime" || selectedMediaSource == "HiAnime" || selectedMediaSource == "Anilibria" || selectedMediaSource == "AnimeSRBIJA" {
+        if selectedMediaSource == "JKanime" || selectedMediaSource == "HiAnime" || selectedMediaSource == "Anilibria" || selectedMediaSource == "AnimeSRBIJA" || selectedMediaSource == "AniVibe" {
             downloadButton.isHidden = true
         } else {
             downloadButton.isHidden = false

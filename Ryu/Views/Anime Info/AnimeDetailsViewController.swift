@@ -1066,9 +1066,6 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                 self.hideLoadingBanner {
                     DispatchQueue.main.async {
                         switch selectedMediaSource {
-                        case "GoGoAnime":
-                            let playerType = gogoFetcher == "Secondary" ? VideoPlayerType.standard : VideoPlayerType.playerGoGo2
-                            self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: playerType, cell: cell, fullURL: fullURL)
                         case "AnimeFire":
                             self.fetchVideoDataAndChooseQuality(from: finalSrcURL.absoluteString) { selectedURL in
                                 guard let selectedURL = selectedURL else {
