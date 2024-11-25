@@ -151,6 +151,11 @@ class SearchResultsViewController: UIViewController {
                 self?.filterResults(option: .dub)
             }
             alertController.addAction(dubAction)
+        case .animeunity:
+            let itaAction = UIAlertAction(title: "ITA", style: .default) { [weak self] _ in
+                self?.filterResults(option: .ita)
+            }
+            alertController.addAction(itaAction)
         default:
             break
         }
