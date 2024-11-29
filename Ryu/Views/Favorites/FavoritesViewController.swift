@@ -152,14 +152,23 @@ class FavoritesViewController: UIViewController {
     
     private func updateEditingState() {
         navigationItem.rightBarButtonItem?.title = isEditingMode ? "Done" : "Edit"
-        collectionView.visibleCells.forEach { cell in
-            if isEditingMode {
-                addShakeAnimation(to: cell)
-            } else {
-                removeShakeAnimation(from: cell)
+        
+        collectionView.performBatchUpdates({
+            for cell in collectionView.visibleCells {
+                if let indexPath = collectionView.indexPath(for: cell) {
+                    if isEditingMode {
+                        addShakeAnimation(to: cell)
+                    } else {
+                        removeShakeAnimation(from: cell)
+                        
+                        if let favoriteCell = cell as? FavoriteCell,
+                           let item = dataSource.itemIdentifier(for: indexPath) {
+                            favoriteCell.configure(with: item)
+                        }
+                    }
+                }
             }
-        }
-        collectionView.reloadData()
+        }, completion: nil)
     }
     
     @objc private func editButtonTapped() {
@@ -247,7 +256,7 @@ extension FavoritesViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return sortedFavorites.count
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         return dataSource.collectionView(collectionView, cellForItemAt: indexPath)
     }
@@ -294,27 +303,31 @@ extension FavoritesViewController: UICollectionViewDragDelegate, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
-        guard let destinationIndexPath = coordinator.destinationIndexPath,
-              let item = coordinator.items.first,
-              let dragItem = item.dragItem.localObject as? FavoriteItem else { return }
+        guard isEditingMode,
+              let destinationIndexPath = coordinator.destinationIndexPath,
+              let item = coordinator.items.first?.dragItem.localObject as? FavoriteItem else {
+                  return
+              }
         
         var snapshot = dataSource.snapshot()
-        snapshot.deleteItems([dragItem])
+        snapshot.deleteItems([item])
         
         if destinationIndexPath.item < snapshot.itemIdentifiers.count {
-            snapshot.insertItems([dragItem], beforeItem: snapshot.itemIdentifiers[destinationIndexPath.item])
+            snapshot.insertItems([item], beforeItem: snapshot.itemIdentifiers[destinationIndexPath.item])
         } else {
-            snapshot.appendItems([dragItem])
+            snapshot.appendItems([item])
         }
         
-        dataSource.apply(snapshot, animatingDifferences: true) {
+        dataSource.apply(snapshot, animatingDifferences: true) { [weak self] in
+            guard let self = self else { return }
+            
             self.sortedFavorites = snapshot.itemIdentifiers
             self.favorites = self.sortedFavorites
             FavoritesManager.shared.saveFavorites(self.favorites)
             
-            self.collectionView.performBatchUpdates(nil, completion: nil)
+            NotificationCenter.default.post(name: FavoritesManager.favoritesChangedNotification, object: nil)
         }
         
-        coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
+        coordinator.drop(coordinator.items.first!.dragItem, toItemAt: destinationIndexPath)
     }
 }
