@@ -43,6 +43,14 @@ class OnboardingViewController: UIViewController {
         return button
     }()
     
+    private let skipButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Skip", for: .normal)
+        button.setTitleColor(.systemTeal, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     private let platforms = [
         "AnimeWorld🇮🇹", "GoGoAnime🇺🇸",
         "AnimeHeaven🇺🇸", "AnimeFire🇵🇹",
@@ -102,10 +110,12 @@ class OnboardingViewController: UIViewController {
         view.addSubview(scrollView)
         view.addSubview(pageControl)
         view.addSubview(continueButton)
+        view.addSubview(skipButton)
         
         scrollView.delegate = self
         pageControl.numberOfPages = pages.count
         continueButton.addTarget(self, action: #selector(continueButtonTapped), for: .touchUpInside)
+        skipButton.addTarget(self, action: #selector(skipButtonTapped), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -119,7 +129,10 @@ class OnboardingViewController: UIViewController {
             continueButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             continueButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             continueButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
-            continueButton.heightAnchor.constraint(equalToConstant: 50)
+            continueButton.heightAnchor.constraint(equalToConstant: 50),
+            
+            skipButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            skipButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
     }
     
@@ -240,6 +253,10 @@ class OnboardingViewController: UIViewController {
         } else {
             completeOnboarding()
         }
+    }
+    
+    @objc private func skipButtonTapped() {
+        completeOnboarding()
     }
     
     private func completeOnboarding() {
