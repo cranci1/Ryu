@@ -258,8 +258,8 @@ class AnimeDetailService {
                             airdate = "N/A"
                             stars = "N/A"
                         case .animeflv:
-                            aliases = ""
-                            synopsis = ""
+                            aliases = try document.select("span.TxtAlt").text()
+                            synopsis = try document.select("div.Description p").text()
                             airdate = "N/A"
                             stars = "N/A"
                         }
@@ -388,7 +388,7 @@ class AnimeDetailService {
                 episodeElements = try document.select("video-player")
                 downloadUrlElement = ""
             case .animeflv:
-                episodeElements = try document.select("")
+                episodeElements = try document.select("script")
                 downloadUrlElement = ""
             }
             
@@ -622,6 +622,28 @@ class AnimeDetailService {
                             }
                         }
                     }
+                }
+            case .animeflv:
+                do {
+                    let rawHtml = try document.html()
+                    let pattern = #"var episodes\s*=\s*\[\[(\d+),\d+\]"#
+                    if let regex = try? NSRegularExpression(pattern: pattern, options: []),
+                       let match = regex.firstMatch(in: rawHtml, options: [], range: NSRange(location: 0, length: rawHtml.utf16.count)),
+                       let range = Range(match.range(at: 1), in: rawHtml),
+                       let firstNumber = Int(String(rawHtml[range])) {
+                        
+                        let modifiedBaseURL = baseURL.replacingOccurrences(of: "/anime/", with: "/ver/")
+                        
+                        for episodeNumber in 1...firstNumber {
+                            let href = "\(modifiedBaseURL)-\(episodeNumber)"
+                            let episode = Episode(number: "\(episodeNumber)", href: href, downloadUrl: "")
+                            episodes.append(episode)
+                        }
+                    } else {
+                        print("No episodes found.")
+                    }
+                } catch {
+                    print("Error parsing AnimeFLV episodes: \(error.localizedDescription)")
                 }
             default:
                 episodes = episodeElements.compactMap { element in
