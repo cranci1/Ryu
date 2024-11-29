@@ -348,4 +348,22 @@ extension SearchResultsViewController {
             return []
         }
     }
+    
+    func parseAnimeFLV(_ document: Document) -> [(title: String, imageUrl: String, href: String)] {
+        do {
+            let items = try document.select("ul.ListAnimes li")
+            return try items.map { item -> (title: String, imageUrl: String, href: String) in
+                let title = try item.select("h3.Title").text()
+                
+                let imageUrl = try item.select("img").attr("src")
+                
+                let href = try item.select("a").first()?.attr("href") ?? ""
+                let hrefFull = "https://www3.animeflv.net" + href
+                return (title: title, imageUrl: imageUrl, href: hrefFull)
+            }
+        } catch {
+            print("Error parsing AniVibe: \(error.localizedDescription)")
+            return []
+        }
+    }
 }

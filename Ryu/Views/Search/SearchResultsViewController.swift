@@ -473,6 +473,9 @@ class SearchResultsViewController: UIViewController {
         case "AnimeUnity":
             url = "https://www.animeunity.to/archivio"
             parameters["title"] = query
+        case "AnimeFLV":
+            url = "https://www3.animeflv.net/browse"
+            parameters["q"] = query
         default:
             return nil
         }
@@ -577,6 +580,9 @@ class SearchResultsViewController: UIViewController {
         case .animeunity:
             guard let document = document else { return [] }
             return parseAnimeUnity(document)
+        case .animeflv:
+            guard let document = document else { return [] }
+            return parseAnimeFLV(document)
         }
     }
     

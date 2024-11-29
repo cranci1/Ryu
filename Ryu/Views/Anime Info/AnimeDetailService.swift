@@ -39,7 +39,7 @@ class AnimeDetailService {
             ]
         case .anilibria:
             baseUrls = ["https://api.anilibria.tv/v3/title?id="]
-        case .animefire, .kuramanime, .jkanime, .anime3rb, .hanashi, .animesrbija, .aniworld, .tokyoinsider, .anivibe, .animeunity:
+        case .animefire, .kuramanime, .jkanime, .anime3rb, .hanashi, .animesrbija, .aniworld, .tokyoinsider, .anivibe, .animeunity, .animeflv:
             baseUrls = [""]
         }
         
@@ -257,6 +257,11 @@ class AnimeDetailService {
                             synopsis = try document.select("div.description").text()
                             airdate = "N/A"
                             stars = "N/A"
+                        case .animeflv:
+                            aliases = ""
+                            synopsis = ""
+                            airdate = "N/A"
+                            stars = "N/A"
                         }
                         
                         episodes = self.fetchEpisodes(document: document, for: selectedSource, href: href)
@@ -381,6 +386,9 @@ class AnimeDetailService {
                 downloadUrlElement = ""
             case .animeunity:
                 episodeElements = try document.select("video-player")
+                downloadUrlElement = ""
+            case .animeflv:
+                episodeElements = try document.select("")
                 downloadUrlElement = ""
             }
             

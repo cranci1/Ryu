@@ -23,6 +23,7 @@ enum MediaSource: String {
     case tokyoinsider = "TokyoInsider"
     case anivibe = "AniVibe"
     case animeunity = "AnimeUnity"
+    case animeflv = "AnimeFLV"
 }
 
 extension MediaSource {
@@ -43,6 +44,7 @@ extension MediaSource {
         case .tokyoinsider: return "TokyoInsider"
         case .anivibe: return "AniVibe"
         case .animeunity: return "AnimeUnity"
+        case .animeflv: return "AnimeFLV"
         }
     }
 }
