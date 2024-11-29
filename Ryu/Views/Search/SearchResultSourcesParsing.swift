@@ -306,23 +306,6 @@ extension SearchResultsViewController {
         }
     }
     
-    func parseAnimeZone(_ document: Document) -> [(title: String, imageUrl: String, href: String)] {
-        do {
-            let items = try document.select("div.aniItem")
-            return try items.map { item -> (title: String, imageUrl: String, href: String) in
-                let title = try item.select("h2.aniTitulo").text()
-                
-                let imageUrl = try item.select("img").attr("src")
-                
-                let href = try item.select("a").first()?.attr("href") ?? ""
-                return (title: title, imageUrl: imageUrl, href: href)
-            }
-        } catch {
-            print("Error parsing AnimesZone: \(error.localizedDescription)")
-            return []
-        }
-    }
-    
     func parseAnimeUnity(_ document: Document) -> [(title: String, imageUrl: String, href: String)] {
         let baseURL = "https://www.animeunity.to/anime/"
         

@@ -470,10 +470,6 @@ class SearchResultsViewController: UIViewController {
         case "AniVibe":
             url = "https://anivibe.net/search.html"
             parameters["keyword"] = query
-        case "AnimesZone":
-            url = "https://animeszone.net/"
-            parameters["s"] = ""
-            parameters["_pesquisa"] = query
         case "AnimeUnity":
             url = "https://www.animeunity.to/archivio"
             parameters["title"] = query
@@ -578,9 +574,6 @@ class SearchResultsViewController: UIViewController {
         case .anivibe:
             guard let document = document else { return [] }
             return parseAniVibe(document)
-        case .animeszone:
-            guard let document = document else { return [] }
-            return parseAnimeZone(document)
         case .animeunity:
             guard let document = document else { return [] }
             return parseAnimeUnity(document)
