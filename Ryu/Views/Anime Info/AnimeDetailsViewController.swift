@@ -1057,9 +1057,10 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                 case "AnimeFLV":
                     self.extractStreamtapeQueryParameters(from: htmlString) { videoURL in
                         if let url = videoURL {
-                            print("Extracted Video URL: \(url)")
+                            self.hideLoadingBanner()
+                            self.playVideo(sourceURL: url, cell: cell, fullURL: fullURL)
                         } else {
-                            print("Failed to extract video URL.")
+                            self.hideLoadingBannerAndShowAlert(title: "Error", message: "Error extracting source URL")
                             return
                         }
                     }
