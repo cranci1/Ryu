@@ -46,6 +46,7 @@
             <string>outplayer</string>
             <string>infuse</string>
             <string>vlc</string>
+            <string>nplayer-https</string>
         </array>
         <key>NSBonjourServices</key>
         <array>

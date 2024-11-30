@@ -1054,6 +1054,16 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                         }
                     }
                     return
+                case "AnimeFLV":
+                    self.extractStreamtapeQueryParameters(from: htmlString) { videoURL in
+                        if let url = videoURL {
+                            print("Extracted Video URL: \(url)")
+                        } else {
+                            print("Failed to extract video URL.")
+                            return
+                        }
+                    }
+                    return
                 default:
                     srcURL = self.extractIframeSourceURL(from: htmlString)
                 }
@@ -1221,7 +1231,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
     
     private func playVideoWithSelectedPlayer(player: String, sourceURL: URL, cell: EpisodeCell, fullURL: String) {
         switch player {
-        case "Infuse", "VLC", "OutPlayer":
+        case "Infuse", "VLC", "OutPlayer", "nPlayer":
             openInExternalPlayer(player: player, url: sourceURL)
         case "Custom":
             let fileExtension = sourceURL.pathExtension.lowercased()
@@ -1251,6 +1261,8 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
             scheme = "vlc://"
         case "OutPlayer":
             scheme = "outplayer://"
+        case "nPlayer":
+            scheme = "nplayer-"
         default:
             print("Unsupported player")
             showAlert(title: "Error", message: "Unsupported player")
@@ -1266,6 +1278,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
             UIApplication.shared.open(playerURL, options: [:], completionHandler: nil)
         } else {
             print("\(player) app is not installed")
+            print(playerURL)
             showAlert(title: "\(player) Error", message: "\(player) app is not installed.")
         }
     }

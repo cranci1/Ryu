@@ -151,6 +151,7 @@ class SettingsViewController: UITableViewController {
         let outplayerIcon = UIImage(systemName: "play.circle.fill")
         let customIcon = UIImage(systemName: "bolt.horizontal.fill")
         let networkIcon = UIImage(systemName: "network")
+        let nPlayerIcon = UIImage(systemName: "play.fill")
         
         let action1 = UIAction(title: "Default", image: defaultIcon, handler: { [weak self] _ in
             UserDefaults.standard.set("Default", forKey: "mediaPlayerSelected")
@@ -168,6 +169,10 @@ class SettingsViewController: UITableViewController {
             UserDefaults.standard.set("OutPlayer", forKey: "mediaPlayerSelected")
             self?.playerButton.setTitle("OutPlayer", for: .normal)
         })
+        let action7 = UIAction(title: "nPlayer", image: nPlayerIcon, handler: { [weak self] _ in
+            UserDefaults.standard.set("nPlayer", forKey: "mediaPlayerSelected")
+            self?.playerButton.setTitle("nPlayer", for: .normal)
+        })
         let action5 = UIAction(title: "Custom", image: customIcon, handler: { [weak self] _ in
             UserDefaults.standard.set("Custom", forKey: "mediaPlayerSelected")
             self?.playerButton.setTitle("Custom", for: .normal)
@@ -177,7 +182,7 @@ class SettingsViewController: UITableViewController {
             self?.playerButton.setTitle("WebPlayer", for: .normal)
         })
         
-        let menu = UIMenu(title: "Select Media Player", children: [action1, action2, action3, action4, action5])
+        let menu = UIMenu(title: "Select Media Player", children: [action1, action2, action3, action4, action7, action5])
         
         playerButton.menu = menu
         playerButton.showsMenuAsPrimaryAction = true

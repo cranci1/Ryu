@@ -627,6 +627,65 @@ extension AnimeDetailViewController {
         return nil
     }
     
+     func extractStreamtapeQueryParameters(from htmlString: String, completion: @escaping (String?) -> Void) {
+        // Step 1: Extract the Streamtape URL from the HTML string
+        let streamtapePattern = #"https?://(?:www\.)?streamtape\.com/[^\s"']+"#
+        guard let streamtapeRegex = try? NSRegularExpression(pattern: streamtapePattern, options: []),
+              let streamtapeMatch = streamtapeRegex.firstMatch(in: htmlString, options: [], range: NSRange(location: 0, length: htmlString.utf16.count)),
+              let streamtapeRange = Range(streamtapeMatch.range, in: htmlString) else {
+            print("Streamtape URL not found in HTML.")
+            completion(nil)
+            return
+        }
+        
+        let streamtapeURLString = String(htmlString[streamtapeRange])
+        guard let streamtapeURL = URL(string: streamtapeURLString) else {
+            print("Invalid Streamtape URL.")
+            completion(nil)
+            return
+        }
+        
+        // Step 2: Send a request to the Streamtape URL
+        var request = URLRequest(url: streamtapeURL)
+        request.setValue("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36", forHTTPHeaderField: "User-Agent")
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {
+                print("Error fetching Streamtape page: \(error?.localizedDescription ?? "Unknown error")")
+                completion(nil)
+                return
+            }
+            
+            let responseHTML = String(data: data, encoding: .utf8) ?? ""
+            print(responseHTML)
+            // Step 3: Extract the specific JavaScript line
+            let scriptPattern = #"document\.getElementById\('norobotlink'\)\.innerHTML\s*=\s*'//streamt' \+ \('xcdom\.com/get_video\?id=[^&]+&expires=\d+&ip=\w+&token=\w+'\)\.substring\(1\)\.substring\(2\);"#
+            guard let scriptRegex = try? NSRegularExpression(pattern: scriptPattern, options: []),
+                  let scriptMatch = scriptRegex.firstMatch(in: responseHTML, options: [], range: NSRange(location: 0, length: responseHTML.utf16.count)),
+                  let scriptRange = Range(scriptMatch.range, in: responseHTML) else {
+                print("Streamtape script not found in HTML.")
+                completion(nil)
+                return
+            }
+            
+            let scriptString = String(responseHTML[scriptRange])
+            // Step 4: Extract the query parameters
+            let queryPattern = #"get_video\?id=[^&]+&expires=\d+&ip=\w+&token=\w+"#
+            guard let queryRegex = try? NSRegularExpression(pattern: queryPattern, options: []),
+                  let queryMatch = queryRegex.firstMatch(in: scriptString, options: [], range: NSRange(location: 0, length: scriptString.utf16.count)),
+                  let queryRange = Range(queryMatch.range, in: scriptString) else {
+                print("Query parameters not found.")
+                completion(nil)
+                return
+            }
+            
+            let queryString = String(scriptString[queryRange])
+            
+            // Step 5: Return the extracted query string
+            completion(queryString)
+        }.resume()
+    }
+    
     func anime3rbGetter(from documentString: String, completion: @escaping (URL?) -> Void) {
         guard let videoPlayerURL = extractAnime3rbVideoURL(from: documentString) else {
             completion(nil)

@@ -35,7 +35,7 @@ A simple way to enjoy and watch anime on iOS
 - [x] Backup system (import/export)
 - [x] Offline mode (ongoing improvements)
 - [x] Apple KeyChain support for the AniList/Kitsu Token
-- [x] External Media Player support (VLC, Infuse, OutPlayer)
+- [x] External Media Player support (VLC, Infuse, OutPlayer, nPlayer)
 - [x] Intro/Outro skipper with timestamps
 - [x] Real-time subtitles translator
 - [x] Notifications for new episodes
@@ -43,25 +43,27 @@ A simple way to enjoy and watch anime on iOS
 
 ## Sources
 
-| Source       | Language   | Working| Search | Streaming | Download |
-| ------------ | ---------- | ------ | ------ | --------- | -------- |
-| AnimeWorld   | Italian    |   ✅   |   ✅   |     ✅    |    ✅   |
-| GoGoAnime    | English    |   ✅   |   ✅   |     ✅    |    ✅   |
-| AnimeHeaven  | English    |   ✅   |   ✅   |     ✅    |    ✅   |
-| AnimeFire    | Portuguese |   ✅   |   ✅   |     ✅    |    ✅   |
-| Kuramanime   | Indonesian |   ✅   |   ✅   |     ✅    |    ✅   |
-| Anime3rb     | Arabic     |   ✅   |   ✅   |     ✅    |    ✅   |
-| JKanime      | Spanish    |   ✅   |   ✅   |     ✅    |    :x:  |
-| HiAnime      | English    |   ✅   |   ✅   |     ✅    |    :x:  |
-| Anilibria    | Russian    |   ✅   |   ✅   |     ✅    |    :x:  |
-| AnimeSRBIJA  | Croatian   |   ✅   |   ✅   |     ✅    |    :x:  |
-| AniWorld     | German     |   ✅   |   ✅   |     ✅    |    ✅   |
-| TokyoInsider | English    |   ✅   |   ✅   |     ✅    |    ✅   |
-| AniVibe      | English    |   ✅   |   ✅   |     ✅    |    :x:  |
-| AnimeUnity   | Italian    |   ✅   |   ✅   |     ✅    |    ✅   |
+| Source       | Language   | Working| Search | Streaming| Download |
+| ------------ | ---------- | ------ | ------ | -------- | -------- |
+| AnimeWorld   | Italian    |   ✅   |   ✅   |    ✅    |    ✅   |
+| GoGoAnime    | English    |   ✅   |   ✅   |    ✅    |    ✅   |
+| AnimeHeaven  | English    |   ✅   |   ✅   |    ✅    |    ✅   |
+| AnimeFire    | Portuguese |   ✅   |   ✅   |    ✅    |    ✅   |
+| Kuramanime   | Indonesian |   ✅   |   ✅   |    ✅    |    ✅   |
+| Anime3rb     | Arabic     |   ✅   |   ✅   |    ✅    |    ✅   |
+| JKanime      | Spanish    |   ✅   |   ✅   |    ✅    |    :x:  |
+| HiAnime      | English    |   ✅   |   ✅   |    ✅    |    :x:  |
+| Anilibria    | Russian    |   ✅   |   ✅   |    ✅    |    :x:  |
+| AnimeSRBIJA  | Croatian   |   ✅   |   ✅   |    ✅    |    :x:  |
+| AniWorld     | German     |   ✅   |   ✅   |    ✅    |    ✅   |
+| TokyoInsider | English    |   ✅   |   ✅   |    ✅    |    ✅   |
+| AniVibe      | English    |   ✅   |   ✅   |    ✅    |    :x:  |
+| AnimeUnity   | Italian    |   ✅   |   ✅   |    ✅    |    ✅   |
+| AnimeFLV     | Spanish    |   ✅   |   ✅   |    :x:   |    :x:  |
 
 > Note that some Sources are region blocked:
-> AnimeFire: Brazil and Protugal, Kuramanime: Indionesia
+> AnimeFire: Brazil and Protugal 
+> Kuramanime: Indionesia
 
 ## Installation
 

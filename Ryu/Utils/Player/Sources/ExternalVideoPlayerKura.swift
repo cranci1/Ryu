@@ -231,7 +231,7 @@ class ExternalVideoPlayerKura: UIViewController, GCKRemoteMediaClientListener {
         } else {
             let selectedPlayer = UserDefaults.standard.string(forKey: "mediaPlayerSelected") ?? "Default"
             switch selectedPlayer {
-            case "VLC", "Infuse", "OutPlayer":
+            case "VLC", "Infuse", "OutPlayer", "nPlayer":
                 animeDetailsViewController?.openInExternalPlayer(player: selectedPlayer, url: url)
                 dismiss(animated: true)
             case "Custom":
