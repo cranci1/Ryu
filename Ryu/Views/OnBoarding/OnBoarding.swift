@@ -54,7 +54,7 @@ class OnboardingViewController: UIViewController {
     private let platforms = [
         "AnimeWorld🇮🇹", "GoGoAnime🇺🇸",
         "AnimeHeaven🇺🇸", "AnimeFire🇵🇹",
-        "Kuramanime🇮🇩", "JKAnime🇪🇸",
+        "Kuramanime🇮🇩", "AnimeFLV🇪🇸",
         "Anime3rb🇸🇦", "HiAnime🇺🇸",
         "Anilibria🇷🇺", "AnimeSRBIJA🇭🇷",
         "AniWorld🇩🇪", "TokyoInsider🇺🇸"

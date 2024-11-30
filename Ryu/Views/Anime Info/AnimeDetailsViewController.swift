@@ -864,8 +864,6 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                     streamingVC = ExternalVideoPlayer3rb(streamURL: url, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
                 case VideoPlayerType.playerKura:
                     streamingVC = ExternalVideoPlayerKura(streamURL: url, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
-                case VideoPlayerType.playerJK:
-                    streamingVC = ExternalVideoPlayerJK(streamURL: url, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
                 case VideoPlayerType.playerGoGo2:
                     streamingVC = ExternalVideoPlayerGoGo2(streamURL: url, cell: cell, fullURL: fullURL, animeDetailsViewController: self)
                 case VideoPlayerType.playerWeb:
@@ -1006,7 +1004,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                     srcURL = self.extractDataVideoSrcURL(from: htmlString)
                 case "AnimeWorld", "AnimeHeaven":
                     srcURL = self.extractVideoSourceURL(from: htmlString)
-                case "Kuramanime", "JKanime":
+                case "Kuramanime":
                     srcURL = URL(string: fullURL)
                 case "AnimeSRBIJA":
                     srcURL = self.extractAsgoldURL(from: htmlString)
@@ -1087,8 +1085,6 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                             }
                         case "Kuramanime":
                             self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.playerKura, cell: cell, fullURL: fullURL)
-                        case "JKanime":
-                            self.startStreamingButtonTapped(withURL: finalSrcURL.absoluteString, captionURL: "", playerType: VideoPlayerType.playerJK, cell: cell, fullURL: fullURL)
                         default:
                             self.playVideo(sourceURL: finalSrcURL, cell: cell, fullURL: fullURL)
                         }

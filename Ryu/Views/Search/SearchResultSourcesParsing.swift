@@ -100,21 +100,6 @@ extension SearchResultsViewController {
         }
     }
     
-    func parseJKanime(_ document: Document) -> [(title: String, imageUrl: String, href: String)] {
-        do {
-            let items = try document.select("div.anime__page__content div.row div.col-lg-2")
-            return try items.map { item -> (title: String, imageUrl: String, href: String) in
-                let title = try item.select("h5").text()
-                let imageUrl = try item.select("div.anime__item__pic").attr("data-setbg")
-                let href = try item.select("a").attr("href")
-                return (title: title, imageUrl: imageUrl, href: href)
-            }
-        } catch {
-            print("Error parsing JKanime: \(error.localizedDescription)")
-            return []
-        }
-    }
-    
     func parseAnime3rb(_ document: Document) -> [(title: String, imageUrl: String, href: String)] {
         do {
             let items = try document.select("section div.my-2")

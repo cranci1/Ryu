@@ -712,13 +712,11 @@ extension HomeViewController: UIContextMenuInteractionDelegate {
 
 class AnimeItem: NSObject {
     let title: String
-    let episode: String
     let imageURL: String
     let href: String
     
-    init(title: String, episode: String, imageURL: String, href: String) {
+    init(title: String, imageURL: String, href: String) {
         self.title = title
-        self.episode = episode
         self.imageURL = imageURL
         self.href = href
     }

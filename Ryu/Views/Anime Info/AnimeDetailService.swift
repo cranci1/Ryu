@@ -39,7 +39,7 @@ class AnimeDetailService {
             ]
         case .anilibria:
             baseUrls = ["https://api.anilibria.tv/v3/title?id="]
-        case .animefire, .kuramanime, .jkanime, .anime3rb, .hanashi, .animesrbija, .aniworld, .tokyoinsider, .anivibe, .animeunity, .animeflv:
+        case .animefire, .kuramanime, .anime3rb, .hanashi, .animesrbija, .aniworld, .tokyoinsider, .anivibe, .animeunity, .animeflv:
             baseUrls = [""]
         }
         
@@ -191,11 +191,6 @@ class AnimeDetailService {
                             synopsis = try document.select("div.anime__details__text p").text()
                             airdate = try document.select("div.anime__details__widget ul li div.col-9").eq(3).text().components(separatedBy: "s/d").first?.trimmingCharacters(in: .whitespaces) as! String
                             stars = try document.select("div.anime__details__widget div.row div.col-lg-6 ul li").select("div:contains(Skor:) ~ div.col-9").text()
-                        case .jkanime:
-                            aliases = try document.select("div.anime__details__title span").text()
-                            synopsis = try document.select("p.tab.sinopsis").text()
-                            airdate = try document.select("li:contains(Emitido:)").first()?.text().replacingOccurrences(of: "Emitido: ", with: "") ?? ""
-                            stars = ""
                         case .anime3rb:
                             aliases = ""
                             synopsis = try document.select("p.leading-loose").text()
@@ -357,9 +352,6 @@ class AnimeDetailService {
                 let episodeDocument = try SwiftSoup.parse(episodeContent)
                 episodeElements = try episodeDocument.select("a.btn")
                 downloadUrlElement = ""
-            case .jkanime:
-                episodeElements = try document.select("div.anime__pagination a.numbers")
-                downloadUrlElement = ""
             case .anime3rb:
                 episodeElements = try document.select("div.absolute.overflow-hidden div a.gap-3")
                 downloadUrlElement = ""
@@ -472,24 +464,6 @@ class AnimeDetailService {
                     }
                 } catch {
                     print("Error parsing Kuramanime episodes: \(error.localizedDescription)")
-                }
-            case .jkanime:
-                episodes = episodeElements.flatMap { element -> [Episode] in
-                    guard let episodeText = try? element.text() else { return [] }
-                    
-                    let parts = episodeText.split(separator: "-")
-                    guard parts.count == 2,
-                          let start = Int(parts[0].trimmingCharacters(in: .whitespaces)),
-                          let end = Int(parts[1].trimmingCharacters(in: .whitespaces)) else {
-                              return []
-                          }
-                    
-                    return (max(1, start)...end).map { episodeNumber in
-                        let formattedEpisode = String(episodeNumber)
-                        let episodeHref = "\(href)\(String(format: "%02d", episodeNumber))"
-                        
-                        return Episode(number: formattedEpisode, href: episodeHref, downloadUrl: "")
-                    }
                 }
             case .anime3rb:
                 episodes = episodeElements.compactMap { element in

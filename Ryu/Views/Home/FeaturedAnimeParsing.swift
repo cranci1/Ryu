@@ -21,8 +21,6 @@ extension HomeViewController {
             return ("https://animefire.plus/", parseAnimeFireFeatured)
         case "Kuramanime":
             return ("https://kuramanime.red/quick/ongoing?order_by=updated", parseKuramanimeFeatured)
-        case "JKanime":
-            return ("https://jkanime.net/", parseJKAnimeFeatured)
         case "Anime3rb":
             return ("https://anime3rb.com/titles/list?status[0]=upcomming&status[1]=finished&sort_by=addition_date", parseAnime3rbFeatured)
         case "HiAnime":
@@ -39,6 +37,8 @@ extension HomeViewController {
             return ("https://anivibe.net/newest", paseAniVibeFeatured)
         case "AnimeUnity":
             return ("https://www.animeunity.to/", parseAnimeUnityFeatured)
+        case "AnimeFLV":
+            return ("https://www3.animeflv.net/", paseAnimeFLVFeatured)
         default:
             return (nil, nil)
         }
@@ -57,14 +57,10 @@ extension HomeViewController {
             let imageElement = try item.select("img").first()
             let imageURL = try imageElement?.attr("src") ?? ""
             
-            let episodeElement = try item.select("div.ep").first()
-            let episodeText = try episodeElement?.text() ?? ""
-            let episode = episodeText.replacingOccurrences(of: "Ep ", with: "")
-            
             let hrefElement = try item.select("a.poster").first()
             let href = try hrefElement?.attr("href") ?? ""
             
-            return AnimeItem(title: title, episode: episode, imageURL: imageURL, href: href)
+            return AnimeItem(title: title, imageURL: imageURL, href: href)
         }
     }
     
@@ -72,9 +68,6 @@ extension HomeViewController {
         let animeItems = try doc.select("div.last_episodes li")
         return try animeItems.array().compactMap { item in
             let title = try item.select("p.name a").text()
-            
-            let episodeText = try item.select("p.episode").text()
-            let episode = episodeText.replacingOccurrences(of: "Episode ", with: "")
             
             let imageURL = try item.select("div.img img").attr("src")
             var href = try item.select("div.img a").attr("href")
@@ -84,7 +77,7 @@ extension HomeViewController {
             }
             href = "/category" + href
             
-            return AnimeItem(title: title, episode: episode, imageURL: imageURL, href: href)
+            return AnimeItem(title: title, imageURL: imageURL, href: href)
         }
     }
     
@@ -92,14 +85,13 @@ extension HomeViewController {
         let animeItems = try doc.select("div.boldtext div.chart.bc1")
         return try animeItems.array().compactMap { item in
             let title = try item.select("div.chartinfo a.c").text()
-            let episode = try item.select("div.chartep").text()
             
             let imageURL = try item.select("div.chartimg img").attr("src")
             let image = "https://animeheaven.me/" + imageURL
             
             let href = try item.select("div.chartimg a").attr("href")
             
-            return AnimeItem(title: title, episode: episode, imageURL: image, href: href)
+            return AnimeItem(title: title, imageURL: image, href: href)
         }
     }
     
@@ -111,9 +103,6 @@ extension HomeViewController {
             if let range = title.range(of: "- Episódio \\d+", options: .regularExpression) {
                 title.removeSubrange(range)
             }
-            
-            let episodeText = try item.select("span.numEp").text()
-            let episode = episodeText.replacingOccurrences(of: "Episódio ", with: "")
             
             var imageURL = try item.select("article.card img").attr("src")
             
@@ -127,7 +116,7 @@ extension HomeViewController {
                 href.replaceSubrange(range, with: "-todos-os-episodios")
             }
             
-            return AnimeItem(title: title, episode: episode, imageURL: imageURL, href: href)
+            return AnimeItem(title: title, imageURL: imageURL, href: href)
         }
     }
     
@@ -137,13 +126,6 @@ extension HomeViewController {
             
             let title = try item.select("h5 a").text()
             
-            let episodeText = try item.select("div.ep span").text()
-            let episodeRegex = try NSRegularExpression(pattern: "^Ep (\\d+)", options: [])
-            let matches = episodeRegex.matches(in: episodeText, options: [], range: NSRange(location: 0, length: episodeText.utf16.count))
-            let episode = matches.first.flatMap {
-                String(episodeText[Range($0.range(at: 1), in: episodeText)!])
-            } ?? ""
-            
             let imageURL = try item.select("div.product__item__pic").attr("data-setbg")
             
             var href = try item.select("a").attr("href")
@@ -151,25 +133,7 @@ extension HomeViewController {
                 href.removeSubrange(range)
             }
             
-            return AnimeItem(title: title, episode: episode, imageURL: imageURL, href: href)
-        }
-    }
-    
-    func parseJKAnimeFeatured(_ doc: Document) throws -> [AnimeItem] {
-        let animeItems = try doc.select("div.listadoanime-home div.anime_programing a.bloqq")
-        return try animeItems.array().compactMap { item in
-            
-            let title = try item.select("div.anime__sidebar__comment__item__text h5").text()
-            let episodeText = try item.select("div.anime__sidebar__comment__item__text h6").text()
-            let episode = episodeText.replacingOccurrences(of: "Episodio ", with: "")
-            let imageURL = try item.select("img").attr("src")
-            
-            var href = try item.select("a").attr("href")
-            if let range = href.range(of: "/\\d+", options: .regularExpression) {
-                href.removeSubrange(range)
-            }
-            
-            return AnimeItem(title: title, episode: episode, imageURL: imageURL, href: href)
+            return AnimeItem(title: title, imageURL: imageURL, href: href)
         }
     }
     
@@ -179,13 +143,10 @@ extension HomeViewController {
             
             let title = try item.select("h2.text-ellipsis").text()
             
-            let episodeText = try item.select("div.anime__sidebar__comment__item__text h6").text()
-            let episode = episodeText.replacingOccurrences(of: "Episodio ", with: "")
-            
             let imageURL = try item.select("img").attr("src")
             let href = try item.select("a").attr("href")
             
-            return AnimeItem(title: title, episode: episode, imageURL: imageURL, href: href)
+            return AnimeItem(title: title, imageURL: imageURL, href: href)
         }
     }
     
@@ -205,7 +166,7 @@ extension HomeViewController {
                 href = String(href[..<queryIndex])
             }
             
-            return AnimeItem(title: title, episode: "", imageURL: imageURL, href: href)
+            return AnimeItem(title: title, imageURL: imageURL, href: href)
         }
     }
     
@@ -241,7 +202,7 @@ extension HomeViewController {
             let imageURL = "https://anilibria.tv" + posterURL
             let href = String(id)
             
-            return AnimeItem(title: title, episode: "", imageURL: imageURL, href: href)
+            return AnimeItem(title: title, imageURL: imageURL, href: href)
         }
     }
     
@@ -250,9 +211,6 @@ extension HomeViewController {
         return try animeItems.array().compactMap { item in
             
             let title = try item.select("h3.ani-title").text()
-            
-            let episodeText = try item.select("div.anime__sidebar__comment__item__text h6").text()
-            let episode = episodeText.replacingOccurrences(of: "Episodio ", with: "")
             
             let srcset = try item.select("img").attr("srcset")
             let imageUrl = srcset.components(separatedBy: ", ")
@@ -265,7 +223,7 @@ extension HomeViewController {
             let hrefBase = try item.select("a").first()?.attr("href") ?? ""
             let href = "https://www.animesrbija.com" + hrefBase
             
-            return AnimeItem(title: title, episode: episode, imageURL: imageURL, href: href)
+            return AnimeItem(title: title, imageURL: imageURL, href: href)
         }
     }
     
@@ -275,16 +233,13 @@ extension HomeViewController {
             
             let title = try item.select("h3").text()
             
-            let episodeText = try item.select("div.anime__sidebar__comment__item__text h6").text()
-            let episode = episodeText.replacingOccurrences(of: "Episodio ", with: "")
-            
             let imageUrl = try item.select("img").attr("data-src")
             let imageURL = "https://aniworld.to" + imageUrl
             
             let hrefBase = try item.select("a").first()?.attr("href") ?? ""
             let href = "https://aniworld.to" + hrefBase
             
-            return AnimeItem(title: title, episode: episode, imageURL: imageURL, href: href)
+            return AnimeItem(title: title, imageURL: imageURL, href: href)
         }
     }
     
@@ -297,15 +252,12 @@ extension HomeViewController {
                 title = title.prefix(upTo: range.lowerBound).trimmingCharacters(in: .whitespaces)
             }
             
-            let episodeText = try item.select("div.anime__sidebar__comment__item__text h6").text()
-            let episode = episodeText.replacingOccurrences(of: "Episodio ", with: "")
-            
             let imageURL = "https://s4.anilist.co/file/anilistcdn/character/large/default.jpg"
             
             let hrefBase = try item.select("a").first()?.attr("href").components(separatedBy: ")").first! ?? ""
             let href = "https://www.tokyoinsider.com" + hrefBase + ")"
             
-            return AnimeItem(title: title, episode: episode, imageURL: imageURL, href: href)
+            return AnimeItem(title: title, imageURL: imageURL, href: href)
         }
     }
     
@@ -315,16 +267,13 @@ extension HomeViewController {
             
             let title = try item.select("div.tt span").text()
             
-            let episodeText = try item.select("div.anime__sidebar__comment__item__text h6").text()
-            let episode = episodeText.replacingOccurrences(of: "Episodio ", with: "")
-            
             var imageUrl = try item.select("img").attr("src")
             imageUrl = imageUrl.replacingOccurrences(of: "small", with: "default")
             
             let href = try item.select("a").first()?.attr("href") ?? ""
             let hrefFull = "https://anivibe.net" + href
             
-            return AnimeItem(title: title, episode: episode, imageURL: imageUrl, href: hrefFull)
+            return AnimeItem(title: title, imageURL: imageUrl, href: hrefFull)
         }
     }
     
@@ -353,10 +302,8 @@ extension HomeViewController {
                             return nil
                         }
                         
-                        let episode = record["number"] as? String ?? ""
-                        
                         let hrefFull = "\(baseURL)\(animeID)-\(slug)"
-                        return AnimeItem(title: title, episode: episode, imageURL: imageUrl, href: hrefFull)
+                        return AnimeItem(title: title, imageURL: imageUrl, href: hrefFull)
                     }
                 }
             }
@@ -366,6 +313,25 @@ extension HomeViewController {
         } catch {
             print("Error parsing AnimeUnity: \(error.localizedDescription)")
             return []
+        }
+    }
+    
+    func paseAnimeFLVFeatured(_ doc: Document) throws -> [AnimeItem] {
+        let animeItems = try doc.select("ul.ListEpisodios li")
+        return try animeItems.array().compactMap { item in
+            
+            let title = try item.select("strong.Title").text()
+            
+            let imageUrl = try item.select("img").attr("src")
+            let imageURL = "https://www3.animeflv.net" + imageUrl
+            
+            let href = try item.select("a").first()?.attr("href") ?? ""
+            let hrefFull = "https://www3.animeflv.net" + href
+            let modifiedHref = hrefFull.components(separatedBy: "-").dropLast().joined(separator: "-")
+            let modifiedHref2 = modifiedHref.replacingOccurrences(of: "/ver/", with: "/anime/")
+            
+            print(modifiedHref2)
+            return AnimeItem(title: title, imageURL: imageURL, href: modifiedHref2)
         }
     }
 }

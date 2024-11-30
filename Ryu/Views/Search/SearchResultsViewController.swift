@@ -237,10 +237,6 @@ class SearchResultsViewController: UIViewController {
             DispatchQueue.main.async {
                 self.fetchHanashiResults(urlParameters: urlParameters)
             }
-        } else if selectedSource == "JKanime" {
-            DispatchQueue.main.async {
-                self.fetchJKanimeResults(urlParameters: urlParameters)
-            }
         } else if selectedSource == "GoGoAnime" {
             DispatchQueue.main.async {
                 self.fetchGoGoResults(urlParameters: urlParameters)
@@ -334,44 +330,6 @@ class SearchResultsViewController: UIViewController {
         }
     }
     
-    private func fetchJKanimeResults(urlParameters: (url: String, parameters: Parameters)) {
-        let group = DispatchGroup()
-        var allResults: [(title: String, imageUrl: String, href: String)] = []
-        
-        group.enter()
-        AF.request(urlParameters.url, method: .get, parameters: urlParameters.parameters).responseString { [weak self] response in
-            defer { group.leave() }
-            if let value = try? response.result.get(),
-               let document = try? SwiftSoup.parse(value),
-               let results = self?.parseJKanime(document) {
-                allResults.append(contentsOf: results)
-            }
-        }
-        
-        let secondPageUrl = urlParameters.url + "/2"
-        group.enter()
-        AF.request(secondPageUrl, method: .get, parameters: urlParameters.parameters).responseString { [weak self] response in
-            defer { group.leave() }
-            if let value = try? response.result.get(),
-               let document = try? SwiftSoup.parse(value),
-               let results = self?.parseJKanime(document) {
-                allResults.append(contentsOf: results)
-            }
-        }
-        
-        group.notify(queue: .main) { [weak self] in
-            self?.loadingIndicator.stopAnimating()
-            self?.searchResults = allResults
-            self?.filteredResults = allResults
-            if allResults.isEmpty {
-                self?.showNoResults()
-            } else {
-                self?.tableView.isHidden = false
-                self?.tableView.reloadData()
-            }
-        }
-    }
-    
     private func fetchGoGoResults(urlParameters: (url: String, parameters: Parameters)) {
         let group = DispatchGroup()
         var allResults: [(title: String, imageUrl: String, href: String)] = []
@@ -437,9 +395,6 @@ class SearchResultsViewController: UIViewController {
         case "Kuramanime":
             url = "https://kuramanime.red/anime"
             parameters["search"] = query
-        case "JKanime":
-            let encodedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? query
-            url = "https://jkanime.net/buscar/\(encodedQuery)"
         case "Anime3rb":
             url = "https://anime3rb.com/search"
             parameters["q"] = query
@@ -550,9 +505,6 @@ class SearchResultsViewController: UIViewController {
         case .kuramanime:
             guard let document = document else { return [] }
             return parseKuramanime(document)
-        case .jkanime:
-            guard let document = document else { return [] }
-            return parseJKanime(document)
         case .anime3rb:
             guard let document = document else { return [] }
             return parseAnime3rb(document)

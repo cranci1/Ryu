@@ -51,7 +51,6 @@ A simple way to enjoy and watch anime on iOS
 | AnimeFire    | Portuguese |   ✅   |   ✅   |    ✅    |    ✅   |
 | Kuramanime   | Indonesian |   ✅   |   ✅   |    ✅    |    ✅   |
 | Anime3rb     | Arabic     |   ✅   |   ✅   |    ✅    |    ✅   |
-| JKanime      | Spanish    |   ✅   |   ✅   |    ✅    |    :x:  |
 | HiAnime      | English    |   ✅   |   ✅   |    ✅    |    :x:  |
 | Anilibria    | Russian    |   ✅   |   ✅   |    ✅    |    :x:  |
 | AnimeSRBIJA  | Croatian   |   ✅   |   ✅   |    ✅    |    :x:  |

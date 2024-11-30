@@ -9,7 +9,6 @@ struct VideoPlayerType {
     static let standard = "standard"
     static let player3rb = "player3rb"
     static let playerKura = "playerKura"
-    static let playerJK = "playerJK"
     static let playerGoGo2 = "playerGoGo2"
     static let playerWeb = "playerWeb"
 }

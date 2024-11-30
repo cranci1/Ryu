@@ -75,7 +75,6 @@
 		1365254F2C6B5B4100210A98 /* M3U8Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136525082C6B5B4000210A98 /* M3U8Downloader.swift */; };
 		136525502C6B5B4100210A98 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1365250A2C6B5B4000210A98 /* UIImage.swift */; };
 		136525512C6B5B4100210A98 /* VideoPlayerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1365250C2C6B5B4000210A98 /* VideoPlayerType.swift */; };
-		136525532C6B5B4100210A98 /* ExternalVideoPlayerJK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1365250F2C6B5B4000210A98 /* ExternalVideoPlayerJK.swift */; };
 		136525542C6B5B4100210A98 /* ExternalVideoPlayerKura.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136525102C6B5B4000210A98 /* ExternalVideoPlayerKura.swift */; };
 		136525552C6B5B4100210A98 /* ExternalVideoPlayerGoGo1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136525112C6B5B4000210A98 /* ExternalVideoPlayerGoGo1.swift */; };
 		136525572C6B5B4100210A98 /* ExternalVideoPlayer3rb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136525132C6B5B4000210A98 /* ExternalVideoPlayer3rb.swift */; };
@@ -168,7 +167,6 @@
 		136525082C6B5B4000210A98 /* M3U8Downloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = M3U8Downloader.swift; sourceTree = "<group>"; };
 		1365250A2C6B5B4000210A98 /* UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		1365250C2C6B5B4000210A98 /* VideoPlayerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPlayerType.swift; sourceTree = "<group>"; };
-		1365250F2C6B5B4000210A98 /* ExternalVideoPlayerJK.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExternalVideoPlayerJK.swift; sourceTree = "<group>"; };
 		136525102C6B5B4000210A98 /* ExternalVideoPlayerKura.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExternalVideoPlayerKura.swift; sourceTree = "<group>"; };
 		136525112C6B5B4000210A98 /* ExternalVideoPlayerGoGo1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExternalVideoPlayerGoGo1.swift; sourceTree = "<group>"; };
 		136525132C6B5B4000210A98 /* ExternalVideoPlayer3rb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExternalVideoPlayer3rb.swift; sourceTree = "<group>"; };
@@ -593,7 +591,6 @@
 			children = (
 				138F7AAF2C99AF79007175F1 /* GoGoAnime */,
 				136525102C6B5B4000210A98 /* ExternalVideoPlayerKura.swift */,
-				1365250F2C6B5B4000210A98 /* ExternalVideoPlayerJK.swift */,
 				136525132C6B5B4000210A98 /* ExternalVideoPlayer3rb.swift */,
 			);
 			path = Sources;
@@ -805,7 +802,6 @@
 				1365254F2C6B5B4100210A98 /* M3U8Downloader.swift in Sources */,
 				13921B452C6B8FC1004E8BDC /* UserDefaults.swift in Sources */,
 				136525422C6B5B4100210A98 /* FavoritesViewController.swift in Sources */,
-				136525532C6B5B4100210A98 /* ExternalVideoPlayerJK.swift in Sources */,
 				13902BAC2C7B689F00596A2C /* SubtitlesLoader.swift in Sources */,
 				1365251F2C6B5B4100210A98 /* Anilist-Login.swift in Sources */,
 				13B40E212CB191D900EF964A /* AnimeInfo+Struct.swift in Sources */,
