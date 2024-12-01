@@ -921,11 +921,6 @@ extension AnimeDetailViewController {
             let voeMatches = voeRegex.matches(in: htmlString, range: NSRange(htmlString.startIndex..., in: htmlString))
             links += extractLinks(from: voeMatches, in: htmlString, host: .voe)
         }
-        let streamTapePattern = "<li[^>]*?data-lang-key=\"(\\d)\"[^>]*?>\\s*<div>\\s*<a[^>]*?href=\"(/redirect/[^\"]+)\"[^>]*?>\\s*<i class=\"icon Streamtape\""
-        if let streamTapeRegex = try? NSRegularExpression(pattern: streamTapePattern, options: [.dotMatchesLineSeparators]) {
-            let streamTapeMatches = streamTapeRegex.matches(in: htmlString, range: NSRange(htmlString.startIndex..., in: htmlString))
-            links += extractLinks(from: streamTapeMatches, in: htmlString, host: .streamtape)
-        }
         
         return links
     }
@@ -963,10 +958,6 @@ extension AnimeDetailViewController {
                       return
                   }
             
-            if videoLink.host == .streamtape {
-                self?.extractStreamTapeDirectURL(from: finalURL.absoluteString, completion: completion)
-            }
-            
             URLSession.shared.dataTask(with: finalURL) { [weak self] data, response, error in
                 guard let data = data,
                       let htmlString = String(data: data, encoding: .utf8) else {
@@ -981,8 +972,6 @@ extension AnimeDetailViewController {
                     self?.extractVidozaDirectURL(from: htmlString, completion: completion)
                 case .voe:
                     self?.extractVoeDirectURL(from: htmlString, completion: completion)
-                case .streamtape:
-                    break
                 }
             }.resume()
         }.resume()
@@ -1020,11 +1009,20 @@ extension AnimeDetailViewController {
                       return
                   }
             
-            let nodePattern = "let nodeDetails = prompt\\(\"Node\",\\s*\"(https://[^\"]+)\"\\);"
-            guard let nodeRegex = try? NSRegularExpression(pattern: nodePattern),
-                  let nodeMatch = nodeRegex.firstMatch(in: redirectContent, range: NSRange(redirectContent.startIndex..., in: redirectContent)),
-                  let nodeURLRange = Range(nodeMatch.range(at: 1), in: redirectContent),
-                  let finalURL = URL(string: String(redirectContent[nodeURLRange])) else {
+            let hlsPattern = "'hls': '(.*?)'"
+            guard let hlsRegex = try? NSRegularExpression(pattern: hlsPattern),
+                  let hlsMatch = hlsRegex.firstMatch(in: redirectContent, range: NSRange(redirectContent.startIndex..., in: redirectContent)),
+                  let hlsRange = Range(hlsMatch.range(at: 1), in: redirectContent) else {
+                      DispatchQueue.main.async {
+                          completion(nil)
+                      }
+                      return
+                  }
+            
+            let hlsBase64 = String(redirectContent[hlsRange])
+            guard let hlsData = Data(base64Encoded: hlsBase64),
+                  let hlsLink = String(data: hlsData, encoding: .utf8),
+                  let finalURL = URL(string: hlsLink) else {
                       DispatchQueue.main.async {
                           completion(nil)
                       }
@@ -1038,11 +1036,11 @@ extension AnimeDetailViewController {
     }
     
     private func extractVidozaDirectURL(from htmlString: String, completion: @escaping (URL?) -> Void) {
-        let mp4Pattern = "source src=\"(https://.*?\\.mp4)\""
-        guard let mp4Regex = try? NSRegularExpression(pattern: mp4Pattern),
-              let mp4Match = mp4Regex.firstMatch(in: htmlString, range: NSRange(htmlString.startIndex..., in: htmlString)),
-              let mp4Range = Range(mp4Match.range(at: 1), in: htmlString),
-              let videoURL = URL(string: String(htmlString[mp4Range])) else {
+        let scriptPattern = "sourcesCode:.*?src: \"(.*?)\""
+        guard let scriptRegex = try? NSRegularExpression(pattern: scriptPattern),
+              let scriptMatch = scriptRegex.firstMatch(in: htmlString, range: NSRange(htmlString.startIndex..., in: htmlString)),
+              let urlRange = Range(scriptMatch.range(at: 1), in: htmlString),
+              let videoURL = URL(string: String(htmlString[urlRange])) else {
                   DispatchQueue.main.async {
                       completion(nil)
                   }
@@ -1051,49 +1049,8 @@ extension AnimeDetailViewController {
         
         DispatchQueue.main.async {
             completion(videoURL)
+            print(videoURL)
         }
-    }
-    
-    private func extractStreamTapeDirectURL(from htmlString: String, completion: @escaping (URL?) -> Void) {
-        let urL = URL(string: htmlString)
-        var request = URLRequest(url: urL!)
-        request.setValue("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36", forHTTPHeaderField: "User-Agent")
-        
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data,
-                  let pageContent = String(data: data, encoding: .utf8) else {
-                      DispatchQueue.main.async {
-                          completion(nil)
-                      }
-                      return
-                  }
-            
-            let robotPattern = "'robotlink'\\)\\.innerHTML = '(.+?)'\\+ \\('xcd(.+?)'\\)"
-            guard let robotRegex = try? NSRegularExpression(pattern: robotPattern),
-                  let robotMatch = robotRegex.firstMatch(in: pageContent, range: NSRange(pageContent.startIndex..., in: pageContent)),
-                  let firstPartRange = Range(robotMatch.range(at: 1), in: pageContent),
-                  let secondPartRange = Range(robotMatch.range(at: 2), in: pageContent) else {
-                      DispatchQueue.main.async {
-                          completion(nil)
-                      }
-                      return
-                  }
-            
-            let firstPart = String(pageContent[firstPartRange])
-            let secondPart = String(pageContent[secondPartRange])
-            let directURLString = "https:\(firstPart)\(secondPart)"
-            
-            guard let videoURL = URL(string: directURLString) else {
-                DispatchQueue.main.async {
-                    completion(nil)
-                }
-                return
-            }
-            
-            DispatchQueue.main.async {
-                completion(videoURL)
-            }
-        }.resume()
     }
 }
 
