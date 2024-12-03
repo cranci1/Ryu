@@ -585,8 +585,7 @@ extension AnimeDetailViewController {
     }
     
     func extractAsgoldURL(from documentString: String) -> URL? {
-        let baseURL = "https://cdn.asgold.pp.ua/file/"
-        let pattern = "https://cdn\\.asgold\\.pp\\.ua/file/[^.]*\\.m3u8"
+        let pattern = "\"player2\":\"!https://video\\.asgold\\.pp\\.ua/video/[^\"]*\""
         
         do {
             let regex = try NSRegularExpression(pattern: pattern, options: [])
@@ -594,11 +593,10 @@ extension AnimeDetailViewController {
             
             if let match = regex.firstMatch(in: documentString, options: [], range: range),
                let matchRange = Range(match.range, in: documentString) {
-                let urlString = String(documentString[matchRange])
-                if urlString.hasPrefix(baseURL) {
-                    let encodedURLString = urlString.replacingOccurrences(of: " ", with: "%20")
-                    return URL(string: encodedURLString)
-                }
+                var urlString = String(documentString[matchRange])
+                urlString = urlString.replacingOccurrences(of: "\"player2\":\"!", with: "")
+                urlString = urlString.replacingOccurrences(of: "\"", with: "")
+                return URL(string: urlString)
             }
         } catch {
             return nil
