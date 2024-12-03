@@ -53,7 +53,7 @@ A simple way to enjoy and watch anime on iOS
 | Anime3rb     | Arabic     |   ✅   |   ✅   |    ✅    |    ✅   |
 | HiAnime      | English    |   ✅   |   ✅   |    ✅    |    :x:  |
 | Anilibria    | Russian    |   ✅   |   ✅   |    ✅    |    :x:  |
-| AnimeSRBIJA  | Croatian   |   ✅   |   ✅   |    ✅    |    :x:  |
+| AnimeSRBIJA  | Croatian   |   ✅   |   ✅   |    ✅    |    ✅   |
 | AniWorld     | German     |   ✅   |   ✅   |    ✅    |    :x:  |
 | TokyoInsider | English    |   ✅   |   ✅   |    ✅    |    ✅   |
 | AniVibe      | English    |   ✅   |   ✅   |    ✅    |    :x:  |

@@ -82,9 +82,11 @@ class BackgroundSessionDelegate: NSObject, URLSessionDelegate, URLSessionDownloa
     }
     
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
-        var originalFileName = downloadTask.originalRequest?.url?.lastPathComponent ?? "downloadedFile.php"
+        var originalFileName = downloadTask.originalRequest?.url?.lastPathComponent ?? "downloadedFile.mp4"
         
-        if originalFileName.hasSuffix(".php") {
+        if !originalFileName.contains(".") {
+            originalFileName += ".mp4"
+        } else if originalFileName.hasSuffix(".php") {
             originalFileName = originalFileName.replacingOccurrences(of: ".php", with: ".mp4")
         }
         
