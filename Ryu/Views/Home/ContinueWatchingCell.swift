@@ -113,8 +113,8 @@ class ContinueWatchingCell: UICollectionViewCell {
                       let imageURL = imageURL,
                       self.currentAnimeTitle == item.animeTitle,
                       self.currentEpisodeNumber == item.episodeNumber else {
-                    return
-                }
+                          return
+                      }
                 
                 if let url = URL(string: imageURL) {
                     self.imageLoadTask = self.imageView.kf.setImage(
@@ -142,55 +142,69 @@ class ContinueWatchingCell: UICollectionViewCell {
 
 class AnimeThumbnailFetcher {
     static let apiUrl = "https://api.ani.zip/mappings?anilist_id="
+    static var imageCache: [String: String] = loadImageCache()
+    private static let requestQueue = DispatchQueue(label: "AnimeThumbnailFetcherQueue")
+    private static let requestDelay: TimeInterval = 1.0
     
     static func fetchAnimeThumbnails(for title: String, episodeNumber: Int, completion: @escaping (String?) -> Void) {
-        fetchAnimeID(for: title) { anilistId in
-            guard let anilistId = anilistId else {
-                DispatchQueue.main.async {
-                    completion(nil)
-                }
-                return
-            }
-            
-            let url = URL(string: "\(self.apiUrl)\(anilistId)")!
-            let task = URLSession.shared.dataTask(with: url) { data, _, error in
-                if let error = error {
-                    print("Error fetching anime thumbnails: \(error)")
+        let cacheKey = "\(title)-\(episodeNumber)"
+        
+        if let cachedImageURL = imageCache[cacheKey] {
+            completion(cachedImageURL)
+            return
+        }
+        
+        requestQueue.asyncAfter(deadline: .now() + requestDelay) {
+            fetchAnimeID(for: title) { anilistId in
+                guard let anilistId = anilistId else {
                     DispatchQueue.main.async {
                         completion(nil)
                     }
                     return
                 }
                 
-                guard let data = data else {
-                    DispatchQueue.main.async {
-                        completion(nil)
-                    }
-                    return
-                }
-                
-                do {
-                    let json = try JSONSerialization.jsonObject(with: data, options: [])
-                    if let jsonDict = json as? [String: Any],
-                       let episodes = jsonDict["episodes"] as? [String: Any],
-                       let episodeInfo = episodes["\(episodeNumber)"] as? [String: Any],
-                       let imageUrl = episodeInfo["image"] as? String {
+                let url = URL(string: "\(self.apiUrl)\(anilistId)")!
+                let task = URLSession.shared.dataTask(with: url) { data, _, error in
+                    if let error = error {
+                        print("Error fetching anime thumbnails: \(error)")
                         DispatchQueue.main.async {
-                            completion(imageUrl)
+                            completion(nil)
                         }
-                    } else {
+                        return
+                    }
+                    
+                    guard let data = data else {
+                        DispatchQueue.main.async {
+                            completion(nil)
+                        }
+                        return
+                    }
+                    
+                    do {
+                        let json = try JSONSerialization.jsonObject(with: data, options: [])
+                        if let jsonDict = json as? [String: Any],
+                           let episodes = jsonDict["episodes"] as? [String: Any],
+                           let episodeInfo = episodes["\(episodeNumber)"] as? [String: Any],
+                           let imageUrl = episodeInfo["image"] as? String {
+                            DispatchQueue.main.async {
+                                imageCache[cacheKey] = imageUrl
+                                saveImageCache()
+                                completion(imageUrl)
+                            }
+                        } else {
+                            DispatchQueue.main.async {
+                                completion(nil)
+                            }
+                        }
+                    } catch {
+                        print("Error parsing JSON: \(error)")
                         DispatchQueue.main.async {
                             completion(nil)
                         }
                     }
-                } catch {
-                    print("Error parsing JSON: \(error)")
-                    DispatchQueue.main.async {
-                        completion(nil)
-                    }
                 }
+                task.resume()
             }
-            task.resume()
         }
     }
     
@@ -228,5 +242,18 @@ class AnimeThumbnailFetcher {
         cleanedTitle = cleanedTitle.replacingOccurrences(of: "\"", with: "")
         return cleanedTitle.trimmingCharacters(in: .whitespacesAndNewlines)
     }
+    
+    private static func loadImageCache() -> [String: String] {
+        if let data = UserDefaults.standard.data(forKey: "imageCache"),
+           let cache = try? JSONDecoder().decode([String: String].self, from: data) {
+            return cache
+        }
+        return [:]
+    }
+    
+    private static func saveImageCache() {
+        if let data = try? JSONEncoder().encode(imageCache) {
+            UserDefaults.standard.set(data, forKey: "imageCache")
+        }
+    }
 }
-

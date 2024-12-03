@@ -339,7 +339,7 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
         guard let urlString = sourceURL, let url = URL(string: urlString), let parse = parseStrategy else {
             DispatchQueue.main.async {
                 self.featuredAnime = []
-                self.featuredErrorLabel.text = "Unable to load featured anime. Make sure to check your connection"
+                self.featuredErrorLabel.text = "Unable to load featured anime. Invalid source or parsing strategy."
                 self.featuredErrorLabel.isHidden = false
                 self.featuredActivityIndicator.stopAnimating()
                 completion()
@@ -347,41 +347,50 @@ class HomeViewController: UITableViewController, SourceSelectionDelegate {
             return
         }
         
-        URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
-            guard let data = data, error == nil else {
+        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            guard let self = self else { return }
+            
+            if let error = error {
                 DispatchQueue.main.async {
-                    self?.featuredErrorLabel.text = "Error loading featured anime"
-                    self?.featuredErrorLabel.isHidden = false
-                    self?.featuredActivityIndicator.stopAnimating()
+                    self.featuredErrorLabel.text = "Error loading featured anime: \(error.localizedDescription)"
+                    self.featuredErrorLabel.isHidden = false
+                    self.featuredActivityIndicator.stopAnimating()
+                    completion()
+                }
+                return
+            }
+            
+            guard let data = data, let html = String(data: data, encoding: .utf8) else {
+                DispatchQueue.main.async {
+                    self.featuredErrorLabel.text = "Error loading featured anime. Invalid data received."
+                    self.featuredErrorLabel.isHidden = false
+                    self.featuredActivityIndicator.stopAnimating()
                     completion()
                 }
                 return
             }
             
             do {
-                let html = String(data: data, encoding: .utf8) ?? ""
                 let doc: Document = try SwiftSoup.parse(html)
-                
                 let animeItems = try parse(doc)
                 
                 DispatchQueue.main.async {
-                    self?.featuredActivityIndicator.stopAnimating()
+                    self.featuredActivityIndicator.stopAnimating()
                     if !animeItems.isEmpty {
-                        self?.featuredAnime = animeItems
-                        self?.featuredErrorLabel.isHidden = true
+                        self.featuredAnime = animeItems
+                        self.featuredErrorLabel.isHidden = true
                     } else {
-                        self?.featuredErrorLabel.text = "No featured anime found"
-                        self?.featuredErrorLabel.isHidden = false
+                        self.featuredErrorLabel.text = "No featured anime found."
+                        self.featuredErrorLabel.isHidden = false
                     }
-                    self?.featuredCollectionView.reloadData()
+                    self.featuredCollectionView.reloadData()
                     completion()
                 }
             } catch {
-                print("Error parsing HTML: \(error)")
                 DispatchQueue.main.async {
-                    self?.featuredErrorLabel.text = "Error parsing featured anime"
-                    self?.featuredErrorLabel.isHidden = false
-                    self?.featuredActivityIndicator.stopAnimating()
+                    self.featuredErrorLabel.text = "Error parsing featured anime: \(error.localizedDescription)"
+                    self.featuredErrorLabel.isHidden = false
+                    self.featuredActivityIndicator.stopAnimating()
                     completion()
                 }
             }

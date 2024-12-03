@@ -43,11 +43,11 @@
                                             <segue destination="RUG-Sz-sjD" kind="show" id="mfq-UI-2tL"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="McV-an-f8h">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="McV-an-f8h">
                                         <rect key="frame" x="20" y="75.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="McV-an-f8h" id="sbr-Pt-vRR">
-                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GitHub Repository" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mfn-kK-Wvh">
@@ -56,10 +56,20 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="safari.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="XHn-Jq-NN6">
+                                                    <rect key="frame" x="341" y="12.5" width="20" height="19"/>
+                                                    <color key="tintColor" systemColor="systemGray2Color"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="9Qd-8c-StP"/>
+                                                        <constraint firstAttribute="width" constant="20" id="AZ2-ea-kzp"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="mfn-kK-Wvh" firstAttribute="leading" secondItem="sbr-Pt-vRR" secondAttribute="leading" constant="15" id="37W-3N-E28"/>
+                                                <constraint firstItem="XHn-Jq-NN6" firstAttribute="trailing" secondItem="sbr-Pt-vRR" secondAttribute="trailing" constant="-13" id="3hb-VU-eJZ"/>
                                                 <constraint firstItem="mfn-kK-Wvh" firstAttribute="centerY" secondItem="sbr-Pt-vRR" secondAttribute="centerY" id="YNA-qq-Xb6"/>
+                                                <constraint firstItem="XHn-Jq-NN6" firstAttribute="centerY" secondItem="sbr-Pt-vRR" secondAttribute="centerY" id="Yr0-jM-9ey"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <gestureRecognizers/>
@@ -767,7 +777,7 @@ Real-time translation is only compatible with the HiAnime source, as it uses sof
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <sections>
                             <tableViewSection headerTitle="About Ryu" id="12i-Tl-sd4">
-                                <string key="footerTitle">Ryu is a free, open source iOS app, developed by cranci. The app is under the GNU GPLv3.0 
+                                <string key="footerTitle">Ryu is a free, open source iOS app, developed by cranci. The app is licenced under the GNU GPLv3.0
 
 Ryu is also not made to promote piracy. It's just a streaming app, all the contents are not stored in any server and are easily accessible via the internet.</string>
                                 <cells>
@@ -827,11 +837,11 @@ Ryu is also not made to promote piracy. It's just a streaming app, all the conte
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="qVD-qi-mRG">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="qVD-qi-mRG">
                                         <rect key="frame" x="20" y="119" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qVD-qi-mRG" id="uPt-gv-rql">
-                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Github Repository" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Slg-s4-b48">
@@ -840,9 +850,19 @@ Ryu is also not made to promote piracy. It's just a streaming app, all the conte
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="safari.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="p5g-CP-ehj">
+                                                    <rect key="frame" x="341" y="12.5" width="20" height="19"/>
+                                                    <color key="tintColor" systemColor="systemGray2Color"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="7lr-Tl-jja"/>
+                                                        <constraint firstAttribute="width" constant="20" id="f6h-9j-8X2"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="Slg-s4-b48" firstAttribute="leading" secondItem="uPt-gv-rql" secondAttribute="leading" constant="16" id="Uxf-Bb-TnY"/>
+                                                <constraint firstItem="p5g-CP-ehj" firstAttribute="trailing" secondItem="uPt-gv-rql" secondAttribute="trailing" constant="-13" id="dQV-Bq-5s4"/>
+                                                <constraint firstItem="p5g-CP-ehj" firstAttribute="centerY" secondItem="uPt-gv-rql" secondAttribute="centerY" id="gfL-t0-oo0"/>
                                                 <constraint firstItem="Slg-s4-b48" firstAttribute="centerY" secondItem="uPt-gv-rql" secondAttribute="centerY" id="tzD-Hl-OnT"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -851,11 +871,11 @@ Ryu is also not made to promote piracy. It's just a streaming app, all the conte
                                             <outletCollection property="gestureRecognizers" destination="0qe-B8-dQ2" appends="YES" id="xcP-Eu-EXD"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="hnH-hg-ggD">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="hnH-hg-ggD">
                                         <rect key="frame" x="20" y="162.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hnH-hg-ggD" id="33a-sB-LaZ">
-                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Discord Server" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kEb-Sz-w8z">
@@ -864,9 +884,19 @@ Ryu is also not made to promote piracy. It's just a streaming app, all the conte
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="safari.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="726-lk-rek">
+                                                    <rect key="frame" x="341" y="12.5" width="20" height="19"/>
+                                                    <color key="tintColor" systemColor="systemGray2Color"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="4Ld-Me-kck"/>
+                                                        <constraint firstAttribute="width" constant="20" id="8Ui-cR-VCv"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="726-lk-rek" firstAttribute="trailing" secondItem="33a-sB-LaZ" secondAttribute="trailing" constant="-13" id="OrQ-Yd-RPT"/>
                                                 <constraint firstItem="kEb-Sz-w8z" firstAttribute="leading" secondItem="33a-sB-LaZ" secondAttribute="leading" constant="16" id="XK7-xS-egc"/>
+                                                <constraint firstItem="726-lk-rek" firstAttribute="centerY" secondItem="33a-sB-LaZ" secondAttribute="centerY" id="nYV-bk-Rrc"/>
                                                 <constraint firstItem="kEb-Sz-w8z" firstAttribute="centerY" secondItem="33a-sB-LaZ" secondAttribute="centerY" id="xWQ-gY-AvU"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -875,11 +905,11 @@ Ryu is also not made to promote piracy. It's just a streaming app, all the conte
                                             <outletCollection property="gestureRecognizers" destination="9yg-eA-erD" appends="YES" id="tc1-MG-ATy"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Fgy-G7-OYD">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Fgy-G7-OYD">
                                         <rect key="frame" x="20" y="206" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Fgy-G7-OYD" id="ANt-qn-9fI">
-                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Report an Issue" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y74-eG-IA4">
@@ -888,10 +918,20 @@ Ryu is also not made to promote piracy. It's just a streaming app, all the conte
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="safari.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="oss-cq-Rlq">
+                                                    <rect key="frame" x="341" y="12.5" width="20" height="19"/>
+                                                    <color key="tintColor" systemColor="systemGray2Color"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="Cfn-jm-eVk"/>
+                                                        <constraint firstAttribute="width" constant="20" id="pJ0-YB-cfJ"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="oss-cq-Rlq" firstAttribute="trailing" secondItem="ANt-qn-9fI" secondAttribute="trailing" constant="-13" id="85Z-vr-rNO"/>
                                                 <constraint firstItem="y74-eG-IA4" firstAttribute="centerY" secondItem="ANt-qn-9fI" secondAttribute="centerY" id="Nhz-dW-2OO"/>
                                                 <constraint firstItem="y74-eG-IA4" firstAttribute="leading" secondItem="ANt-qn-9fI" secondAttribute="leading" constant="16" id="TKc-8t-Oja"/>
+                                                <constraint firstItem="oss-cq-Rlq" firstAttribute="centerY" secondItem="ANt-qn-9fI" secondAttribute="centerY" id="oCI-Vp-4DE"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <gestureRecognizers/>
@@ -899,11 +939,11 @@ Ryu is also not made to promote piracy. It's just a streaming app, all the conte
                                             <outletCollection property="gestureRecognizers" destination="HkR-tl-v32" appends="YES" id="WHJ-JV-kOn"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="1st-W8-lRx">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="1st-W8-lRx">
                                         <rect key="frame" x="20" y="249.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1st-W8-lRx" id="OgD-Oi-phv">
-                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Support Ryu" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jHI-YC-LTA">
@@ -912,10 +952,20 @@ Ryu is also not made to promote piracy. It's just a streaming app, all the conte
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="safari.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="UaN-TE-Fa5">
+                                                    <rect key="frame" x="341" y="12.5" width="20" height="19"/>
+                                                    <color key="tintColor" systemColor="systemGray2Color"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="20" id="cvm-Ud-kAb"/>
+                                                        <constraint firstAttribute="height" constant="20" id="i2Z-lc-Pzj"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="jHI-YC-LTA" firstAttribute="centerY" secondItem="OgD-Oi-phv" secondAttribute="centerY" id="NGx-us-75J"/>
                                                 <constraint firstItem="jHI-YC-LTA" firstAttribute="leading" secondItem="OgD-Oi-phv" secondAttribute="leading" constant="16" id="NV9-ma-9DA"/>
+                                                <constraint firstItem="UaN-TE-Fa5" firstAttribute="trailing" secondItem="OgD-Oi-phv" secondAttribute="trailing" constant="-13" id="h3O-Mh-Qma"/>
+                                                <constraint firstItem="UaN-TE-Fa5" firstAttribute="centerY" secondItem="OgD-Oi-phv" secondAttribute="centerY" id="xeA-uK-jPv"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <gestureRecognizers/>
@@ -925,28 +975,38 @@ Ryu is also not made to promote piracy. It's just a streaming app, all the conte
                             <tableViewSection headerTitle="Privacy" id="I1e-zt-hkV">
                                 <string key="footerTitle">Ryu prioritizes user privacy and does not store any personal data. All generated images are not retained by the app. If a user chooses to download an episode, it will only be stored locally in their device storage or on the Downloads Page in the app. We are committed to ensuring a secure and private experience for our users.</string>
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="oBQ-XV-Yb3">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="fuf-92-E0s">
                                         <rect key="frame" x="20" y="429" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oBQ-XV-Yb3" id="iwq-sG-PiT">
-                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fuf-92-E0s" id="hFu-I3-DUg">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Review Code" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rOT-dp-A7l">
-                                                    <rect key="frame" x="16" y="13" width="89.5" height="18"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Review Ryu Code" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t3H-Of-oM0">
+                                                    <rect key="frame" x="16" y="13" width="120" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="safari.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="YB3-S8-xTh">
+                                                    <rect key="frame" x="341" y="12.5" width="20" height="19"/>
+                                                    <color key="tintColor" systemColor="systemGray2Color"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="BYv-hP-hPZ"/>
+                                                        <constraint firstAttribute="width" constant="20" id="fqW-ba-get"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="rOT-dp-A7l" firstAttribute="leading" secondItem="iwq-sG-PiT" secondAttribute="leading" constant="16" id="Tag-0R-jDl"/>
-                                                <constraint firstItem="rOT-dp-A7l" firstAttribute="centerY" secondItem="iwq-sG-PiT" secondAttribute="centerY" id="juO-uO-TVw"/>
+                                                <constraint firstItem="YB3-S8-xTh" firstAttribute="centerY" secondItem="hFu-I3-DUg" secondAttribute="centerY" id="6hQ-j8-iZW"/>
+                                                <constraint firstItem="YB3-S8-xTh" firstAttribute="trailing" secondItem="hFu-I3-DUg" secondAttribute="trailing" constant="-13" id="SKM-qZ-jOu"/>
+                                                <constraint firstItem="t3H-Of-oM0" firstAttribute="centerY" secondItem="hFu-I3-DUg" secondAttribute="centerY" id="cqO-fV-RDK"/>
+                                                <constraint firstItem="t3H-Of-oM0" firstAttribute="leading" secondItem="hFu-I3-DUg" secondAttribute="leading" constant="16" id="g9G-oj-Pwq"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <gestureRecognizers/>
                                         <connections>
-                                            <outletCollection property="gestureRecognizers" destination="37h-4f-79A" appends="YES" id="DcU-43-N6n"/>
+                                            <outletCollection property="gestureRecognizers" destination="nKb-Rx-IBi" appends="YES" id="0eF-P5-Bye"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -960,11 +1020,11 @@ Ryu is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
 
 You should have received a copy of the GNU General Public License along with Ryu. If not, see &lt;https://www.gnu.org/licenses/&gt;.</string>
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="HkG-T8-RWQ">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="HkG-T8-RWQ">
                                         <rect key="frame" x="20" y="608.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HkG-T8-RWQ" id="w93-1l-591">
-                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="License" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iPe-aW-DeN">
@@ -973,9 +1033,19 @@ You should have received a copy of the GNU General Public License along with Ryu
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="safari.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="w56-Hd-hxA">
+                                                    <rect key="frame" x="341" y="12.5" width="20" height="19"/>
+                                                    <color key="tintColor" systemColor="systemGray2Color"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="Med-QF-wDE"/>
+                                                        <constraint firstAttribute="width" constant="20" id="ibs-6g-UeH"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="w56-Hd-hxA" firstAttribute="trailing" secondItem="w93-1l-591" secondAttribute="trailing" constant="-13" id="EDM-PC-Aio"/>
                                                 <constraint firstItem="iPe-aW-DeN" firstAttribute="centerY" secondItem="w93-1l-591" secondAttribute="centerY" id="Ibt-Qa-SYQ"/>
+                                                <constraint firstItem="w56-Hd-hxA" firstAttribute="centerY" secondItem="w93-1l-591" secondAttribute="centerY" id="K8F-9O-i2S"/>
                                                 <constraint firstItem="iPe-aW-DeN" firstAttribute="leading" secondItem="w93-1l-591" secondAttribute="leading" constant="16" id="Xl6-Pd-bb3"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -1030,7 +1100,7 @@ You should have received a copy of the GNU General Public License along with Ryu
                     </navigationItem>
                     <connections>
                         <outlet property="licenseLabel" destination="iPe-aW-DeN" id="Ecx-cF-Pzy"/>
-                        <outlet property="privacyLabel" destination="rOT-dp-A7l" id="vue-4L-oNO"/>
+                        <outlet property="privacyLabel" destination="t3H-Of-oM0" id="Wep-65-kSj"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M2c-XY-tsa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1049,14 +1119,14 @@ You should have received a copy of the GNU General Public License along with Ryu
                         <action selector="githubTapped:" destination="RUG-Sz-sjD" id="XeM-Od-raV"/>
                     </connections>
                 </tapGestureRecognizer>
-                <tapGestureRecognizer id="37h-4f-79A" userLabel="review code">
-                    <connections>
-                        <action selector="reviewCodeTapped:" destination="RUG-Sz-sjD" id="fl7-Xt-a1U"/>
-                    </connections>
-                </tapGestureRecognizer>
                 <tapGestureRecognizer id="9yg-eA-erD" userLabel="discord">
                     <connections>
                         <action selector="discordTapped:" destination="RUG-Sz-sjD" id="ZQq-Tv-p2N"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="nKb-Rx-IBi" userLabel="privacy">
+                    <connections>
+                        <action selector="reviewCodeTapped:" destination="RUG-Sz-sjD" id="LFt-vl-O21"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
@@ -3170,11 +3240,15 @@ Use this feature if you are able to host it your self to prevent downtime or mas
         <image name="Kitsu" width="256" height="256"/>
         <image name="Kuramanime" width="150" height="150"/>
         <image name="TokyoInsider" width="152" height="152"/>
+        <image name="safari.fill" catalog="system" width="128" height="121"/>
         <namedColor name="AccentColor">
             <color red="0.18823529411764706" green="0.69019607843137254" blue="0.7803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGray2Color">
+            <color red="0.68235294117647061" green="0.68235294117647061" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemRedColor">
             <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
