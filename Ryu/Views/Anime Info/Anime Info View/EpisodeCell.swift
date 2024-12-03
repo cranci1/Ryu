@@ -286,6 +286,24 @@ class EpisodeCell: UITableViewCell {
         addGestureRecognizer(longPressGesture)
     }
     
+    private func arePreviousEpisodesWatched(currentEpisodeNumber: Int) -> Bool {
+        guard let delegate = delegate else { return false }
+        
+        let previousEpisodes = delegate.episodes.filter { $0.episodeNumber < currentEpisodeNumber }
+        
+        for episode in previousEpisodes {
+            let fullURL = episode.href
+            let lastPlayedTime = UserDefaults.standard.double(forKey: "lastPlayedTime_\(fullURL)")
+            let totalTime = UserDefaults.standard.double(forKey: "totalTime_\(fullURL)")
+            
+            if lastPlayedTime == 0 || totalTime == 0 || lastPlayedTime < totalTime {
+                return false
+            }
+        }
+        
+        return true
+    }
+    
     @objc private func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
         guard gesture.state == .began else { return }
         
@@ -298,7 +316,7 @@ class EpisodeCell: UITableViewCell {
             let totalTime = UserDefaults.standard.double(forKey: "totalTime_\(fullURL)")
             let remainingTime = totalTime - lastPlayedTime
             
-            if episode.episodeNumber > 1 {
+            if episode.episodeNumber > 1 && !arePreviousEpisodesWatched(currentEpisodeNumber: episode.episodeNumber) {
                 menuItems.append(UIMenuItem(title: "Mark Previous as Watched", action: #selector(markPreviousAsWatched)))
             }
             

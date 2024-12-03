@@ -1496,16 +1496,28 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
             if totalTime > 0 {
                 let progressDifference = (totalTime - lastPlayedTime) / totalTime
                 if progressDifference > 0.15 {
-                    if let cell = tableView.cellForRow(at: IndexPath(row: sortedEpisodes.firstIndex(of: episode) ?? 0, section: 2)) as? EpisodeCell {
-                        cell.loadSavedProgress(for: episode.href)
-                        episodeSelected(episode: episode, cell: cell)
+                    if let index = sortedEpisodes.firstIndex(of: episode) {
+                        let indexPath = IndexPath(row: index, section: 2)
+                        tableView.scrollToRow(at: indexPath, at: .middle, animated: true)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            if let cell = self.tableView.cellForRow(at: indexPath) as? EpisodeCell {
+                                cell.loadSavedProgress(for: episode.href)
+                                self.episodeSelected(episode: episode, cell: cell)
+                            }
+                        }
                     }
                     break
                 }
             } else {
-                if let cell = tableView.cellForRow(at: IndexPath(row: sortedEpisodes.firstIndex(of: episode) ?? 0, section: 2)) as? EpisodeCell {
-                    cell.loadSavedProgress(for: episode.href)
-                    episodeSelected(episode: episode, cell: cell)
+                if let index = sortedEpisodes.firstIndex(of: episode) {
+                    let indexPath = IndexPath(row: index, section: 2)
+                    tableView.scrollToRow(at: indexPath, at: .middle, animated: true)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        if let cell = self.tableView.cellForRow(at: indexPath) as? EpisodeCell {
+                            cell.loadSavedProgress(for: episode.href)
+                            self.episodeSelected(episode: episode, cell: cell)
+                        }
+                    }
                 }
                 break
             }
