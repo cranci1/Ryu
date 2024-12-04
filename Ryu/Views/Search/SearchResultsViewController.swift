@@ -384,7 +384,7 @@ class SearchResultsViewController: UIViewController {
             url = "https://animeworld.so/search"
             parameters["keyword"] = query
         case "GoGoAnime":
-            url = "https://anitaku.bz/search.html"
+            url = "https://gogoanime3.cc/search.html"
             parameters["keyword"] = query
         case "AnimeHeaven":
             url = "https://animeheaven.me/search.php"
@@ -613,7 +613,7 @@ extension SearchResultsViewController: UIContextMenuInteractionDelegate {
         case "AnimeWorld":
             baseUrl = "https://animeworld.so"
         case "GoGoAnime":
-            baseUrl = "https://anitaku.bz"
+            baseUrl = "https://gogoanime3.cc"
         case "AnimeHeaven":
             baseUrl = "https://animeheaven.me/"
         case "HiAnime":

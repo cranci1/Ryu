@@ -636,7 +636,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
         case "AnimeWorld":
             baseUrl = "https://animeworld.so"
         case "GoGoAnime":
-            baseUrl = "https://anitaku.bz"
+            baseUrl = "https://gogoanime3.cc"
         case "AnimeHeaven":
             baseUrl = "https://animeheaven.me/"
         case "HiAnime":
@@ -731,7 +731,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
             checkUserDefault(url: fullURL, cell: cell, fullURL: episodeTimeURL)
             return
         case "GoGoAnime":
-            baseURL = "https://anitaku.bz/"
+            baseURL = "https://gogoanime3.cc"
             episodeId = episode.href.components(separatedBy: "/").last ?? episode.href
             fullURL = baseURL + episodeId
             episodeTimeURL = episode.href

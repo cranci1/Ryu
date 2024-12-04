@@ -29,7 +29,7 @@ class AnimeDetailService {
         case .animeWorld:
             baseUrls = ["https://animeworld.so"]
         case .gogoanime:
-            baseUrls = ["https://anitaku.bz"]
+            baseUrls = ["https://gogoanime3.cc"]
         case .animeheaven:
             baseUrls = ["https://animeheaven.me/"]
         case .hianime:
