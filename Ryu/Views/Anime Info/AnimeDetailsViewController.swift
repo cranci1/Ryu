@@ -730,13 +730,6 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
             episodeTimeURL = episode.href
             checkUserDefault(url: fullURL, cell: cell, fullURL: episodeTimeURL)
             return
-        case "GoGoAnime":
-            baseURL = "https://gogoanime3.cc"
-            episodeId = episode.href.components(separatedBy: "/").last ?? episode.href
-            fullURL = baseURL + episodeId
-            episodeTimeURL = episode.href
-            checkUserDefault(url: fullURL, cell: cell, fullURL: episodeTimeURL)
-            return
         default:
             baseURL = ""
             episodeId = episode.href

@@ -397,14 +397,14 @@ class AnimeDetailService {
                     let validStart = min(start, end)
                     let validEnd = max(start, end)
                     
-                    return (validStart...validEnd).map { episodeNumber in
+                    return (validStart...validEnd).compactMap { episodeNumber in
                         let formattedEpisode = "\(episodeNumber)"
-                        let episodeHref = "\(href)-episode-\(episodeNumber)"
-                        let downloadUrl = try? document.select(downloadUrlElement).attr("href")
-                        
-                        return Episode(number: formattedEpisode, href: episodeHref, downloadUrl: downloadUrl ?? "")
+                        guard formattedEpisode != "0" else { return nil }
+                        let episodeHref = "\(href)-episode-\(episodeNumber)".replacingOccurrences(of: "/category/", with: "")
+                        let fullhref = "https://s3embtaku.pro/videos/" + episodeHref
+                        print(fullhref)
+                        return Episode(number: formattedEpisode, href: fullhref, downloadUrl: "")
                     }
-                    .filter { $0.number != "0" }
                 }
             case .animeheaven:
                 episodes = episodeElements.compactMap { element in
