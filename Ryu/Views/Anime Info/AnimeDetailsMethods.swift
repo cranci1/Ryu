@@ -408,8 +408,9 @@ extension AnimeDetailViewController {
                   let sourceURL = URL(string: sourceURLString) else {
                       return nil
                   }
-            print("Iframe src URL: \(sourceURL.absoluteString)")
-            return sourceURL
+            let realSourceURL = "https:\(sourceURL)"
+            print("Iframe src URL: \(realSourceURL)")
+            return URL(string: realSourceURL)
         } catch {
             print("Error parsing HTML with SwiftSoup: \(error)")
             return nil
