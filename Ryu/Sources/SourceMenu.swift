@@ -14,7 +14,6 @@ class SourceMenu {
         DispatchQueue.main.async {
             let sources: [(title: String, source: MediaSource, language: String)] = [
                 ("AnimeWorld", .animeWorld, "🇮🇹"),
-                ("GoGoAnime", .gogoanime, "🇺🇸"),
                 ("AnimeHeaven", .animeheaven, "🇺🇸"),
                 ("AnimeFire", .animefire, "🇵🇹"),
                 ("Kuramanime", .kuramanime, "🇮🇩"),
