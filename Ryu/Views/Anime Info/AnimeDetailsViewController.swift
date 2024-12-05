@@ -636,7 +636,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
         case "AnimeWorld":
             baseUrl = "https://animeworld.so"
         case "GoGoAnime":
-            baseUrl = "https://gogoanime3.cc"
+            baseUrl = "https://anitaku.bz"
         case "AnimeHeaven":
             baseUrl = "https://animeheaven.me/"
         case "HiAnime":

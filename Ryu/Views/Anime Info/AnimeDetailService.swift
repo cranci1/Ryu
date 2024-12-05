@@ -29,7 +29,7 @@ class AnimeDetailService {
         case .animeWorld:
             baseUrls = ["https://animeworld.so"]
         case .gogoanime:
-            baseUrls = ["https://gogoanime3.cc"]
+            baseUrls = ["https://anitaku.bz"]
         case .animeheaven:
             baseUrls = ["https://animeheaven.me/"]
         case .hianime:
@@ -401,7 +401,7 @@ class AnimeDetailService {
                         let formattedEpisode = "\(episodeNumber)"
                         guard formattedEpisode != "0" else { return nil }
                         let episodeHref = "\(href)-episode-\(episodeNumber)".replacingOccurrences(of: "/category/", with: "")
-                        let fullhref = "https://s3embtaku.pro/videos/" + episodeHref
+                        let fullhref = "https://anitaku.bz/" + episodeHref
                         print(fullhref)
                         return Episode(number: formattedEpisode, href: fullhref, downloadUrl: "")
                     }
