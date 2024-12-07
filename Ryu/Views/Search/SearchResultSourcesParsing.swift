@@ -347,7 +347,7 @@ extension SearchResultsViewController {
                 return (title: title, imageUrl: imageUrl, href: hrefFull)
             }
         } catch {
-            print("Error parsing AniVibe: \(error.localizedDescription)")
+            print("Error parsing AnimeFLV: \(error.localizedDescription)")
             return []
         }
     }
@@ -364,7 +364,26 @@ extension SearchResultsViewController {
                 return (title: title, imageUrl: imageUrl, href: href)
             }
         } catch {
-            print("Error parsing AniVibe: \(error.localizedDescription)")
+            print("Error parsing AnimeBalkan: \(error.localizedDescription)")
+            return []
+        }
+    }
+    
+    func parseAniBunker(_ document: Document) -> [(title: String, imageUrl: String, href: String)] {
+        do {
+            let items = try document.select("div.section--body article")
+            return try items.map { item -> (title: String, imageUrl: String, href: String) in
+                let title = try item.select("h4").text()
+                
+                let imageUrl = try item.select("img").attr("src")
+                
+                let href = try item.select("a").first()?.attr("href") ?? ""
+                let hrefFull = "https://www.anibunker.com/" + href
+                
+                return (title: title, imageUrl: imageUrl, href: hrefFull)
+            }
+        } catch {
+            print("Error parsing AniBunker: \(error.localizedDescription)")
             return []
         }
     }

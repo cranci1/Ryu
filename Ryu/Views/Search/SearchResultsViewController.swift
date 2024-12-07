@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 import Alamofire
 import SwiftSoup
 import SafariServices
@@ -434,6 +435,9 @@ class SearchResultsViewController: UIViewController {
         case "AnimeBalkan":
             url = "https://animebalkan.gg/"
             parameters["s"] = query
+        case "AniBunker":
+            url = "https://www.anibunker.com/search"
+            parameters["q"] = query
         default:
             return nil
         }
@@ -541,6 +545,9 @@ class SearchResultsViewController: UIViewController {
         case .animebalkan:
             guard let document = document else { return [] }
             return parseAnimeBalkan(document)
+        case .anibunker:
+            guard let document = document else { return [] }
+            return parseAniBunker(document)
         }
     }
     
@@ -561,16 +568,7 @@ extension SearchResultsViewController: UITableViewDataSource, UITableViewDelegat
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "resultCell", for: indexPath) as! SearchResultCell
         let result = filteredResults[indexPath.row]
-        
-        cell.titleLabel.text = result.title
-        
-        if let url = URL(string: result.imageUrl) {
-            cell.animeImageView.kf.setImage(with: url, placeholder: UIImage(systemName: "photo"), options: [.transition(.fade(0.2)), .cacheOriginalImage])
-        }
-        
-        let interaction = UIContextMenuInteraction(delegate: self)
-        cell.addInteraction(interaction)
-        
+        cell.configure(with: result)
         return cell
     }
     
@@ -740,5 +738,12 @@ class SearchResultCell: UITableViewCell {
     
     private func configureAppearance() {
         backgroundColor = UIColor.systemBackground
+    }
+    
+    func configure(with result: (title: String, imageUrl: String, href: String)) {
+        titleLabel.text = result.title
+        if let url = URL(string: result.imageUrl) {
+            animeImageView.kf.setImage(with: url, placeholder: UIImage(systemName: "photo"), options: [.transition(.fade(0.2)), .cacheOriginalImage])
+        }
     }
 }

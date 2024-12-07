@@ -27,7 +27,8 @@ class SourceMenu {
                 ("AniVibe", .anivibe, "🇺🇸"),
                 ("AnimeUnity", .animeunity, "🇮🇹"),
                 ("AnimeFLV", .animeflv, "🇪🇸"),
-                ("AnimeBalkan", .animebalkan, "🇭🇷")
+                ("AnimeBalkan", .animebalkan, "🇭🇷"),
+                ("AniBunker", .anibunker, "🇵🇹")
             ]
             
             let alertController = UIAlertController(title: "Select Source", message: "Choose your preferred source.", preferredStyle: .actionSheet)

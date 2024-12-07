@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		13071F792CCD3900001078B7 /* Kitsu+Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13071F782CCD3900001078B7 /* Kitsu+Token.swift */; };
+		1314D3EA2D04FD0B0019BB28 /* URLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1314D3E92D04FD0B0019BB28 /* URLSession.swift */; };
 		131546D52C6DE6CC002DC3CC /* GoogleCastSDK-ios-no-bluetooth in Frameworks */ = {isa = PBXBuildFile; productRef = 131546D42C6DE6CC002DC3CC /* GoogleCastSDK-ios-no-bluetooth */; };
 		131546D82C6DE6D9002DC3CC /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 131546D72C6DE6D9002DC3CC /* Kingfisher */; };
 		131546DE2C6DE6F2002DC3CC /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 131546DD2C6DE6F2002DC3CC /* Alamofire */; };
@@ -102,6 +103,7 @@
 
 /* Begin PBXFileReference section */
 		13071F782CCD3900001078B7 /* Kitsu+Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Kitsu+Token.swift"; sourceTree = "<group>"; };
+		1314D3E92D04FD0B0019BB28 /* URLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSession.swift; sourceTree = "<group>"; };
 		132BEFA22CC5440C00B61089 /* Anilist-Episodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Anilist-Episodes.swift"; sourceTree = "<group>"; };
 		132F7EDE2CDA56CB0037FECD /* Sequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sequence.swift; sourceTree = "<group>"; };
 		1335C15D2CCFCF77004C19F4 /* Episode+Struct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Episode+Struct.swift"; sourceTree = "<group>"; };
@@ -565,6 +567,7 @@
 			children = (
 				13921B442C6B8FC1004E8BDC /* UserDefaults.swift */,
 				13921B422C6B8F87004E8BDC /* Notification.swift */,
+				1314D3E92D04FD0B0019BB28 /* URLSession.swift */,
 				137B8D032CA15BA1004CC61B /* Collection.swift */,
 				132F7EDE2CDA56CB0037FECD /* Sequence.swift */,
 				1365250A2C6B5B4000210A98 /* UIImage.swift */,
@@ -771,6 +774,7 @@
 				132F7EDF2CDA56CB0037FECD /* Sequence.swift in Sources */,
 				138669D42C6F6266009ABA6F /* WebPlayer.swift in Sources */,
 				136525482C6B5B4100210A98 /* DownloadsViewController.swift in Sources */,
+				1314D3EA2D04FD0B0019BB28 /* URLSession.swift in Sources */,
 				1365251A2C6B5B4100210A98 /* Anilist-Mutation.swift in Sources */,
 				136525262C6B5B4100210A98 /* AppDelegate.swift in Sources */,
 				13FD4DD72C9C61450056E90B /* AnimeDetailsMethods.swift in Sources */,

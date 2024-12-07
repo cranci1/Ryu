@@ -24,6 +24,7 @@ enum MediaSource: String {
     case animeunity = "AnimeUnity"
     case animeflv = "AnimeFLV"
     case animebalkan = "AnimeBalkan"
+    case anibunker = "AniBunker"
 }
 
 extension MediaSource {
@@ -45,6 +46,7 @@ extension MediaSource {
         case .animeunity: return "AnimeUnity"
         case .animeflv: return "AnimeFLV"
         case .animebalkan: return "AnimeBalkan"
+        case .anibunker: return "AniBunker"
         }
     }
 }

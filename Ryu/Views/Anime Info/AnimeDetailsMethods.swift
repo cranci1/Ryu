@@ -409,8 +409,46 @@ extension AnimeDetailViewController {
                       return nil
                   }
             let realSourceURL = "https:\(sourceURL)"
-            print("Iframe src URL: \(realSourceURL)")
             return URL(string: realSourceURL)
+        } catch {
+            print("Error parsing HTML with SwiftSoup: \(error)")
+            return nil
+        }
+    }
+    
+    func extractAniBunker(from htmlString: String) -> URL? {
+        do {
+            let doc: Document = try SwiftSoup.parse(htmlString)
+            guard let videoElement = try doc.select("div#videoContainer").first(),
+                  let videoID = try videoElement.attr("data-video-id").nilIfEmpty else {
+                      return nil
+                  }
+            
+            let url = URL(string: "https://www.anibunker.com/php/loader.php")!
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.setValue("https://www.anibunker.com", forHTTPHeaderField: "Origin")
+            request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+            
+            let bodyString = "player_id=url_hd&video_id=\(videoID)"
+            request.httpBody = bodyString.data(using: .utf8)
+            
+            let (data, _, error) = URLSession.shared.syncRequest(with: request)
+            
+            guard let data = data, error == nil else {
+                print("Error making POST request: \(error?.localizedDescription ?? "Unknown error")")
+                return nil
+            }
+            
+            if let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+               let success = json["success"] as? Bool, success,
+               let urlString = json["url"] as? String,
+               let url = URL(string: urlString) {
+                return url
+            } else {
+                print("Error parsing JSON response")
+                return nil
+            }
         } catch {
             print("Error parsing HTML with SwiftSoup: \(error)")
             return nil

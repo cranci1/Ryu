@@ -1014,6 +1014,8 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                     return
                 case "AniVibe":
                     srcURL = self.extractAniVibeURL(from: htmlString)
+                case "AniBunker":
+                    srcURL = self.extractAniBunker(from: htmlString)
                 case "TokyoInsider":
                     self.extractTokyoVideo(from: htmlString) { selectedURL in
                         DispatchQueue.main.async {
@@ -1064,7 +1066,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                     self.hideLoadingBannerAndShowAlert(title: "Error", message: "The stream URL wasn't found.")
                     return
                 }
-                print(srcURL!)
+                
                 self.hideLoadingBanner {
                     DispatchQueue.main.async {
                         switch selectedMediaSource {
