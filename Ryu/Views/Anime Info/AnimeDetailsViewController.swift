@@ -995,7 +995,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                     }
                 case "AnimeFire":
                     srcURL = self.extractDataVideoSrcURL(from: htmlString)
-                case "AnimeWorld", "AnimeHeaven":
+                case "AnimeWorld", "AnimeHeaven", "AnimeBalkan":
                     srcURL = self.extractVideoSourceURL(from: htmlString)
                 case "Kuramanime":
                     srcURL = URL(string: fullURL)

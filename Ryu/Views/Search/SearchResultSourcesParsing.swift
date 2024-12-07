@@ -351,4 +351,21 @@ extension SearchResultsViewController {
             return []
         }
     }
+    
+    func parseAnimeBalkan(_ document: Document) -> [(title: String, imageUrl: String, href: String)] {
+        do {
+            let items = try document.select("article.bs")
+            return try items.map { item -> (title: String, imageUrl: String, href: String) in
+                let title = try item.select("h2").text()
+                
+                let imageUrl = try item.select("img").attr("data-src")
+                
+                let href = try item.select("a").first()?.attr("href") ?? ""
+                return (title: title, imageUrl: imageUrl, href: href)
+            }
+        } catch {
+            print("Error parsing AniVibe: \(error.localizedDescription)")
+            return []
+        }
+    }
 }

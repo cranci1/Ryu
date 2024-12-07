@@ -431,6 +431,9 @@ class SearchResultsViewController: UIViewController {
         case "AnimeFLV":
             url = "https://www3.animeflv.net/browse"
             parameters["q"] = query
+        case "AnimeBalkan":
+            url = "https://animebalkan.gg/"
+            parameters["s"] = query
         default:
             return nil
         }
@@ -535,6 +538,9 @@ class SearchResultsViewController: UIViewController {
         case .animeflv:
             guard let document = document else { return [] }
             return parseAnimeFLV(document)
+        case .animebalkan:
+            guard let document = document else { return [] }
+            return parseAnimeBalkan(document)
         }
     }
     

@@ -39,6 +39,8 @@ extension HomeViewController {
             return ("https://www.animeunity.to/", parseAnimeUnityFeatured)
         case "AnimeFLV":
             return ("https://www3.animeflv.net/", paseAnimeFLVFeatured)
+        case "AnimeBalkan":
+            return ("https://animebalkan.org/animesaprevodom/?status=&type=&order=update", parseAnimeBalknaFreated)
         default:
             return (nil, nil)
         }
@@ -332,6 +334,20 @@ extension HomeViewController {
             
             print(modifiedHref2)
             return AnimeItem(title: title, imageURL: imageURL, href: modifiedHref2)
+        }
+    }
+    
+    func parseAnimeBalknaFreated(_ doc: Document) throws -> [AnimeItem] {
+        let animeItems = try doc.select("div.listupd article")
+        return try animeItems.array().compactMap { item in
+            
+            let title = try item.select("h2").text()
+            
+            let imageUrl = try item.select("img").attr("data-src")
+            
+            let href = try item.select("a").first()?.attr("href")
+            
+            return AnimeItem(title: title, imageURL: imageUrl, href: href ?? "")
         }
     }
 }

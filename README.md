@@ -59,6 +59,7 @@ A simple way to enjoy and watch anime on iOS
 | AniVibe      | English    |   ✅   |   ✅   |    ✅    |    :x:  |
 | AnimeUnity   | Italian    |   ✅   |   ✅   |    ✅    |    ✅   |
 | AnimeFLV     | Spanish    |   ✅   |   ✅   |    ✅    |    ✅   |
+| AnimeBalkan  | Croatian   |   ✅   |   ✅   |    ✅    |    ✅   |
 
 > Note that some Sources are region blocked:
 > AnimeFire: Brazil and Protugal 
