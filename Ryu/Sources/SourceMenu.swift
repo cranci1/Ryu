@@ -34,7 +34,7 @@ class SourceMenu {
             let alertController = UIAlertController(title: "Select Source", message: "Choose your preferred source.", preferredStyle: .actionSheet)
             
             for (title, source, language) in sources {
-                let actionTitle = "\(title) \(language)"
+                let actionTitle = "\(title) - \(language)"
                 let action = UIAlertAction(title: actionTitle, style: .default) { _ in
                     UserDefaults.standard.selectedMediaSource = source
                     completion?()
