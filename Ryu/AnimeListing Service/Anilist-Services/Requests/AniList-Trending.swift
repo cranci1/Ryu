@@ -9,6 +9,7 @@ import Alamofire
 import Foundation
 
 class AnilistServiceTrendingAnime {
+    let session = proxySession.createAlamofireProxySession()
     
     func fetchTrendingAnime(completion: @escaping ([Anime]?) -> Void) {
         let query = """
@@ -31,7 +32,7 @@ class AnilistServiceTrendingAnime {
         
         let parameters: [String: Any] = ["query": query]
         
-        AF.request("https://graphql.anilist.co", method: .post, parameters: parameters, encoding: JSONEncoding.default)
+        session.request("https://graphql.anilist.co", method: .post, parameters: parameters, encoding: JSONEncoding.default)
             .validate()
             .responseJSON { response in
                 DispatchQueue.main.async {

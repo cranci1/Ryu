@@ -9,10 +9,12 @@ import Alamofire
 import Foundation
 
 class JikanServiceSeasonalAnime {
+    let session = proxySession.createAlamofireProxySession()
+    
     func fetchSeasonalAnime(completion: @escaping ([Anime]?) -> Void) {
         let url = "https://api.jikan.moe/v4/seasons/now"
         
-        AF.request(url)
+        session.request(url)
             .validate()
             .responseJSON { response in
                 switch response.result {

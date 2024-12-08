@@ -212,6 +212,8 @@ class SearchResultsViewController: UIViewController {
     }
     
     private func fetchResults() {
+        let session = proxySession.createAlamofireProxySession()
+        
         loadingIndicator.startAnimating()
         tableView.isHidden = true
         errorLabel.isHidden = true
@@ -234,16 +236,12 @@ class SearchResultsViewController: UIViewController {
             return
         }
         
-        if selectedSource == "Hanashi" {
-            DispatchQueue.main.async {
-                self.fetchHanashiResults(urlParameters: urlParameters)
-            }
-        } else if selectedSource == "GoGoAnime" {
+        if selectedSource == "GoGoAnime" {
             DispatchQueue.main.async {
                 self.fetchGoGoResults(urlParameters: urlParameters)
             }
         } else {
-            AF.request(urlParameters.url, method: .get, parameters: urlParameters.parameters).responseString { [weak self] response in
+            session.request(urlParameters.url, method: .get, parameters: urlParameters.parameters).responseString { [weak self] response in
                 guard let self = self else { return }
                 self.loadingIndicator.stopAnimating()
                 
@@ -297,46 +295,13 @@ class SearchResultsViewController: UIViewController {
         }
     }
     
-    private func fetchHanashiResults(urlParameters: (url: String, parameters: Parameters)) {
-        HanashiAPI.getHanashiToken(refreshToken: "") { [weak self] result in
-            switch result {
-            case .success(let accessToken):
-                let headers: HTTPHeaders = [
-                    "Authorization": "Bearer \(accessToken)"
-                ]
-                
-                AF.request(urlParameters.url, method: .get, parameters: urlParameters.parameters, headers: headers)
-                    .responseString { [weak self] response in
-                        guard let self = self else { return }
-                        self.loadingIndicator.stopAnimating()
-                        
-                        switch response.result {
-                        case .success(let value):
-                            let results = self.parseHTML(html: value, for: .hanashi)
-                            self.searchResults = results
-                            self.filteredResults = results
-                            if results.isEmpty {
-                                self.showNoResults()
-                            } else {
-                                self.tableView.isHidden = false
-                                self.tableView.reloadData()
-                            }
-                        case .failure:
-                            self.showError("Failed to fetch data from Hanashi. Please try again later.")
-                        }
-                    }
-            case .failure:
-                self?.showError("Failed to authenticate with Hanashi. Please try again later.")
-            }
-        }
-    }
-    
     private func fetchGoGoResults(urlParameters: (url: String, parameters: Parameters)) {
+        let session = proxySession.createAlamofireProxySession()
         let group = DispatchGroup()
         var allResults: [(title: String, imageUrl: String, href: String)] = []
         
         group.enter()
-        AF.request(urlParameters.url, method: .get, parameters: urlParameters.parameters).responseString { [weak self] response in
+        session.request(urlParameters.url, method: .get, parameters: urlParameters.parameters).responseString { [weak self] response in
             defer { group.leave() }
             if let value = try? response.result.get(),
                let document = try? SwiftSoup.parse(value),
@@ -345,7 +310,7 @@ class SearchResultsViewController: UIViewController {
             }
         }
         group.enter()
-        AF.request(urlParameters.url + "&page=2", method: .get, parameters: urlParameters.parameters).responseString { [weak self] response in
+        session.request(urlParameters.url + "&page=2", method: .get, parameters: urlParameters.parameters).responseString { [weak self] response in
             defer { group.leave() }
             if let value = try? response.result.get(),
                let document = try? SwiftSoup.parse(value),
@@ -354,7 +319,7 @@ class SearchResultsViewController: UIViewController {
             }
         }
         group.enter()
-        AF.request(urlParameters.url + "&page=3", method: .get, parameters: urlParameters.parameters).responseString { [weak self] response in
+        session.request(urlParameters.url + "&page=3", method: .get, parameters: urlParameters.parameters).responseString { [weak self] response in
             defer { group.leave() }
             if let value = try? response.result.get(),
                let document = try? SwiftSoup.parse(value),
@@ -406,10 +371,6 @@ class SearchResultsViewController: UIViewController {
             ]
             url = baseUrls.randomElement()!
             parameters["q"] = query
-        case "Hanashi":
-            url = "https://api.hanashi.to/api/item/search"
-            parameters["q"] = query
-            parameters["limit"] = 25
         case "Anilibria":
             url = "https://api.anilibria.tv/v3/title/search"
             parameters["search"] = query
@@ -482,7 +443,7 @@ class SearchResultsViewController: UIViewController {
     
     func parseHTML(html: String, for source: MediaSource) -> [(title: String, imageUrl: String, href: String)] {
         switch source {
-        case .hianime, .hanashi, .anilibria:
+        case .hianime, .anilibria:
             return parseDocument(nil, jsonString: html, for: source)
         default:
             do {
@@ -518,9 +479,6 @@ class SearchResultsViewController: UIViewController {
         case .hianime:
             guard let jsonString = jsonString else { return [] }
             return parseHiAnime(jsonString)
-        case .hanashi:
-            guard let jsonString = jsonString else { return [] }
-            return parseHanashi(jsonString)
         case .anilibria:
             guard let jsonString = jsonString else { return [] }
             return parseAnilibria(jsonString)

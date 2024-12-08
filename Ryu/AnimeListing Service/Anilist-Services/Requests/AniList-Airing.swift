@@ -9,6 +9,8 @@ import Alamofire
 import Foundation
 
 class AnilistServiceAiringAnime {
+    let session = proxySession.createAlamofireProxySession()
+    
     func fetchAiringAnime(completion: @escaping ([Anime]?) -> Void) {
         let query = """
         query($page: Int, $perPage: Int, $startTime: Int, $endTime: Int) {
@@ -63,7 +65,7 @@ class AnilistServiceAiringAnime {
             "variables": variables
         ]
         
-        AF.request("https://graphql.anilist.co", method: .post, parameters: parameters, encoding: JSONEncoding.default)
+        session.request("https://graphql.anilist.co", method: .post, parameters: parameters, encoding: JSONEncoding.default)
             .validate()
             .responseJSON { response in
                 DispatchQueue.main.async {

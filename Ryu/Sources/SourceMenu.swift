@@ -16,7 +16,7 @@ class SourceMenu {
                 ("AnimeWorld", .animeWorld, "🇮🇹"),
                 ("GoGoAnime", .gogoanime, "🇺🇸"),
                 ("AnimeHeaven", .animeheaven, "🇺🇸"),
-                ("AnimeFire", .animefire, "🇵🇹"),
+                ("AnimeFire", .animefire, "🇧🇷"),
                 ("Kuramanime", .kuramanime, "🇮🇩"),
                 ("Anime3rb", .anime3rb, "🇸🇦"),
                 ("HiAnime", .hianime, "🇺🇸"),

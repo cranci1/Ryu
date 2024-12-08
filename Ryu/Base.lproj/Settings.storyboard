@@ -323,13 +323,36 @@
                                             <segue destination="tJk-lL-JpK" kind="show" id="roB-wM-Xpo"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="D4D-aA-OV8">
+                                        <rect key="frame" x="20" y="777.5" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="D4D-aA-OV8" id="Na8-Ur-xvw">
+                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Advanced Options" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="We0-7d-hSa">
+                                                    <rect key="frame" x="15" y="13" width="126" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="We0-7d-hSa" firstAttribute="centerY" secondItem="Na8-Ur-xvw" secondAttribute="centerY" id="AcG-N5-vUU"/>
+                                                <constraint firstItem="We0-7d-hSa" firstAttribute="leading" secondItem="Na8-Ur-xvw" secondAttribute="leading" constant="15" id="spb-Tr-LVB"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="5gv-mZ-fK2" kind="show" id="pv1-Nd-6Lf"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="Player" id="Ao9-xv-dJB">
                                 <string key="footerTitle">You must have the VLC/Infuse/Outplayer/nPlayer app installed to be able to use the external Media Player. (nPlayer lite is supported)</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="p2W-Y0-0VQ">
-                                        <rect key="frame" x="20" y="835" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="878.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="p2W-Y0-0VQ" id="6eF-kO-gnu">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -358,7 +381,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="pZ8-Bd-ctw">
-                                        <rect key="frame" x="20" y="878.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="922" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="pZ8-Bd-ctw" id="n9K-6T-tka">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -387,7 +410,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="YcD-pQ-iyV">
-                                        <rect key="frame" x="20" y="922" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="965.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="YcD-pQ-iyV" id="MxW-95-5nY">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -416,7 +439,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="i8x-yq-InO">
-                                        <rect key="frame" x="20" y="965.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="1009" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="i8x-yq-InO" id="SK4-kd-de3">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -444,7 +467,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="gfO-ze-BcA">
-                                        <rect key="frame" x="20" y="1009" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="1052.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gfO-ze-BcA" id="dwo-ud-ay0">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -478,13 +501,13 @@
 Real-time translation is only compatible with the HiAnime source, as it uses softsub subtitle formatting.</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="TNs-QJ-X3d">
-                                        <rect key="frame" x="20" y="1146.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="1190" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="TNs-QJ-X3d" id="C3n-J2-pYD">
-                                            <rect key="frame" x="0.0" y="0.0" width="357.5" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="AutoSkip Preferences" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vEh-c4-OqT">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AutoSkip Preferences" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vEh-c4-OqT">
                                                     <rect key="frame" x="15" y="13" width="148" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
@@ -501,10 +524,10 @@ Real-time translation is only compatible with the HiAnime source, as it uses sof
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="XTU-wy-rjh">
-                                        <rect key="frame" x="20" y="1190" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="1233.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XTU-wy-rjh" id="FW5-6Z-D6W">
-                                            <rect key="frame" x="0.0" y="0.0" width="357.5" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="355.5" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Real Time Translation Preferences" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YyY-6f-8hG">
@@ -528,10 +551,10 @@ Real-time translation is only compatible with the HiAnime source, as it uses sof
                             <tableViewSection headerTitle="Home Configuration" id="NpK-mw-Ph6">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="GOv-Nu-HBP">
-                                        <rect key="frame" x="20" y="1334" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="1377.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="GOv-Nu-HBP" id="cZi-Uj-rTb">
-                                            <rect key="frame" x="0.0" y="0.0" width="357.5" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="355.5" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Google Cast" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pyf-T3-n6p">
@@ -555,7 +578,7 @@ Real-time translation is only compatible with the HiAnime source, as it uses sof
                             <tableViewSection headerTitle="Data" id="y8g-0P-qDQ">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="hfE-We-1uZ">
-                                        <rect key="frame" x="20" y="1427.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="1471" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hfE-We-1uZ" id="xJ2-Ge-9P0">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -579,7 +602,7 @@ Real-time translation is only compatible with the HiAnime source, as it uses sof
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="MCd-19-KYt">
-                                        <rect key="frame" x="20" y="1471" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="1514.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="MCd-19-KYt" id="q9N-QI-RRZ">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -603,7 +626,7 @@ Real-time translation is only compatible with the HiAnime source, as it uses sof
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="mQq-1t-gtR">
-                                        <rect key="frame" x="20" y="1514.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="1558" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mQq-1t-gtR" id="tiP-rb-fIJ">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -627,7 +650,7 @@ Real-time translation is only compatible with the HiAnime source, as it uses sof
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="HUR-n8-Rbx">
-                                        <rect key="frame" x="20" y="1558" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="1601.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HUR-n8-Rbx" id="bHB-r2-4FI">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -651,7 +674,7 @@ Real-time translation is only compatible with the HiAnime source, as it uses sof
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="SUn-bk-K3o">
-                                        <rect key="frame" x="20" y="1601.5" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="1645" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="SUn-bk-K3o" id="K0P-lj-MW7">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -675,7 +698,7 @@ Real-time translation is only compatible with the HiAnime source, as it uses sof
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="nUw-b7-C1T">
-                                        <rect key="frame" x="20" y="1645" width="374" height="43.5"/>
+                                        <rect key="frame" x="20" y="1688.5" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="nUw-b7-C1T" id="zBm-wD-CZR">
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
@@ -1826,193 +1849,6 @@ The Tries is the method that defines how Ryu attempts to fetch episodes. Increas
             </objects>
             <point key="canvasLocation" x="3142" y="-536"/>
         </scene>
-        <!--English-->
-        <scene sceneID="mrV-4X-QeD">
-            <objects>
-                <tableViewController id="cJV-32-Gdf" customClass="SettingsViewDoneButton" customModule="Ryu" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="eCE-jP-9tG">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <sections>
-                            <tableViewSection id="gEN-f0-beF">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="oFj-tW-bDg">
-                                        <rect key="frame" x="20" y="18" width="374" height="100"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oFj-tW-bDg" id="5dM-Di-vEI">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="GoGoAnime" translatesAutoresizingMaskIntoConstraints="NO" id="Xda-Zw-glC">
-                                                    <rect key="frame" x="20" y="11" width="78" height="78"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="78" id="JiK-Qp-J3P"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GoGoAnime is an English streaming service that provides both DUB and SUB. Ryu has great support for GoGoAnime" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sta-te-bmv">
-                                                    <rect key="frame" x="106" y="11" width="248" height="78"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="Sta-te-bmv" firstAttribute="leading" secondItem="Xda-Zw-glC" secondAttribute="trailing" constant="8" id="MeQ-OA-2r8"/>
-                                                <constraint firstItem="Xda-Zw-glC" firstAttribute="top" secondItem="5dM-Di-vEI" secondAttribute="topMargin" id="mj0-Kl-6hz"/>
-                                                <constraint firstItem="Xda-Zw-glC" firstAttribute="bottom" secondItem="Sta-te-bmv" secondAttribute="bottom" id="nZs-On-9Or"/>
-                                                <constraint firstItem="Xda-Zw-glC" firstAttribute="top" secondItem="Sta-te-bmv" secondAttribute="top" id="pQ8-sP-av1"/>
-                                                <constraint firstItem="Xda-Zw-glC" firstAttribute="leading" secondItem="5dM-Di-vEI" secondAttribute="leadingMargin" id="pS2-fn-rPE"/>
-                                                <constraint firstItem="Xda-Zw-glC" firstAttribute="bottom" secondItem="5dM-Di-vEI" secondAttribute="bottomMargin" id="sv6-Dg-baO"/>
-                                                <constraint firstItem="Sta-te-bmv" firstAttribute="trailing" secondItem="5dM-Di-vEI" secondAttribute="trailingMargin" id="vER-NV-3QM"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="hbY-k7-RCc">
-                                        <rect key="frame" x="20" y="118" width="374" height="100"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hbY-k7-RCc" id="yEu-KY-dNS">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AnimeHeaven" translatesAutoresizingMaskIntoConstraints="NO" id="eSI-ac-pGM">
-                                                    <rect key="frame" x="20" y="11" width="78" height="78"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="78" id="3Wt-2F-Wjn"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AnimeHeaven is an English streaming service that provides SUB anime. Ryu has great support for AnimeHeaven." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Fi-Nb-SYa">
-                                                    <rect key="frame" x="106" y="11" width="248" height="78"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="eSI-ac-pGM" firstAttribute="top" secondItem="yEu-KY-dNS" secondAttribute="topMargin" id="0cu-5t-41u"/>
-                                                <constraint firstItem="eSI-ac-pGM" firstAttribute="bottom" secondItem="yEu-KY-dNS" secondAttribute="bottomMargin" id="43U-hW-gcf"/>
-                                                <constraint firstItem="1Fi-Nb-SYa" firstAttribute="trailing" secondItem="yEu-KY-dNS" secondAttribute="trailingMargin" id="4hu-Gb-ovQ"/>
-                                                <constraint firstItem="eSI-ac-pGM" firstAttribute="leading" secondItem="yEu-KY-dNS" secondAttribute="leadingMargin" id="5WJ-W2-MY5"/>
-                                                <constraint firstItem="1Fi-Nb-SYa" firstAttribute="leading" secondItem="eSI-ac-pGM" secondAttribute="trailing" constant="8" id="ZId-4b-Hak"/>
-                                                <constraint firstItem="eSI-ac-pGM" firstAttribute="top" secondItem="1Fi-Nb-SYa" secondAttribute="top" id="k95-ai-OkU"/>
-                                                <constraint firstItem="eSI-ac-pGM" firstAttribute="bottom" secondItem="1Fi-Nb-SYa" secondAttribute="bottom" id="oR1-qg-IWG"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="qPJ-1n-LfX">
-                                        <rect key="frame" x="20" y="218" width="374" height="100"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qPJ-1n-LfX" id="doq-G9-mrG">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HiAnime" translatesAutoresizingMaskIntoConstraints="NO" id="FC9-AC-F7A">
-                                                    <rect key="frame" x="20" y="11" width="78" height="78"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="78" id="dTB-74-NiR"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="HiAnime is an English streaming service that provides both DUB and SUB. Casting and Download are currently not working" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MDZ-Im-TjN">
-                                                    <rect key="frame" x="106" y="11" width="248" height="78"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="MDZ-Im-TjN" firstAttribute="leading" secondItem="FC9-AC-F7A" secondAttribute="trailing" constant="8" id="0tK-k7-zPm"/>
-                                                <constraint firstItem="FC9-AC-F7A" firstAttribute="leading" secondItem="doq-G9-mrG" secondAttribute="leadingMargin" id="6Jw-7g-4fP"/>
-                                                <constraint firstItem="FC9-AC-F7A" firstAttribute="top" secondItem="MDZ-Im-TjN" secondAttribute="top" id="6zb-HH-ztf"/>
-                                                <constraint firstItem="FC9-AC-F7A" firstAttribute="top" secondItem="doq-G9-mrG" secondAttribute="topMargin" id="AAk-JS-1mX"/>
-                                                <constraint firstItem="FC9-AC-F7A" firstAttribute="bottom" secondItem="doq-G9-mrG" secondAttribute="bottomMargin" id="yxc-qh-E36"/>
-                                                <constraint firstItem="FC9-AC-F7A" firstAttribute="bottom" secondItem="MDZ-Im-TjN" secondAttribute="bottom" id="z6A-P4-iBK"/>
-                                                <constraint firstItem="MDZ-Im-TjN" firstAttribute="trailing" secondItem="doq-G9-mrG" secondAttribute="trailingMargin" id="zzO-mL-9NM"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="Dlj-y8-JFq">
-                                        <rect key="frame" x="20" y="318" width="374" height="100"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Dlj-y8-JFq" id="ONi-7a-Z6c">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TokyoInsider" translatesAutoresizingMaskIntoConstraints="NO" id="bVF-wZ-xMt">
-                                                    <rect key="frame" x="20" y="11" width="78" height="78"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="78" id="Jxl-EL-mS6"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TokyoInsider is an English streaming service that provides SUBs. Ryu has great support for TokyoInsider." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XaA-UH-NSM">
-                                                    <rect key="frame" x="106" y="11" width="248" height="78"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="bVF-wZ-xMt" firstAttribute="bottom" secondItem="XaA-UH-NSM" secondAttribute="bottom" id="7tM-56-0ba"/>
-                                                <constraint firstItem="XaA-UH-NSM" firstAttribute="leading" secondItem="bVF-wZ-xMt" secondAttribute="trailing" constant="8" id="H7j-hX-vJS"/>
-                                                <constraint firstItem="bVF-wZ-xMt" firstAttribute="leading" secondItem="ONi-7a-Z6c" secondAttribute="leadingMargin" id="RQs-3f-kJr"/>
-                                                <constraint firstItem="bVF-wZ-xMt" firstAttribute="top" secondItem="ONi-7a-Z6c" secondAttribute="topMargin" id="Ylz-Vw-QJL"/>
-                                                <constraint firstItem="bVF-wZ-xMt" firstAttribute="bottom" secondItem="ONi-7a-Z6c" secondAttribute="bottomMargin" id="hsV-Cl-BUq"/>
-                                                <constraint firstItem="bVF-wZ-xMt" firstAttribute="top" secondItem="XaA-UH-NSM" secondAttribute="top" id="reV-tq-T8w"/>
-                                                <constraint firstItem="XaA-UH-NSM" firstAttribute="trailing" secondItem="ONi-7a-Z6c" secondAttribute="trailingMargin" id="t3d-0L-pDj"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="9eg-xq-XZQ">
-                                        <rect key="frame" x="20" y="418" width="374" height="100"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9eg-xq-XZQ" id="crJ-zB-fNg">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AniVibe" translatesAutoresizingMaskIntoConstraints="NO" id="ZRh-sg-xFB">
-                                                    <rect key="frame" x="20" y="11" width="78" height="78"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="78" id="0z3-qw-vDO"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c2G-vF-PIG">
-                                                    <rect key="frame" x="106" y="11" width="248" height="78"/>
-                                                    <string key="text">AniVibe is an English streaming service that provides DUB andSUB anime. Ryu has good support for AniVibe, but downloads don't work.</string>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="ZRh-sg-xFB" firstAttribute="top" secondItem="c2G-vF-PIG" secondAttribute="top" id="1gh-uq-wYB"/>
-                                                <constraint firstItem="ZRh-sg-xFB" firstAttribute="bottom" secondItem="c2G-vF-PIG" secondAttribute="bottom" id="NXj-xU-MAz"/>
-                                                <constraint firstItem="ZRh-sg-xFB" firstAttribute="top" secondItem="crJ-zB-fNg" secondAttribute="topMargin" id="PJG-i2-tdD"/>
-                                                <constraint firstItem="ZRh-sg-xFB" firstAttribute="leading" secondItem="crJ-zB-fNg" secondAttribute="leadingMargin" id="kUx-rH-sAX"/>
-                                                <constraint firstItem="c2G-vF-PIG" firstAttribute="trailing" secondItem="crJ-zB-fNg" secondAttribute="trailingMargin" id="t4r-2D-O7G"/>
-                                                <constraint firstItem="c2G-vF-PIG" firstAttribute="leading" secondItem="ZRh-sg-xFB" secondAttribute="trailing" constant="8" id="unB-Qm-4kv"/>
-                                                <constraint firstItem="ZRh-sg-xFB" firstAttribute="bottom" secondItem="crJ-zB-fNg" secondAttribute="bottomMargin" id="yVK-fL-T0C"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                        </sections>
-                        <connections>
-                            <outlet property="dataSource" destination="cJV-32-Gdf" id="Yhr-LM-5fd"/>
-                            <outlet property="delegate" destination="cJV-32-Gdf" id="fvc-ru-rhz"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="English" id="fYe-E8-Rgs">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="chI-hZ-RLg">
-                            <color key="tintColor" name="AccentColor"/>
-                            <connections>
-                                <action selector="closeButtonTapped" destination="cJV-32-Gdf" id="NYF-L8-HMq"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ftA-Yz-NEk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="5012" y="-1219"/>
-        </scene>
         <!--Sources Info-->
         <scene sceneID="vIA-OG-Ar1">
             <objects>
@@ -2021,214 +1857,540 @@ The Tries is the method that defines how Ryu attempts to fetch episodes. Increas
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <sections>
-                            <tableViewSection footerTitle="Select the language of the source" id="CtE-zn-sDN">
+                            <tableViewSection headerTitle="Arabic" id="Zej-HM-Khp">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="1kp-RA-xEW">
-                                        <rect key="frame" x="20" y="18" width="374" height="43.5"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="PQK-lA-3Fz">
+                                        <rect key="frame" x="20" y="32" width="374" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1kp-RA-xEW" id="YO0-iv-kL6">
-                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="PQK-lA-3Fz" id="F5B-vV-uoW">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="English" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tnd-RB-61b">
-                                                    <rect key="frame" x="15" y="13" width="49.5" height="18"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Anime3rb" translatesAutoresizingMaskIntoConstraints="NO" id="rFe-pP-bwo">
+                                                    <rect key="frame" x="20" y="11" width="78" height="78"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="78" id="TQ4-d0-J6S"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Anime3rb is an Arabic streaming service that provides SUB anime. Ryu has good support for AnimeWorld." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ivx-bd-sne">
+                                                    <rect key="frame" x="106" y="11" width="248" height="78"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <nil key="textColor"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="Tnd-RB-61b" firstAttribute="centerY" secondItem="YO0-iv-kL6" secondAttribute="centerY" id="I7k-iP-Trv"/>
-                                                <constraint firstItem="Tnd-RB-61b" firstAttribute="leading" secondItem="YO0-iv-kL6" secondAttribute="leading" constant="15" id="gwR-Xc-jQj"/>
+                                                <constraint firstItem="rFe-pP-bwo" firstAttribute="top" secondItem="ivx-bd-sne" secondAttribute="top" id="7oP-M4-IAB"/>
+                                                <constraint firstItem="ivx-bd-sne" firstAttribute="leading" secondItem="rFe-pP-bwo" secondAttribute="trailing" constant="8" id="I59-bM-AYO"/>
+                                                <constraint firstItem="ivx-bd-sne" firstAttribute="trailing" secondItem="F5B-vV-uoW" secondAttribute="trailingMargin" id="KaP-jX-3zl"/>
+                                                <constraint firstItem="rFe-pP-bwo" firstAttribute="bottom" secondItem="F5B-vV-uoW" secondAttribute="bottomMargin" id="TGd-Tx-Gd0"/>
+                                                <constraint firstItem="rFe-pP-bwo" firstAttribute="bottom" secondItem="ivx-bd-sne" secondAttribute="bottom" id="iHP-X4-gYI"/>
+                                                <constraint firstItem="rFe-pP-bwo" firstAttribute="leading" secondItem="F5B-vV-uoW" secondAttribute="leadingMargin" id="kqT-Ev-VSZ"/>
+                                                <constraint firstItem="rFe-pP-bwo" firstAttribute="top" secondItem="F5B-vV-uoW" secondAttribute="topMargin" id="osR-6X-ktU"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="cJV-32-Gdf" kind="show" id="9TV-zY-M3L"/>
-                                        </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="kRu-Rr-Q4i">
-                                        <rect key="frame" x="20" y="61.5" width="374" height="43.5"/>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="Brazilian" id="9do-iP-lou">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="xUG-mz-4i9">
+                                        <rect key="frame" x="20" y="182" width="374" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kRu-Rr-Q4i" id="3H4-Ec-8zZ">
-                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xUG-mz-4i9" id="72E-gW-Mmc">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Italian" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l11-cd-8qR">
-                                                    <rect key="frame" x="15" y="13" width="41" height="18"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <nil key="textColor"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AnimeFire" translatesAutoresizingMaskIntoConstraints="NO" id="BNa-6i-UCY">
+                                                    <rect key="frame" x="20" y="11" width="78" height="78"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="78" id="jU7-aJ-FcA"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AnimeFire is a Brazilian streaming service that provides both DUB and SUB. Only allowed on Portugal and Brazil IPs." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Wy-Lr-vOU">
+                                                    <rect key="frame" x="106" y="11" width="248" height="78"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="l11-cd-8qR" firstAttribute="centerY" secondItem="3H4-Ec-8zZ" secondAttribute="centerY" id="mzq-bJ-qsh"/>
-                                                <constraint firstItem="l11-cd-8qR" firstAttribute="leading" secondItem="3H4-Ec-8zZ" secondAttribute="leading" constant="15" id="yUS-HT-fRs"/>
+                                                <constraint firstItem="BNa-6i-UCY" firstAttribute="bottom" secondItem="4Wy-Lr-vOU" secondAttribute="bottom" id="TbE-uL-tqO"/>
+                                                <constraint firstItem="BNa-6i-UCY" firstAttribute="bottom" secondItem="72E-gW-Mmc" secondAttribute="bottomMargin" id="Ufx-6T-FVT"/>
+                                                <constraint firstItem="BNa-6i-UCY" firstAttribute="top" secondItem="72E-gW-Mmc" secondAttribute="topMargin" id="VbN-WD-Woj"/>
+                                                <constraint firstItem="BNa-6i-UCY" firstAttribute="leading" secondItem="72E-gW-Mmc" secondAttribute="leadingMargin" id="XUU-PG-Ce1"/>
+                                                <constraint firstItem="4Wy-Lr-vOU" firstAttribute="leading" secondItem="BNa-6i-UCY" secondAttribute="trailing" constant="8" id="Z2T-HJ-XXU"/>
+                                                <constraint firstItem="4Wy-Lr-vOU" firstAttribute="trailing" secondItem="72E-gW-Mmc" secondAttribute="trailingMargin" id="afY-Cg-KDl"/>
+                                                <constraint firstItem="BNa-6i-UCY" firstAttribute="top" secondItem="4Wy-Lr-vOU" secondAttribute="top" id="vZh-MA-Q9T"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="eAZ-FQ-auX" kind="show" id="IVN-JZ-gos"/>
-                                        </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="9Sw-oV-IgM">
-                                        <rect key="frame" x="20" y="105" width="374" height="43.5"/>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="Croatian" id="wtt-uh-qlF">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="bOg-B8-4Qd">
+                                        <rect key="frame" x="20" y="332" width="374" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9Sw-oV-IgM" id="AmC-W6-ybU">
-                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bOg-B8-4Qd" id="Miy-c7-QvO">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Arabic" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jUS-fJ-95n">
-                                                    <rect key="frame" x="15" y="13" width="44.5" height="18"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <nil key="textColor"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AnimeSRBIJA" translatesAutoresizingMaskIntoConstraints="NO" id="kZ1-00-zAa">
+                                                    <rect key="frame" x="20" y="11" width="78" height="78"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="78" id="5Wp-Q4-BPJ"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AnimeSRBIJA is a Croatian streaming service that provides SUB anime. Ryu has good support for AnimeSRBIJA." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZRj-eg-fz6">
+                                                    <rect key="frame" x="106" y="11" width="248" height="78"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="jUS-fJ-95n" firstAttribute="leading" secondItem="AmC-W6-ybU" secondAttribute="leading" constant="15" id="NYE-8q-Mfj"/>
-                                                <constraint firstItem="jUS-fJ-95n" firstAttribute="centerY" secondItem="AmC-W6-ybU" secondAttribute="centerY" id="xqx-rV-pHu"/>
+                                                <constraint firstItem="ZRj-eg-fz6" firstAttribute="trailing" secondItem="Miy-c7-QvO" secondAttribute="trailingMargin" id="072-Bb-3vX"/>
+                                                <constraint firstItem="kZ1-00-zAa" firstAttribute="top" secondItem="Miy-c7-QvO" secondAttribute="topMargin" id="CpW-li-9GO"/>
+                                                <constraint firstItem="kZ1-00-zAa" firstAttribute="bottom" secondItem="Miy-c7-QvO" secondAttribute="bottomMargin" id="M9f-JR-iAs"/>
+                                                <constraint firstItem="kZ1-00-zAa" firstAttribute="top" secondItem="ZRj-eg-fz6" secondAttribute="top" id="cRy-ke-s75"/>
+                                                <constraint firstItem="kZ1-00-zAa" firstAttribute="leading" secondItem="Miy-c7-QvO" secondAttribute="leadingMargin" id="nRE-Wa-v5P"/>
+                                                <constraint firstItem="ZRj-eg-fz6" firstAttribute="leading" secondItem="kZ1-00-zAa" secondAttribute="trailing" constant="8" id="qmX-Jr-obL"/>
+                                                <constraint firstItem="kZ1-00-zAa" firstAttribute="bottom" secondItem="ZRj-eg-fz6" secondAttribute="bottom" id="ww6-Wt-Ujl"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="SBo-tV-e5l" kind="show" id="BFH-ud-Im1"/>
-                                        </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="SXX-XH-cuP">
-                                        <rect key="frame" x="20" y="148.5" width="374" height="43.5"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="s9Q-Wz-Kc8">
+                                        <rect key="frame" x="20" y="432" width="374" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="SXX-XH-cuP" id="hNw-Pp-yOq">
-                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="s9Q-Wz-Kc8" id="rWk-Jl-Dsd">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Spanish" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uJu-4E-zIk">
-                                                    <rect key="frame" x="15" y="13" width="54.5" height="18"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <nil key="textColor"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AnimeBalkan" translatesAutoresizingMaskIntoConstraints="NO" id="wYt-ts-eru">
+                                                    <rect key="frame" x="20" y="11" width="78" height="78"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="78" id="v5e-Z0-Anb"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AnimeBalkan is a Croatian streaming service that provides SUB anime. Ryu has good support for AnimeBalkan." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CiS-6C-K4X">
+                                                    <rect key="frame" x="106" y="11" width="248" height="78"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="uJu-4E-zIk" firstAttribute="centerY" secondItem="hNw-Pp-yOq" secondAttribute="centerY" id="XtZ-Ih-dmV"/>
-                                                <constraint firstItem="uJu-4E-zIk" firstAttribute="leading" secondItem="hNw-Pp-yOq" secondAttribute="leading" constant="15" id="xMy-aU-GL1"/>
+                                                <constraint firstItem="CiS-6C-K4X" firstAttribute="leading" secondItem="wYt-ts-eru" secondAttribute="trailing" constant="8" id="1I0-Wn-Aba"/>
+                                                <constraint firstItem="wYt-ts-eru" firstAttribute="top" secondItem="CiS-6C-K4X" secondAttribute="top" id="ARv-2X-VpR"/>
+                                                <constraint firstItem="wYt-ts-eru" firstAttribute="bottom" secondItem="rWk-Jl-Dsd" secondAttribute="bottomMargin" id="FhM-zw-AgV"/>
+                                                <constraint firstItem="wYt-ts-eru" firstAttribute="bottom" secondItem="CiS-6C-K4X" secondAttribute="bottom" id="Ywz-eW-bWB"/>
+                                                <constraint firstItem="wYt-ts-eru" firstAttribute="leading" secondItem="rWk-Jl-Dsd" secondAttribute="leadingMargin" id="cle-Yx-iA9"/>
+                                                <constraint firstItem="wYt-ts-eru" firstAttribute="top" secondItem="rWk-Jl-Dsd" secondAttribute="topMargin" id="eZc-GD-aXC"/>
+                                                <constraint firstItem="CiS-6C-K4X" firstAttribute="trailing" secondItem="rWk-Jl-Dsd" secondAttribute="trailingMargin" id="khY-yX-hZo"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="aWZ-9I-A7W" kind="show" id="6OL-y1-r5a"/>
-                                        </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Qx6-L1-kee">
-                                        <rect key="frame" x="20" y="192" width="374" height="43.5"/>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="English" id="CtE-zn-sDN">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="RiV-B3-fW5">
+                                        <rect key="frame" x="20" y="582" width="374" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Qx6-L1-kee" id="fDM-F8-PMK">
-                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="RiV-B3-fW5" id="c2q-UV-U76">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Portuguese" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XW6-w3-RV3">
-                                                    <rect key="frame" x="15" y="13" width="79" height="18"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TokyoInsider" translatesAutoresizingMaskIntoConstraints="NO" id="Yhc-Nn-dhV">
+                                                    <rect key="frame" x="20" y="11" width="78" height="78"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="78" id="72d-2d-SfC"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TokyoInsider is an English streaming service that provides SUBs. Ryu has great support for TokyoInsider." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3RG-12-bGF">
+                                                    <rect key="frame" x="106" y="11" width="248" height="78"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <nil key="textColor"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="XW6-w3-RV3" firstAttribute="leading" secondItem="fDM-F8-PMK" secondAttribute="leading" constant="15" id="QpA-g6-ohH"/>
-                                                <constraint firstItem="XW6-w3-RV3" firstAttribute="centerY" secondItem="fDM-F8-PMK" secondAttribute="centerY" id="ikE-mL-eEX"/>
+                                                <constraint firstItem="Yhc-Nn-dhV" firstAttribute="bottom" secondItem="c2q-UV-U76" secondAttribute="bottomMargin" id="6gh-Om-VdX"/>
+                                                <constraint firstItem="Yhc-Nn-dhV" firstAttribute="top" secondItem="3RG-12-bGF" secondAttribute="top" id="CYL-Kc-lZu"/>
+                                                <constraint firstItem="Yhc-Nn-dhV" firstAttribute="bottom" secondItem="3RG-12-bGF" secondAttribute="bottom" id="IEM-Kv-e4m"/>
+                                                <constraint firstItem="3RG-12-bGF" firstAttribute="trailing" secondItem="c2q-UV-U76" secondAttribute="trailingMargin" id="KU4-mC-Wpn"/>
+                                                <constraint firstItem="3RG-12-bGF" firstAttribute="leading" secondItem="Yhc-Nn-dhV" secondAttribute="trailing" constant="8" id="jPV-xo-x2g"/>
+                                                <constraint firstItem="Yhc-Nn-dhV" firstAttribute="leading" secondItem="c2q-UV-U76" secondAttribute="leadingMargin" id="oLH-N0-Gjn"/>
+                                                <constraint firstItem="Yhc-Nn-dhV" firstAttribute="top" secondItem="c2q-UV-U76" secondAttribute="topMargin" id="qcY-TE-4VY"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="u9E-La-n8l" kind="show" id="ExE-id-QJC"/>
-                                        </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="NS1-wJ-SBI">
-                                        <rect key="frame" x="20" y="235.5" width="374" height="43.5"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="EnX-4I-Xla">
+                                        <rect key="frame" x="20" y="682" width="374" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="NS1-wJ-SBI" id="hfD-6Y-H9e">
-                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="EnX-4I-Xla" id="Tw7-9h-cJI">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Indonesian" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oIL-2l-qye">
-                                                    <rect key="frame" x="15" y="13" width="74.5" height="18"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HiAnime" translatesAutoresizingMaskIntoConstraints="NO" id="Sod-Mn-ISU">
+                                                    <rect key="frame" x="20" y="11" width="78" height="78"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="78" id="LcG-Zr-O2Z"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="HiAnime is an English streaming service that provides both DUB and SUB. Casting and Download are currently not working" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RSc-oc-RWw">
+                                                    <rect key="frame" x="106" y="11" width="248" height="78"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <nil key="textColor"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="oIL-2l-qye" firstAttribute="leading" secondItem="hfD-6Y-H9e" secondAttribute="leading" constant="15" id="YGR-RO-qVS"/>
-                                                <constraint firstItem="oIL-2l-qye" firstAttribute="centerY" secondItem="hfD-6Y-H9e" secondAttribute="centerY" id="zio-Se-oAA"/>
+                                                <constraint firstItem="RSc-oc-RWw" firstAttribute="leading" secondItem="Sod-Mn-ISU" secondAttribute="trailing" constant="8" id="Dp1-gg-QkH"/>
+                                                <constraint firstItem="Sod-Mn-ISU" firstAttribute="bottom" secondItem="RSc-oc-RWw" secondAttribute="bottom" id="dKd-wc-yh8"/>
+                                                <constraint firstItem="Sod-Mn-ISU" firstAttribute="bottom" secondItem="Tw7-9h-cJI" secondAttribute="bottomMargin" id="eym-jD-v1K"/>
+                                                <constraint firstItem="Sod-Mn-ISU" firstAttribute="leading" secondItem="Tw7-9h-cJI" secondAttribute="leadingMargin" id="fIO-HY-sxn"/>
+                                                <constraint firstItem="Sod-Mn-ISU" firstAttribute="top" secondItem="RSc-oc-RWw" secondAttribute="top" id="qbH-i4-Etd"/>
+                                                <constraint firstItem="RSc-oc-RWw" firstAttribute="trailing" secondItem="Tw7-9h-cJI" secondAttribute="trailingMargin" id="vde-Gf-g8I"/>
+                                                <constraint firstItem="Sod-Mn-ISU" firstAttribute="top" secondItem="Tw7-9h-cJI" secondAttribute="topMargin" id="yTW-Fc-36D"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="rWP-Br-aGm" kind="show" id="QF6-Ft-veh"/>
-                                        </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="U38-Nf-Zjd">
-                                        <rect key="frame" x="20" y="279" width="374" height="43.5"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="STs-MA-9uI">
+                                        <rect key="frame" x="20" y="782" width="374" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="U38-Nf-Zjd" id="06i-eX-J32">
-                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="STs-MA-9uI" id="ACb-To-8h2">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Russian" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tgV-3i-gOm">
-                                                    <rect key="frame" x="15" y="13" width="53.5" height="18"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="GoGoAnime" translatesAutoresizingMaskIntoConstraints="NO" id="Fvn-71-Dsf">
+                                                    <rect key="frame" x="20" y="11" width="78" height="78"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="78" id="Kws-fQ-NzU"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GoGoAnime is an English streaming service that provides both DUB and SUB. Ryu has great support for GoGoAnime" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Txq-2R-hyv">
+                                                    <rect key="frame" x="106" y="11" width="248" height="78"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <nil key="textColor"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="tgV-3i-gOm" firstAttribute="centerY" secondItem="06i-eX-J32" secondAttribute="centerY" id="Nan-iz-BhG"/>
-                                                <constraint firstItem="tgV-3i-gOm" firstAttribute="leading" secondItem="06i-eX-J32" secondAttribute="leading" constant="15" id="h2D-ZX-hWQ"/>
+                                                <constraint firstItem="Txq-2R-hyv" firstAttribute="leading" secondItem="Fvn-71-Dsf" secondAttribute="trailing" constant="8" id="4rM-Po-ZSN"/>
+                                                <constraint firstItem="Txq-2R-hyv" firstAttribute="trailing" secondItem="ACb-To-8h2" secondAttribute="trailingMargin" id="7u5-b3-B0F"/>
+                                                <constraint firstItem="Fvn-71-Dsf" firstAttribute="top" secondItem="Txq-2R-hyv" secondAttribute="top" id="DgH-ng-X7R"/>
+                                                <constraint firstItem="Fvn-71-Dsf" firstAttribute="leading" secondItem="ACb-To-8h2" secondAttribute="leadingMargin" id="VTv-hM-F5U"/>
+                                                <constraint firstItem="Fvn-71-Dsf" firstAttribute="bottom" secondItem="ACb-To-8h2" secondAttribute="bottomMargin" id="e8L-6f-9zg"/>
+                                                <constraint firstItem="Fvn-71-Dsf" firstAttribute="top" secondItem="ACb-To-8h2" secondAttribute="topMargin" id="rK9-XM-2Ol"/>
+                                                <constraint firstItem="Fvn-71-Dsf" firstAttribute="bottom" secondItem="Txq-2R-hyv" secondAttribute="bottom" id="ygp-0i-VRd"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="I7T-BX-7jj" kind="show" id="2BW-pR-SRv"/>
-                                        </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="mV0-V3-oJr">
-                                        <rect key="frame" x="20" y="322.5" width="374" height="43.5"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="13m-Lj-tNR">
+                                        <rect key="frame" x="20" y="882" width="374" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mV0-V3-oJr" id="rOe-bc-fEr">
-                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="13m-Lj-tNR" id="4BT-J3-egB">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Croatian" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T2U-Mf-BwR">
-                                                    <rect key="frame" x="15" y="13" width="58" height="18"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AnimeHeaven" translatesAutoresizingMaskIntoConstraints="NO" id="Rpa-Ij-vMp">
+                                                    <rect key="frame" x="20" y="11" width="78" height="78"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="78" id="uVO-eM-F79"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AnimeHeaven is an English streaming service that provides SUB anime. Ryu has great support for AnimeHeaven." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Loi-Or-MLd">
+                                                    <rect key="frame" x="106" y="11" width="248" height="78"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <nil key="textColor"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="T2U-Mf-BwR" firstAttribute="leading" secondItem="rOe-bc-fEr" secondAttribute="leading" constant="15" id="4dC-DI-rY1"/>
-                                                <constraint firstItem="T2U-Mf-BwR" firstAttribute="centerY" secondItem="rOe-bc-fEr" secondAttribute="centerY" id="WLU-TG-JD0"/>
+                                                <constraint firstItem="Rpa-Ij-vMp" firstAttribute="leading" secondItem="4BT-J3-egB" secondAttribute="leadingMargin" id="6Pz-TM-ccu"/>
+                                                <constraint firstItem="Rpa-Ij-vMp" firstAttribute="bottom" secondItem="Loi-Or-MLd" secondAttribute="bottom" id="9QO-NB-ixP"/>
+                                                <constraint firstItem="Rpa-Ij-vMp" firstAttribute="top" secondItem="Loi-Or-MLd" secondAttribute="top" id="CKN-64-WbY"/>
+                                                <constraint firstItem="Loi-Or-MLd" firstAttribute="trailing" secondItem="4BT-J3-egB" secondAttribute="trailingMargin" id="JeT-pg-QtM"/>
+                                                <constraint firstItem="Rpa-Ij-vMp" firstAttribute="bottom" secondItem="4BT-J3-egB" secondAttribute="bottomMargin" id="nF4-QU-6qD"/>
+                                                <constraint firstItem="Rpa-Ij-vMp" firstAttribute="top" secondItem="4BT-J3-egB" secondAttribute="topMargin" id="oTv-9b-Ev8"/>
+                                                <constraint firstItem="Loi-Or-MLd" firstAttribute="leading" secondItem="Rpa-Ij-vMp" secondAttribute="trailing" constant="8" id="of2-3t-13w"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="m7o-Dq-59T" kind="show" id="2Mb-mh-Sy8"/>
-                                        </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="e4L-2K-aog">
-                                        <rect key="frame" x="20" y="366" width="374" height="43.5"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="XpS-2g-cNS">
+                                        <rect key="frame" x="20" y="982" width="374" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="e4L-2K-aog" id="kv9-fl-glc">
-                                            <rect key="frame" x="0.0" y="0.0" width="345.5" height="43.5"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XpS-2g-cNS" id="z0e-iG-KBC">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="German" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fFa-U5-Tg9">
-                                                    <rect key="frame" x="15" y="13" width="55" height="18"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AniVibe" translatesAutoresizingMaskIntoConstraints="NO" id="u9B-2k-N37">
+                                                    <rect key="frame" x="20" y="11" width="78" height="78"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="78" id="a2D-mQ-Q1u"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ubu-nj-qn2">
+                                                    <rect key="frame" x="106" y="11" width="248" height="78"/>
+                                                    <string key="text">AniVibe is an English streaming service that provides DUB andSUB anime. Ryu has good support for AniVibe, but downloads don't work.</string>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <nil key="textColor"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="fFa-U5-Tg9" firstAttribute="centerY" secondItem="kv9-fl-glc" secondAttribute="centerY" id="cK5-lo-9gh"/>
-                                                <constraint firstItem="fFa-U5-Tg9" firstAttribute="leading" secondItem="kv9-fl-glc" secondAttribute="leading" constant="15" id="jw3-ce-gwS"/>
+                                                <constraint firstItem="u9B-2k-N37" firstAttribute="top" secondItem="ubu-nj-qn2" secondAttribute="top" id="NP4-v6-2l6"/>
+                                                <constraint firstItem="u9B-2k-N37" firstAttribute="leading" secondItem="z0e-iG-KBC" secondAttribute="leadingMargin" id="Ux5-Lj-M7D"/>
+                                                <constraint firstItem="ubu-nj-qn2" firstAttribute="leading" secondItem="u9B-2k-N37" secondAttribute="trailing" constant="8" id="aGN-4L-SYj"/>
+                                                <constraint firstItem="u9B-2k-N37" firstAttribute="top" secondItem="z0e-iG-KBC" secondAttribute="topMargin" id="gNX-m4-utL"/>
+                                                <constraint firstItem="u9B-2k-N37" firstAttribute="bottom" secondItem="ubu-nj-qn2" secondAttribute="bottom" id="uhh-jf-csj"/>
+                                                <constraint firstItem="ubu-nj-qn2" firstAttribute="trailing" secondItem="z0e-iG-KBC" secondAttribute="trailingMargin" id="x5R-mM-XSk"/>
+                                                <constraint firstItem="u9B-2k-N37" firstAttribute="bottom" secondItem="z0e-iG-KBC" secondAttribute="bottomMargin" id="xkg-k1-6dn"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="G8P-8E-zfN" kind="show" id="lRN-Ep-QIi"/>
-                                        </connections>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="German" id="Tz1-QH-Tym">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="oVI-ve-0EV">
+                                        <rect key="frame" x="20" y="1132" width="374" height="100"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oVI-ve-0EV" id="344-LK-ZYI">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AniWorld" translatesAutoresizingMaskIntoConstraints="NO" id="Yhn-oV-x6j">
+                                                    <rect key="frame" x="20" y="11" width="78" height="78"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="78" id="JwB-3O-Ew3"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AniWorld is a German streaming service that provides both DUB and SUB. Ryu has great support for AniWorld." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d3v-AF-qCY">
+                                                    <rect key="frame" x="106" y="11" width="248" height="78"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="d3v-AF-qCY" firstAttribute="trailing" secondItem="344-LK-ZYI" secondAttribute="trailingMargin" id="8ur-kc-u3Q"/>
+                                                <constraint firstItem="d3v-AF-qCY" firstAttribute="leading" secondItem="Yhn-oV-x6j" secondAttribute="trailing" constant="8" id="QGw-x6-Ond"/>
+                                                <constraint firstItem="Yhn-oV-x6j" firstAttribute="bottom" secondItem="d3v-AF-qCY" secondAttribute="bottom" id="Rmi-0u-rTG"/>
+                                                <constraint firstItem="Yhn-oV-x6j" firstAttribute="top" secondItem="344-LK-ZYI" secondAttribute="topMargin" id="Xah-ey-ECb"/>
+                                                <constraint firstItem="Yhn-oV-x6j" firstAttribute="bottom" secondItem="344-LK-ZYI" secondAttribute="bottomMargin" id="b4W-Zu-kAB"/>
+                                                <constraint firstItem="Yhn-oV-x6j" firstAttribute="leading" secondItem="344-LK-ZYI" secondAttribute="leadingMargin" id="mH4-Dc-eEa"/>
+                                                <constraint firstItem="Yhn-oV-x6j" firstAttribute="top" secondItem="d3v-AF-qCY" secondAttribute="top" id="xcg-58-0QU"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="Indonesian" id="fLM-QY-7CQ">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="XII-1o-D4g">
+                                        <rect key="frame" x="20" y="1282" width="374" height="100"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XII-1o-D4g" id="D3s-JT-DeV">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Kuramanime" translatesAutoresizingMaskIntoConstraints="NO" id="L1T-QR-ASa">
+                                                    <rect key="frame" x="20" y="11" width="78" height="78"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="78" id="8wk-3j-z6q"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kuramanime is an Indonesian streaming service that provides both DUB and SUB. Ryu has great support for Kuramanime." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZOJ-vi-S61">
+                                                    <rect key="frame" x="106" y="11" width="248" height="78"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="L1T-QR-ASa" firstAttribute="leading" secondItem="D3s-JT-DeV" secondAttribute="leadingMargin" id="agc-mg-3PQ"/>
+                                                <constraint firstItem="L1T-QR-ASa" firstAttribute="bottom" secondItem="D3s-JT-DeV" secondAttribute="bottomMargin" id="heo-Uj-HSV"/>
+                                                <constraint firstItem="L1T-QR-ASa" firstAttribute="bottom" secondItem="ZOJ-vi-S61" secondAttribute="bottom" id="jsp-XA-JYu"/>
+                                                <constraint firstItem="L1T-QR-ASa" firstAttribute="top" secondItem="D3s-JT-DeV" secondAttribute="topMargin" id="ncW-Hn-GR5"/>
+                                                <constraint firstItem="ZOJ-vi-S61" firstAttribute="leading" secondItem="L1T-QR-ASa" secondAttribute="trailing" constant="8" id="uAN-du-Vcn"/>
+                                                <constraint firstItem="L1T-QR-ASa" firstAttribute="top" secondItem="ZOJ-vi-S61" secondAttribute="top" id="ydM-nb-hrd"/>
+                                                <constraint firstItem="ZOJ-vi-S61" firstAttribute="trailing" secondItem="D3s-JT-DeV" secondAttribute="trailingMargin" id="zAJ-7f-Qmb"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="Italian" id="ULj-Vn-MHh">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="087-9n-Kwr">
+                                        <rect key="frame" x="20" y="1432" width="374" height="100"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="087-9n-Kwr" id="Xf5-q2-Hzp">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AnimeWorld" translatesAutoresizingMaskIntoConstraints="NO" id="uKp-51-u65">
+                                                    <rect key="frame" x="20" y="11" width="78" height="78"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="78" id="evL-1e-1fD"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AnimeWorld is an Italian streaming service that provides both DUB and SUB. Ryu has great support for AnimeWorld." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4cl-z0-S8b">
+                                                    <rect key="frame" x="106" y="11" width="248" height="78"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="uKp-51-u65" firstAttribute="top" secondItem="Xf5-q2-Hzp" secondAttribute="topMargin" id="0px-Fc-jXT"/>
+                                                <constraint firstItem="uKp-51-u65" firstAttribute="bottom" secondItem="Xf5-q2-Hzp" secondAttribute="bottomMargin" id="ARU-Vw-rau"/>
+                                                <constraint firstItem="uKp-51-u65" firstAttribute="leading" secondItem="Xf5-q2-Hzp" secondAttribute="leadingMargin" id="ErS-oz-B1a"/>
+                                                <constraint firstItem="4cl-z0-S8b" firstAttribute="trailing" secondItem="Xf5-q2-Hzp" secondAttribute="trailingMargin" id="SRh-Wy-TEu"/>
+                                                <constraint firstItem="uKp-51-u65" firstAttribute="bottom" secondItem="4cl-z0-S8b" secondAttribute="bottom" id="aOV-Jx-lph"/>
+                                                <constraint firstItem="uKp-51-u65" firstAttribute="top" secondItem="4cl-z0-S8b" secondAttribute="top" id="aVH-KI-gqk"/>
+                                                <constraint firstItem="4cl-z0-S8b" firstAttribute="leading" secondItem="uKp-51-u65" secondAttribute="trailing" constant="8" id="ttk-jw-Mqh"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="i6H-qR-VMA">
+                                        <rect key="frame" x="20" y="1532" width="374" height="100"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="i6H-qR-VMA" id="Oh4-jp-rmj">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AnimeUnity" translatesAutoresizingMaskIntoConstraints="NO" id="zfa-Hx-gEG">
+                                                    <rect key="frame" x="20" y="11" width="78" height="78"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="78" id="ZGP-aH-QaO"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AnimeUnity is an Italian streaming service that provides both DUB and SUB. Ryu has great support for AnimeUnity." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ujC-56-hnO">
+                                                    <rect key="frame" x="106" y="11" width="248" height="78"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="zfa-Hx-gEG" firstAttribute="leading" secondItem="Oh4-jp-rmj" secondAttribute="leadingMargin" id="6FD-13-zeI"/>
+                                                <constraint firstItem="ujC-56-hnO" firstAttribute="leading" secondItem="zfa-Hx-gEG" secondAttribute="trailing" constant="8" id="6X4-Kb-ZDf"/>
+                                                <constraint firstItem="ujC-56-hnO" firstAttribute="trailing" secondItem="Oh4-jp-rmj" secondAttribute="trailingMargin" id="7Tg-au-B1x"/>
+                                                <constraint firstItem="zfa-Hx-gEG" firstAttribute="top" secondItem="Oh4-jp-rmj" secondAttribute="topMargin" id="7Vz-Hp-xmF"/>
+                                                <constraint firstItem="zfa-Hx-gEG" firstAttribute="bottom" secondItem="ujC-56-hnO" secondAttribute="bottom" id="J0Z-A9-0g0"/>
+                                                <constraint firstItem="zfa-Hx-gEG" firstAttribute="bottom" secondItem="Oh4-jp-rmj" secondAttribute="bottomMargin" id="O18-TH-RHg"/>
+                                                <constraint firstItem="zfa-Hx-gEG" firstAttribute="top" secondItem="ujC-56-hnO" secondAttribute="top" id="Ujq-DP-5pc"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="Portuguese" id="PPr-pg-aqj">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="cYW-qp-VQB">
+                                        <rect key="frame" x="20" y="1682" width="374" height="100"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="cYW-qp-VQB" id="8cY-Cc-2M6">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AniBunker" translatesAutoresizingMaskIntoConstraints="NO" id="w6p-eX-zu5">
+                                                    <rect key="frame" x="20" y="11" width="78" height="78"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="78" id="djA-ai-sJi"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AniBunker is a Portuguese streaming service that provides SUB anime. Ryu has great support for AniBunker." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gGA-9Q-u3M">
+                                                    <rect key="frame" x="106" y="11" width="248" height="78"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="w6p-eX-zu5" firstAttribute="top" secondItem="8cY-Cc-2M6" secondAttribute="topMargin" id="CVL-jp-q5M"/>
+                                                <constraint firstItem="w6p-eX-zu5" firstAttribute="leading" secondItem="8cY-Cc-2M6" secondAttribute="leadingMargin" id="Grf-oN-Rug"/>
+                                                <constraint firstItem="w6p-eX-zu5" firstAttribute="top" secondItem="gGA-9Q-u3M" secondAttribute="top" id="ZgI-NL-h0P"/>
+                                                <constraint firstItem="w6p-eX-zu5" firstAttribute="bottom" secondItem="gGA-9Q-u3M" secondAttribute="bottom" id="anc-0H-p4P"/>
+                                                <constraint firstItem="gGA-9Q-u3M" firstAttribute="trailing" secondItem="8cY-Cc-2M6" secondAttribute="trailingMargin" id="eY5-OR-YNF"/>
+                                                <constraint firstItem="gGA-9Q-u3M" firstAttribute="leading" secondItem="w6p-eX-zu5" secondAttribute="trailing" constant="8" id="lDO-mh-aCI"/>
+                                                <constraint firstItem="w6p-eX-zu5" firstAttribute="bottom" secondItem="8cY-Cc-2M6" secondAttribute="bottomMargin" id="zXG-97-q2p"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="Russian" id="hwb-Of-7WW">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="uGe-ao-dFa">
+                                        <rect key="frame" x="20" y="1832" width="374" height="100"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="uGe-ao-dFa" id="u4H-50-Adb">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Anilibria" translatesAutoresizingMaskIntoConstraints="NO" id="iZH-x5-zgQ">
+                                                    <rect key="frame" x="20" y="11" width="78" height="78"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="78" id="xg1-BD-BMk"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Anilibria is a Russian streaming service that provides DUB anime. Ryu has good support for Anilibria, but downloads don't work." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZlF-U2-TA6">
+                                                    <rect key="frame" x="106" y="11" width="248" height="78"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="iZH-x5-zgQ" firstAttribute="bottom" secondItem="ZlF-U2-TA6" secondAttribute="bottom" id="18H-G3-7gb"/>
+                                                <constraint firstItem="iZH-x5-zgQ" firstAttribute="leading" secondItem="u4H-50-Adb" secondAttribute="leadingMargin" id="6UE-Zd-8uE"/>
+                                                <constraint firstItem="iZH-x5-zgQ" firstAttribute="top" secondItem="ZlF-U2-TA6" secondAttribute="top" id="BGA-HK-dEE"/>
+                                                <constraint firstItem="ZlF-U2-TA6" firstAttribute="trailing" secondItem="u4H-50-Adb" secondAttribute="trailingMargin" id="abB-84-8yz"/>
+                                                <constraint firstItem="iZH-x5-zgQ" firstAttribute="top" secondItem="u4H-50-Adb" secondAttribute="topMargin" id="d1V-9Q-vxs"/>
+                                                <constraint firstItem="ZlF-U2-TA6" firstAttribute="leading" secondItem="iZH-x5-zgQ" secondAttribute="trailing" constant="8" id="llZ-7b-GGw"/>
+                                                <constraint firstItem="iZH-x5-zgQ" firstAttribute="bottom" secondItem="u4H-50-Adb" secondAttribute="bottomMargin" id="mue-OP-R8V"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="Spanish" id="ET4-S3-IPn">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="Sbs-6K-jWz">
+                                        <rect key="frame" x="20" y="1982" width="374" height="100"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Sbs-6K-jWz" id="pMH-tp-wnv">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="AnimeFLV" translatesAutoresizingMaskIntoConstraints="NO" id="0kH-Wn-cJg">
+                                                    <rect key="frame" x="20" y="11" width="78" height="78"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="78" id="3EN-HI-7rx"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="AnimeFLV is a Spanish streaming service that provides SUB anime. Ryu has great support for AnimeFLV." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K9M-9F-5o3">
+                                                    <rect key="frame" x="106" y="11" width="248" height="78"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="0kH-Wn-cJg" firstAttribute="top" secondItem="pMH-tp-wnv" secondAttribute="topMargin" id="5h9-04-vIT"/>
+                                                <constraint firstItem="0kH-Wn-cJg" firstAttribute="bottom" secondItem="K9M-9F-5o3" secondAttribute="bottom" id="LoJ-tH-AyS"/>
+                                                <constraint firstItem="K9M-9F-5o3" firstAttribute="leading" secondItem="0kH-Wn-cJg" secondAttribute="trailing" constant="8" id="TiO-cj-1pv"/>
+                                                <constraint firstItem="0kH-Wn-cJg" firstAttribute="top" secondItem="K9M-9F-5o3" secondAttribute="top" id="UeU-Tr-Uzp"/>
+                                                <constraint firstItem="0kH-Wn-cJg" firstAttribute="leading" secondItem="pMH-tp-wnv" secondAttribute="leadingMargin" id="eAy-dI-8GN"/>
+                                                <constraint firstItem="K9M-9F-5o3" firstAttribute="trailing" secondItem="pMH-tp-wnv" secondAttribute="trailingMargin" id="sUH-On-mLX"/>
+                                                <constraint firstItem="0kH-Wn-cJg" firstAttribute="bottom" secondItem="pMH-tp-wnv" secondAttribute="bottomMargin" id="wmW-uM-RDR"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -2250,347 +2412,6 @@ The Tries is the method that defines how Ryu attempts to fetch episodes. Increas
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n9F-Rb-djd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4064" y="-536"/>
-        </scene>
-        <!--Arabic-->
-        <scene sceneID="c7l-zM-kiz">
-            <objects>
-                <tableViewController id="SBo-tV-e5l" customClass="SettingsViewDoneButton" customModule="Ryu" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="Fhz-8P-fS6">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <sections>
-                            <tableViewSection id="i8H-Hd-BJX">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="1au-Kp-bsn">
-                                        <rect key="frame" x="20" y="18" width="374" height="100"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1au-Kp-bsn" id="Yd3-S9-C5V">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Anime3rb" translatesAutoresizingMaskIntoConstraints="NO" id="Wzx-bX-06D">
-                                                    <rect key="frame" x="20" y="11" width="78" height="78"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="78" id="utr-DJ-cOi"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Anime3rb is an Arabic streaming service that provides SUB anime. Ryu has good support for AnimeWorld." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lEa-7I-Y92">
-                                                    <rect key="frame" x="106" y="11" width="248" height="78"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="lEa-7I-Y92" firstAttribute="trailing" secondItem="Yd3-S9-C5V" secondAttribute="trailingMargin" id="60y-ua-pq3"/>
-                                                <constraint firstItem="Wzx-bX-06D" firstAttribute="leading" secondItem="Yd3-S9-C5V" secondAttribute="leadingMargin" id="BiA-7T-zhF"/>
-                                                <constraint firstItem="Wzx-bX-06D" firstAttribute="bottom" secondItem="lEa-7I-Y92" secondAttribute="bottom" id="cwS-DU-Hib"/>
-                                                <constraint firstItem="Wzx-bX-06D" firstAttribute="top" secondItem="lEa-7I-Y92" secondAttribute="top" id="dcm-cf-OgG"/>
-                                                <constraint firstItem="lEa-7I-Y92" firstAttribute="leading" secondItem="Wzx-bX-06D" secondAttribute="trailing" constant="8" id="gx6-vo-0cd"/>
-                                                <constraint firstItem="Wzx-bX-06D" firstAttribute="bottom" secondItem="Yd3-S9-C5V" secondAttribute="bottomMargin" id="lvO-iu-D4I"/>
-                                                <constraint firstItem="Wzx-bX-06D" firstAttribute="top" secondItem="Yd3-S9-C5V" secondAttribute="topMargin" id="tNd-51-6C0"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                        </sections>
-                        <connections>
-                            <outlet property="dataSource" destination="SBo-tV-e5l" id="GI5-8n-PFt"/>
-                            <outlet property="delegate" destination="SBo-tV-e5l" id="ibu-26-TFT"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Arabic" id="EC9-m5-M4g">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="Zyy-X6-pjU">
-                            <color key="tintColor" name="AccentColor"/>
-                            <connections>
-                                <action selector="closeButtonTapped" destination="SBo-tV-e5l" id="7p1-ct-NGM"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="vIv-4P-tEU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="6742" y="-1219"/>
-        </scene>
-        <!--Spanish-->
-        <scene sceneID="tM1-RU-DgW">
-            <objects>
-                <tableViewController id="aWZ-9I-A7W" customClass="SettingsViewDoneButton" customModule="Ryu" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="nNH-Yv-K19">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <sections>
-                            <tableViewSection id="Wqz-Qh-OsH">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="DC0-mh-WXR">
-                                        <rect key="frame" x="20" y="18" width="374" height="100"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="DC0-mh-WXR" id="IeW-Fs-yvZ">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AnimeFLV" translatesAutoresizingMaskIntoConstraints="NO" id="oDe-y3-eLK">
-                                                    <rect key="frame" x="20" y="11" width="78" height="78"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="78" id="q28-pj-rzw"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AnimeFLV is a Spanish streaming service that provides SUB anime. Ryu has great support for AnimeFLV." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6tT-Ic-PWv">
-                                                    <rect key="frame" x="106" y="11" width="248" height="78"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="6tT-Ic-PWv" firstAttribute="trailing" secondItem="IeW-Fs-yvZ" secondAttribute="trailingMargin" id="05d-7e-yyK"/>
-                                                <constraint firstItem="6tT-Ic-PWv" firstAttribute="leading" secondItem="oDe-y3-eLK" secondAttribute="trailing" constant="8" id="3uo-f1-r2J"/>
-                                                <constraint firstItem="oDe-y3-eLK" firstAttribute="bottom" secondItem="6tT-Ic-PWv" secondAttribute="bottom" id="DAP-Nq-FBE"/>
-                                                <constraint firstItem="oDe-y3-eLK" firstAttribute="top" secondItem="6tT-Ic-PWv" secondAttribute="top" id="Uma-yb-r16"/>
-                                                <constraint firstItem="oDe-y3-eLK" firstAttribute="bottom" secondItem="IeW-Fs-yvZ" secondAttribute="bottomMargin" id="bw1-8h-9K2"/>
-                                                <constraint firstItem="oDe-y3-eLK" firstAttribute="leading" secondItem="IeW-Fs-yvZ" secondAttribute="leadingMargin" id="tSw-Qp-9uf"/>
-                                                <constraint firstItem="oDe-y3-eLK" firstAttribute="top" secondItem="IeW-Fs-yvZ" secondAttribute="topMargin" id="xbH-o0-tyT"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                        </sections>
-                        <connections>
-                            <outlet property="dataSource" destination="aWZ-9I-A7W" id="4d1-TG-4PK"/>
-                            <outlet property="delegate" destination="aWZ-9I-A7W" id="OSb-FP-Z0a"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Spanish" id="L4k-27-phZ">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="6BO-Ya-3ds">
-                            <color key="tintColor" name="AccentColor"/>
-                            <connections>
-                                <action selector="closeButtonTapped" destination="aWZ-9I-A7W" id="lqb-UD-ljX"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="VIb-0C-V6e" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="5012" y="217"/>
-        </scene>
-        <!--Portuguese-->
-        <scene sceneID="gYm-NM-nYP">
-            <objects>
-                <tableViewController id="u9E-La-n8l" customClass="SettingsViewDoneButton" customModule="Ryu" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="3Dq-U7-Mk4">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <sections>
-                            <tableViewSection id="xGz-14-g21">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="lJR-Gb-gLw">
-                                        <rect key="frame" x="20" y="18" width="374" height="100"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="lJR-Gb-gLw" id="caY-zc-sce">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AnimeFire" translatesAutoresizingMaskIntoConstraints="NO" id="uo1-S4-5pw">
-                                                    <rect key="frame" x="20" y="11" width="78" height="78"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="78" id="dox-C5-91Y"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AnimeFire is a Portuguese streaming service that provides both DUB and SUB. Only allowed on Portugal and Brazil IPs." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jPH-K0-Tw6">
-                                                    <rect key="frame" x="106" y="11" width="248" height="78"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="jPH-K0-Tw6" firstAttribute="leading" secondItem="uo1-S4-5pw" secondAttribute="trailing" constant="8" id="3ft-nm-gAc"/>
-                                                <constraint firstItem="uo1-S4-5pw" firstAttribute="leading" secondItem="caY-zc-sce" secondAttribute="leadingMargin" id="4fb-Fm-ga5"/>
-                                                <constraint firstItem="uo1-S4-5pw" firstAttribute="bottom" secondItem="jPH-K0-Tw6" secondAttribute="bottom" id="6zs-tU-n2y"/>
-                                                <constraint firstItem="jPH-K0-Tw6" firstAttribute="trailing" secondItem="caY-zc-sce" secondAttribute="trailingMargin" id="GG8-uB-Z77"/>
-                                                <constraint firstItem="uo1-S4-5pw" firstAttribute="top" secondItem="caY-zc-sce" secondAttribute="topMargin" id="Ul8-u9-CZf"/>
-                                                <constraint firstItem="uo1-S4-5pw" firstAttribute="top" secondItem="jPH-K0-Tw6" secondAttribute="top" id="Xdu-11-UhR"/>
-                                                <constraint firstItem="uo1-S4-5pw" firstAttribute="bottom" secondItem="caY-zc-sce" secondAttribute="bottomMargin" id="hQU-b0-WdG"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                        </sections>
-                        <connections>
-                            <outlet property="dataSource" destination="u9E-La-n8l" id="pWf-97-2Hq"/>
-                            <outlet property="delegate" destination="u9E-La-n8l" id="HCk-8d-VJH"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Portuguese" id="AG7-nX-7Z3">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="CK4-lz-KET">
-                            <color key="tintColor" name="AccentColor"/>
-                            <connections>
-                                <action selector="closeButtonTapped" destination="u9E-La-n8l" id="345-yf-MCg"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="GC0-kR-jpU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="5911.594202898551" y="216.96428571428569"/>
-        </scene>
-        <!--Italian-->
-        <scene sceneID="xMp-04-k4g">
-            <objects>
-                <tableViewController id="eAZ-FQ-auX" customClass="SettingsViewDoneButton" customModule="Ryu" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="683-ZP-32H">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <sections>
-                            <tableViewSection id="amF-ut-ydv">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="nSM-im-fsj">
-                                        <rect key="frame" x="20" y="18" width="374" height="100"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="nSM-im-fsj" id="WDH-2z-c4l">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AnimeWorld" translatesAutoresizingMaskIntoConstraints="NO" id="2Ee-kG-Nf8">
-                                                    <rect key="frame" x="20" y="11" width="78" height="78"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="78" id="Gxg-gf-uaT"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AnimeWorld is an Italian streaming service that provides both DUB and SUB. Ryu has great support for AnimeWorld." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="31y-3O-fR1">
-                                                    <rect key="frame" x="106" y="11" width="248" height="78"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="2Ee-kG-Nf8" firstAttribute="leading" secondItem="WDH-2z-c4l" secondAttribute="leadingMargin" id="2Zp-eu-cYF"/>
-                                                <constraint firstItem="2Ee-kG-Nf8" firstAttribute="top" secondItem="31y-3O-fR1" secondAttribute="top" id="Dma-1R-eeg"/>
-                                                <constraint firstItem="31y-3O-fR1" firstAttribute="trailing" secondItem="WDH-2z-c4l" secondAttribute="trailingMargin" id="N00-Ul-i7O"/>
-                                                <constraint firstItem="31y-3O-fR1" firstAttribute="leading" secondItem="2Ee-kG-Nf8" secondAttribute="trailing" constant="8" id="Ura-kW-0hH"/>
-                                                <constraint firstItem="2Ee-kG-Nf8" firstAttribute="top" secondItem="WDH-2z-c4l" secondAttribute="topMargin" id="Z5g-5w-pwd"/>
-                                                <constraint firstItem="2Ee-kG-Nf8" firstAttribute="bottom" secondItem="31y-3O-fR1" secondAttribute="bottom" id="ZRz-8A-l7n"/>
-                                                <constraint firstItem="2Ee-kG-Nf8" firstAttribute="bottom" secondItem="WDH-2z-c4l" secondAttribute="bottomMargin" id="cQs-mo-W2e"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="qX2-dq-7da">
-                                        <rect key="frame" x="20" y="118" width="374" height="100"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qX2-dq-7da" id="E5S-8d-tKT">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AnimeUnity" translatesAutoresizingMaskIntoConstraints="NO" id="Mq1-C6-ge6">
-                                                    <rect key="frame" x="20" y="11" width="78" height="78"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="78" id="eHN-v0-hje"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AnimeUnity is an Italian streaming service that provides both DUB and SUB. Ryu has great support for AnimeUnity." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kJG-xo-9NW">
-                                                    <rect key="frame" x="106" y="11" width="248" height="78"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="Mq1-C6-ge6" firstAttribute="top" secondItem="E5S-8d-tKT" secondAttribute="topMargin" id="5CD-vU-Bgd"/>
-                                                <constraint firstItem="Mq1-C6-ge6" firstAttribute="bottom" secondItem="kJG-xo-9NW" secondAttribute="bottom" id="7rE-or-Tmx"/>
-                                                <constraint firstItem="Mq1-C6-ge6" firstAttribute="top" secondItem="kJG-xo-9NW" secondAttribute="top" id="NdM-kz-siF"/>
-                                                <constraint firstItem="Mq1-C6-ge6" firstAttribute="bottom" secondItem="E5S-8d-tKT" secondAttribute="bottomMargin" id="Tap-0j-rxX"/>
-                                                <constraint firstItem="kJG-xo-9NW" firstAttribute="trailing" secondItem="E5S-8d-tKT" secondAttribute="trailingMargin" id="Yyd-yG-MHc"/>
-                                                <constraint firstItem="Mq1-C6-ge6" firstAttribute="leading" secondItem="E5S-8d-tKT" secondAttribute="leadingMargin" id="fdc-WI-Goy"/>
-                                                <constraint firstItem="kJG-xo-9NW" firstAttribute="leading" secondItem="Mq1-C6-ge6" secondAttribute="trailing" constant="8" id="qvX-f7-HnC"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                        </sections>
-                        <connections>
-                            <outlet property="dataSource" destination="eAZ-FQ-auX" id="0Tl-oN-5p6"/>
-                            <outlet property="delegate" destination="eAZ-FQ-auX" id="0Pd-7q-SGM"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Italian" id="U2W-zz-5HZ">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="NQE-lA-7Bd">
-                            <color key="tintColor" name="AccentColor"/>
-                            <connections>
-                                <action selector="closeButtonTapped" destination="eAZ-FQ-auX" id="HOo-eg-On5"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Qpg-nd-auh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="5911.594202898551" y="-1219.4196428571429"/>
-        </scene>
-        <!--Indonesian-->
-        <scene sceneID="PHE-Zl-BaB">
-            <objects>
-                <tableViewController id="rWP-Br-aGm" customClass="SettingsViewDoneButton" customModule="Ryu" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="wAR-MY-sgC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <sections>
-                            <tableViewSection id="ELt-nF-pm7">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="Bmv-U9-rnE">
-                                        <rect key="frame" x="20" y="18" width="374" height="100"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Bmv-U9-rnE" id="hR4-1Q-hS4">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Kuramanime" translatesAutoresizingMaskIntoConstraints="NO" id="QUD-Kb-owg">
-                                                    <rect key="frame" x="20" y="11" width="78" height="78"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="78" id="chm-fW-Xh5"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kuramanime is an Indonesian streaming service that provides both DUB and SUB. Ryu has great support for Kuramanime." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xfO-X5-m8O">
-                                                    <rect key="frame" x="106" y="11" width="248" height="78"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="QUD-Kb-owg" firstAttribute="top" secondItem="xfO-X5-m8O" secondAttribute="top" id="6BB-EQ-TMe"/>
-                                                <constraint firstItem="QUD-Kb-owg" firstAttribute="top" secondItem="hR4-1Q-hS4" secondAttribute="topMargin" id="9RK-AC-1kb"/>
-                                                <constraint firstItem="QUD-Kb-owg" firstAttribute="bottom" secondItem="hR4-1Q-hS4" secondAttribute="bottomMargin" id="MKu-81-vWK"/>
-                                                <constraint firstItem="xfO-X5-m8O" firstAttribute="leading" secondItem="QUD-Kb-owg" secondAttribute="trailing" constant="8" id="NQg-ah-g5I"/>
-                                                <constraint firstItem="QUD-Kb-owg" firstAttribute="bottom" secondItem="xfO-X5-m8O" secondAttribute="bottom" id="eVj-WV-Xhm"/>
-                                                <constraint firstItem="QUD-Kb-owg" firstAttribute="leading" secondItem="hR4-1Q-hS4" secondAttribute="leadingMargin" id="hR4-Mt-u90"/>
-                                                <constraint firstItem="xfO-X5-m8O" firstAttribute="trailing" secondItem="hR4-1Q-hS4" secondAttribute="trailingMargin" id="jOd-yC-SfW"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                        </sections>
-                        <connections>
-                            <outlet property="dataSource" destination="rWP-Br-aGm" id="4oF-dg-X9H"/>
-                            <outlet property="delegate" destination="rWP-Br-aGm" id="CWZ-XF-vtH"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Indonesian" id="cSZ-ND-Nil">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="LLf-zf-g3s">
-                            <color key="tintColor" name="AccentColor"/>
-                            <connections>
-                                <action selector="closeButtonTapped" destination="rWP-Br-aGm" id="Et9-ur-Z2J"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="zYd-Un-X4o" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="6741" y="217"/>
         </scene>
         <!--Credits-->
         <scene sceneID="NVg-w8-7cx">
@@ -3035,44 +2856,76 @@ Use this feature if you are able to host it your self to prevent downtime or mas
             </objects>
             <point key="canvasLocation" x="3141" y="217"/>
         </scene>
-        <!--Russian-->
-        <scene sceneID="3y4-Uq-UY3">
+        <!--Advanced-->
+        <scene sceneID="vUy-52-8QM">
             <objects>
-                <tableViewController id="I7T-BX-7jj" customClass="SettingsViewDoneButton" customModule="Ryu" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="ELo-6z-uG6">
+                <tableViewController id="5gv-mZ-fK2" customClass="SettingsViewAdvanced" customModule="Ryu" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="t7G-fe-GzR">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <sections>
-                            <tableViewSection id="noU-hp-a1g">
+                            <tableViewSection headerTitle="proxy" id="vGn-wm-rw4">
+                                <string key="footerTitle">You can setup a custom Proxy to bypass region blocked contents from sources that are blocked by your ISP (internet Service Provider) or by the site.</string>
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="sdW-pD-laB">
-                                        <rect key="frame" x="20" y="18" width="374" height="100"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="2Go-4O-lh9">
+                                        <rect key="frame" x="20" y="32" width="374" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sdW-pD-laB" id="F01-gB-ZhK">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="2Go-4O-lh9" id="nqS-di-Tdf">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Anilibria" translatesAutoresizingMaskIntoConstraints="NO" id="tkO-XI-TL0">
-                                                    <rect key="frame" x="20" y="11" width="78" height="78"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="78" id="hEk-tI-12K"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Anilibria is a Russian streaming service that provides DUB anime. Ryu has good support for Anilibria, but downloads don't work." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3pz-CK-ySm">
-                                                    <rect key="frame" x="106" y="11" width="248" height="78"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Proxy IP" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uEq-DY-BYL">
+                                                    <rect key="frame" x="15" y="13" width="56" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="APK-cJ-7lc">
+                                                    <rect key="frame" x="298" y="6.5" width="71" height="31"/>
+                                                    <color key="tintColor" name="AccentColor"/>
+                                                    <state key="normal" title="Button"/>
+                                                    <buttonConfiguration key="configuration" style="plain" title="English"/>
+                                                    <connections>
+                                                        <action selector="proxyIPButtonTapped:" destination="5gv-mZ-fK2" eventType="touchUpInside" id="bIs-wd-BI6"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="3pz-CK-ySm" firstAttribute="trailing" secondItem="F01-gB-ZhK" secondAttribute="trailingMargin" id="CIT-tq-rFw"/>
-                                                <constraint firstItem="tkO-XI-TL0" firstAttribute="bottom" secondItem="F01-gB-ZhK" secondAttribute="bottomMargin" id="JPq-3j-mjt"/>
-                                                <constraint firstItem="3pz-CK-ySm" firstAttribute="leading" secondItem="tkO-XI-TL0" secondAttribute="trailing" constant="8" id="JgR-TX-qZ8"/>
-                                                <constraint firstItem="tkO-XI-TL0" firstAttribute="leading" secondItem="F01-gB-ZhK" secondAttribute="leadingMargin" id="OOf-7S-qeT"/>
-                                                <constraint firstItem="tkO-XI-TL0" firstAttribute="top" secondItem="F01-gB-ZhK" secondAttribute="topMargin" id="gKI-aY-UfJ"/>
-                                                <constraint firstItem="tkO-XI-TL0" firstAttribute="bottom" secondItem="3pz-CK-ySm" secondAttribute="bottom" id="oZK-Na-qoo"/>
-                                                <constraint firstItem="tkO-XI-TL0" firstAttribute="top" secondItem="3pz-CK-ySm" secondAttribute="top" id="yBW-W7-Icd"/>
+                                                <constraint firstItem="APK-cJ-7lc" firstAttribute="trailing" secondItem="nqS-di-Tdf" secondAttribute="trailing" constant="-5" id="H1F-Nv-eaK"/>
+                                                <constraint firstItem="uEq-DY-BYL" firstAttribute="centerY" secondItem="nqS-di-Tdf" secondAttribute="centerY" id="ILu-oN-npR"/>
+                                                <constraint firstItem="APK-cJ-7lc" firstAttribute="centerY" secondItem="nqS-di-Tdf" secondAttribute="centerY" id="WiJ-ng-ag9"/>
+                                                <constraint firstItem="uEq-DY-BYL" firstAttribute="leading" secondItem="nqS-di-Tdf" secondAttribute="leading" constant="15" id="raD-AV-08q"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="z95-di-Mwd">
+                                        <rect key="frame" x="20" y="75.5" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="z95-di-Mwd" id="kQe-tj-Ees">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Proxy Port" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sa2-gp-KMf">
+                                                    <rect key="frame" x="15" y="13" width="71" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jWf-KG-amb">
+                                                    <rect key="frame" x="298" y="6.5" width="71" height="31"/>
+                                                    <color key="tintColor" name="AccentColor"/>
+                                                    <state key="normal" title="Button"/>
+                                                    <buttonConfiguration key="configuration" style="plain" title="English"/>
+                                                    <connections>
+                                                        <action selector="proxyPortButtonTapped:" destination="5gv-mZ-fK2" eventType="touchUpInside" id="eVT-6x-WcS"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Sa2-gp-KMf" firstAttribute="leading" secondItem="kQe-tj-Ees" secondAttribute="leading" constant="15" id="FtV-aG-R8N"/>
+                                                <constraint firstItem="jWf-KG-amb" firstAttribute="centerY" secondItem="kQe-tj-Ees" secondAttribute="centerY" id="WSq-MZ-rI6"/>
+                                                <constraint firstItem="jWf-KG-amb" firstAttribute="trailing" secondItem="kQe-tj-Ees" secondAttribute="trailing" constant="-5" id="ubR-5b-FU1"/>
+                                                <constraint firstItem="Sa2-gp-KMf" firstAttribute="centerY" secondItem="kQe-tj-Ees" secondAttribute="centerY" id="v6I-KG-c16"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -3080,155 +2933,36 @@ Use this feature if you are able to host it your self to prevent downtime or mas
                             </tableViewSection>
                         </sections>
                         <connections>
-                            <outlet property="dataSource" destination="I7T-BX-7jj" id="uVo-YB-ZBC"/>
-                            <outlet property="delegate" destination="I7T-BX-7jj" id="WFs-MP-4Qp"/>
+                            <outlet property="dataSource" destination="5gv-mZ-fK2" id="yvj-jZ-nFe"/>
+                            <outlet property="delegate" destination="5gv-mZ-fK2" id="ZsT-RV-Wby"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Russian" id="5gb-9c-x8X">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="Vcg-y9-kmu">
+                    <navigationItem key="navigationItem" title="Advanced" id="yDa-3u-HSd">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="1HO-eZ-Dbk">
                             <color key="tintColor" name="AccentColor"/>
                             <connections>
-                                <action selector="closeButtonTapped" destination="I7T-BX-7jj" id="Kap-YK-Q3J"/>
+                                <action selector="closeButtonTapped" destination="5gv-mZ-fK2" id="olb-EK-PeZ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="proxyIPButton" destination="APK-cJ-7lc" id="86e-OQ-3yd"/>
+                        <outlet property="proxyPortButton" destination="jWf-KG-amb" id="YJD-AG-cWm"/>
+                    </connections>
                 </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="6CX-NB-Up8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eE6-q4-j7e" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7607" y="217"/>
-        </scene>
-        <!--Croatian-->
-        <scene sceneID="Ufx-Hv-vG8">
-            <objects>
-                <tableViewController id="m7o-Dq-59T" customClass="SettingsViewDoneButton" customModule="Ryu" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="oI0-n0-h1Q">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <sections>
-                            <tableViewSection id="hRq-Fx-cvT">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="c7E-EG-KXn">
-                                        <rect key="frame" x="20" y="18" width="374" height="100"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="c7E-EG-KXn" id="6cm-bC-FoU">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AnimeSRBIJA" translatesAutoresizingMaskIntoConstraints="NO" id="nkS-lS-cin">
-                                                    <rect key="frame" x="20" y="11" width="78" height="78"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="78" id="N9f-Nv-p7X"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xJk-sQ-2kk">
-                                                    <rect key="frame" x="106" y="11" width="248" height="78"/>
-                                                    <string key="text">AnimeSRBIJA is a Croatian streaming service that provides SUB anime. Ryu has good support for AnimeSRBIJA, but downloads don't work.</string>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="nkS-lS-cin" firstAttribute="top" secondItem="xJk-sQ-2kk" secondAttribute="top" id="4eN-DM-6v0"/>
-                                                <constraint firstItem="nkS-lS-cin" firstAttribute="bottom" secondItem="6cm-bC-FoU" secondAttribute="bottomMargin" id="B1U-sD-HCr"/>
-                                                <constraint firstItem="xJk-sQ-2kk" firstAttribute="leading" secondItem="nkS-lS-cin" secondAttribute="trailing" constant="8" id="B6g-iI-TcY"/>
-                                                <constraint firstItem="xJk-sQ-2kk" firstAttribute="trailing" secondItem="6cm-bC-FoU" secondAttribute="trailingMargin" id="LnJ-cM-jr2"/>
-                                                <constraint firstItem="nkS-lS-cin" firstAttribute="bottom" secondItem="xJk-sQ-2kk" secondAttribute="bottom" id="Sid-wH-qgZ"/>
-                                                <constraint firstItem="nkS-lS-cin" firstAttribute="top" secondItem="6cm-bC-FoU" secondAttribute="topMargin" id="ZpI-2V-GeC"/>
-                                                <constraint firstItem="nkS-lS-cin" firstAttribute="leading" secondItem="6cm-bC-FoU" secondAttribute="leadingMargin" id="n4R-NA-o9a"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                        </sections>
-                        <connections>
-                            <outlet property="dataSource" destination="m7o-Dq-59T" id="29k-S2-MB8"/>
-                            <outlet property="delegate" destination="m7o-Dq-59T" id="hwP-fB-sNT"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Croatian" id="hJ1-vw-Nzc">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="xIe-z7-hTh">
-                            <color key="tintColor" name="AccentColor"/>
-                            <connections>
-                                <action selector="closeButtonTapped" destination="m7o-Dq-59T" id="Chq-6p-otn"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="NFg-GZ-GT6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="7606" y="-1219"/>
-        </scene>
-        <!--German-->
-        <scene sceneID="IeH-uc-aoI">
-            <objects>
-                <tableViewController id="G8P-8E-zfN" customClass="SettingsViewDoneButton" customModule="Ryu" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="ZTx-mL-j3R">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <sections>
-                            <tableViewSection id="6GC-Yx-rpG">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="sjB-gs-9Ly">
-                                        <rect key="frame" x="20" y="18" width="374" height="100"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sjB-gs-9Ly" id="vFM-hj-RXw">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="100"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AniWorld" translatesAutoresizingMaskIntoConstraints="NO" id="Tfg-U5-gzB">
-                                                    <rect key="frame" x="20" y="11" width="78" height="78"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="78" id="jzP-sS-wcd"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AniWorld is a German streaming service that provides both DUB and SUB. Ryu has great support for AniWorld." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qhb-BI-eeh">
-                                                    <rect key="frame" x="106" y="11" width="248" height="78"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="Qhb-BI-eeh" firstAttribute="trailing" secondItem="vFM-hj-RXw" secondAttribute="trailingMargin" id="4Ly-Xc-ltD"/>
-                                                <constraint firstItem="Tfg-U5-gzB" firstAttribute="top" secondItem="vFM-hj-RXw" secondAttribute="topMargin" id="I5f-my-oMy"/>
-                                                <constraint firstItem="Tfg-U5-gzB" firstAttribute="top" secondItem="Qhb-BI-eeh" secondAttribute="top" id="PkT-To-A80"/>
-                                                <constraint firstItem="Qhb-BI-eeh" firstAttribute="leading" secondItem="Tfg-U5-gzB" secondAttribute="trailing" constant="8" id="aBi-WR-ZEh"/>
-                                                <constraint firstItem="Tfg-U5-gzB" firstAttribute="bottom" secondItem="vFM-hj-RXw" secondAttribute="bottomMargin" id="jvJ-ec-qaB"/>
-                                                <constraint firstItem="Tfg-U5-gzB" firstAttribute="bottom" secondItem="Qhb-BI-eeh" secondAttribute="bottom" id="l5Z-CG-K0g"/>
-                                                <constraint firstItem="Tfg-U5-gzB" firstAttribute="leading" secondItem="vFM-hj-RXw" secondAttribute="leadingMargin" id="ubS-qQ-2xQ"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                        </sections>
-                        <connections>
-                            <outlet property="dataSource" destination="G8P-8E-zfN" id="hyu-8w-gDv"/>
-                            <outlet property="delegate" destination="G8P-8E-zfN" id="7Jr-Yh-SFo"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="German" id="EaC-oD-bJ7">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="MLZ-PI-S9j">
-                            <color key="tintColor" name="AccentColor"/>
-                            <connections>
-                                <action selector="closeButtonTapped" destination="G8P-8E-zfN" id="dmX-DN-L4t"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="PQ3-g8-jIg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="8419" y="-1219"/>
+            <point key="canvasLocation" x="4064" y="217"/>
         </scene>
     </scenes>
     <resources>
+        <image name="AniBunker" width="99" height="78"/>
         <image name="AniVibe" width="320" height="320"/>
         <image name="AniWorld" width="192" height="192"/>
         <image name="Anilibria" width="180" height="180"/>
         <image name="Anilist" width="512" height="512"/>
         <image name="Anime3rb" width="512" height="512"/>
+        <image name="AnimeBalkan" width="816" height="234"/>
         <image name="AnimeFLV" width="112" height="112"/>
         <image name="AnimeFire" width="192" height="192"/>
         <image name="AnimeHeaven" width="105" height="105"/>

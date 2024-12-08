@@ -9,6 +9,8 @@ import Foundation
 import Alamofire
 
 class AnimeService {
+    static let session = proxySession.createAlamofireProxySession()
+    
     static func fetchAnimeDetails(animeID: Int, completion: @escaping (Result<[String: Any], Error>) -> Void) {
         let query = """
         query {
@@ -145,7 +147,7 @@ class AnimeService {
 
         let parameters: [String: Any] = ["query": query]
 
-        AF.request("https://graphql.anilist.co", method: .post, parameters: parameters, encoding: JSONEncoding.default)
+        session.request("https://graphql.anilist.co", method: .post, parameters: parameters, encoding: JSONEncoding.default)
             .responseJSON { response in
                 switch response.result {
                 case .success(let value):

@@ -9,10 +9,12 @@ import Alamofire
 import Foundation
 
 class JikanServiceTrendingAnime {
+    let session = proxySession.createAlamofireProxySession()
+    
     func fetchTrendingAnime(completion: @escaping ([Anime]?) -> Void) {
         let url = "https://api.jikan.moe/v4/top/anime?filter=airing"
         
-        AF.request(url)
+        session.request(url)
             .validate()
             .responseJSON { response in
                 switch response.result {

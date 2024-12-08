@@ -9,10 +9,12 @@ import Alamofire
 import Foundation
 
 class KitsuServiceAiringAnime {
+    let session = proxySession.createAlamofireProxySession()
+    
     func fetchAiringAnime(completion: @escaping ([Anime]?) -> Void) {
         let url = "https://kitsu.io/api/edge/anime?filter[status]=current"
         
-        AF.request(url)
+        session.request(url)
             .validate()
             .responseJSON { response in
                 switch response.result {

@@ -9,10 +9,12 @@ import Alamofire
 import Foundation
 
 class JikanServiceAiringAnime {
+    let session = proxySession.createAlamofireProxySession()
+    
     func fetchAiringAnime(completion: @escaping ([Anime]?) -> Void) {
         let url = "https://api.jikan.moe/v4/schedules"
         
-        AF.request(url)
+        session.request(url)
             .validate()
             .responseJSON { response in
                 switch response.result {

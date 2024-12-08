@@ -9,10 +9,12 @@ import Alamofire
 import Foundation
 
 class KitsuServiceTrendingAnime {
+    let session = proxySession.createAlamofireProxySession()
+    
     func fetchTrendingAnime(completion: @escaping ([Anime]?) -> Void) {
         let url = "https://kitsu.io/api/edge/trending/anime?page"
         
-        AF.request(url)
+        session.request(url)
             .validate()
             .responseJSON { response in
                 switch response.result {

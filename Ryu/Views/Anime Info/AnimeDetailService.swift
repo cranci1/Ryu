@@ -18,6 +18,8 @@ struct AnimeDetail {
 }
 
 class AnimeDetailService {
+    static let session = proxySession.createAlamofireProxySession()
+    
     static func fetchAnimeDetails(from href: String, completion: @escaping (Result<AnimeDetail, Error>) -> Void) {
         guard let selectedSource = UserDefaults.standard.selectedMediaSource else {
             completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "No media source selected."])))
@@ -39,7 +41,7 @@ class AnimeDetailService {
             ]
         case .anilibria:
             baseUrls = ["https://api.anilibria.tv/v3/title?id="]
-        case .animefire, .kuramanime, .anime3rb, .hanashi, .animesrbija, .aniworld, .tokyoinsider, .anivibe, .animeunity, .animeflv, .animebalkan, .anibunker:
+        case .animefire, .kuramanime, .anime3rb, .animesrbija, .aniworld, .tokyoinsider, .anivibe, .animeunity, .animeflv, .animebalkan, .anibunker:
             baseUrls = [""]
         }
         
@@ -61,7 +63,7 @@ class AnimeDetailService {
         }
         
         if selectedSource == .anilibria {
-            AF.request(fullUrl).responseDecodable(of: AnilibriaResponse.self) { response in
+            session.request(fullUrl).responseDecodable(of: AnilibriaResponse.self) { response in
                 switch response.result {
                 case .success(let anilibriaResponse):
                     let aliases = anilibriaResponse.names.en
@@ -119,7 +121,7 @@ class AnimeDetailService {
                 fullUrl = baseUrl + href
             }
             
-            AF.request(fullUrl).responseJSON { response in
+            session.request(fullUrl).responseJSON { response in
                 switch response.result {
                 case .success(let json):
                     guard
@@ -154,7 +156,7 @@ class AnimeDetailService {
                 }
             }
         } else {
-            AF.request(fullUrl).responseString { response in
+            session.request(fullUrl).responseString { response in
                 switch response.result {
                 case .success(let html):
                     do {
@@ -197,11 +199,6 @@ class AnimeDetailService {
                             airdate = try document.select("td[title]").attr("title")
                             stars = try document.select("p.text-lg.leading-relaxed").first()?.text() ?? ""
                         case .hianime:
-                            aliases = ""
-                            synopsis = ""
-                            airdate = ""
-                            stars = ""
-                        case .hanashi:
                             aliases = ""
                             synopsis = ""
                             airdate = ""
@@ -303,7 +300,7 @@ class AnimeDetailService {
             fullUrl = baseUrl + href
         }
         
-        AF.request(fullUrl).responseJSON { response in
+        session.request(fullUrl).responseJSON { response in
             switch response.result {
             case .success(let json):
                 guard
@@ -366,9 +363,6 @@ class AnimeDetailService {
                 episodeElements = try document.select("div.absolute.overflow-hidden div a.gap-3")
                 downloadUrlElement = ""
             case .hianime:
-                episodeElements = try document.select("")
-                downloadUrlElement = ""
-            case .hanashi:
                 episodeElements = try document.select("")
                 downloadUrlElement = ""
             case .anilibria:
