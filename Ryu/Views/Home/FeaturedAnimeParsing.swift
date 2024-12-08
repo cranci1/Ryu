@@ -41,6 +41,8 @@ extension HomeViewController {
             return ("https://www3.animeflv.net/", paseAnimeFLVFeatured)
         case "AnimeBalkan":
             return ("https://animebalkan.org/animesaprevodom/?status=&type=&order=update", parseAnimeBalknaFreated)
+        case "AniBunker":
+            return ("https://www.anibunker.com/animes", parseAniBunkerFeatured)
         default:
             return (nil, nil)
         }
@@ -348,6 +350,21 @@ extension HomeViewController {
             let href = try item.select("a").first()?.attr("href")
             
             return AnimeItem(title: title, imageURL: imageUrl, href: href ?? "")
+        }
+    }
+    
+    func parseAniBunkerFeatured(_ doc: Document) throws -> [AnimeItem] {
+        let animeItems = try doc.select("div.section--body article")
+        return try animeItems.array().compactMap { item in
+            
+            let title = try item.select("h4").text()
+            
+            let imageUrl = try item.select("img").attr("src")
+            
+            let href = try item.select("a").first()?.attr("href") ?? ""
+            let hrefFull = "https://www.anibunker.com/" + href
+            
+            return AnimeItem(title: title, imageURL: imageUrl, href: hrefFull)
         }
     }
 }
