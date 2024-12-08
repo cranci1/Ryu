@@ -958,6 +958,11 @@ extension AnimeDetailViewController {
             let voeMatches = voeRegex.matches(in: htmlString, range: NSRange(htmlString.startIndex..., in: htmlString))
             links += extractLinks(from: voeMatches, in: htmlString, host: .voe)
         }
+        let vidmolyPattern = "<li[^>]*?data-lang-key=\"(\\d)\"[^>]*?>\\s*<div>\\s*<a[^>]*?href=\"(/redirect/[^\"]+)\"[^>]*?>\\s*<i class=\"icon Vidmoly\""
+        if let vidmolyRegex = try? NSRegularExpression(pattern: vidmolyPattern, options: [.dotMatchesLineSeparators]) {
+            let vidmolyMatches = vidmolyRegex.matches(in: htmlString, range: NSRange(htmlString.startIndex..., in: htmlString))
+            links += extractLinks(from: vidmolyMatches, in: htmlString, host: .vidmoly)
+        }
         
         return links
     }
@@ -1009,6 +1014,8 @@ extension AnimeDetailViewController {
                     self?.extractVidozaDirectURL(from: htmlString, completion: completion)
                 case .voe:
                     self?.extractVoeDirectURL(from: htmlString, completion: completion)
+                case .vidmoly:
+                    self?.extractVidmolyDirectURL(from: htmlString, completion: completion)
                 }
             }.resume()
         }.resume()
@@ -1086,7 +1093,23 @@ extension AnimeDetailViewController {
         
         DispatchQueue.main.async {
             completion(videoURL)
-            print(videoURL)
+        }
+    }
+    
+    private func extractVidmolyDirectURL(from htmlString: String, completion: @escaping (URL?) -> Void) {
+        let scriptPattern = "file:\\s*\"(https?://.*?)\""
+        guard let scriptRegex = try? NSRegularExpression(pattern: scriptPattern),
+              let scriptMatch = scriptRegex.firstMatch(in: htmlString, range: NSRange(htmlString.startIndex..., in: htmlString)),
+              let urlRange = Range(scriptMatch.range(at: 1), in: htmlString),
+              let videoURL = URL(string: String(htmlString[urlRange])) else {
+                  DispatchQueue.main.async {
+                      completion(nil)
+                  }
+                  return
+              }
+        
+        DispatchQueue.main.async {
+            completion(videoURL)
         }
     }
 }
