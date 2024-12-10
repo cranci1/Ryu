@@ -49,10 +49,7 @@ extension HomeViewController {
     }
     
     func parseAnimeWorldFeatured(_ doc: Document) throws -> [AnimeItem] {
-        let contentDiv = try doc.select("div.content[data-name=all]").first()
-        guard let animeItems = try contentDiv?.select("div.item") else {
-            throw NSError(domain: "ParsingError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not find anime items"])
-        }
+        let animeItems = try doc.select("div.content[data-name=all] div.item")
         
         return try animeItems.array().compactMap { item in
             let titleElement = try item.select("a.name").first()
