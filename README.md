@@ -165,6 +165,6 @@ along with Ryu. If not, see <https://www.gnu.org/licenses/>.
 
 The content available is not affiliated with the developer, all contents are obtained by non-affiliated sources. Ryu doesn't store anything server side.
 
-Ryu is not made to promote piracy nor to **facilitate piracy** to any content. All this content are accessible by anyone anywhere very easily with just a browser. 
+Ryu is **not made to promote piracy nor to facilitate piracy** to any content. All this content are accessible by anyone anywhere very easily with just a browser. 
 
 I am not responsible if the user chooses to download anything; that is entirely their responsibility. I'm also not responsible of any content inside Ryu, they are all **3-rd party sites**.
