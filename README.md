@@ -14,7 +14,6 @@ A simple way to enjoy and watch anime on iOS
 
 - [Features](#features)
 - [Sources](#sources)
-- [Installation](#installation)
 - [Compatibility](#compatibility)
 - [Frequently Asked Questions](#frequently-asked-questions)
 - [Acknowledgements](#acknowledgements)
@@ -64,25 +63,6 @@ A simple way to enjoy and watch anime on iOS
 > Note that some Sources are region blocked:
 > AnimeFire: Brazil and Protugal 
 > Kuramanime: Indionesia
-
-## Installation
-
-### TestFlight (Recommended)
-
-Join the [TestFlight beta](https://testflight.apple.com/join/Sxyg9JXF) for automatic updates.
-
-### Alternative Methods
-
-- AltStore
-- Sidestore
-- TrollStore (Note: Downloads may not work)
-- Esign
-- LiveContainer (Tested working fine 👍)
-- Feather
-  
-Or use other IPA installation tools.
-
-You can find the dev IPA file on [nightly.link](https://nightly.link/cranci1/Ryu/workflows/build/main) or the stable IPA on [releases](https://github.com/cranci1/Ryu/releases).
 
 ## Compatibility
 
