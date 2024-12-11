@@ -19,7 +19,6 @@ class SourceMenu {
                 ("AnimeFire", .animefire, "🇧🇷"),
                 ("Kuramanime", .kuramanime, "🇮🇩"),
                 ("Anime3rb", .anime3rb, "🇸🇦"),
-                ("HiAnime", .hianime, "🇺🇸"),
                 ("Anilibria", .anilibria, "🇷🇺"),
                 ("AnimeSRBIJA", .animesrbija, "🇭🇷"),
                 ("AniWorld", .aniworld, "🇩🇪"),
