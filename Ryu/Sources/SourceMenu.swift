@@ -20,6 +20,7 @@ class SourceMenu {
                 ("Kuramanime", .kuramanime, "🇮🇩"),
                 ("Anime3rb", .anime3rb, "🇸🇦"),
                 ("Anilibria", .anilibria, "🇷🇺"),
+                ("HiAnime", .hianime, "🇺🇸"),
                 ("AnimeSRBIJA", .animesrbija, "🇭🇷"),
                 ("AniWorld", .aniworld, "🇩🇪"),
                 ("TokyoInsider", .tokyoinsider, "🇺🇸"),

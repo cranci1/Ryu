@@ -915,10 +915,7 @@ class AnimeDetailViewController: UITableViewController, GCKRemoteMediaClientList
                 }
                 
                 self.selectServer(servers: servers, preferredServer: preferredServer) { server in
-                    let urls = [
-                        "https://aniwatch-api-dusky.vercel.app/anime/episode-srcs?id=",
-                        "https://aniwatch-api-cranci.vercel.app/anime/episode-srcs?id="
-                    ]
+                    let urls = ["https://aniwatch-api-gp1w.onrender.com/anime/episode-srcs?id="]
                     
                     let randomURL = urls.randomElement()!
                     let finalURL = "\(randomURL)\(episodeId)&category=\(category)&server=\(server)"

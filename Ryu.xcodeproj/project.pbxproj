@@ -12,7 +12,6 @@
 		130AEBFF2D05ED8400ECF2F9 /* SettingsViewAdvanced.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130AEBFE2D05ED8400ECF2F9 /* SettingsViewAdvanced.swift */; };
 		1314D3EA2D04FD0B0019BB28 /* URLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1314D3E92D04FD0B0019BB28 /* URLSession.swift */; };
 		131546D52C6DE6CC002DC3CC /* GoogleCastSDK-ios-no-bluetooth in Frameworks */ = {isa = PBXBuildFile; productRef = 131546D42C6DE6CC002DC3CC /* GoogleCastSDK-ios-no-bluetooth */; };
-		131546D82C6DE6D9002DC3CC /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 131546D72C6DE6D9002DC3CC /* Kingfisher */; };
 		131546DE2C6DE6F2002DC3CC /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 131546DD2C6DE6F2002DC3CC /* Alamofire */; };
 		132BEFA32CC5440C00B61089 /* Anilist-Episodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132BEFA22CC5440C00B61089 /* Anilist-Episodes.swift */; };
 		132F7EDF2CDA56CB0037FECD /* Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132F7EDE2CDA56CB0037FECD /* Sequence.swift */; };
@@ -83,9 +82,10 @@
 		136525592C6B5B4100210A98 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 136525152C6B5B4100210A98 /* SceneDelegate.swift */; };
 		13765C9C2C6E44A8000070A5 /* NormalPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13765C9B2C6E44A8000070A5 /* NormalPlayer.swift */; };
 		137B8D042CA15BA1004CC61B /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137B8D032CA15BA1004CC61B /* Collection.swift */; };
+		1382CD132D0ED07500AC8DFD /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 1382CD122D0ED07500AC8DFD /* Kingfisher */; };
+		1382CD162D0ED08600AC8DFD /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 1382CD152D0ED08600AC8DFD /* SwiftSoup */; };
 		138669D42C6F6266009ABA6F /* WebPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138669D32C6F6266009ABA6F /* WebPlayer.swift */; };
 		138F7AB12C99AF83007175F1 /* ExternalVideoPlayerGoGo2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138F7AB02C99AF83007175F1 /* ExternalVideoPlayerGoGo2.swift */; };
-		138F7AB72C99B622007175F1 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 138F7AB62C99B622007175F1 /* SwiftSoup */; };
 		13902BAC2C7B689F00596A2C /* SubtitlesLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13902BAB2C7B689F00596A2C /* SubtitlesLoader.swift */; };
 		13921B3F2C6B8ED9004E8BDC /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13921B3E2C6B8ED9004E8BDC /* String.swift */; };
 		13921B412C6B8F71004E8BDC /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13921B402C6B8F71004E8BDC /* URL.swift */; };
@@ -201,8 +201,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				131546D82C6DE6D9002DC3CC /* Kingfisher in Frameworks */,
-				138F7AB72C99B622007175F1 /* SwiftSoup in Frameworks */,
+				1382CD132D0ED07500AC8DFD /* Kingfisher in Frameworks */,
+				1382CD162D0ED08600AC8DFD /* SwiftSoup in Frameworks */,
 				131546DE2C6DE6F2002DC3CC /* Alamofire in Frameworks */,
 				131546D52C6DE6CC002DC3CC /* GoogleCastSDK-ios-no-bluetooth in Frameworks */,
 			);
@@ -663,9 +663,9 @@
 			name = Ryu;
 			packageProductDependencies = (
 				131546D42C6DE6CC002DC3CC /* GoogleCastSDK-ios-no-bluetooth */,
-				131546D72C6DE6D9002DC3CC /* Kingfisher */,
 				131546DD2C6DE6F2002DC3CC /* Alamofire */,
-				138F7AB62C99B622007175F1 /* SwiftSoup */,
+				1382CD122D0ED07500AC8DFD /* Kingfisher */,
+				1382CD152D0ED08600AC8DFD /* SwiftSoup */,
 			);
 			productName = Ryu;
 			productReference = 1365249C2C6B5B2F00210A98 /* Ryu.app */;
@@ -697,9 +697,9 @@
 			mainGroup = 136524932C6B5B2F00210A98;
 			packageReferences = (
 				131546D32C6DE6CC002DC3CC /* XCRemoteSwiftPackageReference "GoogleCastSDK-ios-no-bluetooth" */,
-				131546D62C6DE6D9002DC3CC /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				131546DC2C6DE6F2002DC3CC /* XCRemoteSwiftPackageReference "Alamofire" */,
-				138F7AB52C99B622007175F1 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
+				1382CD112D0ED07500AC8DFD /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				1382CD142D0ED08600AC8DFD /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 			);
 			productRefGroup = 1365249D2C6B5B2F00210A98 /* Products */;
 			projectDirPath = "";
@@ -1069,14 +1069,6 @@
 				kind = branch;
 			};
 		};
-		131546D62C6DE6D9002DC3CC /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
-			requirement = {
-				kind = exactVersion;
-				version = 7.9.1;
-			};
-		};
 		131546DC2C6DE6F2002DC3CC /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
@@ -1085,7 +1077,15 @@
 				version = 5.8.0;
 			};
 		};
-		138F7AB52C99B622007175F1 /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
+		1382CD112D0ED07500AC8DFD /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = exactVersion;
+				version = 7.9.1;
+			};
+		};
+		1382CD142D0ED08600AC8DFD /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/scinfu/SwiftSoup.git";
 			requirement = {
@@ -1101,19 +1101,19 @@
 			package = 131546D32C6DE6CC002DC3CC /* XCRemoteSwiftPackageReference "GoogleCastSDK-ios-no-bluetooth" */;
 			productName = "GoogleCastSDK-ios-no-bluetooth";
 		};
-		131546D72C6DE6D9002DC3CC /* Kingfisher */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 131546D62C6DE6D9002DC3CC /* XCRemoteSwiftPackageReference "Kingfisher" */;
-			productName = Kingfisher;
-		};
 		131546DD2C6DE6F2002DC3CC /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 131546DC2C6DE6F2002DC3CC /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
 		};
-		138F7AB62C99B622007175F1 /* SwiftSoup */ = {
+		1382CD122D0ED07500AC8DFD /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 138F7AB52C99B622007175F1 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			package = 1382CD112D0ED07500AC8DFD /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		1382CD152D0ED08600AC8DFD /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1382CD142D0ED08600AC8DFD /* XCRemoteSwiftPackageReference "SwiftSoup" */;
 			productName = SwiftSoup;
 		};
 /* End XCSwiftPackageProductDependency section */

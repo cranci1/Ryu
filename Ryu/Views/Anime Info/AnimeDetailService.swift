@@ -35,10 +35,7 @@ class AnimeDetailService {
         case .animeheaven:
             baseUrls = ["https://animeheaven.me/"]
         case .hianime:
-            baseUrls = [
-                "https://aniwatch-api-dusky.vercel.app/anime/info?id=",
-                "https://aniwatch-api-cranci.vercel.app/anime/info?id="
-            ]
+            baseUrls = ["https://aniwatch-api-gp1w.onrender.com/anime/info?id="]
         case .anilibria:
             baseUrls = ["https://api.anilibria.tv/v3/title?id="]
         case .animefire, .kuramanime, .anime3rb, .animesrbija, .aniworld, .tokyoinsider, .anivibe, .animeunity, .animeflv, .animebalkan, .anibunker:
@@ -91,10 +88,7 @@ class AnimeDetailService {
                 }
             }
         } else if selectedSource == .hianime {
-            let prefixes = [
-                "https://aniwatch-api-dusky.vercel.app/anime/episode-srcs?id=",
-                "https://aniwatch-api-cranci.vercel.app/anime/episode-srcs?id="
-            ]
+            let prefixes = ["https://aniwatch-api-gp1w.onrender.com/anime/episode-srcs?id="]
             
             func extractIdentifier(from fullUrl: String) -> String? {
                 for prefix in prefixes {
@@ -281,7 +275,7 @@ class AnimeDetailService {
     }
     
     static func fetchHiAnimeEpisodes(from href: String, completion: @escaping (Result<[Episode], Error>) -> Void) {
-        let baseUrl = "https://aniwatch-api-dusky.vercel.app/anime/episodes/"
+        let baseUrl = "https://aniwatch-api-gp1w.onrender.com/anime/episodes/"
         
         let fullUrl: String
         if href.contains("https") {
@@ -321,7 +315,7 @@ class AnimeDetailService {
                     
                     let episodeNumber = "\(number)"
                     let hrefID = episodeId
-                    let href = "https://aniwatch-api-dusky.vercel.app/anime/episode-srcs?id=" + hrefID
+                    let href = "https://aniwatch-api-gp1w.onrender.com/anime/episode-srcs?id=" + hrefID
                     
                     return Episode(number: episodeNumber, href: href, downloadUrl: "")
                 }

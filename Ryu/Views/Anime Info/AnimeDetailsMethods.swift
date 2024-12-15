@@ -181,10 +181,7 @@ extension AnimeDetailViewController {
     }
     
     func fetchEpisodeOptions(episodeId: String, completion: @escaping ([String: [[String: Any]]]) -> Void) {
-        let urls = [
-            "https://aniwatch-api-dusky.vercel.app/anime/servers?episodeId=",
-            "https://aniwatch-api-cranci.vercel.app/anime/servers?episodeId="
-        ]
+        let urls = ["https://aniwatch-api-gp1w.onrender.com/anime/servers?episodeId="]
         
         let randomURL = urls.randomElement()!
         let fullURL = URL(string: "\(randomURL)\(episodeId)")!
