@@ -2,7 +2,7 @@ name: Build and Release IPA for 2.0
 on:
   push:
     branches:
-      - main
+      - 2.0
 jobs:
   build:
     name: Build IPA
